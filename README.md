@@ -44,7 +44,8 @@ STEMMA/
 ├── sources/          canonical citation records
 ├── schema/           JSON Schema contracts, relation/agent/extension registries, vocabularies
 ├── adapters/python/  first-party read-only Python consumer adapter (SDK, CLI, local JSON API)
-├── scripts/          the validation gate, review workflow, ingestion, derived-artifact builders
+├── scripts/          the validation gate, review workflow (incl. entity review), ingestion, derived-artifact builders
+├── webapp/           stdlib ingestion/review UI (upload → extract → draft → human review → staged proposal)
 ├── exports/          DERIVED artifacts (regenerable; never the source of truth)
 ├── tests/            invariant test suite (layered)
 ├── explorer/         stemma — reference 3-D graph explorer (a consumer; reads only the export)
@@ -60,6 +61,14 @@ python3 scripts/validate.py          # validate canonical data + regenerate the 
 ```
 
 Exit code `0` = valid. To explore visually: `npm --prefix explorer run dev`.
+For document ingestion/review: `python3 webapp/server.py --port 8081`
+(see [`docs/WEBAPP.md`](docs/WEBAPP.md)). The webapp's Draft seam is a
+provider abstraction (`webapp/providers.py`): the default **Antigravity**
+provider uses the official Antigravity SDK or `agy` CLI on the webapp host with
+your local Google AI Pro session (no Gemini API key); `gemini_api`, `vertex_ai`,
+and `openai_compatible` are separate entitlements (ADR-0038). Without
+poppler-utils, install the pure-Python PDF fallback for text PDFs:
+`pip install pypdf`.
 
 ## Get the content out
 

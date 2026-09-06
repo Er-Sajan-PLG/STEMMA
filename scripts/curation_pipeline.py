@@ -92,6 +92,9 @@ class CurationRequest:
     # Optional governance context:
     source_ref: str | None = None
     domain: str | None = None
+    # Extraction metadata sidecar (ADR-0035): how the source text was obtained
+    # (kind/format/pages/ocr_used/preview). Never placed on the canonical source.
+    extraction: dict[str, Any] | None = None
 
 
 @dataclass
@@ -188,15 +191,18 @@ def _source_gates(data: dict, blueprint: CurationBlueprint) -> list[GateResult]:
 
 
 def _check_relations(data: dict) -> tuple[bool, list[str]]:
-    found: list[str] = []
-    for rel in data.get("relationships", []) or []:
-        if not isinstance(rel, dict):
-            found.append("relationship must be an object")
-        else:
-            rtype = rel.get("type")
-            if rtype not in validate.REL_TYPES:
-                found.append(f"relationship type not in whitelist: {rtype!r}")
-    return not found, found
+    """ADR-0028/0035: entities carry NO relationship data.
+
+    The old gate read a `validate.REL_TYPES` attribute that never existed and
+    allowed `relationships: []` on drafts. Entities are not the relationship
+    graph; assert relationships as first-class objects in connections/.
+    """
+    if "relationships" in data:
+        return False, [
+            "entities carry no relationships (ADR-0028/0035): assert relationships "
+            "as first-class objects in connections/, never as an entity field"
+        ]
+    return True, []
 
 
 def _gate(name: str, ok: bool, finding: str | list[str]) -> GateResult:

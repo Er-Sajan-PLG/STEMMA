@@ -2,7 +2,7 @@
 
 **Status:** Authoritative. How any external system consumes STEMMA.
 **Contract:** `schema/export.schema.json` · current contract line:
-`export_version: 2.0.0` (verified against `schema/VERSION.yaml` by the test
+`export_version: 2.1.0` (verified against `schema/VERSION.yaml` by the test
 suite — a stale version here fails CI).
 
 ---
@@ -33,6 +33,9 @@ and nothing in this repository may assume a particular consumer exists
   Reject exports whose major version you do not support rather than guessing.
 - Required members: `entities[]`, `connections[]`, `sources[]`, counts,
   `content_hash`, versions (see `docs/SCHEMA-SPECIFICATION.md` §6).
+- Optional semantic sidecar (contract v2.1): `relation_registry`,
+  `relation_registry_version`, `vocabularies`. When present, a consumer
+  **must** fail closed on a connection whose `relation` is not declared.
 - **The graph is `connections[]` only** — entities carry no relationship data
   (contract v2.0). Draw edges from connections; annotate with
   `assertion.review.status`.
@@ -40,6 +43,10 @@ and nothing in this repository may assume a particular consumer exists
   views exist (`knowledge.canonical.json`, `knowledge.trusted.json`,
   `knowledge.reviewed.json`, `knowledge.proposed.json`); semantics in
   `scripts/graph_policy.py`. A conservative consumer uses `canonical` only.
+- **Rejected (schema 1.1.0 / ADR-0031):** a rejected assertion is still an
+  active record but is excluded from `all`; it surfaces only in
+  `knowledge.rejected.json`. Do not treat `rejected` as the same as
+  `deprecated`/`superseded` (structural retirement).
 - Deprecated/superseded objects remain exported (with successors) — never
   assume absence.
 - `claim_signature` lets you deduplicate claims across views without
@@ -81,9 +88,12 @@ reads the export, mirrors `scripts/graph_policy.py` policy semantics, and
 never writes canonical data. Adapter `0.1.x` ships in-repo; promotion to
 adapter `1.0` and any PyPI publication remain human-gated release decisions.
 
-Known gap: the export does not currently embed the relation registry, so
-relation-family semantics remain producer-side knowledge rather than something
-the adapter can discover from the export alone.
+Contract v2.1 (ADR-0032) closes the former relation-registry gap: the export
+now embeds `relation_registry` + `relation_registry_version` + `vocabularies`.
+The adapter surfaces these through `client.relations()`, `client.relation(name)`,
+`client.vocabularies`, the CLI (`relations`, `relation`, `vocabularies`), and
+the JSON API (`/v2/relations`, `/v2/relations/{name}`, `/v2/vocabularies`).
+When the registry is present the adapter fails closed on an unknown relation.
 
 ## 6. Contributing corrections
 

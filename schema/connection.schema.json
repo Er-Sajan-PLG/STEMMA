@@ -37,7 +37,7 @@
           "type": "object",
           "required": ["status"],
           "properties": {
-            "status": { "enum": ["unreviewed", "reviewed", "canonical"] }
+            "status": { "enum": ["unreviewed", "reviewed", "canonical", "rejected"] }
           },
           "additionalProperties": false
         },

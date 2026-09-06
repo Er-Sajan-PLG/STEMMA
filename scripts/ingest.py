@@ -31,10 +31,11 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from PIL import Image  # type: ignore
-
 # Image formats we can OCR directly.
 _IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp", ".webp"}
+
+# Text-based formats that can be read directly without extraction tooling.
+_TEXT_EXTS = {".txt", ".md", ".csv", ".json", ".yaml", ".yml", ".xml", ".html", ".htm"}
 
 # A conservative per-page OCR cap to bound memory for arbitrarily large scanned PDFs.
 _MAX_OCR_PAGES = 500
@@ -60,10 +61,21 @@ def _have(tool: str) -> bool:
 
 
 def _check_tools(need_ocr: bool = False) -> None:
-    if not _have("pdftotext") and not _have("pdfinfo"):
-        raise IngestionError("poppler-utils not installed (pdftotext/pdfinfo required for PDFs)")
+    if not (_have("pdftotext") or _have("pdfinfo") or _pypdf_available()):
+        raise IngestionError(
+            "no PDF text engine available (install poppler-utils for pdftotext/pdfinfo, "
+            "or `python3 -m pip install pypdf` for the pure-Python fallback)"
+        )
     if need_ocr and not _have("tesseract"):
         raise IngestionError("tesseract not installed (required for scanned PDFs / images)")
+
+
+def _pypdf_available() -> bool:
+    try:
+        import pypdf  # type: ignore  # noqa: F401
+        return True
+    except ImportError:
+        return False
 
 
 def detect_kind(path: Path) -> str:
@@ -72,7 +84,9 @@ def detect_kind(path: Path) -> str:
         return "pdf"
     if ext in _IMAGE_EXTS:
         return "image"
-    raise IngestionError(f"unsupported document type: {ext!r} (supported: .pdf, {', '.join(sorted(_IMAGE_EXTS))})")
+    if ext in _TEXT_EXTS:
+        return "text"
+    raise IngestionError(f"unsupported document type: {ext!r} (supported: .pdf, {', '.join(sorted(_IMAGE_EXTS))}, {', '.join(sorted(_TEXT_EXTS))})")
 
 
 # --------------------------------------------------------------------------- #
@@ -86,15 +100,35 @@ def _pdf_is_scanned(path: Path) -> bool:
 
 
 def _pdftotext(path: Path) -> str:
-    if not _have("pdftotext"):
+    """Extract text from a PDF.
+
+    Preferred engine is poppler's ``pdftotext`` (deterministic/layout-aware).
+    If poppler is not installed, fall back to pure-Python ``pypdf`` so the
+    webapp/CLI can still ingest text-based PDFs on machines without poppler.
+    """
+    if _have("pdftotext"):
+        try:
+            r = subprocess.run(
+                ["pdftotext", "-q", "-layout", str(path), "-"],
+                capture_output=True, text=True, timeout=300,
+            )
+            return r.stdout or ""
+        except (subprocess.SubprocessError, OSError):
+            return ""
+    try:
+        from pypdf import PdfReader  # type: ignore
+    except ImportError:
         return ""
     try:
-        r = subprocess.run(
-            ["pdftotext", "-q", "-layout", str(path), "-"],
-            capture_output=True, text=True, timeout=300,
-        )
-        return r.stdout or ""
-    except (subprocess.SubprocessError, OSError):
+        reader = PdfReader(str(path))
+        parts = []
+        for page in reader.pages:
+            try:
+                parts.append(page.extract_text() or "")
+            except Exception:  # noqa: BLE001 - a bad page shouldn't kill the job
+                parts.append("")
+        return "\n\n".join(parts).strip()
+    except Exception:  # noqa: BLE001 - fallback, not a fatal tooling issue
         return ""
 
 
@@ -122,15 +156,25 @@ def _ocr_pdf(path: Path, max_pages: int = _MAX_OCR_PAGES) -> str:
         return "\n\n".join(parts)
 
 
+def _pdf_page_count(path: Path) -> int:
+    if _have("pdfinfo"):
+        try:
+            return int(
+                subprocess.run(["pdfinfo", str(path)], capture_output=True, text=True)
+                .stdout.split("Pages:")[1].split("\n")[0].strip()
+            )
+        except (IndexError, ValueError, subprocess.SubprocessError):
+            return 0
+    try:
+        from pypdf import PdfReader  # type: ignore
+        return len(PdfReader(str(path)).pages)
+    except Exception:  # noqa: BLE001 - fallback, not fatal
+        return 0
+
+
 def extract_pdf(path: Path, *, ocr_max_pages: int = _MAX_OCR_PAGES) -> Extraction:
     _check_tools()
-    try:
-        page_count = int(
-            subprocess.run(["pdfinfo", str(path)], capture_output=True, text=True)
-            .stdout.split("Pages:")[1].split("\n")[0].strip()
-        )
-    except (IndexError, ValueError, subprocess.SubprocessError):
-        page_count = 0
+    page_count = _pdf_page_count(path)
 
     is_scanned = _pdf_is_scanned(path)
     if is_scanned and _have("pdftoppm"):
@@ -150,9 +194,13 @@ def extract_pdf(path: Path, *, ocr_max_pages: int = _MAX_OCR_PAGES) -> Extractio
 # Image extraction
 # --------------------------------------------------------------------------- #
 
-def _tesseract_image(img: Path | Image.Image) -> str:
+def _tesseract_image(img: Any) -> str:
     if not _have("tesseract"):
         raise IngestionError("tesseract not installed (required for image OCR)")
+    try:
+        from PIL import Image  # type: ignore
+    except ImportError as exc:  # pragma: no cover
+        raise IngestionError("Pillow not installed (required for image OCR)") from exc
     if isinstance(img, Image.Image):
         with tempfile.NamedTemporaryFile(suffix=".png", delete=True) as tf:
             img.save(tf.name)
@@ -174,6 +222,10 @@ def _tesseract_path(path: Path) -> str:
 def extract_image(path: Path) -> Extraction:
     _check_tools(need_ocr=True)
     try:
+        from PIL import Image  # type: ignore
+    except ImportError as exc:  # pragma: no cover
+        raise IngestionError("Pillow not installed (required for image OCR)") from exc
+    try:
         with Image.open(path) as img:
             # Normalize to improve OCR: grayscale + modest upscale for tiny images.
             if img.mode not in ("L", "1"):
@@ -188,53 +240,92 @@ def extract_image(path: Path) -> Extraction:
 
 
 # --------------------------------------------------------------------------- #
+# Text file extraction
+# --------------------------------------------------------------------------- #
+
+def extract_text_file(path: Path) -> Extraction:
+    """Read a text-based document's contents directly (no OCR/extraction tooling).
+
+    CSV/JSON are `kind: text`; the extracted text is a plaintext rendering of the
+    content so a Draft seam can propose entities/connections from it.
+    """
+    try:
+        raw = path.read_bytes()
+    except OSError as exc:
+        raise IngestionError(f"cannot read text file {path}: {exc}") from exc
+    try:
+        text = raw.decode("utf-8")
+    except UnicodeDecodeError:
+        # Best-effort: a single-byte fallback so Latin-1/locale text still
+        # extracts without crashing; the request records it as ocr_used=False.
+        text = raw.decode("latin-1")
+    return Extraction(
+        kind="text", text=text, pages=0, is_scanned=False,
+        ocr_used=False, source_name=path.name,
+    )
+
+
+# --------------------------------------------------------------------------- #
 # Unified entry point + candidate construction
 # --------------------------------------------------------------------------- #
 
 def extract(path: Path, *, ocr_max_pages: int = _MAX_OCR_PAGES) -> Extraction:
-    """Extract text from a PDF/image/scanned document. General-purpose entry point."""
+    """Extract text from a PDF/image/scanned/text document. General-purpose entry point."""
     if not path.exists() or not path.is_file():
         raise IngestionError(f"not a file: {path}")
     kind = detect_kind(path)
     if kind == "pdf":
         return extract_pdf(path, ocr_max_pages=ocr_max_pages)
+    if kind == "text":
+        return extract_text_file(path)
     return extract_image(path)
 
 
 def build_source_candidate(ext: Extraction, *, source_id: str | None = None) -> dict[str, Any]:
-    """Build a canonical Source candidate from an Extraction.
+    """Build a schema-conforming canonical Source candidate from an Extraction.
 
-    This is a SOURCE object (cite/location metadata) — never entity content. The
-    extracted text itself is NOT stuffed into canonical fields; it is carried in the
-    CurationRequest so the Draft stage (LLM seam) proposes entities/connections.
+    ADR-0035: the source object is a cite/location record (`id`, `type`,
+    `citation`, optional `title`) — it conforms to `source.schema.json` and does
+    NOT carry extraction-only fields. Those live in the CurationRequest sidecar,
+    so a human Governance Gate sees a canonical-shaped source and the extraction
+    metadata stays separate.
     """
     _id = source_id or "stemma:src.ingest-%08x" % (abs(hash((ext.source_name, ext.pages))) & 0xFFFFFFF)
     return {
         "id": _id,
-        "type": "source",
+        "type": "other",
+        "citation": f"Ingested document: {ext.source_name}",
         "title": ext.source_name,
-        "kind": "ingested-document",
+    }
+
+
+def build_extraction_sidecar(ext: Extraction) -> dict[str, Any]:
+    """Extraction metadata for the CurationRequest sidecar (ADR-0035).
+
+    These are not canonical-source fields; they describe how the text was
+    obtained so a reviewer can audit OCR/format/pages without the source record
+    carrying extraction-only data.
+    """
+    return {
+        "kind": ext.kind,
         "format": ext.kind,
         "pages": ext.pages,
+        "is_scanned": ext.is_scanned,
         "ocr_used": ext.ocr_used,
-        "extracted_text_preview": ext.text[:2000],
-        "provenance": {
-            "ai_drafted": False,
-            "source_kind": "other",
-            "reviewer": None,
-            "reviewed_at": None,
-        },
+        "preview": ext.text[:2000],
+        "source_name": ext.source_name,
     }
 
 
 def make_ingest_request(ext: Extraction) -> dict[str, Any]:
-    """Build the payload (a CurationRequest 'source' + the extracted text) a runner
+    """Build the payload (a CurationRequest 'source' + extraction sidecar) a runner
     feeds to the curation pipeline's Draft stage for entity/connection generation."""
     source = build_source_candidate(ext)
     return {
         "kind": "source",
         "intent": f"ingest document '{ext.source_name}' and propose canonical entities/connections from its content",
-        "data": {**source, "_extracted_text": ext.text},
+        "data": source,
+        "extraction": build_extraction_sidecar(ext),
         "extracted_text": ext.text,
     }
 
@@ -244,10 +335,12 @@ def to_curation_request(ext: Extraction, *, kind: str = "entity",
     """Return a scripts/curation_pipeline.CurationRequest from an extraction.
 
     This is the typed hand-off: extract() → CurationRequest → run_pipeline(). The
-    extracted text rides on request.data['_extracted_text'] and the ingested Source
-    id on request.source_ref, so the Draft seam (an LLM) proposes canonical
-    entities/connections anchored to that source. The Human Governance Gate still
-    approves anything that enters canonical; ingestion itself never writes.
+    extracted text rides on request.data['_extracted_text'] (draft input only) and
+    the extraction metadata rides on request.extraction (ADR-0035 sidecar). The
+    ingested Source id is on request.source_ref, so the Draft seam (an LLM)
+    proposes canonical entities/connections anchored to that source. The Human
+    Governance Gate still approves anything that enters canonical; ingestion
+    itself never writes.
 
     ``kind`` is the *target* object kind the Draft should produce (default 'entity';
     use 'connection' when extracting couplet relationships). The Source candidate
@@ -262,6 +355,7 @@ def to_curation_request(ext: Extraction, *, kind: str = "entity",
         intent=f"ingest document '{ext.source_name}' and propose canonical {kind}s from its content",
         data={**_empty_object(kind), "_extracted_text": ext.text},
         source_ref=source_anchor or source["id"],
+        extraction=build_extraction_sidecar(ext),
     )
 
 

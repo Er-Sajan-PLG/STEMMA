@@ -1,4 +1,5 @@
 """Versioning & determinism tests (plan v2 E5.1/E5.2, ADR-0022; audit F5/F8)."""
+import sys
 import json
 import pathlib
 import subprocess
@@ -37,11 +38,34 @@ def test_export_regeneration_is_byte_identical():
     exports = sorted((ROOT / "exports").glob("*.json"))
     before = {p.name: p.read_bytes() for p in exports}
     for script in ("validate.py", "export_review_aware.py", "graph_analysis.py"):
-        r = subprocess.run(["python3", str(ROOT / "scripts" / script)], capture_output=True, text=True)
+        r = subprocess.run([sys.executable, str(ROOT / "scripts" / script)], capture_output=True, text=True)
         assert r.returncode == 0, f"{script} failed: {r.stderr[-400:]}"
     after = {p.name: p.read_bytes() for p in exports}
     assert before == after, "regeneration changed derived exports — not deterministic (E5.2)"
     print(f"PASS: full export regeneration is byte-identical ({len(exports)} artifacts)")
+
+
+def test_report_regeneration_is_byte_identical():
+    """ADR-0022 determinism extends to derived reports, not just exports.
+
+    Report writers walk content/ with globs; a filesystem-dependent return order
+    would make CI regenerate a different byte stream. Guard the two files that
+    are most sensitive to directory order (curation-status and integrity
+    anomalies) so a non-sorted walk is caught immediately.
+    """
+    reports = (
+        (ROOT / "reports" / "curation-status.json"),
+        (ROOT / "reports" / "curation-status.md"),
+        (ROOT / "reports" / "integrity-anomalies.json"),
+        (ROOT / "reports" / "integrity-anomalies.md"),
+    )
+    before = {p.name: p.read_bytes() for p in reports}
+    for script in ("curation_status.py", "integrity_anomalies.py"):
+        r = subprocess.run([sys.executable, str(ROOT / "scripts" / script)], capture_output=True, text=True)
+        assert r.returncode == 0, f"{script} failed: {r.stderr[-400:]}"
+    after = {p.name: p.read_bytes() for p in reports}
+    assert before == after, "report regeneration changed derived reports — not deterministic (ADR-0022)"
+    print(f"PASS: derived reports regenerate byte-identically ({len(before)} artifacts)")
 
 
 def test_content_hash_tracks_canonical_content():
@@ -65,6 +89,47 @@ def test_export_contract_required_members():
     print(f"PASS: export conforms to contract v{export['export_version']} (connections/sources required)")
 
 
+def test_export_publishes_relation_registry_and_vocabularies():
+    """ADR-0032 / contract v2.1: the export publishes producer-side relation
+    semantics + controlled vocabularies so consumers can introspect without
+    cloning the producer repo. The relation_registry_version must match the
+    single source of truth in schema/VERSION.yaml."""
+    import jsonschema
+
+    versions = _versions()
+    schema = json.loads((ROOT / "schema" / "export.schema.json").read_text())
+    export = json.loads((ROOT / "exports" / "knowledge.json").read_text())
+
+    assert export["export_version"] == versions["export_version"]
+    assert export["export_version"] == "2.1.0"
+
+    assert export["relation_registry_version"] == versions["relation_registry_version"]
+    registry = export["relation_registry"]
+    assert isinstance(registry, dict) and registry
+    required = {
+        "mathematically_requires",
+        "logically_requires",
+        "related_to",
+        "part_of",
+        "applies_to",
+    }
+    assert required <= set(registry), f"registry missing adopted relations: {required - set(registry)}"
+    for name, entry in registry.items():
+        for field in ("family", "transitive", "symmetric", "domain", "range", "status"):
+            assert field in entry, f"relation_registry[{name!r}] missing {field}"
+
+    vocabularies = export["vocabularies"]
+    assert "physics" in vocabularies["domains"]
+    assert "mathematics" in vocabularies["domains"]
+    assert "mechanics" in vocabularies["subdomains"]["physics"]
+    assert "inquiry-observation" in vocabularies["subdomains"]["scientific-practice"]
+    assert "classical" in vocabularies["regimes"]
+
+    jsonschema.Draft202012Validator(schema).validate(export)
+    print(f"PASS: export contract v{export['export_version']} carries relation registry "
+          f"v{export['relation_registry_version']} + controlled vocabularies")
+
+
 def test_legacy_compat_view_during_co_release_window():
     versions = _versions()
     compat = ROOT / "exports" / "knowledge.compat-0.1.json"
@@ -82,6 +147,7 @@ if __name__ == "__main__":
     test_version_source_exists_and_matches_export()
     test_no_version_literals_in_exporters()
     test_export_regeneration_is_byte_identical()
+    test_report_regeneration_is_byte_identical()
     test_content_hash_tracks_canonical_content()
     test_export_contract_required_members()
     test_legacy_compat_view_during_co_release_window()

@@ -1,0 +1,469 @@
+batch: 4
+campaign: R6 entity review
+reviewer: human:reviewer.physics-001
+seed_pass: false
+items:
+- id: stemma:chem.oxidation-reduction
+  name: Oxidation-Reduction
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: A class of chemical reactions involving the transfer of electrons between species, in which oxidation
+    is the loss of electrons and reduction is the gain of electrons. Oxidation and reduction always occur together,
+    with one species being oxidized and another reduced.
+  score: 0.008704
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.speed
+  name: Speed
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The rate at which an object covers distance — the total distance traveled divided by the total time
+    taken. Speed is a scalar quantity.
+  score: 0.008327
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.newtons-law-of-gravitation
+  name: Newton's Law of Universal Gravitation
+  domain: physics
+  type: law
+  status: draft
+  definition: Every mass attracts every other mass with a force proportional to the product of their masses and
+    inversely proportional to the square of the distance between their centers.
+  score: 0.008198
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.limit
+  name: Limit
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: The value a function or sequence approaches as its input or index approaches a given value. Written
+    lim_{x→c} f(x) = L, a limit describes the behaviour of f near the point c without requiring f to be defined
+    there. Limits formalize instantaneous change and underpin the derivative and the integral.
+  score: 0.007837
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.homeostasis
+  name: Homeostasis
+  domain: biology
+  type: concept
+  status: draft
+  definition: The maintenance of a stable internal environment (temperature, pH, water and solute balance, glucose
+    levels) within living organisms despite changes in the external environment, achieved through regulatory feedback
+    mechanisms.
+  score: 0.007765
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.sound
+  name: Sound
+  domain: physics
+  type: concept
+  status: draft
+  definition: A mechanical wave produced by vibrating objects, transmitted through a material medium (solid, liquid,
+    or gas) as a longitudinal wave. Sound cannot travel through vacuum.
+  score: 0.007758
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.natural-selection
+  name: Natural Selection
+  domain: biology
+  type: concept
+  status: draft
+  definition: The evolutionary process by which organisms possessing heritable traits better suited to their environment
+    tend to survive and reproduce at higher rates, passing advantageous alleles to subsequent generations.
+  score: 0.007713
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.lens
+  name: Lens
+  domain: physics
+  type: concept
+  status: draft
+  definition: A transparent optical device that refracts light to converge or diverge rays. Convex (converging)
+    lenses bring light to a focus; concave (diverging) lenses spread light apart.
+  score: 0.007625
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.chemical-equilibrium
+  name: Chemical Equilibrium
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: The state of a reversible reaction in which the rates of the forward and reverse reactions are equal,
+    so the concentrations of reactants and products remain constant over time. Equilibrium is dynamic and does not
+    imply equal quantities of reactants and products.
+  score: 0.00762
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.functional-group
+  name: Functional Group
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: A specific atom or group of atoms within an organic molecule that determines the characteristic chemical
+    reactions and properties of that molecule. The same functional group confers predictable behaviour regardless
+    of the carbon skeleton to which it is attached.
+  score: 0.007608
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.median
+  name: Median
+  domain: mathematics
+  type: quantity
+  status: draft
+  definition: The middle value in an ordered data set. If there are two middle values, the median is their average.
+    It divides the data into two equal halves and is robust against outliers.
+  score: 0.00742
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.exponential-function
+  name: Exponential Function
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: A function of the form f(x) = a·bˣ where the base b is positive and not equal to 1, with x as the
+    exponent. The function multiplies by a fixed factor b over each unit interval, producing constant relative growth
+    (or decay) rather than constant absolute change.
+  score: 0.007394
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.amplitude
+  name: Amplitude
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The maximum displacement of a wave from its equilibrium (rest) position. Amplitude determines the
+    energy carried by the wave — greater amplitude means greater energy.
+  score: 0.00737
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.enthalpy
+  name: Enthalpy
+  domain: chemistry
+  type: quantity
+  status: draft
+  definition: A thermodynamic quantity equal to the internal energy of a system plus the product of its pressure
+    and volume, H = U + PV. The change in enthalpy, ΔH, measures the heat absorbed or released by a process at constant
+    pressure.
+  score: 0.007323
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.gibbs-free-energy
+  name: Gibbs Free Energy
+  domain: chemistry
+  type: quantity
+  status: draft
+  definition: A thermodynamic quantity, G = H − TS, that combines enthalpy and entropy to predict whether a process
+    is spontaneous at constant temperature and pressure. A negative Gibbs free energy change indicates a spontaneous
+    process.
+  score: 0.007323
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.energy-sources
+  name: Energy Sources
+  domain: physics
+  type: concept
+  status: draft
+  definition: The origins of energy used by human civilization. Energy sources are classified as renewable (naturally
+    replenished) or non-renewable (finite and depleting).
+  score: 0.007035
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.impulse
+  name: Impulse
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The product of the average force acting on an object and the time interval over which it acts. Impulse
+    equals the change in momentum of the object.
+  score: 0.00669
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.alkene
+  name: Alkene
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: An unsaturated hydrocarbon that contains at least one carbon-to-carbon double bond, with the general
+    formula CₙH₂ₙ as a member of the homologous series. The presence of the double bond makes alkenes more reactive
+    than alkanes.
+  score: 0.006659
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.fundamental-theorem-of-calculus
+  name: Fundamental Theorem of Calculus
+  domain: mathematics
+  type: law
+  status: draft
+  definition: 'A theorem connecting differentiation and integration. Part 1 states that the derivative of the integral
+    of f from a to x is exactly f(x); Part 2 states that a definite integral is evaluated by an antiderivative:
+    ∫ₐᵇ f(x) dx = F(b) − F(a) whenever F′ = f. The theorem makes derivatives and integrals inverse operations.'
+  score: 0.006515
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.sequence
+  name: Sequence
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: An ordered list of terms a₁, a₂, a₃, … in which a formula or rule assigns a term to each index n (usually
+    a natural number). Sequences are functions whose domain is a set of consecutive integers, and they are classified
+    by their patterns into types such as arithmetic and geometric sequences.
+  score: 0.006433
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.geometric-sequence
+  name: Geometric Sequence
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: A sequence in which each term is obtained from the previous one by multiplying by a constant called
+    the common ratio r, so aₙ = a₁·rⁿ⁻¹. The terms change by a constant factor, growing exponentially when |r| >
+    1 and shrinking toward zero when |r| < 1. The sum of the first n terms is Sₙ = a₁(1 − rⁿ)/(1 − r) for r ≠ 1.
+  score: 0.0064
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.newtons-third-law
+  name: Newton's Third Law of Motion
+  domain: physics
+  type: law
+  status: draft
+  definition: For every action, there is an equal and opposite reaction. When object A exerts a force on object
+    B, object B simultaneously exerts a force equal in magnitude and opposite in direction on object A.
+  score: 0.006397
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.osmosis
+  name: Osmosis
+  domain: biology
+  type: concept
+  status: draft
+  definition: The net movement of water molecules across a selectively permeable membrane from a region of lower
+    solute concentration (higher water concentration) to a region of higher solute concentration (lower water concentration),
+    equalizing concentration by water flow.
+  score: 0.006342
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.magnetism
+  name: Magnetism
+  domain: physics
+  type: concept
+  status: draft
+  definition: The phenomenon by which materials exert attractive or repulsive forces on other materials. Magnetism
+    is intimately connected to electricity — moving charges produce magnetic fields, and changing magnetic fields
+    produce electric currents.
+  score: 0.006265
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.chromosome
+  name: Chromosome
+  domain: biology
+  type: concept
+  status: draft
+  definition: A long, linear (or circular in prokaryotes) structure of DNA tightly coiled around histone and other
+    proteins, carrying many genes and serving as the unit of genetic organization that is replicated and partitioned
+    during cell division.
+  score: 0.006239
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.protein-synthesis
+  name: Protein Synthesis
+  domain: biology
+  type: concept
+  status: draft
+  definition: 'The two-stage gene-expression pathway by which the information in a gene''s DNA is converted into
+    a functional polypeptide: transcription produces messenger RNA from a DNA template, and translation assembles
+    amino acids into a protein on ribosomes.'
+  score: 0.006225
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.plant-cell
+  name: Plant Cell
+  domain: biology
+  type: concept
+  status: draft
+  definition: A eukaryotic cell characteristic of plants, distinguished by a rigid cellulose cell wall, a large
+    central vacuole for turgor pressure, and plastids such as chloroplasts for photosynthesis.
+  score: 0.006191
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.proton
+  name: Proton
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: A stable subatomic particle occurring in all atomic nuclei, carrying a positive elementary electric
+    charge (+1e) and a mass of approximately 1 atomic mass unit (1.673 × 10⁻²⁷ kg).
+  score: 0.00613
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.entropy
+  name: Entropy
+  domain: chemistry
+  type: quantity
+  status: draft
+  definition: A thermodynamic quantity that measures the dispersal of energy or the number of microscopic arrangements
+    (microstates) available to a system, expressed as a measure of disorder. The entropy of an isolated system tends
+    to increase in spontaneous processes.
+  score: 0.006079
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.change-of-state
+  name: Change of State
+  domain: physics
+  type: concept
+  status: draft
+  definition: The transition of matter between solid, liquid, and gas phases. During a change of state, temperature
+    remains constant as energy is used to break or form intermolecular bonds.
+  score: 0.006002
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.proportion
+  name: Proportion
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: An equation stating that two ratios are equal. If a:b = c:d, then a, b, c, d are in proportion. This
+    means a/b = c/d, or equivalently a×d = b×c (cross-multiplication).
+  score: 0.005997
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.combination
+  name: Combination
+  domain: mathematics
+  type: quantity
+  status: draft
+  definition: An unordered selection of items taken from a larger collection, where order does not matter. The number
+    of ways to choose r items from n distinct items is C(n, r) = n! / (r! (n − r)!), often written as a binomial
+    coefficient (n choose r).
+  score: 0.005918
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.matrix
+  name: Matrix
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: A rectangular array of numbers (or other entries) arranged in rows and columns, usually written within
+    brackets. A matrix with m rows and n columns has size m × n. Matrices have defined operations — addition, scalar
+    multiplication, multiplication, and transposition — and provide a compact representation for systems of linear
+    equations and linear transformations.
+  score: 0.005918
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.motion
+  name: Motion
+  domain: physics
+  type: concept
+  status: draft
+  definition: The change in position of an object with respect to time and a reference point. Motion is the most
+    fundamental phenomenon studied in mechanics.
+  score: 0.005859
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.covalent-bond
+  name: Covalent Bond
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: A chemical bond formed when two non-metal atoms share one or more pairs of valence electrons, achieving
+    stable noble-gas electron configurations through mutual electrostatic attraction between shared electrons and
+    nuclei.
+  score: 0.005776
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.volume
+  name: Volume
+  domain: mathematics
+  type: quantity
+  status: draft
+  definition: The measure of the three-dimensional space occupied by an object or enclosed by a surface. Measured
+    in cubic units. Capacity refers to how much a container can hold.
+  score: 0.005698
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.equations-of-motion
+  name: Equations of Motion
+  domain: physics
+  type: equation
+  status: draft
+  definition: 'The set of kinematic equations relating displacement, initial velocity, uniform acceleration, and
+    time for motion in a straight line under constant acceleration: v = u + at, s = ut + ½at², v² = u² + 2as, and
+    s = ½(u + v)t. They apply only when acceleration is constant.'
+  score: 0.00567
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.heating-effect
+  name: Heating Effect of Electric Current
+  domain: physics
+  type: concept
+  status: draft
+  definition: The phenomenon by which electrical energy is converted to thermal energy when current flows through
+    a conductor with resistance. The heat produced depends on the current, resistance, and time.
+  score: 0.00567
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.activation-energy
+  name: Activation Energy
+  domain: chemistry
+  type: quantity
+  status: draft
+  definition: The minimum energy that colliding reactant particles must possess for a reaction to occur, forming
+    an activated complex. Activation energy governs the rate of a reaction through the exponential Arrhenius relationship
+    with temperature.
+  score: 0.005669
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.friction
+  name: Friction
+  domain: physics
+  type: concept
+  status: draft
+  definition: A contact force that opposes the relative motion (or tendency of relative motion) between two surfaces
+    in contact. Friction acts parallel to the contact surface and opposite to the direction of motion or attempted
+    motion.
+  score: 0.005578
+  decision: null
+  reviewer: null
+  evidence_notes: null

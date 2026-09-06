@@ -1,6 +1,6 @@
 # STEMMA — Schema Specification
 
-**Status:** Authoritative for `schema_version` 1.0.0 (ADR-0027/0028).
+**Status:** Authoritative for `schema_version` 1.1.0 (ADR-0027/0028/0031).
 **Contracts:** `schema/concept.schema.json`, `schema/connection.schema.json`,
 `schema/source.schema.json`, `schema/export.schema.json` (JSON Schema
 draft 2020-12). This document explains the model; the schemas plus
@@ -31,7 +31,7 @@ draft 2020-12). This document explains the model; the schemas plus
 
 | Object | ID pattern | File rule | Example |
 |---|---|---|---|
-| Entity | `^stemma:[a-z][a-z0-9-]*\.[a-z0-9][a-z0-9-]*$` | `content/<domain>/<subdomain>/<slug>.md`; filename = final ID segment | `stemma:phys.force` → `content/physics/mechanics/force.md` |
+| Entity | `^stemma:[a-z][a-z0-9-]*\.[a-z0-9][a-z0-9-]*$` | `content/<domain>/<subdomain>/<slug>.md`; filename = final ID segment; id-prefix → domain/directory mapping = `schema/id-domain-map.yaml` (ADR-0034) | `stemma:phys.force` → `content/physics/mechanics/force.md` |
 | Connection | `^stemma:conn\.[0-9]{6}$` | `connections/<id-minus-namespace>.yaml` (colon-free) | `stemma:conn.000001` → `connections/conn.000001.yaml` |
 | Source | `^stemma:src\.[a-z0-9][a-z0-9-]*$` | `sources/<id-minus-namespace>.yaml` | `stemma:src.cavendish-1798` → `sources/src.cavendish-1798.yaml` |
 
@@ -124,11 +124,17 @@ bibliography project: they exist so evidence has something to point at.
 
 ## 6. Export contract (export.schema.json)
 
-`exports/knowledge.json` is the consumer contract (v2.0.0):
+`exports/knowledge.json` is the consumer contract (v2.1.0, ADR-0032):
 
 - Required members: `export_version`, `schema_version`, `content_hash`,
   `entity_count`, `connection_count`, `source_count`, `entities[]`,
   `connections[]`, `sources[]`.
+- Optional semantic sidecar: `relation_registry_version`
+  (`schema/VERSION.yaml`), `relation_registry` (relation name →
+  family/inverse/transitive/symmetric/domain/range/status), and
+  `vocabularies` (`domains`/`subdomains`/`regimes`/`scales`). A present
+  `relation_registry` is authoritative: consumers must fail closed on a
+  connection relation that is not declared.
 - `entities[]` carry **no** relationship data; the graph is `connections[]`
   only.
 - `connections[]` carry the derived `claim_signature`.

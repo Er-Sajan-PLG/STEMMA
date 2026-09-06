@@ -20,7 +20,7 @@ if str(PYTHON_ROOT) not in sys.path:
     sys.path.insert(0, str(PYTHON_ROOT))
 
 from stemma_adapter import ExportError, Stemma, load_export  # noqa: E402
-from stemma_adapter.client import NotFoundError  # noqa: E402
+from stemma_adapter.client import BadRequestError, NotFoundError  # noqa: E402
 from stemma_adapter.policies import filter_connections  # noqa: E402
 from stemma_adapter.server import serve  # noqa: E402
 
@@ -100,6 +100,48 @@ def make_connection(
     return connection
 
 
+SYNTHETIC_RELATION_REGISTRY = {
+    "requires": {
+        "family": "dependency",
+        "transitive": False,
+        "symmetric": False,
+        "domain": ["concept"],
+        "range": ["concept"],
+        "status": "adopted",
+    },
+    "mathematically_requires": {
+        "family": "dependency",
+        "transitive": True,
+        "symmetric": False,
+        "domain": ["concept", "quantity"],
+        "range": ["concept", "quantity"],
+        "status": "adopted",
+    },
+    "depends_on": {
+        "family": "dependency",
+        "transitive": False,
+        "symmetric": False,
+        "domain": ["concept"],
+        "range": ["concept"],
+        "status": "adopted",
+    },
+    "logically_requires": {
+        "family": "dependency",
+        "transitive": True,
+        "symmetric": False,
+        "domain": ["concept"],
+        "range": ["concept"],
+        "status": "adopted",
+    },
+}
+SYNTHETIC_VOCABULARIES = {
+    "domains": ["testing"],
+    "subdomains": {"testing": ["basic"]},
+    "regimes": ["classical"],
+    "scales": ["micro", "macro"],
+}
+
+
 def synthetic_export() -> dict[str, Any]:
     entities = [
         make_entity("stemma:test.root", name="Root"),
@@ -175,10 +217,13 @@ def synthetic_export() -> dict[str, Any]:
         ),
     ]
     return {
-        "export_version": "2.0.0",
-        "schema_version": "1.0.0",
+        "export_version": "2.1.0",
+        "schema_version": "1.1.0",
         "content_hash": "sha256:" + ("0" * 64),
         "kernel_version": "3.0.0",
+        "relation_registry_version": "1.0.0",
+        "relation_registry": SYNTHETIC_RELATION_REGISTRY,
+        "vocabularies": SYNTHETIC_VOCABULARIES,
         "source": "synthetic",
         "entity_count": len(entities),
         "connection_count": len(connections),
@@ -330,6 +375,77 @@ def test_synthetic_export() -> None:
     bad_source_ref["connections"][0]["evidence"][0]["source_ref"] = "stemma:src.missing"
     expect_raises(ExportError, load_export, bad_source_ref)
 
+    # ADR-0032 / export v2.1: registry-present exports must fail closed on a
+    # connection whose relation is not declared.
+    unknown_relation = copy.deepcopy(export)
+    unknown_relation["connections"][0]["relation"] = "unknown_relation_x"
+    expect_raises(ExportError, load_export, unknown_relation)
+
+    registry_without_version = copy.deepcopy(export)
+    registry_without_version.pop("relation_registry_version")
+    expect_raises(ExportError, load_export, registry_without_version)
+
+    # Pre-2.1 (no registry) exports remain loadable and do not offer registry
+    # introspection or fail-closed relation checks.
+    v20 = copy.deepcopy(export)
+    v20["export_version"] = "2.0.0"
+    v20.pop("relation_registry_version")
+    v20.pop("relation_registry")
+    v20.pop("vocabularies")
+    v20["connections"][0]["relation"] = "unknown_relation_x"
+    v20_client = Stemma.from_dict(v20)
+    assert len(v20_client.connections(policy="all")) == 5
+    expect_raises(ExportError, v20_client.relations)
+    expect_raises(ExportError, v20_client.relation, "requires")
+
+
+def test_rejected_visibility() -> None:
+    """ADR-0031: default/all views exclude rejected; stats expose it and the
+    rejected set is queryable explicitly (rejected is still an active record)."""
+    export = synthetic_export()
+    target = export["connections"][0]
+    target["assertion"]["review"]["status"] = "rejected"
+    target["lifecycle"] = {"reason": "contradicts primary source", "replaced_by": None}
+    client = Stemma.from_dict(export)
+    assert client.stats["rejected_connection_count"] == 1
+    assert client.stats["active_connection_count"] == 4
+    assert len(client.connections(policy="all")) == 4
+    assert all(c["id"] != target["id"] for c in client.connections())
+    assert client.connections(review="rejected") == [target]
+    print("OK: rejected visibility")
+
+
+def test_relation_introspection() -> None:
+    export = synthetic_export()
+    client = Stemma.from_dict(export)
+    assert client.stats["export_version"] == "2.1.0"
+    assert client.stats["relation_registry_version"] == "1.0.0"
+
+    registry = client.relations()
+    assert registry == SYNTHETIC_RELATION_REGISTRY
+    assert sorted(registry) == [
+        "depends_on",
+        "logically_requires",
+        "mathematically_requires",
+        "requires",
+    ]
+
+    descriptor = client.relation("mathematically_requires")
+    assert descriptor["family"] == "dependency"
+    assert descriptor["transitive"] is True
+    expect_raises(BadRequestError, client.relation, "not_a_relation")
+
+    assert client.vocabularies == SYNTHETIC_VOCABULARIES
+
+    # The client is also a loader consumer: connection relations are still
+    # visible through the public query API.
+    assert {conn["relation"] for conn in client.connections(policy="all")} == {
+        "depends_on",
+        "logically_requires",
+        "mathematically_requires",
+        "requires",
+    }
+
 
 def test_cli_smoke() -> None:
     env = dict(os.environ)
@@ -360,6 +476,22 @@ def test_cli_smoke() -> None:
     search = run_cli("search", str(export_path), "force", "--domain", "physics", "--limit", "1")
     assert search.returncode == 0, search.stderr
     assert json.loads(search.stdout)[0]["id"] == "stemma:phys.force"
+
+    relations = run_cli("relations", str(export_path))
+    assert relations.returncode == 0, relations.stderr
+    registry = json.loads(relations.stdout)
+    assert "related_to" in registry
+
+    relation = run_cli("relation", str(export_path), "mathematically_requires")
+    assert relation.returncode == 0, relation.stderr
+    assert json.loads(relation.stdout)["family"] == "dependency"
+
+    unknown_relation = run_cli("relation", str(export_path), "not_a_real_relation")
+    assert unknown_relation.returncode == 1
+
+    vocabularies = run_cli("vocabularies", str(export_path))
+    assert vocabularies.returncode == 0, vocabularies.stderr
+    assert "physics" in json.loads(vocabularies.stdout)["domains"]
 
     with tempfile.TemporaryDirectory() as tmpdir:
         invalid_path = Path(tmpdir) / "invalid.json"
@@ -407,6 +539,21 @@ def test_server() -> None:
         assert status == 200
         assert payload["id"] == "stemma:phys.force"
 
+        status, _, payload = http_json(base_url + "/v2/relations")
+        assert status == 200
+        assert "related_to" in payload
+
+        status, _, payload = http_json(base_url + "/v2/relations/mathematically_requires")
+        assert status == 200
+        assert payload["family"] == "dependency"
+
+        status, _, payload = http_json(base_url + "/v2/relations/not_a_real_relation")
+        assert status == 400
+
+        status, _, payload = http_json(base_url + "/v2/vocabularies")
+        assert status == 200
+        assert "physics" in payload["domains"]
+
         status, _, payload = http_json(base_url + "/v2/entities/stemma%3Aphys.unknown")
         assert status == 404
         assert "unknown entity id" in payload["error"]
@@ -423,6 +570,8 @@ def test_server() -> None:
 def main() -> int:
     test_real_export()
     test_synthetic_export()
+    test_rejected_visibility()
+    test_relation_introspection()
     test_cli_smoke()
     test_server()
     print("OK: adapter tests passed")

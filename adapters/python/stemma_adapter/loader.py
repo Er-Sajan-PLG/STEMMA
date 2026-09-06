@@ -183,6 +183,20 @@ def load_export(path_or_dict: str | pathlib.Path | Mapping[str, Any]) -> dict[st
             raise ExportError(f"duplicate source id: {source_id}")
         source_ids.add(source_id)
 
+    # ADR-0032 / export v2.1: if the producer publishes its relation registry,
+    # consumers fail closed on any connection whose relation is not declared.
+    relation_registry = export.get("relation_registry")
+    if relation_registry is not None:
+        if not isinstance(relation_registry, Mapping):
+            raise ExportError("export.relation_registry must be an object")
+        if not isinstance(export.get("relation_registry_version"), str):
+            raise ExportError("export.relation_registry_version must be a string when relation_registry is present")
+        _require_semver(
+            export["relation_registry_version"],
+            "export.relation_registry_version",
+        )
+        known_relations = set(relation_registry)
+
     for index, connection in enumerate(connections):
         conn_obj = _require_mapping(connection, f"export.connections[{index}]")
         _require_members(conn_obj, CONNECTION_REQUIRED, f"export.connections[{index}]")
@@ -190,6 +204,15 @@ def load_export(path_or_dict: str | pathlib.Path | Mapping[str, Any]) -> dict[st
         if conn_id in connection_ids:
             raise ExportError(f"duplicate connection id: {conn_id}")
         connection_ids.add(conn_id)
+
+        relation = conn_obj.get("relation")
+        if not isinstance(relation, str) or not relation:
+            raise ExportError(f"export.connections[{index}].relation must be a non-empty string")
+        if relation_registry is not None and relation not in known_relations:
+            raise ExportError(
+                f"export.connections[{index}].relation '{relation}' is not declared in "
+                "export.relation_registry; refusing to load unknown relation"
+            )
 
         source_id = _require_pattern(conn_obj["source"], ENTITY_ID_RE, f"export.connections[{index}].source")
         target_id = _require_pattern(conn_obj["target"], ENTITY_ID_RE, f"export.connections[{index}].target")

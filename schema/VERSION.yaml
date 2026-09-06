@@ -8,19 +8,20 @@
 #                    0.2: the stemma: namespace replaces the retired prefix in every ID pattern and
 #                    the deprecated entity-side relationships[] projection is removed
 #                    from concept.schema.json (ADR-0027/0028).
-# export_version   — '2.0.0' version of the exports/knowledge.json consumer contract.
-#                    Breaking: entities[].relationships (generated projection) is gone;
-#                    the relationship graph is connections[] only; all IDs are
-#                    stemma:-namespaced. Consumers must read connections[] and use
-#                    stemma: IDs (see docs/MIGRATIONS.md 2026-09-04 entry).
-#                    The v1.x legacy co-release artifact (knowledge.compat-0.1.json)
-#                    is retired with this bump.
+# export_version   — '2.1.0' version of the exports/knowledge.json consumer contract.
+#                    v2.0.0 (ADR-0027/0028): entities[].relationships (generated
+#                    projection) removed; graph is connections[] only; all IDs are
+#                    stemma:-namespaced. See docs/MIGRATIONS.md 2026-09-04 entry.
+#                    v2.1.0 (ADR-0032): ADDITIVE optional relation_registry +
+#                    relation_registry_version + vocabularies sidecar so consumers
+#                    can introspect relation semantics from the export alone.
+#                    Old 2.0.x readers ignore the new members.
 # relation_registry_version — '1.0.0' version of schema/relation-registry.yaml.
 #                    Major bump from 0.3: reserved duplicate relations removed
 #                    (broader_than/narrower_than duplicated generalizes/
 #                    special_case_of; contains duplicated has_part; is_a duplicated
 #                    special_case_of for taxonomic use). No adopted relation changed.
 
-schema_version: '1.0.0'
-export_version: '2.0.0'
+schema_version: '1.1.0'
+export_version: '2.1.0'
 relation_registry_version: '1.0.0'

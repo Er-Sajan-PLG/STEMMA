@@ -11,12 +11,11 @@ Rules (all enforced, none bypassable):
     `canonical` is applied as unreviewed→reviewed→canonical (protocol §2).
   * `canonical` requires evidence (sheet `evidence:` list or existing evidence on
     the connection); every evidence item must be a dict with a `type`.
-  * `reject` requires a reason; the connection keeps assertion.status active
-    but review.status becomes `rejected`? — NO: the connection schema only allows
-    unreviewed|reviewed|canonical for review.status, so rejection is recorded as
-    assertion.status: deprecated + lifecycle.reason (auditable, never deleted;
-    protocol §1 "rejected remains auditable"). sync_relationships.py then drops the
-    projection entry.
+  * `reject` requires a reason; the connection keeps assertion.status: active and
+    review.status becomes `rejected` (schema 1.1.0, ADR-0031). Rejection is a
+    review state, never structural retirement; deprecated/superseded stay reserved
+    for dedup/merge/replacement.
+  * `reopen` (rejected → proposed/unreviewed) is human-only and requires a reason.
   * asserted_by / generated_by are never rewritten (origin preserved, protocol §6).
   * review_history receives one entry per transition with the HUMAN reviewer.
 
@@ -57,7 +56,7 @@ def add_reviewer(prov: dict, reviewer: str) -> None:
 
 
 def transition(conn: dict, to: str, reviewer: str, reason: str) -> None:
-    errs = validate_transition(conn, to, reviewer)
+    errs = validate_transition(conn, to, reviewer, reason)
     if errs:
         raise ValueError(f"{conn['id']}: forbidden transition -> {to}: {errs}")
     prov = conn["provenance"]
@@ -89,12 +88,9 @@ def apply_item(item: dict, reviewer: str, dry: bool) -> str:
             raise ValueError(f"{item['id']}: reject requires a reason")
         if conn["assertion"]["status"] != "active":
             return "skip"
-        add_reviewer(conn["provenance"], reviewer)
-        conn["provenance"].setdefault("review_history", []).append({
-            "from": cur, "to": "rejected", "reviewer": reviewer, "at": now(), "reason": item["reason"],
-        })
-        conn["assertion"]["status"] = "deprecated"
-        conn["lifecycle"] = {"reason": f"rejected in review: {item['reason']}", "replaced_by": None}
+        # ADR-0031 / rejected lifecycle: review.status -> rejected, record stays
+        # active. Structural retirement (deprecated/superseded) stays separate.
+        transition(conn, "rejected", reviewer, item["reason"])
     else:
         if cur == "canonical":
             return "skip"
@@ -136,7 +132,7 @@ def main() -> int:
     except ValueError as exc:
         print(f"error: {exc} — no changes written", file=sys.stderr)
         return 1
-    print(f"OK{' (dry-run)' if args.dry_run else ''}: {counts} — now run scripts/sync_relationships.py && scripts/verify_all.py")
+    print(f"OK{' (dry-run)' if args.dry_run else ''}: {counts} — now run python3 scripts/verify_all.py")
     return 0
 
 

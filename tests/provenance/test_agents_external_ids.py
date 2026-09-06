@@ -112,11 +112,11 @@ def test_no_hardcoded_export_version_in_contract_docs():
 
 def test_campaign_generator_is_deterministic_and_readonly():
     before = {p: p.read_bytes() for p in (ROOT / "connections").glob("*.yaml")}
-    r = subprocess.run(["python3", str(ROOT / "scripts" / "dependency_review_campaign.py")], capture_output=True, text=True)
+    r = subprocess.run([sys.executable, str(ROOT / "scripts" / "dependency_review_campaign.py")], capture_output=True, text=True)
     assert r.returncode == 0, r.stderr
     out = ROOT / "reports" / "dependency-review-campaign"
     first = {p.name: p.read_bytes() for p in out.iterdir()}
-    r = subprocess.run(["python3", str(ROOT / "scripts" / "dependency_review_campaign.py")], capture_output=True, text=True)
+    r = subprocess.run([sys.executable, str(ROOT / "scripts" / "dependency_review_campaign.py")], capture_output=True, text=True)
     second = {p.name: p.read_bytes() for p in out.iterdir()}
     assert first == second, "campaign worksheets are not deterministic"
     after = {p: p.read_bytes() for p in (ROOT / "connections").glob("*.yaml")}
@@ -126,7 +126,7 @@ def test_campaign_generator_is_deterministic_and_readonly():
 
 def test_apply_decisions_refuses_non_human_reviewer():
     sheet = next((ROOT / "reports" / "dependency-review-campaign").glob("batch-01.yaml"))
-    r = subprocess.run(["python3", str(ROOT / "scripts" / "apply_review_decisions.py"), str(sheet),
+    r = subprocess.run([sys.executable, str(ROOT / "scripts" / "apply_review_decisions.py"), str(sheet),
                         "--reviewer", "process:e61.dependency-campaign", "--dry-run"], capture_output=True, text=True)
     assert r.returncode == 2, r.stdout + r.stderr
     print("PASS: apply_review_decisions refuses a non-human reviewer")

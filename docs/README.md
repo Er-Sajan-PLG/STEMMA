@@ -33,8 +33,11 @@ One subject, one document; contradictions are bugs.
 | Migration log (append-only) | [MIGRATIONS.md](MIGRATIONS.md) |
 | Curation & review protocol | [CURATION-PROTOCOL.md](CURATION-PROTOCOL.md) |
 | Ingestion pipeline | [INGESTION.md](INGESTION.md) |
+| Ingestion & review webapp | [WEBAPP.md](WEBAPP.md) |
 | Sources & attribution inventory | [SOURCES.md](SOURCES.md) |
 | Glossary | [GLOSSARY.md](GLOSSARY.md) |
+| Critical review & decision records | [SOTA-REVIEW.md](SOTA-REVIEW.md) |
+| Deep-dive recommendations & implementation guide | [DEEP-DIVE-RECOMMENDATIONS.md](DEEP-DIVE-RECOMMENDATIONS.md) |
 | Decision records (ADRs) | [decisions/](decisions/) |
 | Contributor guide | [CONTRIBUTING.md](CONTRIBUTING.md) |
 

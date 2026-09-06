@@ -37,33 +37,28 @@ import curation_pipeline
 import ingest
 
 
-def _default_draft(blueprint: "Any", data: dict, **kw: Any) -> dict:
-    """Deterministic fallback seam: stage the source + a review-ready placeholder.
+class DraftSeamError(ValueError):
+    """No real Draft seam is wired. Refuse to stage a placeholder proposal."""
 
-    LLM runners supply a real function; this is what a human/CLI gets when none is
-    wired. It never invents canonical content — it emits the Source proposal and a
-    placeholder entity for the extracted text, both requiring human completion.
+
+class ProposalGateError(ValueError):
+    """A staged proposal failed the deterministic curation gates; refusing to write."""
+
+
+def _default_draft(blueprint: "Any", data: dict, **kw: Any) -> dict:
+    """Dead-simple fallback that FAILS CLOSED (ADR-0035).
+
+    A runner must supply a real LLM/rule Draft via `--draft module:function`.
+    The only object we can deterministically stage without a seam is the Source
+    candidate itself; an entity/connection placeholder is not schema-valid and
+    would contaminate the proposal queue, so we refuse.
     """
-    text = (data.get("_extracted_text") or "").strip()
-    bp = blueprint
-    if bp.kind == "source":
-        return data  # the source itself
-    # Entity/connection proposal from extracted text (clearly flagged draft).
-    return {
-        "id": bp.kind == "connection" and "stemma:conn.000000" or "stemma:<domain>.<proposed-slug>",
-        "type": "concept",
-        "name": f"<proposed> {bp.source_ref or ''}".strip(),
-        "domain": "general",
-        "status": "draft",
-        "definition": text[:400] or "<extracted text pending human editing>",
-        "provenance": {
-            "ai_drafted": False,
-            "source": bp.source_ref,
-            "reviewer": None,
-            "reviewed_at": None,
-        },
-        "relationships": [],
-    }
+    if blueprint.kind == "source":
+        return data  # source is schema-valid and needs no LLM draft
+    raise DraftSeamError(
+        "no real Draft seam wired: refusing to stage a non-schema-valid placeholder. "
+        "Pass --draft 'module:function' after providing a real Draft callback."
+    )
 
 
 def _load_seam(spec: str) -> Any:
@@ -75,16 +70,36 @@ def _load_seam(spec: str) -> Any:
 
 
 def stage(doc: Path, *, draft: Any = None, ocr_max_pages: int = ingest._MAX_OCR_PAGES) -> dict:
-    """Ingest a document and stage a proposal dossier under proposals/."""
+    """Ingest a document and stage a proposal dossier under proposals/.
+
+    ADR-0035: without a real Draft seam this refuses to stage (fail closed). With
+    a seam, the deterministic curation gates must pass before a dossier is
+    returned/written; a failing candidate is never silently staged.
+    """
+    if draft is None:
+        raise DraftSeamError(
+            "no real Draft seam wired: refusing to stage a non-schema-valid placeholder. "
+            "Pass --draft 'module:function' after providing a real Draft callback."
+        )
     ex = ingest.extract(doc, ocr_max_pages=ocr_max_pages)
     request = ingest.to_curation_request(ex)
     decision = curation_pipeline.run_pipeline(
         request,
-        draft_callback=draft or _default_draft,
+        draft_callback=draft,
         semantic_review_callback=lambda gate, artifact, bp: curation_pipeline.GateResult(
             gate, "pass", []
         ),
     )
+    if not decision.publishable:
+        failed = [
+            {"gate": g.gate, "findings": g.findings}
+            for g in decision.gates
+            if g.verdict == "fail"
+        ]
+        raise ProposalGateError(
+            f"proposal failed the curation gate; refusing to stage: {failed} "
+            f"(decision: {decision.action} — fix the draft or its source)."
+        )
 
     source = ingest.build_source_candidate(ex)
     dossier = {
@@ -137,9 +152,15 @@ def main(argv: list[str] | None = None) -> int:
 
     doc = Path(args.path).resolve()
     try:
-        draft = _load_seam(args.draft) if args.draft else None
+        if not args.draft:
+            raise DraftSeamError(
+                "no real Draft seam wired: refusing to stage a non-schema-valid "
+                "placeholder. Pass --draft 'module:function' after providing a "
+                "real Draft callback."
+            )
+        draft = _load_seam(args.draft)
         dossier = stage(doc, draft=draft)
-    except ingest.IngestionError as exc:
+    except (ingest.IngestionError, DraftSeamError, ProposalGateError) as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
 

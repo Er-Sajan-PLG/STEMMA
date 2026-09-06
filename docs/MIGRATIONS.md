@@ -19,6 +19,139 @@ Template:
 
 ---
 
+## 2026-09-07 — Provider abstraction: official Antigravity local agent + separate entitlements (ADR-0038)
+- **Tag:** ADR-0038 · **Kind:** webapp tooling (no canonical data change)
+- **Changed:** new `webapp/providers.py` registry; first-class providers
+  `antigravity` (official Antigravity SDK → official CLI `agy`, no API key),
+  `gemini_api` (former `google`), `vertex_ai`, `openai_compatible` (former
+  `openai`/community harness). `webapp/core.py` delegates chat/probe/models/
+  login to the registry. `save_llm_config` accepts and canonicalizes aliases
+  (`google`→`gemini_api`, `openai`→`openai_compatible`) and persists optional
+  `project`/`location`/`transport`/`effort`/`agent`. UI exposes the four
+  providers, Load models, Sign in to Antigravity, and Vertex/transport fields.
+- **Old data:** existing `workflow/config/llm.json` with `provider: google` or
+  `provider: openai` still reads correctly (aliases are canonicalized at read
+  time); no canonical schema/export change.
+- **Consumer impact:** API consumers get canonical provider ids instead of
+  aliases. Antigravity now requires the official local SDK/CLI on the machine
+  running the webapp; it fails closed (no placeholder candidates) otherwise.
+  The webapp server default port is now `8081` (previous `8080`) so it does not
+  collide with common local harness ports such as DeepSeek/Antigravity on
+  `3080`; pass `--port` explicitly to use another.
+
+---
+
+## 2026-09-06 — Phase B trust/review activation (ADR-0037)
+- **Tag:** ADR-0037 · **Kind:** gate + tooling + derived reports (no canonical data change)
+- **Changed:** `validate.py` — canonical assertions require ≥1 evidence item or an explicit
+  axiomatic marker (`ERROR`); active empty-evidence and `related_to`-only reclassifiable
+  edges become advisory `WARNING`s (report remains gate-ERROR-free). New `review_entity.py`
+  (human entity review transitions), `entity_review_campaign.py`, `academic_sources.py`,
+  `relation_triage.py`. `curation_status.*` now include entity review coverage. Child
+  subprocesses in the chain/tests now use `sys.executable` so a venv runner is consistent.
+- **Old data:** no canonical file changes; schema/export versions unchanged (1.1.0/2.1.0).
+- **Consumer impact:** the tracked `reports/validation-report.json` now carries advisory
+  warnings (`WARNING` count >0, `ERROR`=0); consumers reading `results[]` should handle
+  warnings. Exports are byte-identical except for regeneration (no content change).
+
+---
+
+## 2026-09-06 — Rejected lifecycle: `assertion.review.status=rejected` (ADR-0031)
+- **Tag:** ADR-0031 · **Kind:** additive (schema minor, no canonical rewrite)
+- **Changed:** `schema/connection.schema.json` `assertion.review.status` enum gains
+  `rejected`; `schema/VERSION.yaml` `schema_version` `1.0.0 → 1.1.0`; validator adds a hard
+  `ERROR` if a rejected assertion has no written reason; `all` policy (and adapter default)
+  now excludes rejected; `review.py`/`apply_review_decisions.py` keep the record `active` and
+  record rejection in `review_history`; reopen `rejected → unreviewed/proposed` is
+  human-only + reason-required. Export shape is unchanged (stays 2.1.0).
+- **Old data:** no canonical files change. Existing 4 `assertion.status: deprecated`
+  connections are materialized-inverse repairs, not rejections — unchanged. Old 1.0.0 files
+  still validate against old schema; new `1.1.0` is a superset enum.
+- **Consumer impact:** additive enum value. Consumers reading `all` should now treat it as
+  active-and-not-rejected; rejected claims are only in `knowledge.rejected.json`. Regenerate
+  exports with `python3 scripts/validate.py`.
+
+---
+
+## 2026-09-06 — Domain identity gate + `our-environment` path relocation (ADR-0034)
+- **Tag:** ADR-0034 · **Kind:** new gate + single-file path relocation (ID unchanged)
+- **Changed:** new `schema/id-domain-map.yaml` maps id-prefix → domain + content
+  directory; validator hard-errors on id-prefix/domain/path/vocabulary mismatch;
+  `content/earth-space/atmosphere-climate/our-environment.md` moved to
+  `content/physics/thermal-physics/our-environment.md` (its `stemma:phys.our-environment`
+  ID and `domain: physics` were already correct; only the path was wrong).
+- **Old data:** old schema/export unchanged (gate + file move only). The moved file's
+  `id` and `domain` are unchanged, so references (connections, aliases, evidence) are
+  unaffected.
+- **Consumer impact:** none (no contract/ID change; the entity is still exported under
+  `stemma:phys.our-environment`). Regenerate with `python3 scripts/validate.py`.
+
+---
+
+## 2026-09-06 — Ingestion/review webapp (ADR-0036)
+- **Tag:** ADR-0036 · **Kind:** tooling/consumer (no canonical data change)
+- **Changed:** new `webapp/` stdlib web UI (upload → extract → LLM Draft → human review →
+  stage proposal); `workflow/` git-ignored workspace (uploads, extracted text, candidates,
+  staged proposals, LLM config, audit log); `scripts/ingest.py` adds direct text-file
+  extraction (`.txt/.md/.csv/.json/.yaml/.xml/.html`) alongside PDF/image; any other file
+  type is retained and reported `unsupported`; `docs/WEBAPP.md` + ADR-0036; webapp core tests
+  added to the verify chain.
+- **Old data:** no canonical data changed. The webapp consumes existing canonical
+  content read-only and never writes it.
+- **Consumer impact:** none for canonical consumers. A curator uses
+  `python3 webapp/server.py` to review uploads/proposals.
+
+---
+
+## 2026-09-06 — Ingest/proposal correctness: schema-valid source + fail-closed Draft seam (ADR-0035)
+- **Tag:** ADR-0035 · **Kind:** tooling/pipeline correctness (no canonical data change)
+- **Changed:** `scripts/ingest.py` builds a `source.schema.json`-conforming Source
+  candidate (`id`/`type: other`/`citation`/`title`) and pushes extraction metadata into a
+  `CurationRequest.extraction` sidecar (no extraction-only fields on canonical source);
+  `scripts/ingest_to_proposals.py` now **requires** `--draft module:function` (fails closed
+  without a real seam) and refuses to stage a dossier whose deterministic curation gates
+  failed; `scripts/curation_pipeline.py` removes the dead `validate.REL_TYPES` reference and
+  rejects any `relationships` field on an entity draft (ADR-0020/0028). `ingest.py` lazily
+  imports Pillow so text-PDF extraction does not require an image dependency at import time.
+- **Old data:** no canonical files changed. Old placeholder proposals are invalid and should
+  not be staged; the CLI now refuses them.
+- **Consumer impact:** ingest/proposal runners must supply a real Draft seam. Source
+  candidates previously carried extraction-only fields; consumers should read them from the
+  `extraction` sidecar. Regenerate nothing; this is a tooling path.
+
+---
+
+## 2026-09-06 — Machine-readable validation report + `--json` (ADR-0033)
+- **Tag:** ADR-0033 · **Kind:** tooling/report contract (no canonical data change)
+- **Changed:** `reports/validation-report.json` now has `results[]` with
+  `severity/rule/focus/message`, `errors[]/warnings[]/info[]`, `severity_counts`,
+  and version/`content_hash` identity; `scripts/validate.py --json` emits that
+  report as the only stdout content (exit 0/1 retained); warnings are no longer
+  stderr-only; `scripts/integrity_anomalies.py` gains `--json` and `--strict`
+  and stays advisory in `verify_all.py`.
+- **Old data:** the old SHACL-ish `resultSeverity/focusNode/resultMessage`
+  members are superseded by the new members. Consumers of the report should
+  read `results[]`/`errors[]`; the old keys are not carried forward.
+- **Consumer impact:** CI/agents can consume the structured result directly.
+  Regenerate with `python3 scripts/validate.py --json`.
+
+---
+
+## 2026-09-06 — Relation registry + controlled vocabularies in the export (ADR-0032)
+- **Tag:** ADR-0032 · **Kind:** additive (contract minor bump)
+- **Changed:** `exports/knowledge.json` gains optional top-level `relation_registry_version`,
+  `relation_registry` (relation name → family/inverse/transitive/symmetric/domain/range/status)
+  and `vocabularies`; `export_version` `2.0.0 → 2.1.0`. `schema/export.schema.json` updated;
+  `adapters/python/` bootstraps `relations()` / `relation(name)` / `vocabularies` and fails
+  closed on an unknown relation name when the registry is present.
+- **Old data:** canonical YAML unchanged. A `2.0.x` export (no sidecar) still validates and
+  loads with the previous literal-name behavior.
+- **Consumer impact:** additive. Readers that ignore unknown members are unaffected; consumers
+  that want registry semantics now get them from the artifact alone. Regenerate with
+  `python3 scripts/validate.py`.
+
+---
+
 ## 2026-09-04 — Refoundation: `stemma:` namespace, colon-free filenames, contract v2.0.0 (ADR-0027/0028)
 - **Tag:** ADR-0027 / ADR-0028 · **Kind:** breaking (bulk canonical rewrite)
 - **Changed:** every canonical ID `lhs:`→`stemma:` (881 objects; identity fields untouched);

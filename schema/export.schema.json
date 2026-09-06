@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://stemma.example/schema/export.schema.json",
-  "title": "STEMMA export contract v1.0 (exports/knowledge.json)",
-  "description": "Consumer contract for the derived export. v2.0 (ADR-0028): the generated inline entities[].relationships projection is REMOVED — the relationship graph is connections[] only. IDs are stemma:-namespaced (ADR-0027). Enforced by scripts/validate.py before the export is written.",
+  "title": "STEMMA export contract v2.1 (exports/knowledge.json)",
+  "description": "Consumer contract for the derived export. v2.0 (ADR-0028): the generated inline entities[].relationships projection is REMOVED — the relationship graph is connections[] only. IDs are stemma:-namespaced (ADR-0027). v2.1 (ADR-0032): additive optional relation_registry + vocabularies sidecar. Enforced by scripts/validate.py before the export is written.",
   "type": "object",
   "required": [
     "export_version",
@@ -36,6 +36,37 @@
         "string",
         "null"
       ]
+    },
+    "relation_registry_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Semver of schema/relation-registry.yaml (ADR-0032, export v2.1.0). Optional; old readers ignore it."
+    },
+    "relation_registry": {
+      "type": "object",
+      "description": "Relation name -> {family, inverse, transitive, symmetric, domain, range, status}. Optional sidecar (ADR-0032). Consumers MUST fail closed on an unknown relation when this member is present."
+    },
+    "vocabularies": {
+      "type": "object",
+      "description": "Controlled domains/subdomains/regimes/scales mirroring schema/vocabularies/. Optional sidecar (ADR-0032).",
+      "properties": {
+        "domains": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "subdomains": {
+          "type": "object"
+        },
+        "regimes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "scales": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
     },
     "source": {
       "type": "string"

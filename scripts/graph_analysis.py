@@ -29,6 +29,19 @@ def load_registry():
     return yaml.safe_load(REGISTRY.read_text()).get("relations", {})
 
 
+def load_vocabularies():
+    vocab_root = ROOT / "schema" / "vocabularies"
+    domains_path = vocab_root / "domains.yaml"
+    subdomains_path = vocab_root / "subdomains.yaml"
+    regimes_path = vocab_root / "regimes.yaml"
+    return {
+        "domains": (yaml.safe_load(domains_path.read_text()) or {}).get("domains") or [],
+        "subdomains": yaml.safe_load(subdomains_path.read_text()) or {},
+        "regimes": (yaml.safe_load(regimes_path.read_text()) or {}).get("regimes") or [],
+        "scales": (yaml.safe_load(regimes_path.read_text()) or {}).get("scales") or [],
+    }
+
+
 def load_entities():
     ents = {}
     for p in sorted((ROOT / "content").rglob("*.md")):
@@ -216,6 +229,9 @@ def main():
         "schema_version": _versions()["schema_version"],
         "content_hash": base.get("content_hash", "sha256:unknown"),
         "kernel_version": base.get("kernel_version"),
+        "relation_registry_version": _versions().get("relation_registry_version"),
+        "relation_registry": registry,
+        "vocabularies": load_vocabularies(),
         "source": "content/ + connections/ (canonical) + derived",
         "entity_count": len(entities),
         "connection_count": len(conns),

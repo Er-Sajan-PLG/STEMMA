@@ -5,6 +5,10 @@ venv/
 # Proposal staging (ingestion output) — derived working area, never canonical.
 proposals/
 
+# Webapp workflow (uploads, extracted text, generated candidates, staged
+# proposals, LLM provider config) — never canonical, never committed.
+workflow/
+
 # Explorer copy of the derived export (E7.4): synced by explorer/scripts/sync-export.mjs
 # at dev/build time — the validator never writes into explorer/.
 explorer/public/exports/
