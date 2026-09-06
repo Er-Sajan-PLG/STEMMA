@@ -170,6 +170,20 @@ class _Handler(BaseHTTPRequestHandler):
             )
         if path == "/api/config/test":
             return 200, wf.test_llm_provider()
+        if path == "/api/config/models":
+            body = self._read_json_body()
+            return 200, wf.list_provider_models(
+                provider=str(body.get("provider") or "") or None,
+                base_url=str(body.get("base_url") or "") or None,
+                api_key=str(body.get("api_key") or "") or None,
+            )
+        if path == "/api/config/login":
+            body = self._read_json_body()
+            return 200, wf.provider_login(
+                provider=str(body.get("provider") or "") or None,
+                base_url=str(body.get("base_url") or "") or None,
+                api_key=str(body.get("api_key") or "") or None,
+            )
         if path == "/api/documents":
             body = self._read_json_body()
             try:

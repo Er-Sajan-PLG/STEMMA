@@ -183,6 +183,115 @@ def test_parse_openai_fenced_payload():
     print("PASS: OpenAI-compatible fenced JSON parsing")
 
 
+def test_list_provider_models_openai_shape(tmp_path):
+    import threading
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+    class H(BaseHTTPRequestHandler):
+        def do_GET(self):  # noqa: N802
+            if self.path != "/v1/models":
+                self.send_response(404); self.end_headers(); return
+            body = json.dumps({"object": "list", "data": [
+                {"id": "gemini-3-pro", "object": "model"},
+                {"id": "gemini-3.1-pro-high", "object": "model"},
+                {"id": "claude-opus-4-6-thinking", "object": "model"},
+            ]}).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+        def log_message(self, *a): pass
+
+    server = ThreadingHTTPServer(("127.0.0.1", 0), H)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    port = server.server_address[1]
+    try:
+        wf = Workflow(tmp_path / "wf")
+        result = wf.list_provider_models(provider="antigravity",
+                                         base_url=f"http://127.0.0.1:{port}/v1",
+                                         api_key="local-harness-key")
+    finally:
+        server.shutdown()
+    assert result["ok"] is True
+    assert result["count"] == 3
+    assert "gemini-3-pro" in result["models"]
+    assert "claude-opus-4-6-thinking" in result["models"]
+    print("PASS: Antigravity harness model listing")
+
+
+def test_list_provider_models_google_shape(tmp_path):
+    import threading
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+    class H(BaseHTTPRequestHandler):
+        def do_GET(self):  # noqa: N802
+            body = json.dumps({"models": [{"name": "models/gemini-3-pro-preview"},
+                                          {"name": "models/gemini-3-flash"}]}).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+        def log_message(self, *a): pass
+
+    server = ThreadingHTTPServer(("127.0.0.1", 0), H)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    port = server.server_address[1]
+    try:
+        wf = Workflow(tmp_path / "wf2")
+        result = wf.list_provider_models(provider="google",
+                                         base_url=f"http://127.0.0.1:{port}/v1beta",
+                                         api_key="AIza-test")
+    finally:
+        server.shutdown()
+    assert "gemini-3-pro-preview" in result["models"]
+    assert "gemini-3-flash" in result["models"]
+    print("PASS: Google/Gemini model listing")
+
+
+def test_provider_login_antigravity(tmp_path):
+    import threading
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+    class H(BaseHTTPRequestHandler):
+        def do_POST(self):  # noqa: N802
+            body = json.dumps({"url": "https://accounts.google.com/o/oauth2/auth?client=mock",
+                               "message": "Sign in to Google AI Pro"}).encode()
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+        def log_message(self, *a): pass
+
+    server = ThreadingHTTPServer(("127.0.0.1", 0), H)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    port = server.server_address[1]
+    try:
+        wf = Workflow(tmp_path / "wf")
+        result = wf.provider_login(provider="antigravity",
+                                   base_url=f"http://127.0.0.1:{port}/v1",
+                                   api_key="local-harness-key")
+    finally:
+        server.shutdown()
+    assert result["ok"] is True
+    assert "accounts.google.com" in result["url"]
+    assert "Sign in to Google AI Pro" in result["message"]
+    print("PASS: Antigravity harness sign-in URL flow")
+
+
+def test_provider_login_google_explains_key(tmp_path):
+    wf = Workflow(tmp_path / "wf")
+    result = wf.provider_login(provider="google", base_url="https://generativelanguage.googleapis.com/v1beta")
+    assert result["ok"] is False
+    assert "Antigravity / local harness" in result["message"]
+    print("PASS: Google provider sign-in guidance")
+
+
 def test_parse_google_payload():
     raw = {"candidates": [{"content": {"parts": [{"text": "{\"candidates\":[{\"kind\":\"entity\",\"proposal\":{\"id\":\"stemma:phys.test\"}}]}"}]}}]}
     payload = Workflow._parse_google_payload(raw)
@@ -277,6 +386,10 @@ def main() -> int:
         test_google_config_roundtrip(tmp_path)
         test_antigravity_openai_request_shape()
         test_parse_openai_fenced_payload()
+        test_list_provider_models_openai_shape(tmp_path)
+        test_list_provider_models_google_shape(tmp_path)
+        test_provider_login_antigravity(tmp_path)
+        test_provider_login_google_explains_key(tmp_path)
         test_google_request_shape()
         test_parse_google_payload()
         test_llm_chat_google_mock(tmp_path)

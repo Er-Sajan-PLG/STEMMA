@@ -45,6 +45,11 @@ PDFs still require poppler + tesseract OCR). Text-based files
 (`txt/md/csv/json/yaml/xml/html`) are read directly. Unsupported types are
 retained and marked `unsupported` with a reason.
 
+Install the fallback when poppler is unavailable (`pip install pypdf`); CI/gate
+runs should still install `pyyaml jsonschema` and may use either engine. A
+scanned/image-only PDF without poppler reports its status but has no OCR text —
+install `poppler-utils` + `tesseract` on that machine to OCR it.
+
 | Input | Tool | Behavior |
 |-------|------|----------|
 | Text PDF | `pdftotext` (poppler), else `pypdf` | exact text; `is_scanned=False` |

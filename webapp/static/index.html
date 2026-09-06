@@ -35,11 +35,16 @@
           <option value="openai">OpenAI-compatible (any API)</option>
         </select>
       </label>
-      <label>Base URL <input id="cfg-base" placeholder="https://generativelanguage.googleapis.com/v1beta" /></label>
-      <label>Model <input id="cfg-model" placeholder="gemini-3-pro / gemini-3.1-pro-high / gemini-3-pro-preview" /></label>
+      <label>Base URL <input id="cfg-base" placeholder="http://127.0.0.1:6012/v1" /></label>
+      <label>Model
+        <input id="cfg-model" list="cfg-model-list" placeholder="gemini-3-pro / gemini-3.1-pro-high / gemini-3-pro-preview" />
+        <datalist id="cfg-model-list"></datalist>
+      </label>
       <label>API key <input id="cfg-key" type="password" placeholder="AIza… or any local harness key" /></label>
       <div class="row-actions">
         <button class="btn" type="submit">Save</button>
+        <button class="btn" type="button" id="cfg-login">Sign in to Google AI Pro / harness</button>
+        <button class="btn" type="button" id="cfg-models">Load models</button>
         <button class="btn primary" type="button" id="cfg-test">Test provider</button>
       </div>
       <span id="cfg-status" class="status"></span>

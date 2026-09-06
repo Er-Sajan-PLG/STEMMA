@@ -71,9 +71,25 @@ The app only *proposes*; it never generates canonical content.
      with a Bearer key. Defaults: `https://api.openai.com/v1`.
 3. Enter the base URL, model, and API key. Google AI Studio/GenAI API keys
    usually start with `AIza…`.
-4. Save. The config is stored in `workflow/config/llm.json` (git-ignored; the
+4. **Sign in to Google AI Pro / harness** (`POST /api/config/login`): for the
+   Antigravity/local-harness provider the app calls the harness login endpoint
+   (`/api/login`, `/login`) and opens the returned Google/OAuth URL in a new
+   browser tab. It never asks for or stores Google credentials itself. The
+   Google Gemini provider explains that it uses an AI Studio API key instead
+   of an account OAuth.
+5. **Load models** (`POST /api/config/models`): fetches `GET {base_url}/models`
+   from the signed-in harness/Google endpoint and fills the model picker, so
+   you select e.g. `gemini-3-pro`, `gemini-3.1-pro-high`, or
+   `claude-opus-4-6-thinking` just like inside a DeepSeek/agent harness.
+6. Save. The config is stored in `workflow/config/llm.json` (git-ignored; the
    GET summary masks the key). Switching providers requires a fresh key; the
    app never reuses a masked key across providers.
+
+**Reachability rule.** Every provider call is made by the **webapp server**
+(container in the Arena preview), not by your browser. If you are using the
+preview and your Antigravity harness-only lives on `localhost`, either run the
+webapp on the same machine (`python3 webapp/server.py --host 0.0.0.0 --port
+8080`) or tunnel the harness to a public URL and paste that URL into Base URL.
 
 The Draft/LLM step is never auto-run: the app refuses to run until a provider
 is configured (fail closed, ADR-0035), and no placeholder proposal is ever
@@ -107,5 +123,7 @@ written by this app.
 
 `python3 tests/webapp/test_webapp_core.py` verifies: git-ignored workflow dir,
 upload + text extraction, unsupported-type retention, fail-closed generation,
-candidate validation/staging, and connection endpoint resolution. It is part of
+candidate validation/staging, connection endpoint resolution, Google/OpenAI
+request + response parsing with local mocks, Antigravity local-harness model
+listing, and the harness sign-in URL flow. It is part of
 `scripts/verify_all.py`.

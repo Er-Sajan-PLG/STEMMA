@@ -43,8 +43,8 @@ function applyProviderDefaults(provider, force) {
   if (force || !model.value) model.value = (PROVIDER_DEFAULTS[provider] || {}).model || "";
   const hint = document.getElementById("cfg-hint");
   const hints = {
-    antigravity: "Your Antigravity CLI/Gateway or similar harness running locally. API key can be any string; if the app runs elsewhere, put the harness's tunneled/public URL here.",
-    google: "Google AI Studio/GenAI API keys start with AIza… and use the Gemini generateContent endpoint (Gemini 3 Pro powers Antigravity).",
+    antigravity: "Run a harness that is already signed in to your Google AI Pro / Antigravity account (and exposes OpenAI-compatible /v1). Press Sign in to get its login URL, then Load models. In the Arena preview the base URL must be the harness's public/tunneled URL — or run the webapp on the same machine: python3 webapp/server.py --host 0.0.0.0 --port 8080.",
+    google: "Google AI Studio/GenAI API keys start with AIza… and use the Gemini generateContent endpoint. It cannot log in to a Google AI Pro account by itself — use the Antigravity / local harness option for subscription models.",
     openai: "OpenAI-compatible endpoint: POST {base_url}/chat/completions with a Bearer key.",
   };
   hint.textContent = hints[provider] || "";
@@ -82,6 +82,61 @@ async function saveConfig(event) {
     status.className = "status ok";
   } catch (e) {
     status.textContent = e.message;
+    status.className = "status err";
+  }
+}
+
+async function signIn() {
+  const status = document.getElementById("cfg-status");
+  status.textContent = "contacting harness for sign-in…";
+  status.className = "status";
+  try {
+    const res = await api("/api/config/login", {
+      method: "POST",
+      body: JSON.stringify({
+        provider: document.getElementById("cfg-provider").value,
+        base_url: document.getElementById("cfg-base").value,
+        api_key: document.getElementById("cfg-key").value,
+      }),
+    });
+    if (res.ok && res.url) {
+      status.textContent = "Sign-in URL ready — opening it in a new tab. After you sign in, press Load models.";
+      status.className = "status ok";
+      window.open(res.url, "_blank", "noopener");
+    } else {
+      status.textContent = res.message || "No sign-in URL returned.";
+      status.className = "status err";
+    }
+  } catch (e) {
+    status.textContent = `sign-in failed: ${e.message}`;
+    status.className = "status err";
+  }
+}
+
+async function loadModels() {
+  const status = document.getElementById("cfg-status");
+  status.textContent = "loading models from harness…";
+  status.className = "status";
+  try {
+    const res = await api("/api/config/models", {
+      method: "POST",
+      body: JSON.stringify({
+        provider: document.getElementById("cfg-provider").value,
+        base_url: document.getElementById("cfg-base").value,
+        api_key: document.getElementById("cfg-key").value,
+      }),
+    });
+    const datalist = document.getElementById("cfg-model-list");
+    clear(datalist);
+    (res.models || []).forEach((m) => {
+      const opt = document.createElement("option");
+      opt.value = m;
+      datalist.appendChild(opt);
+    });
+    status.textContent = `Loaded ${res.count} models from ${res.provider} — pick one above.`;
+    status.className = "status ok";
+  } catch (e) {
+    status.textContent = `load models failed: ${e.message}`;
     status.className = "status err";
   }
 }
@@ -323,6 +378,8 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("settings-form").onsubmit = saveConfig;
   document.getElementById("cfg-provider").onchange = (e) => applyProviderDefaults(e.target.value, true);
   document.getElementById("cfg-test").onclick = testConfig;
+  document.getElementById("cfg-login").onclick = signIn;
+  document.getElementById("cfg-models").onclick = loadModels;
   const input = document.getElementById("file-input");
   const drop = document.getElementById("drop");
   drop.onclick = () => input.click();

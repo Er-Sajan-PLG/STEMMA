@@ -211,7 +211,8 @@ class Workflow:
         if not config["configured"]:
             raise ProviderNotConfigured(
                 "No LLM Draft provider configured. Open Settings, pick a provider "
-                "(Google Gemini / OpenAI-compatible), enter base URL, model, API key, then retry."
+                "(Antigravity/local harness, Google Gemini, or OpenAI-compatible), "
+                "enter base URL, model, API key, then retry."
             )
         try:
             payload = self._llm_chat(config, 'Return ONLY this JSON object: {"candidates": []}')
@@ -219,6 +220,133 @@ class Workflow:
             return {"ok": False, "provider": config.get("provider"), "error": str(exc)}
         return {"ok": True, "provider": config.get("provider"), "model": config.get("model"),
                 "keys": sorted((payload or {}).keys())[:8]}
+
+    def list_provider_models(self, *, provider: str | None = None,
+                             base_url: str | None = None,
+                             api_key: str | None = None) -> dict:
+        """List models exposed by a signed-in harness.
+
+        ``antigravity``/``openai`` use an OpenAI-compatible ``GET {base_url}/models``;
+        ``google`` uses ``GET {base_url}/models`` with ``x-goog-api-key``. This is
+        how a DeepSeek/agent-style harness is expected to expose its models, so the
+        webapp can offer a real model picker instead of hand-typed ids.
+        """
+        import urllib.error
+        import urllib.request
+
+        cfg = self.read_llm_config()
+        provider = (provider or cfg.get("provider") or "antigravity").strip().lower()
+        endpoint = (base_url or cfg.get("base_url") or "").strip().rstrip("/")
+        key = (api_key or cfg.get("api_key") or "").strip()
+        # The UI posts the masked value back; fall back to the saved secret.
+        if key.startswith("••••"):
+            key = cfg.get("api_key") or ""
+        if not endpoint:
+            raise WebappError("base_url is required to list models")
+
+        headers = {"Content-Type": "application/json"}
+        if provider == "google":
+            headers["x-goog-api-key"] = key
+        else:
+            headers["Authorization"] = f"Bearer {key}"
+        request = urllib.request.Request(f"{endpoint}/models", headers=headers, method="GET")
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                data = json.loads(response.read().decode("utf-8"))
+        except urllib.error.HTTPError as exc:
+            body = exc.read().decode("utf-8")[:300]
+            raise ProviderError(f"listing models failed: HTTP {exc.code}: {body}") from exc
+        except Exception as exc:  # noqa: BLE001
+            raise ProviderError(f"listing models failed: {exc}") from exc
+
+        raw_ids: list[str] = []
+        if isinstance(data, list):  # some harnesses return a bare id array
+            raw_ids = [str(x) for x in data]
+        elif isinstance(data.get("data"), list):  # OpenAI-compatible
+            raw_ids = [str(m.get("id") or m.get("name") or "") for m in data["data"] if isinstance(m, dict)]
+        elif isinstance(data.get("models"), list):  # Google Generative Language
+            for m in data["models"]:
+                name = m.get("name") if isinstance(m, dict) else str(m)
+                raw_ids.append(str(name).rsplit("/", 1)[-1])
+        models = sorted({x for x in raw_ids if x})
+        if not models:
+            raise ProviderError("provider returned no models")
+        return {"ok": True, "provider": provider, "count": len(models), "models": models}
+
+    def provider_login(self, *, provider: str | None = None,
+                       base_url: str | None = None,
+                       api_key: str | None = None) -> dict:
+        """Try to start a sign-in flow on an Antigravity-style local harness.
+
+        Local harnesses (antigravity-cli and similar) expose a login endpoint that
+        returns an OAuth/Google login ``url``. The webapp cannot hold Google
+        credentials itself; it only hands the user the URL from their own harness
+        and then lets them pick the resulting models with ``list_provider_models``.
+        """
+        import urllib.error
+        import urllib.request
+
+        cfg = self.read_llm_config()
+        provider = (provider or cfg.get("provider") or "antigravity").strip().lower()
+        endpoint = (base_url or cfg.get("base_url") or "").strip().rstrip("/")
+        key = (api_key or cfg.get("api_key") or "").strip()
+        if key.startswith("••••"):
+            key = cfg.get("api_key") or ""
+
+        if provider == "google":
+            return {
+                "ok": False,
+                "provider": provider,
+                "message": (
+                    "The Google Gemini provider uses an AI Studio/GenAI API key "
+                    "and cannot log in to a Google AI Pro account by itself. To use "
+                    "your Google AI Pro models inside Antigravity, choose "
+                    "'Antigravity / local harness', run a harness that signs in with "
+                    "your Google account, then press Sign in here and Load models."
+                ),
+            }
+        if not endpoint:
+            raise WebappError("base_url is required to sign in to a harness")
+
+        errors: list[str] = []
+        for path in ("/api/login", "/login"):
+            url = f"{endpoint}{path}"
+            method = "POST" if path == "/api/login" else "GET"
+            headers = {"Content-Type": "application/json"}
+            if provider != "google" and key:
+                headers["Authorization"] = f"Bearer {key}"
+            request = urllib.request.Request(url, data=b"{}" if method == "POST" else None,
+                                             headers=headers, method=method)
+            try:
+                with urllib.request.urlopen(request, timeout=20) as response:
+                    raw = response.read()
+                text = raw.decode("utf-8", "replace").strip()
+                try:
+                    data = json.loads(text)
+                    result = data.get("url") or data.get("authorization_url") or \
+                        data.get("login_url") or data.get("auth_url")
+                    if isinstance(result, str) and result.startswith("http"):
+                        return {"ok": True, "provider": provider, "url": result,
+                                "message": str(data.get("message") or "Open the sign-in URL in your browser.")}
+                except json.JSONDecodeError:
+                    pass
+                if text.startswith("http"):
+                    return {"ok": True, "provider": provider, "url": text,
+                            "message": "Open the sign-in URL in your browser."}
+            except urllib.error.HTTPError as exc:
+                errors.append(f"{path}: HTTP {exc.code}")
+            except Exception as exc:  # noqa: BLE001
+                errors.append(f"{path}: {exc}")
+        return {
+            "ok": False,
+            "provider": provider,
+            "message": (
+                "No login URL discovered on this harness endpoint. If your harness "
+                "has a web dashboard/CLI, open it directly or run its login command "
+                "first (e.g. `node index.js login` for antigravity-cli) then press "
+                "Load models. Candidate paths tried: " + "; ".join(errors)
+            ),
+        }
 
     def list_documents(self) -> list[dict]:
         records = [self._read_meta(path) for path in sorted(self.meta.glob("*.json"))]
