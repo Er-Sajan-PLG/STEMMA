@@ -53,7 +53,7 @@ function applyProviderDefaults(provider, force) {
   if (ag) ag.classList.toggle("hidden", provider !== "antigravity");
   const hint = document.getElementById("cfg-hint");
   const hints = {
-    antigravity: "Official Google Antigravity local agent: uses the Antigravity SDK (google.antigravity) when installed, otherwise the Antigravity CLI (agy). It uses your locally signed-in Google AI Pro / Antigravity session — no Gemini API key. Install/authenticate agy or the SDK on the machine that runs the webapp server (run `python3 webapp/server.py --port 8080` on that machine if you use Arena preview).",
+    antigravity: "Official Google Antigravity local agent: uses the Antigravity SDK (google.antigravity) when installed, otherwise the Antigravity CLI (agy). It uses your locally signed-in Google AI Pro / Antigravity session — no Gemini API key. Install/authenticate agy or the SDK on the machine that runs the webapp server (run `python3 webapp/server.py --port 8081` on that machine if you use Arena preview).",
     gemini_api: "Official Gemini Developer API. Keys start with AIza… and use a separate paid/free entitlement — it is NOT your Antigravity subscription.",
     vertex_ai: "Official Vertex AI on your own GCP project (ADC or Vertex key). Separate from Antigravity and from the consumer Gemini key.",
     openai_compatible: "Community harness/bridge or any OpenAI-compatible endpoint. NOT an Antigravity/Google AI Pro entitlement path.",

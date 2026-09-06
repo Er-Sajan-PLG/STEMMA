@@ -35,16 +35,18 @@ upload ──► extract ──► draft (LLM seam, optional) ──► human re
 
 ```bash
 # From the repo root
-python3 webapp/server.py --host 0.0.0.0 --port 8080
+python3 webapp/server.py --host 0.0.0.0 --port 8081
 ```
 
-Open `http://localhost:8080` (or the platform's preview URL). It binds to
-`0.0.0.0` so it can be used in the arena preview.
+Open `http://localhost:8081` (or the platform's preview URL). It binds to
+`0.0.0.0` so it can be used in the arena preview. The default port is `8081`
+so it does not collide with common local harness ports such as DeepSeek/Antigravity
+harnesses on `3080`.
 
 To use a different workflow directory:
 
 ```bash
-STEMMA_WORKFLOW_DIR=/tmp/stemma-workflow python3 webapp/server.py --port 8080
+STEMMA_WORKFLOW_DIR=/tmp/stemma-workflow python3 webapp/server.py --port 8081
 ```
 
 ## LLM Draft provider abstraction
@@ -71,7 +73,7 @@ never carries ambiguous ids.
 ### Using Antigravity (official, no key)
 
 1. Run the webapp **on the same machine** as your Antigravity login
-   (`python3 webapp/server.py --host 0.0.0.0 --port 8080`), or ensure
+   (`python3 webapp/server.py --host 0.0.0.0 --port 8081`), or ensure
    `agy` / `google.antigravity` is installed on the host running the server.
 2. In **LLM Draft settings** select **Antigravity (official local agent)**.
 3. Press **Sign in to Google AI Pro / harness**. For the official provider this

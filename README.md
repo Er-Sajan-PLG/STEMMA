@@ -61,7 +61,7 @@ python3 scripts/validate.py          # validate canonical data + regenerate the 
 ```
 
 Exit code `0` = valid. To explore visually: `npm --prefix explorer run dev`.
-For document ingestion/review: `python3 webapp/server.py --port 8080`
+For document ingestion/review: `python3 webapp/server.py --port 8081`
 (see [`docs/WEBAPP.md`](docs/WEBAPP.md)). The webapp's Draft seam is a
 provider abstraction (`webapp/providers.py`): the default **Antigravity**
 provider uses the official Antigravity SDK or `agy` CLI on the webapp host with

@@ -35,6 +35,9 @@ Template:
 - **Consumer impact:** API consumers get canonical provider ids instead of
   aliases. Antigravity now requires the official local SDK/CLI on the machine
   running the webapp; it fails closed (no placeholder candidates) otherwise.
+  The webapp server default port is now `8081` (previous `8080`) so it does not
+  collide with common local harness ports such as DeepSeek/Antigravity on
+  `3080`; pass `--port` explicitly to use another.
 
 ---
 

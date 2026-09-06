@@ -6,7 +6,7 @@ ingestion workflow. It serves a single-page UI and a small JSON API over
 ``webapp.core.Workflow``. It never writes canonical knowledge.
 
 Run:
-    python3 webapp/server.py --host 0.0.0.0 --port 8080
+    python3 webapp/server.py --host 0.0.0.0 --port 8081
 """
 from __future__ import annotations
 
@@ -297,7 +297,7 @@ def _decode_base64(value: str) -> bytes:
     return base64.b64decode(value, validate=True)
 
 
-def serve(*, host: str = "0.0.0.0", port: int = 8080, workflow: Workflow | None = None) -> _Server:
+def serve(*, host: str = "0.0.0.0", port: int = 8081, workflow: Workflow | None = None) -> _Server:
     wf = workflow or Workflow()
     handler = type("StemmaWebHandler", (_Handler,), {"workflow": wf})
     return _Server((host, port), handler)
@@ -306,7 +306,7 @@ def serve(*, host: str = "0.0.0.0", port: int = 8080, workflow: Workflow | None 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="STEMMA ingestion/review webapp")
     parser.add_argument("--host", default="0.0.0.0")
-    parser.add_argument("--port", type=int, default=8080)
+    parser.add_argument("--port", type=int, default=8081)
     parser.add_argument("--workflow", default=None, help="workflow dir (default: workflow/ under repo)")
     parser.add_argument("--open-and-exit", action="store_true", help="smoke-test then exit")
     args = parser.parse_args(argv)
