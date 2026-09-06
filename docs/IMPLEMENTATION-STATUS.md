@@ -23,6 +23,7 @@ Claims here are backed by the verification chain, not by older documents.
 | Review state machine + campaign worksheets for human review | `review.py`, `curation_state.py`, `apply_review_decisions.py`, `dependency_review_campaign.py` |
 | Rejected lifecycle (schema 1.1.0): `review.status=rejected`, reason-required gate, `all` excludes rejected, human-only reopen | `schema/connection.schema.json`, `validate.py`, `graph_policy.py`, `review.py`, `apply_review_decisions.py`, adapter |
 | Ingestion pipeline (PDF/image/OCR → staged proposals; schema-valid source + extraction sidecar; fail-closed Draft seam; gate-before-stage) | `ingest.py`, `ingest_to_proposals.py`, `curation_pipeline.py`, `tests/curation/test_ingest*.py` |
+| Ingestion/review webapp (stdlib UI, any-file upload, best-effort extraction, LLM Draft seam, human-only staging, audit trail) | `webapp/`, `docs/WEBAPP.md`, `tests/webapp/test_webapp_core.py` |
 | Extension registry + agent registry (gate-resolved) | `schema/*-registry.yaml` |
 | 3-D explorer reading only the export, trust-annotated, contract-pinned | `explorer/` (`npm run verify`) |
 | First-party read-only Python adapter (SDK, CLI, local JSON API), export-major pinned and policy-mirroring | `adapters/python/`, `adapters/python/tests/test_adapter.py` |

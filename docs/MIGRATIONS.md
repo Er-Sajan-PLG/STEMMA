@@ -51,6 +51,21 @@ Template:
 
 ---
 
+## 2026-09-06 — Ingestion/review webapp (ADR-0036)
+- **Tag:** ADR-0036 · **Kind:** tooling/consumer (no canonical data change)
+- **Changed:** new `webapp/` stdlib web UI (upload → extract → LLM Draft → human review →
+  stage proposal); `workflow/` git-ignored workspace (uploads, extracted text, candidates,
+  staged proposals, LLM config, audit log); `scripts/ingest.py` adds direct text-file
+  extraction (`.txt/.md/.csv/.json/.yaml/.xml/.html`) alongside PDF/image; any other file
+  type is retained and reported `unsupported`; `docs/WEBAPP.md` + ADR-0036; webapp core tests
+  added to the verify chain.
+- **Old data:** no canonical data changed. The webapp consumes existing canonical
+  content read-only and never writes it.
+- **Consumer impact:** none for canonical consumers. A curator uses
+  `python3 webapp/server.py` to review uploads/proposals.
+
+---
+
 ## 2026-09-06 — Ingest/proposal correctness: schema-valid source + fail-closed Draft seam (ADR-0035)
 - **Tag:** ADR-0035 · **Kind:** tooling/pipeline correctness (no canonical data change)
 - **Changed:** `scripts/ingest.py` builds a `source.schema.json`-conforming Source

@@ -44,6 +44,7 @@ its enforcement (validator rule and/or test) in the same change set.
 | 0033 | [0033-validation-report.md](0033-validation-report.md) | Machine-readable validation report + `--json`; advisory anomalies | decided & implemented |
 | 0034 | [0034-domain-identity.md](0034-domain-identity.md) | Domain identity enforcement (`id-domain-map.yaml`, hard gate, path relocation) | decided & implemented |
 | 0035 | [0035-ingest-proposal-correctness.md](0035-ingest-proposal-correctness.md) | Ingest/proposal correctness (schema-valid source, fail-closed Draft seam, gate-before-stage) | decided & implemented |
+| 0036 | [0036-ingestion-review-webapp.md](0036-ingestion-review-webapp.md) | Stdlib ingestion/review webapp with git-ignored workflow + human-only staging | decided & implemented |
 
 ## Historical note
 

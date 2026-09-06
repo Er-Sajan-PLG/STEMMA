@@ -34,6 +34,9 @@ from typing import Any
 # Image formats we can OCR directly.
 _IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp", ".webp"}
 
+# Text-based formats that can be read directly without extraction tooling.
+_TEXT_EXTS = {".txt", ".md", ".csv", ".json", ".yaml", ".yml", ".xml", ".html", ".htm"}
+
 # A conservative per-page OCR cap to bound memory for arbitrarily large scanned PDFs.
 _MAX_OCR_PAGES = 500
 
@@ -70,7 +73,9 @@ def detect_kind(path: Path) -> str:
         return "pdf"
     if ext in _IMAGE_EXTS:
         return "image"
-    raise IngestionError(f"unsupported document type: {ext!r} (supported: .pdf, {', '.join(sorted(_IMAGE_EXTS))})")
+    if ext in _TEXT_EXTS:
+        return "text"
+    raise IngestionError(f"unsupported document type: {ext!r} (supported: .pdf, {', '.join(sorted(_IMAGE_EXTS))}, {', '.join(sorted(_TEXT_EXTS))})")
 
 
 # --------------------------------------------------------------------------- #
@@ -194,16 +199,44 @@ def extract_image(path: Path) -> Extraction:
 
 
 # --------------------------------------------------------------------------- #
+# Text file extraction
+# --------------------------------------------------------------------------- #
+
+def extract_text_file(path: Path) -> Extraction:
+    """Read a text-based document's contents directly (no OCR/extraction tooling).
+
+    CSV/JSON are `kind: text`; the extracted text is a plaintext rendering of the
+    content so a Draft seam can propose entities/connections from it.
+    """
+    try:
+        raw = path.read_bytes()
+    except OSError as exc:
+        raise IngestionError(f"cannot read text file {path}: {exc}") from exc
+    try:
+        text = raw.decode("utf-8")
+    except UnicodeDecodeError:
+        # Best-effort: a single-byte fallback so Latin-1/locale text still
+        # extracts without crashing; the request records it as ocr_used=False.
+        text = raw.decode("latin-1")
+    return Extraction(
+        kind="text", text=text, pages=0, is_scanned=False,
+        ocr_used=False, source_name=path.name,
+    )
+
+
+# --------------------------------------------------------------------------- #
 # Unified entry point + candidate construction
 # --------------------------------------------------------------------------- #
 
 def extract(path: Path, *, ocr_max_pages: int = _MAX_OCR_PAGES) -> Extraction:
-    """Extract text from a PDF/image/scanned document. General-purpose entry point."""
+    """Extract text from a PDF/image/scanned/text document. General-purpose entry point."""
     if not path.exists() or not path.is_file():
         raise IngestionError(f"not a file: {path}")
     kind = detect_kind(path)
     if kind == "pdf":
         return extract_pdf(path, ocr_max_pages=ocr_max_pages)
+    if kind == "text":
+        return extract_text_file(path)
     return extract_image(path)
 
 

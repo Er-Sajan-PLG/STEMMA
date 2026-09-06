@@ -1,11 +1,13 @@
 # STEMMA Knowledge Ingestion — from document to review-ready proposal
 
-**Status:** Implemented. **Scope:** extract knowledge from any-size PDFs, images, and
-scanned docs and stage *review-ready candidate* content (source + proposed entities/
-connections) for the canonical knowledge graph. Nothing becomes canonical automatically.
+**Status:** Implemented. **Scope:** extract knowledge from any-size PDFs, images,
+scanned docs, and text-based documents and stage *review-ready candidate* content
+(source + proposed entities/connections) for the canonical knowledge graph. Nothing
+becomes canonical automatically.
 
-Related: `scripts/ingest.py`,
-`scripts/curation_pipeline.py`, `scripts/ingest_to_proposals.py`.
+Related: `scripts/ingest.py`, `scripts/curation_pipeline.py`,
+`scripts/ingest_to_proposals.py`, and the interactive
+[Ingestion & Review webapp](WEBAPP.md) (`webapp/`).
 
 ---
 
@@ -87,9 +89,23 @@ print(dec.action)   # request_review — human must `review.py canonicalize` it
 PY
 ```
 
-## Review gate (next step, per user)
+## Interactive review (webapp)
+
+For a visual upload → extract → draft → human-review → stage-proposal loop, run the
+[Ingestion & Review webapp](WEBAPP.md):
+
+```bash
+python3 webapp/server.py --host 0.0.0.0 --port 8080
+```
+
+The webapp keeps every artifact under git-ignored `workflow/`, uses the same fail-closed
+Draft seam policy (the LLM provider is configured in the UI, not committed), and never
+writes to `content/`/`connections/`/`sources/`.
+
+## Review gate
 
 A human-review/merge-gate system so that "not anyone can update the knowledge graph by
 merging" is the intended follow-up: branch/PR-based proposals + a human reviewer that
-approves before canonicalization, enforced in the merge path. This ingestion layer is the
-front half of that flow.
+approves before canonicalization, enforced in the merge path. The webapp's staged proposals
+are the input to that gate; the canonical write is still a separate human +
+`scripts/review.py` + `scripts/verify_all.py` decision.

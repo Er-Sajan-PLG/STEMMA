@@ -37,11 +37,26 @@ def test_detect_kind():
     assert ingest.detect_kind(Path("doc.pdf")) == "pdf"
     assert ingest.detect_kind(Path("img.PNG")) == "image"
     assert ingest.detect_kind(Path("scan.tiff")) == "image"
+    assert ingest.detect_kind(Path("notes.txt")) == "text"
+    assert ingest.detect_kind(Path("notes.md")) == "text"
+    assert ingest.detect_kind(Path("data.json")) == "text"
     try:
-        ingest.detect_kind(Path("notes.txt"))
+        ingest.detect_kind(Path("report.xyz"))
         raise AssertionError("expected unsupported-type error")
     except ingest.IngestionError:
         pass
+
+
+def test_extract_from_text_file(tmp_path: pathlib.Path):
+    p = tmp_path / "notes.md"
+    p.write_text("# Physics\nForce equals mass times acceleration.\n", encoding="utf-8")
+    ex = ingest.extract(p)
+    assert ex.kind == "text"
+    assert ex.pages == 0
+    assert ex.ocr_used is False
+    assert "Force equals mass times acceleration" in ex.text
+    assert ex.source_name == "notes.md"
+    print("PASS: direct text-file extraction")
 
 
 def test_extract_text_from_text_pdf(tmp_path: pathlib.Path):
@@ -212,6 +227,7 @@ if __name__ == "__main__":
         _tmp_p = pathlib.Path(_tmp)
         fns = [
             test_detect_kind,
+            (test_extract_from_text_file, _tmp_p),
             (test_extract_text_from_text_pdf, _tmp_p),
             (test_extract_from_image, _tmp_p),
             (test_extract_scanned_pdf, _tmp_p),

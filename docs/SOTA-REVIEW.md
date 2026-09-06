@@ -276,6 +276,33 @@ example; `--draft` documented required), `tests/curation/test_ingest.py`,
 `test_ingest_to_proposals.py`, `test_curation_pipeline.py` (now in the chain),
 ADR-0035 (ingest/proposal contract).
 
+### Decided: human-in-the-loop ingestion/review webapp (2026-09-06, ADR-0036)
+
+The ingest path still had no human-facing review surface. **Implemented 2026-09-06
+(ADR-0036)**:
+
+1. **Stdlib only**: plain Python `http.server` + HTML/JS single page; no new
+   runtime dependency (no Flask/Node/DB).
+2. **Any file upload retained**: PDF/image/text extracted best-effort;
+   unsupported types remain stored and show `unsupported` with a reason.
+3. **The Draft seam is user-configured** (OpenAI-compatible `base_url`, model,
+   API key stored in git-ignored `workflow/config/llm.json`). The webapp refuses
+   to run the LLM until configured; it never canonicalizes output.
+4. **Human review before stage**: extracted text + proposed candidates +
+   deterministic validation findings are shown; the reviewer edits/deletes each
+   candidate, then records a named reviewer + optional note. Staging only
+   accepts candidates with no deterministic findings.
+5. **Canonical boundary stays absolute**: everything lives in git-ignored
+   `workflow/`; `content/`, `connections/`, `sources/` are read-only from the
+   app. Staged proposal dossiers carry an explicit `destination` note that the
+   canonical write is a later human + `scripts/review.py` +
+   `scripts/verify_all.py` step.
+
+**Consequences implemented:** `webapp/` (core, stdlib server, static UI),
+`scripts/ingest.py` text-file extraction, `workflow/` git-ignored,
+`tests/webapp/test_webapp_core.py` in `verify_all.py`, `docs/WEBAPP.md`,
+ADR-0036.
+
 ### Open threads
 
 Recorded so the review can be continued by any agent without re-deriving the

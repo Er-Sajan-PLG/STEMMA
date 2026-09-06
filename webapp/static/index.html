@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>STEMMA Ingestion &amp; Review</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <h1>STEMMA Ingestion &amp; Review</h1>
+      <p class="subtitle">Human-in-the-loop proposal engineering. Nothing here writes to canonical knowledge.</p>
+    </div>
+    <button id="settings-toggle" class="btn ghost">LLM Draft settings</button>
+  </header>
+
+  <section class="lane">
+    <span class="lane-step">1. Upload</span><span class="arrow">→</span>
+    <span class="lane-step">2. Extract</span><span class="arrow">→</span>
+    <span class="lane-step">3. Draft</span><span class="arrow">→</span>
+    <span class="lane-step">4. Review</span><span class="arrow">→</span>
+    <span class="lane-step">5. Stage proposal</span><span class="arrow">→</span>
+    <span class="lane-step locked">Canonical (human gate only)</span>
+  </section>
+
+  <section id="settings" class="card hidden">
+    <h2>LLM Draft provider</h2>
+    <p>Used only to <em>propose</em> candidates. The API key never leaves this repo's git-ignored <code>workflow/config/llm.json</code>.</p>
+    <form id="settings-form">
+      <label>Base URL <input id="cfg-base" placeholder="https://api.openai.com/v1" /></label>
+      <label>Model <input id="cfg-model" placeholder="gpt-4o-mini" /></label>
+      <label>API key <input id="cfg-key" type="password" placeholder="sk-…" /></label>
+      <button class="btn" type="submit">Save</button>
+      <span id="cfg-status" class="status"></span>
+    </form>
+  </section>
+
+  <main class="grid">
+    <section class="card">
+      <h2>Upload a document</h2>
+      <p class="hint">Any file is kept. PDF/image/text are extracted automatically where tooling is available; others show as <em>unsupported</em>.</p>
+      <label id="drop" class="drop" for="file-input">Drop a file here or click to choose. All types accepted.</label>
+      <input id="file-input" type="file" hidden />
+      <p id="upload-status" class="status"></p>
+    </section>
+
+    <section class="card">
+      <h2>Documents</h2>
+      <div id="docs" class="list"></div>
+    </section>
+  </main>
+
+  <section id="document-panel" class="card hidden">
+    <h2 id="doc-title">Document</h2>
+    <div id="doc-meta" class="meta-grid"></div>
+    <h3>Extracted text</h3>
+    <pre id="doc-text" class="textpre"></pre>
+    <h3>Candidates for review</h3>
+    <div id="candidates" class="list"></div>
+  </section>
+
+  <section class="card">
+    <h2>Staged proposals <span class="hint">destination: content/ | connections/ | sources/ — NOT written by this app</span></h2>
+    <div id="proposals" class="list"></div>
+  </section>
+
+  <section class="card">
+    <h2>Audit trail</h2>
+    <div id="audit" class="list monospace"></div>
+  </section>
+
+  <template id="candidate-template">
+    <article class="candidate">
+      <div class="candidate-head">
+        <strong data-kind></strong>
+        <span class="badge" data-status></span>
+      </div>
+      <div class="candidate-body" data-body></div>
+      <div class="candidate-actions">
+        <button class="btn sm" data-edit>Edit</button>
+        <button class="btn sm primary" data-stage>Stage for human review</button>
+        <button class="btn sm danger" data-delete>Delete</button>
+      </div>
+    </article>
+  </template>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

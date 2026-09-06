@@ -26,6 +26,7 @@ is the release gate.
 | **Relationship integrity** | Triples immutable from git history; no re-assertion of edited claims; supersession rules | `tests/curation/test_connection_immutability.py`, `tests/curation/test_id_immutability.py` |
 | **Metadata semantics** | Polarity/confidence/timestamp/evidence contracts; no fabricated timestamps; strict duplicate-key rejection; extension registry; historical attribution | `tests/metadata/` |
 | **Pipeline tests** | Ingestion never writes canonical; curation pipeline can't canonicalize; validator idempotence on a clean tree | `tests/curation/test_ingest.py`, `test_curation_pipeline.py`, `tests/phase-b/` |
+| **Webapp core** | Git-ignored workflow; upload + text extraction; unsupported-type retention; fail-closed LLM provider; candidate validation/staging; connection endpoint resolution | `tests/webapp/test_webapp_core.py` |
 | **Domain invariants** | Curriculum-agnosticism of content (generality) with scientific-terminology awareness | `tests/curation/test_generality.py`, `tests/phase-b/test_boundary.py` |
 | **Provenance tests** | Agent registry resolution; `external_ids` formats; consumer docs state the current export version | `tests/provenance/` |
 | **Determinism/compatibility** | Byte-identical regeneration; export conforms to contract; contract rejects missing members | `tests/versioning/` |
@@ -42,8 +43,8 @@ analysis → review-aware exports → curation status → phase-b domain/boundar
 tests → registry coherence → validation-report/contract + deterministic export
 tests → curation tests → generality → id-immutability → provenance/agent tests
 → claim-identity → connection-immutability → campaign determinism →
-git-history immutability guard → Python adapter integration tests →
-repository-integrity tests.
+git-history immutability guard → Python adapter integration tests → webapp core
+tests → repository-integrity tests.
 
 The validator report is deterministic (ADR-0033): `validate.py --json` emits
 `reports/validation-report.json` to stdout as the only stdout content; exit

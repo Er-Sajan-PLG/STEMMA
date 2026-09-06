@@ -262,18 +262,19 @@ v1.0.
 5. T4 ingest correctness (fail-closed, schema-valid proposals). ✅ done (ADR-0035)
 
 ### Phase B — trust and review activation (the product)
-6. R2 evidence gate + source backfill report.
-7. R6 entity review tooling + entity review campaign.
-8. R4 relation-triage report (derived, not gating).
+6. Human-in-the-loop ingestion/review webapp (upload → extract → LLM Draft → review → staged proposal; canonical untouched). ✅ done (ADR-0036)
+7. R2 evidence gate + source backfill report.
+8. R6 entity review tooling + entity review campaign.
+9. R4 relation-triage report (derived, not gating).
 
 ### Phase C — scientific substance
-9. R3 ADR-0024 decision + math schema/validator + mechanics pilot.
-10. R5 taxonomy versioning + entity `subdomain` (rides with T1 vocabularies).
+10. R3 ADR-0024 decision + math schema/validator + mechanics pilot.
+11. R5 taxonomy versioning + entity `subdomain` (rides with T1 vocabularies).
 
 ### Phase D — hygiene (small, parallel)
-11. R8 dead/stale cleanup.
-12. R7 release-check script.
-13. Documentation + ADRs + the requested **agent skills / AGENTS.md contract** +
+12. R8 dead/stale cleanup.
+13. R7 release-check script.
+14. Documentation + ADRs + the requested **agent skills / AGENTS.md contract** +
     **end-to-end vertical proof**.
 
 ---

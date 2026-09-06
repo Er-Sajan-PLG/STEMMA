@@ -35,6 +35,7 @@ steps = [
     ["python3", str(ROOT / "tests/curation/test_curation_pipeline.py")],
     ["python3", str(ROOT / "tests/curation/test_ingest.py")],
     ["python3", str(ROOT / "tests/curation/test_ingest_to_proposals.py")],
+    ["python3", str(ROOT / "tests/webapp/test_webapp_core.py")],
     ["python3", str(ROOT / "tests/curation/test_generality.py")],
     ["python3", str(ROOT / "tests/curation/test_id_immutability.py")],
     ["python3", str(ROOT / "tests/metadata/test_metadata_semantics.py")],
