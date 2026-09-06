@@ -31,6 +31,7 @@ function jsonPre(obj) {
 }
 
 const PROVIDER_DEFAULTS = {
+  antigravity: { base_url: "http://127.0.0.1:6012/v1", model: "gemini-3-pro" },
   google: { base_url: "https://generativelanguage.googleapis.com/v1beta", model: "gemini-3-pro-preview" },
   openai: { base_url: "https://api.openai.com/v1", model: "gpt-4o-mini" },
 };
@@ -41,15 +42,18 @@ function applyProviderDefaults(provider, force) {
   if (force || !base.value) base.value = (PROVIDER_DEFAULTS[provider] || {}).base_url || "";
   if (force || !model.value) model.value = (PROVIDER_DEFAULTS[provider] || {}).model || "";
   const hint = document.getElementById("cfg-hint");
-  hint.textContent = provider === "google"
-    ? "Google AI Studio/GenAI API keys start with AIza… and use the Gemini generateContent endpoint (Gemini 3 Pro powers Antigravity)."
-    : "OpenAI-compatible endpoint: POST {base_url}/chat/completions with a Bearer key.";
+  const hints = {
+    antigravity: "Your Antigravity CLI/Gateway or similar harness running locally. API key can be any string; if the app runs elsewhere, put the harness's tunneled/public URL here.",
+    google: "Google AI Studio/GenAI API keys start with AIza… and use the Gemini generateContent endpoint (Gemini 3 Pro powers Antigravity).",
+    openai: "OpenAI-compatible endpoint: POST {base_url}/chat/completions with a Bearer key.",
+  };
+  hint.textContent = hints[provider] || "";
 }
 
 async function loadConfig() {
   try {
     const cfg = await api("/api/config");
-    const provider = (cfg.provider || "google");
+    const provider = (cfg.provider || "antigravity");
     document.getElementById("cfg-provider").value = provider;
     document.getElementById("cfg-base").value = cfg.base_url || (PROVIDER_DEFAULTS[provider] || {}).base_url || "";
     document.getElementById("cfg-model").value = cfg.model || (PROVIDER_DEFAULTS[provider] || {}).model || "";

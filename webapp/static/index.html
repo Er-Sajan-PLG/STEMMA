@@ -30,19 +30,20 @@
     <form id="settings-form">
       <label>Provider
         <select id="cfg-provider">
-          <option value="google">Google Gemini / AI Pro (Antigravity)</option>
+          <option value="antigravity">Antigravity / local harness (OpenAI-compatible)</option>
+          <option value="google">Google Gemini / AI Pro (Antigravity) via API key</option>
           <option value="openai">OpenAI-compatible (any API)</option>
         </select>
       </label>
       <label>Base URL <input id="cfg-base" placeholder="https://generativelanguage.googleapis.com/v1beta" /></label>
-      <label>Model <input id="cfg-model" placeholder="gemini-3-pro-preview" /></label>
-      <label>API key <input id="cfg-key" type="password" placeholder="AIza… or sk-…" /></label>
+      <label>Model <input id="cfg-model" placeholder="gemini-3-pro / gemini-3.1-pro-high / gemini-3-pro-preview" /></label>
+      <label>API key <input id="cfg-key" type="password" placeholder="AIza… or any local harness key" /></label>
       <div class="row-actions">
         <button class="btn" type="submit">Save</button>
         <button class="btn primary" type="button" id="cfg-test">Test provider</button>
       </div>
       <span id="cfg-status" class="status"></span>
-      <p id="cfg-hint" class="hint">Google AI Studio/GenAI API keys start with AIza… and use the Gemini <code>generateContent</code> endpoint.</p>
+      <p id="cfg-hint" class="hint"></p>
     </form>
   </section>
 

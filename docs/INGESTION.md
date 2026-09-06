@@ -39,9 +39,15 @@ scripts/ingest_to_proposals.py → proposals/<id>.proposal.yaml  (staged, gitign
 
 ## Extractors (deterministic, no fragile deps)
 
+PDFs use poppler (`pdftotext` / `pdfinfo`) when available. If poppler is not
+installed, a pure-Python `pypdf` fallback extracts text-based PDFs (scanned
+PDFs still require poppler + tesseract OCR). Text-based files
+(`txt/md/csv/json/yaml/xml/html`) are read directly. Unsupported types are
+retained and marked `unsupported` with a reason.
+
 | Input | Tool | Behavior |
 |-------|------|----------|
-| Text PDF | `pdftotext` (poppler) | exact text; `is_scanned=False` |
+| Text PDF | `pdftotext` (poppler), else `pypdf` | exact text; `is_scanned=False` |
 | Scanned / image-only PDF | `pdftoppm` (render pages) + `tesseract` | OCR; `is_scanned=True`, `ocr_used=True`; bounded to first N pages for huge docs |
 | Image (PNG/JPG/TIFF/BMP/WebP) | `tesseract` + Pillow | OCR after grayscale + upscale for small images |
 

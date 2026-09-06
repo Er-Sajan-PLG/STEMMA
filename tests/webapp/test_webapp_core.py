@@ -165,6 +165,24 @@ def test_google_request_shape():
     print("PASS: Google Gemini request shape")
 
 
+def test_antigravity_openai_request_shape():
+    config = {"provider": "antigravity", "base_url": "http://127.0.0.1:6012/v1",
+              "model": "gemini-3-pro", "api_key": "any-local-key"}
+    url, body, headers = Workflow._openai_request(config, "Propose candidates.")
+    assert url == "http://127.0.0.1:6012/v1/chat/completions"
+    assert headers["Authorization"] == "Bearer any-local-key"
+    payload = json.loads(body.decode("utf-8"))
+    assert "response_format" not in payload, "local harnesses must not be forced to json_object"
+    assert payload["model"] == "gemini-3-pro"
+    print("PASS: Antigravity/local-harness request shape")
+
+
+def test_parse_openai_fenced_payload():
+    payload = {"choices": [{"message": {"content": "```json\n{\"candidates\":[]}\n```"}}]}
+    assert Workflow._parse_openai_payload(payload) == {"candidates": []}
+    print("PASS: OpenAI-compatible fenced JSON parsing")
+
+
 def test_parse_google_payload():
     raw = {"candidates": [{"content": {"parts": [{"text": "{\"candidates\":[{\"kind\":\"entity\",\"proposal\":{\"id\":\"stemma:phys.test\"}}]}"}]}}]}
     payload = Workflow._parse_google_payload(raw)
@@ -257,6 +275,8 @@ def main() -> int:
         test_invalid_candidate_refuses_stage(tmp_path)
         test_llm_config_masks_and_preserves_secret(tmp_path)
         test_google_config_roundtrip(tmp_path)
+        test_antigravity_openai_request_shape()
+        test_parse_openai_fenced_payload()
         test_google_request_shape()
         test_parse_google_payload()
         test_llm_chat_google_mock(tmp_path)

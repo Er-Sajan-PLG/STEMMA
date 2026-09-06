@@ -36,7 +36,12 @@ SYSTEM_DRAFT_NOTE = "You produce only valid JSON proposal payloads for STEMMA."
 DEFAULT_PROVIDERS = {
     "openai": {"base_url": "https://api.openai.com/v1", "model": "gpt-4o-mini"},
     "google": {"base_url": "https://generativelanguage.googleapis.com/v1beta", "model": "gemini-3-pro-preview"},
+    # Local harnesses (Antigravity CLI/Gateway, DeepSeek harness, Cline/Continue
+    # proxies, etc.) expose an OpenAI-compatible /v1/chat/completions endpoint.
+    # Replace 127.0.0.1 with the harness machine/tunnel if the webapp is remote.
+    "antigravity": {"base_url": "http://127.0.0.1:6012/v1", "model": "gemini-3-pro"},
 }
+SUPPORTED_PROVIDERS = tuple(DEFAULT_PROVIDERS)
 
 
 class WebappError(ValueError):
@@ -120,7 +125,7 @@ class Workflow:
     def read_llm_config(self, mask: bool = False) -> dict:
         path = self.config / "llm.json"
         if not path.exists():
-            return {"provider": "openai", "base_url": "", "model": "", "api_key": "", "configured": False}
+            return {"provider": "antigravity", "base_url": "", "model": "", "api_key": "", "configured": False}
         try:
             data = json.loads(path.read_text(encoding="utf-8"))
         except json.JSONDecodeError:
@@ -132,14 +137,17 @@ class Workflow:
             "base_url": data.get("base_url") or "",
             "model": data.get("model") or "",
             "api_key": "••••" + key[-4:] if key and mask else key,
-            "configured": bool(provider in ("openai", "google") and data.get("base_url") and data.get("model") and key),
+            "configured": bool(provider in SUPPORTED_PROVIDERS and data.get("base_url") and data.get("model") and key),
         }
         return out
 
     def save_llm_config(self, *, provider: str, base_url: str, model: str, api_key: str) -> dict:
         provider = (provider or "openai").strip().lower()
-        if provider not in ("openai", "google"):
-            raise WebappError("provider must be 'openai' (OpenAI-compatible) or 'google' (Gemini API)")
+        if provider not in SUPPORTED_PROVIDERS:
+            raise WebappError(
+                "provider must be one of: " + ", ".join(SUPPORTED_PROVIDERS) +
+                " (antigravity/openai use an OpenAI-compatible chat/completions harness)"
+            )
         if not base_url or not model:
             raise WebappError("base_url and model are required to configure an LLM Draft")
         # The GET config masks the key. If the UI submitted the masked value
@@ -439,17 +447,24 @@ class Workflow:
     @staticmethod
     def _openai_request(config: dict, prompt: str) -> tuple[str, bytes, dict[str, str]]:
         url = f"{config['base_url']}/chat/completions"
-        body = json.dumps({
+        body = {
             "model": config["model"],
             "temperature": 0.2,
             "messages": [
                 {"role": "system", "content": SYSTEM_DRAFT_NOTE},
                 {"role": "user", "content": prompt},
             ],
-            "response_format": {"type": "json_object"},
-        }).encode("utf-8")
-        headers = {"Content-Type": "application/json", "Authorization": f"Bearer {config['api_key']}"}
-        return url, body, headers
+        }
+        # Official OpenAI supports response_format json_object; many local
+        # harnesses (Antigravity CLI/Gateway, DeepSeek harness, Continue etc.)
+        # reject it, so only send it for the canonical OpenAI provider. The
+        # parser strips markdown fences as a safety net either way.
+        if config.get("provider") == "openai":
+            body["response_format"] = {"type": "json_object"}
+        return url, json.dumps(body).encode("utf-8"), {
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {config['api_key']}",
+        }
 
     @staticmethod
     def _google_request(config: dict, prompt: str) -> tuple[str, bytes, dict[str, str]]:
@@ -490,7 +505,13 @@ class Workflow:
     @staticmethod
     def _parse_openai_payload(payload: dict) -> dict:
         content = payload["choices"][0]["message"]["content"]
-        return json.loads(content) if isinstance(content, str) else content
+        if isinstance(content, str):
+            text = content.strip()
+            if text.startswith("```"):
+                text = re.sub(r"^```(?:json)?\s*", "", text)
+                text = re.sub(r"\s*```$", "", text)
+            return json.loads(text)
+        return content
 
     def _llm_chat(self, config: dict, prompt: str) -> dict:
         import urllib.error

@@ -61,10 +61,21 @@ def _have(tool: str) -> bool:
 
 
 def _check_tools(need_ocr: bool = False) -> None:
-    if not _have("pdftotext") and not _have("pdfinfo"):
-        raise IngestionError("poppler-utils not installed (pdftotext/pdfinfo required for PDFs)")
+    if not (_have("pdftotext") or _have("pdfinfo") or _pypdf_available()):
+        raise IngestionError(
+            "no PDF text engine available (install poppler-utils for pdftotext/pdfinfo, "
+            "or `python3 -m pip install pypdf` for the pure-Python fallback)"
+        )
     if need_ocr and not _have("tesseract"):
         raise IngestionError("tesseract not installed (required for scanned PDFs / images)")
+
+
+def _pypdf_available() -> bool:
+    try:
+        import pypdf  # type: ignore  # noqa: F401
+        return True
+    except ImportError:
+        return False
 
 
 def detect_kind(path: Path) -> str:
@@ -89,15 +100,35 @@ def _pdf_is_scanned(path: Path) -> bool:
 
 
 def _pdftotext(path: Path) -> str:
-    if not _have("pdftotext"):
+    """Extract text from a PDF.
+
+    Preferred engine is poppler's ``pdftotext`` (deterministic/layout-aware).
+    If poppler is not installed, fall back to pure-Python ``pypdf`` so the
+    webapp/CLI can still ingest text-based PDFs on machines without poppler.
+    """
+    if _have("pdftotext"):
+        try:
+            r = subprocess.run(
+                ["pdftotext", "-q", "-layout", str(path), "-"],
+                capture_output=True, text=True, timeout=300,
+            )
+            return r.stdout or ""
+        except (subprocess.SubprocessError, OSError):
+            return ""
+    try:
+        from pypdf import PdfReader  # type: ignore
+    except ImportError:
         return ""
     try:
-        r = subprocess.run(
-            ["pdftotext", "-q", "-layout", str(path), "-"],
-            capture_output=True, text=True, timeout=300,
-        )
-        return r.stdout or ""
-    except (subprocess.SubprocessError, OSError):
+        reader = PdfReader(str(path))
+        parts = []
+        for page in reader.pages:
+            try:
+                parts.append(page.extract_text() or "")
+            except Exception:  # noqa: BLE001 - a bad page shouldn't kill the job
+                parts.append("")
+        return "\n\n".join(parts).strip()
+    except Exception:  # noqa: BLE001 - fallback, not a fatal tooling issue
         return ""
 
 
@@ -125,15 +156,25 @@ def _ocr_pdf(path: Path, max_pages: int = _MAX_OCR_PAGES) -> str:
         return "\n\n".join(parts)
 
 
+def _pdf_page_count(path: Path) -> int:
+    if _have("pdfinfo"):
+        try:
+            return int(
+                subprocess.run(["pdfinfo", str(path)], capture_output=True, text=True)
+                .stdout.split("Pages:")[1].split("\n")[0].strip()
+            )
+        except (IndexError, ValueError, subprocess.SubprocessError):
+            return 0
+    try:
+        from pypdf import PdfReader  # type: ignore
+        return len(PdfReader(str(path)).pages)
+    except Exception:  # noqa: BLE001 - fallback, not fatal
+        return 0
+
+
 def extract_pdf(path: Path, *, ocr_max_pages: int = _MAX_OCR_PAGES) -> Extraction:
     _check_tools()
-    try:
-        page_count = int(
-            subprocess.run(["pdfinfo", str(path)], capture_output=True, text=True)
-            .stdout.split("Pages:")[1].split("\n")[0].strip()
-        )
-    except (IndexError, ValueError, subprocess.SubprocessError):
-        page_count = 0
+    page_count = _pdf_page_count(path)
 
     is_scanned = _pdf_is_scanned(path)
     if is_scanned and _have("pdftoppm"):

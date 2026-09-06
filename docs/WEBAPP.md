@@ -53,14 +53,22 @@ The app only *proposes*; it never generates canonical content.
 
 1. Open **LLM Draft settings** in the UI.
 2. Pick a provider:
-   - **Google Gemini / AI Pro (Antigravity)** — calls
+   - **Antigravity / local harness (OpenAI-compatible)** — for the models
+     inside your Google-AI-Pro/Antigravity subscription via a local bridge
+     (e.g. Antigravity CLI/Gateway, DeepSeek-harness-style proxies). It calls
+     `POST {base_url}/chat/completions` with a Bearer key. Defaults:
+     `http://127.0.0.1:6012/v1`. **Important:** the webapp server makes this
+     call server-side. If you are using the Arena preview (the server runs in
+     a container), put the harness's tunneled/public URL here, or run the
+     webapp on the same machine as Antigravity.
+   - **Google Gemini / AI Pro (Antigravity) via API key** — calls
      `POST {base_url}/models/{model}:generateContent` with an
      `x-goog-api-key` header. Defaults:
      `https://generativelanguage.googleapis.com/v1beta` /
      `gemini-3-pro-preview` (or any Gemini Pro/Flash model id you have
      access to).
-   - **OpenAI-compatible** — calls `POST {base_url}/chat/completions` with a
-     Bearer key. Defaults: `https://api.openai.com/v1`.
+   - **OpenAI-compatible (any API)** — calls `POST {base_url}/chat/completions`
+     with a Bearer key. Defaults: `https://api.openai.com/v1`.
 3. Enter the base URL, model, and API key. Google AI Studio/GenAI API keys
    usually start with `AIza…`.
 4. Save. The config is stored in `workflow/config/llm.json` (git-ignored; the

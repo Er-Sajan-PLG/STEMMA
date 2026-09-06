@@ -62,7 +62,8 @@ python3 scripts/validate.py          # validate canonical data + regenerate the 
 
 Exit code `0` = valid. To explore visually: `npm --prefix explorer run dev`.
 For document ingestion/review: `python3 webapp/server.py --port 8080`
-(see [`docs/WEBAPP.md`](docs/WEBAPP.md)).
+(see [`docs/WEBAPP.md`](docs/WEBAPP.md)). Without poppler-utils, install the
+pure-Python PDF fallback for text PDFs: `pip install pypdf`.
 
 ## Get the content out
 
