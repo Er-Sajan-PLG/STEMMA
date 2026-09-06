@@ -83,6 +83,9 @@ class StemmaServer:
                             "/v2/prerequisites/{id}",
                             "/v2/search?q=...",
                             "/v2/external/{scheme}/{value}",
+                            "/v2/relations",
+                            "/v2/relations/{name}",
+                            "/v2/vocabularies",
                         ],
                         "stats": self.adapter_client.stats,
                         "version": ADAPTER_VERSION,
@@ -151,6 +154,16 @@ class StemmaServer:
                         include_retired=self._query_bool(query, "include_retired", False),
                         limit=self._query_int(query, "limit"),
                     )
+
+                if path == "/v2/relations":
+                    return self.adapter_client.relations()
+
+                if path.startswith("/v2/relations/"):
+                    name = unquote(path.removeprefix("/v2/relations/"))
+                    return self.adapter_client.relation(name)
+
+                if path == "/v2/vocabularies":
+                    return self.adapter_client.vocabularies or {}
 
                 if path.startswith("/v2/external/"):
                     remainder = path.removeprefix("/v2/external/")

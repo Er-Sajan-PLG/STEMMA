@@ -19,6 +19,21 @@ Template:
 
 ---
 
+## 2026-09-06 — Relation registry + controlled vocabularies in the export (ADR-0032)
+- **Tag:** ADR-0032 · **Kind:** additive (contract minor bump)
+- **Changed:** `exports/knowledge.json` gains optional top-level `relation_registry_version`,
+  `relation_registry` (relation name → family/inverse/transitive/symmetric/domain/range/status)
+  and `vocabularies`; `export_version` `2.0.0 → 2.1.0`. `schema/export.schema.json` updated;
+  `adapters/python/` bootstraps `relations()` / `relation(name)` / `vocabularies` and fails
+  closed on an unknown relation name when the registry is present.
+- **Old data:** canonical YAML unchanged. A `2.0.x` export (no sidecar) still validates and
+  loads with the previous literal-name behavior.
+- **Consumer impact:** additive. Readers that ignore unknown members are unaffected; consumers
+  that want registry semantics now get them from the artifact alone. Regenerate with
+  `python3 scripts/validate.py`.
+
+---
+
 ## 2026-09-04 — Refoundation: `stemma:` namespace, colon-free filenames, contract v2.0.0 (ADR-0027/0028)
 - **Tag:** ADR-0027 / ADR-0028 · **Kind:** breaking (bulk canonical rewrite)
 - **Changed:** every canonical ID `lhs:`→`stemma:` (881 objects; identity fields untouched);

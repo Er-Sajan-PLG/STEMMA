@@ -48,6 +48,15 @@ class Stemma:
         self._connections_by_target: dict[str, list[dict[str, Any]]] = defaultdict(list)
         self._external_id_index: dict[tuple[str, str], list[str]] = defaultdict(list)
 
+        self.relation_registry: dict[str, Any] | None = export.get("relation_registry")
+        self.relation_registry_version: str | None = export.get("relation_registry_version")
+        if self.relation_registry is not None and not isinstance(self.relation_registry, dict):
+            raise ExportError("export.relation_registry must be an object")
+        self.vocabularies: dict[str, Any] | None = export.get("vocabularies")
+        if self.vocabularies is not None and not isinstance(self.vocabularies, dict):
+            raise ExportError("export.vocabularies must be an object")
+        self._relation_names = sorted(self.relation_registry) if self.relation_registry else []
+
         for connection in self.all_connections:
             self._connections_by_source[connection["source"]].append(connection)
             self._connections_by_target[connection["target"]].append(connection)
@@ -83,10 +92,41 @@ class Stemma:
             "entity_count": self.export["entity_count"],
             "export_version": self.export["export_version"],
             "kernel_version": self.export.get("kernel_version"),
+            "relation_registry_version": self.relation_registry_version,
             "retired_entity_count": retired_entities,
             "schema_version": self.export["schema_version"],
             "source_count": self.export["source_count"],
         }
+
+    def relations(self) -> dict[str, dict[str, Any]]:
+        """Return every relation descriptor published in the export.
+
+        Raises ExportError when the producer did not publish a relation
+        registry (pre-2.1 exports). Use relation(name) for single lookups.
+        """
+        if self.relation_registry is None:
+            raise ExportError(
+                "export does not include a relation registry; re-export with contract v2.1 "
+                "or run against a registry-publishing producer"
+            )
+        return dict(self.relation_registry)
+
+    def relation(self, name: str) -> dict[str, Any]:
+        """Return one relation descriptor.
+
+        When a registry is present, an unknown name is a client contract
+        violation (fail closed). When no registry is present, lookup is
+        unavailable and ExportError is raised.
+        """
+        if self.relation_registry is None:
+            raise ExportError(
+                "export does not include a relation registry; re-export with contract v2.1 "
+                "or run against a registry-publishing producer"
+            )
+        descriptor = self.relation_registry.get(name)
+        if descriptor is None:
+            raise BadRequestError(f"unknown relation: {name}")
+        return descriptor
 
     def entity(self, entity_id: str, *, include_retired: bool = False) -> dict[str, Any]:
         entity = self.entities_by_id.get(entity_id)

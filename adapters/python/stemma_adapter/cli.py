@@ -75,6 +75,16 @@ def build_parser() -> ArgumentParser:
     connections.add_argument("--policy", choices=["all", "reviewed", "canonical", "trusted"])
     connections.add_argument("--limit", type=int)
 
+    relations = subparsers.add_parser("relations", help="list relation registry semantics")
+    relations.add_argument("export", help="path to exports/knowledge.json")
+
+    relation = subparsers.add_parser("relation", help="look up one relation")
+    relation.add_argument("export", help="path to exports/knowledge.json")
+    relation.add_argument("name", help="relation name")
+
+    vocabularies = subparsers.add_parser("vocabularies", help="print controlled vocabularies")
+    vocabularies.add_argument("export", help="path to exports/knowledge.json")
+
     serve_cmd = subparsers.add_parser("serve", help="serve a local read-only JSON API")
     serve_cmd.add_argument("export", help="path to exports/knowledge.json")
     serve_cmd.add_argument("--host", default="127.0.0.1")
@@ -162,6 +172,15 @@ def main(argv: list[str] | None = None) -> int:
                     limit=args.limit,
                 )
             )
+            return 0
+        if args.command == "relations":
+            emit_json(client.relations())
+            return 0
+        if args.command == "relation":
+            emit_json(client.relation(args.name))
+            return 0
+        if args.command == "vocabularies":
+            emit_json(client.vocabularies or {})
             return 0
         if args.command == "serve":
             server = serve(client, host=args.host, port=args.port)

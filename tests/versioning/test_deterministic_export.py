@@ -65,6 +65,47 @@ def test_export_contract_required_members():
     print(f"PASS: export conforms to contract v{export['export_version']} (connections/sources required)")
 
 
+def test_export_publishes_relation_registry_and_vocabularies():
+    """ADR-0032 / contract v2.1: the export publishes producer-side relation
+    semantics + controlled vocabularies so consumers can introspect without
+    cloning the producer repo. The relation_registry_version must match the
+    single source of truth in schema/VERSION.yaml."""
+    import jsonschema
+
+    versions = _versions()
+    schema = json.loads((ROOT / "schema" / "export.schema.json").read_text())
+    export = json.loads((ROOT / "exports" / "knowledge.json").read_text())
+
+    assert export["export_version"] == versions["export_version"]
+    assert export["export_version"] == "2.1.0"
+
+    assert export["relation_registry_version"] == versions["relation_registry_version"]
+    registry = export["relation_registry"]
+    assert isinstance(registry, dict) and registry
+    required = {
+        "mathematically_requires",
+        "logically_requires",
+        "related_to",
+        "part_of",
+        "applies_to",
+    }
+    assert required <= set(registry), f"registry missing adopted relations: {required - set(registry)}"
+    for name, entry in registry.items():
+        for field in ("family", "transitive", "symmetric", "domain", "range", "status"):
+            assert field in entry, f"relation_registry[{name!r}] missing {field}"
+
+    vocabularies = export["vocabularies"]
+    assert "physics" in vocabularies["domains"]
+    assert "mathematics" in vocabularies["domains"]
+    assert "mechanics" in vocabularies["subdomains"]["physics"]
+    assert "inquiry-observation" in vocabularies["subdomains"]["scientific-practice"]
+    assert "classical" in vocabularies["regimes"]
+
+    jsonschema.Draft202012Validator(schema).validate(export)
+    print(f"PASS: export contract v{export['export_version']} carries relation registry "
+          f"v{export['relation_registry_version']} + controlled vocabularies")
+
+
 def test_legacy_compat_view_during_co_release_window():
     versions = _versions()
     compat = ROOT / "exports" / "knowledge.compat-0.1.json"

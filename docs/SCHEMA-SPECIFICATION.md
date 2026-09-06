@@ -124,11 +124,17 @@ bibliography project: they exist so evidence has something to point at.
 
 ## 6. Export contract (export.schema.json)
 
-`exports/knowledge.json` is the consumer contract (v2.0.0):
+`exports/knowledge.json` is the consumer contract (v2.1.0, ADR-0032):
 
 - Required members: `export_version`, `schema_version`, `content_hash`,
   `entity_count`, `connection_count`, `source_count`, `entities[]`,
   `connections[]`, `sources[]`.
+- Optional semantic sidecar: `relation_registry_version`
+  (`schema/VERSION.yaml`), `relation_registry` (relation name →
+  family/inverse/transitive/symmetric/domain/range/status), and
+  `vocabularies` (`domains`/`subdomains`/`regimes`/`scales`). A present
+  `relation_registry` is authoritative: consumers must fail closed on a
+  connection relation that is not declared.
 - `entities[]` carry **no** relationship data; the graph is `connections[]`
   only.
 - `connections[]` carry the derived `claim_signature`.

@@ -35,6 +35,8 @@ One subject, one document; contradictions are bugs.
 | Ingestion pipeline | [INGESTION.md](INGESTION.md) |
 | Sources & attribution inventory | [SOURCES.md](SOURCES.md) |
 | Glossary | [GLOSSARY.md](GLOSSARY.md) |
+| Critical review & decision records | [SOTA-REVIEW.md](SOTA-REVIEW.md) |
+| Deep-dive recommendations & implementation guide | [DEEP-DIVE-RECOMMENDATIONS.md](DEEP-DIVE-RECOMMENDATIONS.md) |
 | Decision records (ADRs) | [decisions/](decisions/) |
 | Contributor guide | [CONTRIBUTING.md](CONTRIBUTING.md) |
 

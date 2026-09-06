@@ -21,24 +21,46 @@ from graph_policy import should_include_connection  # type: ignore
 from validate import claim_signature  # type: ignore — derived claim identity (E4.3 / ADR-0026)
 
 
+def _relation_registry() -> dict:
+    return yaml.safe_load((ROOT / "schema" / "relation-registry.yaml").read_text(encoding="utf-8")).get("relations", {})
+
+
+def _vocabularies() -> dict:
+    def _load(name: str) -> dict:
+        return yaml.safe_load((ROOT / "schema" / "vocabularies" / name).read_text(encoding="utf-8")) or {}
+
+    return {
+        "domains": _load("domains.yaml").get("domains", []),
+        "subdomains": _load("subdomains.yaml"),
+        "regimes": _load("regimes.yaml").get("regimes", []),
+        "scales": _load("regimes.yaml").get("scales", []),
+    }
+
+
 def main():
     import yaml as _yaml
 
     conns = [yaml.safe_load(p.read_text()) for p in sorted((ROOT / "connections").glob("*.yaml"))]
     base = json.loads(EXPORT_BASE.read_text()) if EXPORT_BASE.exists() else {}
+    versions = _versions()
+    registry = _relation_registry()
+    vocabularies = _vocabularies()
     for policy in ["all", "reviewed", "canonical", "trusted", "proposed", "rejected"]:
         if policy == "proposed":
             filtered = [c for c in conns if c["assertion"]["review"]["status"] == "unreviewed" and c["assertion"]["type"] == "proposed"]
         elif policy == "rejected":
-            filtered = [c for c in conns if c["assertion"]["status"] == "rejected" or c["assertion"]["review"]["status"] == "rejected"]
+            filtered = [c for c in conns if c["assertion"]["review"]["status"] == "rejected"]
         else:
             filtered = [c for c in conns if should_include_connection(c, policy)]
 
         out = {
-            "export_version": _versions()["export_version"],
-            "schema_version": _versions()["schema_version"],
+            "export_version": versions["export_version"],
+            "schema_version": versions["schema_version"],
             "content_hash": base.get("content_hash", "sha256:unknown"),
             "kernel_version": base.get("kernel_version"),
+            "relation_registry_version": versions.get("relation_registry_version"),
+            "relation_registry": registry,
+            "vocabularies": vocabularies,
             "policy": policy,
             "count": len(filtered),
             # `claim_signature` is derived (ADR-0026): identity of the asserted

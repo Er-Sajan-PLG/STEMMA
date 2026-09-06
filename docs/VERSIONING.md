@@ -15,9 +15,10 @@ are forbidden.
 | **Registry version** | `relation_registry_version` (semver) | `schema/relation-registry.yaml` semantics | `schema/VERSION.yaml` |
 | **Repository release** | `VERSION` file (semver) | The repository's release line; currently **3.0.0** = refoundation baseline (ADR-0029) | `VERSION`, stamped as `kernel_version` in the export |
 
-Current majors: schema **1.0.0**, export **2.0.0**, registry **1.0.0**
-(broken out of the pre-refoundation 0.x line by the namespace + projection
-changes; see `docs/MIGRATIONS.md`).
+Current majors: schema **1.0.0**, export **2.1.0**, registry **1.0.0**
+(export 2.1.0 is the additive relation-registry + vocabulary sidecar,
+ADR-0032; broken out of the pre-refoundation 0.x line by the namespace +
+projection changes; see `docs/MIGRATIONS.md`).
 
 ## 2. Bumping rules
 

@@ -967,6 +967,16 @@ def main() -> int:
         "schema_version": versions["schema_version"],
         "content_hash": content_hash_value,
         "kernel_version": kernel_version,
+        "relation_registry_version": versions.get("relation_registry_version"),
+        # ADR-0032 / contract v2.1: publish producer-side semantics so consumers
+        # can introspect families/inverses/domain-range without cloning the repo.
+        "relation_registry": registry.get("relations", {}),
+        "vocabularies": {
+            "domains": vocab["domains"],
+            "subdomains": vocab["subdomains"],
+            "regimes": vocab["regimes"],
+            "scales": vocab["scales"],
+        },
         "source": "content/ + connections/ + sources/ (canonical)",
         "entity_count": len(entities),
         "connection_count": len(connections),
