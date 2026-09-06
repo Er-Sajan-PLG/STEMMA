@@ -29,19 +29,27 @@ is the release gate.
 | **Domain invariants** | Curriculum-agnosticism of content (generality) with scientific-terminology awareness | `tests/curation/test_generality.py`, `tests/phase-b/test_boundary.py` |
 | **Provenance tests** | Agent registry resolution; `external_ids` formats; consumer docs state the current export version | `tests/provenance/` |
 | **Determinism/compatibility** | Byte-identical regeneration; export conforms to contract; contract rejects missing members | `tests/versioning/` |
+| **Validator report contract** | `reports/validation-report.json` shape (`results[]`/severity/`errors[]`/`warnings[]`/`info[]`/`severity_counts`/versions/`content_hash`), `--json` emits only the report, advisory anomalies | `tests/versioning/test_validation_report.py` |
 | **Repository integrity** | Ecosystem independence; docs set complete and non-contradictory (index↔files); README status truth | `tests/repo/` (new with the refoundation) |
 | **Adapter integration** | The first-party Python adapter loads the real export, mirrors policy counts, resolves aliases, traverses prerequisites, exercises CLI, and serves the local JSON API | `adapters/python/tests/test_adapter.py` |
 | **End-to-end (consumer)** | The explorer projects the graph from `connections[]` with trust annotation; rejects contract-violating exports | `explorer/scripts/verify-graph-projection.mjs` |
 
 ## 3. The verify chain
 
-`scripts/verify_all.py` runs, in order: validator → status-truth → epistemic
-summary → integrity anomalies → graph analysis → review-aware exports →
-curation status → phase-b domain/boundary tests → registry coherence →
-deterministic export tests → curation tests → generality → id-immutability →
-provenance/agent tests → claim-identity → connection-immutability → campaign
-determinism → git-history immutability guard → Python adapter integration
-tests → repository-integrity tests.
+`scripts/verify_all.py` runs, in order: validator (+ machine-readable report)
+→ status-truth → epistemic summary → advisory integrity anomalies → graph
+analysis → review-aware exports → curation status → phase-b domain/boundary
+tests → registry coherence → validation-report/contract + deterministic export
+tests → curation tests → generality → id-immutability → provenance/agent tests
+→ claim-identity → connection-immutability → campaign determinism →
+git-history immutability guard → Python adapter integration tests →
+repository-integrity tests.
+
+The validator report is deterministic (ADR-0033): `validate.py --json` emits
+`reports/validation-report.json` to stdout as the only stdout content; exit
+`0`/`1` is retained. `integrity_anomalies.py` is advisory in the chain
+(`--strict` opts into ERROR gating).
+
 Any failure stops the chain.
 
 ## 4. CI enforcement (`.github/workflows/ci.yml`)

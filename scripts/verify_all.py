@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """The authoritative verification chain — what CI runs, what you run.
 
-Stages: gate (validate + export) → status truth → derived analyses →
-review-aware exports → domain/boundary invariants → registry coherence →
-determinism/contract tests → curation + generality → identity immutability
-(present-tree + git-history) → provenance/claim-identity → connection-triple
-immutability → campaign determinism → repository integrity (independence,
-docs consistency).
+Stages: gate (validate + export, machine-readable report + `--json`) →
+status truth → derived analyses → advisory integrity anomalies → review-aware
+exports → domain/boundary invariants → registry coherence →
+validation-report/contract + determinism tests → curation + generality →
+identity immutability (present-tree + git-history) → provenance/claim-identity
+→ connection-triple immutability → campaign determinism → repository
+integrity (independence, docs consistency).
 """
 import pathlib
 import subprocess
@@ -18,6 +19,8 @@ steps = [
     ["python3", str(ROOT / "scripts/validate.py")],
     ["python3", str(ROOT / "scripts/status_truth.py")],
     ["python3", str(ROOT / "scripts/epistemic_summary.py")],
+    # ADR-0033: integrity_anomalies is advisory (surfaces anomalies, never fails
+    # the chain by itself; use `--strict` for opt-in ERROR gating).
     ["python3", str(ROOT / "scripts/integrity_anomalies.py")],
     ["python3", str(ROOT / "scripts/graph_analysis.py")],
     ["python3", str(ROOT / "scripts/export_review_aware.py")],
@@ -25,6 +28,7 @@ steps = [
     ["python3", str(ROOT / "tests/phase-b/test_phase_b.py")],
     ["python3", str(ROOT / "tests/phase-b/test_boundary.py")],
     ["python3", str(ROOT / "tests/registry/test_registry_coherence.py")],
+    ["python3", str(ROOT / "tests/versioning/test_validation_report.py")],
     ["python3", str(ROOT / "tests/versioning/test_deterministic_export.py")],
     ["python3", str(ROOT / "tests/curation/test_curation.py")],
     ["python3", str(ROOT / "tests/curation/test_generality.py")],

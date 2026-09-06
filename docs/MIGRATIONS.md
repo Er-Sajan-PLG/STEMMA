@@ -36,6 +36,22 @@ Template:
 
 ---
 
+## 2026-09-06 — Machine-readable validation report + `--json` (ADR-0033)
+- **Tag:** ADR-0033 · **Kind:** tooling/report contract (no canonical data change)
+- **Changed:** `reports/validation-report.json` now has `results[]` with
+  `severity/rule/focus/message`, `errors[]/warnings[]/info[]`, `severity_counts`,
+  and version/`content_hash` identity; `scripts/validate.py --json` emits that
+  report as the only stdout content (exit 0/1 retained); warnings are no longer
+  stderr-only; `scripts/integrity_anomalies.py` gains `--json` and `--strict`
+  and stays advisory in `verify_all.py`.
+- **Old data:** the old SHACL-ish `resultSeverity/focusNode/resultMessage`
+  members are superseded by the new members. Consumers of the report should
+  read `results[]`/`errors[]`; the old keys are not carried forward.
+- **Consumer impact:** CI/agents can consume the structured result directly.
+  Regenerate with `python3 scripts/validate.py --json`.
+
+---
+
 ## 2026-09-06 — Relation registry + controlled vocabularies in the export (ADR-0032)
 - **Tag:** ADR-0032 · **Kind:** additive (contract minor bump)
 - **Changed:** `exports/knowledge.json` gains optional top-level `relation_registry_version`,

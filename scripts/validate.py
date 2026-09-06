@@ -759,32 +759,67 @@ def check_relationship_cycles(connections: dict, registry: dict, errors: list) -
                         stack.append((nxt, path + [nxt]))
 
 
-def write_validation_report(conforms: bool, results: list, content_hash: str | None) -> None:
-    """Write the SHACL-style machine-readable validation report.
+def build_validation_results(errors: list, warnings: list) -> list[dict]:
+    """Turn the human-facing validator messages into deterministic report items.
 
-    Kept from the AXIOM-kernel work (PR #22), reconciled with ADR-0022: the report
-    is DETERMINISTIC — stamped with the canonical content_hash, never wall-clock
-    time — so the tracked reports/validation-report.json never churns between runs.
+    Each item has `severity` (ERROR/WARNING/INFO), `rule`, `focus`, `message`.
+    `focus` is the part before the first ': ' (usually a file/ID); `message` is
+    the remainder. This is the single machine-readable shape for ADR-0033.
     """
-    validation_results = []
-    for line in results:
+    def _item(severity: str, line: str) -> dict:
         parts = line.split(": ", 1)
-        validation_results.append({
-            "resultSeverity": "Violation",
-            "focusNode": parts[0] if len(parts) > 1 else "unknown",
-            "resultPath": None,
-            "resultMessage": parts[1] if len(parts) > 1 else line,
-            "sourceConstraintComponent": "STEMMAValidator",
-        })
+        return {
+            "severity": severity,
+            "rule": "validator",
+            "focus": parts[0] if len(parts) > 1 else "unknown",
+            "message": parts[1] if len(parts) > 1 else line,
+        }
+
+    return [_item("ERROR", line) for line in errors] + [_item("WARNING", line) for line in warnings]
+
+
+def write_validation_report(
+    conforms: bool,
+    errors: list,
+    warnings: list,
+    content_hash: str | None,
+) -> dict:
+    """Write the machine-readable validation report (ADR-0033).
+
+    Kept from the AXIOM-kernel work (PR #22), reconciled with ADR-0022: the
+    report is DETERMINISTIC — stamped with the canonical content_hash and the
+    single-sourced versions, never wall-clock time — so the tracked
+    reports/validation-report.json never churns between runs.
+
+    Returns the report dict so callers can also emit it as JSON.
+    """
+    results = build_validation_results(errors, warnings)
+    severity_counts = {"ERROR": 0, "WARNING": 0, "INFO": 0}
+    for item in results:
+        severity_counts[item["severity"]] = severity_counts.get(item["severity"], 0) + 1
+
+    def _by_severity(severity: str) -> list[dict]:
+        return [item for item in results if item["severity"] == severity]
+
+    versions = load_versions()
     kernel_version = None
     version_file = ROOT / "VERSION"
     if version_file.exists():
         kernel_version = version_file.read_text(encoding="utf-8").strip()
     report = {
-        "conforms": conforms,
-        "results": validation_results,
+        "conforms": bool(conforms),
+        "valid": bool(conforms),
+        "ok": bool(conforms),
+        "schema_version": versions.get("schema_version"),
+        "export_version": versions.get("export_version"),
+        "relation_registry_version": versions.get("relation_registry_version"),
         "kernel_version": kernel_version,
         "content_hash": content_hash,
+        "severity_counts": severity_counts,
+        "results": results,
+        "errors": _by_severity("ERROR"),
+        "warnings": _by_severity("WARNING"),
+        "info": _by_severity("INFO"),
     }
     report_path = ROOT / "reports" / "validation-report.json"
     report_path.parent.mkdir(parents=True, exist_ok=True)
@@ -792,6 +827,7 @@ def write_validation_report(conforms: bool, results: list, content_hash: str | N
         json.dumps(report, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
+    return report
 
 
 def check_legacy_namespace(raw_text: str, where: str, errors: list) -> None:
@@ -878,7 +914,8 @@ def load_canonical_yaml_dir(directory: Path, schema_path: Path, errors: list,
     return out
 
 
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    emit_json = "--json" in (argv if argv is not None else sys.argv[1:])
     errors: list = []
     entities: dict[str, dict] = {}
 
@@ -972,7 +1009,9 @@ def main() -> int:
         print(f"FAIL: {len(errors)} problem(s) found", file=sys.stderr)
         for line in errors:
             print(f"  - {line}", file=sys.stderr)
-        write_validation_report(conforms=False, results=errors, content_hash=None)
+        report = write_validation_report(conforms=False, errors=errors, warnings=warnings, content_hash=None)
+        if emit_json:
+            print(json.dumps(report, indent=2, ensure_ascii=False, sort_keys=True))
         return 1
 
     # Regenerate derived export (sorted for determinism; versions from the single
@@ -1042,16 +1081,25 @@ def main() -> int:
             print(f"FAIL: {len(contract_errors)} export contract problem(s)", file=sys.stderr)
             for line in contract_errors[:20]:
                 print(f"  - {line}", file=sys.stderr)
-            write_validation_report(conforms=False, results=contract_errors, content_hash=None)
+            report = write_validation_report(conforms=False, errors=contract_errors, warnings=[], content_hash=None)
+            if emit_json:
+                print(json.dumps(report, indent=2, ensure_ascii=False, sort_keys=True))
             return 1
     EXPORT.parent.mkdir(parents=True, exist_ok=True)
     EXPORT.write_text(
         json.dumps(payload, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
-    print(f"OK: {len(entities)} entities valid; export written to {EXPORT.relative_to(ROOT)}")
-    write_validation_report(conforms=True, results=[], content_hash=content_hash_value)
-    print("OK: validation report written to reports/validation-report.json")
+    if emit_json:
+        print(f"OK: {len(entities)} entities valid; export written to {EXPORT.relative_to(ROOT)}", file=sys.stderr)
+    else:
+        print(f"OK: {len(entities)} entities valid; export written to {EXPORT.relative_to(ROOT)}")
+    report = write_validation_report(conforms=True, errors=[], warnings=warnings, content_hash=content_hash_value)
+    if emit_json:
+        print("OK: validation report written to reports/validation-report.json", file=sys.stderr)
+        print(json.dumps(report, indent=2, ensure_ascii=False, sort_keys=True))
+    else:
+        print("OK: validation report written to reports/validation-report.json")
 
     # E7.4: the validator no longer writes into explorer/. The explorer is a consumer,
     # not part of the canonical gate: it copies exports/knowledge.json itself via

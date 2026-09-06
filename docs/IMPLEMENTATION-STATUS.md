@@ -15,6 +15,7 @@ Claims here are backed by the verification chain, not by older documents.
 | Controlled vocabularies (domains/subdomains/regimes+scales), gate-enforced | `schema/vocabularies/` |
 | Gate: schema, identity, references, registry, vocabularies, epistemics, cycles, duplicate claims, legacy-namespace guard, filename↔ID | `scripts/validate.py` |
 | Deterministic export, contract-validated before write, content-hash stamped | `validate.py`, `tests/versioning/` |
+| Machine-readable validator report (severity results, warnings, counts, versions) + `--json`; advisory integrity anomalies | `validate.py`, `integrity_anomalies.py`, `tests/versioning/test_validation_report.py` |
 | Export-embedded relation registry + controlled vocabularies (contract 2.1.0); adapter introspection + fail-closed on unknown relation | `schema/export.schema.json`, `validate.py`, `adapters/python/`, `tests/versioning/`, `adapters/python/tests/test_adapter.py` |
 | Review-policy export views + extended graph view (derived inverses/closure) | `export_review_aware.py`, `graph_analysis.py` |
 | Git-history ID + assertion-triple immutability guards (namespace-alias aware) | `check_id_immutability.py` |

@@ -2,6 +2,7 @@
 """B5.5: Contradiction/anomaly detection — ERROR/WARNING/INFO."""
 import json
 import pathlib
+import sys
 from collections import defaultdict
 
 import yaml
@@ -11,7 +12,10 @@ CONNECTIONS = ROOT / "connections"
 REGISTRY = ROOT / "schema" / "relation-registry.yaml"
 
 
-def main():
+def main(argv=None):
+    args = argv if argv is not None else sys.argv[1:]
+    emit_json = "--json" in args
+    strict = "--strict" in args
     conns = [yaml.safe_load(p.read_text()) for p in sorted(CONNECTIONS.glob("*.yaml"))]
     registry = yaml.safe_load(REGISTRY.read_text()).get("relations", {})
 
@@ -94,8 +98,19 @@ def main():
         + "\n".join(f"| {a['level']} | {a['type']} | {a['message']} |" for a in anomalies[:50])
         + "\n\nFull: `reports/integrity-anomalies.json`\n"
     )
-    print(f"OK: anomalies total={len(anomalies)} ERROR={by_level['ERROR']} WARNING={by_level['WARNING']} INFO={by_level['INFO']}")
-    return 0 if by_level["ERROR"] == 0 else 0  # Do not fail; report only
+    # ADR-0033: this is an ADVISORY report. It always writes the report and
+    # returns 0 in the default verify chain (ERRORs are surfaced, not
+    # gate-blocking). `--strict` lets a human/CI opt into failing on ERRORs.
+    if emit_json:
+        print(json.dumps({
+            "advisory": True,
+            "counts": by_level,
+            "total": len(anomalies),
+            "anomalies": anomalies,
+        }, indent=2, sort_keys=True))
+    else:
+        print(f"OK: anomalies total={len(anomalies)} ERROR={by_level['ERROR']} WARNING={by_level['WARNING']} INFO={by_level['INFO']}")
+    return 1 if strict and by_level["ERROR"] > 0 else 0
 
 
 if __name__ == "__main__":

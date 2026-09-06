@@ -1,6 +1,19 @@
 {
   "conforms": true,
-  "results": [],
+  "valid": true,
+  "ok": true,
+  "schema_version": "1.1.0",
+  "export_version": "2.1.0",
+  "relation_registry_version": "1.0.0",
   "kernel_version": "3.0.0",
-  "content_hash": "sha256:c5ca082d7190b9f6b639f53a4e227276c0d2b908394d0143820ab7b1a660d55f"
+  "content_hash": "sha256:c5ca082d7190b9f6b639f53a4e227276c0d2b908394d0143820ab7b1a660d55f",
+  "severity_counts": {
+    "ERROR": 0,
+    "WARNING": 0,
+    "INFO": 0
+  },
+  "results": [],
+  "errors": [],
+  "warnings": [],
+  "info": []
 }
