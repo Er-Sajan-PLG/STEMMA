@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.electromagnetic-spectrum
+id: stemma:phys.electromagnetic-spectrum
 type: concept
 name: Electromagnetic Spectrum
 domain: physics
@@ -34,15 +34,6 @@ real_world_applications:
   - Cancer treatment (gamma rays).
 provenance:
   ai_drafted: true
-relationships:
-  - type: related_to
-    target: lhs:phys.light
-  - type: related_to
-    target: lhs:phys.wave
-  - type: related_to
-    target: lhs:phys.frequency
-  - type: related_to
-    target: lhs:phys.wavelength
 ---
 
 ## Notes

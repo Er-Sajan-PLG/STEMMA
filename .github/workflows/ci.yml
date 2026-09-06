@@ -14,18 +14,19 @@ permissions:
   contents: read
 
 jobs:
-  validate:
+  verify:
     name: Validate Knowledge Base
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
         with:
-          # Full history so check_id_immutability.py can reconstruct each lhs: id's
-          # identity across time and verify no id was reassigned or reused (ADR-0003).
+          # Full history so check_id_immutability.py can reconstruct each
+          # canonical id's identity across time and verify no id was
+          # reassigned or reused (ADR-0003; namespace alias ADR-0027).
           fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v7
+        uses: actions/setup-python@v5
         with:
           python-version: "3.11"
 
@@ -33,21 +34,21 @@ jobs:
         run: |
           pip install pyyaml jsonschema
 
-      - name: Run authoritative verification chain (content + connections + sources + semantic tests)
-        # verify_all.py is the single authoritative entry point: it runs the validator
-        # (now covering content/ + connections/ + sources/), the derived-analysis scripts,
-        # and the Phase-B + curation semantic/boundary test suites. CI delegates to it so
-        # the gate exercises exactly what the repository's verification command does.
+      - name: Run authoritative verification chain
+        # verify_all.py is the single authoritative entry point: gate (content +
+        # connections + sources), derived analyses, invariant tests, history
+        # guards, and repository-integrity gates. CI delegates to it so the gate
+        # exercises exactly what the repository's verification command does.
         run: python3 scripts/verify_all.py
 
       - name: Check derived exports are fresh and deterministic
-        # Exports are stamped with a content hash (no wall-clock), so regeneration is
-        # byte-identical when the tracked artifacts are in sync (ADR-0022 / plan v2 E5.2).
-        # A non-empty diff means someone edited canonical content without committing the
-        # regenerated export — fail instead of silently consuming a stale export.
-        run: git diff --exit-code -- exports explorer/public/exports reports/validation-report.json
+        # Exports are stamped with a content hash (no wall-clock), so regeneration
+        # is byte-identical when tracked artifacts are in sync (ADR-0022). A
+        # non-empty diff means canonical content changed without regenerating the
+        # export — fail instead of silently consuming a stale export.
+        run: git diff --exit-code -- exports reports
 
-      - name: Check derived exports
+      - name: Check derived export exists
         run: |
           test -f exports/knowledge.json
           echo "Derived export exists"
@@ -57,7 +58,7 @@ jobs:
     name: Security scan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -69,8 +70,8 @@ jobs:
 
       - name: Check no secrets in content
         run: |
-          if grep -R -i "api_key\|secret.*=" content/ --include="*.md" | grep -v "example" | grep -v "provenance"; then
-            echo "Potential secret in content"
+          if grep -R -i "api_key\|secret.*=" content/ connections/ sources/ --include="*.md" --include="*.yaml" | grep -v "example" | grep -v "provenance"; then
+            echo "Potential secret in canonical content"
             exit 1
           fi
 
@@ -78,11 +79,17 @@ jobs:
     name: Verify Governance Docs
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
 
       - name: Check required docs
         run: |
-          for f in AGENTS.md README.md docs/GOVERNANCE.md docs/STEMMA-SPECIFICATION.md; do
+          for f in AGENTS.md README.md VERSION \
+                   docs/README.md docs/VISION.md docs/ARCHITECTURE.md \
+                   docs/DOMAIN-MODEL.md docs/SCHEMA-SPECIFICATION.md \
+                   docs/METADATA-SPECIFICATION.md docs/RELATIONSHIP-SPECIFICATION.md \
+                   docs/PIPELINES.md docs/GOVERNANCE.md docs/TESTING.md \
+                   docs/STANDARDS.md docs/ROADMAP.md docs/MIGRATIONS.md \
+                   docs/CURATION-PROTOCOL.md docs/CONSUMERS.md docs/decisions/README.md; do
             if [[ ! -f "$f" ]]; then echo "Missing $f"; exit 1; fi
           done
           echo "Docs OK"
@@ -95,8 +102,8 @@ jobs:
       - name: Check branch naming
         run: |
           branch="${{ github.head_ref }}"
-          if [[ ! $branch =~ ^(feat|fix|docs|chore|ci|task|phase|exp|dependabot|arena)/ ]]; then
-            echo "Branch '$branch' must start with feat/|fix/|docs/|chore/|ci/|task/|phase/|exp/|dependabot/|arena/"
+          if [[ ! $branch =~ ^(feat|fix|docs|chore|ci|task|refactor|test|dependabot|arena)/ ]]; then
+            echo "Branch '$branch' must start with feat/|fix/|docs/|chore/|ci/|task/|refactor|test/|dependabot/|arena/"
             exit 1
           fi
 
@@ -105,7 +112,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 

@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.hydrocarbon
+id: stemma:chem.hydrocarbon
 type: concept
 name: Hydrocarbon
 domain: chemistry
@@ -30,13 +30,4 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Compendium of Chemical Terminology
-relationships:
-  - type: logically_requires
-    target: lhs:chem.compound
-  - type: logically_requires
-    target: lhs:chem.element
-  - type: generalizes
-    target: lhs:chem.alkane
-  - type: generalizes
-    target: lhs:chem.alkene
 ---

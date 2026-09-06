@@ -3,10 +3,10 @@
 
 Commands:
   python3 scripts/review.py list
-  python3 scripts/review.py show lhs:conn.000042
-  python3 scripts/review.py accept lhs:conn.000042 --reviewer human:reviewer.physics-001
-  python3 scripts/review.py canonicalize lhs:conn.000042 --reviewer human:reviewer.physics-001
-  python3 scripts/review.py reject lhs:conn.000042 --reviewer human:reviewer.physics-001 --reason "..."
+  python3 scripts/review.py show stemma:conn.000042
+  python3 scripts/review.py accept stemma:conn.000042 --reviewer human:reviewer.physics-001
+  python3 scripts/review.py canonicalize stemma:conn.000042 --reviewer human:reviewer.physics-001
+  python3 scripts/review.py reject stemma:conn.000042 --reviewer human:reviewer.physics-001 --reason "..."
 """
 from __future__ import annotations
 
@@ -25,8 +25,8 @@ from curation_state import validate_transition  # type: ignore
 
 def load_conn(cid):
     # Accept with or without prefix
-    if not cid.startswith("lhs:conn."):
-        cid = f"lhs:conn.{cid}"
+    if not cid.startswith("stemma:conn."):
+        cid = f"stemma:conn.{cid}"
     p = CONNECTIONS / f"{cid}.yaml"
     if not p.exists():
         print(f"not found: {cid}", file=sys.stderr)
@@ -83,7 +83,7 @@ def cmd_show(cid):
 
 def apply_transition(cid, to_review, reviewer, reason=None):
     p, d = load_conn(cid)
-    errs = validate_transition(d, to_review, reviewer)
+    errs = validate_transition(d, to_review, reviewer, reason)
     if errs:
         print(f"transition forbidden: {errs}", file=sys.stderr)
         sys.exit(1)
@@ -130,6 +130,8 @@ def apply_transition(cid, to_review, reviewer, reason=None):
             }
         )
     d["assertion"]["review"]["status"] = to_review
+    # Scientific rejection is a review state only: the record stays an active
+    # canonical object. Structural retirement (deprecated/superseded) is separate.
     # If moving to reviewed/canonical, ensure type is not proposed? Keep as is but allow asserted->reviewed
     p.write_text(yaml.safe_dump(d, sort_keys=False, allow_unicode=True))
     print(f"OK: {cid} -> {to_review} by {reviewer}")

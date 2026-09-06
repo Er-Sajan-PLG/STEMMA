@@ -1,53 +1,137 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://learninghubstem.example/schema/concept.schema.json",
-  "title": "LearningHubSTEM canonical entity",
-  "description": "Schema for the YAML frontmatter of one canonical knowledge entity (v0.2).",
+  "$id": "https://stemma.example/schema/concept.schema.json",
+  "title": "STEMMA canonical entity",
+  "description": "Schema for the YAML frontmatter of one canonical knowledge entity (v1.0). IDs live in the stemma: namespace (ADR-0027).",
   "type": "object",
-  "required": ["id", "type", "name", "domain", "status", "definition", "provenance"],
+  "required": [
+    "id",
+    "type",
+    "name",
+    "domain",
+    "status",
+    "definition",
+    "provenance"
+  ],
   "properties": {
     "id": {
       "type": "string",
-      "pattern": "^lhs:[a-z][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*$",
-      "description": "Stable identifier, namespace lhs:<domain>.<slug>. Never reused."
+      "pattern": "^stemma:[a-z][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*$",
+      "description": "Stable identifier, namespace stemma:<domain>.<slug>. Never reused."
     },
     "type": {
-      "enum": ["concept", "quantity", "unit", "law", "equation", "misconception", "phenomenon", "model", "experiment"],
+      "enum": [
+        "concept",
+        "quantity",
+        "unit",
+        "law",
+        "equation",
+        "misconception",
+        "phenomenon",
+        "model",
+        "experiment"
+      ],
       "description": "Entity type. v0.3 (ADR-0021): adds phenomenon, model, experiment — types the relation registry already referenced in domain/range (audit F3/R20). Additive; type changes on existing entities remain forbidden."
     },
-    "name": { "type": "string" },
-    "domain": { "type": "string", "description": "Subject area, e.g. physics" },
-    "status": {
-      "enum": ["draft", "machine_validated", "human_reviewed", "canonical", "deprecated", "superseded"]
+    "name": {
+      "type": "string"
     },
-    "aliases": { "type": "array", "items": { "type": "string" }, "description": "Historical IDs" },
-    "deprecated_by": { "type": "string", "description": "Successor ID when deprecated/superseded" },
-    "definition": { "type": "string", "description": "Curriculum-agnostic definition" },
-    "examples": { "type": "array", "items": { "type": "string" } },
-    "equation": { "type": ["string", "null"], "default": null, "description": "Canonical mathematical form using defined symbols (optional)" },
-    "symbol": { "type": ["string", "null"], "default": null, "description": "Symbol(s) for the quantity or law (optional)" },
-    "unit": { "type": ["string", "null"], "default": null, "description": "SI unit of the quantity (optional)" },
-    "common_misconceptions": { "type": "array", "items": { "type": "string" }, "description": "Common false beliefs learners hold; knowledge-layer, not pedagogy (optional)" },
+    "domain": {
+      "type": "string",
+      "description": "Subject area, e.g. physics"
+    },
+    "status": {
+      "enum": [
+        "draft",
+        "machine_validated",
+        "human_reviewed",
+        "canonical",
+        "deprecated",
+        "superseded"
+      ]
+    },
+    "aliases": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Historical IDs"
+    },
+    "deprecated_by": {
+      "type": "string",
+      "description": "Successor ID when deprecated/superseded"
+    },
+    "definition": {
+      "type": "string",
+      "description": "Curriculum-agnostic definition"
+    },
+    "examples": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "equation": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "Canonical mathematical form using defined symbols (optional)"
+    },
+    "symbol": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "Symbol(s) for the quantity or law (optional)"
+    },
+    "unit": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "SI unit of the quantity (optional)"
+    },
+    "common_misconceptions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Common false beliefs learners hold; knowledge-layer, not pedagogy (optional)"
+    },
     "learning_objectives": {
       "type": "array",
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "description": "What the learner should understand, calculate, predict, or explain. Knowledge-layer: intrinsic to the concept, not pedagogy."
     },
     "real_world_applications": {
       "type": "array",
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "description": "Real-world phenomena and technologies this concept explains or enables."
     },
     "key_experiments": {
       "type": "array",
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "description": "Classic experiments or demonstrations that establish this concept."
     },
     "provenance": {
       "type": "object",
-      "required": ["ai_drafted"],
+      "required": [
+        "ai_drafted"
+      ],
       "properties": {
-        "ai_drafted": { "type": "boolean" },
+        "ai_drafted": {
+          "type": "boolean"
+        },
         "source_kind": {
           "enum": [
             "human-authored",
@@ -60,28 +144,29 @@
           ],
           "default": null
         },
-        "source": { "type": ["string", "null"], "default": null },
-        "reviewer": { "type": ["string", "null"], "default": null },
-        "reviewed_at": { "type": ["string", "null"], "default": null }
+        "source": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "reviewer": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        },
+        "reviewed_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null
+        }
       },
       "additionalProperties": false
-    },
-    "relationships": {
-      "type": "array",
-      "description": "DEPRECATED as an authoring surface (ADR-0020): this block is a GENERATED compatibility projection of canonical connections/ (run scripts/sync_relationships.py). New relationships must be added in connections/ only; the validator fails if this block drifts from the projection. Relation names are governed by schema/relation-registry.yaml (checked by the validator).",
-      "items": {
-        "type": "object",
-        "required": ["type", "target"],
-        "properties": {
-          "type": {
-            "type": "string",
-            "description": "Relation name; must exist in schema/relation-registry.yaml (enforced by validate.py — the inline enum was relaxed when this block became a generated projection)."
-          },
-          "target": { "type": "string", "pattern": "^lhs:" },
-          "note": { "type": "string" }
-        },
-        "additionalProperties": false
-      }
     },
     "extensions": {
       "type": "object",
@@ -94,7 +179,10 @@
       "description": "ADR-0016 (implemented by ADR-0021): optional monotonically increasing object revision. Identity never encodes version (ADR-0003); content integrity is the derived content_hash."
     },
     "updated_at": {
-      "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "description": "ADR-0016: optional ISO8601 last-modification timestamp of this entity object."
     },
     "external_ids": {
@@ -105,40 +193,84 @@
       },
       "additionalProperties": {
         "anyOf": [
-          { "type": "string" },
-          { "type": "array", "items": { "type": "string" } }
+          {
+            "type": "string"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
         ]
       },
       "description": "ADR-0016 (implemented by ADR-0021): namespaced external anchor identifiers, e.g. external_ids: {wd: Q11402, qudt: unit-MeterPerSecondSquared}. Multi-valued per scheme. STEMMA stays independently authoritative — external IDs link and anchor, never import content."
     },
     "rights": {
-      "type": ["object", "null"],
+      "type": [
+        "object",
+        "null"
+      ],
       "properties": {
-        "license": { "type": "string" },
-        "attribution": { "type": "string" },
-        "rights_holder": { "type": "string" }
+        "license": {
+          "type": "string"
+        },
+        "attribution": {
+          "type": "string"
+        },
+        "rights_holder": {
+          "type": "string"
+        }
       },
       "additionalProperties": false,
       "description": "ADR-0016: optional per-object rights statement. Defaults to the repository-level CC BY 4.0 content license when absent."
     },
     "historical": {
       "type": "object",
-      "required": ["stated_by", "year"],
+      "required": [
+        "stated_by",
+        "year"
+      ],
       "properties": {
-        "stated_by": { "type": "string", "description": "Person/group who first stated or discovered the claim (required when field present)" },
-        "year": { "type": "integer", "description": "Year (CE; negative for BCE) of first statement/publication" },
-        "where": { "type": "string", "description": "Optional: the work/source where it was stated" },
-        "context": { "type": "string", "description": "Optional domain note" },
-        "note": { "type": "string", "description": "Optional attribution caveat / uncertainty / contested-origin note" },
+        "stated_by": {
+          "type": "string",
+          "description": "Person/group who first stated or discovered the claim (required when field present)"
+        },
+        "year": {
+          "type": "integer",
+          "description": "Year (CE; negative for BCE) of first statement/publication"
+        },
+        "where": {
+          "type": "string",
+          "description": "Optional: the work/source where it was stated"
+        },
+        "context": {
+          "type": "string",
+          "description": "Optional domain note"
+        },
+        "note": {
+          "type": "string",
+          "description": "Optional attribution caveat / uncertainty / contested-origin note"
+        },
         "timeline": {
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["year", "event"],
+            "required": [
+              "year",
+              "event"
+            ],
             "properties": {
-              "year": { "type": "integer" },
-              "by": { "type": "string", "description": "Optional; defaults to stated_by" },
-              "event": { "type": "string" }
+              "year": {
+                "type": "integer"
+              },
+              "by": {
+                "type": "string",
+                "description": "Optional; defaults to stated_by"
+              },
+              "event": {
+                "type": "string"
+              }
             },
             "additionalProperties": false
           }

@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.population-dynamics
+id: stemma:bio.population-dynamics
 type: concept
 name: Population Dynamics
 domain: biology
@@ -30,11 +30,6 @@ provenance:
   ai_drafted: true
   source_kind: academic-or-research
   source: Ecology (Odum); International Union of Biological Sciences
-relationships:
-  - type: related_to
-    target: lhs:bio.ecosystem
-  - type: related_to
-    target: lhs:bio.natural-selection
 ---
 
 ## Notes

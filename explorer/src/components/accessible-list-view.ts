@@ -1,4 +1,4 @@
-import { LhsEntity } from '../services/knowledge-export-loader';
+import { StemmaEntity } from '../services/knowledge-export-loader';
 import { getDomainTheme } from '../styles/theme';
 
 export interface AccessibleListViewOptions {
@@ -15,7 +15,7 @@ export class AccessibleListView {
     this.onConceptSelect = options.onConceptSelect;
   }
 
-  public render(entities: LhsEntity[], selectedId: string | null): void {
+  public render(entities: StemmaEntity[], selectedId: string | null): void {
     if (entities.length === 0) {
       this.container.innerHTML = `
         <div style="padding:24px;text-align:center;color:#9ca3af;">

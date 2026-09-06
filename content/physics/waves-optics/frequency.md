@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.frequency
+id: stemma:phys.frequency
 type: quantity
 name: Frequency
 domain: physics
@@ -27,15 +27,6 @@ learning_objectives:
   - Relate frequency to wave speed and wavelength.
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.time
-  - type: related_to
-    target: lhs:phys.wave
-  - type: related_to
-    target: lhs:phys.wavelength
-  - type: related_to
-    target: lhs:phys.wave-speed
 ---
 
 ## Notes

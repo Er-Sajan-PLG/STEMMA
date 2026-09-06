@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.osmosis
+id: stemma:bio.osmosis
 type: concept
 name: Osmosis
 domain: biology
@@ -32,13 +32,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: International Union of Biological Sciences
-relationships:
-  - type: logically_requires
-    target: lhs:chem.diffusion
-  - type: related_to
-    target: lhs:phys.pressure
-  - type: related_to
-    target: lhs:bio.cell
 ---
 
 ## Notes

@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.time
+id: stemma:phys.time
 type: quantity
 name: Time
 domain: physics
@@ -28,13 +28,6 @@ real_world_applications:
   - GPS satellite synchronization.
 provenance:
   ai_drafted: true
-relationships:
-  - type: logically_requires
-    target: lhs:phys.measurement
-  - type: related_to
-    target: lhs:phys.scalar
-  - type: related_to
-    target: lhs:phys.frequency
 ---
 
 ## Notes

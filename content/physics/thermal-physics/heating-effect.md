@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.heating-effect
+id: stemma:phys.heating-effect
 type: concept
 name: Heating Effect of Electric Current
 domain: physics
@@ -32,17 +32,6 @@ real_world_applications:
   - Electric welding.
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.current
-  - type: mathematically_requires
-    target: lhs:phys.resistance
-  - type: mathematically_requires
-    target: lhs:phys.time
-  - type: related_to
-    target: lhs:phys.energy
-  - type: related_to
-    target: lhs:phys.power
 ---
 
 ## Notes

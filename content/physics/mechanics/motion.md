@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.motion
+id: stemma:phys.motion
 type: concept
 name: Motion
 domain: physics
@@ -33,15 +33,6 @@ external_ids:
   wd: Q79782
 provenance:
   ai_drafted: true
-relationships:
-  - type: logically_requires
-    target: lhs:phys.distance
-  - type: logically_requires
-    target: lhs:phys.time
-  - type: related_to
-    target: lhs:phys.velocity
-  - type: related_to
-    target: lhs:phys.acceleration
 ---
 
 ## Notes

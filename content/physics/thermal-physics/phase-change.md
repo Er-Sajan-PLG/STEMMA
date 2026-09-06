@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.phase-change
+id: stemma:phys.phase-change
 type: concept
 name: Phase Change
 domain: physics
@@ -30,11 +30,4 @@ provenance:
   source: "Halliday, Resnick & Walker, Fundamentals of Physics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: related_to
-    target: lhs:phys.change-of-state
-  - type: related_to
-    target: lhs:phys.heat
-  - type: related_to
-    target: lhs:phys.temperature
 ---

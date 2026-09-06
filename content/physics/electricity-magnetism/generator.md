@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.generator
+id: stemma:phys.generator
 type: concept
 name: Electric Generator
 domain: physics
@@ -29,11 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IEEE / IUPAP Physics Education Standards
-relationships:
-  - type: logically_requires
-    target: lhs:phys.electromagnetic-induction
-  - type: related_to
-    target: lhs:phys.magnetic-flux
 ---
 
 ## Notes

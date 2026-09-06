@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.ecosystem
+id: stemma:bio.ecosystem
 type: concept
 name: Ecosystem
 domain: biology
@@ -41,15 +41,6 @@ historical:
     - year: 1935
       by: "Arthur Tansley"
       event: "Coined the term 'ecosystem' for the whole system of organisms plus physical factors"
-relationships:
-  - type: related_to
-    target: lhs:bio.cell
-  - type: related_to
-    target: lhs:bio.photosynthesis
-  - type: related_to
-    target: lhs:bio.cellular-respiration
-  - type: related_to
-    target: lhs:phys.energy
 ---
 
 ## Notes

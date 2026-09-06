@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.adaptation
+id: stemma:bio.adaptation
 type: concept
 name: Adaptation
 domain: biology
@@ -31,11 +31,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: International Union of Biological Sciences / UNESCO Biology Framework
-relationships:
-  - type: related_to
-    target: lhs:bio.natural-selection
-  - type: related_to
-    target: lhs:bio.ecosystem
 ---
 
 ## Notes

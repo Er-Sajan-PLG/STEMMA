@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.simple-harmonic-motion
+id: stemma:phys.simple-harmonic-motion
 type: concept
 name: Simple Harmonic Motion
 domain: physics
@@ -33,11 +33,4 @@ provenance:
   source: "Halliday, Resnick & Walker, Fundamentals of Physics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: related_to
-    target: lhs:phys.wave
-  - type: related_to
-    target: lhs:phys.motion
-  - type: related_to
-    target: lhs:phys.force
 ---

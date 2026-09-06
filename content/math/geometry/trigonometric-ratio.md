@@ -1,5 +1,5 @@
 ---
-id: lhs:math.trigonometric-ratio
+id: stemma:math.trigonometric-ratio
 type: concept
 name: Trigonometric Ratio
 domain: mathematics
@@ -34,16 +34,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / ICSE Mathematics Curriculum"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: mathematically_requires
-    target: lhs:math.triangle
-  - type: mathematically_requires
-    target: lhs:math.pythagorean-theorem
-  - type: related_to
-    target: lhs:math.angle
-  - type: related_to
-    target: lhs:math.circle
 ---

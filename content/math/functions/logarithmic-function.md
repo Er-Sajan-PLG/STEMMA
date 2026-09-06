@@ -1,5 +1,5 @@
 ---
-id: lhs:math.logarithmic-function
+id: stemma:math.logarithmic-function
 type: concept
 name: Logarithmic Function
 domain: mathematics
@@ -32,7 +32,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / Common Core State Standards for Mathematics"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
 historical:
@@ -48,11 +48,4 @@ historical:
     - year: 1617
       by: "Henry Briggs"
       event: "Development of common (base-10) logarithms"
-relationships:
-  - type: mathematically_requires
-    target: lhs:math.function
-  - type: related_to
-    target: lhs:math.exponential-function
-  - type: related_to
-    target: lhs:math.rational-number
 ---

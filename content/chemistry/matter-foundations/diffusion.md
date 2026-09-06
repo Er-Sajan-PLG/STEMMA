@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.diffusion
+id: stemma:chem.diffusion
 type: concept
 name: Diffusion
 domain: chemistry
@@ -32,15 +32,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Compendium of Chemical Terminology
-relationships:
-- type: bridges
-  target: lhs:bio.osmosis
-- type: logically_requires
-  target: lhs:chem.matter
-- type: related_to
-  target: lhs:bio.osmosis
-- type: related_to
-  target: lhs:phys.temperature
 ---
 
 ## Notes

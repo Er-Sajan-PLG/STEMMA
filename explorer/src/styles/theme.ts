@@ -10,77 +10,77 @@ export interface DomainTheme {
 export const GRAPH_THEME = {
   domains: {
     physics: {
-      color: '#38bdf8',
+      color: '#00e5ff',
       name: 'Physics',
-      badgeBg: 'rgba(56, 189, 248, 0.12)',
-      badgeBorder: 'rgba(56, 189, 248, 0.4)',
-      glowColor: 'rgba(56, 189, 248, 0.6)',
+      badgeBg: 'rgba(0, 229, 255, 0.12)',
+      badgeBorder: 'rgba(0, 229, 255, 0.45)',
+      glowColor: 'rgba(0, 229, 255, 0.72)',
       icon: '⚡'
     },
     chemistry: {
-      color: '#34d399',
+      color: '#3dffb0',
       name: 'Chemistry',
-      badgeBg: 'rgba(52, 211, 153, 0.12)',
-      badgeBorder: 'rgba(52, 211, 153, 0.4)',
-      glowColor: 'rgba(52, 211, 153, 0.6)',
+      badgeBg: 'rgba(61, 255, 176, 0.12)',
+      badgeBorder: 'rgba(61, 255, 176, 0.45)',
+      glowColor: 'rgba(61, 255, 176, 0.72)',
       icon: '🧪'
     },
     biology: {
-      color: '#f472b6',
+      color: '#ff4d9d',
       name: 'Biology',
-      badgeBg: 'rgba(244, 114, 182, 0.12)',
-      badgeBorder: 'rgba(244, 114, 182, 0.4)',
-      glowColor: 'rgba(244, 114, 182, 0.6)',
+      badgeBg: 'rgba(255, 77, 157, 0.12)',
+      badgeBorder: 'rgba(255, 77, 157, 0.45)',
+      glowColor: 'rgba(255, 77, 157, 0.72)',
       icon: '🧬'
     },
     'earth-space': {
-      color: '#fbbf24',
+      color: '#ffb020',
       name: 'Earth & Space',
-      badgeBg: 'rgba(251, 191, 36, 0.12)',
-      badgeBorder: 'rgba(251, 191, 36, 0.4)',
-      glowColor: 'rgba(251, 191, 36, 0.6)',
+      badgeBg: 'rgba(255, 176, 32, 0.12)',
+      badgeBorder: 'rgba(255, 176, 32, 0.45)',
+      glowColor: 'rgba(255, 176, 32, 0.72)',
       icon: '🪐'
     },
     'scientific-practice': {
-      color: '#a78bfa',
+      color: '#c084fc',
       name: 'Scientific Practice',
-      badgeBg: 'rgba(167, 139, 250, 0.12)',
-      badgeBorder: 'rgba(167, 139, 250, 0.4)',
-      glowColor: 'rgba(167, 139, 250, 0.6)',
+      badgeBg: 'rgba(192, 132, 252, 0.12)',
+      badgeBorder: 'rgba(192, 132, 252, 0.45)',
+      glowColor: 'rgba(192, 132, 252, 0.72)',
       icon: '📐'
     },
     engineering: {
-      color: '#22d3ee',
+      color: '#2fffdd',
       name: 'Engineering',
-      badgeBg: 'rgba(34, 211, 238, 0.12)',
-      badgeBorder: 'rgba(34, 211, 238, 0.4)',
-      glowColor: 'rgba(34, 211, 238, 0.6)',
+      badgeBg: 'rgba(47, 255, 221, 0.12)',
+      badgeBorder: 'rgba(47, 255, 221, 0.45)',
+      glowColor: 'rgba(47, 255, 221, 0.72)',
       icon: '⚙️'
     },
     mathematics: {
-      color: '#e879f9',
+      color: '#ff6ee7',
       name: 'Mathematics',
-      badgeBg: 'rgba(232, 121, 249, 0.12)',
-      badgeBorder: 'rgba(232, 121, 249, 0.4)',
-      glowColor: 'rgba(232, 121, 249, 0.6)',
+      badgeBg: 'rgba(255, 110, 231, 0.12)',
+      badgeBorder: 'rgba(255, 110, 231, 0.45)',
+      glowColor: 'rgba(255, 110, 231, 0.72)',
       icon: '∑'
     }
   } as Record<string, DomainTheme>,
 
   edges: {
-    logically_requires: { color: '#38bdf8', opacity: 0.8, directional: true, particleSpeed: 0.006, width: 2.2 },
-    mathematically_requires: { color: '#34d399', opacity: 0.8, directional: true, particleSpeed: 0.007, width: 2.2 },
-    part_of: { color: '#a78bfa', opacity: 0.5, directional: true, particleSpeed: 0.003, width: 1.5 },
-    special_case_of: { color: '#f472b6', opacity: 0.5, directional: true, particleSpeed: 0.003, width: 1.5 },
-    applies_to: { color: '#fbbf24', opacity: 0.6, directional: true, particleSpeed: 0.004, width: 1.8 },
-    appears_in_law: { color: '#fbbf24', opacity: 0.4, directional: false, particleSpeed: 0, width: 1.2 },
-    related_to: { color: '#64748b', opacity: 0.35, directional: false, particleSpeed: 0, width: 1.0 },
-    default: { color: '#94a3b8', opacity: 0.3, directional: false, particleSpeed: 0, width: 1.0 }
+    logically_requires: { color: '#00e5ff', opacity: 0.85, directional: true, particleSpeed: 0.008, width: 2.4 },
+    mathematically_requires: { color: '#3dffb0', opacity: 0.85, directional: true, particleSpeed: 0.009, width: 2.4 },
+    part_of: { color: '#c084fc', opacity: 0.6, directional: true, particleSpeed: 0.004, width: 1.6 },
+    special_case_of: { color: '#ff4d9d', opacity: 0.6, directional: true, particleSpeed: 0.004, width: 1.6 },
+    applies_to: { color: '#ffb020', opacity: 0.7, directional: true, particleSpeed: 0.005, width: 1.9 },
+    appears_in_law: { color: '#ffb020', opacity: 0.5, directional: false, particleSpeed: 0, width: 1.3 },
+    related_to: { color: '#8b93b8', opacity: 0.4, directional: false, particleSpeed: 0, width: 1.1 },
+    default: { color: '#a9b3d9', opacity: 0.34, directional: false, particleSpeed: 0, width: 1.0 }
   },
 
   canvas: {
-    background: '#030712',
-    gridColor: 'rgba(56, 189, 248, 0.03)',
+    background: '#07031b',
+    gridColor: 'rgba(0, 229, 255, 0.05)',
     dimmedOpacity: 0.12
   }
 };
@@ -88,7 +88,7 @@ export const GRAPH_THEME = {
 /**
  * Assertion-trust scale (plan v2 E1.6 / ADR-0023).
  *
- * The explorer draws edges from canonical `connections[]`, not the deprecated inline
+ * The explorer draws edges from canonical `connections[]`.
  * projection, so every edge carries `assertion.review.status` — the graph can show HOW
  * TRUSTED a claim is, not only what it says. Trust modulates the relation's own style
  * (thicker/brighter = reviewed; thin/dim = unreviewed), never replaces it.
@@ -104,8 +104,7 @@ export const ASSERTION_TRUST: Record<string, TrustStyle> = {
   canonical: { label: 'Canonical assertion (human-reviewed)', short: 'Canonical', widthScale: 1.35, opacity: 0.95 },
   reviewed: { label: 'Human-reviewed assertion', short: 'Reviewed', widthScale: 1.0, opacity: 0.7 },
   unreviewed: { label: 'Unreviewed / machine-migrated assertion', short: 'Unreviewed', widthScale: 0.6, opacity: 0.3 },
-  // Fallback: an edge drawn from the deprecated inline projection carries no review status.
-  unknown: { label: 'Trust unknown (inline projection)', short: 'Unknown', widthScale: 0.6, opacity: 0.3 }
+  unknown: { label: 'Trust unknown', short: 'Unknown', widthScale: 0.6, opacity: 0.3 }
 };
 
 export function getTrustStyle(status: string | undefined): TrustStyle {

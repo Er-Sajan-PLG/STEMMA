@@ -1,5 +1,5 @@
 ---
-id: lhs:practice.scientific-observation
+id: stemma:practice.scientific-observation
 type: concept
 name: Scientific Observation
 domain: scientific-practice
@@ -29,9 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: OECD PISA 2025 Science Framework / NGSS Science Practices
-relationships:
-  - type: related_to
-    target: lhs:phys.measurement
 ---
 
 ## Notes

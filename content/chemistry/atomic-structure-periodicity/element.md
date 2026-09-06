@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.element
+id: stemma:chem.element
 type: concept
 name: Chemical Element
 domain: chemistry
@@ -29,11 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Nomenclature of Inorganic Chemistry
-relationships:
-  - type: logically_requires
-    target: lhs:chem.atom
-  - type: related_to
-    target: lhs:chem.matter
 ---
 
 ## Notes

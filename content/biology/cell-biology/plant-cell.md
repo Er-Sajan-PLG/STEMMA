@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.plant-cell
+id: stemma:bio.plant-cell
 type: concept
 name: Plant Cell
 domain: biology
@@ -29,11 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: International Union of Biological Sciences
-relationships:
-  - type: special_case_of
-    target: lhs:bio.cell
-  - type: related_to
-    target: lhs:bio.animal-cell
 ---
 
 ## Notes

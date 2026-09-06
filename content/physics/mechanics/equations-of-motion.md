@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.equations-of-motion
+id: stemma:phys.equations-of-motion
 type: equation
 name: Equations of Motion
 domain: physics
@@ -32,18 +32,7 @@ real_world_applications:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: Nepal CDC SEE / CBSE / UK KS4 kinematics objectives
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.velocity
-  - type: mathematically_requires
-    target: lhs:phys.acceleration
-  - type: mathematically_requires
-    target: lhs:phys.time
-  - type: mathematically_requires
-    target: lhs:phys.displacement
-  - type: related_to
-    target: lhs:phys.free-fall
+  source: null
 ---
 
 ## Notes

@@ -18,8 +18,8 @@ sys.path.insert(0, str(ROOT / "scripts"))
 import validate as v  # noqa: E402
 
 
-def _conn(cid="lhs:conn.000001", source="lhs:phys.mass", relation="mathematically_requires",
-          target="lhs:phys.force", polarity="positive", qualifiers=(), status="active"):
+def _conn(cid="stemma:conn.000001", source="stemma:phys.mass", relation="mathematically_requires",
+          target="stemma:phys.force", polarity="positive", qualifiers=(), status="active"):
     return {
         "id": cid,
         "type": "connection",
@@ -48,9 +48,9 @@ def test_signature_is_deterministic():
 
 def test_signature_covers_every_claim_component():
     base = v.claim_signature(_conn())
-    assert base != v.claim_signature(_conn(source="lhs:phys.acceleration"))
+    assert base != v.claim_signature(_conn(source="stemma:phys.acceleration"))
     assert base != v.claim_signature(_conn(relation="part_of"))
-    assert base != v.claim_signature(_conn(target="lhs:phys.energy"))
+    assert base != v.claim_signature(_conn(target="stemma:phys.energy"))
     assert base != v.claim_signature(_conn(polarity="negative"))
     assert base != v.claim_signature(_conn(qualifiers=[{"type": "condition", "value": "vacuum"}]))
     print("PASS: signature covers source/relation/target/polarity/qualifiers")
@@ -73,20 +73,20 @@ def test_missing_polarity_defaults_to_positive():
 def test_duplicate_active_claims_are_rejected():
     errors = []
     connections = {
-        "lhs:conn.000001": _conn(cid="lhs:conn.000001"),
-        "lhs:conn.000002": _conn(cid="lhs:conn.000002"),
+        "stemma:conn.000001": _conn(cid="stemma:conn.000001"),
+        "stemma:conn.000002": _conn(cid="stemma:conn.000002"),
     }
     v.check_duplicate_claims(connections, errors)
     assert len(errors) == 1 and "duplicate claim" in errors[0], errors
-    assert "lhs:conn.000001" in errors[0] and "lhs:conn.000002" in errors[0]
+    assert "stemma:conn.000001" in errors[0] and "stemma:conn.000002" in errors[0]
     print("PASS: two active connections asserting one claim fail the gate")
 
 
 def test_distinct_claims_pass():
     errors = []
     connections = {
-        "lhs:conn.000001": _conn(cid="lhs:conn.000001"),
-        "lhs:conn.000002": _conn(cid="lhs:conn.000002", target="lhs:phys.energy"),
+        "stemma:conn.000001": _conn(cid="stemma:conn.000001"),
+        "stemma:conn.000002": _conn(cid="stemma:conn.000002", target="stemma:phys.energy"),
     }
     v.check_duplicate_claims(connections, errors)
     assert errors == [], errors
@@ -97,12 +97,12 @@ def test_superseded_duplicate_is_allowed():
     """A retired duplicate is history, not a live contradiction."""
     errors = []
     connections = {
-        "lhs:conn.000001": _conn(cid="lhs:conn.000001", status="superseded"),
-        "lhs:conn.000002": _conn(cid="lhs:conn.000002"),
+        "stemma:conn.000001": _conn(cid="stemma:conn.000001", status="superseded"),
+        "stemma:conn.000002": _conn(cid="stemma:conn.000002"),
     }
     signatures = v.check_duplicate_claims(connections, errors)
     assert errors == [], errors
-    assert "lhs:conn.000001" not in signatures, "retired connections carry no active signature"
+    assert "stemma:conn.000001" not in signatures, "retired connections carry no active signature"
     print("PASS: a superseded duplicate does not fail the gate")
 
 

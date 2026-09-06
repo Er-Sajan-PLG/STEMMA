@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.electric-field
+id: stemma:phys.electric-field
 type: quantity
 name: Electric Field
 domain: physics
@@ -29,9 +29,4 @@ provenance:
   source: "Halliday, Resnick & Walker, Fundamentals of Physics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: logically_requires
-    target: lhs:phys.electric-charge
-  - type: related_to
-    target: lhs:phys.force
 ---

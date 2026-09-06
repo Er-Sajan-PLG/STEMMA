@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.gibbs-free-energy
+id: stemma:chem.gibbs-free-energy
 type: quantity
 name: Gibbs Free Energy
 domain: chemistry
@@ -40,11 +40,4 @@ historical:
     - year: 1876
       by: "Josiah Willard Gibbs"
       event: "First part of 'On the Equilibrium of Heterogeneous Substances' published (series ran to 1878)"
-relationships:
-  - type: mathematically_requires
-    target: lhs:chem.enthalpy
-  - type: mathematically_requires
-    target: lhs:chem.entropy
-  - type: related_to
-    target: lhs:chem.equilibrium-constant
 ---

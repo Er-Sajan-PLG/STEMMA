@@ -14,6 +14,7 @@ from typing import Any
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2] / "scripts"))
 
 import curation_pipeline as cp  # noqa: E402
+import validate  # noqa: E402
 
 
 def _pass(gate: str) -> cp.GateResult:
@@ -44,9 +45,8 @@ def test_evaluate_and_publishable():
 
 def test_good_entity_reaches_request_review():
     req = cp.CurationRequest(kind="entity", intent="t", data={
-        "id": "lhs:test.p1", "type": "concept", "name": "P", "domain": "test",
+        "id": "stemma:test.p1", "type": "concept", "name": "P", "domain": "test",
         "status": "draft", "definition": "def", "provenance": {"ai_drafted": True},
-        "relationships": [],
     })
     dec = cp.run_pipeline(
         req,
@@ -61,7 +61,7 @@ def test_good_entity_reaches_request_review():
 def test_bad_entity_is_hold_and_never_publishable():
     req = cp.CurationRequest(kind="entity", intent="bad", data={
         "id": "nope", "type": "concept", "name": "Bad", "domain": "test",
-        "status": "draft", "definition": "x", "provenance": {}, "relationships": [],
+        "status": "draft", "definition": "x", "provenance": {},
     })
     dec = cp.run_pipeline(
         req,
@@ -78,7 +78,7 @@ def test_bad_entity_is_hold_and_never_publishable():
 def test_intent_failure_forces_reject_or_hold():
     """If the semantic/intent gate fails, the change is not publishable and is not
     forwarded for canonicalization."""
-    req = cp.CurationRequest(kind="entity", intent="nonsense", data={"id": "lhs:x.y", "type": "concept"})
+    req = cp.CurationRequest(kind="entity", intent="nonsense", data={"id": "stemma:x.y", "type": "concept"})
     dec = cp.run_pipeline(
         req,
         draft_callback=lambda bp, data, **kw: data,
@@ -97,9 +97,8 @@ def test_repair_loop_bounded_and_recovers():
         if calls["n"] == 1:  # first draft is bad -> repair
             return {"id": "bad", "type": "concept", "name": "", "domain": "test",
                     "status": "draft", "definition": "", "provenance": {}}
-        return {"id": "lhs:test.fixed", "type": "concept", "name": "Fixed", "domain": "test",
-                "status": "draft", "definition": "ok", "provenance": {"ai_drafted": True},
-                "relationships": []}
+        return {"id": "stemma:test.fixed", "type": "concept", "name": "Fixed", "domain": "test",
+                "status": "draft", "definition": "ok", "provenance": {"ai_drafted": True}}
 
     req = cp.CurationRequest(kind="entity", intent="t", data={})
     dec = cp.run_pipeline(
@@ -117,8 +116,8 @@ def test_never_emits_canonical_action():
     assert "canonical" not in cp.DecisionAction.__args__
     # run on a valid proposal; action must be request_review, not canonical
     req = cp.CurationRequest(kind="entity", intent="t", data={
-        "id": "lhs:t.c", "type": "concept", "name": "C", "domain": "test",
-        "status": "draft", "definition": "d", "provenance": {"ai_drafted": True}, "relationships": []})
+        "id": "stemma:t.c", "type": "concept", "name": "C", "domain": "test",
+        "status": "draft", "definition": "d", "provenance": {"ai_drafted": True}})
     dec = cp.run_pipeline(
         req,
         draft_callback=lambda bp, data, **kw: data,
@@ -129,9 +128,21 @@ def test_never_emits_canonical_action():
 
 
 def test_blueprint_carries_source_ref():
-    req = cp.CurationRequest(kind="entity", intent="t", data={}, source_ref="lhs:src.x")
+    req = cp.CurationRequest(kind="entity", intent="t", data={}, source_ref="stemma:src.x")
     bp = cp.blueprint_from_request(req)
-    assert bp.source_ref == "lhs:src.x"
+    assert bp.source_ref == "stemma:src.x"
+
+
+def test_entity_relationships_field_is_rejected():
+    """ADR-0028/0035: entities carry no relationships, and the old relation gate
+    no longer references a nonexistent validate.REL_TYPES."""
+    assert not hasattr(validate, "REL_TYPES"), "dead validate.REL_TYPES must be gone"
+    ok, findings = cp._check_relations({"id": "stemma:x.y", "relationships": []})
+    assert not ok
+    assert any("entities carry no relationships" in f for f in findings)
+    ok, findings = cp._check_relations({"id": "stemma:x.y"})
+    assert ok, findings
+    print("PASS: entity relationships / dead REL_TYPES rejected")
 
 
 if __name__ == "__main__":
@@ -144,6 +155,7 @@ if __name__ == "__main__":
         test_repair_loop_bounded_and_recovers,
         test_never_emits_canonical_action,
         test_blueprint_carries_source_ref,
+        test_entity_relationships_field_is_rejected,
     ]
     for fn in fns:
         fn()

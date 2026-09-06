@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.allele
+id: stemma:bio.allele
 type: concept
 name: Allele
 domain: biology
@@ -30,11 +30,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: International Union of Biological Sciences
-relationships:
-  - type: special_case_of
-    target: lhs:bio.gene
-  - type: related_to
-    target: lhs:bio.dna
 ---
 
 ## Notes

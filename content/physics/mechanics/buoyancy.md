@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.buoyancy
+id: stemma:phys.buoyancy
 type: concept
 name: Buoyancy
 domain: physics
@@ -34,13 +34,6 @@ external_ids:
   wd: Q6497624
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.density
-  - type: mathematically_requires
-    target: lhs:phys.pressure
-  - type: related_to
-    target: lhs:phys.force
 ---
 
 ## Notes

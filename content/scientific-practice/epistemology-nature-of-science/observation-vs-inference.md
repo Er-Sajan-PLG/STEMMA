@@ -1,5 +1,5 @@
 ---
-id: lhs:epist.observation-vs-inference
+id: stemma:epist.observation-vs-inference
 type: concept
 name: Observation vs. Inference
 domain: scientific-practice
@@ -29,9 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: OECD PISA Epistemic Knowledge Framework / NSTA Nature of Science
-relationships:
-  - type: logically_requires
-    target: lhs:practice.scientific-observation
 ---
 
 ## Notes

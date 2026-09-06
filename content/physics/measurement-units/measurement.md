@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.measurement
+id: stemma:phys.measurement
 type: concept
 name: Measurement
 domain: physics
@@ -32,11 +32,6 @@ real_world_applications:
 - Medical diagnostics (thermometer, blood pressure).
 provenance:
   ai_drafted: true
-relationships:
-- type: logically_requires
-  target: lhs:phys.unit
-- type: related_to
-  target: lhs:phys.physical-quantity
 
 ---
 

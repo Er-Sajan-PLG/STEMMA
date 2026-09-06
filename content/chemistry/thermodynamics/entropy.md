@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.entropy
+id: stemma:chem.entropy
 type: quantity
 name: Entropy
 domain: chemistry
@@ -42,9 +42,4 @@ historical:
     - year: 1865
       by: "Rudolf Clausius"
       event: "Coined the term 'entropy'"
-relationships:
-  - type: related_to
-    target: lhs:chem.enthalpy
-  - type: related_to
-    target: lhs:chem.gibbs-free-energy
 ---

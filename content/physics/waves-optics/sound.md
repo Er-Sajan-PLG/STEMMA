@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.sound
+id: stemma:phys.sound
 type: concept
 name: Sound
 domain: physics
@@ -34,15 +34,6 @@ real_world_applications:
 - Noise control and acoustics.
 provenance:
   ai_drafted: true
-relationships:
-- type: mathematically_requires
-  target: lhs:phys.wave
-- type: related_to
-  target: lhs:phys.frequency
-- type: related_to
-  target: lhs:phys.amplitude
-- type: related_to
-  target: lhs:phys.wave-speed
 
 ---
 

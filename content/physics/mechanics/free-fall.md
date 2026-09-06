@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.free-fall
+id: stemma:phys.free-fall
 type: concept
 name: Free Fall
 domain: physics
@@ -37,13 +37,6 @@ external_ids:
   wd: Q140028
 provenance:
   ai_drafted: true
-relationships:
-- type: mathematically_requires
-  target: lhs:phys.acceleration
-- type: logically_requires
-  target: lhs:phys.gravitation
-- type: related_to
-  target: lhs:phys.gravitational-acceleration
 
 ---
 

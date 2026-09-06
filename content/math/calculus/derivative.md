@@ -1,5 +1,5 @@
 ---
-id: lhs:math.derivative
+id: stemma:math.derivative
 type: quantity
 name: Derivative
 domain: mathematics
@@ -33,16 +33,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / Common Core State Standards for Mathematics"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: mathematically_requires
-    target: lhs:math.limit
-  - type: mathematically_requires
-    target: lhs:math.function
-  - type: related_to
-    target: lhs:math.polynomial
-  - type: appears_in_law
-    target: lhs:math.fundamental-theorem-of-calculus
 ---

@@ -2,7 +2,7 @@
 
 **Status:** consumer-visible source & attribution inventory
 **Date:** 2026-09-01
-**Related:** `docs/STEMMA-SPECIFICATION.md` §8 (provenance),
+**Related:** `docs/METADATA-SPECIFICATION.md` (provenance semantics),
   `docs/decisions/0018-historical-attribution.md` (who + when), `schema/source.schema.json`.
 
 > Every canonical entity in `content/` records its **provenance** — where the entity's
@@ -80,49 +80,49 @@ carry one. The full set (id → year, stated_by):
 |--------------|------|-----------|
 
 **Mathematics**
-| `lhs:math.pythagorean-theorem` | c.−530 | Pythagoras (traditionally attributed); known to earlier Babylonians |
-| `lhs:math.quadratic-equation` | c.−2000 | Babylonian mathematics (earliest known) |
-| `lhs:math.fundamental-theorem-of-calculus` | 1666 | Isaac Newton & Gottfried Leibniz (independent) |
-| `lhs:math.logarithmic-function` | 1614 | John Napier (with Henry Briggs) |
-| `lhs:math.exponential-function` | 1748 | Leonhard Euler (formalized eˣ) |
-| `lhs:math.complex-number` | 1545 | Gerolamo Cardano (first use); Wessel, Argand, Gauss (geometry) |
-| `lhs:math.probability` | 1654 | Blaise Pascal & Pierre de Fermat |
-| `lhs:math.standard-deviation` | 1893 | Karl Pearson |
-| `lhs:math.matrix` | 1858 | Arthur Cayley |
+| `stemma:math.pythagorean-theorem` | c.−530 | Pythagoras (traditionally attributed); known to earlier Babylonians |
+| `stemma:math.quadratic-equation` | c.−2000 | Babylonian mathematics (earliest known) |
+| `stemma:math.fundamental-theorem-of-calculus` | 1666 | Isaac Newton & Gottfried Leibniz (independent) |
+| `stemma:math.logarithmic-function` | 1614 | John Napier (with Henry Briggs) |
+| `stemma:math.exponential-function` | 1748 | Leonhard Euler (formalized eˣ) |
+| `stemma:math.complex-number` | 1545 | Gerolamo Cardano (first use); Wessel, Argand, Gauss (geometry) |
+| `stemma:math.probability` | 1654 | Blaise Pascal & Pierre de Fermat |
+| `stemma:math.standard-deviation` | 1893 | Karl Pearson |
+| `stemma:math.matrix` | 1858 | Arthur Cayley |
 
 **Physics**
-| `lhs:phys.newtons-first-law` / `second-law` / `third-law` / `law-of-gravitation` | 1687 | Isaac Newton (Principia) |
-| `lhs:phys.work-energy-theorem` | 1687 | Derived from Newton's laws (foundation) |
-| `lhs:phys.conservation-of-energy` | 1847 | Hermann von Helmholtz (consolidation); earlier empirical work by Joule, Mayer |
-| `lhs:phys.coulombs-law` | 1785 | Charles-Augustin de Coulomb |
-| `lhs:phys.ohms-law` | 1827 | Georg Simon Ohm |
-| `lhs:phys.photoelectric-effect` | 1905 | Einstein (explanation); Hertz (observation, 1887) |
-| `lhs:phys.bohr-model` | 1913 | Niels Bohr |
-| `lhs:phys.nuclear-fission` | 1938 | Hahn & Strassmann (experiment); Meitner & Frisch (explanation) |
+| `stemma:phys.newtons-first-law` / `second-law` / `third-law` / `law-of-gravitation` | 1687 | Isaac Newton (Principia) |
+| `stemma:phys.work-energy-theorem` | 1687 | Derived from Newton's laws (foundation) |
+| `stemma:phys.conservation-of-energy` | 1847 | Hermann von Helmholtz (consolidation); earlier empirical work by Joule, Mayer |
+| `stemma:phys.coulombs-law` | 1785 | Charles-Augustin de Coulomb |
+| `stemma:phys.ohms-law` | 1827 | Georg Simon Ohm |
+| `stemma:phys.photoelectric-effect` | 1905 | Einstein (explanation); Hertz (observation, 1887) |
+| `stemma:phys.bohr-model` | 1913 | Niels Bohr |
+| `stemma:phys.nuclear-fission` | 1938 | Hahn & Strassmann (experiment); Meitner & Frisch (explanation) |
 
 **Chemistry**
-| `lhs:chem.periodic-table` | 1869 | Dmitri Mendeleev (with Lothar Meyer independently) |
-| `lhs:chem.acid` | 1923 | Brønsted & Lowry (model); Arrhenius earlier (1884) |
-| `lhs:chem.le-chateliers-principle` | 1884 | Henri-Louis Le Chatelier |
-| `lhs:chem.alkane` | 1830 | Recognition of the paraffin (alkane) series |
-| `lhs:chem.alkene` | 1860 | Recognition of the ethylene class (Erlenmeyer) |
-| `lhs:chem.electrochemical-cell` | 1800 | Alessandro Volta |
-| `lhs:chem.electrolysis` | 1834 | Michael Faraday (laws of electrolysis) |
-| `lhs:chem.enthalpy` | 1909 | Heike Kamerlingh Onnes (coined "enthalpy") |
-| `lhs:chem.entropy` | 1865 | Rudolf Clausius |
-| `lhs:chem.gibbs-free-energy` | 1876 | Josiah Willard Gibbs |
+| `stemma:chem.periodic-table` | 1869 | Dmitri Mendeleev (with Lothar Meyer independently) |
+| `stemma:chem.acid` | 1923 | Brønsted & Lowry (model); Arrhenius earlier (1884) |
+| `stemma:chem.le-chateliers-principle` | 1884 | Henri-Louis Le Chatelier |
+| `stemma:chem.alkane` | 1830 | Recognition of the paraffin (alkane) series |
+| `stemma:chem.alkene` | 1860 | Recognition of the ethylene class (Erlenmeyer) |
+| `stemma:chem.electrochemical-cell` | 1800 | Alessandro Volta |
+| `stemma:chem.electrolysis` | 1834 | Michael Faraday (laws of electrolysis) |
+| `stemma:chem.enthalpy` | 1909 | Heike Kamerlingh Onnes (coined "enthalpy") |
+| `stemma:chem.entropy` | 1865 | Rudolf Clausius |
+| `stemma:chem.gibbs-free-energy` | 1876 | Josiah Willard Gibbs |
 
 **Biology**
-| `lhs:bio.cell` | 1665 | Robert Hooke (discovery); Schleiden & Schwann (cell theory, 1839) |
-| `lhs:bio.nucleus` | 1831 | Robert Brown |
-| `lhs:bio.natural-selection` | 1859 | Charles Darwin (with A. R. Wallace independently, 1858) |
-| `lhs:bio.gene` | 1909 | Wilhelm Johannsen (coined "gene") |
-| `lhs:bio.chromosome` | 1888 | Heinrich Waldeyer (named); T. H. Morgan (inheritance link) |
-| `lhs:bio.meiosis` | 1876 | Hertwig & van Beneden (description); Farmer & Moore (term) |
-| `lhs:bio.dna` | 1953 | James Watson & Francis Crick (double helix) |
-| `lhs:bio.ecosystem` | 1935 | Arthur Tansley |
-| `lhs:bio.cellular-respiration` | 1937 | Hans Krebs (citric-acid cycle) |
-| `lhs:bio.photosynthesis` | 1779 | Cumulative (Priestley, Ingenhousz, van Niel) |
+| `stemma:bio.cell` | 1665 | Robert Hooke (discovery); Schleiden & Schwann (cell theory, 1839) |
+| `stemma:bio.nucleus` | 1831 | Robert Brown |
+| `stemma:bio.natural-selection` | 1859 | Charles Darwin (with A. R. Wallace independently, 1858) |
+| `stemma:bio.gene` | 1909 | Wilhelm Johannsen (coined "gene") |
+| `stemma:bio.chromosome` | 1888 | Heinrich Waldeyer (named); T. H. Morgan (inheritance link) |
+| `stemma:bio.meiosis` | 1876 | Hertwig & van Beneden (description); Farmer & Moore (term) |
+| `stemma:bio.dna` | 1953 | James Watson & Francis Crick (double helix) |
+| `stemma:bio.ecosystem` | 1935 | Arthur Tansley |
+| `stemma:bio.cellular-respiration` | 1937 | Hans Krebs (citric-acid cycle) |
+| `stemma:bio.photosynthesis` | 1779 | Cumulative (Priestley, Ingenhousz, van Niel) |
 
 > Every row reflects a `historical` block actually present on the entity. Attribution is
 > **truth-conservative**: contested or multiple/independent origins are recorded with a `note`,

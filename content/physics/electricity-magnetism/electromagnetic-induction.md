@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.electromagnetic-induction
+id: stemma:phys.electromagnetic-induction
 type: concept
 name: Electromagnetic Induction
 domain: physics
@@ -30,13 +30,6 @@ real_world_applications:
   - Wireless charging.
 provenance:
   ai_drafted: true
-relationships:
-  - type: logically_requires
-    target: lhs:phys.electromagnetism
-  - type: related_to
-    target: lhs:phys.voltage
-  - type: related_to
-    target: lhs:phys.magnetic-field
 ---
 
 ## Notes

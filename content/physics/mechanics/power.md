@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.power
+id: stemma:phys.power
 type: quantity
 name: Power
 domain: physics
@@ -33,13 +33,6 @@ external_ids:
   wd: Q25342
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.work
-  - type: mathematically_requires
-    target: lhs:phys.time
-  - type: related_to
-    target: lhs:phys.energy
 ---
 
 ## Notes

@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.reaction-rate
+id: stemma:chem.reaction-rate
 type: quantity
 name: Reaction Rate
 domain: chemistry
@@ -30,11 +30,4 @@ provenance:
   ai_drafted: true
   source_kind: textbook
   source: Atkins' Physical Chemistry
-relationships:
-  - type: logically_requires
-    target: lhs:chem.chemical-reaction
-  - type: related_to
-    target: lhs:chem.activation-energy
-  - type: related_to
-    target: lhs:chem.catalyst
 ---

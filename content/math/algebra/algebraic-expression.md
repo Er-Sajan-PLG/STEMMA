@@ -1,5 +1,5 @@
 ---
-id: lhs:math.algebraic-expression
+id: stemma:math.algebraic-expression
 type: concept
 name: Algebraic Expression
 domain: mathematics
@@ -36,16 +36,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / ICSE Mathematics Curriculum"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: mathematically_requires
-    target: lhs:math.variable
-  - type: mathematically_requires
-    target: lhs:math.integer
-  - type: related_to
-    target: lhs:math.polynomial
-  - type: related_to
-    target: lhs:math.linear-equation
 ---

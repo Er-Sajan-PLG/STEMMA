@@ -1,0 +1,35 @@
+id: stemma:conn.000017
+type: connection
+source: stemma:bio.plant-cell
+relation: special_case_of
+target: stemma:bio.cell
+assertion:
+  status: active
+  type: proposed
+  review:
+    status: unreviewed
+  confidence: null
+  confidence_basis: null
+  polarity: positive
+context:
+  domain: biology
+  subdomain: cell-biology
+  regime: []
+  scale: macroscopic
+  assumptions: []
+  qualifiers: []
+evidence: []
+provenance:
+  asserted_by:
+    type: unknown
+    id: unknown:legacy-relationship
+  generated_by:
+    type: process
+    id: process:migration.relationships-v0.2
+  method:
+    type: migration
+created_at: null
+updated_at: null
+validity: null
+lifecycle: null
+rights: null

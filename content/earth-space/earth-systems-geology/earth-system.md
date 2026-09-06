@@ -1,5 +1,5 @@
 ---
-id: lhs:earth.earth-system
+id: stemma:earth.earth-system
 type: concept
 name: Earth System
 domain: earth-space
@@ -29,15 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: NASA Earth System Science Framework / AGU
-relationships:
-  - type: logically_requires
-    target: lhs:chem.matter
-  - type: related_to
-    target: lhs:bio.cell
-  - type: related_to
-    target: lhs:bio.ecosystem
-  - type: related_to
-    target: lhs:phys.conservation-of-energy
 ---
 
 ## Notes

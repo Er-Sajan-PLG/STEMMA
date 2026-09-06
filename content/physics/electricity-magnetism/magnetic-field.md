@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.magnetic-field
+id: stemma:phys.magnetic-field
 type: concept
 name: Magnetic Field
 domain: physics
@@ -30,11 +30,6 @@ real_world_applications:
   - Mass spectrometers.
 provenance:
   ai_drafted: true
-relationships:
-  - type: related_to
-    target: lhs:phys.magnetism
-  - type: related_to
-    target: lhs:phys.electromagnetism
 ---
 
 ## Notes

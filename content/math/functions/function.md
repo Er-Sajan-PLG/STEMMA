@@ -1,5 +1,5 @@
 ---
-id: lhs:math.function
+id: stemma:math.function
 type: concept
 name: Function
 domain: mathematics
@@ -35,16 +35,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / ICSE Mathematics Curriculum"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: mathematically_requires
-    target: lhs:math.variable
-  - type: related_to
-    target: lhs:math.linear-function
-  - type: related_to
-    target: lhs:math.quadratic-function
-  - type: related_to
-    target: lhs:math.algebraic-expression
 ---

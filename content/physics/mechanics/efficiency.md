@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.efficiency
+id: stemma:phys.efficiency
 type: concept
 name: Efficiency
 domain: physics
@@ -33,13 +33,6 @@ external_ids:
   wd: Q192704
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.energy
-  - type: related_to
-    target: lhs:phys.power
-  - type: related_to
-    target: lhs:phys.conservation-of-energy
 ---
 
 ## Notes

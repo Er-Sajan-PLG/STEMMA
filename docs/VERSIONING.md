@@ -1,82 +1,58 @@
 # STEMMA Versioning
 
-**Version:** 2.0.0
-**Status:** Active
-**Owner:** Governance
-**Applies To:** This repository (canonical knowledge foundation)
-**Related:** `schema/concept.schema.json`, `exports/knowledge.json`, `scripts/validate.py`,
-  workspace `docs/WORKSPACE-VERSIONING.md`, `docs/decisions/0008-versioning.md`
+**Status:** Authoritative policy (ADR-0008, ADR-0022, ADR-0027/0028).
+**Single version source:** `schema/VERSION.yaml`. Version literals in scripts
+are forbidden.
 
 ---
 
-## 1. Purpose
+## 1. Tracks (never collapsed)
 
-Versioning in STEMMA distinguishes three separate, never-collapsed tracks (per
-decision 0008), plus a release tracker for content:
+| Track | Identifier | Meaning | Where |
+|---|---|---|---|
+| **Schema version** | `schema_version` (semver) | The four canonical JSON Schemas as a unit (fields, enums, constraints, ID grammar) | `schema/VERSION.yaml`, stamped in export |
+| **Export contract version** | `export_version` (semver) | The `exports/knowledge.json` consumer contract (shape + semantics) | `schema/VERSION.yaml`, stamped in export |
+| **Registry version** | `relation_registry_version` (semver) | `schema/relation-registry.yaml` semantics | `schema/VERSION.yaml` |
+| **Repository release** | `VERSION` file (semver) | The repository's release line; currently **3.0.0** = refoundation baseline (ADR-0029) | `VERSION`, stamped as `kernel_version` in the export |
 
-- **`schema_version`** — version of `schema/concept.schema.json` (field set, enums, constraints).
-- **`export_version`** — version of the `exports/knowledge.json` consumer contract (shape/semantics).
-- **Content release** — new/edited/deprecated entities (any content change; does not imply a contract bump).
-- **`VERSION` (this file's `**Version:**`)** — the repository's semantic release tracker used
-  by the workspace versioning system to keep docs fresh and coordinate cross-repo releases.
+Current majors: schema **1.1.0**, export **2.1.0**, registry **1.0.0**
+(schema 1.1.0 adds the `rejected` review state, ADR-0031; export 2.1.0 is the
+additive relation-registry + vocabulary sidecar, ADR-0032; broken out of the
+pre-refoundation 0.x line by the namespace + projection changes; see
+`docs/MIGRATIONS.md`).
 
----
+## 2. Bumping rules
 
-## 2. Source of truth
+- **Breaking** schema/contract/registry change (field removed/narrowed, ID
+  grammar, contract shape): major bump + ADR + MIGRATIONS entry naming what
+  old data does.
+- **Additive** (optional field, enum value, new relation): minor bump;
+  patch for corrections with no semantic surface change.
+- **Content growth** (new entities/connections/reviews): never a contract
+  bump; repository release MINOR (new knowledge) / PATCH (corrections).
+- Consumers pin the **contract major**; they never pin content versions —
+  `content_hash` identifies the snapshot.
 
-| Track | Source | Where recorded |
-|-------|--------|----------------|
-| Schema | `schema_version` | `exports/knowledge.json`, `schema/concept.schema.json` |
-| Export contract | `export_version` | `exports/knowledge.json` |
-| Content release | content changes + `VERSION` bump | git history; release semver |
-| Repo release | `VERSION` file | this file's `**Version:**` + workspace `version_bump.py` |
+## 3. Compatibility promise
 
----
+- Within an export major version, required members and field semantics are
+  stable; additions are backward-compatible for readers who ignore unknown
+  members.
+- Deprecated/superseded objects keep shipping (with successor pointers)
+  within the major; their *removal from the contract* would be a major bump.
+- Derived views (`knowledge.<policy>.json`, `knowledge.extended.json`)
+  inherit the versions of their source and add a `policy` marker.
 
-## 3. Bumping rules
+## 4. Determinism
 
-- **Schema / contract change (breaking):** bump `schema_version` / `export_version` by the
-  documented rule (breaking → major) and record an ADR. See decision 0008.
-- **Content addition / curation:** bump `VERSION` MINOR (new knowledge) or PATCH
-  (correction/review), using `version_bump.py` so doc markers stay in sync.
-- Additive schema/metadata extension (ADR-0017/0018): leave `schema_version`/`export_version`
-  unchanged; bump `VERSION` MINOR.
+Every derived artifact is content-hash stamped (`sha256:…`) — never a wall
+clock — and must regenerate byte-identically (`tests/versioning/`; CI fails
+on a stale or non-deterministic export).
 
-The workspace tool keeps doc `**Version:**` markers fresh:
+## 5. Release procedure (roadmap R6 will formalize)
 
-```bash
-python3 ../scripts/version_bump.py bump minor --scope STEMMA   # 1.0.0 -> 1.1.0
-python3 ../scripts/version_bump.py check --scope STEMMA        # must exit 0
-```
-
----
-
-## 4. Derived artifacts
-
-`exports/*.json` are **derived and regenerable** — never hand-edited. Regenerate with
-`python3 scripts/validate.py`. They are validated before the export is written; a consumer
-never handles a dangling reference.
-
----
-
-## 4a. Contract history
-
-| `export_version` | Date | Change | Record |
-|------------------|------|--------|--------|
-| 0.1 | 2026-08 | entities-only contract; `connections`/`sources` additive (ADR-0011) | ADR-0007, `EXPORT-VERSION-MIGRATION-Q3.md` |
-| **1.0** | 2026-09-04 | `connections` + `sources` **required**; shape in `schema/export.schema.json`; `relationships[]` deprecated projection; compat `0.1` view during co-release | ADR-0023 (repo `VERSION` 1.1.0 → 2.0.0) |
-| 2.0 (planned) | after consumer reads `connections[]` | remove `entities[].relationships` (plan v2 E1.7) | gate |
-
----
-
-## 5. Enforcement
-
-- `scripts/validate.py` validates schema/status/relationships/provenance/extensions/historical.
-- The workspace pre-commit `check-doc-versions` hook (and per-repo CI mirror) verifies doc
-  version markers match `VERSION` before merge.
-- Content is curriculum/grade-agnostic (NORTHSTAR): grade semantics live only in consumer
-  mapping docs.
-
----
-
-*Derived from workspace `docs/WORKSPACE-VERSIONING.md` and decision 0008.*
+1. `python3 scripts/verify_all.py` green on the release commit.
+2. Versions single-sourced in `schema/VERSION.yaml` (+ `VERSION` for the
+   repository line).
+3. MIGRATIONS.md current for any schema/contract change in the release.
+4. Tag `v<VERSION>` with a conventional-changelog summary.

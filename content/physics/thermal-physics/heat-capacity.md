@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.heat-capacity
+id: stemma:phys.heat-capacity
 type: quantity
 name: Heat Capacity
 domain: physics
@@ -30,11 +30,4 @@ provenance:
   source: "Halliday, Resnick & Walker, Fundamentals of Physics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: related_to
-    target: lhs:phys.specific-heat
-  - type: related_to
-    target: lhs:phys.temperature
-  - type: related_to
-    target: lhs:phys.heat
 ---

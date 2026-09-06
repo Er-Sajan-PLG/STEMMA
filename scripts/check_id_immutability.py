@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""B3 (Scope B): ID-immutability guard — an `lhs:` identifier once assigned to a canonical
+"""ID-immutability guard — an identifier once assigned to a canonical
 entity can NEVER later represent a different entity or meaning (ADR-0003).
 
 This is NOT a naive "union all IDs in git history and compare sets" check. The real invariant
@@ -22,9 +22,9 @@ Outcomes (must match the plan's TDD table):
 ---
 
 Plan v2 E4.5 extends the same invariant to CONNECTIONS (ADR-0026): an assertion's
-(source, relation, target) triple is what `lhs:conn.NNNNNN` *means*, so it is immutable for
+(source, relation, target) triple is what a connection id *means*, so it is immutable for
 the life of the id. Correcting a claim is not an edit — it is a supersession:
-`assertion.status: superseded` + `lifecycle.replaced_by: lhs:conn.NNNNNN` and a NEW id for
+`assertion.status: superseded` + `lifecycle.replaced_by: <new id>` and a NEW id for
 the corrected claim. Deleting a connection file without superseding it is also a violation
 (the id vanishes while its claim is still referenced by consumers).
 
@@ -47,7 +47,23 @@ CONNECTIONS = ROOT / "connections"
 # Connection statuses that legally retire an assertion (ADR-0011 / ADR-0026).
 CONNECTION_RETIRED_STATUSES = ("superseded", "deprecated")
 
-_ID_RE = re.compile(r"^id:\s*(lhs:[a-z][a-z0-9-]*\.[a-z0-9][a-z0-9-]*)", re.MULTILINE)
+
+def normalize_id(id_: str | None) -> str | None:
+    """One-time namespace migration equivalence (ADR-0027, 2026-09-04).
+
+    The canonical namespace moved `lhs:` -> `stemma:` in a single governed bulk
+    migration that changed NO identity-defining fields. Git history is the source
+    of truth for this guard, so historical `lhs:` ids and HEAD `stemma:` ids must
+    reconcile through this alias rule. This function exists ONLY for that
+    migration; it must never be extended to map other prefixes.
+    """
+    if isinstance(id_, str) and id_.startswith("lhs:"):
+        return "stemma:" + id_[len("lhs:"):]
+    return id_
+
+# Both prefixes appear in git history (lhs: pre-ADR-0027, stemma: after);
+# normalize_id() maps them onto one identity space.
+_ID_RE = re.compile(r"^id:\s*((?:lhs|stemma):[a-z][a-z0-9-]*\.[a-z0-9][a-z0-9-]*)", re.MULTILINE)
 _NAME_RE = re.compile(r"^name:\s*(.+)$", re.MULTILINE)
 _DOMAIN_RE = re.compile(r"^domain:\s*(.+)$", re.MULTILINE)
 _STATUS_RE = re.compile(r"^status:\s*(.+)$", re.MULTILINE)
@@ -82,7 +98,7 @@ def parse_file(text: str) -> dict:
 
 
 def build_id_history() -> dict[str, list[dict]]:
-    """For each lhs: id, record every (name, domain, status) version across git history.
+    """For each canonical id, record every (name, domain, status) version across git history.
 
     Returns mapping id -> list of dict(commit, name, domain, status) in oldest->newest order.
     """
@@ -102,6 +118,7 @@ def build_id_history() -> dict[str, list[dict]]:
             ent = parse_file(blob)
             if not ent.get("id"):
                 continue
+            ent["id"] = normalize_id(ent["id"])
             key = (ent.get("name"), ent.get("domain"), ent.get("status"))
             if key in seen:
                 continue  # drop duplicate identity across consecutive commits
@@ -119,6 +136,7 @@ def live_entities() -> dict[str, dict]:
     for path in CONTENT.rglob("*.md"):
         ent = parse_file(path.read_text())
         if ent.get("id"):
+            ent["id"] = normalize_id(ent["id"])
             live[ent["id"]] = ent
     return live
 
@@ -170,7 +188,7 @@ def build_connection_history() -> dict[str, list[dict]]:
             except RuntimeError:
                 continue  # path did not exist at that commit (pre-rename history)
             conn = parse_connection(blob)
-            cid = conn.get("id")
+            cid = normalize_id(conn.get("id"))
             if not cid:
                 continue
             stamp = (
@@ -186,11 +204,11 @@ def build_connection_history() -> dict[str, list[dict]]:
             history.setdefault(cid, []).append(
                 {
                     "commit": sha[:9],
-                    "source": conn.get("source"),
+                    "source": normalize_id(conn.get("source")),
                     "relation": conn.get("relation"),
-                    "target": conn.get("target"),
+                    "target": normalize_id(conn.get("target")),
                     "status": conn.get("assertion.status"),
-                    "replaced_by": conn.get("lifecycle.replaced_by") or None,
+                    "replaced_by": normalize_id(conn.get("lifecycle.replaced_by")) or None,
                 }
             )
     return history
@@ -204,6 +222,7 @@ def live_connections() -> dict[str, dict]:
     for path in sorted(CONNECTIONS.rglob("*.yaml")):
         conn = parse_connection(path.read_text(encoding="utf-8"))
         if conn.get("id"):
+            conn["id"] = normalize_id(conn["id"])
             live[conn["id"]] = conn
     return live
 
@@ -298,11 +317,11 @@ def detect_violations(history: dict[str, list[dict]], live: dict[str, dict]) -> 
         target = ent.get("deprecated_by")
         if target and target not in known:
             violations.append(
-                f"[alias-invalid] {id_} -> deprecated_by '{target}' but target is not a known lhs id"
+                f"[alias-invalid] {id_} -> deprecated_by '{target}' but target is not a known canonical id"
             )
         for alias in ent.get("aliases", []) or []:
             if alias and alias not in known:
-                violations.append(f"[alias-invalid] {id_}: alias '{alias}' is not a known lhs id")
+                violations.append(f"[alias-invalid] {id_}: alias '{alias}' is not a known canonical id")
     return violations
 
 
@@ -323,7 +342,7 @@ def main() -> int:
         for v in violations:
             print(f"  - {v}")
         return 1
-    print("PASS: all lhs: identifiers are immutable (no reassignment/reuse); "
+    print("PASS: all identifiers are immutable (no reassignment/reuse); "
           f"{len(live_entities())} live entities, {len(build_id_history())} historical ids")
     live_conns = live_connections()
     print("PASS: all connection triples are immutable (no in-place claim edits); "

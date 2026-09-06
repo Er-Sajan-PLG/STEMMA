@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.acid
+id: stemma:chem.acid
 type: concept
 name: Acid
 domain: chemistry
@@ -41,11 +41,6 @@ historical:
     - year: 1923
       by: "Johannes Brønsted & Thomas Lowry"
       event: "Independent proposal of the proton-transfer (Brønsted-Lowry) acid-base model"
-relationships:
-  - type: logically_requires
-    target: lhs:chem.compound
-  - type: related_to
-    target: lhs:chem.proton
 ---
 
 ## Notes

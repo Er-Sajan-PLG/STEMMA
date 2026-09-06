@@ -1,0 +1,31 @@
+id: stemma:conn.000434
+type: connection
+source: stemma:math.integer
+relation: generalizes
+target: stemma:math.natural-number
+assertion:
+  status: deprecated
+  type: proposed
+  review:
+    status: unreviewed
+  confidence: null
+  confidence_basis: null
+context:
+  domain: mathematics
+  subdomain: foundations
+  regime: []
+  scale: macroscopic
+  assumptions: []
+evidence: []
+provenance:
+  asserted_by:
+    type: unknown
+    id: unknown:legacy-relationship
+  generated_by:
+    type: process
+    id: process:migration.relationships-v0.2
+  method:
+    type: migration
+lifecycle:
+  reason: "materialized inverse duplicate (ADR-0012: inverses are derived, never stored canonically; repaired ADR-0021/plan v2 E2.1)"
+  replaced_by: stemma:conn.000439

@@ -1,0 +1,451 @@
+batch: 2
+campaign: R6 entity review
+reviewer: human:reviewer.physics-001
+seed_pass: false
+items:
+- id: stemma:phys.newtons-second-law
+  name: Newton's Second Law
+  domain: physics
+  type: law
+  status: draft
+  definition: The net force acting on a body equals the rate of change of its momentum; at constant mass this reduces
+    to F = m·a.
+  score: 0.028393
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.current
+  name: Electric Current
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The flow of electric charge through a conductor. Current is measured as the rate of flow of charge
+    past a point in a circuit.
+  score: 0.026463
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.conservation-of-energy
+  name: Law of Conservation of Energy
+  domain: physics
+  type: law
+  status: draft
+  definition: Energy cannot be created or destroyed; it can only be transferred from one object to another or converted
+    from one form to another. The total energy of an isolated system remains constant.
+  score: 0.023997
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.time
+  name: Time
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The dimension that orders events from past through present to future, measured as the interval between
+    two events. Time is a scalar quantity and one of the fundamental base quantities in physics.
+  score: 0.023315
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.acceleration
+  name: Acceleration
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The rate of change of velocity with respect to time; a vector quantity. Acceleration occurs whenever
+    an object's velocity changes — whether in magnitude, direction, or both.
+  score: 0.022926
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.measurement
+  name: Measurement
+  domain: physics
+  type: concept
+  status: draft
+  definition: The process of comparing an unknown quantity with a known standard (unit) to obtain a numerical value.
+    Measurement connects physical quantities to mathematics, enabling quantitative description and prediction.
+  score: 0.022754
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.frequency
+  name: Frequency
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The number of complete wave cycles passing a given point per unit time. Frequency determines the pitch
+    of sound and the color of light.
+  score: 0.02258
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.unit
+  name: Unit of Measurement
+  domain: physics
+  type: unit
+  status: draft
+  definition: A standard reference amount of a physical quantity, defined and adopted by convention, against which
+    measurements of that quantity are compared. Units provide the scale that gives physical meaning to numerical
+    values.
+  score: 0.022037
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.voltage
+  name: Potential Difference (Voltage)
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The work done per unit charge to move a charge between two points in an electric circuit. Voltage
+    is the "push" that drives current through a circuit.
+  score: 0.021312
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.distance
+  name: Distance
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The total length of the path traveled between two positions, regardless of direction. Distance is
+    a scalar quantity — it has magnitude but no direction.
+  score: 0.020739
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.heat
+  name: Heat
+  domain: physics
+  type: quantity
+  status: draft
+  definition: Energy transferred from one body to another due to a temperature difference. Heat is energy in transit
+    — it is not stored in an object (the stored energy is internal energy).
+  score: 0.020368
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.light
+  name: Light
+  domain: physics
+  type: concept
+  status: draft
+  definition: Electromagnetic radiation that is visible to the human eye. Light behaves both as a wave and as a
+    particle (photon); the two models describe complementary aspects of its behaviour.
+  score: 0.020185
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.gravitation
+  name: Gravitation
+  domain: physics
+  type: concept
+  status: draft
+  definition: The natural phenomenon by which all objects with mass or energy are attracted toward one another.
+    Gravitation is a fundamental interaction that governs the motion of planets, stars, galaxies, and the structure
+    of the universe.
+  score: 0.019927
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.density
+  name: Density
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The mass per unit volume of a substance. Density determines whether objects float or sink in fluids.
+  score: 0.019456
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.weight
+  name: Weight
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The gravitational force exerted on an object by a massive body (typically Earth). Weight is a vector
+    quantity acting toward the center of the gravitating body.
+  score: 0.019122
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.thermal-energy
+  name: Thermal Energy
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The total internal kinetic and potential energy of the particles in a substance, associated with their
+    random motion and interactions. Thermal energy is related to temperature but distinct from it — it depends on
+    mass, temperature, and the nature of the substance.
+  score: 0.018361
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.physical-quantity
+  name: Physical Quantity
+  domain: physics
+  type: concept
+  status: draft
+  definition: A property of a phenomenon, body, or substance that can be quantified — that is, expressed as a number
+    and a reference (unit). Physical quantities describe the physical world in measurable terms, enabling comparison,
+    calculation, and prediction.
+  score: 0.01799
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.radioactivity
+  name: Radioactivity
+  domain: physics
+  type: concept
+  status: draft
+  definition: The spontaneous emission of radiation from an unstable atomic nucleus. The three main types are alpha
+    particles, beta particles, and gamma rays.
+  score: 0.017383
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.atomic-structure
+  name: Atomic Structure
+  domain: physics
+  type: concept
+  status: draft
+  definition: The structure of an atom as a dense, positively charged nucleus (containing protons and neutrons)
+    surrounded by negatively charged electrons in orbitals. The number of protons determines the element.
+  score: 0.016764
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.temperature
+  name: Temperature
+  domain: physics
+  type: quantity
+  status: draft
+  definition: A measure of the average kinetic energy of the particles in a substance. Temperature determines the
+    direction of heat flow — heat flows from higher temperature to lower temperature.
+  score: 0.016493
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.velocity
+  name: Velocity
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The rate of change of displacement with respect to time. Velocity is a vector quantity — it has both
+    magnitude (speed) and direction.
+  score: 0.016312
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.triangle
+  name: Triangle
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: A polygon with three edges and three vertices. The sum of interior angles is always 180°. Triangles
+    are classified by sides (equilateral, isosceles, scalene) and angles (acute, right, obtuse).
+  score: 0.0163
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.work
+  name: Work
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The product of the force applied to an object and the distance the object moves in the direction of
+    the force. Work measures the transfer of energy by a mechanical force.
+  score: 0.01614
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.displacement
+  name: Displacement
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The change in position of an object, measured as a straight-line vector from the initial position
+    to the final position. Displacement has both magnitude and direction, making it a vector quantity.
+  score: 0.01607
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.linear-equation
+  name: Linear Equation
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: 'An equation in which the highest power of the variable is 1. In one variable: ax + b = 0 (a ≠ 0).
+    In two variables: ax + by + c = 0. The graph of a linear equation in two variables is a straight line.'
+  score: 0.015376
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.free-fall
+  name: Free Fall
+  domain: physics
+  type: concept
+  status: draft
+  definition: Motion under the influence of gravitational force alone, with no other forces (especially air resistance)
+    acting. In free fall, all objects experience the same acceleration regardless of mass, provided air resistance
+    is negligible.
+  score: 0.015369
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.wave-speed
+  name: Wave Speed
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The speed at which a wave propagates through a medium. Wave speed depends on the properties of the
+    medium, not on frequency or amplitude.
+  score: 0.015094
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.wavelength
+  name: Wavelength
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The distance between two consecutive points in phase on a wave — for example, crest to crest or trough
+    to trough. Wavelength determines the character of the wave (color of light, pitch of sound).
+  score: 0.014952
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.inertia
+  name: Inertia
+  domain: physics
+  type: concept
+  status: draft
+  definition: The tendency of an object to resist any change in its state of motion — whether at rest or moving
+    with constant velocity. Inertia is not a force; it is a property of matter quantified by mass.
+  score: 0.014664
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.newtons-first-law
+  name: Newton's First Law of Motion
+  domain: physics
+  type: law
+  status: draft
+  definition: An object at rest remains at rest, and an object in motion continues in motion with constant velocity
+    (constant speed in a straight line), unless acted upon by a net external force.
+  score: 0.014612
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.vector
+  name: Vector Quantity
+  domain: physics
+  type: concept
+  status: draft
+  definition: A quantity that has both magnitude and direction, and follows specific rules of addition (vector addition).
+    Vectors represent quantities where direction matters as much as size.
+  score: 0.014547
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.trigonometric-ratio
+  name: Trigonometric Ratio
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: 'Ratios of sides in a right triangle relative to an acute angle. The three primary ratios: sine (opposite/hypotenuse),
+    cosine (adjacent/hypotenuse), tangent (opposite/adjacent). Extended to reciprocal ratios: cosecant, secant,
+    cotangent.'
+  score: 0.014517
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.decimal
+  name: Decimal
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: A representation of numbers using base-10 place value, where a decimal point separates the whole number
+    part from the fractional part. Each position represents a power of 10.
+  score: 0.014443
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.circle
+  name: Circle
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: 'The set of all points in a plane that are at a fixed distance (radius) from a fixed point (center).
+    Key elements: radius (r), diameter (d = 2r), circumference (C), area (A).'
+  score: 0.014347
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.kinetic-energy
+  name: Kinetic Energy
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The energy possessed by an object due to its motion. The kinetic energy of an object depends on its
+    mass and the square of its speed.
+  score: 0.014077
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.magnetic-field
+  name: Magnetic Field
+  domain: physics
+  type: concept
+  status: draft
+  definition: The region around a magnet or current-carrying conductor where magnetic forces can be detected. Magnetic
+    fields are represented by field lines that show the direction and strength of the field.
+  score: 0.013875
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.quadratic-equation
+  name: Quadratic Equation
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: 'An equation in which the highest power of the variable is 2. Standard form: ax² + bx + c = 0 (a ≠
+    0). Quadratic equations have at most two real solutions (roots), found by factoring, completing the square,
+    or the quadratic formula.'
+  score: 0.013788
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.pressure
+  name: Pressure
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The force applied per unit area on a surface. Pressure explains how forces are distributed over areas.
+  score: 0.013766
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.probability
+  name: Probability
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: A measure of the likelihood that an event will occur, expressed as a number between 0 (impossible)
+    and 1 (certain). P(E) = Number of favorable outcomes / Total number of possible outcomes (for equally likely
+    outcomes).
+  score: 0.013621
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.variable
+  name: Variable
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: A symbol (usually a letter) that represents an unknown or changeable quantity. Variables allow generalization
+    of arithmetic relationships and the formulation of algebraic expressions and equations.
+  score: 0.013614
+  decision: null
+  reviewer: null
+  evidence_notes: null

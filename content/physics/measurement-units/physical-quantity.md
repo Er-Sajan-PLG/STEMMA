@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.physical-quantity
+id: stemma:phys.physical-quantity
 type: concept
 name: Physical Quantity
 domain: physics
@@ -31,11 +31,6 @@ real_world_applications:
 - Navigation, construction, and manufacturing.
 provenance:
   ai_drafted: true
-relationships:
-- type: related_to
-  target: lhs:phys.measurement
-- type: related_to
-  target: lhs:phys.unit
 
 ---
 

@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.lens
+id: stemma:phys.lens
 type: concept
 name: Lens
 domain: physics
@@ -35,13 +35,6 @@ real_world_applications:
 - Magnifying glasses.
 provenance:
   ai_drafted: true
-relationships:
-- type: logically_requires
-  target: lhs:phys.refraction
-- type: related_to
-  target: lhs:phys.light
-- type: related_to
-  target: lhs:phys.mirror
 
 ---
 

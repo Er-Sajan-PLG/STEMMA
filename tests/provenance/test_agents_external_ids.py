@@ -86,7 +86,7 @@ def test_external_ids_format_checks():
 # Entities deliberately left without a QID because no faithful Wikidata item exists
 # (a wrong anchor is worse than none). Re-check when Wikidata gains an item.
 NO_FAITHFUL_WIKIDATA_ITEM = {
-    "lhs:phys.equations-of-motion",  # constant-acceleration (SUVAT) set; Q215007 is the general ODE sense
+    "stemma:phys.equations-of-motion",  # constant-acceleration (SUVAT) set; Q215007 is the general ODE sense
 }
 
 
@@ -104,19 +104,19 @@ def test_mechanics_batch_seeded_with_wikidata():
 def test_no_hardcoded_export_version_in_contract_docs():
     """Consumer-facing docs must not claim a stale contract version."""
     versions = yaml.safe_load((ROOT / "schema" / "VERSION.yaml").read_text())
-    seam = (ROOT / "docs" / "STEMMA-CONSUMER-SEAM.md").read_text()
+    seam = (ROOT / "docs" / "CONSUMERS.md").read_text()
     assert f"export_version: {versions['export_version']}" in seam, \
-        "STEMMA-CONSUMER-SEAM.md does not state the current export_version"
+        "docs/CONSUMERS.md does not state the current export_version"
     print(f"PASS: consumer seam documents export_version {versions['export_version']}")
 
 
 def test_campaign_generator_is_deterministic_and_readonly():
     before = {p: p.read_bytes() for p in (ROOT / "connections").glob("*.yaml")}
-    r = subprocess.run(["python3", str(ROOT / "scripts" / "dependency_review_campaign.py")], capture_output=True, text=True)
+    r = subprocess.run([sys.executable, str(ROOT / "scripts" / "dependency_review_campaign.py")], capture_output=True, text=True)
     assert r.returncode == 0, r.stderr
-    out = ROOT / "reports" / "e61-dependency-campaign"
+    out = ROOT / "reports" / "dependency-review-campaign"
     first = {p.name: p.read_bytes() for p in out.iterdir()}
-    r = subprocess.run(["python3", str(ROOT / "scripts" / "dependency_review_campaign.py")], capture_output=True, text=True)
+    r = subprocess.run([sys.executable, str(ROOT / "scripts" / "dependency_review_campaign.py")], capture_output=True, text=True)
     second = {p.name: p.read_bytes() for p in out.iterdir()}
     assert first == second, "campaign worksheets are not deterministic"
     after = {p: p.read_bytes() for p in (ROOT / "connections").glob("*.yaml")}
@@ -125,8 +125,8 @@ def test_campaign_generator_is_deterministic_and_readonly():
 
 
 def test_apply_decisions_refuses_non_human_reviewer():
-    sheet = next((ROOT / "reports" / "e61-dependency-campaign").glob("batch-01.yaml"))
-    r = subprocess.run(["python3", str(ROOT / "scripts" / "apply_review_decisions.py"), str(sheet),
+    sheet = next((ROOT / "reports" / "dependency-review-campaign").glob("batch-01.yaml"))
+    r = subprocess.run([sys.executable, str(ROOT / "scripts" / "apply_review_decisions.py"), str(sheet),
                         "--reviewer", "process:e61.dependency-campaign", "--dry-run"], capture_output=True, text=True)
     assert r.returncode == 2, r.stdout + r.stderr
     print("PASS: apply_review_decisions refuses a non-human reviewer")

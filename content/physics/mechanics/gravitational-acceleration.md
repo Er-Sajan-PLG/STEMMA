@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.gravitational-acceleration
+id: stemma:phys.gravitational-acceleration
 type: quantity
 name: Gravitational Acceleration
 domain: physics
@@ -31,13 +31,6 @@ external_ids:
   wd: Q30006
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.acceleration
-  - type: related_to
-    target: lhs:phys.free-fall
-  - type: related_to
-    target: lhs:phys.gravitation
 ---
 
 ## Notes

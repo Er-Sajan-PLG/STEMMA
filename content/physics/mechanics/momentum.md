@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.momentum
+id: stemma:phys.momentum
 type: quantity
 name: Momentum
 domain: physics
@@ -37,15 +37,6 @@ external_ids:
   wd: Q41273
 provenance:
   ai_drafted: true
-relationships:
-- type: mathematically_requires
-  target: lhs:phys.mass
-- type: mathematically_requires
-  target: lhs:phys.velocity
-- type: related_to
-  target: lhs:phys.newtons-second-law
-- type: related_to
-  target: lhs:phys.impulse
 
 ---
 

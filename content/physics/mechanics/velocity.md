@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.velocity
+id: stemma:phys.velocity
 type: quantity
 name: Velocity
 domain: physics
@@ -36,15 +36,6 @@ external_ids:
   wd: Q11465
 provenance:
   ai_drafted: true
-relationships:
-- type: mathematically_requires
-  target: lhs:phys.displacement
-- type: mathematically_requires
-  target: lhs:phys.time
-- type: mathematically_requires
-  target: lhs:phys.speed
-- type: related_to
-  target: lhs:phys.acceleration
 
 ---
 

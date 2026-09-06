@@ -1,5 +1,5 @@
 ---
-id: lhs:math.geometric-sequence
+id: stemma:math.geometric-sequence
 type: concept
 name: Geometric Sequence
 domain: mathematics
@@ -33,14 +33,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / Common Core State Standards for Mathematics"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: part_of
-    target: lhs:math.sequence
-  - type: related_to
-    target: lhs:math.ratio
-  - type: related_to
-    target: lhs:math.exponential-function
 ---

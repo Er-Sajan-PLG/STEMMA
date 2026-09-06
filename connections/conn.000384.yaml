@@ -1,0 +1,57 @@
+id: stemma:conn.000384
+type: connection
+source: stemma:phys.current
+relation: analogous_to
+target: stemma:chem.diffusion
+assertion:
+  status: active
+  type: proposed
+  review:
+    status: canonical
+  confidence: null
+  confidence_basis: null
+  polarity: positive
+context:
+  domain: physics
+  subdomain: electricity-magnetism
+  regime:
+  - classical
+  scale: macroscopic
+  assumptions: []
+  qualifiers: []
+evidence:
+- type: textbook
+  source_ref: stemma:src.halliday-resnick
+  locator: Ch. 26, current
+  description: 'Charge flow analogous to particle flow; mapping: voltage:pressure,
+    current:flow_rate'
+  stance: supports
+  locator_struct: null
+provenance:
+  asserted_by:
+    type: human
+    id: human:reviewer.physics-001
+  generated_by:
+    type: human
+    id: human:curator.001
+  reviewed_by:
+  - type: human
+    id: human:reviewer.physics-001
+  method:
+    type: manual
+  review_history:
+  - from: unreviewed
+    to: reviewed
+    reviewer: human:reviewer.physics-001
+    at: '2026-08-30T18:21:03.641209+00:00'
+    reason: analogy current→diffusion
+  - from: reviewed
+    to: canonical
+    reviewer: human:reviewer.physics-001
+    at: '2026-08-30T18:21:03.641214+00:00'
+    reason: analogy current→diffusion
+created_at: null
+updated_at: null
+validity: null
+lifecycle: null
+rights: null

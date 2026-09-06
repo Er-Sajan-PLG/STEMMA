@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.reflection
+id: stemma:phys.reflection
 type: concept
 name: Reflection of Light
 domain: physics
@@ -31,11 +31,6 @@ real_world_applications:
 - Optical instruments.
 provenance:
   ai_drafted: true
-relationships:
-- type: logically_requires
-  target: lhs:phys.light
-- type: related_to
-  target: lhs:phys.refraction
 
 ---
 

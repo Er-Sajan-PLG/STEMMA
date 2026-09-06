@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.nuclear-binding-energy
+id: stemma:phys.nuclear-binding-energy
 type: quantity
 name: Nuclear Binding Energy
 domain: physics
@@ -30,11 +30,4 @@ provenance:
   source: "Halliday, Resnick & Walker, Fundamentals of Physics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: related_to
-    target: lhs:phys.nuclear-fission
-  - type: related_to
-    target: lhs:phys.nuclear-fusion
-  - type: related_to
-    target: lhs:phys.energy
 ---

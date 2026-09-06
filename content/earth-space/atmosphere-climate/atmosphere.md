@@ -1,5 +1,5 @@
 ---
-id: lhs:earth.atmosphere
+id: stemma:earth.atmosphere
 type: concept
 name: Earth Atmosphere
 domain: earth-space
@@ -29,17 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: NOAA / WMO Atmospheric Science Standards
-relationships:
-  - type: part_of
-    target: lhs:earth.earth-system
-  - type: logically_requires
-    target: lhs:phys.pressure
-  - type: related_to
-    target: lhs:phys.gravitation
-  - type: related_to
-    target: lhs:chem.acid
-  - type: related_to
-    target: lhs:bio.cellular-respiration
 ---
 
 ## Notes

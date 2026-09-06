@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.electrochemical-cell
+id: stemma:chem.electrochemical-cell
 type: concept
 name: Electrochemical Cell
 domain: chemistry
@@ -43,9 +43,4 @@ historical:
     - year: 1800
       by: "Alessandro Volta"
       event: "Invention of the voltaic pile, announced in a letter to the Royal Society"
-relationships:
-  - type: related_to
-    target: lhs:chem.oxidation-reduction
-  - type: logically_requires
-    target: lhs:chem.salt
 ---

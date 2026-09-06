@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.refraction
+id: stemma:phys.refraction
 type: concept
 name: Refraction of Light
 domain: physics
@@ -35,13 +35,6 @@ real_world_applications:
 - Apparent depth of swimming pools.
 provenance:
   ai_drafted: true
-relationships:
-- type: logically_requires
-  target: lhs:phys.light
-- type: related_to
-  target: lhs:phys.reflection
-- type: related_to
-  target: lhs:phys.lens
 
 ---
 

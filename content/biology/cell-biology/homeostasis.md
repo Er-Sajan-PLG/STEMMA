@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.homeostasis
+id: stemma:bio.homeostasis
 type: concept
 name: Homeostasis
 domain: biology
@@ -32,13 +32,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: International Union of Physiological Sciences
-relationships:
-  - type: logically_requires
-    target: lhs:bio.cell
-  - type: related_to
-    target: lhs:bio.enzyme
-  - type: related_to
-    target: lhs:phys.temperature
 ---
 
 ## Notes

@@ -1,5 +1,5 @@
 ---
-id: lhs:math.fundamental-theorem-of-calculus
+id: stemma:math.fundamental-theorem-of-calculus
 type: law
 name: Fundamental Theorem of Calculus
 domain: mathematics
@@ -50,11 +50,4 @@ historical:
     - year: 1693
       by: "Gottfried Wilhelm Leibniz"
       event: "Publication of the fundamental theorem of calculus"
-relationships:
-  - type: applies_to
-    target: lhs:math.derivative
-  - type: applies_to
-    target: lhs:math.integral
-  - type: mathematically_requires
-    target: lhs:math.limit
 ---

@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.energy-flow-ecosystem
+id: stemma:bio.energy-flow-ecosystem
 type: concept
 name: Energy Flow in Ecosystems
 domain: biology
@@ -30,11 +30,6 @@ provenance:
   ai_drafted: true
   source_kind: academic-or-research
   source: Raymond Lindeman; Fundamentals of Ecology (Odum)
-relationships:
-  - type: related_to
-    target: lhs:bio.ecosystem
-  - type: related_to
-    target: lhs:bio.photosynthesis
 ---
 
 ## Notes

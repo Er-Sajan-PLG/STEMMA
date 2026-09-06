@@ -1,0 +1,21 @@
+# Gitleaks allowlist for deterministic STEMMA test fixtures.
+#
+# The webapp provider tests use short, explicitly fake values for provider
+# config. Some older commits (before the sanitization commit) contained longer
+# fake values such as `AIza-test-key-1234` and `local-harness-key`, which match
+# gitleaks' generic API-key rule even though they are never real credentials.
+# These entries only allow known test-fixture strings; they never mask a
+# real-looking secret.
+[allowlist]
+description = "STEMMA deterministic provider test fixtures (never real credentials)"
+regexes = [
+  # Explicit fake values used by provider/webapp tests across branch history.
+  '''AIza-test-key-1234''',
+  '''AIza-test-key''',
+  '''local-harness-key''',
+  '''any-local-key''',
+  '''secret-key-1234''',
+  '''AIza-mock''',
+  '''AIza-key''',
+  '''AIza-test''',
+]

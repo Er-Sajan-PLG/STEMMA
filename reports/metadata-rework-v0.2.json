@@ -1,9 +1,0 @@
-{
-  "current_dimensions": ["entity id/type/name/domain/status/definition/provenance", "connection assertion/context/evidence/provenance", "source id/type/citation"],
-  "urgent_additions": ["M2 polarity","M3 timestamps+validity","M6 source bibliographic","M8 evidence type","M9 stance","M11 locator_struct","M12 qualifiers","M19 lifecycle","M20 claim_signature","M23 rights","M25 entity version"],
-  "schema_changes": "additive optional, schema_version 0.2, export_version 0.1",
-  "migration": "scripts/migrate_metadata_urgent.py idempotent, polarity positive default, timestamps file mtime, stance supports",
-  "validator": "enforces polarity, stance, timestamps, lifecycle, claim_signature derived",
-  "before_after": {"before": "397 without polarity/timestamps", "after": "397 with polarity/timestamps/stance"},
-  "human_gate": "URGENT/IMPORTANT/ADDITION/DEFER/REJECT table in docs/metadata/METADATA-GAP-MATRIX-v0.2.md"
-}

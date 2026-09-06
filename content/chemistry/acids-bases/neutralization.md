@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.neutralization
+id: stemma:chem.neutralization
 type: concept
 name: Neutralization Reaction
 domain: chemistry
@@ -29,13 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Compendium of Chemical Terminology
-relationships:
-  - type: logically_requires
-    target: lhs:chem.acid
-  - type: logically_requires
-    target: lhs:chem.base
-  - type: special_case_of
-    target: lhs:chem.chemical-reaction
 ---
 
 ## Notes

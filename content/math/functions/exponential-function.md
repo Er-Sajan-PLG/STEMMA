@@ -1,5 +1,5 @@
 ---
-id: lhs:math.exponential-function
+id: stemma:math.exponential-function
 type: concept
 name: Exponential Function
 domain: mathematics
@@ -32,7 +32,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / Common Core State Standards for Mathematics"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
 historical:
@@ -41,13 +41,4 @@ historical:
   where: "Introductio in Analysin Infinitorum"
   context: "Calculus and analysis"
   note: "Euler formalized the natural exponential function e^x and the constant e. Earlier exponential ideas predate the formal function: Bombelli (16th c.) worked on iterative growth, and exponential processes were used in finance and astronomy before the 18th century."
-relationships:
-  - type: mathematically_requires
-    target: lhs:math.function
-  - type: related_to
-    target: lhs:math.logarithmic-function
-  - type: related_to
-    target: lhs:math.rational-number
-  - type: related_to
-    target: lhs:math.geometric-sequence
 ---

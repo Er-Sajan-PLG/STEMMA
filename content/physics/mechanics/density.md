@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.density
+id: stemma:phys.density
 type: quantity
 name: Density
 domain: physics
@@ -33,13 +33,6 @@ external_ids:
   wd: Q29539
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.mass
-  - type: related_to
-    target: lhs:phys.pressure
-  - type: related_to
-    target: lhs:phys.buoyancy
 ---
 
 ## Notes

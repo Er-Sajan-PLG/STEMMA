@@ -25,16 +25,17 @@ export class SearchFilterBar {
   public render(): void {
     this.container.innerHTML = `
       <div class="explorer-header">
-        <div class="brand-title">
+        <div class="brand-title" title="stemma — a colorful map of the whole STEM universe">
           <div class="brand-logo"></div>
-          <span>STEMMA</span>
-          <span class="brand-sub">3D Explorer</span>
+          <span>stemma</span>
+          <span class="brand-sub">3D STEM</span>
+          <span class="chat-soon" title="Ask anything about a concept, equation, or relation — arriving next">💬 Ask stemma · soon</span>
         </div>
 
         <div class="toolbar-controls">
           <!-- Search Input with Clear button -->
           <div class="search-wrapper">
-            <input type="text" id="searchInput" class="search-input" placeholder="Search concepts (e.g. force)..." />
+            <input type="text" id="searchInput" class="search-input" placeholder="Search the stem-verse (e.g. force, voltage, photosynthesis)..." />
             <button id="searchClear" class="search-clear">✕</button>
           </div>
 
@@ -61,7 +62,7 @@ export class SearchFilterBar {
           </select>
 
           <!-- Mode Group -->
-          <div class="mode-btn-group" role="group" aria-label="Explorer Mode">
+          <div class="mode-btn-group" role="group" aria-label="stemma browse mode">
             <button class="mode-btn active" data-mode="explore">Explore</button>
             <button class="mode-btn" data-mode="prerequisites">Prereqs DAG</button>
             <button class="mode-btn" data-mode="domain">Domains</button>

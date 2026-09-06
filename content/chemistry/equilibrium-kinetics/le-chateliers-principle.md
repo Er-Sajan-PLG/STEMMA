@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.le-chateliers-principle
+id: stemma:chem.le-chateliers-principle
 type: law
 name: Le Chatelier's Principle
 domain: chemistry
@@ -36,9 +36,4 @@ historical:
   where: "Comptes rendus de l'Académie des Sciences (C. R. Acad. Sci.)"
   context: "Chemical equilibrium under changing conditions"
   note: "Le Chatelier announced the principle in 1884 in the Comptes rendus. Similar reasoning about equilibrium response to stress was being developed by others around the same time."
-relationships:
-  - type: applies_to
-    target: lhs:chem.chemical-equilibrium
-  - type: mathematically_requires
-    target: lhs:chem.equilibrium-constant
 ---

@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.magnetic-force
+id: stemma:phys.magnetic-force
 type: quantity
 name: Magnetic Force
 domain: physics
@@ -30,9 +30,4 @@ provenance:
   source: "Halliday, Resnick & Walker, Fundamentals of Physics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: logically_requires
-    target: lhs:phys.magnetic-field
-  - type: related_to
-    target: lhs:phys.force
 ---

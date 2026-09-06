@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.mutation
+id: stemma:bio.mutation
 type: concept
 name: Mutation
 domain: biology
@@ -30,13 +30,6 @@ provenance:
   ai_drafted: true
   source_kind: textbook
   source: Campbell Biology
-relationships:
-  - type: related_to
-    target: lhs:bio.gene
-  - type: related_to
-    target: lhs:bio.dna
-  - type: related_to
-    target: lhs:bio.natural-selection
 ---
 
 ## Notes

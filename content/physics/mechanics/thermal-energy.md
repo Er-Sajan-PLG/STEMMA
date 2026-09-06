@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.thermal-energy
+id: stemma:phys.thermal-energy
 type: quantity
 name: Thermal Energy
 domain: physics
@@ -34,15 +34,6 @@ external_ids:
   wd: Q209233
 provenance:
   ai_drafted: true
-relationships:
-  - type: related_to
-    target: lhs:phys.heat
-  - type: related_to
-    target: lhs:phys.temperature
-  - type: related_to
-    target: lhs:phys.specific-heat
-  - type: related_to
-    target: lhs:phys.energy-loss
 ---
 
 ## Notes

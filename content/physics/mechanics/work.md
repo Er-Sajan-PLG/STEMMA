@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.work
+id: stemma:phys.work
 type: quantity
 name: Work
 domain: physics
@@ -33,15 +33,6 @@ external_ids:
   wd: Q42213
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.force
-  - type: mathematically_requires
-    target: lhs:phys.distance
-  - type: related_to
-    target: lhs:phys.energy
-  - type: related_to
-    target: lhs:phys.power
 ---
 
 ## Notes

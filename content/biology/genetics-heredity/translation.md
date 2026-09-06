@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.translation
+id: stemma:bio.translation
 type: concept
 name: Translation
 domain: biology
@@ -30,11 +30,6 @@ provenance:
   ai_drafted: true
   source_kind: textbook
   source: Campbell Biology
-relationships:
-  - type: logically_requires
-    target: lhs:bio.transcription
-  - type: part_of
-    target: lhs:bio.protein-synthesis
 ---
 
 ## Notes

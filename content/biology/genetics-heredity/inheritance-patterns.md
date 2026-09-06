@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.inheritance-patterns
+id: stemma:bio.inheritance-patterns
 type: concept
 name: Inheritance Patterns
 domain: biology
@@ -31,11 +31,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: International Union of Biological Sciences
-relationships:
-  - type: logically_requires
-    target: lhs:bio.allele
-  - type: related_to
-    target: lhs:bio.gene
 ---
 
 ## Notes

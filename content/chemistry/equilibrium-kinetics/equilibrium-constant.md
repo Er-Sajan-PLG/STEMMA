@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.equilibrium-constant
+id: stemma:chem.equilibrium-constant
 type: quantity
 name: Equilibrium Constant
 domain: chemistry
@@ -30,9 +30,4 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Compendium of Chemical Terminology
-relationships:
-  - type: mathematically_requires
-    target: lhs:chem.chemical-equilibrium
-  - type: appears_in_law
-    target: lhs:chem.le-chateliers-principle
 ---

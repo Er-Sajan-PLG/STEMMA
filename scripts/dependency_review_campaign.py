@@ -4,9 +4,9 @@
 Scope: every active `mathematically_requires` / `logically_requires` connection.
 This script NEVER changes review status. It produces human worksheets:
 
-  reports/e61-dependency-campaign/campaign-schedule.md   overview + progress dashboard
-  reports/e61-dependency-campaign/batch-NN.md            human-readable worksheet
-  reports/e61-dependency-campaign/batch-NN.yaml          machine-readable decision sheet
+  reports/dependency-review-campaign/campaign-schedule.md   overview + progress dashboard
+  reports/dependency-review-campaign/batch-NN.md            human-readable worksheet
+  reports/dependency-review-campaign/batch-NN.yaml          machine-readable decision sheet
 
 A reviewer fills the `decision:` field of each item in batch-NN.yaml
 (accept | canonical | reject | defer), optionally `reason:` and `evidence:`, and
@@ -44,7 +44,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 CONNECTIONS = ROOT / "connections"
 CONTENT = ROOT / "content"
 EXTENDED = ROOT / "exports" / "knowledge.extended.json"
-OUT = ROOT / "reports" / "e61-dependency-campaign"
+OUT = ROOT / "reports" / "dependency-review-campaign"
 DEP_RELATIONS = ("mathematically_requires", "logically_requires")
 FAMILY_RULE = ("dependency family (CURATION-PROTOCOL §3): explicit derivation, definition, "
                "or prerequisite documentation; equation where applicable")
@@ -142,7 +142,7 @@ def main() -> int:
               f"{len(batch)} edges · reviewer: `{args.reviewer}` · relations: {', '.join(DEP_RELATIONS)}", "",
               "Decision vocabulary: **accept** (→ reviewed), **canonical** (→ reviewed → canonical, evidence required),",
               "**reject** (reason required), **defer**. Fill `decision:` in the companion YAML, then run:",
-              "", f"```bash", f"python3 scripts/apply_review_decisions.py reports/e61-dependency-campaign/batch-{bi:02d}.yaml --reviewer {args.reviewer}", "```", "",
+              "", f"```bash", f"python3 scripts/apply_review_decisions.py reports/dependency-review-campaign/batch-{bi:02d}.yaml --reviewer {args.reviewer}", "```", "",
               "| # | Connection | Assertion | Types | Domain/range | Text support | Evidence | Score |",
               "|---|-----------|-----------|-------|--------------|--------------|----------|-------|"]
         for i, c in enumerate(batch, start=1):

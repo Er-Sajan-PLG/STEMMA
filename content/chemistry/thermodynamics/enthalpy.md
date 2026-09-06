@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.enthalpy
+id: stemma:chem.enthalpy
 type: quantity
 name: Enthalpy
 domain: chemistry
@@ -36,11 +36,4 @@ historical:
   where: "Lecture/publication in which the term 'enthalpy' was introduced"
   context: "Thermodynamic state function H = U + PV"
   note: "Kamerlingh Onnes coined the term 'enthalpy' in 1909. The underlying state-function concept (heat exchanged at constant pressure) was already present in earlier thermodynamics, including J. Willard Gibbs's work in the 1870s."
-relationships:
-  - type: related_to
-    target: lhs:chem.entropy
-  - type: related_to
-    target: lhs:chem.gibbs-free-energy
-  - type: related_to
-    target: lhs:chem.chemical-reaction
 ---

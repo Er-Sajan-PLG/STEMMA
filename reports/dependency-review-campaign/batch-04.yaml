@@ -1,0 +1,620 @@
+batch: 4
+campaign: E6.1 dependency-edge review
+reviewer: human:reviewer.physics-001
+instructions: Set decision to accept|canonical|reject|defer per item. canonical requires evidence (list of {type,
+  description, source_ref?, locator?}). reject requires reason.
+items:
+- id: stemma:conn.000090
+  claim: Greenhouse Effect logically_requires Electromagnetic Spectrum
+  source: stemma:earth.greenhouse-effect
+  relation: logically_requires
+  target: stemma:phys.electromagnetic-spectrum
+  source_definition: The process by which greenhouse gases in Earth's atmosphere (such as water vapor, CO₂, CH₄)
+    absorb outgoing infrared radiation emitted by Earth's surface and re-radiate thermal energy in all directions,
+    warming the lower atmosphere.
+  target_definition: 'The range of all types of electromagnetic radiation, ordered by wavelength or frequency. From
+    longest wavelength to shortest: radio waves, microwaves, infrared, visible light, ultraviolet, X-rays, gamma
+    rays.'
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000110
+  claim: Big Bang Theory logically_requires Electromagnetic Spectrum
+  source: stemma:earth.big-bang-theory
+  relation: logically_requires
+  target: stemma:phys.electromagnetic-spectrum
+  source_definition: The prevailing cosmological model describing the early development and metric expansion of
+    the universe from an extremely hot, dense state approximately 13.8 billion years ago.
+  target_definition: 'The range of all types of electromagnetic radiation, ordered by wavelength or frequency. From
+    longest wavelength to shortest: radio waves, microwaves, infrared, visible light, ultraviolet, X-rays, gamma
+    rays.'
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000504
+  claim: DNA Replication logically_requires Enzyme
+  source: stemma:bio.dna-replication
+  relation: logically_requires
+  target: stemma:bio.enzyme
+  source_definition: The semi-conservative process by which a cell copies its double-stranded DNA before division,
+    in which each parental strand serves as a template for the synthesis of a complementary new strand through the
+    coordinated action of enzymes at an unwound replication fork.
+  target_definition: A biological catalyst (typically a protein) that speeds up specific biochemical reactions by
+    lowering activation energy without being consumed in the reaction.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: name 'Enzyme'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000524
+  claim: Glycolysis logically_requires Enzyme
+  source: stemma:bio.glycolysis
+  relation: logically_requires
+  target: stemma:bio.enzyme
+  source_definition: The first stage of cellular respiration, a ten-step cytosolic pathway that breaks down one
+    molecule of glucose into two molecules of pyruvate, producing a net yield of two ATP and two NADH without requiring
+    oxygen, and providing substrates for further aerobic or anaerobic reactions.
+  target_definition: A biological catalyst (typically a protein) that speeds up specific biochemical reactions by
+    lowering activation energy without being consumed in the reaction.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000186
+  claim: Buoyancy mathematically_requires Density
+  source: stemma:phys.buoyancy
+  relation: mathematically_requires
+  target: stemma:phys.density
+  source_definition: The upward force exerted by a fluid on an object immersed in it. This force equals the weight
+    of the fluid displaced by the object (Archimedes' principle).
+  target_definition: The mass per unit volume of a substance. Density determines whether objects float or sink in
+    fluids.
+  source_equation: F_buoyant = ρ_fluid · V_displaced · g
+  prechecks:
+    domain_range: ok
+    text_support: symbol 'ρ' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000312
+  claim: Weight mathematically_requires Gravitational Acceleration
+  source: stemma:phys.weight
+  relation: mathematically_requires
+  target: stemma:phys.gravitational-acceleration
+  source_definition: The gravitational force exerted on an object by a massive body (typically Earth). Weight is
+    a vector quantity acting toward the center of the gravitating body.
+  target_definition: The acceleration experienced by an object solely under the influence of Earth's gravity, near
+    the Earth's surface. It is approximately constant for all objects, regardless of their mass.
+  source_equation: W = m·g
+  prechecks:
+    domain_range: ok
+    text_support: symbol 'g' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000426
+  claim: Percentage mathematically_requires Decimal
+  source: stemma:math.percentage
+  relation: mathematically_requires
+  target: stemma:math.decimal
+  source_definition: A ratio or fraction expressed as parts per hundred, denoted with the % symbol. x% means x/100
+    or x hundredths. Percentages provide a standardized way to compare proportions regardless of the whole's size.
+  target_definition: A representation of numbers using base-10 place value, where a decimal point separates the
+    whole number part from the fractional part. Each position represents a power of 10.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000280
+  claim: Potential Energy mathematically_requires Gravitational Acceleration
+  source: stemma:phys.potential-energy
+  relation: mathematically_requires
+  target: stemma:phys.gravitational-acceleration
+  source_definition: The energy stored in an object due to its position, configuration, or condition. Gravitational
+    potential energy depends on mass, gravitational acceleration, and height above a reference level.
+  target_definition: The acceleration experienced by an object solely under the influence of Earth's gravity, near
+    the Earth's surface. It is approximately constant for all objects, regardless of their mass.
+  source_equation: PE = m·g·h (gravitational)
+  prechecks:
+    domain_range: ok
+    text_support: name 'Gravitational Acceleration'; symbol 'g' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000466
+  claim: Triangle mathematically_requires Angle
+  source: stemma:math.triangle
+  relation: mathematically_requires
+  target: stemma:math.angle
+  source_definition: A polygon with three edges and three vertices. The sum of interior angles is always 180°. Triangles
+    are classified by sides (equilateral, isosceles, scalene) and angles (acute, right, obtuse).
+  target_definition: The figure formed by two rays (sides) sharing a common endpoint (vertex). Measured in degrees
+    (°) or radians (rad). One full rotation = 360° = 2π rad.
+  source_equation: ∠A + ∠B + ∠C = 180°
+  prechecks:
+    domain_range: ok
+    text_support: name 'Angle'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000063
+  claim: Ionic Bond logically_requires Electron
+  source: stemma:chem.ionic-bond
+  relation: logically_requires
+  target: stemma:chem.electron
+  source_definition: A chemical bond formed through the electrostatic attraction between oppositely charged ions,
+    resulting from the complete transfer of one or more valence electrons from a metal atom to a non-metal atom.
+  target_definition: A stable subatomic particle carrying a negative elementary electric charge (-1e) and a mass
+    approximately 1/1836th of a proton (9.109 × 10⁻³¹ kg), occupying atomic orbitals surrounding the nucleus.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: name 'Electron'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000242
+  claim: Impulse mathematically_requires Momentum
+  source: stemma:phys.impulse
+  relation: mathematically_requires
+  target: stemma:phys.momentum
+  source_definition: The product of the average force acting on an object and the time interval over which it acts.
+    Impulse equals the change in momentum of the object.
+  target_definition: The product of a body's mass and velocity; a vector quantity that is conserved in closed systems.
+    Momentum quantifies the "amount of motion" an object possesses.
+  source_equation: J = F·Δt = Δp
+  prechecks:
+    domain_range: ok
+    text_support: name 'Momentum'; symbol 'p' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000061
+  claim: Covalent Bond logically_requires Electron
+  source: stemma:chem.covalent-bond
+  relation: logically_requires
+  target: stemma:chem.electron
+  source_definition: A chemical bond formed when two non-metal atoms share one or more pairs of valence electrons,
+    achieving stable noble-gas electron configurations through mutual electrostatic attraction between shared electrons
+    and nuclei.
+  target_definition: A stable subatomic particle carrying a negative elementary electric charge (-1e) and a mass
+    approximately 1/1836th of a proton (9.109 × 10⁻³¹ kg), occupying atomic orbitals surrounding the nucleus.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: name 'Electron'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000536
+  claim: Electrolysis logically_requires Oxidation-Reduction
+  source: stemma:chem.electrolysis
+  relation: logically_requires
+  target: stemma:chem.oxidation-reduction
+  source_definition: The decomposition of a compound into its elements or simpler substances by passing an electric
+    current through an electrolyte. Electrolysis is driven by an external voltage and is the key process in an electrolytic
+    cell, enabling nonspontaneous redox reactions.
+  target_definition: A class of chemical reactions involving the transfer of electrons between species, in which
+    oxidation is the loss of electrons and reduction is the gain of electrons. Oxidation and reduction always occur
+    together, with one species being oxidized and another reduced.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000587
+  claim: Derivative mathematically_requires Limit
+  source: stemma:math.derivative
+  relation: mathematically_requires
+  target: stemma:math.limit
+  source_definition: The instantaneous rate of change of a function with respect to its variable; the limit of the
+    average rate of change as the interval shrinks to zero. Written f′(x) = lim_{h→0} (f(x+h) − f(x))/h, the derivative
+    gives the slope of the tangent line to the graph at a point.
+  target_definition: The value a function or sequence approaches as its input or index approaches a given value.
+    Written lim_{x→c} f(x) = L, a limit describes the behaviour of f near the point c without requiring f to be
+    defined there. Limits formalize instantaneous change and underpin the derivative and the integral.
+  source_equation: f′(x) = lim_{h→0} (f(x+h) − f(x)) / h
+  prechecks:
+    domain_range: ok
+    text_support: name 'Limit'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000151
+  claim: Electric Generator logically_requires Electromagnetic Induction
+  source: stemma:phys.generator
+  relation: logically_requires
+  target: stemma:phys.electromagnetic-induction
+  source_definition: A machine that converts mechanical energy into electrical energy using electromagnetic induction,
+    forcing electric charge to flow through an external circuit by rotating a coil in a magnetic field.
+  target_definition: The production of an electromotive force (voltage) across a conductor when it is exposed to
+    a changing magnetic field. This is the principle behind electric generators.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: name 'Electromagnetic Induction'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000584
+  claim: Continuity mathematically_requires Limit
+  source: stemma:math.continuity
+  relation: mathematically_requires
+  target: stemma:math.limit
+  source_definition: 'A property of a function at a point when the function value equals its limit there: lim_{x→c}
+    f(x) = f(c). A function is continuous on an interval if it is continuous at every point of that interval, meaning
+    its graph can be drawn without lifting the pen. Continuity is a prerequisite for differentia'
+  target_definition: The value a function or sequence approaches as its input or index approaches a given value.
+    Written lim_{x→c} f(x) = L, a limit describes the behaviour of f near the point c without requiring f to be
+    defined there. Limits formalize instantaneous change and underpin the derivative and the integral.
+  source_equation: lim_{x→c} f(x) = f(c)
+  prechecks:
+    domain_range: ok
+    text_support: name 'Limit'; symbol 'lim_{x→c} f' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000527
+  claim: Immune System logically_requires Homeostasis
+  source: stemma:bio.immune-system
+  relation: logically_requires
+  target: stemma:bio.homeostasis
+  source_definition: The coordinated network of organs, cells, and molecules that defends the body against pathogens
+    and other foreign substances, comprising nonspecific (innate) mechanisms such as barriers and phagocytes and
+    specific (adaptive) responses including antibody production and immunological memory.
+  target_definition: The maintenance of a stable internal environment (temperature, pH, water and solute balance,
+    glucose levels) within living organisms despite changes in the external environment, achieved through regulatory
+    feedback mechanisms.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000247
+  claim: Kinetic Energy mathematically_requires Speed
+  source: stemma:phys.kinetic-energy
+  relation: mathematically_requires
+  target: stemma:phys.speed
+  source_definition: The energy possessed by an object due to its motion. The kinetic energy of an object depends
+    on its mass and the square of its speed.
+  target_definition: The rate at which an object covers distance — the total distance traveled divided by the total
+    time taken. Speed is a scalar quantity.
+  source_equation: KE = ½·m·v²
+  prechecks:
+    domain_range: ok
+    text_support: name 'Speed'; symbol 'v' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000306
+  claim: Velocity mathematically_requires Speed
+  source: stemma:phys.velocity
+  relation: mathematically_requires
+  target: stemma:phys.speed
+  source_definition: The rate of change of displacement with respect to time. Velocity is a vector quantity — it
+    has both magnitude (speed) and direction.
+  target_definition: The rate at which an object covers distance — the total distance traveled divided by the total
+    time taken. Speed is a scalar quantity.
+  source_equation: v = Δx / Δt
+  prechecks:
+    domain_range: ok
+    text_support: name 'Speed'; symbol 'v' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000545
+  claim: Equilibrium Constant mathematically_requires Chemical Equilibrium
+  source: stemma:chem.equilibrium-constant
+  relation: mathematically_requires
+  target: stemma:chem.chemical-equilibrium
+  source_definition: A dimensionless quantity that characterizes the position of a chemical equilibrium. For a reaction
+    aA + bB ⇌ cC + dD it is the ratio of product concentrations raised to their stoichiometric coefficients to reactant
+    concentrations raised to theirs, at a given temperature.
+  target_definition: The state of a reversible reaction in which the rates of the forward and reverse reactions
+    are equal, so the concentrations of reactants and products remain constant over time. Equilibrium is dynamic
+    and does not imply equal quantities of reactants and products.
+  source_equation: K = [C]^c [D]^d / ([A]^a [B]^b)
+  prechecks:
+    domain_range: ok
+    text_support: name 'Chemical Equilibrium'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000032
+  claim: Photosynthesis logically_requires Plant Cell
+  source: stemma:bio.photosynthesis
+  relation: logically_requires
+  target: stemma:bio.plant-cell
+  source_definition: The biological process by which autotrophic organisms (such as plants and algae) convert light
+    energy into stored chemical energy in glucose, using carbon dioxide and water while releasing oxygen as a byproduct.
+  target_definition: A eukaryotic cell characteristic of plants, distinguished by a rigid cellulose cell wall, a
+    large central vacuole for turgor pressure, and plastids such as chloroplasts for photosynthesis.
+  source_equation: 6CO₂ + 6H₂O + light energy → C₆H₁₂O₆ + 6O₂
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000574
+  claim: Gibbs Free Energy mathematically_requires Enthalpy
+  source: stemma:chem.gibbs-free-energy
+  relation: mathematically_requires
+  target: stemma:chem.enthalpy
+  source_definition: A thermodynamic quantity, G = H − TS, that combines enthalpy and entropy to predict whether
+    a process is spontaneous at constant temperature and pressure. A negative Gibbs free energy change indicates
+    a spontaneous process.
+  target_definition: A thermodynamic quantity equal to the internal energy of a system plus the product of its pressure
+    and volume, H = U + PV. The change in enthalpy, ΔH, measures the heat absorbed or released by a process at constant
+    pressure.
+  source_equation: ΔG = ΔH − TΔS
+  prechecks:
+    domain_range: ok
+    text_support: name 'Enthalpy'; symbol 'H' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000575
+  claim: Gibbs Free Energy mathematically_requires Entropy
+  source: stemma:chem.gibbs-free-energy
+  relation: mathematically_requires
+  target: stemma:chem.entropy
+  source_definition: A thermodynamic quantity, G = H − TS, that combines enthalpy and entropy to predict whether
+    a process is spontaneous at constant temperature and pressure. A negative Gibbs free energy change indicates
+    a spontaneous process.
+  target_definition: A thermodynamic quantity that measures the dispersal of energy or the number of microscopic
+    arrangements (microstates) available to a system, expressed as a measure of disorder. The entropy of an isolated
+    system tends to increase in spontaneous processes.
+  source_equation: ΔG = ΔH − TΔS
+  prechecks:
+    domain_range: ok
+    text_support: name 'Entropy'; symbol 'S' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000056
+  claim: Periodic Table of Elements logically_requires Proton
+  source: stemma:chem.periodic-table
+  relation: logically_requires
+  target: stemma:chem.proton
+  source_definition: A tabular arrangement of chemical elements ordered by increasing atomic number, displaying
+    recurring (periodic) trends in chemical and physical properties across periods (rows) and groups (columns).
+  target_definition: A stable subatomic particle occurring in all atomic nuclei, carrying a positive elementary
+    electric charge (+1e) and a mass of approximately 1 atomic mass unit (1.673 × 10⁻²⁷ kg).
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000375
+  claim: Observation vs. Inference logically_requires Scientific Observation
+  source: stemma:epist.observation-vs-inference
+  relation: logically_requires
+  target: stemma:practice.scientific-observation
+  source_definition: The epistemic distinction between direct empirical data gathered through sensing/measurement
+    (observation) and the logical explanation or conclusion derived from those data based on prior knowledge (inference).
+  target_definition: The systematic gathering of information about natural phenomena using the human senses or scientific
+    instruments. Observation provides the empirical basis for scientific questions, hypotheses, and evidence.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000041
+  claim: Neutralization Reaction logically_requires Base
+  source: stemma:chem.neutralization
+  relation: logically_requires
+  target: stemma:chem.base
+  source_definition: A chemical reaction between an acid and a base (or alkali) producing a salt and water, in which
+    hydrogen ions (H⁺) from the acid react with hydroxide ions (OH⁻) from the base to form neutral water molecules
+    (H₂O).
+  target_definition: A chemical substance that reacts with acids to form salt and water, accepts protons (H⁺), or
+    releases hydroxide ions (OH⁻) in aqueous solution (alkali). Bases taste bitter, feel slippery, turn red litmus
+    paper blue, and have a pH greater than 7.
+  source_equation: H⁺(aq) + OH⁻(aq) → H₂O(l)
+  prechecks:
+    domain_range: ok
+    text_support: name 'Base'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000508
+  claim: Meiosis logically_requires Chromosome
+  source: stemma:bio.meiosis
+  relation: logically_requires
+  target: stemma:bio.chromosome
+  source_definition: A specialized two-stage cell division (meiosis I and meiosis II) in diploid organisms that
+    produces four genetically distinct haploid gametes or spores, halving the chromosome number and generating genetic
+    variation through crossing over and independent assortment.
+  target_definition: A long, linear (or circular in prokaryotes) structure of DNA tightly coiled around histone
+    and other proteins, carrying many genes and serving as the unit of genetic organization that is replicated and
+    partitioned during cell division.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: name 'Chromosome'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000511
+  claim: Mitosis logically_requires Chromosome
+  source: stemma:bio.mitosis
+  relation: logically_requires
+  target: stemma:bio.chromosome
+  source_definition: The stage of the cell cycle in which a eukaryotic cell's nucleus divides, its duplicated chromosomes
+    separating into two genetically identical daughter nuclei, so that each daughter cell receives the same diploid
+    chromosome complement as the parent.
+  target_definition: A long, linear (or circular in prokaryotes) structure of DNA tightly coiled around histone
+    and other proteins, carrying many genes and serving as the unit of genetic organization that is replicated and
+    partitioned during cell division.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: name 'Chromosome'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000044
+  claim: pH Scale logically_requires Base
+  source: stemma:chem.ph-scale
+  relation: logically_requires
+  target: stemma:chem.base
+  source_definition: A logarithmic scale measuring the acidity or alkalinity of an aqueous solution, defined as
+    the negative base-10 logarithm of the hydrogen ion concentration (pH = -log₁₀[H⁺]), ranging from 0 (highly acidic)
+    to 14 (highly alkaline), with 7 being neutral.
+  target_definition: A chemical substance that reacts with acids to form salt and water, accepts protons (H⁺), or
+    releases hydroxide ions (OH⁻) in aqueous solution (alkali). Bases taste bitter, feel slippery, turn red litmus
+    paper blue, and have a pH greater than 7.
+  source_equation: pH = -log₁₀[H⁺]
+  prechecks:
+    domain_range: ok
+    text_support: name 'Base'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000096
+  claim: Water Cycle logically_requires Change of State
+  source: stemma:earth.water-cycle
+  relation: logically_requires
+  target: stemma:phys.change-of-state
+  source_definition: The continuous circulation of water between the atmosphere, Earth's surface, and underground
+    reservoirs through evaporation, transpiration, condensation, precipitation, infiltration, and runoff, driven
+    by solar energy and gravity.
+  target_definition: The transition of matter between solid, liquid, and gas phases. During a change of state, temperature
+    remains constant as energy is used to break or form intermolecular bonds.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000534
+  claim: Electrochemical Cell logically_requires Salt
+  source: stemma:chem.electrochemical-cell
+  relation: logically_requires
+  target: stemma:chem.salt
+  source_definition: A device that converts chemical energy into electrical energy or, conversely, uses electrical
+    energy to drive a chemical reaction. Galvanic (voltaic) cells generate electricity from spontaneous redox reactions,
+    while electrolytic cells use an external voltage.
+  target_definition: An ionic compound formed when the hydrogen ion of an acid is replaced by a metal ion (or ammonium
+    ion), typically produced by neutralization of an acid with a base. Common table salt is sodium chloride, NaCl.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000577
+  claim: Determinant mathematically_requires Matrix
+  source: stemma:math.determinant
+  relation: mathematically_requires
+  target: stemma:math.matrix
+  source_definition: A scalar value computed from a square matrix that encodes geometric and algebraic properties
+    of the matrix, such as whether its linear transformation is invertible. For a 2 × 2 matrix [[a, b], [c, d]]
+    the determinant is ad − bc. A zero determinant means the matrix is singular.
+  target_definition: A rectangular array of numbers (or other entries) arranged in rows and columns, usually written
+    within brackets. A matrix with m rows and n columns has size m × n. Matrices have defined operations — addition,
+    scalar multiplication, multiplication, and transposition — and provide a compact representa
+  source_equation: det([[a, b], [c, d]]) = ad − bc
+  prechecks:
+    domain_range: ok
+    text_support: name 'Matrix'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000506
+  claim: Inheritance Patterns logically_requires Allele
+  source: stemma:bio.inheritance-patterns
+  relation: logically_requires
+  target: stemma:bio.allele
+  source_definition: The recurring ways in which traits and alleles are transmitted from parents to offspring, including
+    Mendelian patterns (dominant, recessive, codominant, and incomplete dominance) and non-Mendelian patterns such
+    as sex linkage, multiple alleles, polygenic inheritance, and pleiotropy.
+  target_definition: One of the alternative forms of a gene that occupy the same locus on homologous chromosomes
+    and can specify alternative versions of a trait; a diploid organism carries two alleles for each autosomal gene,
+    which may be identical (homozygous) or different (heterozygous).
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: name 'Allele'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000521
+  claim: Translation logically_requires Transcription
+  source: stemma:bio.translation
+  relation: logically_requires
+  target: stemma:bio.transcription
+  source_definition: The process in which the nucleotide sequence of messenger RNA is decoded by ribosomes to assemble
+    a polypeptide chain, with transfer RNA molecules matching successive codons to their corresponding amino acids
+    and linking them into proteins.
+  target_definition: The first stage of gene expression, in which the enzyme RNA polymerase uses one strand of a
+    DNA template (the template strand) to synthesize a complementary single-stranded RNA molecule, producing messenger
+    RNA, transfer RNA, or ribosomal RNA from a specific gene.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null

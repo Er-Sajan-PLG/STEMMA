@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.gravitation
+id: stemma:phys.gravitation
 type: concept
 name: Gravitation
 domain: physics
@@ -33,15 +33,6 @@ external_ids:
   wd: Q11412
 provenance:
   ai_drafted: true
-relationships:
-- type: bridges
-  target: lhs:earth.atmosphere
-- type: related_to
-  target: lhs:phys.force
-- type: related_to
-  target: lhs:phys.free-fall
-- type: related_to
-  target: lhs:phys.weight
 ---
 
 ## Notes

@@ -1,5 +1,5 @@
 ---
-id: lhs:math.sequence
+id: stemma:math.sequence
 type: concept
 name: Sequence
 domain: mathematics
@@ -33,14 +33,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / Common Core State Standards for Mathematics"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: generalizes
-    target: lhs:math.arithmetic-sequence
-  - type: generalizes
-    target: lhs:math.geometric-sequence
-  - type: related_to
-    target: lhs:math.natural-number
 ---

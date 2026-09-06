@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.inertia
+id: stemma:phys.inertia
 type: concept
 name: Inertia
 domain: physics
@@ -31,11 +31,6 @@ external_ids:
   wd: Q122508
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.mass
-  - type: related_to
-    target: lhs:phys.newtons-first-law
 ---
 
 ## Notes

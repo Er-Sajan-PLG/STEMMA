@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""STEMMA (`lhs:` namespace) canonical-knowledge curation pipeline (architecture review §P).
+"""STEMMA (`stemma:` namespace) canonical-knowledge curation pipeline (architecture review §P).
 
 A staged, hard-gate pipeline that turns a *curation request* into a governed
 decision over canonical knowledge (entities, connections, sources). It mirrors the
@@ -92,6 +92,9 @@ class CurationRequest:
     # Optional governance context:
     source_ref: str | None = None
     domain: str | None = None
+    # Extraction metadata sidecar (ADR-0035): how the source text was obtained
+    # (kind/format/pages/ocr_used/preview). Never placed on the canonical source.
+    extraction: dict[str, Any] | None = None
 
 
 @dataclass
@@ -143,7 +146,7 @@ def _entity_gates(data: dict, blueprint: CurationBlueprint) -> list[GateResult]:
     results.append(_gate(
         "identity",
         isinstance(_id, str) and bool(validate.ID_RE.fullmatch(_id)),
-        f"invalid stable ID {_id!r} (expected lhs:<domain>.<slug>)",
+        f"invalid stable ID {_id!r} (expected stemma:<domain>.<slug>)",
     ))
     # schema: required fields + enums (reuse validate_entity's deterministic checks)
     errs: list[str] = []
@@ -182,21 +185,24 @@ def _source_gates(data: dict, blueprint: CurationBlueprint) -> list[GateResult]:
     results.append(_gate(
         "identity",
         isinstance(_id, str) and bool(validate.SRC_ID_RE.fullmatch(_id)),
-        f"invalid source ID {_id!r} (expected lhs:src.<slug>)",
+        f"invalid source ID {_id!r} (expected stemma:src.<slug>)",
     ))
     return results
 
 
 def _check_relations(data: dict) -> tuple[bool, list[str]]:
-    found: list[str] = []
-    for rel in data.get("relationships", []) or []:
-        if not isinstance(rel, dict):
-            found.append("relationship must be an object")
-        else:
-            rtype = rel.get("type")
-            if rtype not in validate.REL_TYPES:
-                found.append(f"relationship type not in whitelist: {rtype!r}")
-    return not found, found
+    """ADR-0028/0035: entities carry NO relationship data.
+
+    The old gate read a `validate.REL_TYPES` attribute that never existed and
+    allowed `relationships: []` on drafts. Entities are not the relationship
+    graph; assert relationships as first-class objects in connections/.
+    """
+    if "relationships" in data:
+        return False, [
+            "entities carry no relationships (ADR-0028/0035): assert relationships "
+            "as first-class objects in connections/, never as an entity field"
+        ]
+    return True, []
 
 
 def _gate(name: str, ok: bool, finding: str | list[str]) -> GateResult:
@@ -224,7 +230,7 @@ def route_repair(failed: list[GateResult]) -> list[str]:
 def blueprint_from_request(request: CurationRequest) -> CurationBlueprint:
     """Plan the change deterministically (no LLM)."""
     kind = request.kind
-    target_id = request.data.get("id") or (f"lhs:conn.???" if kind == "connection" else None)
+    target_id = request.data.get("id") or (f"stemma:conn.???" if kind == "connection" else None)
     gates = list(GATE) if kind != "source" else GATE - {"relations", "conditions"}
     bp = CurationBlueprint(
         kind=kind,

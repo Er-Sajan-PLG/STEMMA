@@ -1,30 +1,105 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://learninghubstem.example/schema/export.schema.json",
-  "title": "STEMMA export contract v1.0 (exports/knowledge.json)",
-  "description": "Consumer contract for the derived export (ADR-0023, plan v2 E1.5 / gate G-A). v1.0: `connections` and `sources` are REQUIRED members — consumers may rely on first-class assertions with review status and provenance. `entities[].relationships` remains present as a generated compatibility projection (ADR-0020) and is scheduled for removal in v2.0 (E1.7). Enforced by scripts/validate.py before the export is written.",
+  "$id": "https://stemma.example/schema/export.schema.json",
+  "title": "STEMMA export contract v2.1 (exports/knowledge.json)",
+  "description": "Consumer contract for the derived export. v2.0 (ADR-0028): the generated inline entities[].relationships projection is REMOVED — the relationship graph is connections[] only. IDs are stemma:-namespaced (ADR-0027). v2.1 (ADR-0032): additive optional relation_registry + vocabularies sidecar. Enforced by scripts/validate.py before the export is written.",
   "type": "object",
-  "required": ["export_version", "schema_version", "content_hash", "source", "entity_count", "connection_count", "source_count", "entities", "connections", "sources"],
+  "required": [
+    "export_version",
+    "schema_version",
+    "content_hash",
+    "source",
+    "entity_count",
+    "connection_count",
+    "source_count",
+    "entities",
+    "connections",
+    "sources"
+  ],
   "properties": {
-    "export_version": { "type": "string", "pattern": "^1\\.[0-9]+$" },
-    "schema_version": { "type": "string" },
-    "content_hash": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
-    "kernel_version": { "type": ["string", "null"] },
-    "source": { "type": "string" },
-    "entity_count": { "type": "integer", "minimum": 0 },
-    "connection_count": { "type": "integer", "minimum": 0 },
-    "source_count": { "type": "integer", "minimum": 0 },
+    "export_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Semantic version of the export contract (semver). v2.0.0: stemma: namespace, connections[] is the only relationship source, entities[].relationships removed (ADR-0027/0028)."
+    },
+    "schema_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Semantic version of the canonical schemas."
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "kernel_version": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "relation_registry_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Semver of schema/relation-registry.yaml (ADR-0032, export v2.1.0). Optional; old readers ignore it."
+    },
+    "relation_registry": {
+      "type": "object",
+      "description": "Relation name -> {family, inverse, transitive, symmetric, domain, range, status}. Optional sidecar (ADR-0032). Consumers MUST fail closed on an unknown relation when this member is present."
+    },
+    "vocabularies": {
+      "type": "object",
+      "description": "Controlled domains/subdomains/regimes/scales mirroring schema/vocabularies/. Optional sidecar (ADR-0032).",
+      "properties": {
+        "domains": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "subdomains": {
+          "type": "object"
+        },
+        "regimes": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "scales": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "source": {
+      "type": "string"
+    },
+    "entity_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "connection_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "source_count": {
+      "type": "integer",
+      "minimum": 0
+    },
     "entities": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "type", "name", "domain", "status", "definition", "provenance"],
+        "required": [
+          "id",
+          "type",
+          "name",
+          "domain",
+          "status",
+          "definition",
+          "provenance"
+        ],
         "properties": {
-          "id": { "type": "string", "pattern": "^lhs:" },
-          "relationships": {
-            "type": "array",
-            "description": "DEPRECATED compatibility projection of connections[] (ADR-0020). Removed in export_version 2.0.",
-            "items": { "type": "object", "required": ["type", "target"] }
+          "id": {
+            "type": "string",
+            "pattern": "^stemma:"
           }
         }
       }
@@ -33,9 +108,20 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "type", "source", "relation", "target", "assertion", "provenance"],
+        "required": [
+          "id",
+          "type",
+          "source",
+          "relation",
+          "target",
+          "assertion",
+          "provenance"
+        ],
         "properties": {
-          "id": { "type": "string", "pattern": "^lhs:conn\\.[0-9]{6}$" },
+          "id": {
+            "type": "string",
+            "pattern": "^stemma:conn\\.[0-9]{6}$"
+          },
           "claim_signature": {
             "type": "string",
             "pattern": "^sha256:[0-9a-f]{64}$",
@@ -43,15 +129,33 @@
           },
           "assertion": {
             "type": "object",
-            "required": ["status", "type", "review"],
-            "properties": { "review": { "type": "object", "required": ["status"] } }
+            "required": [
+              "status",
+              "type",
+              "review"
+            ],
+            "properties": {
+              "review": {
+                "type": "object",
+                "required": [
+                  "status"
+                ]
+              }
+            }
           }
         }
       }
     },
     "sources": {
       "type": "array",
-      "items": { "type": "object", "required": ["id", "type", "citation"] }
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "type",
+          "citation"
+        ]
+      }
     }
   },
   "additionalProperties": false

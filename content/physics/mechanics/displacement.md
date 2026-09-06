@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.displacement
+id: stemma:phys.displacement
 type: quantity
 name: Displacement
 domain: physics
@@ -30,11 +30,6 @@ external_ids:
   wd: Q190291
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.distance
-  - type: related_to
-    target: lhs:phys.vector
 ---
 
 ## Notes

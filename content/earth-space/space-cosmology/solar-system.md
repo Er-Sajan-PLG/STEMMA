@@ -1,5 +1,5 @@
 ---
-id: lhs:earth.solar-system
+id: stemma:earth.solar-system
 type: concept
 name: Solar System
 domain: earth-space
@@ -31,13 +31,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: NASA / IAU
-relationships:
-  - type: logically_requires
-    target: lhs:phys.gravitation
-  - type: related_to
-    target: lhs:earth.earth-system
-  - type: related_to
-    target: lhs:earth.seasons-cause
 ---
 
 ## Notes

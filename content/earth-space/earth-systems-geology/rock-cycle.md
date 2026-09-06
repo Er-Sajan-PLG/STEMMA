@@ -1,5 +1,5 @@
 ---
-id: lhs:earth.rock-cycle
+id: stemma:earth.rock-cycle
 type: concept
 name: Rock Cycle
 domain: earth-space
@@ -32,15 +32,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: NASA Earth System Science Framework / AGU
-relationships:
-  - type: part_of
-    target: lhs:earth.earth-system
-  - type: related_to
-    target: lhs:earth.plate-tectonics
-  - type: related_to
-    target: lhs:phys.thermal-energy
-  - type: related_to
-    target: lhs:chem.matter
 ---
 
 ## Notes

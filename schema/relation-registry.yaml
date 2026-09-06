@@ -1,4 +1,7 @@
 # Relation Registry — authoritative source for relation semantics
+# Registry v1.0.0 (ADR-0028): reserved duplicates of adopted semantics were pruned
+# (broader_than/narrower_than ≡ generalizes/special_case_of; contains ≡ has_part;
+# is_a ≡ special_case_of for taxonomy). SKOS mapping targets: skos:broader/narrower.
 # ADR-012; integrity-repaired by ADR-0021 (plan v2 E2.1/E2.7; audit F3).
 # Validator enforces: registry membership, family, inverse/symmetric,
 # transitive, domain/range, INVERSE COHERENCE (mutual + mirrored),
@@ -12,22 +15,8 @@
 #
 # Guardrails: extends/supersedes/isomorphic_to non-transitive; causal
 # non-transitive; is_a = class/subclass only.
-version: '0.3'
+version: '1.0.0'
 relations:
-  is_a:
-    family: structural
-    transitive: true
-    domain:
-    - concept
-    - quantity
-    - phenomenon
-    - model
-    range:
-    - concept
-    - quantity
-    - phenomenon
-    description: X is a kind/type of Y (taxonomic).
-    status: reserved
   part_of:
     family: structural
     inverse: has_part
@@ -57,18 +46,6 @@ relations:
     - phenomenon
     - model
     - quantity
-    status: reserved
-  contains:
-    family: structural
-    transitive: true
-    domain:
-    - concept
-    - model
-    - phenomenon
-    range:
-    - concept
-    - model
-    - phenomenon
     status: reserved
   composed_of:
     family: structural
@@ -107,32 +84,6 @@ relations:
     - law
     - model
     status: adopted
-  broader_than:
-    family: hierarchical
-    inverse: narrower_than
-    transitive: true
-    domain:
-    - concept
-    - law
-    - model
-    range:
-    - concept
-    - law
-    - model
-    status: reserved
-  narrower_than:
-    family: hierarchical
-    inverse: broader_than
-    transitive: true
-    domain:
-    - concept
-    - law
-    - model
-    range:
-    - concept
-    - law
-    - model
-    status: reserved
   requires:
     family: dependency
     transitive: true

@@ -1,0 +1,28 @@
+id: stemma:conn.000631
+type: connection
+source: stemma:phys.nuclear-binding-energy
+relation: related_to
+target: stemma:phys.nuclear-fusion
+assertion:
+  status: active
+  type: proposed
+  review:
+    status: unreviewed
+  confidence: null
+  confidence_basis: null
+context:
+  domain: physics
+  subdomain: atomic-nuclear
+  regime: []
+  scale: macroscopic
+  assumptions: []
+evidence: []
+provenance:
+  asserted_by:
+    type: unknown
+    id: unknown:legacy-relationship
+  generated_by:
+    type: process
+    id: process:migration.relationships-v0.2
+  method:
+    type: migration

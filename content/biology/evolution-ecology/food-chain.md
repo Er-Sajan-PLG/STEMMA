@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.food-chain
+id: stemma:bio.food-chain
 type: concept
 name: Food Chain
 domain: biology
@@ -30,11 +30,6 @@ provenance:
   ai_drafted: true
   source_kind: institutional
   source: United States National Science Foundation, Ecology Education
-relationships:
-  - type: related_to
-    target: lhs:bio.ecosystem
-  - type: related_to
-    target: lhs:bio.energy-flow-ecosystem
 ---
 
 ## Notes

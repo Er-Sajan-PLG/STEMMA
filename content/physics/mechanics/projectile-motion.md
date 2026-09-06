@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.projectile-motion
+id: stemma:phys.projectile-motion
 type: concept
 name: Projectile Motion
 domain: physics
@@ -32,13 +32,6 @@ external_ids:
   wd: Q10281355
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.free-fall
-  - type: mathematically_requires
-    target: lhs:phys.velocity
-  - type: related_to
-    target: lhs:phys.acceleration
 ---
 
 ## Notes

@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.temperature
+id: stemma:phys.temperature
 type: quantity
 name: Temperature
 domain: physics
@@ -31,11 +31,6 @@ real_world_applications:
   - Medical thermometers.
 provenance:
   ai_drafted: true
-relationships:
-  - type: related_to
-    target: lhs:phys.heat
-  - type: related_to
-    target: lhs:phys.thermal-energy
 ---
 
 ## Notes

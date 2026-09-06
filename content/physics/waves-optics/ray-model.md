@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.ray-model
+id: stemma:phys.ray-model
 type: concept
 name: Ray Model of Light
 domain: physics
@@ -29,15 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAP / UNESCO Physics Education Standards
-relationships:
-- type: approximates
-  target: lhs:phys.light
-- type: logically_requires
-  target: lhs:phys.light
-- type: related_to
-  target: lhs:phys.reflection
-- type: related_to
-  target: lhs:phys.refraction
 ---
 
 ## Notes

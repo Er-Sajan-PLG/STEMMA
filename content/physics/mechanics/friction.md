@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.friction
+id: stemma:phys.friction
 type: concept
 name: Friction
 domain: physics
@@ -44,13 +44,6 @@ external_ids:
   wd: Q82580
 provenance:
   ai_drafted: true
-relationships:
-- type: logically_requires
-  target: lhs:phys.force
-- type: related_to
-  target: lhs:phys.newtons-first-law
-- type: related_to
-  target: lhs:phys.energy-loss
 
 ---
 

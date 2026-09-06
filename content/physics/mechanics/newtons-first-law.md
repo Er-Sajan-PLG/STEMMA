@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.newtons-first-law
+id: stemma:phys.newtons-first-law
 type: law
 name: Newton's First Law of Motion
 domain: physics
@@ -54,13 +54,6 @@ historical:
   - year: 1687
     by: Isaac Newton
     event: First law stated in Philosophiæ Naturalis Principia Mathematica
-relationships:
-- type: applies_to
-  target: lhs:phys.force
-- type: applies_to
-  target: lhs:phys.inertia
-- type: related_to
-  target: lhs:phys.newtons-second-law
 
 ---
 

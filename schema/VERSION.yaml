@@ -1,23 +1,27 @@
-# STEMMA — single authoritative version source (ADR-0022, plan v2 E5.1)
+# STEMMA — single authoritative version source (ADR-0022; ADR-0027/0028 refoundation)
 #
 # Every producer of derived artifacts (scripts/validate.py, export_review_aware.py,
 # graph_analysis.py) MUST read its version constants from this file. Version literals
-# in scripts are forbidden (audit finding F5: four disagreeing version signals).
+# in scripts are forbidden.
 #
-# schema_version   — version of the canonical JSON Schemas (they self-describe v0.2).
-# export_version   — version of the exports/knowledge.json consumer contract.
-#                    1.0 (ADR-0023, gate G-A decided 2026-09-04): `connections` and
-#                    `sources` are REQUIRED members; shape enforced by
-#                    schema/export.schema.json. The inline `relationships[]`
-#                    projection is deprecated and removed at 2.0 (E1.7).
-# legacy_export_version — contract of the compatibility artifact
-#                    exports/knowledge.compat-0.1.json (entities only), emitted during
-#                    the consumer co-release window so a `0.1`-pinned adapter can be
-#                    repointed while it upgrades. Delete this key (and the artifact)
-#                    once LearningHub's SUPPORTED_EXPORT_VERSION reads '1.0'.
-# relation_registry_version — version of schema/relation-registry.yaml.
+# schema_version   — '1.0.0' version of the canonical JSON Schemas. Major bump from
+#                    0.2: the stemma: namespace replaces the retired prefix in every ID pattern and
+#                    the deprecated entity-side relationships[] projection is removed
+#                    from concept.schema.json (ADR-0027/0028).
+# export_version   — '2.1.0' version of the exports/knowledge.json consumer contract.
+#                    v2.0.0 (ADR-0027/0028): entities[].relationships (generated
+#                    projection) removed; graph is connections[] only; all IDs are
+#                    stemma:-namespaced. See docs/MIGRATIONS.md 2026-09-04 entry.
+#                    v2.1.0 (ADR-0032): ADDITIVE optional relation_registry +
+#                    relation_registry_version + vocabularies sidecar so consumers
+#                    can introspect relation semantics from the export alone.
+#                    Old 2.0.x readers ignore the new members.
+# relation_registry_version — '1.0.0' version of schema/relation-registry.yaml.
+#                    Major bump from 0.3: reserved duplicate relations removed
+#                    (broader_than/narrower_than duplicated generalizes/
+#                    special_case_of; contains duplicated has_part; is_a duplicated
+#                    special_case_of for taxonomic use). No adopted relation changed.
 
-schema_version: '0.2'
-export_version: '1.0'
-legacy_export_version: '0.1'
-relation_registry_version: '0.3'
+schema_version: '1.1.0'
+export_version: '2.1.0'
+relation_registry_version: '1.0.0'

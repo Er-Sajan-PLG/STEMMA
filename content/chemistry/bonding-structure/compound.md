@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.compound
+id: stemma:chem.compound
 type: concept
 name: Chemical Compound
 domain: chemistry
@@ -29,11 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Compendium of Chemical Terminology
-relationships:
-  - type: logically_requires
-    target: lhs:chem.element
-  - type: logically_requires
-    target: lhs:chem.atom
 ---
 
 ## Notes

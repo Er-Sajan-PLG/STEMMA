@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.unit
+id: stemma:phys.unit
 type: unit
 name: Unit of Measurement
 domain: physics
@@ -29,11 +29,6 @@ real_world_applications:
   - Engineering tolerances (units enable precise specification).
 provenance:
   ai_drafted: true
-relationships:
-  - type: logically_requires
-    target: lhs:phys.physical-quantity
-  - type: related_to
-    target: lhs:phys.measurement
 ---
 
 ## Notes

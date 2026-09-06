@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.neuron
+id: stemma:bio.neuron
 type: concept
 name: Neuron
 domain: biology
@@ -30,11 +30,6 @@ provenance:
   ai_drafted: true
   source_kind: academic-or-research
   source: Guyton and Hall Textbook of Medical Physiology
-relationships:
-  - type: part_of
-    target: lhs:bio.nervous-system
-  - type: logically_requires
-    target: lhs:bio.cell
 ---
 
 ## Notes

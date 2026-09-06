@@ -1,0 +1,35 @@
+id: stemma:conn.000077
+type: connection
+source: stemma:chem.chemical-reaction
+relation: logically_requires
+target: stemma:chem.compound
+assertion:
+  status: active
+  type: proposed
+  review:
+    status: unreviewed
+  confidence: null
+  confidence_basis: null
+  polarity: positive
+context:
+  domain: chemistry
+  subdomain: reactions-stoichiometry
+  regime: []
+  scale: macroscopic
+  assumptions: []
+  qualifiers: []
+evidence: []
+provenance:
+  asserted_by:
+    type: unknown
+    id: unknown:legacy-relationship
+  generated_by:
+    type: process
+    id: process:migration.relationships-v0.2
+  method:
+    type: migration
+created_at: null
+updated_at: null
+validity: null
+lifecycle: null
+rights: null

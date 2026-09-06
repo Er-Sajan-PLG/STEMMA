@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.impulse
+id: stemma:phys.impulse
 type: quantity
 name: Impulse
 domain: physics
@@ -34,15 +34,6 @@ external_ids:
   wd: Q837940
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.force
-  - type: mathematically_requires
-    target: lhs:phys.time
-  - type: mathematically_requires
-    target: lhs:phys.momentum
-  - type: related_to
-    target: lhs:phys.newtons-second-law
 ---
 
 ## Notes

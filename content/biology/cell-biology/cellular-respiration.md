@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.cellular-respiration
+id: stemma:bio.cellular-respiration
 type: concept
 name: Cellular Respiration
 domain: biology
@@ -38,15 +38,6 @@ historical:
     - year: 1937
       by: "Hans Krebs"
       event: "Elucidated the citric acid (Krebs) cycle, central to aerobic respiration"
-relationships:
-  - type: logically_requires
-    target: lhs:bio.cell
-  - type: logically_requires
-    target: lhs:chem.chemical-reaction
-  - type: related_to
-    target: lhs:bio.photosynthesis
-  - type: related_to
-    target: lhs:phys.energy
 ---
 
 ## Notes

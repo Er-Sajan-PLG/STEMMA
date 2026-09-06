@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.scalar
+id: stemma:phys.scalar
 type: concept
 name: Scalar Quantity
 domain: physics
@@ -30,11 +30,6 @@ external_ids:
   wd: Q181175
 provenance:
   ai_drafted: true
-relationships:
-  - type: related_to
-    target: lhs:phys.vector
-  - type: related_to
-    target: lhs:phys.distance
 ---
 
 ## Notes

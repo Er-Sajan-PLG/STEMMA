@@ -1,0 +1,43 @@
+id: stemma:conn.000382
+type: connection
+source: stemma:chem.atom
+relation: bridges
+target: stemma:phys.atomic-structure
+assertion:
+  status: active
+  type: proposed
+  review:
+    status: unreviewed
+  confidence: null
+  confidence_basis: null
+  polarity: positive
+context:
+  domain: chemistry
+  subdomain: atomic-structure-periodicity
+  regime:
+  - quantum
+  scale: atomic
+  assumptions: []
+  qualifiers: []
+evidence:
+- type: textbook
+  source_ref: stemma:src.atkins-physical-chemistry
+  locator: Ch. 7, atomic structure
+  description: Chemical atom defined by physical atomic structure
+  stance: supports
+  locator_struct: null
+provenance:
+  asserted_by:
+    type: human
+    id: human:reviewer.physics-001
+  generated_by:
+    type: human
+    id: human:curator.001
+  reviewed_by: []
+  method:
+    type: manual
+created_at: null
+updated_at: null
+validity: null
+lifecycle: null
+rights: null

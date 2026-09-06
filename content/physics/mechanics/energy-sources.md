@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.energy-sources
+id: stemma:phys.energy-sources
 type: concept
 name: Energy Sources
 domain: physics
@@ -32,17 +32,6 @@ external_ids:
   wd: Q1522115
 provenance:
   ai_drafted: true
-relationships:
-  - type: related_to
-    target: lhs:phys.energy
-  - type: related_to
-    target: lhs:phys.power
-  - type: related_to
-    target: lhs:phys.nuclear-fission
-  - type: related_to
-    target: lhs:phys.nuclear-fusion
-  - type: related_to
-    target: lhs:chem.chemical-reaction
 ---
 
 ## Notes

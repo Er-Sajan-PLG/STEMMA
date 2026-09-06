@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.wave-interference
+id: stemma:phys.wave-interference
 type: concept
 name: Wave Interference
 domain: physics
@@ -32,7 +32,4 @@ provenance:
   source: "Halliday, Resnick & Walker, Fundamentals of Physics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: related_to
-    target: lhs:phys.wave
 ---

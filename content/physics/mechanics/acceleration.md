@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.acceleration
+id: stemma:phys.acceleration
 type: quantity
 name: Acceleration
 domain: physics
@@ -41,15 +41,6 @@ external_ids:
   wd: Q11376
 provenance:
   ai_drafted: true
-relationships:
-- type: mathematically_requires
-  target: lhs:phys.velocity
-- type: mathematically_requires
-  target: lhs:phys.time
-- type: appears_in_law
-  target: lhs:phys.newtons-second-law
-- type: related_to
-  target: lhs:phys.free-fall
 
 ---
 

@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.magnetism
+id: stemma:phys.magnetism
 type: concept
 name: Magnetism
 domain: physics
@@ -32,11 +32,6 @@ real_world_applications:
   - Magnetic storage (hard drives).
 provenance:
   ai_drafted: true
-relationships:
-  - type: related_to
-    target: lhs:phys.magnetic-field
-  - type: related_to
-    target: lhs:phys.electromagnetism
 ---
 
 ## Notes

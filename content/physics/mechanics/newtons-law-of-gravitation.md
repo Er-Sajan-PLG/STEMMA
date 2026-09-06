@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.newtons-law-of-gravitation
+id: stemma:phys.newtons-law-of-gravitation
 type: law
 name: Newton's Law of Universal Gravitation
 domain: physics
@@ -49,17 +49,6 @@ historical:
     - year: 1798
       by: "Henry Cavendish"
       event: "Torsion-balance experiment measuring the gravitational constant G and the density of Earth"
-relationships:
-  - type: applies_to
-    target: lhs:phys.gravitation
-  - type: applies_to
-    target: lhs:phys.mass
-  - type: applies_to
-    target: lhs:phys.force
-  - type: related_to
-    target: lhs:phys.free-fall
-  - type: related_to
-    target: lhs:phys.coulombs-law
 ---
 
 ## Notes

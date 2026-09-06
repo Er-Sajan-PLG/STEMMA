@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.salt
+id: stemma:chem.salt
 type: concept
 name: Salt
 domain: chemistry
@@ -32,13 +32,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Compendium of Chemical Terminology
-relationships:
-  - type: derived_from
-    target: lhs:chem.neutralization
-  - type: logically_requires
-    target: lhs:chem.compound
-  - type: related_to
-    target: lhs:chem.ionic-bond
 ---
 
 ## Notes

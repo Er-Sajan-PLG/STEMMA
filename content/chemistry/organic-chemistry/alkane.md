@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.alkane
+id: stemma:chem.alkane
 type: concept
 name: Alkane
 domain: chemistry
@@ -34,5 +34,4 @@ historical:
   year: 1830
   where: "19th-century hydrocarbon chemistry"
   note: "The saturated hydrocarbons were recognised as a family (the paraffins) during the 19th century; the term 'paraffin' was coined by Carl von Reichenbach (c. 1830). The systematic 'alkane' nomenclature came later with the development of organic nomenclature, so no single discoverer is attributed."
-relationships: []
 ---

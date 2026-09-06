@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.ionic-bond
+id: stemma:chem.ionic-bond
 type: concept
 name: Ionic Bond
 domain: chemistry
@@ -29,13 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Compendium of Chemical Terminology
-relationships:
-  - type: logically_requires
-    target: lhs:chem.electron
-  - type: logically_requires
-    target: lhs:phys.coulombs-law
-  - type: related_to
-    target: lhs:chem.compound
 ---
 
 ## Notes

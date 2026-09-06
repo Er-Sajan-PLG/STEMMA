@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.mixture
+id: stemma:chem.mixture
 type: concept
 name: Mixture
 domain: chemistry
@@ -32,13 +32,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Compendium of Chemical Terminology
-relationships:
-  - type: logically_requires
-    target: lhs:chem.matter
-  - type: related_to
-    target: lhs:chem.compound
-  - type: related_to
-    target: lhs:chem.diffusion
 ---
 
 ## Notes

@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.electrolysis
+id: stemma:chem.electrolysis
 type: concept
 name: Electrolysis
 domain: chemistry
@@ -43,9 +43,4 @@ historical:
     - year: 1834
       by: "Michael Faraday"
       event: "Statement of the laws of electrolysis and introduction of terms such as electrolyte, electrode, and ion"
-relationships:
-  - type: special_case_of
-    target: lhs:chem.electrochemical-cell
-  - type: logically_requires
-    target: lhs:chem.oxidation-reduction
 ---

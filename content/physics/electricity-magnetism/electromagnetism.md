@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.electromagnetism
+id: stemma:phys.electromagnetism
 type: concept
 name: Electromagnetism
 domain: physics
@@ -33,13 +33,6 @@ real_world_applications:
 - Maglev trains.
 provenance:
   ai_drafted: true
-relationships:
-- type: related_to
-  target: lhs:phys.current
-- type: related_to
-  target: lhs:phys.magnetic-field
-- type: related_to
-  target: lhs:phys.electromagnetic-induction
 
 ---
 

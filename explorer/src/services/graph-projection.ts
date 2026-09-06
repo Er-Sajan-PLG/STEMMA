@@ -1,4 +1,4 @@
-import { LhsKnowledgeExport, LhsEntity, LhsConnection } from './knowledge-export-loader';
+import { StemmaKnowledgeExport, StemmaEntity, StemmaConnection } from './knowledge-export-loader';
 import { getDomainTheme, getTrustStyle, GRAPH_THEME } from '../styles/theme';
 
 export interface GraphNode {
@@ -9,7 +9,7 @@ export interface GraphNode {
   status: string;
   val: number; // node size weight
   color: string;
-  entity: LhsEntity;
+  entity: StemmaEntity;
   // Seeded layout metadata (populated by projectKnowledgeGraph)
   cluster: string;        // topic/domain grouping id
   clusterLabel: string;   // human label for the cluster
@@ -38,7 +38,7 @@ export interface GraphLink {
 }
 
 /** Which source the edges were projected from (E1.6: connections[] is canonical). */
-export type EdgeSource = 'connections' | 'inline';
+export type EdgeSource = 'connections';
 
 export interface ClusterInfo {
   id: string;
@@ -75,7 +75,7 @@ const PHYSICS_TOPIC_KEYWORDS: Record<string, string[]> = {
 };
 
 // Map the entity-id namespace prefix (the part before the dot) to its domain.
-// STEMMA (`lhs:` namespace) ids are lhs:<ns>.<slug> where ns is a short code (phys/bio/chem/earth/...).
+// STEMMA (`stemma:` namespace) ids are stemma:<ns>.<slug> where ns is a short code (phys/bio/chem/earth/...).
 const NS_TO_DOMAIN: Record<string, string> = {
   phys: 'physics',
   chem: 'chemistry',
@@ -99,8 +99,8 @@ const MATH_TOPIC_KEYWORDS: Record<string, string[]> = {
 };
 
 export function clusterForEntity(id: string): string {
-  // id format: lhs:<ns>.<slug>  (e.g. lhs:bio.animal-cell)
-  const match = id.match(/^lhs:([a-z0-9-]+)\.([a-z0-9-]+)$/);
+  // id format: stemma:<ns>.<slug>  (e.g. stemma:bio.animal-cell)
+  const match = id.match(/^stemma:([a-z0-9-]+)\.([a-z0-9-]+)$/);
   const ns = match ? match[1] : '';
   const slug = match ? match[2] : '';
   const domain = NS_TO_DOMAIN[ns] || ns || 'other';
@@ -181,17 +181,16 @@ interface EdgeSeed {
 }
 
 /**
- * E1.6 / ADR-0020: `connections[]` is the canonical relationship source. Edges are drawn
- * from it — carrying review status (trust) and the derived claim signature (ADR-0026) —
- * and only fall back to the deprecated inline `entities[].relationships` projection when
- * an export predates contract v1.0 or carries no connections.
+ * ADR-0020/0028: `connections[]` is the ONLY relationship source (contract v2.0).
+ * Edges are drawn from it, carrying review status (trust) and the derived claim
+ * signature (ADR-0026).
  */
 export function collectEdges(
-  exportData: LhsKnowledgeExport,
-  entityMap: Map<string, LhsEntity>
+  exportData: StemmaKnowledgeExport,
+  entityMap: Map<string, StemmaEntity>
 ): { edges: EdgeSeed[]; source: EdgeSource } {
   const connections = (exportData.connections ?? []).filter(
-    (c): c is LhsConnection => !!c && typeof c.source === 'string' && typeof c.target === 'string'
+    (c): c is StemmaConnection => !!c && typeof c.source === 'string' && typeof c.target === 'string'
   );
   const live = connections.filter(
     c =>
@@ -200,29 +199,18 @@ export function collectEdges(
       entityMap.has(c.source) &&
       entityMap.has(c.target)
   );
-  if (live.length) {
-    return {
-      source: 'connections',
-      edges: live.map(c => ({
-        source: c.source,
-        target: c.target,
-        relation: c.relation,
-        // A missing review block means unreviewed — never silently "trusted".
-        trust: c.assertion?.review?.status ?? 'unreviewed',
-        connectionId: c.id,
-        claimSignature: c.claim_signature
-      }))
-    };
-  }
-  const edges: EdgeSeed[] = [];
-  for (const entity of exportData.entities) {
-    for (const rel of entity.relationships ?? []) {
-      if (rel.target && entityMap.has(rel.target)) {
-        edges.push({ source: entity.id, target: rel.target, relation: rel.type, trust: 'unknown' });
-      }
-    }
-  }
-  return { source: 'inline', edges };
+  return {
+    source: 'connections',
+    edges: live.map(c => ({
+      source: c.source,
+      target: c.target,
+      relation: c.relation,
+      // A missing review block means unreviewed — never silently "trusted".
+      trust: c.assertion?.review?.status ?? 'unreviewed',
+      connectionId: c.id,
+      claimSignature: c.claim_signature
+    }))
+  };
 }
 
 const DOMAIN_COLOR: Record<string, string> = {
@@ -249,12 +237,12 @@ export function getClusterLabel(cluster: string): string {
 }
 
 export function projectKnowledgeGraph(
-  exportData: LhsKnowledgeExport,
+  exportData: StemmaKnowledgeExport,
   domainFilter: string = 'all',
   relationshipFilter: string = 'all',
   activeMode: string = 'explore'
 ): GraphProjection {
-  const entityMap = new Map<string, LhsEntity>(exportData.entities.map(e => [e.id, e]));
+  const entityMap = new Map<string, StemmaEntity>(exportData.entities.map(e => [e.id, e]));
   let filteredEntities = exportData.entities;
 
   if (domainFilter !== 'all') {
@@ -263,7 +251,7 @@ export function projectKnowledgeGraph(
 
   const validIds = new Set<string>(filteredEntities.map(e => e.id));
 
-  // E1.6: edges come from canonical connections[] (fallback: inline projection).
+  // Edges come from canonical connections[] (the only source, contract v2.0).
   const { edges, source: edgeSource } = collectEdges(exportData, entityMap);
 
   // degree centrality for node size

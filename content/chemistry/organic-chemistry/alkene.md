@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.alkene
+id: stemma:chem.alkene
 type: concept
 name: Alkene
 domain: chemistry
@@ -35,5 +35,4 @@ historical:
   year: 1860
   where: "early structural (constitutional) chemistry"
   note: "Alkenes were recognised as a class as organic structural chemistry grew in the mid-19th century. No single individual 'discovered' the class; Emil Erlenmeyer and others developed representations of the carbon-carbon double bond, and the systematic nomenclature/term 'alkene' came later. Attribution is therefore kept deliberately conservative."
-relationships: []
 ---

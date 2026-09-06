@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.distance
+id: stemma:phys.distance
 type: quantity
 name: Distance
 domain: physics
@@ -30,11 +30,6 @@ external_ids:
   wd: Q126017
 provenance:
   ai_drafted: true
-relationships:
-  - type: logically_requires
-    target: lhs:phys.unit
-  - type: related_to
-    target: lhs:phys.displacement
 ---
 
 ## Notes

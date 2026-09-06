@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.chemical-reaction
+id: stemma:chem.chemical-reaction
 type: concept
 name: Chemical Reaction
 domain: chemistry
@@ -29,15 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Compendium of Chemical Terminology
-relationships:
-  - type: logically_requires
-    target: lhs:chem.compound
-  - type: logically_requires
-    target: lhs:chem.element
-  - type: related_to
-    target: lhs:phys.conservation-of-energy
-  - type: related_to
-    target: lhs:phys.energy
 ---
 
 ## Notes

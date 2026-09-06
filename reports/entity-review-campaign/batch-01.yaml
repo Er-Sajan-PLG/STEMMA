@@ -1,0 +1,319 @@
+batch: 1
+campaign: R6 entity review
+reviewer: human:reviewer.physics-001
+seed_pass: true
+items:
+- id: stemma:phys.mass
+  name: Mass
+  domain: physics
+  type: quantity
+  status: draft
+  definition: A property of a body that quantifies its resistance to acceleration in Newtonian mechanics; an intrinsic
+    property independent of location.
+  score: 0.046018
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.force
+  name: Force
+  domain: physics
+  type: concept
+  status: draft
+  definition: An influence that can change the motion of a body — that is, accelerate it. In classical mechanics
+    the net force on a body equals the rate of change of its momentum. Force is a vector quantity.
+  score: 0.043022
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.energy
+  name: Energy
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The capacity to do work or produce change. Energy exists in many forms and can be transferred between
+    objects or converted from one form to another, but it is never created or destroyed.
+  score: 0.033185
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.matter
+  name: Matter
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: Anything that has mass and takes up space by occupying volume. Matter is composed of fundamental particles
+    and exists in various physical states depending on thermal energy and pressure.
+  score: 0.031373
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.electric-charge
+  name: Electric Charge
+  domain: physics
+  type: quantity
+  status: draft
+  definition: A fundamental property of matter that causes it to experience a force when placed in an electromagnetic
+    field. Charge can be positive or negative; like charges repel, opposite charges attract.
+  score: 0.030842
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.compound
+  name: Chemical Compound
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: A pure substance formed when two or more different chemical elements are chemically bonded together
+    in a fixed stoichiometric ratio. Compounds have chemical properties distinct from their constituent elements.
+  score: 0.029586
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.atom
+  name: Atom
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: The smallest unit of an element that retains the chemical properties of that element. An atom consists
+    of a dense central nucleus of protons and neutrons surrounded by a cloud of electrons.
+  score: 0.028516
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.wave
+  name: Wave
+  domain: physics
+  type: concept
+  status: draft
+  definition: A disturbance that transfers energy through a medium or through space, without permanently displacing
+    the medium. Waves transfer energy and information from one place to another.
+  score: 0.028512
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.rational-number
+  name: Rational Number
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: Any number that can be expressed as the quotient p/q of two integers, where q ≠ 0. Rational numbers
+    include all integers, fractions, terminating decimals, and repeating decimals.
+  score: 0.028373
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.chemical-reaction
+  name: Chemical Reaction
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: A process in which one or more substances (reactants) are chemically transformed into one or more
+    different substances (products) through the breaking and forming of chemical bonds, conserving total mass and
+    atoms.
+  score: 0.02821
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.cell
+  name: Cell
+  domain: biology
+  type: concept
+  status: draft
+  definition: The basic structural, functional, and biological unit of all known living organisms. Cells carry out
+    essential life processes, contain hereditary material, and arise from pre-existing cells.
+  score: 0.026802
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.integer
+  name: Integer
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: 'The set of whole numbers and their negatives, including zero: ..., -3, -2, -1, 0, 1, 2, 3, ... Integers
+    extend natural numbers to include negative values and zero, enabling subtraction to be closed within the set.'
+  score: 0.025081
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.fraction
+  name: Fraction
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: A numerical quantity that is not a whole number, representing a part of a whole. Written as a/b where
+    a is the numerator (number of parts) and b ≠ 0 is the denominator (total equal parts in the whole).
+  score: 0.021009
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.element
+  name: Chemical Element
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: A pure chemical substance consisting of atoms that all have the same number of protons in their atomic
+    nuclei. Elements cannot be broken down into simpler substances by ordinary chemical reactions.
+  score: 0.020657
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.algebraic-expression
+  name: Algebraic Expression
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: A combination of variables, numbers, and arithmetic operations (addition, subtraction, multiplication,
+    division, exponentiation) that represents a value. Unlike an equation, an expression has no equality sign and
+    cannot be "solved" — it can only be simplified or evaluated.
+  score: 0.019823
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.function
+  name: Function
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: 'A relation between a set of inputs (domain) and a set of possible outputs (codomain) where each input
+    is related to exactly one output. Written as f: X → Y or y = f(x). The function assigns a unique output f(x)
+    to each input x.'
+  score: 0.018046
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.dna
+  name: Deoxyribonucleic Acid (DNA)
+  domain: biology
+  type: concept
+  status: draft
+  definition: A double-stranded helical nucleic acid molecule storing genetic instructions used in the development,
+    functioning, growth, and reproduction of all known living organisms and many viruses.
+  score: 0.017902
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:earth.earth-system
+  name: Earth System
+  domain: earth-space
+  type: concept
+  status: draft
+  definition: 'The integrated complex of physical, chemical, biological, and geological processes interacting across
+    Earth''s four major interconnected spheres: the geosphere, hydrosphere, atmosphere, and biosphere.'
+  score: 0.013335
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.ecosystem
+  name: Ecosystem
+  domain: biology
+  type: concept
+  status: draft
+  definition: A biological community of interacting organisms (biotic factors) together with their non-living physical
+    and chemical environment (abiotic factors), functioning as an integrated ecological system.
+  score: 0.012706
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:earth.atmosphere
+  name: Earth Atmosphere
+  domain: earth-space
+  type: concept
+  status: draft
+  definition: The layer of gases surrounding Earth, retained by Earth's gravity, composed primarily of nitrogen
+    (78%) and oxygen (21%), which absorbs ultraviolet radiation, warms the surface via the greenhouse effect, and
+    regulates weather.
+  score: 0.012697
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.photosynthesis
+  name: Photosynthesis
+  domain: biology
+  type: concept
+  status: draft
+  definition: The biological process by which autotrophic organisms (such as plants and algae) convert light energy
+    into stored chemical energy in glucose, using carbon dioxide and water while releasing oxygen as a byproduct.
+  score: 0.012052
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.gene
+  name: Gene
+  domain: biology
+  type: concept
+  status: draft
+  definition: The basic physical and functional unit of heredity, composed of a specific sequence of nucleotides
+    along a DNA molecule that codes for a specific functional polypeptide (protein) or RNA product.
+  score: 0.010909
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:earth.plate-tectonics
+  name: Plate Tectonics
+  domain: earth-space
+  type: concept
+  status: draft
+  definition: The unifying geological theory explaining that Earth's rigid outer shell (lithosphere) is divided
+    into several large plates that move slowly over the asthenosphere, driven by mantle convection currents.
+  score: 0.004812
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:practice.scientific-observation
+  name: Scientific Observation
+  domain: scientific-practice
+  type: concept
+  status: draft
+  definition: The systematic gathering of information about natural phenomena using the human senses or scientific
+    instruments. Observation provides the empirical basis for scientific questions, hypotheses, and evidence.
+  score: 0.004808
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:earth.greenhouse-effect
+  name: Greenhouse Effect
+  domain: earth-space
+  type: concept
+  status: draft
+  definition: The process by which greenhouse gases in Earth's atmosphere (such as water vapor, CO₂, CH₄) absorb
+    outgoing infrared radiation emitted by Earth's surface and re-radiate thermal energy in all directions, warming
+    the lower atmosphere.
+  score: 0.00467
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:earth.rock-cycle
+  name: Rock Cycle
+  domain: earth-space
+  type: concept
+  status: draft
+  definition: The continuous transformation of the three rock families — igneous, sedimentary, and metamorphic —
+    through weathering, erosion, deposition, burial, heat, pressure, and melting, driven by Earth's internal heat
+    and surface processes.
+  score: 0.00467
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:eng.engineering-design-process
+  name: Engineering Design Process
+  domain: engineering
+  type: concept
+  status: draft
+  definition: An iterative problem-solving methodology involving problem definition, criteria and constraint identification,
+    concept generation, modeling, prototyping, testing, trade-off evaluation, and design optimization.
+  score: 0.00167
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:epist.observation-vs-inference
+  name: Observation vs. Inference
+  domain: scientific-practice
+  type: concept
+  status: draft
+  definition: The epistemic distinction between direct empirical data gathered through sensing/measurement (observation)
+    and the logical explanation or conclusion derived from those data based on prior knowledge (inference).
+  score: 0.00167
+  decision: null
+  reviewer: null
+  evidence_notes: null

@@ -1,5 +1,5 @@
 import { ConceptDetails } from '../services/concept-data';
-import { LhsEntity } from '../services/knowledge-export-loader';
+import { StemmaEntity } from '../services/knowledge-export-loader';
 import { getDomainTheme, getTrustStyle } from '../styles/theme';
 
 declare const katex: any;
@@ -32,16 +32,16 @@ export class ConceptInspectorView {
     this.currentDetails = null;
     this.container.innerHTML = `
       <div class="empty-inspector">
-        <div class="empty-icon">⚛</div>
-        <h3 style="font-family:'Outfit',sans-serif;font-size:1.2rem;font-weight:700;color:#ffffff;">Explore STEMMA</h3>
-        <p style="font-size:0.9rem;line-height:1.5;color:var(--text-secondary);">Select any concept in the 3D graph or search for one above.</p>
-        <div style="font-size:0.84rem;text-align:left;background:rgba(15, 23, 42, 0.6);padding:14px 16px;border-radius:12px;border:1px solid var(--border-glass);margin-top:12px;width:100%;">
-          <div style="font-weight:700;color:var(--accent-cyan);font-family:'Outfit',sans-serif;margin-bottom:8px;">Explore the constellation:</div>
-          <div>✨ <strong>3D clusters</strong> — answers/s-drag, or click a cluster to fly to it</div>
-          <div>📖 <strong>Overview</strong> — definition, formula, quantities</div>
-          <div>🔗 <strong>Relations</strong> — prerequisites & dependents</div>
-          <div>🌐 <strong>Examples</strong> — real-world applications & experiments</div>
-          <div>💡 <strong>Misconceptions</strong> — common traps</div>
+        <div class="empty-icon">⚛️</div>
+        <h3 style="font-family:'Outfit',sans-serif;font-size:1.3rem;font-weight:800;color:#ffffff;text-shadow:0 0 20px rgba(0,229,255,0.35);">Welcome to stemma</h3>
+        <p style="font-size:0.92rem;line-height:1.55;color:var(--text-secondary);max-width:300px;">Twist. Click. Learn. This is your colorful universe of STEM — mapped, linked, and ready to light up.</p>
+        <div style="font-size:0.84rem;text-align:left;background:rgba(12, 7, 34, 0.72);padding:14px 16px;border-radius:12px;border:1px solid rgba(0,229,255,0.22);margin-top:12px;width:100%;box-shadow:0 8px 24px rgba(0,0,0,0.3);">
+          <div style="font-weight:800;color:var(--accent-cyan);font-family:'Outfit',sans-serif;margin-bottom:8px;">Explore the constellation</div>
+          <div>✨ <strong>3D clusters</strong> — spin, drag, and click a cluster to fly there</div>
+          <div>📖 <strong>Overview</strong> — definition, formula, and quantities</div>
+          <div>🔗 <strong>Relations</strong> — prerequisites & downstream ideas</div>
+          <div>🌐 <strong>Examples</strong> — real-world science you can picture</div>
+          <div>💡 <strong>Misconceptions</strong> — the traps to dodge</div>
         </div>
       </div>
     `;
@@ -192,9 +192,7 @@ export class ConceptInspectorView {
       <div class="inspector-section">
         <div class="section-title">🛡️ Edge source</div>
         <div style="font-size:0.78rem;color:var(--text-secondary);">
-          ${edgeSource === 'connections'
-            ? 'Drawn from canonical <code>connections[]</code> (export contract v1.0) — each edge carries an assertion review status.'
-            : 'Fallback: deprecated inline <code>entities[].relationships</code> projection (no review status available).'}
+          Drawn from canonical <code>connections[]</code> (export contract v2.0) — each edge carries an assertion review status.
         </div>
       </div>`;
     if (!prerequisites.length && !dependents.length && !related.length) {
@@ -203,7 +201,7 @@ export class ConceptInspectorView {
     return html;
   }
 
-  private renderExamples(entity: LhsEntity): string {
+  private renderExamples(entity: StemmaEntity): string {
       let html = '';
       if (entity.real_world_applications && entity.real_world_applications.length) {
         html += `
@@ -230,7 +228,7 @@ export class ConceptInspectorView {
       return html;
     }
 
-    private renderMisconceptions(entity: LhsEntity): string {
+    private renderMisconceptions(entity: StemmaEntity): string {
       let html = '';
       if (entity.common_misconceptions && entity.common_misconceptions.length) {
         html = entity.common_misconceptions.map((m: string) => `<div class="misconception-card">${this.escapeHtml(m)}</div>`).join('');
@@ -240,7 +238,7 @@ export class ConceptInspectorView {
       return html;
     }
 
-    private entityLink(p: LhsEntity, right: string, trust?: string): string {
+    private entityLink(p: StemmaEntity, right: string, trust?: string): string {
     const theme = getDomainTheme(p.domain);
     const badge = this.trustBadge(trust);
     return `

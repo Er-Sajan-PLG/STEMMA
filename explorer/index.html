@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>STEMMA — 3D Interactive Knowledge Graph Explorer</title>
+    <meta name="theme-color" content="#05020f" />
+    <meta name="description" content="stemma — a vivid, animated 3D map of the STEM universe. Search concepts, feel the connections, and explore the relationships between physics, chemistry, biology, math, and more." />
+    <title>stemma · 3D STEM Knowledge Graph</title>
     <!-- Google Fonts: Outfit & Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,7 +23,7 @@
       <!-- Two-Pane Main Layout -->
       <main class="main-layout">
         <!-- Left 3D Canvas / Graph Pane -->
-        <section class="graph-container" aria-label="3D Knowledge Graph Canvas">
+        <section class="graph-container" aria-label="stemma 3D Knowledge Map">
           <div id="graphCanvas"></div>
           <div id="accessibleList" style="display:none;width:100%;height:100%;"></div>
 
@@ -49,19 +51,20 @@
           <!-- Loading & Error Overlays -->
           <div id="loadingOverlay" class="overlay-state" style="display:none;">
             <div class="spinner"></div>
-            <div style="font-weight:600;font-size:1rem;font-family:'Outfit',sans-serif;letter-spacing:0.02em;">Constructing 3D Knowledge Graph...</div>
+            <div class="loading-copy">Igniting the stem-verse…</div>
+            <div class="loading-sub">spinning concepts into a 3D constellation</div>
           </div>
 
           <div id="errorOverlay" class="overlay-state" style="display:none;">
-            <div style="font-size:2.5rem;">⚠️</div>
-            <div id="errorTitle" style="font-weight:700;font-size:1.15rem;color:#fca5a5;font-family:'Outfit',sans-serif;">Failed to Load Knowledge Graph</div>
+            <div style="font-size:2.5rem;">🧪💥</div>
+            <div id="errorTitle" style="font-weight:700;font-size:1.15rem;color:#ff8fa3;font-family:'Outfit',sans-serif;">Lab glitch detected</div>
             <div id="errorMessage" style="font-size:0.9rem;color:#d1d5db;max-width:420px;text-align:center;line-height:1.5;"></div>
-            <button id="retryBtn" class="action-btn" style="margin-top:12px;">Retry Loading</button>
+            <button id="retryBtn" class="action-btn" style="margin-top:12px;">Re-ignite</button>
           </div>
         </section>
 
         <!-- Right Concept Inspector Pane -->
-        <aside id="inspector" class="inspector-container" aria-label="Concept Inspector"></aside>
+        <aside id="inspector" class="inspector-container" aria-label="stemma Concept Inspector"></aside>
       </main>
     </div>
 

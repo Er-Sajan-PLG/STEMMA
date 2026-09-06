@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.half-life
+id: stemma:phys.half-life
 type: quantity
 name: Half-Life
 domain: physics
@@ -29,7 +29,4 @@ provenance:
   source: "Halliday, Resnick & Walker, Fundamentals of Physics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: related_to
-    target: lhs:phys.radioactivity
 ---

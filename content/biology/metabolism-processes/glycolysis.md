@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.glycolysis
+id: stemma:bio.glycolysis
 type: concept
 name: Glycolysis
 domain: biology
@@ -30,11 +30,6 @@ provenance:
   ai_drafted: true
   source_kind: academic-or-research
   source: Lehninger Principles of Biochemistry
-relationships:
-  - type: part_of
-    target: lhs:bio.cellular-respiration
-  - type: logically_requires
-    target: lhs:bio.enzyme
 ---
 
 ## Notes

@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.wave
+id: stemma:phys.wave
 type: concept
 name: Wave
 domain: physics
@@ -35,17 +35,6 @@ real_world_applications:
 - Music and acoustics.
 provenance:
   ai_drafted: true
-relationships:
-- type: analogous_to
-  target: lhs:phys.sound
-- type: related_to
-  target: lhs:phys.amplitude
-- type: related_to
-  target: lhs:phys.frequency
-- type: related_to
-  target: lhs:phys.wave-speed
-- type: related_to
-  target: lhs:phys.wavelength
 
 ---
 

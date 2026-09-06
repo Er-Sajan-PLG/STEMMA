@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.mass
+id: stemma:phys.mass
 type: quantity
 name: Mass
 domain: physics
@@ -24,13 +24,6 @@ external_ids:
   wd: Q11423
 provenance:
   ai_drafted: true
-relationships:
-  - type: appears_in_law
-    target: lhs:phys.newtons-second-law
-  - type: related_to
-    target: lhs:phys.inertia
-  - type: related_to
-    target: lhs:phys.weight
 ---
 
 ## Notes

@@ -1,0 +1,28 @@
+id: stemma:conn.000561
+type: connection
+source: stemma:chem.functional-group
+relation: related_to
+target: stemma:chem.carboxylic-acid
+assertion:
+  status: active
+  type: proposed
+  review:
+    status: unreviewed
+  confidence: null
+  confidence_basis: null
+context:
+  domain: chemistry
+  subdomain: organic-chemistry
+  regime: []
+  scale: macroscopic
+  assumptions: []
+evidence: []
+provenance:
+  asserted_by:
+    type: unknown
+    id: unknown:legacy-relationship
+  generated_by:
+    type: process
+    id: process:migration.relationships-v0.2
+  method:
+    type: migration

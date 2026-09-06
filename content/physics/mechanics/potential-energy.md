@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.potential-energy
+id: stemma:phys.potential-energy
 type: quantity
 name: Potential Energy
 domain: physics
@@ -33,17 +33,6 @@ external_ids:
   wd: Q155640
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.mass
-  - type: mathematically_requires
-    target: lhs:phys.gravitational-acceleration
-  - type: mathematically_requires
-    target: lhs:phys.distance
-  - type: related_to
-    target: lhs:phys.energy
-  - type: related_to
-    target: lhs:phys.conservation-of-energy
 ---
 
 ## Notes

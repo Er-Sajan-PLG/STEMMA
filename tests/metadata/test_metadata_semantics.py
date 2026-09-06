@@ -37,8 +37,9 @@ def test_missing_timestamps_allowed():
     # Missing historical timestamps allowed
     for p in (ROOT/"connections").glob("*.yaml"):
         d = yaml.safe_load(p.read_text())
-        # Should not fail if created_at is null
-        assert "created_at" in d
+        # Optional per connection.schema.json; when present may be null
+        # (unknown historical time is null, never the file mtime).
+        assert d.get("created_at", None) is None or isinstance(d["created_at"], str)
     print("PASS missing timestamps allowed")
 
 def test_evidence_not_default_supports():
@@ -59,14 +60,13 @@ def test_evidence_not_default_supports():
 def test_polarity_distinct():
     for p in (ROOT/"connections").glob("*.yaml"):
         d = yaml.safe_load(p.read_text())
-        assert d["assertion"].get("polarity") in ("positive","negative")
+        assert d["assertion"].get("polarity") in ("positive","negative", None)  # optional per schema
         # positive != rejected
         if d["assertion"].get("polarity") == "negative":
             assert d["relation"] != "contradicts" or True  # negative is distinct from contradicts relation
-    # Check no duplicate polarity fields
+    # Polarity is optional; the retired name `negated` must never appear.
     for p in (ROOT/"connections").glob("*.yaml"):
         d = yaml.safe_load(p.read_text())
-        assert "polarity" in d["assertion"]
         assert "negated" not in d["assertion"]
     print("PASS polarity distinct")
 
@@ -82,7 +82,7 @@ def test_claim_signature_deterministic():
     # Multiple connections may share signature (different source with same triple)
     # Signature does not replace ID
     for c in conns:
-        assert c["id"].startswith("lhs:conn.")
+        assert c["id"].startswith("stemma:conn.")
         assert sig(c) != c["id"]
     print("PASS claim_signature deterministic")
 

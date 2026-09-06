@@ -1,5 +1,5 @@
 ---
-id: lhs:math.integer
+id: stemma:math.integer
 type: concept
 name: Integer
 domain: mathematics
@@ -34,10 +34,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / ICSE Mathematics Curriculum"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
-relationships:
-- type: related_to
-  target: lhs:math.irrational-number
 ---

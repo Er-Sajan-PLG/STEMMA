@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.chemical-equilibrium
+id: stemma:chem.chemical-equilibrium
 type: concept
 name: Chemical Equilibrium
 domain: chemistry
@@ -30,9 +30,4 @@ provenance:
   ai_drafted: true
   source_kind: textbook
   source: Atkins' Physical Chemistry
-relationships:
-  - type: logically_requires
-    target: lhs:chem.chemical-reaction
-  - type: related_to
-    target: lhs:chem.equilibrium-constant
 ---

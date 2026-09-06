@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.wavelength
+id: stemma:phys.wavelength
 type: quantity
 name: Wavelength
 domain: physics
@@ -27,13 +27,6 @@ learning_objectives:
   - Compare wavelengths of different types of waves.
 provenance:
   ai_drafted: true
-relationships:
-  - type: related_to
-    target: lhs:phys.wave
-  - type: related_to
-    target: lhs:phys.frequency
-  - type: related_to
-    target: lhs:phys.wave-speed
 ---
 
 ## Notes

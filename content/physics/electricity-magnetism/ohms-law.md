@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.ohms-law
+id: stemma:phys.ohms-law
 type: law
 name: Ohm's Law
 domain: physics
@@ -45,13 +45,6 @@ historical:
     by: Georg Simon Ohm
     event: Publishes Die galvanische Kette, mathematisch bearbeitet, stating the law
       relating current, voltage and resistance
-relationships:
-- type: applies_to
-  target: lhs:phys.current
-- type: applies_to
-  target: lhs:phys.voltage
-- type: applies_to
-  target: lhs:phys.resistance
 
 ---
 

@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.kinetic-energy
+id: stemma:phys.kinetic-energy
 type: quantity
 name: Kinetic Energy
 domain: physics
@@ -34,15 +34,6 @@ external_ids:
   wd: Q46276
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.mass
-  - type: mathematically_requires
-    target: lhs:phys.speed
-  - type: related_to
-    target: lhs:phys.energy
-  - type: related_to
-    target: lhs:phys.work-energy-theorem
 ---
 
 ## Notes

@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.nuclear-fusion
+id: stemma:phys.nuclear-fusion
 type: concept
 name: Nuclear Fusion
 domain: physics
@@ -29,11 +29,6 @@ real_world_applications:
   - Experimental fusion reactors (ITER).
 provenance:
   ai_drafted: true
-relationships:
-  - type: related_to
-    target: lhs:phys.radioactivity
-  - type: related_to
-    target: lhs:phys.nuclear-fission
 ---
 
 ## Notes

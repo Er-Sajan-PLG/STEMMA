@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.doppler-effect
+id: stemma:phys.doppler-effect
 type: concept
 name: Doppler Effect
 domain: physics
@@ -30,9 +30,4 @@ provenance:
   source: "Halliday, Resnick & Walker, Fundamentals of Physics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: related_to
-    target: lhs:phys.wave
-  - type: related_to
-    target: lhs:phys.frequency
 ---

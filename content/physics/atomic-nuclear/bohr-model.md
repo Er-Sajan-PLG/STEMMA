@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.bohr-model
+id: stemma:phys.bohr-model
 type: concept
 name: Bohr Model
 domain: physics
@@ -23,13 +23,6 @@ historical:
     - year: 1913
       by: "Niels Bohr"
       event: "Publishes On the Constitution of Atoms and Molecules, introducing quantized electron orbits and the hydrogen spectrum"
-relationships:
-- type: approximates
-  target: lhs:phys.atomic-structure
-- type: related_to
-  target: lhs:chem.atom
-- type: related_to
-  target: lhs:phys.atomic-structure
 _notes: Model approximates atomic structure; superseded by quantum mechanical model.
 ---
 

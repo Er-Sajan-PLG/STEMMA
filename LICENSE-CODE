@@ -22,6 +22,7 @@ SOFTWARE.
 
 ---
 
-This is the license for CODE ONLY (Python scripts under `scripts/` and the
-`explorer/` code). The canonical educational content, schemas, and vocabularies in
-this repository are licensed separately under CC BY 4.0 — see `LICENSE`.
+This is the license for CODE ONLY (Python scripts under `scripts/`, the
+`explorer/` code, and code under `adapters/`). The canonical educational
+content, schemas, and vocabularies in this repository are licensed separately
+under CC BY 4.0 — see `LICENSE`.

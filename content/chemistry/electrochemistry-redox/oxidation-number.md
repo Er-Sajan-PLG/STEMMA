@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.oxidation-number
+id: stemma:chem.oxidation-number
 type: quantity
 name: Oxidation Number
 domain: chemistry
@@ -30,7 +30,4 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Compendium of Chemical Terminology
-relationships:
-  - type: part_of
-    target: lhs:chem.oxidation-reduction
 ---

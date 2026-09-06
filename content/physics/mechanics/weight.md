@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.weight
+id: stemma:phys.weight
 type: quantity
 name: Weight
 domain: physics
@@ -33,15 +33,6 @@ external_ids:
   wd: Q25288
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.mass
-  - type: mathematically_requires
-    target: lhs:phys.gravitational-acceleration
-  - type: related_to
-    target: lhs:phys.force
-  - type: related_to
-    target: lhs:phys.gravitation
 ---
 
 ## Notes

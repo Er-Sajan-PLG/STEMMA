@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.light
+id: stemma:phys.light
 type: concept
 name: Light
 domain: physics
@@ -31,19 +31,6 @@ real_world_applications:
   - Photography and imaging.
 provenance:
   ai_drafted: true
-relationships:
-- type: bridges
-  target: lhs:bio.photosynthesis
-- type: related_to
-  target: lhs:bio.photosynthesis
-- type: related_to
-  target: lhs:phys.electromagnetic-spectrum
-- type: related_to
-  target: lhs:phys.reflection
-- type: related_to
-  target: lhs:phys.refraction
-- type: related_to
-  target: lhs:phys.wave
 ---
 
 ## Notes

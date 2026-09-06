@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.specific-heat
+id: stemma:phys.specific-heat
 type: quantity
 name: Specific Heat Capacity
 domain: physics
@@ -37,15 +37,6 @@ real_world_applications:
 - Thermal storage systems.
 provenance:
   ai_drafted: true
-relationships:
-- type: mathematically_requires
-  target: lhs:phys.heat
-- type: mathematically_requires
-  target: lhs:phys.mass
-- type: mathematically_requires
-  target: lhs:phys.temperature
-- type: related_to
-  target: lhs:phys.thermal-energy
 
 ---
 

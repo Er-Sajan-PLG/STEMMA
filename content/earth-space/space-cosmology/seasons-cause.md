@@ -1,5 +1,5 @@
 ---
-id: lhs:earth.seasons-cause
+id: stemma:earth.seasons-cause
 type: concept
 name: Cause of Astronomical Seasons
 domain: earth-space
@@ -11,7 +11,7 @@ symbol: null
 unit: null
 equation: null
 examples:
-  - "Nepal's warm summers and cool winters come from Earth's ~23.5° axial tilt."
+  - "Mid-latitude warm summers and cool winters come from Earth's ~23.5° axial tilt."
   - "Solstices and equinoxes mark the extremes of the tilt cycle."
 key_experiments:
   - "Globe-and-lamp model: tilt the globe and observe how the amount and angle of sunlight change for a fixed location."
@@ -29,11 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: NASA Science Framework / IAU Astronomy Education
-relationships:
-  - type: logically_requires
-    target: lhs:phys.gravitation
-  - type: related_to
-    target: lhs:earth.earth-system
 ---
 
 ## Notes

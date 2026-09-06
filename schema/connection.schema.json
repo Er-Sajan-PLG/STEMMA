@@ -1,20 +1,20 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://learninghubstem.example/schema/connection.schema.json",
-  "title": "LearningHubSTEM connection (first-class assertion)",
+  "$id": "https://stemma.example/schema/connection.schema.json",
+  "title": "STEMMA connection (first-class assertion)",
   "description": "Schema for one canonical connection — first-class qualified assertion (v0.2). See ADR-011. Urgent metadata (v0.2 audit) added as optional.",
   "type": "object",
   "required": ["id", "type", "source", "relation", "target", "assertion", "provenance"],
   "properties": {
     "id": {
       "type": "string",
-      "pattern": "^lhs:conn\\.[0-9]{6}$",
-      "description": "Sequential opaque connection ID (lhs:conn.000001), immutable, never reused."
+      "pattern": "^stemma:conn\\.[0-9]{6}$",
+      "description": "Sequential opaque connection ID (stemma:conn.000001), immutable, never reused."
     },
     "type": { "const": "connection" },
     "source": {
       "type": "string",
-      "pattern": "^lhs:[a-z][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*$",
+      "pattern": "^stemma:[a-z][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*$",
       "description": "Source entity ID."
     },
     "relation": {
@@ -23,7 +23,7 @@
     },
     "target": {
       "type": "string",
-      "pattern": "^lhs:[a-z][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*$",
+      "pattern": "^stemma:[a-z][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*$",
       "description": "Target entity ID."
     },
     "assertion": {
@@ -37,7 +37,7 @@
           "type": "object",
           "required": ["status"],
           "properties": {
-            "status": { "enum": ["unreviewed", "reviewed", "canonical"] }
+            "status": { "enum": ["unreviewed", "reviewed", "canonical", "rejected"] }
           },
           "additionalProperties": false
         },
@@ -56,7 +56,7 @@
     },
     "lifecycle": {
       "anyOf": [
-        {"type": "object", "properties": {"reason": { "type": ["string", "null"] }, "replaced_by": { "type": ["string", "null"], "pattern": "^lhs:conn\\.[0-9]{6}$" }}, "additionalProperties": false},
+        {"type": "object", "properties": {"reason": { "type": ["string", "null"] }, "replaced_by": { "type": ["string", "null"], "pattern": "^stemma:conn\\.[0-9]{6}$" }}, "additionalProperties": false},
         {"type": "null"}
       ]
     },
@@ -113,7 +113,7 @@
         "properties": {
           "type": { "enum": ["definition", "axiom", "mathematical_derivation", "empirical_measurement", "experiment", "observation", "simulation", "review", "textbook", "standard", "dataset", "expert_assessment", "derivation", "other"] },
           "stance": { "enum": ["supports", "weakly_supports", "contradicts", "qualifies"], "description": "M9: evidence direction, default supports" },
-          "source_ref": { "type": "string", "pattern": "^lhs:src\\." },
+          "source_ref": { "type": "string", "pattern": "^stemma:src\\." },
           "locator": { "type": "string" },
           "locator_struct": {
             "anyOf": [
@@ -194,7 +194,7 @@
         "rule": { "type": "string" },
         "path": {
           "type": "array",
-          "items": { "type": "string", "pattern": "^lhs:" }
+          "items": { "type": "string", "pattern": "^stemma:" }
         }
       },
       "additionalProperties": false

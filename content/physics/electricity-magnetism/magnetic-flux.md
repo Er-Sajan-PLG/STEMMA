@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.magnetic-flux
+id: stemma:phys.magnetic-flux
 type: quantity
 name: Magnetic Flux
 domain: physics
@@ -29,11 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAP Symbols, Units, Nomenclature in Physics
-relationships:
-  - type: logically_requires
-    target: lhs:phys.magnetic-field
-  - type: related_to
-    target: lhs:phys.electromagnetic-induction
 ---
 
 ## Notes

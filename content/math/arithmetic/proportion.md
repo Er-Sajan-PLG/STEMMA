@@ -1,5 +1,5 @@
 ---
-id: lhs:math.proportion
+id: stemma:math.proportion
 type: concept
 name: Proportion
 domain: mathematics
@@ -32,14 +32,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / ICSE Mathematics Curriculum"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: mathematically_requires
-    target: lhs:math.ratio
-  - type: related_to
-    target: lhs:math.fraction
-  - type: related_to
-    target: lhs:math.percentage
 ---

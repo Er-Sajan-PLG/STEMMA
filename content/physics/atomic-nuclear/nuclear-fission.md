@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.nuclear-fission
+id: stemma:phys.nuclear-fission
 type: concept
 name: Nuclear Fission
 domain: physics
@@ -45,11 +45,6 @@ historical:
     - year: 1939
       by: "Lise Meitner & Otto Frisch"
       event: "Meitner and Frisch publish their interpretation in Nature"
-relationships:
-  - type: related_to
-    target: lhs:phys.radioactivity
-  - type: related_to
-    target: lhs:phys.nuclear-fusion
 ---
 
 ## Notes

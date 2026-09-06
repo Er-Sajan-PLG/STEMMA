@@ -1,0 +1,60 @@
+id: stemma:conn.000377
+type: connection
+source: stemma:phys.newtons-second-law
+relation: mathematically_requires
+target: stemma:phys.force
+assertion:
+  status: active
+  type: asserted
+  review:
+    status: canonical
+  confidence: 0.99
+  confidence_basis: expert_review
+  polarity: positive
+context:
+  domain: physics
+  subdomain: mechanics
+  regime:
+  - classical
+  - nonrelativistic
+  scale: macroscopic
+  assumptions:
+  - weak_gravity
+  - low_velocity
+  qualifiers: []
+evidence:
+- type: derivation
+  source_ref: stemma:src.halliday-resnick
+  locator: Chapter 5, Eq. 5.1
+  description: F=ma derived from N2L at constant mass
+  stance: supports
+  locator_struct: null
+- type: experiment
+  source_ref: stemma:src.cavendish-1798
+  locator: Fig. 3
+  description: Empirical verification of force proportionality
+  stance: supports
+  locator_struct: null
+provenance:
+  asserted_by:
+    type: human
+    id: human:reviewer.physics-001
+  generated_by:
+    type: human
+    id: human:reviewer.physics-001
+  reviewed_by:
+  - type: human
+    id: human:reviewer.physics-001
+  method:
+    type: manual
+  review_history:
+  - from: reviewed
+    to: canonical
+    reviewer: human:reviewer.physics-001
+    at: '2026-08-30T18:21:03.630008+00:00'
+    reason: dependency N2L mathematically requires force — reviewed example
+created_at: null
+updated_at: null
+validity: null
+lifecycle: null
+rights: null

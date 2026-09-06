@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.polymer
+id: stemma:chem.polymer
 type: concept
 name: Polymer
 domain: chemistry
@@ -30,7 +30,4 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Compendium of Chemical Terminology
-relationships:
-  - type: related_to
-    target: lhs:chem.chemical-reaction
 ---

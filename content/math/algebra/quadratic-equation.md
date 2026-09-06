@@ -1,5 +1,5 @@
 ---
-id: lhs:math.quadratic-equation
+id: stemma:math.quadratic-equation
 type: concept
 name: Quadratic Equation
 domain: mathematics
@@ -35,7 +35,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / ICSE Mathematics Curriculum"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
 historical:
@@ -51,13 +51,4 @@ historical:
     - year: 825
       by: "Al-Khwarizmi"
       event: "Systematic treatment of quadratic equations (Algebra)"
-relationships:
-  - type: mathematically_requires
-    target: lhs:math.algebraic-expression
-  - type: related_to
-    target: lhs:math.quadratic-function
-  - type: related_to
-    target: lhs:math.linear-equation
-  - type: related_to
-    target: lhs:math.polynomial
 ---

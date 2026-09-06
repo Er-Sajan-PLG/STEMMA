@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.resistance
+id: stemma:phys.resistance
 type: quantity
 name: Electrical Resistance
 domain: physics
@@ -30,13 +30,6 @@ real_world_applications:
   - Fuses.
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.voltage
-  - type: mathematically_requires
-    target: lhs:phys.current
-  - type: appears_in_law
-    target: lhs:phys.ohms-law
 ---
 
 ## Notes

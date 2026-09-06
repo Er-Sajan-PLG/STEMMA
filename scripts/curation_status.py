@@ -15,14 +15,28 @@ REGISTRY = ROOT / "schema/relation-registry.yaml"
 def main():
     conns = [yaml.safe_load(p.read_text()) for p in sorted(CONNECTIONS.glob("*.yaml"))]
     registry = yaml.safe_load(REGISTRY.read_text())["relations"]
-    # Load entities for domain
+    # Load entities for domain (sorted so all filesystems produce the same order)
     ents = {}
-    for p in (ROOT / "content").rglob("*.md"):
+    for p in sorted((ROOT / "content").rglob("*.md")):
         d = yaml.safe_load(p.read_text().split("---", 2)[1])
         if d.get("id"):
             ents[d["id"]] = d
 
     total = len(conns)
+    entity_status: Counter = Counter(e.get("status", "unknown") for e in ents.values())
+    entity_type: Counter = Counter(e.get("type", "unknown") for e in ents.values())
+    entity_by_domain: dict[str, dict[str, int]] = {}
+    for e in ents.values():
+        dom = e.get("domain", "unknown")
+        d = entity_by_domain.setdefault(dom, {"total": 0, "human_reviewed": 0, "canonical": 0})
+        d["total"] += 1
+        st = e.get("status")
+        if st in ("human_reviewed", "canonical"):
+            d["human_reviewed"] += 1
+        if st == "canonical":
+            d["canonical"] += 1
+    entity_reviewed = sum(1 for e in ents.values() if e.get("status") in ("human_reviewed", "canonical"))
+    entity_canonical = sum(1 for e in ents.values() if e.get("status") == "canonical")
     by_rel = Counter(c["relation"] for c in conns)
     by_family = Counter(registry.get(c["relation"], {}).get("family", "unknown") for c in conns)
     by_review = Counter(c["assertion"]["review"]["status"] for c in conns)
@@ -49,7 +63,7 @@ def main():
     reviewed = [c for c in conns if c["assertion"]["review"]["status"] in ("reviewed", "canonical")]
     reviewed_sorted = sorted(reviewed, key=lambda x: x["id"])
     # Remaining highest priority (from review_queue)
-    rq_path = ROOT / "reports/review-queue-v0.2.json"
+    rq_path = ROOT / "reports/review-queue.json"
     remaining = []
     if rq_path.exists():
         rq = json.loads(rq_path.read_text())
@@ -92,14 +106,20 @@ def main():
         "provenance_gaps_count": len(provenance_gaps),
         "evidence_gaps_sample": evidence_gaps[:5],
         "provenance_gaps_sample": provenance_gaps[:5],
+        "entity_count": len(ents),
+        "entity_reviewed_count": entity_reviewed,
+        "entity_canonical_count": entity_canonical,
+        "entity_status": dict(entity_status),
+        "entity_type": dict(entity_type),
+        "entity_review_coverage_by_domain": entity_by_domain,
     }
 
-    out_json = ROOT / "reports/curation-status-v0.2.json"
+    out_json = ROOT / "reports/curation-status.json"
     out_json.write_text(json.dumps(report, indent=2) + "\n")
 
     top_lines = "\n".join(f"- {c['id']}: {c['relation']} {c['source']} -> {c['target']}" for c in reviewed_sorted[:15])
     rem_lines = "\n".join(f"- {r['connection_id']}: {r['proposed_relation']}" for r in remaining[:10]) if remaining else "none"
-    out_md = ROOT / "reports/curation-status-v0.2.md"
+    out_md = ROOT / "reports/curation-status.md"
     out_md.write_text(
         f"# Curation Status — v0.2\n\n"
         f"- Total connections: {total} (canonical objects)\n"
@@ -117,12 +137,13 @@ def main():
         f"## Top reviewed (canonical)\n{top_lines}\n\n"
         f"## Remaining highest priority\n{rem_lines}\n\n"
         f"## Gaps\n- Evidence gaps: {len(evidence_gaps)} (sample {evidence_gaps[:3]})\n- Provenance gaps (no reviewed_by): {len(provenance_gaps)}\n\n"
+        f"## Entity review coverage\n- Entities: {len(ents)}\n- Human-reviewed/canonical entities: {entity_reviewed} ({100.0 * entity_reviewed / len(ents) if ents else 0.0:.1f}%)\n- Canonical entities: {entity_canonical}\n- By status: {dict(entity_status)}\n- By domain: {json.dumps(entity_by_domain, sort_keys=True)}\n\n"
         f"## Note\nSchema correctness != semantic acceptance. Canonical objects (397) include 382 proposed/unreviewed.\n"
     )
     print(f"OK: curation status total {total} canonical {report['canonical_assertions']}")
 
     # Pilot retrospective
-    pilot_md = ROOT / "reports/curation-pilot-v0.2.md"
+    pilot_md = ROOT / "reports/curation-pilot.md"
     pilot_md.write_text(
         """# Curation Pilot — v0.2 (15 canonical)
 

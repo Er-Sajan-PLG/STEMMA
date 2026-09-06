@@ -1,8 +1,8 @@
 {
-  "name": "stemma-explorer",
+  "name": "stemma",
   "version": "1.0.0",
   "private": true,
-  "description": "STEMMA 3D Interactive Knowledge Graph Explorer",
+  "description": "stemma — the STEM-pop 3D knowledge graph explorer",
   "type": "module",
   "scripts": {
     "predev": "node scripts/sync-export.mjs",

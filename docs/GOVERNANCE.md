@@ -1,203 +1,127 @@
-# GOVERNANCE — STEMMA
+# STEMMA — Governance
 
-**Status:** STEMMA repository governance (Level 2).
-**Applies to:** Humans and AI agents working inside this repository.
-**Related:** `AGENTS.md` (routing), `docs/NORTHSTAR.md` (north star),
-`docs/MASTER-VISION.md` (vision), `docs/STEMMA-SPECIFICATION.md`
-(technical spec), `docs/STEMMA-ROADMAP.md` (phasing),
-`docs/decisions/` (STEMMA decision records), `docs/REVIEW-RESPONSE.md`
-(reconciliation record). Generic workspace rules live in
-`../../docs/WORKSPACE-GOVERNANCE.md` and apply to all repositories, including this one.
+**Status:** Authoritative (baseline 3.0.0). This document is the sole
+governance reference for the repository.
 
 ---
 
-## 1. Governance precedence
+## 1. Project invariants (Level 1 — never overridden)
+
+1. STEMMA is an **independent, open, structured, reusable STEM knowledge
+   foundation**. It is not owned by, subordinate to, or a backend of any
+   product, company, or personal ecosystem.
+2. **Curriculum is external.** No grade, course, syllabus, sequencing, or
+   country semantics in canonical data.
+3. **Products and consumers are external.** Dependency direction is always
+   consumer → foundation. STEMMA depends on nothing upstream.
+4. **Canonical knowledge lives only in `content/`, `connections/`, and
+   `sources/`.** Everything derived is regenerable and never authoritative.
+5. **Stable identity is a contract.** IDs are never reused or reassigned;
+   assertion triples are immutable (supersession, not editing).
+6. **AI output is not canonical** without named human review.
+7. **Unknown is `null`, never fabricated.**
+8. **The gate decides.** If `scripts/verify_all.py` fails, nothing ships.
+
+## 2. Precedence
 
 ```
-LEVEL 1 — STEMMA INVARIANTS (non-overridable)
-          ↓
-LEVEL 2 — PROJECT / REPOSITORY GOVERNANCE
-          ↓
-LEVEL 3 — IMPLEMENTATION DETAILS
+Level 1 invariants (§1)
+  → this governance document
+    → ADRs (docs/decisions/) — decision authority for their subject
+      → specifications (docs/*-SPECIFICATION.md and friends)
+        → implementation details (agent discretion)
 ```
 
-### Level 1 — STEMMA invariants (never overridden)
+## 3. Architectural decision process (ADRs)
 
-- STEMMA is an **independent, open, structured, reusable STEM knowledge foundation**.
-- STEMMA is **not** owned by, subordinate to, or a backend of any product.
-- **Curriculum is external.** It is a consumer of the foundation, never a component of it.
-- **Products are consumers.** LearningHub, JARVIS, STEM-GAME, STEM Lab, and unknown future
-  products all sit **below** STEMMA in the dependency direction.
-- **Knowledge order ≠ curriculum order.** Relationships live in the knowledge layer;
-  sequencing is a curriculum decision.
-- Canonical knowledge cannot depend on a specific product, curriculum, database, or country.
-- **AI output is not canonical** without appropriate human review.
-- Derived artifacts are **regenerable** and are never the source of truth.
+- Significant changes to identity, schemas, relation semantics, contracts,
+  licensing, or governance **require an ADR** (`docs/decisions/00NN-*.md`):
+  context → decision → alternatives → consequences → status.
+- **An ADR lands together with its enforcement** (validator rule + tests) in
+  the same change — governance without a gate is prose.
+- ADR statuses: `proposed` (awaiting human gate) → `decided`. Superseded ADRs
+  are marked, never deleted.
+- ADRs are append-only history: they may reference past names/projects as
+  historical fact, but the living documents may not depend on that context.
 
-A repository's governance may refine how these apply, but may **not** silently redefine them.
+## 4. Human review gates (decisions an agent may propose but never finalize)
 
-### Level 2 — Project / repository governance
+| Domain | Gate |
+|---|---|
+| Canonical schema changes (any breaking change) | Human approval of the ADR |
+| Relation semantics (new/changed relations, family semantics) | Human approval |
+| Identity model (namespace, ID grammar, alias rules) | Human approval |
+| Export contract major versions | Human approval |
+| Licensing changes | Human approval |
+| Adoption of external standards into canonical form | Human approval |
+| Promotion of `reserved` relations / `proposed` extensions to adopted | Human approval |
+| Marking content `canonical` | Named human reviewer (per object) |
+| Public IRI / publishing identity (domain) | **Open — ADR-0029** |
+| Math layer (ADR-0024) | **Open — proposed** |
 
-A repository decides its own framework, language, folder structure, testing, deployment,
-internal APIs, and workflow. For example `LearningHub/AGENTS.md` and
-`LearningHub/docs/CONSTITUTION.md` are authoritative inside that repository.
+Agents investigate, propose, implement, test, and document — and must flag,
+not silently decide, the above.
 
-### Level 3 — Implementation details
+## 5. Change management
 
-Agent discretion: variable names, internal structure, test structure, small refactors,
-non-breaking documentation, bug fixes within established boundaries.
+- **Trivial** (typos, prose clarification): any contributor, normal review.
+- **Content** (new/edited entities, connections): normal review + the gate;
+  review-status advancement follows the curation protocol.
+- **Contract** (schemas, registry semantics, export): ADR + version bump +
+  MIGRATIONS entry + updated tests, one change set.
+- **Breaking**: major version bump; old data's fate documented (rewrite or
+  validates-unchanged); consumer impact stated.
+- **Deprecation**: objects are deprecated with successors, never deleted;
+  IDs and history are reserved forever.
 
----
+## 6. Versioning policy
 
-## 2. The ecosystem view
+Three tracks, never collapsed (single source `schema/VERSION.yaml`; details in
+`docs/VERSIONING.md`): `schema_version` (canonical schemas), `export_version`
+(consumer contract), and the repository release line (`VERSION` file,
+currently 3.0.0 = refoundation baseline). Content growth is never a contract
+change.
 
-STEMMA is the open foundation. Consumers build on top of it. There is **no**
-"shared platform services" layer between the foundation and its consumers, and STEMMA
-is **not** an application-services backend.
+## 7. Contribution expectations
 
-```
-                    STEMMA
-                 OPEN STEM FOUNDATION
-                           │
-          ┌────────────────┼────────────────┐
-          │                │                │
-          ▼                ▼                ▼
-     Consumer A       LearningHub       Consumer C
-     / Research       / Curriculum      / Future Tool
-          │                │                │
-          ▼                ▼                ▼
-       Product          Product          Product
-```
+See `docs/CONTRIBUTING.md`. Summary contract: run the full verify chain
+locally; regenerate derived artifacts in the same change; no curriculum or
+ecosystem coupling (machine-checked); agents/relations/extensions are
+registered before use; commit messages follow Conventional Commits.
 
-Dependency direction is always **consumer → foundation**. Nothing depends on STEMMA
-from above; STEMMA depends on nothing.
+## 8. Testing expectations
 
-### Status honesty
+Every behavioral change ships with tests that enforce an *invariant*, not
+just a code path. Release gate = `scripts/verify_all.py` (CI runs exactly
+this chain). New gates must be added to the chain and documented in
+`docs/TESTING.md`.
 
-Distinguish **existing**, **planned**, and **possible** integrations. Today:
+## 9. Documentation expectations
 
-| Project | Status |
-|---------|--------|
-| `LearningHub` | ACTIVE (flagship product; a consumer today by intent, not by code) |
-| `JARVIS` | ACTIVE (AI platform; **planned** consumer) |
-| `3D-Ludo` | PROTOTYPE (independent game; not a consumer) |
-| `STEMMA` | ACTIVE (live foundation in early curation — 224 draft entities; 50 canonical assertions; zero reviewed entities) |
-| `STEM-GAME` | DEFERRED (empty folder; planned consumer) |
-| STEM Lab | OUT OF SCOPE (referenced in LearningHub constitution only) |
+- One authoritative document per subject (this set). Contradiction is a bug.
+- Specifications describe implemented reality; aspirational work is marked
+  `proposed`/`roadmap` and lives in ADRs or `docs/ROADMAP.md`.
+- Migrations are logged append-only in `docs/MIGRATIONS.md`.
 
-Do not describe planned integrations as existing ones.
+## 10. Security & integrity
 
----
+`docs/SECURITY-INTEGRITY-PROVENANCE.md` governs: no secrets; least-privilege
+CI; gitleaks; integrity via content hashes, claim signatures, and
+history-based immutability guards; provenance as the trust model for content.
 
-## 3. Scope discipline
+## 11. Experimental policy
 
-Classify every significant piece of work:
+- Experiments live in branches or gitignored staging (`proposals/`) — never
+  as unreviewed additions to canonical directories or registries.
+- Registry dimensions and reserved relations carry explicit
+  `proposed`/`reserved` status with promotion gates.
+- Nothing becomes architecture merely by existing: promotion is a decision
+  (ADR) with enforcement attached.
 
-| Class | Meaning | Action |
-|-------|---------|--------|
-| **NOW** | Required by the current milestone | Implement |
-| **SEAM** | Small interface/adapter/contract protecting a known future change | Implement only when inexpensive and useful |
-| **LATER** | Described by the architecture but not required now | Document if useful; do not implement |
-| **OUT OF SCOPE** | Not relevant now | Do not implement |
+## 12. Ecosystem independence (standing rule)
 
-**Deferred / not current scope** unless the human explicitly activates it:
-
-- STEM-GAME production, STEM Lab, JARVIS ↔ STEMMA integration
-- Full STEMMA MVP (activation phrase: **"ACTIVATE STEMMA MVP"**)
-- Microservices, cloud infrastructure, auth, payments, analytics, recommendation engines,
-  vector/graph databases, generalized AI orchestration, shared platform services, cross-product
-  identity or databases.
-
----
-
-## 4. Canonical vs derived
-
-```text
-Canonical source (docs/STEMMA-SPECIFICATION.md defines the format)
-      ↓
-Derived artifacts: JSON exports, search indexes, embeddings, graph representations,
-                   APIs, caches, recommendations
-```
-
-Rule: **derived artifacts are regenerable from canonical content and are never the source of truth.**
-
----
-
-## 5. Rules that always apply
-
-1. **Respect per-project governance** (Level 2 overrides within a repository).
-2. Preserve the **Knowledge ≠ Curriculum ≠ Pedagogy ≠ Product** boundary.
-3. **Build small.** Small verified increment + clean boundary + tests + docs beats speculative
-   architecture.
-4. **Do not expand scope silently.** When in doubt, ask the human.
-5. **Products stay independent** — integration via explicit contracts/adapters, never embedding.
-6. **AI output requires review** before becoming canonical.
-7. **No secrets in code or docs.**
-8. **Document decisions** (ADRs / decision records); leave a clear trail.
-9. **Don't create infra just because a review suggested it** — verify against the workspace.
-
----
-
-## 6. Definition of Done (canonical entity)
-
-A canonical entity must have:
-
-- stable ID (namespace + format per specification)
-- valid schema
-- required metadata
-- provenance (source and/or reviewer record)
-- valid relationships (whitelisted, no dangling targets)
-- appropriate review status
-- human review where required
-- **no curriculum dependency, no product dependency**
-- passing validation
-
----
-
-## 7. Enforcement direction
-
-Prose rules → schemas → validation → tests → CI enforcement.
-
-Implement only what is justified **NOW** (see specification §15). Do not build a generalized
-policy engine. Long-term candidate checks (documented, not built):
-
-- no STEMMA → product dependency
-- no product → STEMMA internal import coupling
-- no curriculum-specific canonical entities
-- no duplicate / dangling IDs, no content without provenance
-
----
-
-## 8. Freeze rule (STEMMA foundation)
-
-**Frozen does not mean "never change".** It means: foundational changes require an explicit
-governance decision rather than accidental implementation drift.
-
-The following require a documented decision record (in `docs/decisions/`) and, where the
-human-decision list in the specification §16 says so, human approval:
-
-- entity type changes
-- relationship semantics changes
-- ID rules changes
-- canonical representation changes
-- lifecycle semantics changes
-- export contract changes
-- schema version major bumps
-
-Minor editorial / documentation improvements do **not** require a governance event.
-
----
-
-## 9. Session protocol (cross-project)
-
-1. Read `AGENTS.md`, `docs/NORTHSTAR.md`, and this file.
-2. Read the affected repository's own governance.
-3. Classify work NOW / SEAM / LATER / OUT OF SCOPE.
-4. State a short plan before changing anything.
-5. Run the affected repository's verification commands.
-6. Finish with a short session summary and flag human decisions.
-
----
-
-*If a rule must be violated, do not violate it silently — record the exception and get human
-approval first.*
+No document, schema, script, test, or canonical object may encode a
+dependency on any private project ecosystem (products, platforms, personal
+infrastructure). Historical names may appear **only** inside ADRs/MIGRATIONS
+as history, and in the one alias rule of the immutability guard. This rule is
+machine-checked (`tests/repo/test_independence.py`).

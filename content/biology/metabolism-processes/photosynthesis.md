@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.photosynthesis
+id: stemma:bio.photosynthesis
 type: concept
 name: Photosynthesis
 domain: biology
@@ -45,15 +45,6 @@ historical:
     - year: 1931
       by: "Cornelis van Niel"
       event: "Proposed that the oxygen released in photosynthesis comes from water, unifying the overall equation"
-relationships:
-  - type: logically_requires
-    target: lhs:bio.plant-cell
-  - type: logically_requires
-    target: lhs:chem.chemical-reaction
-  - type: logically_requires
-    target: lhs:phys.light
-  - type: related_to
-    target: lhs:phys.conservation-of-energy
 ---
 
 ## Notes

@@ -1,5 +1,5 @@
 ---
-id: lhs:math.integral
+id: stemma:math.integral
 type: quantity
 name: Integral
 domain: mathematics
@@ -33,14 +33,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / Common Core State Standards for Mathematics"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: mathematically_requires
-    target: lhs:math.derivative
-  - type: related_to
-    target: lhs:math.area
-  - type: appears_in_law
-    target: lhs:math.fundamental-theorem-of-calculus
 ---

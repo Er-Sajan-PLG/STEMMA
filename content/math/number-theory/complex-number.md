@@ -1,5 +1,5 @@
 ---
-id: lhs:math.complex-number
+id: stemma:math.complex-number
 type: concept
 name: Complex Number
 domain: mathematics
@@ -32,7 +32,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / Common Core State Standards for Mathematics"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
 historical:
@@ -57,11 +57,4 @@ historical:
     - year: 1831
       by: "Carl Friedrich Gauss"
       event: "Formalized the complex-number field and its notation"
-relationships:
-  - type: related_to
-    target: lhs:math.irrational-number
-  - type: related_to
-    target: lhs:math.polynomial
-  - type: related_to
-    target: lhs:math.rational-number
 ---

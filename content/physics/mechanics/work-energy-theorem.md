@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.work-energy-theorem
+id: stemma:phys.work-energy-theorem
 type: law
 name: Work-Energy Theorem
 domain: physics
@@ -44,13 +44,6 @@ historical:
     - year: 1715
       by: "Johann Bernoulli"
       event: "Coins the term 'vis viva' (living force, proportional to mass × velocity²), a precursor of kinetic energy"
-relationships:
-  - type: applies_to
-    target: lhs:phys.work
-  - type: applies_to
-    target: lhs:phys.kinetic-energy
-  - type: related_to
-    target: lhs:phys.conservation-of-energy
 ---
 
 ## Notes

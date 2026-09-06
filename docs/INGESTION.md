@@ -1,11 +1,13 @@
 # STEMMA Knowledge Ingestion — from document to review-ready proposal
 
-**Status:** Implemented. **Scope:** extract knowledge from any-size PDFs, images, and
-scanned docs and stage *review-ready candidate* content (source + proposed entities/
-connections) for the canonical knowledge graph. Nothing becomes canonical automatically.
+**Status:** Implemented. **Scope:** extract knowledge from any-size PDFs, images,
+scanned docs, and text-based documents and stage *review-ready candidate* content
+(source + proposed entities/connections) for the canonical knowledge graph. Nothing
+becomes canonical automatically.
 
-Related: `docs/ARCHITECTURE-REVIEW-v0.3.md` §P (curation pipeline), `scripts/ingest.py`,
-`scripts/curation_pipeline.py`, `scripts/ingest_to_proposals.py`.
+Related: `scripts/ingest.py`, `scripts/curation_pipeline.py`,
+`scripts/ingest_to_proposals.py`, and the interactive
+[Ingestion & Review webapp](WEBAPP.md) (`webapp/`).
 
 ---
 
@@ -26,7 +28,7 @@ document (PDF / image / scanned PDF)
 Extraction{kind, text, pages, is_scanned, ocr_used, source_name}
    │  scripts/ingest.py to_curation_request()
    ▼
-CurationRequest(kind=entity|connection, source_ref=lhs:src.*, data[extracted_text])
+CurationRequest(kind=entity|connection, source_ref=stemma:src.*, data[extracted_text])
    │  scripts/curation_pipeline.py run_pipeline() with a Draft seam (LLM)
    ▼
 PublicationDecision{propose | request_review | hold | reject}
@@ -37,9 +39,20 @@ scripts/ingest_to_proposals.py → proposals/<id>.proposal.yaml  (staged, gitign
 
 ## Extractors (deterministic, no fragile deps)
 
+PDFs use poppler (`pdftotext` / `pdfinfo`) when available. If poppler is not
+installed, a pure-Python `pypdf` fallback extracts text-based PDFs (scanned
+PDFs still require poppler + tesseract OCR). Text-based files
+(`txt/md/csv/json/yaml/xml/html`) are read directly. Unsupported types are
+retained and marked `unsupported` with a reason.
+
+Install the fallback when poppler is unavailable (`pip install pypdf`); CI/gate
+runs should still install `pyyaml jsonschema` and may use either engine. A
+scanned/image-only PDF without poppler reports its status but has no OCR text —
+install `poppler-utils` + `tesseract` on that machine to OCR it.
+
 | Input | Tool | Behavior |
 |-------|------|----------|
-| Text PDF | `pdftotext` (poppler) | exact text; `is_scanned=False` |
+| Text PDF | `pdftotext` (poppler), else `pypdf` | exact text; `is_scanned=False` |
 | Scanned / image-only PDF | `pdftoppm` (render pages) + `tesseract` | OCR; `is_scanned=True`, `ocr_used=True`; bounded to first N pages for huge docs |
 | Image (PNG/JPG/TIFF/BMP/WebP) | `tesseract` + Pillow | OCR after grayscale + upscale for small images |
 
@@ -64,14 +77,11 @@ checked at runtime; a clear error is raised if unavailable.
 ## Usage
 
 ```bash
-# Stage a review-ready proposal from any document (no LLM wired -> placeholder artifact):
-python3 scripts/ingest_to_proposals.py --path doc.pdf --out proposals/
-
-# Same, JSON to stdout:
-python3 scripts/ingest_to_proposals.py --path scan.pdf --json
-
-# With an LLM Draft seam (module:function) that proposes entities/connections:
+# With an LLM Draft seam (module:function) that proposes entities/connections.
+# REQUIRED (ADR-0035): without --draft the runner fails closed — it never stages
+# a schema-invalid placeholder.
 python3 scripts/ingest_to_proposals.py --path img.png --draft mymodule:my_draft_fn
+python3 scripts/ingest_to_proposals.py --path scan.pdf --draft mymodule:my_draft_fn --json
 
 # Library use:
 python3 - <<'PY'
@@ -81,18 +91,32 @@ import ingest, curation_pipeline as cp
 ex = ingest.extract(Path("doc.pdf"))
 req = ingest.to_curation_request(ex, kind="entity")
 def draft(bp, data, **kw):   # your LLM seam
-    return {"id":"lhs:phys.draft-x","type":"concept","name":"X","domain":"physics",
+    return {"id":"stemma:phys.draft-x","type":"concept","name":"X","domain":"physics",
             "status":"draft","definition":data["_extracted_text"][:200],
-            "provenance":{"ai_drafted":True,"source":bp.source_ref},"relationships":[]}
+            "provenance":{"ai_drafted":True,"source":bp.source_ref}}
 dec = cp.run_pipeline(req, draft_callback=draft,
                       semantic_review_callback=lambda g,a,b: cp.GateResult(g,"pass",[]))
 print(dec.action)   # request_review — human must `review.py canonicalize` it
 PY
 ```
 
-## Review gate (next step, per user)
+## Interactive review (webapp)
+
+For a visual upload → extract → draft → human-review → stage-proposal loop, run the
+[Ingestion & Review webapp](WEBAPP.md):
+
+```bash
+python3 webapp/server.py --host 0.0.0.0 --port 8080
+```
+
+The webapp keeps every artifact under git-ignored `workflow/`, uses the same fail-closed
+Draft seam policy (the LLM provider is configured in the UI, not committed), and never
+writes to `content/`/`connections/`/`sources/`.
+
+## Review gate
 
 A human-review/merge-gate system so that "not anyone can update the knowledge graph by
 merging" is the intended follow-up: branch/PR-based proposals + a human reviewer that
-approves before canonicalization, enforced in the merge path. This ingestion layer is the
-front half of that flow.
+approves before canonicalization, enforced in the merge path. The webapp's staged proposals
+are the input to that gate; the canonical write is still a separate human +
+`scripts/review.py` + `scripts/verify_all.py` decision.

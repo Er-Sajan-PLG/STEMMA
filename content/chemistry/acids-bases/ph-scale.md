@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.ph-scale
+id: stemma:chem.ph-scale
 type: concept
 name: pH Scale
 domain: chemistry
@@ -29,11 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Quantities, Units and Symbols in Physical Chemistry
-relationships:
-  - type: logically_requires
-    target: lhs:chem.acid
-  - type: logically_requires
-    target: lhs:chem.base
 ---
 
 ## Notes

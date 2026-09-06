@@ -1,5 +1,5 @@
 ---
-id: lhs:earth.greenhouse-effect
+id: stemma:earth.greenhouse-effect
 type: concept
 name: Greenhouse Effect
 domain: earth-space
@@ -29,15 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IPCC Sixth Assessment Report / WMO
-relationships:
-  - type: part_of
-    target: lhs:earth.atmosphere
-  - type: logically_requires
-    target: lhs:phys.electromagnetic-spectrum
-  - type: related_to
-    target: lhs:earth.earth-system
-  - type: related_to
-    target: lhs:phys.thermal-energy
 ---
 
 ## Notes

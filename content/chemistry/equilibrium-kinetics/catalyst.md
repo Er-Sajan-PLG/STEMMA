@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.catalyst
+id: stemma:chem.catalyst
 type: concept
 name: Catalyst
 domain: chemistry
@@ -30,9 +30,4 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Compendium of Chemical Terminology
-relationships:
-  - type: related_to
-    target: lhs:chem.reaction-rate
-  - type: related_to
-    target: lhs:chem.activation-energy
 ---

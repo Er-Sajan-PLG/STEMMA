@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.periodic-table
+id: stemma:chem.periodic-table
 type: concept
 name: Periodic Table of Elements
 domain: chemistry
@@ -42,11 +42,6 @@ historical:
     - year: 1869
       by: "Lothar Meyer"
       event: "Independent recognition of periodicity in the elements"
-relationships:
-  - type: logically_requires
-    target: lhs:chem.element
-  - type: logically_requires
-    target: lhs:chem.proton
 ---
 
 ## Notes

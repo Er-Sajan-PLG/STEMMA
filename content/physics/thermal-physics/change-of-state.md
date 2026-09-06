@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.change-of-state
+id: stemma:phys.change-of-state
 type: concept
 name: Change of State
 domain: physics
@@ -34,13 +34,6 @@ real_world_applications:
 - Distillation.
 provenance:
   ai_drafted: true
-relationships:
-- type: mathematically_requires
-  target: lhs:phys.heat
-- type: related_to
-  target: lhs:phys.temperature
-- type: related_to
-  target: lhs:phys.specific-heat
 
 ---
 

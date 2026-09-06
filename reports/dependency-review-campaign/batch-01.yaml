@@ -1,0 +1,719 @@
+batch: 1
+campaign: E6.1 dependency-edge review
+reviewer: human:reviewer.physics-001
+instructions: Set decision to accept|canonical|reject|defer per item. canonical requires evidence (list of {type,
+  description, source_ref?, locator?}). reject requires reason.
+items:
+- id: stemma:conn.000253
+  claim: Mechanical Advantage mathematically_requires Force
+  source: stemma:phys.mechanical-advantage
+  relation: mathematically_requires
+  target: stemma:phys.force
+  source_definition: The factor by which a machine multiplies the input force. Mechanical advantage allows a smaller
+    force to produce a larger force, though over a shorter distance.
+  target_definition: An influence that can change the motion of a body — that is, accelerate it. In classical mechanics
+    the net force on a body equals the rate of change of its momentum. Force is a vector quantity.
+  source_equation: MA = F_output / F_input = d_input / d_output
+  prechecks:
+    domain_range: ok
+    text_support: name 'Force'; symbol 'F' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000074
+  claim: Balanced Chemical Equation mathematically_requires Chemical Reaction
+  source: stemma:chem.chemical-equation
+  relation: mathematically_requires
+  target: stemma:chem.chemical-reaction
+  source_definition: A symbolic representation of a chemical reaction showing reactants on the left and products
+    on the right, with coefficient ratios balanced so that the number of atoms of each element is conserved across
+    the arrow.
+  target_definition: A process in which one or more substances (reactants) are chemically transformed into one or
+    more different substances (products) through the breaking and forming of chemical bonds, conserving total mass
+    and atoms.
+  source_equation: 2H₂ + O₂ → 2H₂O   ·   CH₄ + 2O₂ → CO₂ + 2H₂O
+  prechecks:
+    domain_range: ok
+    text_support: name 'Chemical Reaction'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000009
+  claim: Homeostasis logically_requires Cell
+  source: stemma:bio.homeostasis
+  relation: logically_requires
+  target: stemma:bio.cell
+  source_definition: The maintenance of a stable internal environment (temperature, pH, water and solute balance,
+    glucose levels) within living organisms despite changes in the external environment, achieved through regulatory
+    feedback mechanisms.
+  target_definition: The basic structural, functional, and biological unit of all known living organisms. Cells
+    carry out essential life processes, contain hereditary material, and arise from pre-existing cells.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000529
+  claim: Nervous System logically_requires Cell
+  source: stemma:bio.nervous-system
+  relation: logically_requires
+  target: stemma:bio.cell
+  source_definition: The organ system that enables rapid sensing, integration, and response to internal and external
+    stimuli through electrical and chemical signalling, comprising the central nervous system (brain and spinal
+    cord) and the peripheral nervous system of nerves connecting them to the body.
+  target_definition: The basic structural, functional, and biological unit of all known living organisms. Cells
+    carry out essential life processes, contain hereditary material, and arise from pre-existing cells.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000532
+  claim: Neuron logically_requires Cell
+  source: stemma:bio.neuron
+  relation: logically_requires
+  target: stemma:bio.cell
+  source_definition: The electrically excitable nerve cell that is the fundamental signalling unit of the nervous
+    system, composed of dendrites receiving signals, a cell body integrating them, and an axon conducting action
+    potentials that release neurotransmitters at synapses to transmit information to other cells.
+  target_definition: The basic structural, functional, and biological unit of all known living organisms. Cells
+    carry out essential life processes, contain hereditary material, and arise from pre-existing cells.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: name 'Cell'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000200
+  claim: Efficiency mathematically_requires Energy
+  source: stemma:phys.efficiency
+  relation: mathematically_requires
+  target: stemma:phys.energy
+  source_definition: The ratio of useful energy output to total energy input, expressed as a percentage. No real
+    machine can be 100% efficient because some energy is always dissipated (usually as heat).
+  target_definition: The capacity to do work or produce change. Energy exists in many forms and can be transferred
+    between objects or converted from one form to another, but it is never created or destroyed.
+  source_equation: η = (E_useful_out / E_total_in) × 100%
+  prechecks:
+    domain_range: ok
+    text_support: name 'Energy'; symbol 'E' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000549
+  claim: Reaction Rate logically_requires Chemical Reaction
+  source: stemma:chem.reaction-rate
+  relation: logically_requires
+  target: stemma:chem.chemical-reaction
+  source_definition: The change in concentration of a reactant or product per unit time during a chemical reaction,
+    usually expressed as the decrease in reactant concentration or increase in product concentration per second.
+    Reaction rates depend on concentration, temperature, and the presence of a catalyst.
+  target_definition: A process in which one or more substances (reactants) are chemically transformed into one or
+    more different substances (products) through the breaking and forming of chemical bonds, conserving total mass
+    and atoms.
+  source_equation: rate = -Δ[A]/Δt = +Δ[B]/Δt  (for aA → products)
+  prechecks:
+    domain_range: ok
+    text_support: name 'Chemical Reaction'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000543
+  claim: Chemical Equilibrium logically_requires Chemical Reaction
+  source: stemma:chem.chemical-equilibrium
+  relation: logically_requires
+  target: stemma:chem.chemical-reaction
+  source_definition: The state of a reversible reaction in which the rates of the forward and reverse reactions
+    are equal, so the concentrations of reactants and products remain constant over time. Equilibrium is dynamic
+    and does not imply equal quantities of reactants and products.
+  target_definition: A process in which one or more substances (reactants) are chemically transformed into one or
+    more different substances (products) through the breaking and forming of chemical bonds, conserving total mass
+    and atoms.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000033
+  claim: Photosynthesis logically_requires Chemical Reaction
+  source: stemma:bio.photosynthesis
+  relation: logically_requires
+  target: stemma:chem.chemical-reaction
+  source_definition: The biological process by which autotrophic organisms (such as plants and algae) convert light
+    energy into stored chemical energy in glucose, using carbon dioxide and water while releasing oxygen as a byproduct.
+  target_definition: A process in which one or more substances (reactants) are chemically transformed into one or
+    more different substances (products) through the breaking and forming of chemical bonds, conserving total mass
+    and atoms.
+  source_equation: 6CO₂ + 6H₂O + light energy → C₆H₁₂O₆ + 6O₂
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000029
+  claim: Enzyme logically_requires Chemical Reaction
+  source: stemma:bio.enzyme
+  relation: logically_requires
+  target: stemma:chem.chemical-reaction
+  source_definition: A biological catalyst (typically a protein) that speeds up specific biochemical reactions by
+    lowering activation energy without being consumed in the reaction.
+  target_definition: A process in which one or more substances (reactants) are chemically transformed into one or
+    more different substances (products) through the breaking and forming of chemical bonds, conserving total mass
+    and atoms.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: name 'Chemical Reaction'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000006
+  claim: Cellular Respiration logically_requires Chemical Reaction
+  source: stemma:bio.cellular-respiration
+  relation: logically_requires
+  target: stemma:chem.chemical-reaction
+  source_definition: The metabolic process by which cells break down organic molecules (such as glucose) to release
+    energy stored in ATP molecules, utilizing oxygen in aerobic respiration and producing carbon dioxide and water.
+  target_definition: A process in which one or more substances (reactants) are chemically transformed into one or
+    more different substances (products) through the breaking and forming of chemical bonds, conserving total mass
+    and atoms.
+  source_equation: C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + ATP energy
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000077
+  claim: Chemical Reaction logically_requires Chemical Compound
+  source: stemma:chem.chemical-reaction
+  relation: logically_requires
+  target: stemma:chem.compound
+  source_definition: A process in which one or more substances (reactants) are chemically transformed into one or
+    more different substances (products) through the breaking and forming of chemical bonds, conserving total mass
+    and atoms.
+  target_definition: A pure substance formed when two or more different chemical elements are chemically bonded
+    together in a fixed stoichiometric ratio. Compounds have chemical properties distinct from their constituent
+    elements.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000217
+  claim: Equations of Motion mathematically_requires Time
+  source: stemma:phys.equations-of-motion
+  relation: mathematically_requires
+  target: stemma:phys.time
+  source_definition: 'The set of kinematic equations relating displacement, initial velocity, uniform acceleration,
+    and time for motion in a straight line under constant acceleration: v = u + at, s = ut + ½at², v² = u² + 2as,
+    and s = ½(u + v)t. They apply only when acceleration is constant.'
+  target_definition: The dimension that orders events from past through present to future, measured as the interval
+    between two events. Time is a scalar quantity and one of the fundamental base quantities in physics.
+  source_equation: v = u + at;  s = ut + ½at²;  v² = u² + 2as;  s = ½(u+v)t
+  prechecks:
+    domain_range: ok
+    text_support: name 'Time'; symbol 't' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000562
+  claim: Hydrocarbon logically_requires Chemical Compound
+  source: stemma:chem.hydrocarbon
+  relation: logically_requires
+  target: stemma:chem.compound
+  source_definition: An organic molecule composed entirely of carbon and hydrogen atoms. Hydrocarbons are the fundamental
+    framework of organic chemistry, classified into alkanes, alkenes, alkynes, and aromatic compounds according
+    to the bonding between carbon atoms.
+  target_definition: A pure substance formed when two or more different chemical elements are chemically bonded
+    together in a fixed stoichiometric ratio. Compounds have chemical properties distinct from their constituent
+    elements.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000036
+  claim: Acid logically_requires Chemical Compound
+  source: stemma:chem.acid
+  relation: logically_requires
+  target: stemma:chem.compound
+  source_definition: A chemical substance that releases hydrogen ions (H⁺ or hydronium H₃O⁺) in aqueous solution,
+    tastes sour, turns blue litmus paper red, has a pH less than 7, and reacts with bases to form salts and water.
+  target_definition: A pure substance formed when two or more different chemical elements are chemically bonded
+    together in a fixed stoichiometric ratio. Compounds have chemical properties distinct from their constituent
+    elements.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000558
+  claim: Functional Group logically_requires Chemical Compound
+  source: stemma:chem.functional-group
+  relation: logically_requires
+  target: stemma:chem.compound
+  source_definition: A specific atom or group of atoms within an organic molecule that determines the characteristic
+    chemical reactions and properties of that molecule. The same functional group confers predictable behaviour
+    regardless of the carbon skeleton to which it is attached.
+  target_definition: A pure substance formed when two or more different chemical elements are chemically bonded
+    together in a fixed stoichiometric ratio. Compounds have chemical properties distinct from their constituent
+    elements.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000038
+  claim: Base logically_requires Chemical Compound
+  source: stemma:chem.base
+  relation: logically_requires
+  target: stemma:chem.compound
+  source_definition: A chemical substance that reacts with acids to form salt and water, accepts protons (H⁺), or
+    releases hydroxide ions (OH⁻) in aqueous solution (alkali). Bases taste bitter, feel slippery, turn red litmus
+    paper blue, and have a pH greater than 7.
+  target_definition: A pure substance formed when two or more different chemical elements are chemically bonded
+    together in a fixed stoichiometric ratio. Compounds have chemical properties distinct from their constituent
+    elements.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000046
+  claim: Salt logically_requires Chemical Compound
+  source: stemma:chem.salt
+  relation: logically_requires
+  target: stemma:chem.compound
+  source_definition: An ionic compound formed when the hydrogen ion of an acid is replaced by a metal ion (or ammonium
+    ion), typically produced by neutralization of an acid with a base. Common table salt is sodium chloride, NaCl.
+  target_definition: A pure substance formed when two or more different chemical elements are chemically bonded
+    together in a fixed stoichiometric ratio. Compounds have chemical properties distinct from their constituent
+    elements.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000216
+  claim: Equations of Motion mathematically_requires Acceleration
+  source: stemma:phys.equations-of-motion
+  relation: mathematically_requires
+  target: stemma:phys.acceleration
+  source_definition: 'The set of kinematic equations relating displacement, initial velocity, uniform acceleration,
+    and time for motion in a straight line under constant acceleration: v = u + at, s = ut + ½at², v² = u² + 2as,
+    and s = ½(u + v)t. They apply only when acceleration is constant.'
+  target_definition: The rate of change of velocity with respect to time; a vector quantity. Acceleration occurs
+    whenever an object's velocity changes — whether in magnitude, direction, or both.
+  source_equation: v = u + at;  s = ut + ½at²;  v² = u² + 2as;  s = ½(u+v)t
+  prechecks:
+    domain_range: ok
+    text_support: name 'Acceleration'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000003
+  claim: Cell logically_requires Matter
+  source: stemma:bio.cell
+  relation: logically_requires
+  target: stemma:chem.matter
+  source_definition: The basic structural, functional, and biological unit of all known living organisms. Cells
+    carry out essential life processes, contain hereditary material, and arise from pre-existing cells.
+  target_definition: Anything that has mass and takes up space by occupying volume. Matter is composed of fundamental
+    particles and exists in various physical states depending on thermal energy and pressure.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000028
+  claim: Gene logically_requires Deoxyribonucleic Acid (DNA)
+  source: stemma:bio.gene
+  relation: logically_requires
+  target: stemma:bio.dna
+  source_definition: The basic physical and functional unit of heredity, composed of a specific sequence of nucleotides
+    along a DNA molecule that codes for a specific functional polypeptide (protein) or RNA product.
+  target_definition: A double-stranded helical nucleic acid molecule storing genetic instructions used in the development,
+    functioning, growth, and reproduction of all known living organisms and many viruses.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000515
+  claim: Protein Synthesis logically_requires Deoxyribonucleic Acid (DNA)
+  source: stemma:bio.protein-synthesis
+  relation: logically_requires
+  target: stemma:bio.dna
+  source_definition: 'The two-stage gene-expression pathway by which the information in a gene''s DNA is converted
+    into a functional polypeptide: transcription produces messenger RNA from a DNA template, and translation assembles
+    amino acids into a protein on ribosomes.'
+  target_definition: A double-stranded helical nucleic acid molecule storing genetic instructions used in the development,
+    functioning, growth, and reproduction of all known living organisms and many viruses.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000519
+  claim: Transcription logically_requires Deoxyribonucleic Acid (DNA)
+  source: stemma:bio.transcription
+  relation: logically_requires
+  target: stemma:bio.dna
+  source_definition: The first stage of gene expression, in which the enzyme RNA polymerase uses one strand of a
+    DNA template (the template strand) to synthesize a complementary single-stranded RNA molecule, producing messenger
+    RNA, transfer RNA, or ribosomal RNA from a specific gene.
+  target_definition: A double-stranded helical nucleic acid molecule storing genetic instructions used in the development,
+    functioning, growth, and reproduction of all known living organisms and many viruses.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000503
+  claim: DNA Replication logically_requires Deoxyribonucleic Acid (DNA)
+  source: stemma:bio.dna-replication
+  relation: logically_requires
+  target: stemma:bio.dna
+  source_definition: The semi-conservative process by which a cell copies its double-stranded DNA before division,
+    in which each parental strand serves as a template for the synthesis of a complementary new strand through the
+    coordinated action of enzymes at an unwound replication fork.
+  target_definition: A double-stranded helical nucleic acid molecule storing genetic instructions used in the development,
+    functioning, growth, and reproduction of all known living organisms and many viruses.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000066
+  claim: Diffusion logically_requires Matter
+  source: stemma:chem.diffusion
+  relation: logically_requires
+  target: stemma:chem.matter
+  source_definition: The net movement of particles from a region of higher concentration to a region of lower concentration,
+    driven by the random thermal motion of particles, until concentrations equalize.
+  target_definition: Anything that has mass and takes up space by occupying volume. Matter is composed of fundamental
+    particles and exists in various physical states depending on thermal energy and pressure.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000099
+  claim: Earth System logically_requires Matter
+  source: stemma:earth.earth-system
+  relation: logically_requires
+  target: stemma:chem.matter
+  source_definition: 'The integrated complex of physical, chemical, biological, and geological processes interacting
+    across Earth''s four major interconnected spheres: the geosphere, hydrosphere, atmosphere, and biosphere.'
+  target_definition: Anything that has mass and takes up space by occupying volume. Matter is composed of fundamental
+    particles and exists in various physical states depending on thermal energy and pressure.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000104
+  claim: Plate Tectonics logically_requires Matter
+  source: stemma:earth.plate-tectonics
+  relation: logically_requires
+  target: stemma:chem.matter
+  source_definition: The unifying geological theory explaining that Earth's rigid outer shell (lithosphere) is divided
+    into several large plates that move slowly over the asthenosphere, driven by mantle convection currents.
+  target_definition: Anything that has mass and takes up space by occupying volume. Matter is composed of fundamental
+    particles and exists in various physical states depending on thermal energy and pressure.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000071
+  claim: Mixture logically_requires Matter
+  source: stemma:chem.mixture
+  relation: logically_requires
+  target: stemma:chem.matter
+  source_definition: A physical combination of two or more substances that are not chemically bonded, can vary in
+    composition, and can be separated by physical means. Homogeneous mixtures are uniform throughout; heterogeneous
+    mixtures are not.
+  target_definition: Anything that has mass and takes up space by occupying volume. Matter is composed of fundamental
+    particles and exists in various physical states depending on thermal energy and pressure.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000305
+  claim: Velocity mathematically_requires Time
+  source: stemma:phys.velocity
+  relation: mathematically_requires
+  target: stemma:phys.time
+  source_definition: The rate of change of displacement with respect to time. Velocity is a vector quantity — it
+    has both magnitude (speed) and direction.
+  target_definition: The dimension that orders events from past through present to future, measured as the interval
+    between two events. Time is a scalar quantity and one of the fundamental base quantities in physics.
+  source_equation: v = Δx / Δt
+  prechecks:
+    domain_range: ok
+    text_support: name 'Time'; symbol 't' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000296
+  claim: Speed mathematically_requires Time
+  source: stemma:phys.speed
+  relation: mathematically_requires
+  target: stemma:phys.time
+  source_definition: The rate at which an object covers distance — the total distance traveled divided by the total
+    time taken. Speed is a scalar quantity.
+  target_definition: The dimension that orders events from past through present to future, measured as the interval
+    between two events. Time is a scalar quantity and one of the fundamental base quantities in physics.
+  source_equation: v = d / t
+  prechecks:
+    domain_range: ok
+    text_support: name 'Time'; symbol 't' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000285
+  claim: Power mathematically_requires Time
+  source: stemma:phys.power
+  relation: mathematically_requires
+  target: stemma:phys.time
+  source_definition: The rate at which work is done or energy is transferred. Power measures how quickly energy
+    is converted from one form to another.
+  target_definition: The dimension that orders events from past through present to future, measured as the interval
+    between two events. Time is a scalar quantity and one of the fundamental base quantities in physics.
+  source_equation: P = W / t = E / t
+  prechecks:
+    domain_range: ok
+    text_support: symbol 't' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000241
+  claim: Impulse mathematically_requires Time
+  source: stemma:phys.impulse
+  relation: mathematically_requires
+  target: stemma:phys.time
+  source_definition: The product of the average force acting on an object and the time interval over which it acts.
+    Impulse equals the change in momentum of the object.
+  target_definition: The dimension that orders events from past through present to future, measured as the interval
+    between two events. Time is a scalar quantity and one of the fundamental base quantities in physics.
+  source_equation: J = F·Δt = Δp
+  prechecks:
+    domain_range: ok
+    text_support: name 'Time'; symbol 't' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000261
+  claim: Motion logically_requires Time
+  source: stemma:phys.motion
+  relation: logically_requires
+  target: stemma:phys.time
+  source_definition: The change in position of an object with respect to time and a reference point. Motion is the
+    most fundamental phenomenon studied in mechanics.
+  target_definition: The dimension that orders events from past through present to future, measured as the interval
+    between two events. Time is a scalar quantity and one of the fundamental base quantities in physics.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: name 'Time'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000331
+  claim: Heating Effect of Electric Current mathematically_requires Time
+  source: stemma:phys.heating-effect
+  relation: mathematically_requires
+  target: stemma:phys.time
+  source_definition: The phenomenon by which electrical energy is converted to thermal energy when current flows
+    through a conductor with resistance. The heat produced depends on the current, resistance, and time.
+  target_definition: The dimension that orders events from past through present to future, measured as the interval
+    between two events. Time is a scalar quantity and one of the fundamental base quantities in physics.
+  source_equation: H = I²·R·t (Joule's law of heating)
+  prechecks:
+    domain_range: ok
+    text_support: name 'Time'; symbol 't' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000421
+  claim: Fraction mathematically_requires Integer
+  source: stemma:math.fraction
+  relation: mathematically_requires
+  target: stemma:math.integer
+  source_definition: A numerical quantity that is not a whole number, representing a part of a whole. Written as
+    a/b where a is the numerator (number of parts) and b ≠ 0 is the denominator (total equal parts in the whole).
+  target_definition: 'The set of whole numbers and their negatives, including zero: ..., -3, -2, -1, 0, 1, 2, 3,
+    ... Integers extend natural numbers to include negative values and zero, enabling subtraction to be closed within
+    the set.'
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000052
+  claim: Electron logically_requires Electric Charge
+  source: stemma:chem.electron
+  relation: logically_requires
+  target: stemma:phys.electric-charge
+  source_definition: A stable subatomic particle carrying a negative elementary electric charge (-1e) and a mass
+    approximately 1/1836th of a proton (9.109 × 10⁻³¹ kg), occupying atomic orbitals surrounding the nucleus.
+  target_definition: A fundamental property of matter that causes it to experience a force when placed in an electromagnetic
+    field. Charge can be positive or negative; like charges repel, opposite charges attract.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: name 'Electric Charge'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000399
+  claim: Algebraic Expression mathematically_requires Integer
+  source: stemma:math.algebraic-expression
+  relation: mathematically_requires
+  target: stemma:math.integer
+  source_definition: A combination of variables, numbers, and arithmetic operations (addition, subtraction, multiplication,
+    division, exponentiation) that represents a value. Unlike an equation, an expression has no equality sign and
+    cannot be "solved" — it can only be simplified or evaluated.
+  target_definition: 'The set of whole numbers and their negatives, including zero: ..., -3, -2, -1, 0, 1, 2, 3,
+    ... Integers extend natural numbers to include negative values and zero, enabling subtraction to be closed within
+    the set.'
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000417
+  claim: Decimal mathematically_requires Integer
+  source: stemma:math.decimal
+  relation: mathematically_requires
+  target: stemma:math.integer
+  source_definition: A representation of numbers using base-10 place value, where a decimal point separates the
+    whole number part from the fractional part. Each position represents a power of 10.
+  target_definition: 'The set of whole numbers and their negatives, including zero: ..., -3, -2, -1, 0, 1, 2, 3,
+    ... Integers extend natural numbers to include negative values and zero, enabling subtraction to be closed within
+    the set.'
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000058
+  claim: Proton logically_requires Electric Charge
+  source: stemma:chem.proton
+  relation: logically_requires
+  target: stemma:phys.electric-charge
+  source_definition: A stable subatomic particle occurring in all atomic nuclei, carrying a positive elementary
+    electric charge (+1e) and a mass of approximately 1 atomic mass unit (1.673 × 10⁻²⁷ kg).
+  target_definition: A fundamental property of matter that causes it to experience a force when placed in an electromagnetic
+    field. Charge can be positive or negative; like charges repel, opposite charges attract.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: name 'Electric Charge'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000413
+  claim: Variable mathematically_requires Integer
+  source: stemma:math.variable
+  relation: mathematically_requires
+  target: stemma:math.integer
+  source_definition: A symbol (usually a letter) that represents an unknown or changeable quantity. Variables allow
+    generalization of arithmetic relationships and the formulation of algebraic expressions and equations.
+  target_definition: 'The set of whole numbers and their negatives, including zero: ..., -3, -2, -1, 0, 1, 2, 3,
+    ... Integers extend natural numbers to include negative values and zero, enabling subtraction to be closed within
+    the set.'
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null

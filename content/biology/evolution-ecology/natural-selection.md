@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.natural-selection
+id: stemma:bio.natural-selection
 type: concept
 name: Natural Selection
 domain: biology
@@ -42,11 +42,6 @@ historical:
     - year: 1859
       by: "Charles Darwin"
       event: "On the Origin of Species published, detailing natural selection"
-relationships:
-  - type: logically_requires
-    target: lhs:bio.gene
-  - type: related_to
-    target: lhs:bio.dna
 ---
 
 ## Notes

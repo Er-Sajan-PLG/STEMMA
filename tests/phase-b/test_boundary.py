@@ -1,4 +1,5 @@
 """B5.6: Canonical vs derived boundary tests."""
+import sys
 import pathlib
 import yaml
 import json
@@ -65,7 +66,7 @@ def test_regeneration_without_canonical_change():
 
     # Hash canonical files
     before = sorted((p.read_text() for p in (ROOT / "connections").glob("*.yaml")))
-    subprocess.run(["python3", str(ROOT / "scripts/graph_analysis.py")], check=True)
+    subprocess.run([sys.executable, str(ROOT / "scripts/graph_analysis.py")], check=True)
     after = sorted((p.read_text() for p in (ROOT / "connections").glob("*.yaml")))
     assert before == after, "graph_analysis modified canonical files"
     print("PASS: regeneration without canonical change")

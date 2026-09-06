@@ -1,0 +1,28 @@
+id: stemma:conn.000495
+type: connection
+source: stemma:bio.population-dynamics
+relation: related_to
+target: stemma:bio.natural-selection
+assertion:
+  status: active
+  type: proposed
+  review:
+    status: unreviewed
+  confidence: null
+  confidence_basis: null
+context:
+  domain: biology
+  subdomain: evolution-ecology
+  regime: []
+  scale: macroscopic
+  assumptions: []
+evidence: []
+provenance:
+  asserted_by:
+    type: unknown
+    id: unknown:legacy-relationship
+  generated_by:
+    type: process
+    id: process:migration.relationships-v0.2
+  method:
+    type: migration

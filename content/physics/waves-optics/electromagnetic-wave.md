@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.electromagnetic-wave
+id: stemma:phys.electromagnetic-wave
 type: concept
 name: Electromagnetic Wave
 domain: physics
@@ -30,9 +30,4 @@ provenance:
   source: "Halliday, Resnick & Walker, Fundamentals of Physics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: special_case_of
-    target: lhs:phys.wave
-  - type: part_of
-    target: lhs:phys.electromagnetic-spectrum
 ---

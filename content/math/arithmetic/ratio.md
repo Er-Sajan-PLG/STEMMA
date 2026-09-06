@@ -1,5 +1,5 @@
 ---
-id: lhs:math.ratio
+id: stemma:math.ratio
 type: concept
 name: Ratio
 domain: mathematics
@@ -34,14 +34,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / ICSE Mathematics Curriculum"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: mathematically_requires
-    target: lhs:math.fraction
-  - type: related_to
-    target: lhs:math.percentage
-  - type: related_to
-    target: lhs:math.proportion
 ---

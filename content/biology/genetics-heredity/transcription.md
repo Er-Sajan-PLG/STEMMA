@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.transcription
+id: stemma:bio.transcription
 type: concept
 name: Transcription
 domain: biology
@@ -30,13 +30,6 @@ provenance:
   ai_drafted: true
   source_kind: textbook
   source: Campbell Biology
-relationships:
-  - type: derived_from
-    target: lhs:bio.dna
-  - type: logically_requires
-    target: lhs:bio.dna
-  - type: part_of
-    target: lhs:bio.protein-synthesis
 ---
 
 ## Notes

@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.wave-speed
+id: stemma:phys.wave-speed
 type: quantity
 name: Wave Speed
 domain: physics
@@ -30,13 +30,6 @@ external_ids:
   wd: Q13824
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.wavelength
-  - type: mathematically_requires
-    target: lhs:phys.frequency
-  - type: related_to
-    target: lhs:phys.wave
 ---
 
 ## Notes

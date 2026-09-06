@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.photoelectric-effect
+id: stemma:phys.photoelectric-effect
 type: concept
 name: Photoelectric Effect
 domain: physics
@@ -26,11 +26,6 @@ historical:
     - year: 1905
       by: "Albert Einstein"
       event: "Explains the photoelectric effect using the light-quantum hypothesis in his annus mirabilis paper"
-relationships:
-- type: related_to
-  target: lhs:phys.light
-- type: related_to
-  target: lhs:chem.electron
 _notes: Phenomenon requiring quantum model; bridges wave-particle duality.
 ---
 

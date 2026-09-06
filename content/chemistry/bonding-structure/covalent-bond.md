@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.covalent-bond
+id: stemma:chem.covalent-bond
 type: concept
 name: Covalent Bond
 domain: chemistry
@@ -29,11 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Compendium of Chemical Terminology
-relationships:
-  - type: logically_requires
-    target: lhs:chem.electron
-  - type: related_to
-    target: lhs:chem.compound
 ---
 
 ## Notes

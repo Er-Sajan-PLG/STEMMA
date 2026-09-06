@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.mirror
+id: stemma:phys.mirror
 type: concept
 name: Mirror
 domain: physics
@@ -30,11 +30,6 @@ real_world_applications:
   - Security mirrors (convex).
 provenance:
   ai_drafted: true
-relationships:
-  - type: logically_requires
-    target: lhs:phys.reflection
-  - type: related_to
-    target: lhs:phys.lens
 ---
 
 ## Notes

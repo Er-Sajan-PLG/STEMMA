@@ -1,5 +1,5 @@
 ---
-id: lhs:math.pythagorean-theorem
+id: stemma:math.pythagorean-theorem
 type: law
 name: Pythagorean Theorem
 domain: mathematics
@@ -33,7 +33,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / ICSE Mathematics Curriculum"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
 historical:
@@ -42,13 +42,4 @@ historical:
   where: "Traditionally attributed to the Pythagorean school (6th century BCE)"
   context: "Geometry"
   note: "The relation between the sides of a right triangle was known to earlier Babylonian, Indian and Chinese mathematicians; the attribution of a formal proof to Pythagoras is traditional and not directly documented."
-relationships:
-  - type: applies_to
-    target: lhs:math.triangle
-  - type: related_to
-    target: lhs:math.triangle
-  - type: related_to
-    target: lhs:math.trigonometric-ratio
-  - type: related_to
-    target: lhs:math.quadratic-equation
 ---

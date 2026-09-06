@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.newtons-third-law
+id: stemma:phys.newtons-third-law
 type: law
 name: Newton's Third Law of Motion
 domain: physics
@@ -49,13 +49,6 @@ historical:
   - year: 1687
     by: Isaac Newton
     event: Third law stated in Philosophiæ Naturalis Principia Mathematica
-relationships:
-- type: applies_to
-  target: lhs:phys.force
-- type: related_to
-  target: lhs:phys.newtons-first-law
-- type: related_to
-  target: lhs:phys.newtons-second-law
 
 ---
 

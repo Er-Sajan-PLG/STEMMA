@@ -1,14 +1,14 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://learninghubstem.example/schema/source.schema.json",
-  "title": "LearningHubSTEM source object",
+  "$id": "https://stemma.example/schema/source.schema.json",
+  "title": "STEMMA source object",
   "description": "Schema for one canonical source citation (v0.2). See ADR-015. Urgent bibliographic expansion.",
   "type": "object",
   "required": ["id", "type", "citation"],
   "properties": {
     "id": {
       "type": "string",
-      "pattern": "^lhs:src\\.[a-z0-9][a-z0-9-]*$",
+      "pattern": "^stemma:src\\.[a-z0-9][a-z0-9-]*$",
       "description": "Stable source ID."
     },
     "type": {

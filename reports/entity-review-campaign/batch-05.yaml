@@ -1,0 +1,472 @@
+batch: 5
+campaign: R6 entity review
+reviewer: human:reviewer.physics-001
+seed_pass: false
+items:
+- id: stemma:chem.le-chateliers-principle
+  name: Le Chatelier's Principle
+  domain: chemistry
+  type: law
+  status: draft
+  definition: The principle stating that if a dynamic equilibrium is disturbed by changing a condition such as concentration,
+    pressure, or temperature, the equilibrium shifts in the direction that tends to counteract that change and re-establish
+    equilibrium.
+  score: 0.005495
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.nervous-system
+  name: Nervous System
+  domain: biology
+  type: concept
+  status: draft
+  definition: The organ system that enables rapid sensing, integration, and response to internal and external stimuli
+    through electrical and chemical signalling, comprising the central nervous system (brain and spinal cord) and
+    the peripheral nervous system of nerves connecting them to the body.
+  score: 0.005239
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.base
+  name: Base
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: A chemical substance that reacts with acids to form salt and water, accepts protons (H⁺), or releases
+    hydroxide ions (OH⁻) in aqueous solution (alkali). Bases taste bitter, feel slippery, turn red litmus paper
+    blue, and have a pH greater than 7.
+  score: 0.00523
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.nucleus
+  name: Nucleus
+  domain: biology
+  type: concept
+  status: draft
+  definition: The membrane-bound organelle in eukaryotic cells that contains most of the cell's genetic material
+    (DNA) and directs cell activities such as growth, metabolism, and reproduction.
+  score: 0.00521
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.integral
+  name: Integral
+  domain: mathematics
+  type: quantity
+  status: draft
+  definition: 'A quantity that accumulates a function over an interval: the definite integral ∫ₐᵇ f(x) dx measures
+    the signed area under the curve y = f(x) between a and b, while the indefinite integral is an antiderivative
+    or a family of functions whose derivative is f. Integration reverses differentiation.'
+  score: 0.005137
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.arithmetic-sequence
+  name: Arithmetic Sequence
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: A sequence in which each term differs from the previous one by a constant amount called the common
+    difference d, so aₙ = a₁ + (n − 1)d. The terms grow or decrease linearly, and the sum of the first n terms can
+    be written compactly as Sₙ = n/2 (a₁ + aₙ).
+  score: 0.005093
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.salt
+  name: Salt
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: An ionic compound formed when the hydrogen ion of an acid is replaced by a metal ion (or ammonium
+    ion), typically produced by neutralization of an acid with a base. Common table salt is sodium chloride, NaCl.
+  score: 0.005075
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.logarithmic-function
+  name: Logarithmic Function
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: 'The inverse of the exponential function: y = log_b(x) is the power to which the base b must be raised
+    to obtain x, so bʸ = x. Logarithms convert multiplication into addition and satisfy identities such as log_b(xy)
+    = log_b(x) + log_b(y).'
+  score: 0.004977
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.neutralization
+  name: Neutralization Reaction
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: A chemical reaction between an acid and a base (or alkali) producing a salt and water, in which hydrogen
+    ions (H⁺) from the acid react with hydroxide ions (OH⁻) from the base to form neutral water molecules (H₂O).
+  score: 0.004974
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.transcription
+  name: Transcription
+  domain: biology
+  type: concept
+  status: draft
+  definition: The first stage of gene expression, in which the enzyme RNA polymerase uses one strand of a DNA template
+    (the template strand) to synthesize a complementary single-stranded RNA molecule, producing messenger RNA, transfer
+    RNA, or ribosomal RNA from a specific gene.
+  score: 0.004954
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.determinant
+  name: Determinant
+  domain: mathematics
+  type: quantity
+  status: draft
+  definition: A scalar value computed from a square matrix that encodes geometric and algebraic properties of the
+    matrix, such as whether its linear transformation is invertible. For a 2 × 2 matrix [[a, b], [c, d]] the determinant
+    is ad − bc. A zero determinant means the matrix is singular.
+  score: 0.004867
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.permutation
+  name: Permutation
+  domain: mathematics
+  type: quantity
+  status: draft
+  definition: An ordered arrangement of a subset of items drawn from a larger collection, where order matters. The
+    number of ways to arrange r items selected from n distinct items is P(n, r) = n! / (n − r)!; arranging all n
+    items gives n! possibilities.
+  score: 0.004867
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.catalyst
+  name: Catalyst
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: A substance that increases the rate of a chemical reaction by providing an alternative reaction pathway
+    of lower activation energy, while itself being regenerated and not consumed overall. A catalyst does not alter
+    the equilibrium position or product yield.
+  score: 0.00484
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.animal-cell
+  name: Animal Cell
+  domain: biology
+  type: concept
+  status: draft
+  definition: A eukaryotic cell characteristic of animals, enclosed by a flexible plasma membrane, lacking a cell
+    wall and chloroplasts, and containing membrane-bound organelles such as mitochondria, lysosomes, and a nucleus.
+  score: 0.004678
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:earth.water-cycle
+  name: Water Cycle
+  domain: earth-space
+  type: concept
+  status: draft
+  definition: The continuous circulation of water between the atmosphere, Earth's surface, and underground reservoirs
+    through evaporation, transpiration, condensation, precipitation, infiltration, and runoff, driven by solar energy
+    and gravity.
+  score: 0.00467
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.ray-model
+  name: Ray Model of Light
+  domain: physics
+  type: concept
+  status: draft
+  definition: A simplified geometric model of light propagation in which light is represented as straight lines
+    (rays) traveling through transparent media and changing direction at boundaries via reflection or refraction.
+  score: 0.00467
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.mirror
+  name: Mirror
+  domain: physics
+  type: concept
+  status: draft
+  definition: A surface that reflects light. Plane mirrors produce virtual images of the same size; curved (concave
+    and convex) mirrors can produce real or virtual images of varying sizes.
+  score: 0.004437
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.oxidation-number
+  name: Oxidation Number
+  domain: chemistry
+  type: quantity
+  status: draft
+  definition: A bookkeeping number assigned to an atom in a compound or ion that represents the charge the atom
+    would have if all bonds to atoms of different electronegativity were ionic. Oxidation numbers track electron
+    transfer in oxidation-reduction reactions.
+  score: 0.004138
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.alcohol
+  name: Alcohol
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: An organic compound containing one or more hydroxyl (—OH) functional groups bonded to a saturated
+    carbon atom. Alcohols are polar, hydrogen-bonding liquids that range from methanol and ethanol to high-molecular-mass
+    polyols.
+  score: 0.004011
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.carboxylic-acid
+  name: Carboxylic Acid
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: An organic compound containing a carboxyl functional group (—COOH), a carbonyl group bonded to a hydroxyl
+    group. Carboxylic acids are weak acids that donate a proton from the hydroxyl group to form carboxylate anions.
+  score: 0.004011
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.allele
+  name: Allele
+  domain: biology
+  type: concept
+  status: draft
+  definition: One of the alternative forms of a gene that occupy the same locus on homologous chromosomes and can
+    specify alternative versions of a trait; a diploid organism carries two alleles for each autosomal gene, which
+    may be identical (homozygous) or different (heterozygous).
+  score: 0.003954
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.energy-flow-ecosystem
+  name: Energy Flow in Ecosystems
+  domain: biology
+  type: concept
+  status: draft
+  definition: The one-way, non-cyclical movement of energy through an ecosystem, entering as sunlight captured by
+    producers, passing through successive trophic levels as chemical energy, and being progressively lost to the
+    environment as heat through respiration at each transfer.
+  score: 0.003954
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.electrochemical-cell
+  name: Electrochemical Cell
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: A device that converts chemical energy into electrical energy or, conversely, uses electrical energy
+    to drive a chemical reaction. Galvanic (voltaic) cells generate electricity from spontaneous redox reactions,
+    while electrolytic cells use an external voltage.
+  score: 0.003954
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.magnetic-flux
+  name: Magnetic Flux
+  domain: physics
+  type: quantity
+  status: draft
+  definition: A measure of the total magnetic field passing through a given surface area, calculated as the product
+    of magnetic field strength perpendicular to the surface and the surface area.
+  score: 0.003954
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.photoelectric-effect
+  name: Photoelectric Effect
+  domain: physics
+  type: concept
+  status: draft
+  definition: Emission of electrons from a material when light of sufficient frequency shines on it, demonstrating
+    quantum nature of light.
+  score: 0.003954
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.alkane
+  name: Alkane
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: A saturated hydrocarbon in which every carbon atom is bonded to others by single covalent bonds only,
+    with the general formula CₙH₂ₙ₊₂ for acyclic alkanes. Alkanes are the simplest homologous series of organic
+    compounds.
+  score: 0.003905
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:earth.seasons-cause
+  name: Cause of Astronomical Seasons
+  domain: earth-space
+  type: concept
+  status: draft
+  definition: The cyclical variation in temperature and daylight duration across Earth's year, caused primarily
+    by Earth's 23.5° axial tilt relative to its orbital plane around the Sun, changing solar incidence angle and
+    daylight length.
+  score: 0.003859
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.our-environment
+  name: Our Environment
+  domain: physics
+  type: concept
+  status: draft
+  definition: The study of how physical processes interact with the natural environment, including energy flow,
+    pollution, and the physics of climate and ecosystems.
+  score: 0.003859
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.dna-replication
+  name: DNA Replication
+  domain: biology
+  type: concept
+  status: draft
+  definition: The semi-conservative process by which a cell copies its double-stranded DNA before division, in which
+    each parental strand serves as a template for the synthesis of a complementary new strand through the coordinated
+    action of enzymes at an unwound replication fork.
+  score: 0.00367
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.mutation
+  name: Mutation
+  domain: biology
+  type: concept
+  status: draft
+  definition: A heritable change in the nucleotide sequence of a genome, arising from errors in DNA replication,
+    repair, or recombination, or from environmental mutagens; mutations range from single base changes (point mutations)
+    to large chromosomal rearrangements.
+  score: 0.00367
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.chemical-equation
+  name: Balanced Chemical Equation
+  domain: chemistry
+  type: equation
+  status: draft
+  definition: A symbolic representation of a chemical reaction showing reactants on the left and products on the
+    right, with coefficient ratios balanced so that the number of atoms of each element is conserved across the
+    arrow.
+  score: 0.00367
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.combustion
+  name: Combustion
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: A rapid chemical reaction between a substance and an oxidant (usually oxygen) that releases heat and
+    light. Complete combustion of hydrocarbons produces carbon dioxide and water; incomplete combustion produces
+    carbon monoxide and soot.
+  score: 0.00367
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.mixture
+  name: Mixture
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: A physical combination of two or more substances that are not chemically bonded, can vary in composition,
+    and can be separated by physical means. Homogeneous mixtures are uniform throughout; heterogeneous mixtures
+    are not.
+  score: 0.00367
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:earth.solar-system
+  name: Solar System
+  domain: earth-space
+  type: concept
+  status: draft
+  definition: The gravitationally bound system consisting of the Sun, eight planets and their moons, dwarf planets,
+    asteroids, comets, and interplanetary material, orbiting the Sun.
+  score: 0.00367
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.complex-number
+  name: Complex Number
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: A number of the form a + bi, where a and b are real and i is the imaginary unit with i² = −1. The
+    complex numbers extend the real numbers so that every non-constant polynomial has a root, and are represented
+    as points in a plane with a real axis and an imaginary axis.
+  score: 0.00367
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.continuity
+  name: Continuity
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: 'A property of a function at a point when the function value equals its limit there: lim_{x→c} f(x)
+    = f(c). A function is continuous on an interval if it is continuous at every point of that interval, meaning
+    its graph can be drawn without lifting the pen. Continuity is a prerequisite for differentiability and for many
+    fundamental results of calculus.'
+  score: 0.00367
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.standard-deviation
+  name: Standard Deviation
+  domain: mathematics
+  type: quantity
+  status: draft
+  definition: A measure of dispersion that quantifies how spread out a data set is around its mean. It is the square
+    root of the variance; for a set x₁, …, xₙ it equals sqrt((1/n) Σ (xᵢ − μ)²) where μ is the mean. A small standard
+    deviation indicates values clustered near the mean, and a large one indicates wide spread.
+  score: 0.00367
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.bohr-model
+  name: Bohr Model
+  domain: physics
+  type: concept
+  status: draft
+  definition: Early quantum model of the atom with electrons in quantized circular orbits around nucleus, explaining
+    hydrogen spectrum but limited to hydrogen-like atoms.
+  score: 0.00367
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.efficiency
+  name: Efficiency
+  domain: physics
+  type: concept
+  status: draft
+  definition: The ratio of useful energy output to total energy input, expressed as a percentage. No real machine
+    can be 100% efficient because some energy is always dissipated (usually as heat).
+  score: 0.00367
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.electric-motor
+  name: Electric Motor
+  domain: physics
+  type: concept
+  status: draft
+  definition: An electrical machine that converts electrical energy into mechanical energy through the interaction
+    between a magnetic field and winding currents producing rotational force (torque).
+  score: 0.00367
+  decision: null
+  reviewer: null
+  evidence_notes: null

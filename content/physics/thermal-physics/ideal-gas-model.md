@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.ideal-gas-model
+id: stemma:phys.ideal-gas-model
 type: concept
 name: Ideal Gas Model
 domain: physics
@@ -10,13 +10,6 @@ provenance:
   ai_drafted: true
   source_kind: textbook
   source: Atkins Physical Chemistry
-relationships:
-- type: approximates
-  target: lhs:earth.atmosphere
-- type: related_to
-  target: lhs:chem.matter
-- type: related_to
-  target: lhs:earth.atmosphere
 _notes: Model idealizes real gas; scope limited to moderate pressure/high temperature.
 ---
 

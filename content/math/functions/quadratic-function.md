@@ -1,5 +1,5 @@
 ---
-id: lhs:math.quadratic-function
+id: stemma:math.quadratic-function
 type: concept
 name: Quadratic Function
 domain: mathematics
@@ -35,16 +35,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / ICSE Mathematics Curriculum"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: special_case_of
-    target: lhs:math.function
-  - type: related_to
-    target: lhs:math.quadratic-equation
-  - type: related_to
-    target: lhs:math.linear-function
-  - type: related_to
-    target: lhs:math.polynomial
 ---

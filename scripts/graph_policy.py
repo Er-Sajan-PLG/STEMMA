@@ -26,7 +26,9 @@ def should_include_connection(conn: dict, policy: str) -> bool:
         return False
     review = conn.get("assertion", {}).get("review", {}).get("status")
     if policy == "all":
-        return True
+        # ADR-0031: `all` is the default consumer view = active AND not rejected.
+        # Rejected claims surface only via knowledge.rejected.json.
+        return review != "rejected"
     if policy == "reviewed":
         return review in ("reviewed", "canonical")
     if policy == "canonical":

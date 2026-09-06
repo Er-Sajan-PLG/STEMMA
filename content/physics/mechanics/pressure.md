@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.pressure
+id: stemma:phys.pressure
 type: quantity
 name: Pressure
 domain: physics
@@ -33,13 +33,6 @@ external_ids:
   wd: Q39552
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.force
-  - type: related_to
-    target: lhs:phys.density
-  - type: related_to
-    target: lhs:phys.buoyancy
 ---
 
 ## Notes

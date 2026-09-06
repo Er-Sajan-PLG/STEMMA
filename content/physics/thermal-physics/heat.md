@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.heat
+id: stemma:phys.heat
 type: quantity
 name: Heat
 domain: physics
@@ -35,17 +35,6 @@ real_world_applications:
 - Insulation in buildings.
 provenance:
   ai_drafted: true
-relationships:
-- type: analogous_to
-  target: lhs:phys.current
-- type: mathematically_requires
-  target: lhs:phys.mass
-- type: mathematically_requires
-  target: lhs:phys.temperature
-- type: related_to
-  target: lhs:phys.specific-heat
-- type: related_to
-  target: lhs:phys.thermal-energy
 
 ---
 

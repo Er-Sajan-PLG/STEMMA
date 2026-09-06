@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.conservation-of-energy
+id: stemma:phys.conservation-of-energy
 type: law
 name: Law of Conservation of Energy
 domain: physics
@@ -50,15 +50,6 @@ historical:
     - year: 1847
       by: "Hermann von Helmholtz"
       event: "Publishes Über die Erhaltung der Kraft, a general statement of conservation of energy"
-relationships:
-  - type: applies_to
-    target: lhs:phys.energy
-  - type: applies_to
-    target: lhs:phys.kinetic-energy
-  - type: applies_to
-    target: lhs:phys.potential-energy
-  - type: related_to
-    target: lhs:phys.work-energy-theorem
 ---
 
 ## Notes

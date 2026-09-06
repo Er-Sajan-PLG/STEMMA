@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.energy
+id: stemma:phys.energy
 type: quantity
 name: Energy
 domain: physics
@@ -34,17 +34,6 @@ external_ids:
   wd: Q11379
 provenance:
   ai_drafted: true
-relationships:
-- type: bridges
-  target: lhs:chem.chemical-reaction
-- type: related_to
-  target: lhs:phys.conservation-of-energy
-- type: related_to
-  target: lhs:phys.kinetic-energy
-- type: related_to
-  target: lhs:phys.potential-energy
-- type: related_to
-  target: lhs:phys.work
 ---
 
 ## Notes

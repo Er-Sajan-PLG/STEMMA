@@ -90,11 +90,11 @@ def main():
         "note": "canonical object (file exists) != canonical scientific assertion (review.status==canonical). All 397 are canonical objects; 15 are canonical assertions.",
     }
 
-    out_json = ROOT / "reports" / "epistemic-summary-v0.2.json"
+    out_json = ROOT / "reports" / "epistemic-summary.json"
     out_json.parent.mkdir(parents=True, exist_ok=True)
     out_json.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
 
-    out_md = ROOT / "reports" / "epistemic-summary-v0.2.md"
+    out_md = ROOT / "reports" / "epistemic-summary.md"
     out_md.write_text(
         f"""# Epistemic Summary — v0.2
 
@@ -125,7 +125,7 @@ Deterministic report over all `connections/*.yaml` (explicit fields only).
 ## By method
 {dict(by_method)}
 
-Machine-readable: `reports/epistemic-summary-v0.2.json`
+Machine-readable: `reports/epistemic-summary.json`
 """
     )
     print(f"OK: epistemic summary total={total} canonical_assertions={report['canonical_scientific_assertions']}")

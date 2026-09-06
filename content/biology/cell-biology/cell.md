@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.cell
+id: stemma:bio.cell
 type: concept
 name: Cell
 domain: biology
@@ -48,11 +48,6 @@ historical:
     - year: 1855
       by: "Rudolf Virchow"
       event: "'Omnis cellula e cellula' - all cells arise from pre-existing cells"
-relationships:
-  - type: logically_requires
-    target: lhs:chem.matter
-  - type: related_to
-    target: lhs:chem.compound
 ---
 
 ## Notes

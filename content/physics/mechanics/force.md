@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.force
+id: stemma:phys.force
 type: concept
 name: Force
 domain: physics
@@ -41,23 +41,6 @@ external_ids:
   wd: Q11402
 provenance:
   ai_drafted: true
-relationships:
-- type: mathematically_requires
-  target: lhs:phys.mass
-- type: mathematically_requires
-  target: lhs:phys.acceleration
-- type: mathematically_requires
-  target: lhs:phys.vector
-- type: appears_in_law
-  target: lhs:phys.newtons-first-law
-- type: appears_in_law
-  target: lhs:phys.newtons-second-law
-- type: appears_in_law
-  target: lhs:phys.newtons-third-law
-- type: related_to
-  target: lhs:phys.momentum
-- type: related_to
-  target: lhs:phys.weight
 
 ---
 

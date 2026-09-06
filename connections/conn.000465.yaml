@@ -1,0 +1,28 @@
+id: stemma:conn.000465
+type: connection
+source: stemma:math.pythagorean-theorem
+relation: related_to
+target: stemma:math.quadratic-equation
+assertion:
+  status: active
+  type: proposed
+  review:
+    status: unreviewed
+  confidence: null
+  confidence_basis: null
+context:
+  domain: mathematics
+  subdomain: geometry
+  regime: []
+  scale: macroscopic
+  assumptions: []
+evidence: []
+provenance:
+  asserted_by:
+    type: unknown
+    id: unknown:legacy-relationship
+  generated_by:
+    type: process
+    id: process:migration.relationships-v0.2
+  method:
+    type: migration

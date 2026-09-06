@@ -1,0 +1,56 @@
+id: stemma:conn.000380
+type: connection
+source: stemma:phys.light
+relation: bridges
+target: stemma:bio.photosynthesis
+assertion:
+  status: active
+  type: proposed
+  review:
+    status: canonical
+  confidence: null
+  confidence_basis: null
+  polarity: positive
+context:
+  domain: physics
+  subdomain: waves-optics
+  regime:
+  - classical
+  scale: macroscopic
+  assumptions: []
+  qualifiers: []
+evidence:
+- type: textbook
+  source_ref: stemma:src.halliday-resnick
+  locator: Ch. 33, EM waves
+  description: Photosynthesis requires light energy
+  stance: supports
+  locator_struct: null
+provenance:
+  asserted_by:
+    type: human
+    id: human:reviewer.physics-001
+  generated_by:
+    type: human
+    id: human:curator.001
+  reviewed_by:
+  - type: human
+    id: human:reviewer.physics-001
+  method:
+    type: manual
+  review_history:
+  - from: unreviewed
+    to: reviewed
+    reviewer: human:reviewer.physics-001
+    at: '2026-08-30T18:21:03.636762+00:00'
+    reason: bridge physics-biology light→photosynthesis
+  - from: reviewed
+    to: canonical
+    reviewer: human:reviewer.physics-001
+    at: '2026-08-30T18:21:03.636767+00:00'
+    reason: bridge physics-biology light→photosynthesis
+created_at: null
+updated_at: null
+validity: null
+lifecycle: null
+rights: null

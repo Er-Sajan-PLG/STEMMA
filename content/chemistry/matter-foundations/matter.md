@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.matter
+id: stemma:chem.matter
 type: concept
 name: Matter
 domain: chemistry
@@ -29,11 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Gold Book / UNESCO Science Education Framework
-relationships:
-  - type: logically_requires
-    target: lhs:phys.mass
-  - type: related_to
-    target: lhs:phys.density
 ---
 
 ## Notes

@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.combustion
+id: stemma:chem.combustion
 type: concept
 name: Combustion
 domain: chemistry
@@ -32,13 +32,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Compendium of Chemical Terminology
-relationships:
-  - type: special_case_of
-    target: lhs:chem.chemical-reaction
-  - type: related_to
-    target: lhs:phys.energy
-  - type: related_to
-    target: lhs:phys.our-environment
 ---
 
 ## Notes

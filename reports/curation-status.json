@@ -1,0 +1,248 @@
+{
+  "total_connections": 654,
+  "canonical_objects": 654,
+  "canonical_assertions": 50,
+  "reviewed_only": 0,
+  "reviewed": 0,
+  "canonical": 50,
+  "total_reviewed_including_canonical": 50,
+  "unreviewed": 604,
+  "proposed": 653,
+  "inferred": 0,
+  "rejected": 0,
+  "deprecated": 4,
+  "migrated": 641,
+  "human_authored": 13,
+  "llm_authored": 0,
+  "by_relation": {
+    "special_case_of": 14,
+    "related_to": 371,
+    "logically_requires": 90,
+    "part_of": 24,
+    "derived_from": 3,
+    "mathematically_requires": 98,
+    "applies_to": 24,
+    "appears_in_law": 11,
+    "bridges": 6,
+    "analogous_to": 3,
+    "approximates": 3,
+    "generalizes": 7
+  },
+  "by_family": {
+    "hierarchical": 21,
+    "associative": 371,
+    "dependency": 188,
+    "structural": 24,
+    "derivation": 38,
+    "cross_domain": 6,
+    "analogy": 3,
+    "model": 3
+  },
+  "by_domain": {
+    "biology": 80,
+    "chemistry": 94,
+    "earth-space": 33,
+    "engineering": 1,
+    "physics": 302,
+    "scientific-practice": 2,
+    "mathematics": 142
+  },
+  "by_review": {
+    "canonical": 50,
+    "unreviewed": 604
+  },
+  "by_origin": {
+    "migrated": 641,
+    "human-authored": 13
+  },
+  "review_semantics": "reviewed-only (review.status==reviewed) vs canonical (review.status==canonical, terminal); canonical implies reviewed; total_reviewed_including_canonical = reviewed-only + canonical",
+  "top_reviewed": [
+    {
+      "id": "stemma:conn.000001",
+      "relation": "special_case_of",
+      "source": "stemma:bio.animal-cell",
+      "target": "stemma:bio.cell"
+    },
+    {
+      "id": "stemma:conn.000005",
+      "relation": "logically_requires",
+      "source": "stemma:bio.cellular-respiration",
+      "target": "stemma:bio.cell"
+    },
+    {
+      "id": "stemma:conn.000012",
+      "relation": "part_of",
+      "source": "stemma:bio.nucleus",
+      "target": "stemma:bio.cell"
+    },
+    {
+      "id": "stemma:conn.000014",
+      "relation": "logically_requires",
+      "source": "stemma:bio.osmosis",
+      "target": "stemma:chem.diffusion"
+    },
+    {
+      "id": "stemma:conn.000025",
+      "relation": "part_of",
+      "source": "stemma:bio.dna",
+      "target": "stemma:bio.cell"
+    },
+    {
+      "id": "stemma:conn.000048",
+      "relation": "logically_requires",
+      "source": "stemma:chem.atom",
+      "target": "stemma:chem.matter"
+    },
+    {
+      "id": "stemma:conn.000049",
+      "relation": "logically_requires",
+      "source": "stemma:chem.atom",
+      "target": "stemma:phys.electric-charge"
+    },
+    {
+      "id": "stemma:conn.000053",
+      "relation": "logically_requires",
+      "source": "stemma:chem.element",
+      "target": "stemma:chem.atom"
+    },
+    {
+      "id": "stemma:conn.000060",
+      "relation": "logically_requires",
+      "source": "stemma:chem.compound",
+      "target": "stemma:chem.atom"
+    },
+    {
+      "id": "stemma:conn.000069",
+      "relation": "logically_requires",
+      "source": "stemma:chem.matter",
+      "target": "stemma:phys.mass"
+    },
+    {
+      "id": "stemma:conn.000130",
+      "relation": "mathematically_requires",
+      "source": "stemma:phys.current",
+      "target": "stemma:phys.electric-charge"
+    },
+    {
+      "id": "stemma:conn.000131",
+      "relation": "mathematically_requires",
+      "source": "stemma:phys.current",
+      "target": "stemma:phys.time"
+    },
+    {
+      "id": "stemma:conn.000165",
+      "relation": "mathematically_requires",
+      "source": "stemma:phys.voltage",
+      "target": "stemma:phys.electric-charge"
+    },
+    {
+      "id": "stemma:conn.000173",
+      "relation": "logically_requires",
+      "source": "stemma:phys.measurement",
+      "target": "stemma:phys.unit"
+    },
+    {
+      "id": "stemma:conn.000177",
+      "relation": "logically_requires",
+      "source": "stemma:phys.time",
+      "target": "stemma:phys.measurement"
+    },
+    {
+      "id": "stemma:conn.000180",
+      "relation": "logically_requires",
+      "source": "stemma:phys.unit",
+      "target": "stemma:phys.physical-quantity"
+    },
+    {
+      "id": "stemma:conn.000183",
+      "relation": "mathematically_requires",
+      "source": "stemma:phys.acceleration",
+      "target": "stemma:phys.time"
+    },
+    {
+      "id": "stemma:conn.000184",
+      "relation": "appears_in_law",
+      "source": "stemma:phys.acceleration",
+      "target": "stemma:phys.newtons-second-law"
+    },
+    {
+      "id": "stemma:conn.000193",
+      "relation": "mathematically_requires",
+      "source": "stemma:phys.density",
+      "target": "stemma:phys.mass"
+    },
+    {
+      "id": "stemma:conn.000196",
+      "relation": "mathematically_requires",
+      "source": "stemma:phys.displacement",
+      "target": "stemma:phys.distance"
+    }
+  ],
+  "remaining_high_priority": [],
+  "evidence_gaps_count": 599,
+  "provenance_gaps_count": 604,
+  "evidence_gaps_sample": [
+    "stemma:conn.000002",
+    "stemma:conn.000003",
+    "stemma:conn.000004",
+    "stemma:conn.000006",
+    "stemma:conn.000007"
+  ],
+  "provenance_gaps_sample": [
+    "stemma:conn.000002",
+    "stemma:conn.000003",
+    "stemma:conn.000004",
+    "stemma:conn.000006",
+    "stemma:conn.000007"
+  ],
+  "entity_count": 224,
+  "entity_reviewed_count": 0,
+  "entity_canonical_count": 0,
+  "entity_status": {
+    "draft": 224
+  },
+  "entity_type": {
+    "concept": 156,
+    "quantity": 54,
+    "law": 11,
+    "equation": 2,
+    "unit": 1
+  },
+  "entity_review_coverage_by_domain": {
+    "biology": {
+      "total": 33,
+      "human_reviewed": 0,
+      "canonical": 0
+    },
+    "chemistry": {
+      "total": 40,
+      "human_reviewed": 0,
+      "canonical": 0
+    },
+    "earth-space": {
+      "total": 9,
+      "human_reviewed": 0,
+      "canonical": 0
+    },
+    "engineering": {
+      "total": 1,
+      "human_reviewed": 0,
+      "canonical": 0
+    },
+    "mathematics": {
+      "total": 43,
+      "human_reviewed": 0,
+      "canonical": 0
+    },
+    "physics": {
+      "total": 96,
+      "human_reviewed": 0,
+      "canonical": 0
+    },
+    "scientific-practice": {
+      "total": 2,
+      "human_reviewed": 0,
+      "canonical": 0
+    }
+  }
+}

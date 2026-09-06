@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.immune-system
+id: stemma:bio.immune-system
 type: concept
 name: Immune System
 domain: biology
@@ -31,11 +31,6 @@ provenance:
   ai_drafted: true
   source_kind: institutional
   source: World Health Organization; International Union of Physiological Sciences
-relationships:
-  - type: logically_requires
-    target: lhs:bio.homeostasis
-  - type: related_to
-    target: lhs:bio.cell
 ---
 
 ## Notes

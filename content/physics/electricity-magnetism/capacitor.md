@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.capacitor
+id: stemma:phys.capacitor
 type: quantity
 name: Capacitance
 domain: physics
@@ -30,9 +30,4 @@ provenance:
   source: "Halliday, Resnick & Walker, Fundamentals of Physics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: related_to
-    target: lhs:phys.electric-charge
-  - type: related_to
-    target: lhs:phys.voltage
 ---

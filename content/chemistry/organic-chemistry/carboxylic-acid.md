@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.carboxylic-acid
+id: stemma:chem.carboxylic-acid
 type: concept
 name: Carboxylic Acid
 domain: chemistry
@@ -30,9 +30,4 @@ provenance:
   ai_drafted: true
   source_kind: textbook
   source: Atkins' Physical Chemistry
-relationships:
-  - type: related_to
-    target: lhs:chem.acid
-  - type: related_to
-    target: lhs:chem.functional-group
 ---

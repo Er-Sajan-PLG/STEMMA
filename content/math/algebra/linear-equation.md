@@ -1,5 +1,5 @@
 ---
-id: lhs:math.linear-equation
+id: stemma:math.linear-equation
 type: concept
 name: Linear Equation
 domain: mathematics
@@ -34,16 +34,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / ICSE Mathematics Curriculum"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: mathematically_requires
-    target: lhs:math.algebraic-expression
-  - type: mathematically_requires
-    target: lhs:math.variable
-  - type: related_to
-    target: lhs:math.linear-function
-  - type: related_to
-    target: lhs:math.quadratic-equation
 ---

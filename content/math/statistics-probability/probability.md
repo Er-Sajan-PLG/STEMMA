@@ -1,5 +1,5 @@
 ---
-id: lhs:math.probability
+id: stemma:math.probability
 type: concept
 name: Probability
 domain: mathematics
@@ -35,7 +35,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / ICSE Mathematics Curriculum"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
 historical:
@@ -51,13 +51,4 @@ historical:
     - year: 1654
       by: "Blaise Pascal and Pierre de Fermat"
       event: "Correspondence founding the mathematical theory of probability"
-relationships:
-  - type: related_to
-    target: lhs:math.mean
-  - type: related_to
-    target: lhs:math.median
-  - type: related_to
-    target: lhs:math.fraction
-  - type: related_to
-    target: lhs:math.ratio
 ---

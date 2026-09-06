@@ -1,4 +1,4 @@
-export interface LhsProvenance {
+export interface StemmaProvenance {
   ai_drafted?: boolean;
   source_kind?: string;
   source?: string;
@@ -6,13 +6,7 @@ export interface LhsProvenance {
   reviewed_at?: string;
 }
 
-export interface LhsRelationship {
-  type: string;
-  target: string;
-  note?: string;
-}
-
-export interface LhsEntity {
+export interface StemmaEntity {
   id: string;
   type: string;
   name: string;
@@ -27,12 +21,11 @@ export interface LhsEntity {
   real_world_applications?: string[];
   examples?: string[];
   key_experiments?: string[];
-  provenance?: LhsProvenance;
-  relationships?: LhsRelationship[];
+  provenance?: StemmaProvenance;
 }
 
-/** Minimal view of a first-class connection (export contract v1.0, ADR-0023). */
-export interface LhsConnection {
+/** Minimal view of a first-class connection (export contract v2.0 — the only relationship source). */
+export interface StemmaConnection {
   id: string;
   source: string;
   relation: string;
@@ -43,16 +36,16 @@ export interface LhsConnection {
   claim_signature?: string;
 }
 
-export interface LhsKnowledgeExport {
-  export_version: string; // contract v1.0: connections + sources are REQUIRED (ADR-0023)
+export interface StemmaKnowledgeExport {
+  export_version: string; // contract v2.0: connections[] required; no inline entity relationships (ADR-0028)
   schema_version: string;
-  content_hash?: string; // ADR-0022: deterministic stamp; replaces wall-clock generated_at
+  content_hash?: string; // deterministic stamp; replaces wall-clock generated_at
   source?: string;
   entity_count: number;
   connection_count?: number;
   source_count?: number;
-  entities: LhsEntity[];
-  connections?: LhsConnection[]; // present in v1.x; `entities[].relationships` is a deprecated projection
+  entities: StemmaEntity[];
+  connections: StemmaConnection[];
 }
 
 export class KnowledgeExportLoadError extends Error {
@@ -62,10 +55,10 @@ export class KnowledgeExportLoadError extends Error {
   }
 }
 
-/** Export contract major version this explorer consumes (ADR-0023). */
-export const SUPPORTED_EXPORT_MAJOR = 1;
+/** Export contract major version this explorer consumes (v2 — ADR-0028). */
+export const SUPPORTED_EXPORT_MAJOR = 2;
 
-export async function loadKnowledgeExport(url: string = '/exports/knowledge.json'): Promise<LhsKnowledgeExport> {
+export async function loadKnowledgeExport(url: string = '/exports/knowledge.json'): Promise<StemmaKnowledgeExport> {
   let response: Response;
   try {
     response = await fetch(url);
@@ -77,7 +70,7 @@ export async function loadKnowledgeExport(url: string = '/exports/knowledge.json
     throw new KnowledgeExportLoadError(`HTTP ${response.status} when fetching knowledge export from ${url}`);
   }
 
-  let data: LhsKnowledgeExport;
+  let data: StemmaKnowledgeExport;
   try {
     data = await response.json();
   } catch (err) {
@@ -96,7 +89,7 @@ export async function loadKnowledgeExport(url: string = '/exports/knowledge.json
     );
   }
   if (!Array.isArray(data.connections)) {
-    throw new KnowledgeExportLoadError('Invalid v1.x export: missing required connections array');
+    throw new KnowledgeExportLoadError('Invalid export: missing required connections array');
   }
 
   const idSet = new Set<string>();
@@ -113,15 +106,6 @@ export async function loadKnowledgeExport(url: string = '/exports/knowledge.json
   for (const c of data.connections) {
     if (!idSet.has(c.source) || !idSet.has(c.target)) {
       throw new KnowledgeExportLoadError(`Connection ${c.id} references an unindexed entity`);
-    }
-  }
-
-  // Validate relationship targets exist (deprecated projection; removed in contract 2.0)
-  for (const entity of data.entities) {
-    for (const rel of entity.relationships ?? []) {
-      if (rel.target && !idSet.has(rel.target)) {
-        console.warn(`Export contains relationship pointing to unindexed target '${rel.target}' from '${entity.id}'`);
-      }
     }
   }
 

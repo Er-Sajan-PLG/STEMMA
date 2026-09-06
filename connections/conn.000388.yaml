@@ -1,0 +1,57 @@
+id: stemma:conn.000388
+type: connection
+source: stemma:phys.bohr-model
+relation: approximates
+target: stemma:phys.atomic-structure
+assertion:
+  status: active
+  type: proposed
+  review:
+    status: canonical
+  confidence: null
+  confidence_basis: null
+  polarity: positive
+context:
+  domain: physics
+  subdomain: atomic-nuclear
+  regime:
+  - quantum
+  - nonrelativistic
+  scale: atomic
+  assumptions: []
+  qualifiers: []
+evidence:
+- type: textbook
+  source_ref: stemma:src.halliday-resnick
+  locator: Ch. 39, Bohr model
+  description: Bohr model approximates hydrogen-like atoms; limited to nonrelativistic
+  stance: supports
+  locator_struct: null
+provenance:
+  asserted_by:
+    type: human
+    id: human:reviewer.physics-001
+  generated_by:
+    type: human
+    id: human:curator.001
+  reviewed_by:
+  - type: human
+    id: human:reviewer.physics-001
+  method:
+    type: manual
+  review_history:
+  - from: unreviewed
+    to: reviewed
+    reviewer: human:reviewer.physics-001
+    at: '2026-08-30T18:21:03.645818+00:00'
+    reason: model bohr approximates atomic-structure
+  - from: reviewed
+    to: canonical
+    reviewer: human:reviewer.physics-001
+    at: '2026-08-30T18:21:03.645823+00:00'
+    reason: model bohr approximates atomic-structure
+created_at: null
+updated_at: null
+validity: null
+lifecycle: null
+rights: null

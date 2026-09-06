@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.protein-synthesis
+id: stemma:bio.protein-synthesis
 type: concept
 name: Protein Synthesis
 domain: biology
@@ -30,13 +30,6 @@ provenance:
   ai_drafted: true
   source_kind: textbook
   source: Campbell Biology
-relationships:
-  - type: logically_requires
-    target: lhs:bio.dna
-  - type: logically_requires
-    target: lhs:bio.enzyme
-  - type: related_to
-    target: lhs:bio.gene
 ---
 
 ## Notes

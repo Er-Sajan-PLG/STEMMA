@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.alcohol
+id: stemma:chem.alcohol
 type: concept
 name: Alcohol
 domain: chemistry
@@ -30,9 +30,4 @@ provenance:
   ai_drafted: true
   source_kind: textbook
   source: Atkins' Physical Chemistry
-relationships:
-  - type: related_to
-    target: lhs:chem.functional-group
-  - type: derived_from
-    target: lhs:chem.alkene
 ---

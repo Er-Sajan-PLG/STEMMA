@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.voltage
+id: stemma:phys.voltage
 type: quantity
 name: Potential Difference (Voltage)
 domain: physics
@@ -30,17 +30,6 @@ real_world_applications:
   - Voltage regulation in electronics.
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.electric-charge
-  - type: mathematically_requires
-    target: lhs:phys.work
-  - type: related_to
-    target: lhs:phys.current
-  - type: related_to
-    target: lhs:phys.resistance
-  - type: appears_in_law
-    target: lhs:phys.ohms-law
 ---
 
 ## Notes

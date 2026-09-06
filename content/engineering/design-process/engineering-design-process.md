@@ -1,5 +1,5 @@
 ---
-id: lhs:eng.engineering-design-process
+id: stemma:eng.engineering-design-process
 type: concept
 name: Engineering Design Process
 domain: engineering
@@ -29,9 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: NGSS Engineering Design Standards / NAE
-relationships:
-  - type: related_to
-    target: lhs:practice.scientific-observation
 ---
 
 ## Notes

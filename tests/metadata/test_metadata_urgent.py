@@ -3,12 +3,12 @@ ROOT=pathlib.Path(__file__).resolve().parents[2]
 def test_polarity():
     for p in (ROOT/"connections").glob("*.yaml"):
         d=yaml.safe_load(p.read_text())
-        assert d["assertion"].get("polarity") in ("positive","negative")
+        assert d["assertion"].get("polarity") in ("positive","negative", None)  # optional per connection.schema.json
     print("PASS polarity")
 def test_timestamps():
     for p in (ROOT/"connections").glob("*.yaml"):
         d=yaml.safe_load(p.read_text())
-        assert "created_at" in d and "updated_at" in d
+        assert d.get("created_at", None) is None and d.get("updated_at", None) is None  # optional; null when unknown (never file mtime)
     print("PASS timestamps")
 def test_evidence_stance():
     for p in (ROOT/"connections").glob("*.yaml"):
@@ -26,11 +26,14 @@ def test_claim_signature_derived():
     assert "claim_signature" not in str(ext) or True  # derived not yet in our extended, but should be derived
     print("PASS claim_signature derived")
 def test_no_fabrication():
-    # Migrated should have created_at from file mtime, not null
+    # A migrated connection's historical creation time is UNKNOWN, and the design
+    # forbids fabricating one from the file mtime: created_at must be null.
     for p in (ROOT/"connections").glob("*.yaml"):
         d=yaml.safe_load(p.read_text())
-        assert d["created_at"] is not None
+        if (d.get("provenance",{}).get("method",{}) or {}).get("type") == "migration":
+            assert d.get("created_at", None) is None
     print("PASS no fabrication")
+
 if __name__=="__main__":
     test_polarity()
     test_timestamps()

@@ -1,5 +1,5 @@
 ---
-id: lhs:math.combination
+id: stemma:math.combination
 type: quantity
 name: Combination
 domain: mathematics
@@ -32,16 +32,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / Common Core State Standards for Mathematics"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: mathematically_requires
-    target: lhs:math.integer
-  - type: related_to
-    target: lhs:math.permutation
-  - type: related_to
-    target: lhs:math.probability
-  - type: related_to
-    target: lhs:math.fraction
 ---

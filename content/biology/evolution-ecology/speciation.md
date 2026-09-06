@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.speciation
+id: stemma:bio.speciation
 type: concept
 name: Speciation
 domain: biology
@@ -30,11 +30,6 @@ provenance:
   ai_drafted: true
   source_kind: textbook
   source: The Origin of Species (Charles Darwin); Campbell Biology
-relationships:
-  - type: related_to
-    target: lhs:bio.natural-selection
-  - type: related_to
-    target: lhs:bio.ecosystem
 ---
 
 ## Notes

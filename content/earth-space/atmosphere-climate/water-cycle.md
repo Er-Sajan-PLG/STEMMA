@@ -1,5 +1,5 @@
 ---
-id: lhs:earth.water-cycle
+id: stemma:earth.water-cycle
 type: concept
 name: Water Cycle
 domain: earth-space
@@ -32,15 +32,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: NOAA / WMO Atmospheric Science Standards
-relationships:
-  - type: part_of
-    target: lhs:earth.earth-system
-  - type: logically_requires
-    target: lhs:phys.change-of-state
-  - type: related_to
-    target: lhs:earth.atmosphere
-  - type: related_to
-    target: lhs:phys.heat
 ---
 
 ## Notes

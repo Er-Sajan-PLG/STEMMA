@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.quantized-energy-levels
+id: stemma:phys.quantized-energy-levels
 type: concept
 name: Quantized Energy Levels
 domain: physics
@@ -31,9 +31,4 @@ provenance:
   source: "Halliday, Resnick & Walker, Fundamentals of Physics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: related_to
-    target: lhs:phys.atomic-structure
-  - type: related_to
-    target: lhs:phys.photoelectric-effect
 ---

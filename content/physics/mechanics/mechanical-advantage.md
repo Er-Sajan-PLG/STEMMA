@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.mechanical-advantage
+id: stemma:phys.mechanical-advantage
 type: concept
 name: Mechanical Advantage
 domain: physics
@@ -33,13 +33,6 @@ external_ids:
   wd: Q5378501
 provenance:
   ai_drafted: true
-relationships:
-  - type: mathematically_requires
-    target: lhs:phys.force
-  - type: related_to
-    target: lhs:phys.work
-  - type: related_to
-    target: lhs:phys.energy-loss
 ---
 
 ## Notes

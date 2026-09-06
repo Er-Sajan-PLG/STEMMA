@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.amplitude
+id: stemma:phys.amplitude
 type: quantity
 name: Amplitude
 domain: physics
@@ -27,11 +27,6 @@ learning_objectives:
   - Compare amplitudes of different waves.
 provenance:
   ai_drafted: true
-relationships:
-  - type: related_to
-    target: lhs:phys.wave
-  - type: related_to
-    target: lhs:phys.energy
 ---
 
 ## Notes

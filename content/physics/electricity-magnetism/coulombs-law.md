@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.coulombs-law
+id: stemma:phys.coulombs-law
 type: law
 name: Coulomb's Law
 domain: physics
@@ -42,13 +42,6 @@ historical:
     - year: 1785
       by: "Charles-Augustin de Coulomb"
       event: "Publishes the inverse-square law of electrostatic force based on torsion-balance measurements"
-relationships:
-  - type: applies_to
-    target: lhs:phys.electric-charge
-  - type: applies_to
-    target: lhs:phys.force
-  - type: related_to
-    target: lhs:phys.newtons-law-of-gravitation
 ---
 
 ## Notes

@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.mitosis
+id: stemma:bio.mitosis
 type: concept
 name: Mitosis
 domain: biology
@@ -30,11 +30,6 @@ provenance:
   ai_drafted: true
   source_kind: textbook
   source: Campbell Biology
-relationships:
-  - type: related_to
-    target: lhs:bio.cell
-  - type: logically_requires
-    target: lhs:bio.chromosome
 ---
 
 ## Notes

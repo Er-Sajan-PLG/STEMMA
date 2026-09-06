@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.nucleus
+id: stemma:bio.nucleus
 type: concept
 name: Nucleus
 domain: biology
@@ -37,11 +37,6 @@ historical:
   year: 1831
   context: "Observation of the nucleus in plant (orchid) cells"
   note: "Brown described the nucleus in orchid epidermis cells in 1831 but did not assign it a function."
-relationships:
-  - type: part_of
-    target: lhs:bio.cell
-  - type: related_to
-    target: lhs:bio.dna
 ---
 
 ## Notes

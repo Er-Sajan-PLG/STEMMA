@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.electric-motor
+id: stemma:phys.electric-motor
 type: concept
 name: Electric Motor
 domain: physics
@@ -29,13 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IEEE / UNESCO Engineering & Physics Education Framework
-relationships:
-  - type: logically_requires
-    target: lhs:phys.electromagnetism
-  - type: logically_requires
-    target: lhs:phys.current
-  - type: related_to
-    target: lhs:phys.magnetic-field
 ---
 
 ## Notes

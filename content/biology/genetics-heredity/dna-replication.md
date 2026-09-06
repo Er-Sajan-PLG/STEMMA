@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.dna-replication
+id: stemma:bio.dna-replication
 type: concept
 name: DNA Replication
 domain: biology
@@ -30,13 +30,6 @@ provenance:
   ai_drafted: true
   source_kind: textbook
   source: Campbell Biology
-relationships:
-  - type: logically_requires
-    target: lhs:bio.dna
-  - type: logically_requires
-    target: lhs:bio.enzyme
-  - type: part_of
-    target: lhs:bio.nucleus
 ---
 
 ## Notes

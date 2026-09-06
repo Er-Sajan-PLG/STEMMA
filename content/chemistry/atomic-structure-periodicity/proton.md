@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.proton
+id: stemma:chem.proton
 type: concept
 name: Proton
 domain: chemistry
@@ -29,11 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Gold Book
-relationships:
-  - type: part_of
-    target: lhs:chem.atom
-  - type: logically_requires
-    target: lhs:phys.electric-charge
 ---
 
 ## Notes

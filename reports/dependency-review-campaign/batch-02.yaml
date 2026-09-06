@@ -1,0 +1,712 @@
+batch: 2
+campaign: E6.1 dependency-edge review
+reviewer: human:reviewer.physics-001
+instructions: Set decision to accept|canonical|reject|defer per item. canonical requires evidence (list of {type,
+  description, source_ref?, locator?}). reject requires reason.
+items:
+- id: stemma:conn.000637
+  claim: Electric Field logically_requires Electric Charge
+  source: stemma:phys.electric-field
+  relation: logically_requires
+  target: stemma:phys.electric-charge
+  source_definition: The region of space surrounding a charge in which another charge experiences a force; quantified
+    as the electric force per unit positive test charge at a point.
+  target_definition: A fundamental property of matter that causes it to experience a force when placed in an electromagnetic
+    field. Charge can be positive or negative; like charges repel, opposite charges attract.
+  source_equation: E = F/q (definition); E = k·Q/r² for a point charge Q
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000228
+  claim: Free Fall mathematically_requires Acceleration
+  source: stemma:phys.free-fall
+  relation: mathematically_requires
+  target: stemma:phys.acceleration
+  source_definition: Motion under the influence of gravitational force alone, with no other forces (especially air
+    resistance) acting. In free fall, all objects experience the same acceleration regardless of mass, provided
+    air resistance is negligible.
+  target_definition: The rate of change of velocity with respect to time; a vector quantity. Acceleration occurs
+    whenever an object's velocity changes — whether in magnitude, direction, or both.
+  source_equation: v = g·t ; h = ½·g·t² ; v² = 2·g·h
+  prechecks:
+    domain_range: ok
+    text_support: name 'Acceleration'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000215
+  claim: Equations of Motion mathematically_requires Velocity
+  source: stemma:phys.equations-of-motion
+  relation: mathematically_requires
+  target: stemma:phys.velocity
+  source_definition: 'The set of kinematic equations relating displacement, initial velocity, uniform acceleration,
+    and time for motion in a straight line under constant acceleration: v = u + at, s = ut + ½at², v² = u² + 2as,
+    and s = ½(u + v)t. They apply only when acceleration is constant.'
+  target_definition: The rate of change of displacement with respect to time. Velocity is a vector quantity — it
+    has both magnitude (speed) and direction.
+  source_equation: v = u + at;  s = ut + ½at²;  v² = u² + 2as;  s = ½(u+v)t
+  prechecks:
+    domain_range: ok
+    text_support: name 'Velocity'; symbol 'v' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000237
+  claim: Gravitational Acceleration mathematically_requires Acceleration
+  source: stemma:phys.gravitational-acceleration
+  relation: mathematically_requires
+  target: stemma:phys.acceleration
+  source_definition: The acceleration experienced by an object solely under the influence of Earth's gravity, near
+    the Earth's surface. It is approximately constant for all objects, regardless of their mass.
+  target_definition: The rate of change of velocity with respect to time; a vector quantity. Acceleration occurs
+    whenever an object's velocity changes — whether in magnitude, direction, or both.
+  source_equation: g ≈ 9.8 m/s² (near Earth's surface)
+  prechecks:
+    domain_range: ok
+    text_support: name 'Acceleration'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000608
+  claim: Arithmetic Sequence mathematically_requires Integer
+  source: stemma:math.arithmetic-sequence
+  relation: mathematically_requires
+  target: stemma:math.integer
+  source_definition: A sequence in which each term differs from the previous one by a constant amount called the
+    common difference d, so aₙ = a₁ + (n − 1)d. The terms grow or decrease linearly, and the sum of the first n
+    terms can be written compactly as Sₙ = n/2 (a₁ + aₙ).
+  target_definition: 'The set of whole numbers and their negatives, including zero: ..., -3, -2, -1, 0, 1, 2, 3,
+    ... Integers extend natural numbers to include negative values and zero, enabling subtraction to be closed within
+    the set.'
+  source_equation: aₙ = a₁ + (n − 1)d   |   Sₙ = n/2 (a₁ + aₙ)
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000619
+  claim: Combination mathematically_requires Integer
+  source: stemma:math.combination
+  relation: mathematically_requires
+  target: stemma:math.integer
+  source_definition: An unordered selection of items taken from a larger collection, where order does not matter.
+    The number of ways to choose r items from n distinct items is C(n, r) = n! / (r! (n − r)!), often written as
+    a binomial coefficient (n choose r).
+  target_definition: 'The set of whole numbers and their negatives, including zero: ..., -3, -2, -1, 0, 1, 2, 3,
+    ... Integers extend natural numbers to include negative values and zero, enabling subtraction to be closed within
+    the set.'
+  source_equation: C(n, r) = n! / (r! (n − r)!)   (0 ≤ r ≤ n)
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000623
+  claim: Permutation mathematically_requires Integer
+  source: stemma:math.permutation
+  relation: mathematically_requires
+  target: stemma:math.integer
+  source_definition: An ordered arrangement of a subset of items drawn from a larger collection, where order matters.
+    The number of ways to arrange r items selected from n distinct items is P(n, r) = n! / (n − r)!; arranging all
+    n items gives n! possibilities.
+  target_definition: 'The set of whole numbers and their negatives, including zero: ..., -3, -2, -1, 0, 1, 2, 3,
+    ... Integers extend natural numbers to include negative values and zero, enabling subtraction to be closed within
+    the set.'
+  source_equation: P(n, r) = n! / (n − r)!   (0 ≤ r ≤ n)
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000172
+  claim: Graphical Analysis of Motion logically_requires Acceleration
+  source: stemma:phys.graphical-analysis
+  relation: logically_requires
+  target: stemma:phys.acceleration
+  source_definition: The use of graphs to represent and analyze motion. Distance-time and velocity-time graphs provide
+    visual tools for understanding motion and extracting quantitative information.
+  target_definition: The rate of change of velocity with respect to time; a vector quantity. Acceleration occurs
+    whenever an object's velocity changes — whether in magnitude, direction, or both.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000163
+  claim: Electrical Resistance mathematically_requires Electric Current
+  source: stemma:phys.resistance
+  relation: mathematically_requires
+  target: stemma:phys.current
+  source_definition: The opposition to the flow of electric current in a conductor. Resistance converts electrical
+    energy to thermal energy.
+  target_definition: The flow of electric charge through a conductor. Current is measured as the rate of flow of
+    charge past a point in a circuit.
+  source_equation: R = V / I
+  prechecks:
+    domain_range: ok
+    text_support: name 'Electric Current'; symbol 'I' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000229
+  claim: Free Fall logically_requires Gravitation
+  source: stemma:phys.free-fall
+  relation: logically_requires
+  target: stemma:phys.gravitation
+  source_definition: Motion under the influence of gravitational force alone, with no other forces (especially air
+    resistance) acting. In free fall, all objects experience the same acceleration regardless of mass, provided
+    air resistance is negligible.
+  target_definition: The natural phenomenon by which all objects with mass or energy are attracted toward one another.
+    Gravitation is a fundamental interaction that governs the motion of planets, stars, galaxies, and the structure
+    of the universe.
+  source_equation: v = g·t ; h = ½·g·t² ; v² = 2·g·h
+  prechecks:
+    domain_range: ok
+    text_support: name 'Gravitation'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000402
+  claim: Linear Equation mathematically_requires Algebraic Expression
+  source: stemma:math.linear-equation
+  relation: mathematically_requires
+  target: stemma:math.algebraic-expression
+  source_definition: 'An equation in which the highest power of the variable is 1. In one variable: ax + b = 0 (a
+    ≠ 0). In two variables: ax + by + c = 0. The graph of a linear equation in two variables is a straight line.'
+  target_definition: A combination of variables, numbers, and arithmetic operations (addition, subtraction, multiplication,
+    division, exponentiation) that represents a value. Unlike an equation, an expression has no equality sign and
+    cannot be "solved" — it can only be simplified or evaluated.
+  source_equation: ax + b = 0  (one variable) |  ax + by + c = 0  (two variables)
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000326
+  claim: Heat mathematically_requires Temperature
+  source: stemma:phys.heat
+  relation: mathematically_requires
+  target: stemma:phys.temperature
+  source_definition: Energy transferred from one body to another due to a temperature difference. Heat is energy
+    in transit — it is not stored in an object (the stored energy is internal energy).
+  target_definition: A measure of the average kinetic energy of the particles in a substance. Temperature determines
+    the direction of heat flow — heat flows from higher temperature to lower temperature.
+  source_equation: Q = m·c·ΔT (specific heat) ; Q = m·L (latent heat)
+  prechecks:
+    domain_range: ok
+    text_support: name 'Temperature'; symbol 'T' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000409
+  claim: Quadratic Equation mathematically_requires Algebraic Expression
+  source: stemma:math.quadratic-equation
+  relation: mathematically_requires
+  target: stemma:math.algebraic-expression
+  source_definition: 'An equation in which the highest power of the variable is 2. Standard form: ax² + bx + c =
+    0 (a ≠ 0). Quadratic equations have at most two real solutions (roots), found by factoring, completing the square,
+    or the quadratic formula.'
+  target_definition: A combination of variables, numbers, and arithmetic operations (addition, subtraction, multiplication,
+    division, exponentiation) that represents a value. Unlike an equation, an expression has no equality sign and
+    cannot be "solved" — it can only be simplified or evaluated.
+  source_equation: ax² + bx + c = 0  |  x = (-b ± √(b² - 4ac)) / 2a
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000139
+  claim: Electric Motor logically_requires Electric Current
+  source: stemma:phys.electric-motor
+  relation: logically_requires
+  target: stemma:phys.current
+  source_definition: An electrical machine that converts electrical energy into mechanical energy through the interaction
+    between a magnetic field and winding currents producing rotational force (torque).
+  target_definition: The flow of electric charge through a conductor. Current is measured as the rate of flow of
+    charge past a point in a circuit.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000329
+  claim: Heating Effect of Electric Current mathematically_requires Electric Current
+  source: stemma:phys.heating-effect
+  relation: mathematically_requires
+  target: stemma:phys.current
+  source_definition: The phenomenon by which electrical energy is converted to thermal energy when current flows
+    through a conductor with resistance. The heat produced depends on the current, resistance, and time.
+  target_definition: The flow of electric charge through a conductor. Current is measured as the rate of flow of
+    charge past a point in a circuit.
+  source_equation: H = I²·R·t (Joule's law of heating)
+  prechecks:
+    domain_range: ok
+    text_support: symbol 'I' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000334
+  claim: Specific Heat Capacity mathematically_requires Heat
+  source: stemma:phys.specific-heat
+  relation: mathematically_requires
+  target: stemma:phys.heat
+  source_definition: The amount of heat energy required to raise the temperature of 1 kilogram of a substance by
+    1 kelvin (or 1 degree Celsius). Different substances have different specific heat capacities.
+  target_definition: Energy transferred from one body to another due to a temperature difference. Heat is energy
+    in transit — it is not stored in an object (the stored energy is internal energy).
+  source_equation: c = Q / (m·ΔT)
+  prechecks:
+    domain_range: ok
+    text_support: name 'Heat'; symbol 'Q' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000336
+  claim: Specific Heat Capacity mathematically_requires Temperature
+  source: stemma:phys.specific-heat
+  relation: mathematically_requires
+  target: stemma:phys.temperature
+  source_definition: The amount of heat energy required to raise the temperature of 1 kilogram of a substance by
+    1 kelvin (or 1 degree Celsius). Different substances have different specific heat capacities.
+  target_definition: A measure of the average kinetic energy of the particles in a substance. Temperature determines
+    the direction of heat flow — heat flows from higher temperature to lower temperature.
+  source_equation: c = Q / (m·ΔT)
+  prechecks:
+    domain_range: ok
+    text_support: name 'Temperature'; symbol 'T' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000361
+  claim: Refraction of Light logically_requires Light
+  source: stemma:phys.refraction
+  relation: logically_requires
+  target: stemma:phys.light
+  source_definition: The bending of light as it passes from one medium to another, caused by a change in light's
+    speed in different media.
+  target_definition: Electromagnetic radiation that is visible to the human eye. Light behaves both as a wave and
+    as a particle (photon); the two models describe complementary aspects of its behaviour.
+  source_equation: 'n = c/v (refractive index) ; Snell''s law: n₁·sin(θ₁) = n₂·sin(θ₂)'
+  prechecks:
+    domain_range: ok
+    text_support: name 'Light'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000359
+  claim: Reflection of Light logically_requires Light
+  source: stemma:phys.reflection
+  relation: logically_requires
+  target: stemma:phys.light
+  source_definition: The bouncing back of light from a surface. The law of reflection states that the angle of incidence
+    equals the angle of reflection.
+  target_definition: Electromagnetic radiation that is visible to the human eye. Light behaves both as a wave and
+    as a particle (photon); the two models describe complementary aspects of its behaviour.
+  source_equation: θ_i = θ_r
+  prechecks:
+    domain_range: ok
+    text_support: name 'Light'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000034
+  claim: Photosynthesis logically_requires Light
+  source: stemma:bio.photosynthesis
+  relation: logically_requires
+  target: stemma:phys.light
+  source_definition: The biological process by which autotrophic organisms (such as plants and algae) convert light
+    energy into stored chemical energy in glucose, using carbon dioxide and water while releasing oxygen as a byproduct.
+  target_definition: Electromagnetic radiation that is visible to the human eye. Light behaves both as a wave and
+    as a particle (photon); the two models describe complementary aspects of its behaviour.
+  source_equation: 6CO₂ + 6H₂O + light energy → C₆H₁₂O₆ + 6O₂
+  prechecks:
+    domain_range: ok
+    text_support: name 'Light'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000112
+  claim: Cause of Astronomical Seasons logically_requires Gravitation
+  source: stemma:earth.seasons-cause
+  relation: logically_requires
+  target: stemma:phys.gravitation
+  source_definition: The cyclical variation in temperature and daylight duration across Earth's year, caused primarily
+    by Earth's 23.5° axial tilt relative to its orbital plane around the Sun, changing solar incidence angle and
+    daylight length.
+  target_definition: The natural phenomenon by which all objects with mass or energy are attracted toward one another.
+    Gravitation is a fundamental interaction that governs the motion of planets, stars, galaxies, and the structure
+    of the universe.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000114
+  claim: Solar System logically_requires Gravitation
+  source: stemma:earth.solar-system
+  relation: logically_requires
+  target: stemma:phys.gravitation
+  source_definition: The gravitationally bound system consisting of the Sun, eight planets and their moons, dwarf
+    planets, asteroids, comets, and interplanetary material, orbiting the Sun.
+  target_definition: The natural phenomenon by which all objects with mass or energy are attracted toward one another.
+    Gravitation is a fundamental interaction that governs the motion of planets, stars, galaxies, and the structure
+    of the universe.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: name 'Gravitation'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000322
+  claim: Change of State mathematically_requires Heat
+  source: stemma:phys.change-of-state
+  relation: mathematically_requires
+  target: stemma:phys.heat
+  source_definition: The transition of matter between solid, liquid, and gas phases. During a change of state, temperature
+    remains constant as energy is used to break or form intermolecular bonds.
+  target_definition: Energy transferred from one body to another due to a temperature difference. Heat is energy
+    in transit — it is not stored in an object (the stored energy is internal energy).
+  source_equation: Q = m·L (L = latent heat)
+  prechecks:
+    domain_range: ok
+    text_support: name 'Heat'; symbol 'Q' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000588
+  claim: Derivative mathematically_requires Function
+  source: stemma:math.derivative
+  relation: mathematically_requires
+  target: stemma:math.function
+  source_definition: The instantaneous rate of change of a function with respect to its variable; the limit of the
+    average rate of change as the interval shrinks to zero. Written f′(x) = lim_{h→0} (f(x+h) − f(x))/h, the derivative
+    gives the slope of the tangent line to the graph at a point.
+  target_definition: 'A relation between a set of inputs (domain) and a set of possible outputs (codomain) where
+    each input is related to exactly one output. Written as f: X → Y or y = f(x). The function assigns a unique
+    output f(x) to each input x.'
+  source_equation: f′(x) = lim_{h→0} (f(x+h) − f(x)) / h
+  prechecks:
+    domain_range: ok
+    text_support: name 'Function'; symbol 'f' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000597
+  claim: Limit logically_requires Function
+  source: stemma:math.limit
+  relation: logically_requires
+  target: stemma:math.function
+  source_definition: The value a function or sequence approaches as its input or index approaches a given value.
+    Written lim_{x→c} f(x) = L, a limit describes the behaviour of f near the point c without requiring f to be
+    defined there. Limits formalize instantaneous change and underpin the derivative and the integral.
+  target_definition: 'A relation between a set of inputs (domain) and a set of possible outputs (codomain) where
+    each input is related to exactly one output. Written as f: X → Y or y = f(x). The function assigns a unique
+    output f(x) to each input x.'
+  source_equation: lim_{x→c} f(x) = L
+  prechecks:
+    domain_range: ok
+    text_support: name 'Function'; symbol 'f' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000600
+  claim: Exponential Function mathematically_requires Function
+  source: stemma:math.exponential-function
+  relation: mathematically_requires
+  target: stemma:math.function
+  source_definition: A function of the form f(x) = a·bˣ where the base b is positive and not equal to 1, with x
+    as the exponent. The function multiplies by a fixed factor b over each unit interval, producing constant relative
+    growth (or decay) rather than constant absolute change.
+  target_definition: 'A relation between a set of inputs (domain) and a set of possible outputs (codomain) where
+    each input is related to exactly one output. Written as f: X → Y or y = f(x). The function assigns a unique
+    output f(x) to each input x.'
+  source_equation: f(x) = a·bˣ   (b > 0, b ≠ 1)
+  prechecks:
+    domain_range: ok
+    text_support: name 'Function'; symbol 'f' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000604
+  claim: Logarithmic Function mathematically_requires Function
+  source: stemma:math.logarithmic-function
+  relation: mathematically_requires
+  target: stemma:math.function
+  source_definition: 'The inverse of the exponential function: y = log_b(x) is the power to which the base b must
+    be raised to obtain x, so bʸ = x. Logarithms convert multiplication into addition and satisfy identities such
+    as log_b(xy) = log_b(x) + log_b(y).'
+  target_definition: 'A relation between a set of inputs (domain) and a set of possible outputs (codomain) where
+    each input is related to exactly one output. Written as f: X → Y or y = f(x). The function assigns a unique
+    output f(x) to each input x.'
+  source_equation: y = log_b(x)   ⇔   bʸ = x   (b > 0, b ≠ 1)
+  prechecks:
+    domain_range: ok
+    text_support: name 'Function'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000356
+  claim: Ray Model of Light logically_requires Light
+  source: stemma:phys.ray-model
+  relation: logically_requires
+  target: stemma:phys.light
+  source_definition: A simplified geometric model of light propagation in which light is represented as straight
+    lines (rays) traveling through transparent media and changing direction at boundaries via reflection or refraction.
+  target_definition: Electromagnetic radiation that is visible to the human eye. Light behaves both as a wave and
+    as a particle (photon); the two models describe complementary aspects of its behaviour.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: name 'Light'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000585
+  claim: Continuity mathematically_requires Function
+  source: stemma:math.continuity
+  relation: mathematically_requires
+  target: stemma:math.function
+  source_definition: 'A property of a function at a point when the function value equals its limit there: lim_{x→c}
+    f(x) = f(c). A function is continuous on an interval if it is continuous at every point of that interval, meaning
+    its graph can be drawn without lifting the pen. Continuity is a prerequisite for differentia'
+  target_definition: 'A relation between a set of inputs (domain) and a set of possible outputs (codomain) where
+    each input is related to exactly one output. Written as f: X → Y or y = f(x). The function assigns a unique
+    output f(x) to each input x.'
+  source_equation: lim_{x→c} f(x) = f(c)
+  prechecks:
+    domain_range: ok
+    text_support: name 'Function'; symbol 'f' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000443
+  claim: Rational Number mathematically_requires Fraction
+  source: stemma:math.rational-number
+  relation: mathematically_requires
+  target: stemma:math.fraction
+  source_definition: Any number that can be expressed as the quotient p/q of two integers, where q ≠ 0. Rational
+    numbers include all integers, fractions, terminating decimals, and repeating decimals.
+  target_definition: A numerical quantity that is not a whole number, representing a part of a whole. Written as
+    a/b where a is the numerator (number of parts) and b ≠ 0 is the denominator (total equal parts in the whole).
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: name 'Fraction'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000309
+  claim: Wave Speed mathematically_requires Frequency
+  source: stemma:phys.wave-speed
+  relation: mathematically_requires
+  target: stemma:phys.frequency
+  source_definition: The speed at which a wave propagates through a medium. Wave speed depends on the properties
+    of the medium, not on frequency or amplitude.
+  target_definition: The number of complete wave cycles passing a given point per unit time. Frequency determines
+    the pitch of sound and the color of light.
+  source_equation: v = f·λ
+  prechecks:
+    domain_range: ok
+    text_support: name 'Frequency'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000319
+  claim: Work mathematically_requires Distance
+  source: stemma:phys.work
+  relation: mathematically_requires
+  target: stemma:phys.distance
+  source_definition: The product of the force applied to an object and the distance the object moves in the direction
+    of the force. Work measures the transfer of energy by a mechanical force.
+  target_definition: The total length of the path traveled between two positions, regardless of direction. Distance
+    is a scalar quantity — it has magnitude but no direction.
+  source_equation: W = F·d·cos(θ)
+  prechecks:
+    domain_range: ok
+    text_support: name 'Distance'; symbol 'd' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000281
+  claim: Potential Energy mathematically_requires Distance
+  source: stemma:phys.potential-energy
+  relation: mathematically_requires
+  target: stemma:phys.distance
+  source_definition: The energy stored in an object due to its position, configuration, or condition. Gravitational
+    potential energy depends on mass, gravitational acceleration, and height above a reference level.
+  target_definition: The total length of the path traveled between two positions, regardless of direction. Distance
+    is a scalar quantity — it has magnitude but no direction.
+  source_equation: PE = m·g·h (gravitational)
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000425
+  claim: Percentage mathematically_requires Fraction
+  source: stemma:math.percentage
+  relation: mathematically_requires
+  target: stemma:math.fraction
+  source_definition: A ratio or fraction expressed as parts per hundred, denoted with the % symbol. x% means x/100
+    or x hundredths. Percentages provide a standardized way to compare proportions regardless of the whole's size.
+  target_definition: A numerical quantity that is not a whole number, representing a part of a whole. Written as
+    a/b where a is the numerator (number of parts) and b ≠ 0 is the denominator (total equal parts in the whole).
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: name 'Fraction'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000182
+  claim: Acceleration mathematically_requires Velocity
+  source: stemma:phys.acceleration
+  relation: mathematically_requires
+  target: stemma:phys.velocity
+  source_definition: The rate of change of velocity with respect to time; a vector quantity. Acceleration occurs
+    whenever an object's velocity changes — whether in magnitude, direction, or both.
+  target_definition: The rate of change of displacement with respect to time. Velocity is a vector quantity — it
+    has both magnitude (speed) and direction.
+  source_equation: a = Δv / Δt
+  prechecks:
+    domain_range: ok
+    text_support: name 'Velocity'; symbol 'v' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000295
+  claim: Speed mathematically_requires Distance
+  source: stemma:phys.speed
+  relation: mathematically_requires
+  target: stemma:phys.distance
+  source_definition: The rate at which an object covers distance — the total distance traveled divided by the total
+    time taken. Speed is a scalar quantity.
+  target_definition: The total length of the path traveled between two positions, regardless of direction. Distance
+    is a scalar quantity — it has magnitude but no direction.
+  source_equation: v = d / t
+  prechecks:
+    domain_range: ok
+    text_support: name 'Distance'; symbol 'd' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000431
+  claim: Ratio mathematically_requires Fraction
+  source: stemma:math.ratio
+  relation: mathematically_requires
+  target: stemma:math.fraction
+  source_definition: A comparison of two quantities by division, expressed as a:b or a/b. Ratios describe the relative
+    size of two quantities without requiring a common unit (unlike percentages which are always per hundred).
+  target_definition: A numerical quantity that is not a whole number, representing a part of a whole. Written as
+    a/b where a is the numerator (number of parts) and b ≠ 0 is the denominator (total equal parts in the whole).
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000260
+  claim: Motion logically_requires Distance
+  source: stemma:phys.motion
+  relation: logically_requires
+  target: stemma:phys.distance
+  source_definition: The change in position of an object with respect to time and a reference point. Motion is the
+    most fundamental phenomenon studied in mechanics.
+  target_definition: The total length of the path traveled between two positions, regardless of direction. Distance
+    is a scalar quantity — it has magnitude but no direction.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: none found (check definition/derivation manually)
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000170
+  claim: Graphical Analysis of Motion logically_requires Distance
+  source: stemma:phys.graphical-analysis
+  relation: logically_requires
+  target: stemma:phys.distance
+  source_definition: The use of graphs to represent and analyze motion. Distance-time and velocity-time graphs provide
+    visual tools for understanding motion and extracting quantitative information.
+  target_definition: The total length of the path traveled between two positions, regardless of direction. Distance
+    is a scalar quantity — it has magnitude but no direction.
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: name 'Distance'
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null
+- id: stemma:conn.000257
+  claim: Momentum mathematically_requires Velocity
+  source: stemma:phys.momentum
+  relation: mathematically_requires
+  target: stemma:phys.velocity
+  source_definition: The product of a body's mass and velocity; a vector quantity that is conserved in closed systems.
+    Momentum quantifies the "amount of motion" an object possesses.
+  target_definition: The rate of change of displacement with respect to time. Velocity is a vector quantity — it
+    has both magnitude (speed) and direction.
+  source_equation: p = m·v
+  prechecks:
+    domain_range: ok
+    text_support: name 'Velocity'; symbol 'v' in equation
+    has_evidence: false
+  decision: null
+  reason: null
+  evidence: null

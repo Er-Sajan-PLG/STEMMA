@@ -1,12 +1,12 @@
-import { LhsEntity, LhsKnowledgeExport } from './knowledge-export-loader';
+import { StemmaEntity, StemmaKnowledgeExport } from './knowledge-export-loader';
 
 export interface ConceptDetails {
-  entity: LhsEntity;
-  prerequisites: LhsEntity[];
-  dependents: LhsEntity[];
-  related: LhsEntity[];
+  entity: StemmaEntity;
+  prerequisites: StemmaEntity[];
+  dependents: StemmaEntity[];
+  related: StemmaEntity[];
   /** Where the relationship lists came from (E1.6: connections[] preferred). */
-  edgeSource: 'connections' | 'inline';
+  edgeSource: 'connections';
   /** entity id -> assertion review status of the edge that linked it (trust annotation). */
   trust: Record<string, string>;
 }
@@ -18,8 +18,8 @@ export class ConceptNotFoundError extends Error {
   }
 }
 
-export function getConceptDetails(id: string, exportData: LhsKnowledgeExport): ConceptDetails {
-  const entityMap = new Map<string, LhsEntity>(exportData.entities.map(e => [e.id, e]));
+export function getConceptDetails(id: string, exportData: StemmaKnowledgeExport): ConceptDetails {
+  const entityMap = new Map<string, StemmaEntity>(exportData.entities.map(e => [e.id, e]));
   const target = entityMap.get(id);
 
   if (!target) {
@@ -27,22 +27,19 @@ export function getConceptDetails(id: string, exportData: LhsKnowledgeExport): C
   }
 
   const prereqTypes = new Set(['logically_requires', 'mathematically_requires']);
-  const prerequisites: LhsEntity[] = [];
-  const related: LhsEntity[] = [];
+  const prerequisites: StemmaEntity[] = [];
+  const related: StemmaEntity[] = [];
 
-  // E1.6 / ADR-0020: prefer canonical connections[]; the inline projection is a
   // deprecated fallback kept only for exports that predate contract v1.0.
+  // Connections are the only relationship source (contract v2.0).
   const connections = (exportData.connections ?? []).filter(
     c => c.assertion?.status !== 'deprecated' && c.assertion?.status !== 'superseded'
   );
-  const edgeSource: 'connections' | 'inline' = connections.length ? 'connections' : 'inline';
+  const edgeSource: 'connections' = 'connections';
 
-  const outgoing =
-    edgeSource === 'connections'
-      ? connections
-          .filter(c => c.source === id)
-          .map(c => ({ relation: c.relation, target: c.target, trust: c.assertion?.review?.status ?? 'unreviewed' }))
-      : (target.relationships ?? []).map(r => ({ relation: r.type, target: r.target, trust: 'unknown' }));
+  const outgoing = connections
+    .filter(c => c.source === id)
+    .map(c => ({ relation: c.relation, target: c.target, trust: c.assertion?.review?.status ?? 'unreviewed' }));
 
   const trust: Record<string, string> = {};
   for (const edge of outgoing) {
@@ -57,19 +54,10 @@ export function getConceptDetails(id: string, exportData: LhsKnowledgeExport): C
   }
 
   // Find dependents (entities that specify 'id' as their prerequisite target)
-  const dependents: LhsEntity[] = [];
-  const incoming =
-    edgeSource === 'connections'
-      ? connections
-          .filter(c => c.target === id)
-          .map(c => ({ relation: c.relation, source: c.source, trust: c.assertion?.review?.status ?? 'unreviewed' }))
-      : exportData.entities
-          .filter(e => e.id !== id)
-          .flatMap(e =>
-            (e.relationships ?? [])
-              .filter(r => r.target === id)
-              .map(r => ({ relation: r.type, source: e.id, trust: 'unknown' }))
-          );
+  const dependents: StemmaEntity[] = [];
+  const incoming = connections
+    .filter(c => c.target === id)
+    .map(c => ({ relation: c.relation, source: c.source, trust: c.assertion?.review?.status ?? 'unreviewed' }));
 
   for (const edge of incoming) {
     if (!prereqTypes.has(edge.relation)) continue;

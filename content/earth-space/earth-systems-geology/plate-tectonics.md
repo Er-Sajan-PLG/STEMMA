@@ -1,5 +1,5 @@
 ---
-id: lhs:earth.plate-tectonics
+id: stemma:earth.plate-tectonics
 type: concept
 name: Plate Tectonics
 domain: earth-space
@@ -29,13 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: USGS / AGU Earth Science Education Framework
-relationships:
-  - type: part_of
-    target: lhs:earth.earth-system
-  - type: logically_requires
-    target: lhs:chem.matter
-  - type: related_to
-    target: lhs:phys.thermal-energy
 ---
 
 ## Notes

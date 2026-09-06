@@ -1,0 +1,39 @@
+{
+  "total": 224,
+  "reviewed": 0,
+  "pending": 224,
+  "percent_reviewed": 0.0,
+  "batches": 6,
+  "per_domain": 5,
+  "batch_size": 40,
+  "by_domain": {
+    "biology": {
+      "total": 33,
+      "reviewed": 0
+    },
+    "chemistry": {
+      "total": 40,
+      "reviewed": 0
+    },
+    "earth-space": {
+      "total": 9,
+      "reviewed": 0
+    },
+    "engineering": {
+      "total": 1,
+      "reviewed": 0
+    },
+    "mathematics": {
+      "total": 43,
+      "reviewed": 0
+    },
+    "physics": {
+      "total": 96,
+      "reviewed": 0
+    },
+    "scientific-practice": {
+      "total": 2,
+      "reviewed": 0
+    }
+  }
+}

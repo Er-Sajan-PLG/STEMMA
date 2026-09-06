@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.oxidation-reduction
+id: stemma:chem.oxidation-reduction
 type: concept
 name: Oxidation-Reduction
 domain: chemistry
@@ -30,9 +30,4 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Compendium of Chemical Terminology
-relationships:
-  - type: special_case_of
-    target: lhs:chem.chemical-reaction
-  - type: related_to
-    target: lhs:chem.oxidation-number
 ---

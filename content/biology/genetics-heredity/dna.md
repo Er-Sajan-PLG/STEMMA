@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.dna
+id: stemma:bio.dna
 type: concept
 name: Deoxyribonucleic Acid (DNA)
 domain: biology
@@ -45,11 +45,6 @@ historical:
     - year: 1953
       by: "James Watson and Francis Crick"
       event: "Published the double-helix model of DNA in Nature"
-relationships:
-  - type: part_of
-    target: lhs:bio.cell
-  - type: related_to
-    target: lhs:chem.covalent-bond
 ---
 
 ## Notes

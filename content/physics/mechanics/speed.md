@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.speed
+id: stemma:phys.speed
 type: quantity
 name: Speed
 domain: physics
@@ -33,13 +33,6 @@ external_ids:
   wd: Q3711325
 provenance:
   ai_drafted: true
-relationships:
-- type: mathematically_requires
-  target: lhs:phys.distance
-- type: mathematically_requires
-  target: lhs:phys.time
-- type: related_to
-  target: lhs:phys.velocity
 
 ---
 

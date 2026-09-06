@@ -1,5 +1,5 @@
 ---
-id: lhs:math.standard-deviation
+id: stemma:math.standard-deviation
 type: quantity
 name: Standard Deviation
 domain: mathematics
@@ -33,7 +33,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / Common Core State Standards for Mathematics"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
 historical:
@@ -42,11 +42,4 @@ historical:
   where: "Statistical lectures and writings on the root-mean-square deviation"
   context: "Statistics"
   note: "Pearson introduced the standard deviation in the early 1890s as the root-mean-square deviation, building on Gauss's earlier method of least squares."
-relationships:
-  - type: mathematically_requires
-    target: lhs:math.mean
-  - type: related_to
-    target: lhs:math.rational-number
-  - type: related_to
-    target: lhs:math.probability
 ---

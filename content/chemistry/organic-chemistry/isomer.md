@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.isomer
+id: stemma:chem.isomer
 type: concept
 name: Isomer
 domain: chemistry
@@ -30,9 +30,4 @@ provenance:
   ai_drafted: true
   source_kind: textbook
   source: Clayden Organic Chemistry
-relationships:
-  - type: related_to
-    target: lhs:chem.compound
-  - type: related_to
-    target: lhs:chem.alkene
 ---

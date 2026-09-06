@@ -1,5 +1,5 @@
 ---
-id: lhs:math.matrix
+id: stemma:math.matrix
 type: concept
 name: Matrix
 domain: mathematics
@@ -33,7 +33,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / Common Core State Standards for Mathematics"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
 historical:
@@ -49,13 +49,4 @@ historical:
     - year: 1858
       by: "Arthur Cayley"
       event: "Publication of A Memoir on the Theory of Matrices, founding matrix algebra"
-relationships:
-  - type: related_to
-    target: lhs:math.algebraic-expression
-  - type: related_to
-    target: lhs:math.linear-equation
-  - type: related_to
-    target: lhs:math.rational-number
-  - type: related_to
-    target: lhs:math.determinant
 ---

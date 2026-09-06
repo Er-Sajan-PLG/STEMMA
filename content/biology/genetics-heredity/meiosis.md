@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.meiosis
+id: stemma:bio.meiosis
 type: concept
 name: Meiosis
 domain: biology
@@ -45,11 +45,6 @@ historical:
     - year: 1905
       by: "J. B. Farmer and J. E. Moore"
       event: "Coined the term 'meiosis' for reduction division"
-relationships:
-  - type: logically_requires
-    target: lhs:bio.chromosome
-  - type: related_to
-    target: lhs:bio.gene
 ---
 
 ## Notes

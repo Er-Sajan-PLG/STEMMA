@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.chromosome
+id: stemma:bio.chromosome
 type: concept
 name: Chromosome
 domain: biology
@@ -42,13 +42,6 @@ historical:
     - year: 1910
       by: "Thomas Hunt Morgan"
       event: "Linked heredity to chromosomes through Drosophila experiments supporting the chromosome theory of inheritance"
-relationships:
-  - type: part_of
-    target: lhs:bio.nucleus
-  - type: part_of
-    target: lhs:bio.cell
-  - type: related_to
-    target: lhs:bio.dna
 ---
 
 ## Notes

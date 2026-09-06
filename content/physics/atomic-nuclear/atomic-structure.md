@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.atomic-structure
+id: stemma:phys.atomic-structure
 type: concept
 name: Atomic Structure
 domain: physics
@@ -31,11 +31,6 @@ real_world_applications:
   - Semiconductor technology.
 provenance:
   ai_drafted: true
-relationships:
-  - type: related_to
-    target: lhs:phys.electric-charge
-  - type: related_to
-    target: lhs:phys.radioactivity
 ---
 
 ## Notes

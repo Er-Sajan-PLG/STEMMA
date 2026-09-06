@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.hormone
+id: stemma:bio.hormone
 type: concept
 name: Hormone
 domain: biology
@@ -31,11 +31,6 @@ provenance:
   ai_drafted: true
   source_kind: academic-or-research
   source: Guyton and Hall Textbook of Medical Physiology
-relationships:
-  - type: related_to
-    target: lhs:bio.homeostasis
-  - type: related_to
-    target: lhs:bio.nervous-system
 ---
 
 ## Notes

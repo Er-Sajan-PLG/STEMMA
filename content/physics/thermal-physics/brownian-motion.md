@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.brownian-motion
+id: stemma:phys.brownian-motion
 type: concept
 name: Brownian Motion
 domain: physics
@@ -11,11 +11,6 @@ provenance:
   ai_drafted: true
   source_kind: textbook
   source: Einstein 1905; Perrin 1908
-relationships:
-- type: related_to
-  target: lhs:phys.heat
-- type: related_to
-  target: lhs:chem.diffusion
 _notes: 'Phenomenon bridging physics/chemistry: kinetic theory predicts diffusion.'
 ---
 

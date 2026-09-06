@@ -1,5 +1,5 @@
 ---
-id: lhs:math.rational-number
+id: stemma:math.rational-number
 type: concept
 name: Rational Number
 domain: mathematics
@@ -33,16 +33,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / ICSE Mathematics Curriculum"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: generalizes
-    target: lhs:math.integer
-  - type: related_to
-    target: lhs:math.irrational-number
-  - type: mathematically_requires
-    target: lhs:math.fraction
-  - type: related_to
-    target: lhs:math.decimal
 ---

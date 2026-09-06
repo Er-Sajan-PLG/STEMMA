@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.energy-loss
+id: stemma:phys.energy-loss
 type: concept
 name: Energy Loss
 domain: physics
@@ -34,13 +34,6 @@ external_ids:
   wd: Q1341275
 provenance:
   ai_drafted: true
-relationships:
-  - type: related_to
-    target: lhs:phys.friction
-  - type: related_to
-    target: lhs:phys.conservation-of-energy
-  - type: related_to
-    target: lhs:phys.thermal-energy
 ---
 
 ## Notes

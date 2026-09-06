@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.functional-group
+id: stemma:chem.functional-group
 type: concept
 name: Functional Group
 domain: chemistry
@@ -30,13 +30,4 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Compendium of Chemical Terminology
-relationships:
-  - type: logically_requires
-    target: lhs:chem.compound
-  - type: related_to
-    target: lhs:chem.hydrocarbon
-  - type: related_to
-    target: lhs:chem.alcohol
-  - type: related_to
-    target: lhs:chem.carboxylic-acid
 ---

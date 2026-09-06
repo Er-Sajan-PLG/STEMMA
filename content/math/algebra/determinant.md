@@ -1,5 +1,5 @@
 ---
-id: lhs:math.determinant
+id: stemma:math.determinant
 type: quantity
 name: Determinant
 domain: mathematics
@@ -32,14 +32,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / Common Core State Standards for Mathematics"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: mathematically_requires
-    target: lhs:math.matrix
-  - type: related_to
-    target: lhs:math.area
-  - type: related_to
-    target: lhs:math.algebraic-expression
 ---

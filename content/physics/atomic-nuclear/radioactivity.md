@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.radioactivity
+id: stemma:phys.radioactivity
 type: concept
 name: Radioactivity
 domain: physics
@@ -33,13 +33,6 @@ real_world_applications:
 - Sterilization of medical equipment.
 provenance:
   ai_drafted: true
-relationships:
-- type: logically_requires
-  target: lhs:phys.atomic-structure
-- type: related_to
-  target: lhs:phys.nuclear-fission
-- type: related_to
-  target: lhs:phys.nuclear-fusion
 
 ---
 

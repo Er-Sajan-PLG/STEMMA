@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.gene
+id: stemma:bio.gene
 type: concept
 name: Gene
 domain: biology
@@ -44,11 +44,6 @@ historical:
     - year: 1909
       by: "Wilhelm Johannsen"
       event: "Coined the term 'gene' and introduced the genotype/phenotype distinction"
-relationships:
-  - type: part_of
-    target: lhs:bio.dna
-  - type: logically_requires
-    target: lhs:bio.dna
 ---
 
 ## Notes

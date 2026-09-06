@@ -1,5 +1,5 @@
 ---
-id: lhs:earth.big-bang-theory
+id: stemma:earth.big-bang-theory
 type: concept
 name: Big Bang Theory
 domain: earth-space
@@ -29,11 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: International Astronomical Union (IAU) / NASA Cosmology Framework
-relationships:
-  - type: logically_requires
-    target: lhs:phys.electromagnetic-spectrum
-  - type: related_to
-    target: lhs:phys.gravitation
 ---
 
 ## Notes

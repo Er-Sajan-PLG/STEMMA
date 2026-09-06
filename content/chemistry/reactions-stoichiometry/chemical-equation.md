@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.chemical-equation
+id: stemma:chem.chemical-equation
 type: equation
 name: Balanced Chemical Equation
 domain: chemistry
@@ -32,13 +32,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Compendium of Chemical Terminology
-relationships:
-  - type: mathematically_requires
-    target: lhs:chem.chemical-reaction
-  - type: related_to
-    target: lhs:chem.element
-  - type: related_to
-    target: lhs:chem.matter
 ---
 
 ## Notes

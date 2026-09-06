@@ -1,5 +1,5 @@
 ---
-id: lhs:chem.base
+id: stemma:chem.base
 type: concept
 name: Base
 domain: chemistry
@@ -29,11 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: IUPAC Compendium of Chemical Terminology
-relationships:
-  - type: logically_requires
-    target: lhs:chem.compound
-  - type: related_to
-    target: lhs:chem.acid
 ---
 
 ## Notes

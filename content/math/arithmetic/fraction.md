@@ -1,5 +1,5 @@
 ---
-id: lhs:math.fraction
+id: stemma:math.fraction
 type: concept
 name: Fraction
 domain: mathematics
@@ -34,16 +34,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / ICSE Mathematics Curriculum"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: mathematically_requires
-    target: lhs:math.integer
-  - type: part_of
-    target: lhs:math.rational-number
-  - type: related_to
-    target: lhs:math.decimal
-  - type: related_to
-    target: lhs:math.percentage
 ---

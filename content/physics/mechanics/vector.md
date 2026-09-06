@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.vector
+id: stemma:phys.vector
 type: concept
 name: Vector Quantity
 domain: physics
@@ -30,11 +30,6 @@ external_ids:
   wd: Q2672914
 provenance:
   ai_drafted: true
-relationships:
-  - type: related_to
-    target: lhs:phys.displacement
-  - type: related_to
-    target: lhs:phys.scalar
 ---
 
 ## Notes

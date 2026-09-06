@@ -1,5 +1,5 @@
 ---
-id: lhs:math.natural-number
+id: stemma:math.natural-number
 type: concept
 name: Natural Number
 domain: mathematics
@@ -30,12 +30,7 @@ key_experiments:
 provenance:
   ai_drafted: true
   source_kind: standards-or-specification
-  source: "NCTM Principles and Standards / ICSE Mathematics Curriculum"
+  source: "NCTM Principles and Standards for School Mathematics"
   reviewer: null
   reviewed_at: null
-relationships:
-  - type: special_case_of
-    target: lhs:math.integer
-  - type: related_to
-    target: lhs:math.rational-number
 ---

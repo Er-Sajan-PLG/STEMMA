@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.enzyme
+id: stemma:bio.enzyme
 type: concept
 name: Enzyme
 domain: biology
@@ -29,13 +29,6 @@ provenance:
   ai_drafted: true
   source_kind: standards-or-specification
   source: International Union of Biochemistry and Molecular Biology
-relationships:
-  - type: logically_requires
-    target: lhs:chem.chemical-reaction
-  - type: related_to
-    target: lhs:bio.cell
-  - type: related_to
-    target: lhs:chem.compound
 ---
 
 ## Notes

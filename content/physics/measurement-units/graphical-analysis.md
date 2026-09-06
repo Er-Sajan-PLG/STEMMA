@@ -1,5 +1,5 @@
 ---
-id: lhs:phys.graphical-analysis
+id: stemma:phys.graphical-analysis
 type: concept
 name: Graphical Analysis of Motion
 domain: physics
@@ -31,13 +31,6 @@ real_world_applications:
   - Scientific data interpretation.
 provenance:
   ai_drafted: true
-relationships:
-  - type: logically_requires
-    target: lhs:phys.distance
-  - type: logically_requires
-    target: lhs:phys.velocity
-  - type: logically_requires
-    target: lhs:phys.acceleration
 ---
 
 ## Notes

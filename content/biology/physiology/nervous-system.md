@@ -1,5 +1,5 @@
 ---
-id: lhs:bio.nervous-system
+id: stemma:bio.nervous-system
 type: concept
 name: Nervous System
 domain: biology
@@ -31,11 +31,6 @@ provenance:
   ai_drafted: true
   source_kind: academic-or-research
   source: Guyton and Hall Textbook of Medical Physiology
-relationships:
-  - type: logically_requires
-    target: lhs:bio.cell
-  - type: related_to
-    target: lhs:bio.homeostasis
 ---
 
 ## Notes
