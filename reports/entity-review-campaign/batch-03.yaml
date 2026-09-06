@@ -1,0 +1,452 @@
+batch: 3
+campaign: R6 entity review
+reviewer: human:reviewer.physics-001
+seed_pass: false
+items:
+- id: stemma:math.pythagorean-theorem
+  name: Pythagorean Theorem
+  domain: mathematics
+  type: law
+  status: draft
+  definition: In a right triangle, the square of the hypotenuse equals the sum of squares of the other two sides.
+    This is one of the most fundamental theorems in geometry, connecting algebra and geometry.
+  score: 0.013527
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.polynomial
+  name: Polynomial
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: 'An algebraic expression consisting of variables and coefficients, involving only the operations of
+    addition, subtraction, multiplication, and non-negative integer exponents. General form: aₙxⁿ + aₙ₋₁xⁿ⁻¹ + ...
+    + a₁x + a₀, where n is the degree.'
+  score: 0.013306
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.percentage
+  name: Percentage
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: A ratio or fraction expressed as parts per hundred, denoted with the % symbol. x% means x/100 or x
+    hundredths. Percentages provide a standardized way to compare proportions regardless of the whole's size.
+  score: 0.013279
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.electromagnetism
+  name: Electromagnetism
+  domain: physics
+  type: concept
+  status: draft
+  definition: The branch of physics dealing with the relationship between electricity and magnetism. A changing
+    electric field produces a magnetic field, and a changing magnetic field produces an electric field.
+  score: 0.012964
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.potential-energy
+  name: Potential Energy
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The energy stored in an object due to its position, configuration, or condition. Gravitational potential
+    energy depends on mass, gravitational acceleration, and height above a reference level.
+  score: 0.012681
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.resistance
+  name: Electrical Resistance
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The opposition to the flow of electric current in a conductor. Resistance converts electrical energy
+    to thermal energy.
+  score: 0.012668
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.nuclear-fission
+  name: Nuclear Fission
+  domain: physics
+  type: concept
+  status: draft
+  definition: The splitting of a heavy atomic nucleus into smaller nuclei, accompanied by the release of large amounts
+    of energy. Fission is the process used in nuclear power plants.
+  score: 0.012528
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.nuclear-fusion
+  name: Nuclear Fusion
+  domain: physics
+  type: concept
+  status: draft
+  definition: The combining of light atomic nuclei to form a heavier nucleus, accompanied by the release of large
+    amounts of energy. Fusion is the process that powers the Sun and stars.
+  score: 0.012528
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.irrational-number
+  name: Irrational Number
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: A real number that cannot be expressed as a ratio of two integers. Its decimal representation neither
+    terminates nor repeats. Together with rational numbers, they form the real numbers.
+  score: 0.012398
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.momentum
+  name: Momentum
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The product of a body's mass and velocity; a vector quantity that is conserved in closed systems.
+    Momentum quantifies the "amount of motion" an object possesses.
+  score: 0.012284
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.specific-heat
+  name: Specific Heat Capacity
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The amount of heat energy required to raise the temperature of 1 kilogram of a substance by 1 kelvin
+    (or 1 degree Celsius). Different substances have different specific heat capacities.
+  score: 0.012158
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.hydrocarbon
+  name: Hydrocarbon
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: An organic molecule composed entirely of carbon and hydrogen atoms. Hydrocarbons are the fundamental
+    framework of organic chemistry, classified into alkanes, alkenes, alkynes, and aromatic compounds according
+    to the bonding between carbon atoms.
+  score: 0.012101
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.coulombs-law
+  name: Coulomb's Law
+  domain: physics
+  type: law
+  status: draft
+  definition: The electrostatic force between two point charges is directly proportional to the product of their
+    magnitudes and inversely proportional to the square of the distance between them.
+  score: 0.01186
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.gravitational-acceleration
+  name: Gravitational Acceleration
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The acceleration experienced by an object solely under the influence of Earth's gravity, near the
+    Earth's surface. It is approximately constant for all objects, regardless of their mass.
+  score: 0.011831
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.ohms-law
+  name: Ohm's Law
+  domain: physics
+  type: law
+  status: draft
+  definition: The current through a conductor between two points is directly proportional to the voltage across
+    the two points, provided the temperature remains constant. The constant of proportionality is the resistance.
+  score: 0.011575
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.quadratic-function
+  name: Quadratic Function
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: A function of the form f(x) = ax² + bx + c (a ≠ 0). The graph is a parabola. If a > 0, parabola opens
+    upward (minimum at vertex); if a < 0, opens downward (maximum at vertex). The vertex form f(x) = a(x - h)² +
+    k reveals the vertex (h, k).
+  score: 0.01155
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.ratio
+  name: Ratio
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: A comparison of two quantities by division, expressed as a:b or a/b. Ratios describe the relative
+    size of two quantities without requiring a common unit (unlike percentages which are always per hundred).
+  score: 0.01143
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.diffusion
+  name: Diffusion
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: The net movement of particles from a region of higher concentration to a region of lower concentration,
+    driven by the random thermal motion of particles, until concentrations equalize.
+  score: 0.011252
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.refraction
+  name: Refraction of Light
+  domain: physics
+  type: concept
+  status: draft
+  definition: The bending of light as it passes from one medium to another, caused by a change in light's speed
+    in different media.
+  score: 0.011213
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.scalar
+  name: Scalar Quantity
+  domain: physics
+  type: concept
+  status: draft
+  definition: A quantity that has magnitude but no direction. Scalars are fully described by a numerical value and
+    a unit, and follow ordinary arithmetic rules of addition.
+  score: 0.011183
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.angle
+  name: Angle
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: The figure formed by two rays (sides) sharing a common endpoint (vertex). Measured in degrees (°)
+    or radians (rad). One full rotation = 360° = 2π rad.
+  score: 0.011164
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.buoyancy
+  name: Buoyancy
+  domain: physics
+  type: concept
+  status: draft
+  definition: The upward force exerted by a fluid on an object immersed in it. This force equals the weight of the
+    fluid displaced by the object (Archimedes' principle).
+  score: 0.011079
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.area
+  name: Area
+  domain: mathematics
+  type: quantity
+  status: draft
+  definition: The measure of the size of a two-dimensional surface or region. Measured in square units. The amount
+    of space enclosed within a boundary.
+  score: 0.010536
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.electromagnetic-spectrum
+  name: Electromagnetic Spectrum
+  domain: physics
+  type: concept
+  status: draft
+  definition: 'The range of all types of electromagnetic radiation, ordered by wavelength or frequency. From longest
+    wavelength to shortest: radio waves, microwaves, infrared, visible light, ultraviolet, X-rays, gamma rays.'
+  score: 0.010348
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.linear-function
+  name: Linear Function
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: A function of the form f(x) = mx + b, where m (slope) and b (y-intercept) are constants. The graph
+    is a straight line. The rate of change (slope) is constant everywhere.
+  score: 0.010324
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.derivative
+  name: Derivative
+  domain: mathematics
+  type: quantity
+  status: draft
+  definition: The instantaneous rate of change of a function with respect to its variable; the limit of the average
+    rate of change as the interval shrinks to zero. Written f′(x) = lim_{h→0} (f(x+h) − f(x))/h, the derivative
+    gives the slope of the tangent line to the graph at a point.
+  score: 0.010219
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.mean
+  name: Mean (Arithmetic Average)
+  domain: mathematics
+  type: quantity
+  status: draft
+  definition: The sum of all values in a data set divided by the number of values. It represents the central tendency
+    or "balance point" of the data.
+  score: 0.009851
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.work-energy-theorem
+  name: Work-Energy Theorem
+  domain: physics
+  type: law
+  status: draft
+  definition: The net work done on an object equals the change in its kinetic energy. This theorem connects the
+    concept of work (force × distance) directly to the concept of energy.
+  score: 0.009789
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.reflection
+  name: Reflection of Light
+  domain: physics
+  type: concept
+  status: draft
+  definition: The bouncing back of light from a surface. The law of reflection states that the angle of incidence
+    equals the angle of reflection.
+  score: 0.009734
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.power
+  name: Power
+  domain: physics
+  type: quantity
+  status: draft
+  definition: The rate at which work is done or energy is transferred. Power measures how quickly energy is converted
+    from one form to another.
+  score: 0.009706
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.acid
+  name: Acid
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: A chemical substance that releases hydrogen ions (H⁺ or hydronium H₃O⁺) in aqueous solution, tastes
+    sour, turns blue litmus paper red, has a pH less than 7, and reacts with bases to form salts and water.
+  score: 0.009699
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.ionic-bond
+  name: Ionic Bond
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: A chemical bond formed through the electrostatic attraction between oppositely charged ions, resulting
+    from the complete transfer of one or more valence electrons from a metal atom to a non-metal atom.
+  score: 0.009616
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.electromagnetic-induction
+  name: Electromagnetic Induction
+  domain: physics
+  type: concept
+  status: draft
+  definition: The production of an electromotive force (voltage) across a conductor when it is exposed to a changing
+    magnetic field. This is the principle behind electric generators.
+  score: 0.009176
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.equilibrium-constant
+  name: Equilibrium Constant
+  domain: chemistry
+  type: quantity
+  status: draft
+  definition: A dimensionless quantity that characterizes the position of a chemical equilibrium. For a reaction
+    aA + bB ⇌ cC + dD it is the ratio of product concentrations raised to their stoichiometric coefficients to reactant
+    concentrations raised to theirs, at a given temperature.
+  score: 0.00911
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.energy-loss
+  name: Energy Loss
+  domain: physics
+  type: concept
+  status: draft
+  definition: The conversion of useful energy into forms that are not available for doing the intended work, typically
+    thermal energy due to friction, air resistance, or other dissipative processes. Energy is conserved overall,
+    but its usefulness decreases.
+  score: 0.009
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.enzyme
+  name: Enzyme
+  domain: biology
+  type: concept
+  status: draft
+  definition: A biological catalyst (typically a protein) that speeds up specific biochemical reactions by lowering
+    activation energy without being consumed in the reaction.
+  score: 0.008991
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:bio.cellular-respiration
+  name: Cellular Respiration
+  domain: biology
+  type: concept
+  status: draft
+  definition: The metabolic process by which cells break down organic molecules (such as glucose) to release energy
+    stored in ATP molecules, utilizing oxygen in aerobic respiration and producing carbon dioxide and water.
+  score: 0.008989
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.reaction-rate
+  name: Reaction Rate
+  domain: chemistry
+  type: quantity
+  status: draft
+  definition: The change in concentration of a reactant or product per unit time during a chemical reaction, usually
+    expressed as the decrease in reactant concentration or increase in product concentration per second. Reaction
+    rates depend on concentration, temperature, and the presence of a catalyst.
+  score: 0.008884
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:chem.electron
+  name: Electron
+  domain: chemistry
+  type: concept
+  status: draft
+  definition: A stable subatomic particle carrying a negative elementary electric charge (-1e) and a mass approximately
+    1/1836th of a proton (9.109 × 10⁻³¹ kg), occupying atomic orbitals surrounding the nucleus.
+  score: 0.008829
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:math.natural-number
+  name: Natural Number
+  domain: mathematics
+  type: concept
+  status: draft
+  definition: 'The numbers used for counting and ordering: 1, 2, 3, ... Natural numbers are the most basic number
+    system and form the foundation for all other number systems.'
+  score: 0.008718
+  decision: null
+  reviewer: null
+  evidence_notes: null

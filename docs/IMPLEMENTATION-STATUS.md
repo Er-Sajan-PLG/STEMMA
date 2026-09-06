@@ -24,6 +24,7 @@ Claims here are backed by the verification chain, not by older documents.
 | Rejected lifecycle (schema 1.1.0): `review.status=rejected`, reason-required gate, `all` excludes rejected, human-only reopen | `schema/connection.schema.json`, `validate.py`, `graph_policy.py`, `review.py`, `apply_review_decisions.py`, adapter |
 | Ingestion pipeline (PDF/image/OCR → staged proposals; schema-valid source + extraction sidecar; fail-closed Draft seam; gate-before-stage) | `ingest.py`, `ingest_to_proposals.py`, `curation_pipeline.py`, `tests/curation/test_ingest*.py` |
 | Ingestion/review webapp (stdlib UI, any-file upload, best-effort extraction, LLM Draft seam, human-only staging, audit trail) | `webapp/`, `docs/WEBAPP.md`, `tests/webapp/test_webapp_core.py` |
+| Phase B activation: canonical-evidence gate + R2 source backfill report; entity human review tooling + campaign + coverage; R4 relation-triage report + advisory warnings | `validate.py`, `academic_sources.py`, `relation_triage.py`, `review_entity.py`, `entity_review_campaign.py`, `curation_status.py`, `tests/curation/test_phase_b_integrity.py` |
 | Extension registry + agent registry (gate-resolved) | `schema/*-registry.yaml` |
 | 3-D explorer reading only the export, trust-annotated, contract-pinned | `explorer/` (`npm run verify`) |
 | First-party read-only Python adapter (SDK, CLI, local JSON API), export-major pinned and policy-mirroring | `adapters/python/`, `adapters/python/tests/test_adapter.py` |
@@ -34,8 +35,8 @@ Claims here are backed by the verification chain, not by older documents.
 
 | Area | State | Gap |
 |---|---|---|
-| Human review coverage | 50/654 assertions canonical (7.6%); 34/188 dependency edges reviewed; **0/224 entities human-reviewed** | Review is the bottleneck by design; campaign tooling exists, decisions are human work |
-| Source records | 3 records vs 46 distinct citation strings on entities | Most evidence cites strings, not records; backfill is curation work |
+| Human review coverage | 50/654 assertions canonical (7.6%); 34/188 dependency edges reviewed; **0/224 entities human-reviewed** (tooling + worksheet generator now exist, decisions are human work) | Review is the bottleneck by design; `review_entity.py` + `entity_review_campaign.py` make it actionable |
+| Source records | 3 records vs 44 unresolved entity source strings; 0 unresolved evidence refs (`reports/academic-sources.json`) | Backfill is curation work, now with a deterministic driver report |
 | Math layer | Display strings only (`equation`/`symbol`/`unit`); 1 `unit` entity; no symbol→quantity bindings | ADR-0024 proposed — awaits human gate G-C |
 | External IDs | Mechanics domain seeded with verified Wikidata QIDs | Other domains unseeded |
 | Multilingual | Identity principle decided (ADR-0009) | No localized content (by design until needed) |

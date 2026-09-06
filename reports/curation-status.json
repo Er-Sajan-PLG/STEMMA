@@ -194,5 +194,55 @@
     "stemma:conn.000004",
     "stemma:conn.000006",
     "stemma:conn.000007"
-  ]
+  ],
+  "entity_count": 224,
+  "entity_reviewed_count": 0,
+  "entity_canonical_count": 0,
+  "entity_status": {
+    "draft": 224
+  },
+  "entity_type": {
+    "concept": 156,
+    "quantity": 54,
+    "law": 11,
+    "equation": 2,
+    "unit": 1
+  },
+  "entity_review_coverage_by_domain": {
+    "biology": {
+      "total": 33,
+      "human_reviewed": 0,
+      "canonical": 0
+    },
+    "chemistry": {
+      "total": 40,
+      "human_reviewed": 0,
+      "canonical": 0
+    },
+    "earth-space": {
+      "total": 9,
+      "human_reviewed": 0,
+      "canonical": 0
+    },
+    "engineering": {
+      "total": 1,
+      "human_reviewed": 0,
+      "canonical": 0
+    },
+    "mathematics": {
+      "total": 43,
+      "human_reviewed": 0,
+      "canonical": 0
+    },
+    "physics": {
+      "total": 96,
+      "human_reviewed": 0,
+      "canonical": 0
+    },
+    "scientific-practice": {
+      "total": 2,
+      "human_reviewed": 0,
+      "canonical": 0
+    }
+  }
 }

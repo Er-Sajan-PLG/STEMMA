@@ -263,9 +263,9 @@ v1.0.
 
 ### Phase B — trust and review activation (the product)
 6. Human-in-the-loop ingestion/review webapp (upload → extract → LLM Draft → review → staged proposal; canonical untouched). ✅ done (ADR-0036)
-7. R2 evidence gate + source backfill report.
-8. R6 entity review tooling + entity review campaign.
-9. R4 relation-triage report (derived, not gating).
+7. R2 evidence gate + source backfill report. ✅ done (ADR-0037)
+8. R6 entity review tooling + entity review campaign + coverage report. ✅ done (ADR-0037)
+9. R4 relation-triage report + advisory warning (derived, not gating). ✅ done (ADR-0037)
 
 ### Phase C — scientific substance
 10. R3 ADR-0024 decision + math schema/validator + mechanics pilot.

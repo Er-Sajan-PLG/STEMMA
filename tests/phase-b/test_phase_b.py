@@ -1,4 +1,5 @@
 """Phase B validation tests — reconciliation, classification, semantics, provenance, idempotence."""
+import sys
 import json
 import pathlib
 import subprocess
@@ -57,7 +58,7 @@ def test_semantics_registry():
 
 def test_domain_range():
     # Validate that validator still passes
-    r = subprocess.run(["python3", str(ROOT / "scripts/validate.py")], capture_output=True, text=True)
+    r = subprocess.run([sys.executable, str(ROOT / "scripts/validate.py")], capture_output=True, text=True)
     assert r.returncode == 0, r.stderr
     print("PASS: domain/range validation")
 
@@ -99,7 +100,7 @@ def test_idempotence():
     # step; the connection/entity set must be byte-identical before and after.
     ids_before = _connection_ids()
 
-    r1 = subprocess.run(["python3", str(ROOT / "scripts/validate.py")], capture_output=True, text=True)
+    r1 = subprocess.run([sys.executable, str(ROOT / "scripts/validate.py")], capture_output=True, text=True)
     assert r1.returncode == 0, f"validator failed: {r1.stderr.strip()[-300:]}"
 
     # Canonical connection set is unchanged by running the gate.

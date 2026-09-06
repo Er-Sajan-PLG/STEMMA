@@ -303,6 +303,32 @@ The ingest path still had no human-facing review surface. **Implemented 2026-09-
 `tests/webapp/test_webapp_core.py` in `verify_all.py`, `docs/WEBAPP.md`,
 ADR-0036.
 
+### Decided: Phase B — trust & review activation (2026-09-06, ADR-0037)
+
+The webapp made proposals reviewable; the remaining Phase B work was closing the
+*gate honesty* and *review activation* gaps.
+
+- **R2:** `validate.py` now hard-errors on `canonical` assertions without evidence
+  (or an explicit axiomatic marker) and emits advisory WARNINGs for active
+  empty-evidence assertions; `reports/academic-sources.json`/`.md` list unresolved
+  provenance source strings and evidence `source_ref`s.
+- **R6:** `scripts/review_entity.py` adds human-only entity review
+  (`draft/machine_validated → human_reviewed → canonical`, active human reviewer
+  required) and `scripts/entity_review_campaign.py` generates deterministic
+  worksheets; `curation_status.*` now report entity review coverage by
+  domain/type/status.
+- **R4:** `reports/relation-triage.json`/`.md` group `related_to`-only dependency
+  pairs, measurement candidates, and already-specific redundant pairs; the
+  validator surfaces the reclassifiable related_to-only edges as advisory
+  WARNINGs. Nothing is bulk-relabelled.
+
+**Consequences implemented:** `scripts/review_entity.py`,
+`scripts/entity_review_campaign.py`, `scripts/academic_sources.py`,
+`scripts/relation_triage.py`, `scripts/validate.py`,
+`scripts/curation_status.py`, `tests/curation/test_phase_b_integrity.py`,
+`reports/{academic-sources,relation-triage,entity-review-campaign}/*`,
+ADR-0037. Verify chain runs child scripts through `sys.executable`.
+
 ### Open threads
 
 Recorded so the review can be continued by any agent without re-deriving the

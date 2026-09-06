@@ -47,5 +47,12 @@ none
 - Evidence gaps: 599 (sample ['stemma:conn.000002', 'stemma:conn.000003', 'stemma:conn.000004'])
 - Provenance gaps (no reviewed_by): 604
 
+## Entity review coverage
+- Entities: 224
+- Human-reviewed/canonical entities: 0 (0.0%)
+- Canonical entities: 0
+- By status: {'draft': 224}
+- By domain: {"biology": {"canonical": 0, "human_reviewed": 0, "total": 33}, "chemistry": {"canonical": 0, "human_reviewed": 0, "total": 40}, "earth-space": {"canonical": 0, "human_reviewed": 0, "total": 9}, "engineering": {"canonical": 0, "human_reviewed": 0, "total": 1}, "mathematics": {"canonical": 0, "human_reviewed": 0, "total": 43}, "physics": {"canonical": 0, "human_reviewed": 0, "total": 96}, "scientific-practice": {"canonical": 0, "human_reviewed": 0, "total": 2}}
+
 ## Note
 Schema correctness != semantic acceptance. Canonical objects (397) include 382 proposed/unreviewed.

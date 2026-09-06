@@ -23,6 +23,20 @@ def main():
             ents[d["id"]] = d
 
     total = len(conns)
+    entity_status: Counter = Counter(e.get("status", "unknown") for e in ents.values())
+    entity_type: Counter = Counter(e.get("type", "unknown") for e in ents.values())
+    entity_by_domain: dict[str, dict[str, int]] = {}
+    for e in ents.values():
+        dom = e.get("domain", "unknown")
+        d = entity_by_domain.setdefault(dom, {"total": 0, "human_reviewed": 0, "canonical": 0})
+        d["total"] += 1
+        st = e.get("status")
+        if st in ("human_reviewed", "canonical"):
+            d["human_reviewed"] += 1
+        if st == "canonical":
+            d["canonical"] += 1
+    entity_reviewed = sum(1 for e in ents.values() if e.get("status") in ("human_reviewed", "canonical"))
+    entity_canonical = sum(1 for e in ents.values() if e.get("status") == "canonical")
     by_rel = Counter(c["relation"] for c in conns)
     by_family = Counter(registry.get(c["relation"], {}).get("family", "unknown") for c in conns)
     by_review = Counter(c["assertion"]["review"]["status"] for c in conns)
@@ -92,6 +106,12 @@ def main():
         "provenance_gaps_count": len(provenance_gaps),
         "evidence_gaps_sample": evidence_gaps[:5],
         "provenance_gaps_sample": provenance_gaps[:5],
+        "entity_count": len(ents),
+        "entity_reviewed_count": entity_reviewed,
+        "entity_canonical_count": entity_canonical,
+        "entity_status": dict(entity_status),
+        "entity_type": dict(entity_type),
+        "entity_review_coverage_by_domain": entity_by_domain,
     }
 
     out_json = ROOT / "reports/curation-status.json"
@@ -117,6 +137,7 @@ def main():
         f"## Top reviewed (canonical)\n{top_lines}\n\n"
         f"## Remaining highest priority\n{rem_lines}\n\n"
         f"## Gaps\n- Evidence gaps: {len(evidence_gaps)} (sample {evidence_gaps[:3]})\n- Provenance gaps (no reviewed_by): {len(provenance_gaps)}\n\n"
+        f"## Entity review coverage\n- Entities: {len(ents)}\n- Human-reviewed/canonical entities: {entity_reviewed} ({100.0 * entity_reviewed / len(ents) if ents else 0.0:.1f}%)\n- Canonical entities: {entity_canonical}\n- By status: {dict(entity_status)}\n- By domain: {json.dumps(entity_by_domain, sort_keys=True)}\n\n"
         f"## Note\nSchema correctness != semantic acceptance. Canonical objects (397) include 382 proposed/unreviewed.\n"
     )
     print(f"OK: curation status total {total} canonical {report['canonical_assertions']}")

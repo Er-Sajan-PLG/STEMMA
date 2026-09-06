@@ -26,6 +26,7 @@ is the release gate.
 | **Relationship integrity** | Triples immutable from git history; no re-assertion of edited claims; supersession rules | `tests/curation/test_connection_immutability.py`, `tests/curation/test_id_immutability.py` |
 | **Metadata semantics** | Polarity/confidence/timestamp/evidence contracts; no fabricated timestamps; strict duplicate-key rejection; extension registry; historical attribution | `tests/metadata/` |
 | **Pipeline tests** | Ingestion never writes canonical; curation pipeline can't canonicalize; validator idempotence on a clean tree | `tests/curation/test_ingest.py`, `test_curation_pipeline.py`, `tests/phase-b/` |
+| **Phase B integrity** | Canonical-evidence gate/axiomatic marker; active-empty-evidence advisory; relation-triage advisory + report shape; academic-source report; entity review transitions (fixture root); deterministic entity campaign | `tests/curation/test_phase_b_integrity.py` |
 | **Webapp core** | Git-ignored workflow; upload + text extraction; unsupported-type retention; fail-closed LLM provider; candidate validation/staging; connection endpoint resolution | `tests/webapp/test_webapp_core.py` |
 | **Domain invariants** | Curriculum-agnosticism of content (generality) with scientific-terminology awareness | `tests/curation/test_generality.py`, `tests/phase-b/test_boundary.py` |
 | **Provenance tests** | Agent registry resolution; `external_ids` formats; consumer docs state the current export version | `tests/provenance/` |

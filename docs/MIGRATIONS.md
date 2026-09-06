@@ -19,6 +19,21 @@ Template:
 
 ---
 
+## 2026-09-06 — Phase B trust/review activation (ADR-0037)
+- **Tag:** ADR-0037 · **Kind:** gate + tooling + derived reports (no canonical data change)
+- **Changed:** `validate.py` — canonical assertions require ≥1 evidence item or an explicit
+  axiomatic marker (`ERROR`); active empty-evidence and `related_to`-only reclassifiable
+  edges become advisory `WARNING`s (report remains gate-ERROR-free). New `review_entity.py`
+  (human entity review transitions), `entity_review_campaign.py`, `academic_sources.py`,
+  `relation_triage.py`. `curation_status.*` now include entity review coverage. Child
+  subprocesses in the chain/tests now use `sys.executable` so a venv runner is consistent.
+- **Old data:** no canonical file changes; schema/export versions unchanged (1.1.0/2.1.0).
+- **Consumer impact:** the tracked `reports/validation-report.json` now carries advisory
+  warnings (`WARNING` count >0, `ERROR`=0); consumers reading `results[]` should handle
+  warnings. Exports are byte-identical except for regeneration (no content change).
+
+---
+
 ## 2026-09-06 — Rejected lifecycle: `assertion.review.status=rejected` (ADR-0031)
 - **Tag:** ADR-0031 · **Kind:** additive (schema minor, no canonical rewrite)
 - **Changed:** `schema/connection.schema.json` `assertion.review.status` enum gains

@@ -51,10 +51,15 @@ def test_validate_json_contract():
     assert report["export_version"] == "2.1.0"
     assert report["relation_registry_version"] == "1.0.0"
     assert report["content_hash"].startswith("sha256:")
-    assert report["severity_counts"] == {"ERROR": 0, "WARNING": 0, "INFO": 0}
-    assert report["results"] == []
+    # Phase B (R2/R4) added advisory validator WARNINGs for active empty-evidence
+    # and related_to-only edges. The gate stays ERROR-free but the report is no
+    # longer warning-free on the current tree.
+    assert report["severity_counts"]["ERROR"] == 0
+    assert report["severity_counts"]["WARNING"] > 0
+    assert report["severity_counts"]["INFO"] == 0
+    assert len(report["results"]) == report["severity_counts"]["ERROR"] + report["severity_counts"]["WARNING"] + report["severity_counts"]["INFO"]
     assert report["errors"] == []
-    assert report["warnings"] == []
+    assert len(report["warnings"]) > 0
     assert report["info"] == []
 
     # The tracked report file matches the emitted JSON (same shape, same content).

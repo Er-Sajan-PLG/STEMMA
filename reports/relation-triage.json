@@ -1,0 +1,4426 @@
+{
+  "advisory": true,
+  "total_related_to": 371,
+  "related_to_only_count": 308,
+  "already_specific_count": 63,
+  "dependency_pair_count": 308,
+  "measurement_candidate_count": 85,
+  "related_to_only": [
+    {
+      "id": "stemma:conn.000002",
+      "source": "stemma:bio.animal-cell",
+      "target": "stemma:bio.plant-cell"
+    },
+    {
+      "id": "stemma:conn.000004",
+      "source": "stemma:bio.cell",
+      "target": "stemma:chem.compound"
+    },
+    {
+      "id": "stemma:conn.000007",
+      "source": "stemma:bio.cellular-respiration",
+      "target": "stemma:bio.photosynthesis"
+    },
+    {
+      "id": "stemma:conn.000008",
+      "source": "stemma:bio.cellular-respiration",
+      "target": "stemma:phys.energy"
+    },
+    {
+      "id": "stemma:conn.000010",
+      "source": "stemma:bio.homeostasis",
+      "target": "stemma:bio.enzyme"
+    },
+    {
+      "id": "stemma:conn.000011",
+      "source": "stemma:bio.homeostasis",
+      "target": "stemma:phys.temperature"
+    },
+    {
+      "id": "stemma:conn.000013",
+      "source": "stemma:bio.nucleus",
+      "target": "stemma:bio.dna"
+    },
+    {
+      "id": "stemma:conn.000015",
+      "source": "stemma:bio.osmosis",
+      "target": "stemma:phys.pressure"
+    },
+    {
+      "id": "stemma:conn.000016",
+      "source": "stemma:bio.osmosis",
+      "target": "stemma:bio.cell"
+    },
+    {
+      "id": "stemma:conn.000018",
+      "source": "stemma:bio.plant-cell",
+      "target": "stemma:bio.animal-cell"
+    },
+    {
+      "id": "stemma:conn.000019",
+      "source": "stemma:bio.ecosystem",
+      "target": "stemma:bio.cell"
+    },
+    {
+      "id": "stemma:conn.000020",
+      "source": "stemma:bio.ecosystem",
+      "target": "stemma:bio.photosynthesis"
+    },
+    {
+      "id": "stemma:conn.000021",
+      "source": "stemma:bio.ecosystem",
+      "target": "stemma:bio.cellular-respiration"
+    },
+    {
+      "id": "stemma:conn.000022",
+      "source": "stemma:bio.ecosystem",
+      "target": "stemma:phys.energy"
+    },
+    {
+      "id": "stemma:conn.000024",
+      "source": "stemma:bio.natural-selection",
+      "target": "stemma:bio.dna"
+    },
+    {
+      "id": "stemma:conn.000026",
+      "source": "stemma:bio.dna",
+      "target": "stemma:chem.covalent-bond"
+    },
+    {
+      "id": "stemma:conn.000030",
+      "source": "stemma:bio.enzyme",
+      "target": "stemma:bio.cell"
+    },
+    {
+      "id": "stemma:conn.000031",
+      "source": "stemma:bio.enzyme",
+      "target": "stemma:chem.compound"
+    },
+    {
+      "id": "stemma:conn.000035",
+      "source": "stemma:bio.photosynthesis",
+      "target": "stemma:phys.conservation-of-energy"
+    },
+    {
+      "id": "stemma:conn.000037",
+      "source": "stemma:chem.acid",
+      "target": "stemma:chem.proton"
+    },
+    {
+      "id": "stemma:conn.000039",
+      "source": "stemma:chem.base",
+      "target": "stemma:chem.acid"
+    },
+    {
+      "id": "stemma:conn.000047",
+      "source": "stemma:chem.salt",
+      "target": "stemma:chem.ionic-bond"
+    },
+    {
+      "id": "stemma:conn.000054",
+      "source": "stemma:chem.element",
+      "target": "stemma:chem.matter"
+    },
+    {
+      "id": "stemma:conn.000062",
+      "source": "stemma:chem.covalent-bond",
+      "target": "stemma:chem.compound"
+    },
+    {
+      "id": "stemma:conn.000065",
+      "source": "stemma:chem.ionic-bond",
+      "target": "stemma:chem.compound"
+    },
+    {
+      "id": "stemma:conn.000067",
+      "source": "stemma:chem.diffusion",
+      "target": "stemma:phys.temperature"
+    },
+    {
+      "id": "stemma:conn.000070",
+      "source": "stemma:chem.matter",
+      "target": "stemma:phys.density"
+    },
+    {
+      "id": "stemma:conn.000072",
+      "source": "stemma:chem.mixture",
+      "target": "stemma:chem.compound"
+    },
+    {
+      "id": "stemma:conn.000073",
+      "source": "stemma:chem.mixture",
+      "target": "stemma:chem.diffusion"
+    },
+    {
+      "id": "stemma:conn.000075",
+      "source": "stemma:chem.chemical-equation",
+      "target": "stemma:chem.element"
+    },
+    {
+      "id": "stemma:conn.000076",
+      "source": "stemma:chem.chemical-equation",
+      "target": "stemma:chem.matter"
+    },
+    {
+      "id": "stemma:conn.000079",
+      "source": "stemma:chem.chemical-reaction",
+      "target": "stemma:phys.conservation-of-energy"
+    },
+    {
+      "id": "stemma:conn.000082",
+      "source": "stemma:chem.combustion",
+      "target": "stemma:phys.energy"
+    },
+    {
+      "id": "stemma:conn.000083",
+      "source": "stemma:chem.combustion",
+      "target": "stemma:phys.our-environment"
+    },
+    {
+      "id": "stemma:conn.000087",
+      "source": "stemma:earth.atmosphere",
+      "target": "stemma:chem.acid"
+    },
+    {
+      "id": "stemma:conn.000088",
+      "source": "stemma:earth.atmosphere",
+      "target": "stemma:bio.cellular-respiration"
+    },
+    {
+      "id": "stemma:conn.000091",
+      "source": "stemma:earth.greenhouse-effect",
+      "target": "stemma:earth.earth-system"
+    },
+    {
+      "id": "stemma:conn.000092",
+      "source": "stemma:earth.greenhouse-effect",
+      "target": "stemma:phys.thermal-energy"
+    },
+    {
+      "id": "stemma:conn.000093",
+      "source": "stemma:phys.our-environment",
+      "target": "stemma:phys.energy-sources"
+    },
+    {
+      "id": "stemma:conn.000094",
+      "source": "stemma:phys.our-environment",
+      "target": "stemma:phys.conservation-of-energy"
+    },
+    {
+      "id": "stemma:conn.000097",
+      "source": "stemma:earth.water-cycle",
+      "target": "stemma:earth.atmosphere"
+    },
+    {
+      "id": "stemma:conn.000098",
+      "source": "stemma:earth.water-cycle",
+      "target": "stemma:phys.heat"
+    },
+    {
+      "id": "stemma:conn.000100",
+      "source": "stemma:earth.earth-system",
+      "target": "stemma:bio.cell"
+    },
+    {
+      "id": "stemma:conn.000101",
+      "source": "stemma:earth.earth-system",
+      "target": "stemma:bio.ecosystem"
+    },
+    {
+      "id": "stemma:conn.000102",
+      "source": "stemma:earth.earth-system",
+      "target": "stemma:phys.conservation-of-energy"
+    },
+    {
+      "id": "stemma:conn.000105",
+      "source": "stemma:earth.plate-tectonics",
+      "target": "stemma:phys.thermal-energy"
+    },
+    {
+      "id": "stemma:conn.000107",
+      "source": "stemma:earth.rock-cycle",
+      "target": "stemma:earth.plate-tectonics"
+    },
+    {
+      "id": "stemma:conn.000108",
+      "source": "stemma:earth.rock-cycle",
+      "target": "stemma:phys.thermal-energy"
+    },
+    {
+      "id": "stemma:conn.000109",
+      "source": "stemma:earth.rock-cycle",
+      "target": "stemma:chem.matter"
+    },
+    {
+      "id": "stemma:conn.000111",
+      "source": "stemma:earth.big-bang-theory",
+      "target": "stemma:phys.gravitation"
+    },
+    {
+      "id": "stemma:conn.000113",
+      "source": "stemma:earth.seasons-cause",
+      "target": "stemma:earth.earth-system"
+    },
+    {
+      "id": "stemma:conn.000115",
+      "source": "stemma:earth.solar-system",
+      "target": "stemma:earth.earth-system"
+    },
+    {
+      "id": "stemma:conn.000116",
+      "source": "stemma:earth.solar-system",
+      "target": "stemma:earth.seasons-cause"
+    },
+    {
+      "id": "stemma:conn.000117",
+      "source": "stemma:eng.engineering-design-process",
+      "target": "stemma:practice.scientific-observation"
+    },
+    {
+      "id": "stemma:conn.000118",
+      "source": "stemma:phys.atomic-structure",
+      "target": "stemma:phys.electric-charge"
+    },
+    {
+      "id": "stemma:conn.000120",
+      "source": "stemma:phys.nuclear-fission",
+      "target": "stemma:phys.radioactivity"
+    },
+    {
+      "id": "stemma:conn.000121",
+      "source": "stemma:phys.nuclear-fission",
+      "target": "stemma:phys.nuclear-fusion"
+    },
+    {
+      "id": "stemma:conn.000122",
+      "source": "stemma:phys.nuclear-fusion",
+      "target": "stemma:phys.radioactivity"
+    },
+    {
+      "id": "stemma:conn.000123",
+      "source": "stemma:phys.nuclear-fusion",
+      "target": "stemma:phys.nuclear-fission"
+    },
+    {
+      "id": "stemma:conn.000125",
+      "source": "stemma:phys.radioactivity",
+      "target": "stemma:phys.nuclear-fission"
+    },
+    {
+      "id": "stemma:conn.000126",
+      "source": "stemma:phys.radioactivity",
+      "target": "stemma:phys.nuclear-fusion"
+    },
+    {
+      "id": "stemma:conn.000129",
+      "source": "stemma:phys.coulombs-law",
+      "target": "stemma:phys.newtons-law-of-gravitation"
+    },
+    {
+      "id": "stemma:conn.000132",
+      "source": "stemma:phys.current",
+      "target": "stemma:phys.voltage"
+    },
+    {
+      "id": "stemma:conn.000140",
+      "source": "stemma:phys.electric-motor",
+      "target": "stemma:phys.magnetic-field"
+    },
+    {
+      "id": "stemma:conn.000142",
+      "source": "stemma:phys.electromagnetic-induction",
+      "target": "stemma:phys.voltage"
+    },
+    {
+      "id": "stemma:conn.000143",
+      "source": "stemma:phys.electromagnetic-induction",
+      "target": "stemma:phys.magnetic-field"
+    },
+    {
+      "id": "stemma:conn.000144",
+      "source": "stemma:phys.electromagnetic-spectrum",
+      "target": "stemma:phys.light"
+    },
+    {
+      "id": "stemma:conn.000145",
+      "source": "stemma:phys.electromagnetic-spectrum",
+      "target": "stemma:phys.wave"
+    },
+    {
+      "id": "stemma:conn.000146",
+      "source": "stemma:phys.electromagnetic-spectrum",
+      "target": "stemma:phys.frequency"
+    },
+    {
+      "id": "stemma:conn.000147",
+      "source": "stemma:phys.electromagnetic-spectrum",
+      "target": "stemma:phys.wavelength"
+    },
+    {
+      "id": "stemma:conn.000148",
+      "source": "stemma:phys.electromagnetism",
+      "target": "stemma:phys.current"
+    },
+    {
+      "id": "stemma:conn.000149",
+      "source": "stemma:phys.electromagnetism",
+      "target": "stemma:phys.magnetic-field"
+    },
+    {
+      "id": "stemma:conn.000152",
+      "source": "stemma:phys.generator",
+      "target": "stemma:phys.magnetic-flux"
+    },
+    {
+      "id": "stemma:conn.000153",
+      "source": "stemma:phys.magnetic-field",
+      "target": "stemma:phys.magnetism"
+    },
+    {
+      "id": "stemma:conn.000154",
+      "source": "stemma:phys.magnetic-field",
+      "target": "stemma:phys.electromagnetism"
+    },
+    {
+      "id": "stemma:conn.000156",
+      "source": "stemma:phys.magnetic-flux",
+      "target": "stemma:phys.electromagnetic-induction"
+    },
+    {
+      "id": "stemma:conn.000157",
+      "source": "stemma:phys.magnetism",
+      "target": "stemma:phys.magnetic-field"
+    },
+    {
+      "id": "stemma:conn.000158",
+      "source": "stemma:phys.magnetism",
+      "target": "stemma:phys.electromagnetism"
+    },
+    {
+      "id": "stemma:conn.000167",
+      "source": "stemma:phys.voltage",
+      "target": "stemma:phys.current"
+    },
+    {
+      "id": "stemma:conn.000174",
+      "source": "stemma:phys.measurement",
+      "target": "stemma:phys.physical-quantity"
+    },
+    {
+      "id": "stemma:conn.000175",
+      "source": "stemma:phys.physical-quantity",
+      "target": "stemma:phys.measurement"
+    },
+    {
+      "id": "stemma:conn.000178",
+      "source": "stemma:phys.time",
+      "target": "stemma:phys.scalar"
+    },
+    {
+      "id": "stemma:conn.000188",
+      "source": "stemma:phys.buoyancy",
+      "target": "stemma:phys.force"
+    },
+    {
+      "id": "stemma:conn.000192",
+      "source": "stemma:phys.conservation-of-energy",
+      "target": "stemma:phys.work-energy-theorem"
+    },
+    {
+      "id": "stemma:conn.000194",
+      "source": "stemma:phys.density",
+      "target": "stemma:phys.pressure"
+    },
+    {
+      "id": "stemma:conn.000197",
+      "source": "stemma:phys.displacement",
+      "target": "stemma:phys.vector"
+    },
+    {
+      "id": "stemma:conn.000201",
+      "source": "stemma:phys.efficiency",
+      "target": "stemma:phys.power"
+    },
+    {
+      "id": "stemma:conn.000202",
+      "source": "stemma:phys.efficiency",
+      "target": "stemma:phys.conservation-of-energy"
+    },
+    {
+      "id": "stemma:conn.000203",
+      "source": "stemma:phys.energy-loss",
+      "target": "stemma:phys.friction"
+    },
+    {
+      "id": "stemma:conn.000204",
+      "source": "stemma:phys.energy-loss",
+      "target": "stemma:phys.conservation-of-energy"
+    },
+    {
+      "id": "stemma:conn.000205",
+      "source": "stemma:phys.energy-loss",
+      "target": "stemma:phys.thermal-energy"
+    },
+    {
+      "id": "stemma:conn.000206",
+      "source": "stemma:phys.energy-sources",
+      "target": "stemma:phys.energy"
+    },
+    {
+      "id": "stemma:conn.000207",
+      "source": "stemma:phys.energy-sources",
+      "target": "stemma:phys.power"
+    },
+    {
+      "id": "stemma:conn.000208",
+      "source": "stemma:phys.energy-sources",
+      "target": "stemma:phys.nuclear-fission"
+    },
+    {
+      "id": "stemma:conn.000209",
+      "source": "stemma:phys.energy-sources",
+      "target": "stemma:phys.nuclear-fusion"
+    },
+    {
+      "id": "stemma:conn.000210",
+      "source": "stemma:phys.energy-sources",
+      "target": "stemma:chem.chemical-reaction"
+    },
+    {
+      "id": "stemma:conn.000211",
+      "source": "stemma:phys.energy",
+      "target": "stemma:phys.work"
+    },
+    {
+      "id": "stemma:conn.000212",
+      "source": "stemma:phys.energy",
+      "target": "stemma:phys.kinetic-energy"
+    },
+    {
+      "id": "stemma:conn.000213",
+      "source": "stemma:phys.energy",
+      "target": "stemma:phys.potential-energy"
+    },
+    {
+      "id": "stemma:conn.000219",
+      "source": "stemma:phys.equations-of-motion",
+      "target": "stemma:phys.free-fall"
+    },
+    {
+      "id": "stemma:conn.000226",
+      "source": "stemma:phys.force",
+      "target": "stemma:phys.momentum"
+    },
+    {
+      "id": "stemma:conn.000227",
+      "source": "stemma:phys.force",
+      "target": "stemma:phys.weight"
+    },
+    {
+      "id": "stemma:conn.000230",
+      "source": "stemma:phys.free-fall",
+      "target": "stemma:phys.gravitational-acceleration"
+    },
+    {
+      "id": "stemma:conn.000232",
+      "source": "stemma:phys.friction",
+      "target": "stemma:phys.newtons-first-law"
+    },
+    {
+      "id": "stemma:conn.000233",
+      "source": "stemma:phys.friction",
+      "target": "stemma:phys.energy-loss"
+    },
+    {
+      "id": "stemma:conn.000234",
+      "source": "stemma:phys.gravitation",
+      "target": "stemma:phys.force"
+    },
+    {
+      "id": "stemma:conn.000235",
+      "source": "stemma:phys.gravitation",
+      "target": "stemma:phys.weight"
+    },
+    {
+      "id": "stemma:conn.000238",
+      "source": "stemma:phys.gravitational-acceleration",
+      "target": "stemma:phys.free-fall"
+    },
+    {
+      "id": "stemma:conn.000239",
+      "source": "stemma:phys.gravitational-acceleration",
+      "target": "stemma:phys.gravitation"
+    },
+    {
+      "id": "stemma:conn.000243",
+      "source": "stemma:phys.impulse",
+      "target": "stemma:phys.newtons-second-law"
+    },
+    {
+      "id": "stemma:conn.000248",
+      "source": "stemma:phys.kinetic-energy",
+      "target": "stemma:phys.energy"
+    },
+    {
+      "id": "stemma:conn.000254",
+      "source": "stemma:phys.mechanical-advantage",
+      "target": "stemma:phys.work"
+    },
+    {
+      "id": "stemma:conn.000255",
+      "source": "stemma:phys.mechanical-advantage",
+      "target": "stemma:phys.energy-loss"
+    },
+    {
+      "id": "stemma:conn.000262",
+      "source": "stemma:phys.motion",
+      "target": "stemma:phys.velocity"
+    },
+    {
+      "id": "stemma:conn.000263",
+      "source": "stemma:phys.motion",
+      "target": "stemma:phys.acceleration"
+    },
+    {
+      "id": "stemma:conn.000266",
+      "source": "stemma:phys.newtons-first-law",
+      "target": "stemma:phys.newtons-second-law"
+    },
+    {
+      "id": "stemma:conn.000270",
+      "source": "stemma:phys.newtons-law-of-gravitation",
+      "target": "stemma:phys.free-fall"
+    },
+    {
+      "id": "stemma:conn.000271",
+      "source": "stemma:phys.newtons-law-of-gravitation",
+      "target": "stemma:phys.coulombs-law"
+    },
+    {
+      "id": "stemma:conn.000277",
+      "source": "stemma:phys.newtons-third-law",
+      "target": "stemma:phys.newtons-first-law"
+    },
+    {
+      "id": "stemma:conn.000278",
+      "source": "stemma:phys.newtons-third-law",
+      "target": "stemma:phys.newtons-second-law"
+    },
+    {
+      "id": "stemma:conn.000282",
+      "source": "stemma:phys.potential-energy",
+      "target": "stemma:phys.energy"
+    },
+    {
+      "id": "stemma:conn.000286",
+      "source": "stemma:phys.power",
+      "target": "stemma:phys.energy"
+    },
+    {
+      "id": "stemma:conn.000288",
+      "source": "stemma:phys.pressure",
+      "target": "stemma:phys.density"
+    },
+    {
+      "id": "stemma:conn.000292",
+      "source": "stemma:phys.projectile-motion",
+      "target": "stemma:phys.acceleration"
+    },
+    {
+      "id": "stemma:conn.000293",
+      "source": "stemma:phys.scalar",
+      "target": "stemma:phys.vector"
+    },
+    {
+      "id": "stemma:conn.000294",
+      "source": "stemma:phys.scalar",
+      "target": "stemma:phys.distance"
+    },
+    {
+      "id": "stemma:conn.000298",
+      "source": "stemma:phys.thermal-energy",
+      "target": "stemma:phys.heat"
+    },
+    {
+      "id": "stemma:conn.000299",
+      "source": "stemma:phys.thermal-energy",
+      "target": "stemma:phys.temperature"
+    },
+    {
+      "id": "stemma:conn.000300",
+      "source": "stemma:phys.thermal-energy",
+      "target": "stemma:phys.specific-heat"
+    },
+    {
+      "id": "stemma:conn.000301",
+      "source": "stemma:phys.thermal-energy",
+      "target": "stemma:phys.energy-loss"
+    },
+    {
+      "id": "stemma:conn.000302",
+      "source": "stemma:phys.vector",
+      "target": "stemma:phys.displacement"
+    },
+    {
+      "id": "stemma:conn.000303",
+      "source": "stemma:phys.vector",
+      "target": "stemma:phys.scalar"
+    },
+    {
+      "id": "stemma:conn.000310",
+      "source": "stemma:phys.wave-speed",
+      "target": "stemma:phys.wave"
+    },
+    {
+      "id": "stemma:conn.000313",
+      "source": "stemma:phys.weight",
+      "target": "stemma:phys.force"
+    },
+    {
+      "id": "stemma:conn.000314",
+      "source": "stemma:phys.weight",
+      "target": "stemma:phys.gravitation"
+    },
+    {
+      "id": "stemma:conn.000317",
+      "source": "stemma:phys.work-energy-theorem",
+      "target": "stemma:phys.conservation-of-energy"
+    },
+    {
+      "id": "stemma:conn.000320",
+      "source": "stemma:phys.work",
+      "target": "stemma:phys.energy"
+    },
+    {
+      "id": "stemma:conn.000323",
+      "source": "stemma:phys.change-of-state",
+      "target": "stemma:phys.temperature"
+    },
+    {
+      "id": "stemma:conn.000324",
+      "source": "stemma:phys.change-of-state",
+      "target": "stemma:phys.specific-heat"
+    },
+    {
+      "id": "stemma:conn.000327",
+      "source": "stemma:phys.heat",
+      "target": "stemma:phys.thermal-energy"
+    },
+    {
+      "id": "stemma:conn.000332",
+      "source": "stemma:phys.heating-effect",
+      "target": "stemma:phys.energy"
+    },
+    {
+      "id": "stemma:conn.000333",
+      "source": "stemma:phys.heating-effect",
+      "target": "stemma:phys.power"
+    },
+    {
+      "id": "stemma:conn.000337",
+      "source": "stemma:phys.specific-heat",
+      "target": "stemma:phys.thermal-energy"
+    },
+    {
+      "id": "stemma:conn.000339",
+      "source": "stemma:phys.temperature",
+      "target": "stemma:phys.thermal-energy"
+    },
+    {
+      "id": "stemma:conn.000340",
+      "source": "stemma:phys.amplitude",
+      "target": "stemma:phys.wave"
+    },
+    {
+      "id": "stemma:conn.000341",
+      "source": "stemma:phys.amplitude",
+      "target": "stemma:phys.energy"
+    },
+    {
+      "id": "stemma:conn.000343",
+      "source": "stemma:phys.frequency",
+      "target": "stemma:phys.wave"
+    },
+    {
+      "id": "stemma:conn.000344",
+      "source": "stemma:phys.frequency",
+      "target": "stemma:phys.wavelength"
+    },
+    {
+      "id": "stemma:conn.000347",
+      "source": "stemma:phys.lens",
+      "target": "stemma:phys.light"
+    },
+    {
+      "id": "stemma:conn.000348",
+      "source": "stemma:phys.lens",
+      "target": "stemma:phys.mirror"
+    },
+    {
+      "id": "stemma:conn.000349",
+      "source": "stemma:phys.light",
+      "target": "stemma:phys.wave"
+    },
+    {
+      "id": "stemma:conn.000352",
+      "source": "stemma:phys.light",
+      "target": "stemma:phys.electromagnetic-spectrum"
+    },
+    {
+      "id": "stemma:conn.000355",
+      "source": "stemma:phys.mirror",
+      "target": "stemma:phys.lens"
+    },
+    {
+      "id": "stemma:conn.000357",
+      "source": "stemma:phys.ray-model",
+      "target": "stemma:phys.reflection"
+    },
+    {
+      "id": "stemma:conn.000358",
+      "source": "stemma:phys.ray-model",
+      "target": "stemma:phys.refraction"
+    },
+    {
+      "id": "stemma:conn.000360",
+      "source": "stemma:phys.reflection",
+      "target": "stemma:phys.refraction"
+    },
+    {
+      "id": "stemma:conn.000362",
+      "source": "stemma:phys.refraction",
+      "target": "stemma:phys.reflection"
+    },
+    {
+      "id": "stemma:conn.000365",
+      "source": "stemma:phys.sound",
+      "target": "stemma:phys.frequency"
+    },
+    {
+      "id": "stemma:conn.000366",
+      "source": "stemma:phys.sound",
+      "target": "stemma:phys.amplitude"
+    },
+    {
+      "id": "stemma:conn.000367",
+      "source": "stemma:phys.sound",
+      "target": "stemma:phys.wave-speed"
+    },
+    {
+      "id": "stemma:conn.000368",
+      "source": "stemma:phys.wave",
+      "target": "stemma:phys.wavelength"
+    },
+    {
+      "id": "stemma:conn.000369",
+      "source": "stemma:phys.wave",
+      "target": "stemma:phys.frequency"
+    },
+    {
+      "id": "stemma:conn.000370",
+      "source": "stemma:phys.wave",
+      "target": "stemma:phys.amplitude"
+    },
+    {
+      "id": "stemma:conn.000371",
+      "source": "stemma:phys.wave",
+      "target": "stemma:phys.wave-speed"
+    },
+    {
+      "id": "stemma:conn.000372",
+      "source": "stemma:phys.wavelength",
+      "target": "stemma:phys.wave"
+    },
+    {
+      "id": "stemma:conn.000373",
+      "source": "stemma:phys.wavelength",
+      "target": "stemma:phys.frequency"
+    },
+    {
+      "id": "stemma:conn.000376",
+      "source": "stemma:practice.scientific-observation",
+      "target": "stemma:phys.measurement"
+    },
+    {
+      "id": "stemma:conn.000391",
+      "source": "stemma:phys.bohr-model",
+      "target": "stemma:chem.atom"
+    },
+    {
+      "id": "stemma:conn.000392",
+      "source": "stemma:phys.photoelectric-effect",
+      "target": "stemma:phys.light"
+    },
+    {
+      "id": "stemma:conn.000393",
+      "source": "stemma:phys.photoelectric-effect",
+      "target": "stemma:chem.electron"
+    },
+    {
+      "id": "stemma:conn.000394",
+      "source": "stemma:phys.brownian-motion",
+      "target": "stemma:phys.heat"
+    },
+    {
+      "id": "stemma:conn.000395",
+      "source": "stemma:phys.brownian-motion",
+      "target": "stemma:chem.diffusion"
+    },
+    {
+      "id": "stemma:conn.000397",
+      "source": "stemma:phys.ideal-gas-model",
+      "target": "stemma:chem.matter"
+    },
+    {
+      "id": "stemma:conn.000404",
+      "source": "stemma:math.linear-equation",
+      "target": "stemma:math.linear-function"
+    },
+    {
+      "id": "stemma:conn.000405",
+      "source": "stemma:math.linear-equation",
+      "target": "stemma:math.quadratic-equation"
+    },
+    {
+      "id": "stemma:conn.000407",
+      "source": "stemma:math.polynomial",
+      "target": "stemma:math.quadratic-equation"
+    },
+    {
+      "id": "stemma:conn.000410",
+      "source": "stemma:math.quadratic-equation",
+      "target": "stemma:math.quadratic-function"
+    },
+    {
+      "id": "stemma:conn.000411",
+      "source": "stemma:math.quadratic-equation",
+      "target": "stemma:math.linear-equation"
+    },
+    {
+      "id": "stemma:conn.000412",
+      "source": "stemma:math.quadratic-equation",
+      "target": "stemma:math.polynomial"
+    },
+    {
+      "id": "stemma:conn.000418",
+      "source": "stemma:math.decimal",
+      "target": "stemma:math.fraction"
+    },
+    {
+      "id": "stemma:conn.000423",
+      "source": "stemma:math.fraction",
+      "target": "stemma:math.decimal"
+    },
+    {
+      "id": "stemma:conn.000427",
+      "source": "stemma:math.percentage",
+      "target": "stemma:math.ratio"
+    },
+    {
+      "id": "stemma:conn.000429",
+      "source": "stemma:math.proportion",
+      "target": "stemma:math.fraction"
+    },
+    {
+      "id": "stemma:conn.000430",
+      "source": "stemma:math.proportion",
+      "target": "stemma:math.percentage"
+    },
+    {
+      "id": "stemma:conn.000432",
+      "source": "stemma:math.ratio",
+      "target": "stemma:math.percentage"
+    },
+    {
+      "id": "stemma:conn.000436",
+      "source": "stemma:math.integer",
+      "target": "stemma:math.irrational-number"
+    },
+    {
+      "id": "stemma:conn.000437",
+      "source": "stemma:math.irrational-number",
+      "target": "stemma:math.rational-number"
+    },
+    {
+      "id": "stemma:conn.000438",
+      "source": "stemma:math.irrational-number",
+      "target": "stemma:math.pythagorean-theorem"
+    },
+    {
+      "id": "stemma:conn.000440",
+      "source": "stemma:math.natural-number",
+      "target": "stemma:math.rational-number"
+    },
+    {
+      "id": "stemma:conn.000442",
+      "source": "stemma:math.rational-number",
+      "target": "stemma:math.irrational-number"
+    },
+    {
+      "id": "stemma:conn.000448",
+      "source": "stemma:math.function",
+      "target": "stemma:math.algebraic-expression"
+    },
+    {
+      "id": "stemma:conn.000450",
+      "source": "stemma:math.linear-function",
+      "target": "stemma:math.linear-equation"
+    },
+    {
+      "id": "stemma:conn.000451",
+      "source": "stemma:math.linear-function",
+      "target": "stemma:math.quadratic-function"
+    },
+    {
+      "id": "stemma:conn.000453",
+      "source": "stemma:math.quadratic-function",
+      "target": "stemma:math.quadratic-equation"
+    },
+    {
+      "id": "stemma:conn.000454",
+      "source": "stemma:math.quadratic-function",
+      "target": "stemma:math.linear-function"
+    },
+    {
+      "id": "stemma:conn.000455",
+      "source": "stemma:math.quadratic-function",
+      "target": "stemma:math.polynomial"
+    },
+    {
+      "id": "stemma:conn.000457",
+      "source": "stemma:math.angle",
+      "target": "stemma:math.trigonometric-ratio"
+    },
+    {
+      "id": "stemma:conn.000458",
+      "source": "stemma:math.angle",
+      "target": "stemma:math.circle"
+    },
+    {
+      "id": "stemma:conn.000459",
+      "source": "stemma:math.circle",
+      "target": "stemma:math.area"
+    },
+    {
+      "id": "stemma:conn.000460",
+      "source": "stemma:math.circle",
+      "target": "stemma:math.angle"
+    },
+    {
+      "id": "stemma:conn.000461",
+      "source": "stemma:math.circle",
+      "target": "stemma:math.trigonometric-ratio"
+    },
+    {
+      "id": "stemma:conn.000465",
+      "source": "stemma:math.pythagorean-theorem",
+      "target": "stemma:math.quadratic-equation"
+    },
+    {
+      "id": "stemma:conn.000469",
+      "source": "stemma:math.triangle",
+      "target": "stemma:math.circle"
+    },
+    {
+      "id": "stemma:conn.000472",
+      "source": "stemma:math.trigonometric-ratio",
+      "target": "stemma:math.angle"
+    },
+    {
+      "id": "stemma:conn.000473",
+      "source": "stemma:math.trigonometric-ratio",
+      "target": "stemma:math.circle"
+    },
+    {
+      "id": "stemma:conn.000475",
+      "source": "stemma:math.area",
+      "target": "stemma:math.triangle"
+    },
+    {
+      "id": "stemma:conn.000476",
+      "source": "stemma:math.area",
+      "target": "stemma:math.circle"
+    },
+    {
+      "id": "stemma:conn.000478",
+      "source": "stemma:math.volume",
+      "target": "stemma:math.circle"
+    },
+    {
+      "id": "stemma:conn.000479",
+      "source": "stemma:math.volume",
+      "target": "stemma:math.triangle"
+    },
+    {
+      "id": "stemma:conn.000480",
+      "source": "stemma:math.mean",
+      "target": "stemma:math.median"
+    },
+    {
+      "id": "stemma:conn.000481",
+      "source": "stemma:math.mean",
+      "target": "stemma:math.probability"
+    },
+    {
+      "id": "stemma:conn.000482",
+      "source": "stemma:math.median",
+      "target": "stemma:math.mean"
+    },
+    {
+      "id": "stemma:conn.000483",
+      "source": "stemma:math.median",
+      "target": "stemma:math.probability"
+    },
+    {
+      "id": "stemma:conn.000484",
+      "source": "stemma:math.probability",
+      "target": "stemma:math.mean"
+    },
+    {
+      "id": "stemma:conn.000485",
+      "source": "stemma:math.probability",
+      "target": "stemma:math.median"
+    },
+    {
+      "id": "stemma:conn.000486",
+      "source": "stemma:math.probability",
+      "target": "stemma:math.fraction"
+    },
+    {
+      "id": "stemma:conn.000487",
+      "source": "stemma:math.probability",
+      "target": "stemma:math.ratio"
+    },
+    {
+      "id": "stemma:conn.000488",
+      "source": "stemma:bio.adaptation",
+      "target": "stemma:bio.natural-selection"
+    },
+    {
+      "id": "stemma:conn.000489",
+      "source": "stemma:bio.adaptation",
+      "target": "stemma:bio.ecosystem"
+    },
+    {
+      "id": "stemma:conn.000490",
+      "source": "stemma:bio.energy-flow-ecosystem",
+      "target": "stemma:bio.ecosystem"
+    },
+    {
+      "id": "stemma:conn.000491",
+      "source": "stemma:bio.energy-flow-ecosystem",
+      "target": "stemma:bio.photosynthesis"
+    },
+    {
+      "id": "stemma:conn.000492",
+      "source": "stemma:bio.food-chain",
+      "target": "stemma:bio.ecosystem"
+    },
+    {
+      "id": "stemma:conn.000493",
+      "source": "stemma:bio.food-chain",
+      "target": "stemma:bio.energy-flow-ecosystem"
+    },
+    {
+      "id": "stemma:conn.000494",
+      "source": "stemma:bio.population-dynamics",
+      "target": "stemma:bio.ecosystem"
+    },
+    {
+      "id": "stemma:conn.000495",
+      "source": "stemma:bio.population-dynamics",
+      "target": "stemma:bio.natural-selection"
+    },
+    {
+      "id": "stemma:conn.000496",
+      "source": "stemma:bio.speciation",
+      "target": "stemma:bio.natural-selection"
+    },
+    {
+      "id": "stemma:conn.000497",
+      "source": "stemma:bio.speciation",
+      "target": "stemma:bio.ecosystem"
+    },
+    {
+      "id": "stemma:conn.000499",
+      "source": "stemma:bio.allele",
+      "target": "stemma:bio.dna"
+    },
+    {
+      "id": "stemma:conn.000502",
+      "source": "stemma:bio.chromosome",
+      "target": "stemma:bio.dna"
+    },
+    {
+      "id": "stemma:conn.000507",
+      "source": "stemma:bio.inheritance-patterns",
+      "target": "stemma:bio.gene"
+    },
+    {
+      "id": "stemma:conn.000509",
+      "source": "stemma:bio.meiosis",
+      "target": "stemma:bio.gene"
+    },
+    {
+      "id": "stemma:conn.000510",
+      "source": "stemma:bio.mitosis",
+      "target": "stemma:bio.cell"
+    },
+    {
+      "id": "stemma:conn.000512",
+      "source": "stemma:bio.mutation",
+      "target": "stemma:bio.gene"
+    },
+    {
+      "id": "stemma:conn.000513",
+      "source": "stemma:bio.mutation",
+      "target": "stemma:bio.dna"
+    },
+    {
+      "id": "stemma:conn.000514",
+      "source": "stemma:bio.mutation",
+      "target": "stemma:bio.natural-selection"
+    },
+    {
+      "id": "stemma:conn.000517",
+      "source": "stemma:bio.protein-synthesis",
+      "target": "stemma:bio.gene"
+    },
+    {
+      "id": "stemma:conn.000525",
+      "source": "stemma:bio.hormone",
+      "target": "stemma:bio.homeostasis"
+    },
+    {
+      "id": "stemma:conn.000526",
+      "source": "stemma:bio.hormone",
+      "target": "stemma:bio.nervous-system"
+    },
+    {
+      "id": "stemma:conn.000528",
+      "source": "stemma:bio.immune-system",
+      "target": "stemma:bio.cell"
+    },
+    {
+      "id": "stemma:conn.000530",
+      "source": "stemma:bio.nervous-system",
+      "target": "stemma:bio.homeostasis"
+    },
+    {
+      "id": "stemma:conn.000533",
+      "source": "stemma:chem.electrochemical-cell",
+      "target": "stemma:chem.oxidation-reduction"
+    },
+    {
+      "id": "stemma:conn.000540",
+      "source": "stemma:chem.activation-energy",
+      "target": "stemma:chem.reaction-rate"
+    },
+    {
+      "id": "stemma:conn.000541",
+      "source": "stemma:chem.catalyst",
+      "target": "stemma:chem.reaction-rate"
+    },
+    {
+      "id": "stemma:conn.000542",
+      "source": "stemma:chem.catalyst",
+      "target": "stemma:chem.activation-energy"
+    },
+    {
+      "id": "stemma:conn.000550",
+      "source": "stemma:chem.reaction-rate",
+      "target": "stemma:chem.activation-energy"
+    },
+    {
+      "id": "stemma:conn.000551",
+      "source": "stemma:chem.reaction-rate",
+      "target": "stemma:chem.catalyst"
+    },
+    {
+      "id": "stemma:conn.000552",
+      "source": "stemma:chem.alcohol",
+      "target": "stemma:chem.functional-group"
+    },
+    {
+      "id": "stemma:conn.000556",
+      "source": "stemma:chem.carboxylic-acid",
+      "target": "stemma:chem.acid"
+    },
+    {
+      "id": "stemma:conn.000557",
+      "source": "stemma:chem.carboxylic-acid",
+      "target": "stemma:chem.functional-group"
+    },
+    {
+      "id": "stemma:conn.000559",
+      "source": "stemma:chem.functional-group",
+      "target": "stemma:chem.hydrocarbon"
+    },
+    {
+      "id": "stemma:conn.000560",
+      "source": "stemma:chem.functional-group",
+      "target": "stemma:chem.alcohol"
+    },
+    {
+      "id": "stemma:conn.000561",
+      "source": "stemma:chem.functional-group",
+      "target": "stemma:chem.carboxylic-acid"
+    },
+    {
+      "id": "stemma:conn.000566",
+      "source": "stemma:chem.isomer",
+      "target": "stemma:chem.compound"
+    },
+    {
+      "id": "stemma:conn.000567",
+      "source": "stemma:chem.isomer",
+      "target": "stemma:chem.alkene"
+    },
+    {
+      "id": "stemma:conn.000568",
+      "source": "stemma:chem.polymer",
+      "target": "stemma:chem.chemical-reaction"
+    },
+    {
+      "id": "stemma:conn.000569",
+      "source": "stemma:chem.enthalpy",
+      "target": "stemma:chem.entropy"
+    },
+    {
+      "id": "stemma:conn.000571",
+      "source": "stemma:chem.enthalpy",
+      "target": "stemma:chem.chemical-reaction"
+    },
+    {
+      "id": "stemma:conn.000572",
+      "source": "stemma:chem.entropy",
+      "target": "stemma:chem.enthalpy"
+    },
+    {
+      "id": "stemma:conn.000576",
+      "source": "stemma:chem.gibbs-free-energy",
+      "target": "stemma:chem.equilibrium-constant"
+    },
+    {
+      "id": "stemma:conn.000578",
+      "source": "stemma:math.determinant",
+      "target": "stemma:math.area"
+    },
+    {
+      "id": "stemma:conn.000579",
+      "source": "stemma:math.determinant",
+      "target": "stemma:math.algebraic-expression"
+    },
+    {
+      "id": "stemma:conn.000580",
+      "source": "stemma:math.matrix",
+      "target": "stemma:math.algebraic-expression"
+    },
+    {
+      "id": "stemma:conn.000581",
+      "source": "stemma:math.matrix",
+      "target": "stemma:math.linear-equation"
+    },
+    {
+      "id": "stemma:conn.000582",
+      "source": "stemma:math.matrix",
+      "target": "stemma:math.rational-number"
+    },
+    {
+      "id": "stemma:conn.000586",
+      "source": "stemma:math.continuity",
+      "target": "stemma:math.derivative"
+    },
+    {
+      "id": "stemma:conn.000589",
+      "source": "stemma:math.derivative",
+      "target": "stemma:math.polynomial"
+    },
+    {
+      "id": "stemma:conn.000595",
+      "source": "stemma:math.integral",
+      "target": "stemma:math.area"
+    },
+    {
+      "id": "stemma:conn.000601",
+      "source": "stemma:math.exponential-function",
+      "target": "stemma:math.logarithmic-function"
+    },
+    {
+      "id": "stemma:conn.000602",
+      "source": "stemma:math.exponential-function",
+      "target": "stemma:math.rational-number"
+    },
+    {
+      "id": "stemma:conn.000603",
+      "source": "stemma:math.exponential-function",
+      "target": "stemma:math.geometric-sequence"
+    },
+    {
+      "id": "stemma:conn.000605",
+      "source": "stemma:math.logarithmic-function",
+      "target": "stemma:math.exponential-function"
+    },
+    {
+      "id": "stemma:conn.000606",
+      "source": "stemma:math.logarithmic-function",
+      "target": "stemma:math.rational-number"
+    },
+    {
+      "id": "stemma:conn.000609",
+      "source": "stemma:math.arithmetic-sequence",
+      "target": "stemma:math.mean"
+    },
+    {
+      "id": "stemma:conn.000610",
+      "source": "stemma:math.complex-number",
+      "target": "stemma:math.irrational-number"
+    },
+    {
+      "id": "stemma:conn.000611",
+      "source": "stemma:math.complex-number",
+      "target": "stemma:math.polynomial"
+    },
+    {
+      "id": "stemma:conn.000612",
+      "source": "stemma:math.complex-number",
+      "target": "stemma:math.rational-number"
+    },
+    {
+      "id": "stemma:conn.000614",
+      "source": "stemma:math.geometric-sequence",
+      "target": "stemma:math.ratio"
+    },
+    {
+      "id": "stemma:conn.000615",
+      "source": "stemma:math.geometric-sequence",
+      "target": "stemma:math.exponential-function"
+    },
+    {
+      "id": "stemma:conn.000618",
+      "source": "stemma:math.sequence",
+      "target": "stemma:math.natural-number"
+    },
+    {
+      "id": "stemma:conn.000620",
+      "source": "stemma:math.combination",
+      "target": "stemma:math.permutation"
+    },
+    {
+      "id": "stemma:conn.000621",
+      "source": "stemma:math.combination",
+      "target": "stemma:math.probability"
+    },
+    {
+      "id": "stemma:conn.000622",
+      "source": "stemma:math.combination",
+      "target": "stemma:math.fraction"
+    },
+    {
+      "id": "stemma:conn.000624",
+      "source": "stemma:math.permutation",
+      "target": "stemma:math.combination"
+    },
+    {
+      "id": "stemma:conn.000625",
+      "source": "stemma:math.permutation",
+      "target": "stemma:math.probability"
+    },
+    {
+      "id": "stemma:conn.000627",
+      "source": "stemma:math.standard-deviation",
+      "target": "stemma:math.rational-number"
+    },
+    {
+      "id": "stemma:conn.000628",
+      "source": "stemma:math.standard-deviation",
+      "target": "stemma:math.probability"
+    },
+    {
+      "id": "stemma:conn.000629",
+      "source": "stemma:phys.half-life",
+      "target": "stemma:phys.radioactivity"
+    },
+    {
+      "id": "stemma:conn.000630",
+      "source": "stemma:phys.nuclear-binding-energy",
+      "target": "stemma:phys.nuclear-fission"
+    },
+    {
+      "id": "stemma:conn.000631",
+      "source": "stemma:phys.nuclear-binding-energy",
+      "target": "stemma:phys.nuclear-fusion"
+    },
+    {
+      "id": "stemma:conn.000632",
+      "source": "stemma:phys.nuclear-binding-energy",
+      "target": "stemma:phys.energy"
+    },
+    {
+      "id": "stemma:conn.000633",
+      "source": "stemma:phys.quantized-energy-levels",
+      "target": "stemma:phys.atomic-structure"
+    },
+    {
+      "id": "stemma:conn.000634",
+      "source": "stemma:phys.quantized-energy-levels",
+      "target": "stemma:phys.photoelectric-effect"
+    },
+    {
+      "id": "stemma:conn.000635",
+      "source": "stemma:phys.capacitor",
+      "target": "stemma:phys.electric-charge"
+    },
+    {
+      "id": "stemma:conn.000636",
+      "source": "stemma:phys.capacitor",
+      "target": "stemma:phys.voltage"
+    },
+    {
+      "id": "stemma:conn.000638",
+      "source": "stemma:phys.electric-field",
+      "target": "stemma:phys.force"
+    },
+    {
+      "id": "stemma:conn.000640",
+      "source": "stemma:phys.magnetic-force",
+      "target": "stemma:phys.force"
+    },
+    {
+      "id": "stemma:conn.000641",
+      "source": "stemma:phys.simple-harmonic-motion",
+      "target": "stemma:phys.wave"
+    },
+    {
+      "id": "stemma:conn.000642",
+      "source": "stemma:phys.simple-harmonic-motion",
+      "target": "stemma:phys.motion"
+    },
+    {
+      "id": "stemma:conn.000643",
+      "source": "stemma:phys.simple-harmonic-motion",
+      "target": "stemma:phys.force"
+    },
+    {
+      "id": "stemma:conn.000644",
+      "source": "stemma:phys.heat-capacity",
+      "target": "stemma:phys.specific-heat"
+    },
+    {
+      "id": "stemma:conn.000645",
+      "source": "stemma:phys.heat-capacity",
+      "target": "stemma:phys.temperature"
+    },
+    {
+      "id": "stemma:conn.000646",
+      "source": "stemma:phys.heat-capacity",
+      "target": "stemma:phys.heat"
+    },
+    {
+      "id": "stemma:conn.000647",
+      "source": "stemma:phys.phase-change",
+      "target": "stemma:phys.change-of-state"
+    },
+    {
+      "id": "stemma:conn.000648",
+      "source": "stemma:phys.phase-change",
+      "target": "stemma:phys.heat"
+    },
+    {
+      "id": "stemma:conn.000649",
+      "source": "stemma:phys.phase-change",
+      "target": "stemma:phys.temperature"
+    },
+    {
+      "id": "stemma:conn.000650",
+      "source": "stemma:phys.doppler-effect",
+      "target": "stemma:phys.wave"
+    },
+    {
+      "id": "stemma:conn.000651",
+      "source": "stemma:phys.doppler-effect",
+      "target": "stemma:phys.frequency"
+    },
+    {
+      "id": "stemma:conn.000654",
+      "source": "stemma:phys.wave-interference",
+      "target": "stemma:phys.wave"
+    }
+  ],
+  "dependency_pairs": [
+    {
+      "id": "stemma:conn.000002",
+      "source": "stemma:bio.animal-cell",
+      "target": "stemma:bio.plant-cell",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000004",
+      "source": "stemma:bio.cell",
+      "target": "stemma:chem.compound",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000007",
+      "source": "stemma:bio.cellular-respiration",
+      "target": "stemma:bio.photosynthesis",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000008",
+      "source": "stemma:bio.cellular-respiration",
+      "target": "stemma:phys.energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000010",
+      "source": "stemma:bio.homeostasis",
+      "target": "stemma:bio.enzyme",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000011",
+      "source": "stemma:bio.homeostasis",
+      "target": "stemma:phys.temperature",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000013",
+      "source": "stemma:bio.nucleus",
+      "target": "stemma:bio.dna",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000015",
+      "source": "stemma:bio.osmosis",
+      "target": "stemma:phys.pressure",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000016",
+      "source": "stemma:bio.osmosis",
+      "target": "stemma:bio.cell",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000018",
+      "source": "stemma:bio.plant-cell",
+      "target": "stemma:bio.animal-cell",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000019",
+      "source": "stemma:bio.ecosystem",
+      "target": "stemma:bio.cell",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000020",
+      "source": "stemma:bio.ecosystem",
+      "target": "stemma:bio.photosynthesis",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000021",
+      "source": "stemma:bio.ecosystem",
+      "target": "stemma:bio.cellular-respiration",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000022",
+      "source": "stemma:bio.ecosystem",
+      "target": "stemma:phys.energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000024",
+      "source": "stemma:bio.natural-selection",
+      "target": "stemma:bio.dna",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000026",
+      "source": "stemma:bio.dna",
+      "target": "stemma:chem.covalent-bond",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000030",
+      "source": "stemma:bio.enzyme",
+      "target": "stemma:bio.cell",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000031",
+      "source": "stemma:bio.enzyme",
+      "target": "stemma:chem.compound",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000035",
+      "source": "stemma:bio.photosynthesis",
+      "target": "stemma:phys.conservation-of-energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000037",
+      "source": "stemma:chem.acid",
+      "target": "stemma:chem.proton",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000039",
+      "source": "stemma:chem.base",
+      "target": "stemma:chem.acid",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000047",
+      "source": "stemma:chem.salt",
+      "target": "stemma:chem.ionic-bond",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000054",
+      "source": "stemma:chem.element",
+      "target": "stemma:chem.matter",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000062",
+      "source": "stemma:chem.covalent-bond",
+      "target": "stemma:chem.compound",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000065",
+      "source": "stemma:chem.ionic-bond",
+      "target": "stemma:chem.compound",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000067",
+      "source": "stemma:chem.diffusion",
+      "target": "stemma:phys.temperature",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000070",
+      "source": "stemma:chem.matter",
+      "target": "stemma:phys.density",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000072",
+      "source": "stemma:chem.mixture",
+      "target": "stemma:chem.compound",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000073",
+      "source": "stemma:chem.mixture",
+      "target": "stemma:chem.diffusion",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000075",
+      "source": "stemma:chem.chemical-equation",
+      "target": "stemma:chem.element",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000076",
+      "source": "stemma:chem.chemical-equation",
+      "target": "stemma:chem.matter",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000079",
+      "source": "stemma:chem.chemical-reaction",
+      "target": "stemma:phys.conservation-of-energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000082",
+      "source": "stemma:chem.combustion",
+      "target": "stemma:phys.energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000083",
+      "source": "stemma:chem.combustion",
+      "target": "stemma:phys.our-environment",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000087",
+      "source": "stemma:earth.atmosphere",
+      "target": "stemma:chem.acid",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000088",
+      "source": "stemma:earth.atmosphere",
+      "target": "stemma:bio.cellular-respiration",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000091",
+      "source": "stemma:earth.greenhouse-effect",
+      "target": "stemma:earth.earth-system",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000092",
+      "source": "stemma:earth.greenhouse-effect",
+      "target": "stemma:phys.thermal-energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000093",
+      "source": "stemma:phys.our-environment",
+      "target": "stemma:phys.energy-sources",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000094",
+      "source": "stemma:phys.our-environment",
+      "target": "stemma:phys.conservation-of-energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000097",
+      "source": "stemma:earth.water-cycle",
+      "target": "stemma:earth.atmosphere",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000098",
+      "source": "stemma:earth.water-cycle",
+      "target": "stemma:phys.heat",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000100",
+      "source": "stemma:earth.earth-system",
+      "target": "stemma:bio.cell",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000101",
+      "source": "stemma:earth.earth-system",
+      "target": "stemma:bio.ecosystem",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000102",
+      "source": "stemma:earth.earth-system",
+      "target": "stemma:phys.conservation-of-energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000105",
+      "source": "stemma:earth.plate-tectonics",
+      "target": "stemma:phys.thermal-energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000107",
+      "source": "stemma:earth.rock-cycle",
+      "target": "stemma:earth.plate-tectonics",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000108",
+      "source": "stemma:earth.rock-cycle",
+      "target": "stemma:phys.thermal-energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000109",
+      "source": "stemma:earth.rock-cycle",
+      "target": "stemma:chem.matter",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000111",
+      "source": "stemma:earth.big-bang-theory",
+      "target": "stemma:phys.gravitation",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000113",
+      "source": "stemma:earth.seasons-cause",
+      "target": "stemma:earth.earth-system",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000115",
+      "source": "stemma:earth.solar-system",
+      "target": "stemma:earth.earth-system",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000116",
+      "source": "stemma:earth.solar-system",
+      "target": "stemma:earth.seasons-cause",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000117",
+      "source": "stemma:eng.engineering-design-process",
+      "target": "stemma:practice.scientific-observation",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000118",
+      "source": "stemma:phys.atomic-structure",
+      "target": "stemma:phys.electric-charge",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000120",
+      "source": "stemma:phys.nuclear-fission",
+      "target": "stemma:phys.radioactivity",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000121",
+      "source": "stemma:phys.nuclear-fission",
+      "target": "stemma:phys.nuclear-fusion",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000122",
+      "source": "stemma:phys.nuclear-fusion",
+      "target": "stemma:phys.radioactivity",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000123",
+      "source": "stemma:phys.nuclear-fusion",
+      "target": "stemma:phys.nuclear-fission",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000125",
+      "source": "stemma:phys.radioactivity",
+      "target": "stemma:phys.nuclear-fission",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000126",
+      "source": "stemma:phys.radioactivity",
+      "target": "stemma:phys.nuclear-fusion",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000129",
+      "source": "stemma:phys.coulombs-law",
+      "target": "stemma:phys.newtons-law-of-gravitation",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000132",
+      "source": "stemma:phys.current",
+      "target": "stemma:phys.voltage",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000140",
+      "source": "stemma:phys.electric-motor",
+      "target": "stemma:phys.magnetic-field",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000142",
+      "source": "stemma:phys.electromagnetic-induction",
+      "target": "stemma:phys.voltage",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000143",
+      "source": "stemma:phys.electromagnetic-induction",
+      "target": "stemma:phys.magnetic-field",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000144",
+      "source": "stemma:phys.electromagnetic-spectrum",
+      "target": "stemma:phys.light",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000145",
+      "source": "stemma:phys.electromagnetic-spectrum",
+      "target": "stemma:phys.wave",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000146",
+      "source": "stemma:phys.electromagnetic-spectrum",
+      "target": "stemma:phys.frequency",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000147",
+      "source": "stemma:phys.electromagnetic-spectrum",
+      "target": "stemma:phys.wavelength",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000148",
+      "source": "stemma:phys.electromagnetism",
+      "target": "stemma:phys.current",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000149",
+      "source": "stemma:phys.electromagnetism",
+      "target": "stemma:phys.magnetic-field",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000152",
+      "source": "stemma:phys.generator",
+      "target": "stemma:phys.magnetic-flux",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000153",
+      "source": "stemma:phys.magnetic-field",
+      "target": "stemma:phys.magnetism",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000154",
+      "source": "stemma:phys.magnetic-field",
+      "target": "stemma:phys.electromagnetism",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000156",
+      "source": "stemma:phys.magnetic-flux",
+      "target": "stemma:phys.electromagnetic-induction",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000157",
+      "source": "stemma:phys.magnetism",
+      "target": "stemma:phys.magnetic-field",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000158",
+      "source": "stemma:phys.magnetism",
+      "target": "stemma:phys.electromagnetism",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000167",
+      "source": "stemma:phys.voltage",
+      "target": "stemma:phys.current",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000174",
+      "source": "stemma:phys.measurement",
+      "target": "stemma:phys.physical-quantity",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000175",
+      "source": "stemma:phys.physical-quantity",
+      "target": "stemma:phys.measurement",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000178",
+      "source": "stemma:phys.time",
+      "target": "stemma:phys.scalar",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000188",
+      "source": "stemma:phys.buoyancy",
+      "target": "stemma:phys.force",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000192",
+      "source": "stemma:phys.conservation-of-energy",
+      "target": "stemma:phys.work-energy-theorem",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000194",
+      "source": "stemma:phys.density",
+      "target": "stemma:phys.pressure",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000197",
+      "source": "stemma:phys.displacement",
+      "target": "stemma:phys.vector",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000201",
+      "source": "stemma:phys.efficiency",
+      "target": "stemma:phys.power",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000202",
+      "source": "stemma:phys.efficiency",
+      "target": "stemma:phys.conservation-of-energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000203",
+      "source": "stemma:phys.energy-loss",
+      "target": "stemma:phys.friction",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000204",
+      "source": "stemma:phys.energy-loss",
+      "target": "stemma:phys.conservation-of-energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000205",
+      "source": "stemma:phys.energy-loss",
+      "target": "stemma:phys.thermal-energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000206",
+      "source": "stemma:phys.energy-sources",
+      "target": "stemma:phys.energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000207",
+      "source": "stemma:phys.energy-sources",
+      "target": "stemma:phys.power",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000208",
+      "source": "stemma:phys.energy-sources",
+      "target": "stemma:phys.nuclear-fission",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000209",
+      "source": "stemma:phys.energy-sources",
+      "target": "stemma:phys.nuclear-fusion",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000210",
+      "source": "stemma:phys.energy-sources",
+      "target": "stemma:chem.chemical-reaction",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000211",
+      "source": "stemma:phys.energy",
+      "target": "stemma:phys.work",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000212",
+      "source": "stemma:phys.energy",
+      "target": "stemma:phys.kinetic-energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000213",
+      "source": "stemma:phys.energy",
+      "target": "stemma:phys.potential-energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000219",
+      "source": "stemma:phys.equations-of-motion",
+      "target": "stemma:phys.free-fall",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000226",
+      "source": "stemma:phys.force",
+      "target": "stemma:phys.momentum",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000227",
+      "source": "stemma:phys.force",
+      "target": "stemma:phys.weight",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000230",
+      "source": "stemma:phys.free-fall",
+      "target": "stemma:phys.gravitational-acceleration",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000232",
+      "source": "stemma:phys.friction",
+      "target": "stemma:phys.newtons-first-law",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000233",
+      "source": "stemma:phys.friction",
+      "target": "stemma:phys.energy-loss",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000234",
+      "source": "stemma:phys.gravitation",
+      "target": "stemma:phys.force",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000235",
+      "source": "stemma:phys.gravitation",
+      "target": "stemma:phys.weight",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000238",
+      "source": "stemma:phys.gravitational-acceleration",
+      "target": "stemma:phys.free-fall",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000239",
+      "source": "stemma:phys.gravitational-acceleration",
+      "target": "stemma:phys.gravitation",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000243",
+      "source": "stemma:phys.impulse",
+      "target": "stemma:phys.newtons-second-law",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000248",
+      "source": "stemma:phys.kinetic-energy",
+      "target": "stemma:phys.energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000254",
+      "source": "stemma:phys.mechanical-advantage",
+      "target": "stemma:phys.work",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000255",
+      "source": "stemma:phys.mechanical-advantage",
+      "target": "stemma:phys.energy-loss",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000262",
+      "source": "stemma:phys.motion",
+      "target": "stemma:phys.velocity",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000263",
+      "source": "stemma:phys.motion",
+      "target": "stemma:phys.acceleration",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000266",
+      "source": "stemma:phys.newtons-first-law",
+      "target": "stemma:phys.newtons-second-law",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000270",
+      "source": "stemma:phys.newtons-law-of-gravitation",
+      "target": "stemma:phys.free-fall",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000271",
+      "source": "stemma:phys.newtons-law-of-gravitation",
+      "target": "stemma:phys.coulombs-law",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000277",
+      "source": "stemma:phys.newtons-third-law",
+      "target": "stemma:phys.newtons-first-law",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000278",
+      "source": "stemma:phys.newtons-third-law",
+      "target": "stemma:phys.newtons-second-law",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000282",
+      "source": "stemma:phys.potential-energy",
+      "target": "stemma:phys.energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000286",
+      "source": "stemma:phys.power",
+      "target": "stemma:phys.energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000288",
+      "source": "stemma:phys.pressure",
+      "target": "stemma:phys.density",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000292",
+      "source": "stemma:phys.projectile-motion",
+      "target": "stemma:phys.acceleration",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000293",
+      "source": "stemma:phys.scalar",
+      "target": "stemma:phys.vector",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000294",
+      "source": "stemma:phys.scalar",
+      "target": "stemma:phys.distance",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000298",
+      "source": "stemma:phys.thermal-energy",
+      "target": "stemma:phys.heat",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000299",
+      "source": "stemma:phys.thermal-energy",
+      "target": "stemma:phys.temperature",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000300",
+      "source": "stemma:phys.thermal-energy",
+      "target": "stemma:phys.specific-heat",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000301",
+      "source": "stemma:phys.thermal-energy",
+      "target": "stemma:phys.energy-loss",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000302",
+      "source": "stemma:phys.vector",
+      "target": "stemma:phys.displacement",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000303",
+      "source": "stemma:phys.vector",
+      "target": "stemma:phys.scalar",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000310",
+      "source": "stemma:phys.wave-speed",
+      "target": "stemma:phys.wave",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000313",
+      "source": "stemma:phys.weight",
+      "target": "stemma:phys.force",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000314",
+      "source": "stemma:phys.weight",
+      "target": "stemma:phys.gravitation",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000317",
+      "source": "stemma:phys.work-energy-theorem",
+      "target": "stemma:phys.conservation-of-energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000320",
+      "source": "stemma:phys.work",
+      "target": "stemma:phys.energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000323",
+      "source": "stemma:phys.change-of-state",
+      "target": "stemma:phys.temperature",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000324",
+      "source": "stemma:phys.change-of-state",
+      "target": "stemma:phys.specific-heat",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000327",
+      "source": "stemma:phys.heat",
+      "target": "stemma:phys.thermal-energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000332",
+      "source": "stemma:phys.heating-effect",
+      "target": "stemma:phys.energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000333",
+      "source": "stemma:phys.heating-effect",
+      "target": "stemma:phys.power",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000337",
+      "source": "stemma:phys.specific-heat",
+      "target": "stemma:phys.thermal-energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000339",
+      "source": "stemma:phys.temperature",
+      "target": "stemma:phys.thermal-energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000340",
+      "source": "stemma:phys.amplitude",
+      "target": "stemma:phys.wave",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000341",
+      "source": "stemma:phys.amplitude",
+      "target": "stemma:phys.energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000343",
+      "source": "stemma:phys.frequency",
+      "target": "stemma:phys.wave",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000344",
+      "source": "stemma:phys.frequency",
+      "target": "stemma:phys.wavelength",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000347",
+      "source": "stemma:phys.lens",
+      "target": "stemma:phys.light",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000348",
+      "source": "stemma:phys.lens",
+      "target": "stemma:phys.mirror",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000349",
+      "source": "stemma:phys.light",
+      "target": "stemma:phys.wave",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000352",
+      "source": "stemma:phys.light",
+      "target": "stemma:phys.electromagnetic-spectrum",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000355",
+      "source": "stemma:phys.mirror",
+      "target": "stemma:phys.lens",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000357",
+      "source": "stemma:phys.ray-model",
+      "target": "stemma:phys.reflection",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000358",
+      "source": "stemma:phys.ray-model",
+      "target": "stemma:phys.refraction",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000360",
+      "source": "stemma:phys.reflection",
+      "target": "stemma:phys.refraction",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000362",
+      "source": "stemma:phys.refraction",
+      "target": "stemma:phys.reflection",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000365",
+      "source": "stemma:phys.sound",
+      "target": "stemma:phys.frequency",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000366",
+      "source": "stemma:phys.sound",
+      "target": "stemma:phys.amplitude",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000367",
+      "source": "stemma:phys.sound",
+      "target": "stemma:phys.wave-speed",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000368",
+      "source": "stemma:phys.wave",
+      "target": "stemma:phys.wavelength",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000369",
+      "source": "stemma:phys.wave",
+      "target": "stemma:phys.frequency",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000370",
+      "source": "stemma:phys.wave",
+      "target": "stemma:phys.amplitude",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000371",
+      "source": "stemma:phys.wave",
+      "target": "stemma:phys.wave-speed",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000372",
+      "source": "stemma:phys.wavelength",
+      "target": "stemma:phys.wave",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000373",
+      "source": "stemma:phys.wavelength",
+      "target": "stemma:phys.frequency",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000376",
+      "source": "stemma:practice.scientific-observation",
+      "target": "stemma:phys.measurement",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000391",
+      "source": "stemma:phys.bohr-model",
+      "target": "stemma:chem.atom",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000392",
+      "source": "stemma:phys.photoelectric-effect",
+      "target": "stemma:phys.light",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000393",
+      "source": "stemma:phys.photoelectric-effect",
+      "target": "stemma:chem.electron",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000394",
+      "source": "stemma:phys.brownian-motion",
+      "target": "stemma:phys.heat",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000395",
+      "source": "stemma:phys.brownian-motion",
+      "target": "stemma:chem.diffusion",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000397",
+      "source": "stemma:phys.ideal-gas-model",
+      "target": "stemma:chem.matter",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000404",
+      "source": "stemma:math.linear-equation",
+      "target": "stemma:math.linear-function",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000405",
+      "source": "stemma:math.linear-equation",
+      "target": "stemma:math.quadratic-equation",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000407",
+      "source": "stemma:math.polynomial",
+      "target": "stemma:math.quadratic-equation",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000410",
+      "source": "stemma:math.quadratic-equation",
+      "target": "stemma:math.quadratic-function",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000411",
+      "source": "stemma:math.quadratic-equation",
+      "target": "stemma:math.linear-equation",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000412",
+      "source": "stemma:math.quadratic-equation",
+      "target": "stemma:math.polynomial",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000418",
+      "source": "stemma:math.decimal",
+      "target": "stemma:math.fraction",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000423",
+      "source": "stemma:math.fraction",
+      "target": "stemma:math.decimal",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000427",
+      "source": "stemma:math.percentage",
+      "target": "stemma:math.ratio",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000429",
+      "source": "stemma:math.proportion",
+      "target": "stemma:math.fraction",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000430",
+      "source": "stemma:math.proportion",
+      "target": "stemma:math.percentage",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000432",
+      "source": "stemma:math.ratio",
+      "target": "stemma:math.percentage",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000436",
+      "source": "stemma:math.integer",
+      "target": "stemma:math.irrational-number",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000437",
+      "source": "stemma:math.irrational-number",
+      "target": "stemma:math.rational-number",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000438",
+      "source": "stemma:math.irrational-number",
+      "target": "stemma:math.pythagorean-theorem",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000440",
+      "source": "stemma:math.natural-number",
+      "target": "stemma:math.rational-number",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000442",
+      "source": "stemma:math.rational-number",
+      "target": "stemma:math.irrational-number",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000448",
+      "source": "stemma:math.function",
+      "target": "stemma:math.algebraic-expression",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000450",
+      "source": "stemma:math.linear-function",
+      "target": "stemma:math.linear-equation",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000451",
+      "source": "stemma:math.linear-function",
+      "target": "stemma:math.quadratic-function",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000453",
+      "source": "stemma:math.quadratic-function",
+      "target": "stemma:math.quadratic-equation",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000454",
+      "source": "stemma:math.quadratic-function",
+      "target": "stemma:math.linear-function",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000455",
+      "source": "stemma:math.quadratic-function",
+      "target": "stemma:math.polynomial",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000457",
+      "source": "stemma:math.angle",
+      "target": "stemma:math.trigonometric-ratio",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000458",
+      "source": "stemma:math.angle",
+      "target": "stemma:math.circle",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000459",
+      "source": "stemma:math.circle",
+      "target": "stemma:math.area",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000460",
+      "source": "stemma:math.circle",
+      "target": "stemma:math.angle",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000461",
+      "source": "stemma:math.circle",
+      "target": "stemma:math.trigonometric-ratio",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000465",
+      "source": "stemma:math.pythagorean-theorem",
+      "target": "stemma:math.quadratic-equation",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000469",
+      "source": "stemma:math.triangle",
+      "target": "stemma:math.circle",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000472",
+      "source": "stemma:math.trigonometric-ratio",
+      "target": "stemma:math.angle",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000473",
+      "source": "stemma:math.trigonometric-ratio",
+      "target": "stemma:math.circle",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000475",
+      "source": "stemma:math.area",
+      "target": "stemma:math.triangle",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000476",
+      "source": "stemma:math.area",
+      "target": "stemma:math.circle",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000478",
+      "source": "stemma:math.volume",
+      "target": "stemma:math.circle",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000479",
+      "source": "stemma:math.volume",
+      "target": "stemma:math.triangle",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000480",
+      "source": "stemma:math.mean",
+      "target": "stemma:math.median",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000481",
+      "source": "stemma:math.mean",
+      "target": "stemma:math.probability",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000482",
+      "source": "stemma:math.median",
+      "target": "stemma:math.mean",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000483",
+      "source": "stemma:math.median",
+      "target": "stemma:math.probability",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000484",
+      "source": "stemma:math.probability",
+      "target": "stemma:math.mean",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000485",
+      "source": "stemma:math.probability",
+      "target": "stemma:math.median",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000486",
+      "source": "stemma:math.probability",
+      "target": "stemma:math.fraction",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000487",
+      "source": "stemma:math.probability",
+      "target": "stemma:math.ratio",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000488",
+      "source": "stemma:bio.adaptation",
+      "target": "stemma:bio.natural-selection",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000489",
+      "source": "stemma:bio.adaptation",
+      "target": "stemma:bio.ecosystem",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000490",
+      "source": "stemma:bio.energy-flow-ecosystem",
+      "target": "stemma:bio.ecosystem",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000491",
+      "source": "stemma:bio.energy-flow-ecosystem",
+      "target": "stemma:bio.photosynthesis",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000492",
+      "source": "stemma:bio.food-chain",
+      "target": "stemma:bio.ecosystem",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000493",
+      "source": "stemma:bio.food-chain",
+      "target": "stemma:bio.energy-flow-ecosystem",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000494",
+      "source": "stemma:bio.population-dynamics",
+      "target": "stemma:bio.ecosystem",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000495",
+      "source": "stemma:bio.population-dynamics",
+      "target": "stemma:bio.natural-selection",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000496",
+      "source": "stemma:bio.speciation",
+      "target": "stemma:bio.natural-selection",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000497",
+      "source": "stemma:bio.speciation",
+      "target": "stemma:bio.ecosystem",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000499",
+      "source": "stemma:bio.allele",
+      "target": "stemma:bio.dna",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000502",
+      "source": "stemma:bio.chromosome",
+      "target": "stemma:bio.dna",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000507",
+      "source": "stemma:bio.inheritance-patterns",
+      "target": "stemma:bio.gene",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000509",
+      "source": "stemma:bio.meiosis",
+      "target": "stemma:bio.gene",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000510",
+      "source": "stemma:bio.mitosis",
+      "target": "stemma:bio.cell",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000512",
+      "source": "stemma:bio.mutation",
+      "target": "stemma:bio.gene",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000513",
+      "source": "stemma:bio.mutation",
+      "target": "stemma:bio.dna",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000514",
+      "source": "stemma:bio.mutation",
+      "target": "stemma:bio.natural-selection",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000517",
+      "source": "stemma:bio.protein-synthesis",
+      "target": "stemma:bio.gene",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000525",
+      "source": "stemma:bio.hormone",
+      "target": "stemma:bio.homeostasis",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000526",
+      "source": "stemma:bio.hormone",
+      "target": "stemma:bio.nervous-system",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000528",
+      "source": "stemma:bio.immune-system",
+      "target": "stemma:bio.cell",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000530",
+      "source": "stemma:bio.nervous-system",
+      "target": "stemma:bio.homeostasis",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000533",
+      "source": "stemma:chem.electrochemical-cell",
+      "target": "stemma:chem.oxidation-reduction",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000540",
+      "source": "stemma:chem.activation-energy",
+      "target": "stemma:chem.reaction-rate",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000541",
+      "source": "stemma:chem.catalyst",
+      "target": "stemma:chem.reaction-rate",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000542",
+      "source": "stemma:chem.catalyst",
+      "target": "stemma:chem.activation-energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000550",
+      "source": "stemma:chem.reaction-rate",
+      "target": "stemma:chem.activation-energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000551",
+      "source": "stemma:chem.reaction-rate",
+      "target": "stemma:chem.catalyst",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000552",
+      "source": "stemma:chem.alcohol",
+      "target": "stemma:chem.functional-group",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000556",
+      "source": "stemma:chem.carboxylic-acid",
+      "target": "stemma:chem.acid",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000557",
+      "source": "stemma:chem.carboxylic-acid",
+      "target": "stemma:chem.functional-group",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000559",
+      "source": "stemma:chem.functional-group",
+      "target": "stemma:chem.hydrocarbon",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000560",
+      "source": "stemma:chem.functional-group",
+      "target": "stemma:chem.alcohol",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000561",
+      "source": "stemma:chem.functional-group",
+      "target": "stemma:chem.carboxylic-acid",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000566",
+      "source": "stemma:chem.isomer",
+      "target": "stemma:chem.compound",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000567",
+      "source": "stemma:chem.isomer",
+      "target": "stemma:chem.alkene",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000568",
+      "source": "stemma:chem.polymer",
+      "target": "stemma:chem.chemical-reaction",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000569",
+      "source": "stemma:chem.enthalpy",
+      "target": "stemma:chem.entropy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000571",
+      "source": "stemma:chem.enthalpy",
+      "target": "stemma:chem.chemical-reaction",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000572",
+      "source": "stemma:chem.entropy",
+      "target": "stemma:chem.enthalpy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000576",
+      "source": "stemma:chem.gibbs-free-energy",
+      "target": "stemma:chem.equilibrium-constant",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000578",
+      "source": "stemma:math.determinant",
+      "target": "stemma:math.area",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000579",
+      "source": "stemma:math.determinant",
+      "target": "stemma:math.algebraic-expression",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000580",
+      "source": "stemma:math.matrix",
+      "target": "stemma:math.algebraic-expression",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000581",
+      "source": "stemma:math.matrix",
+      "target": "stemma:math.linear-equation",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000582",
+      "source": "stemma:math.matrix",
+      "target": "stemma:math.rational-number",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000586",
+      "source": "stemma:math.continuity",
+      "target": "stemma:math.derivative",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000589",
+      "source": "stemma:math.derivative",
+      "target": "stemma:math.polynomial",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000595",
+      "source": "stemma:math.integral",
+      "target": "stemma:math.area",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000601",
+      "source": "stemma:math.exponential-function",
+      "target": "stemma:math.logarithmic-function",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000602",
+      "source": "stemma:math.exponential-function",
+      "target": "stemma:math.rational-number",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000603",
+      "source": "stemma:math.exponential-function",
+      "target": "stemma:math.geometric-sequence",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000605",
+      "source": "stemma:math.logarithmic-function",
+      "target": "stemma:math.exponential-function",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000606",
+      "source": "stemma:math.logarithmic-function",
+      "target": "stemma:math.rational-number",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000609",
+      "source": "stemma:math.arithmetic-sequence",
+      "target": "stemma:math.mean",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000610",
+      "source": "stemma:math.complex-number",
+      "target": "stemma:math.irrational-number",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000611",
+      "source": "stemma:math.complex-number",
+      "target": "stemma:math.polynomial",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000612",
+      "source": "stemma:math.complex-number",
+      "target": "stemma:math.rational-number",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000614",
+      "source": "stemma:math.geometric-sequence",
+      "target": "stemma:math.ratio",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000615",
+      "source": "stemma:math.geometric-sequence",
+      "target": "stemma:math.exponential-function",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000618",
+      "source": "stemma:math.sequence",
+      "target": "stemma:math.natural-number",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000620",
+      "source": "stemma:math.combination",
+      "target": "stemma:math.permutation",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000621",
+      "source": "stemma:math.combination",
+      "target": "stemma:math.probability",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000622",
+      "source": "stemma:math.combination",
+      "target": "stemma:math.fraction",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000624",
+      "source": "stemma:math.permutation",
+      "target": "stemma:math.combination",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000625",
+      "source": "stemma:math.permutation",
+      "target": "stemma:math.probability",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000627",
+      "source": "stemma:math.standard-deviation",
+      "target": "stemma:math.rational-number",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000628",
+      "source": "stemma:math.standard-deviation",
+      "target": "stemma:math.probability",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000629",
+      "source": "stemma:phys.half-life",
+      "target": "stemma:phys.radioactivity",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000630",
+      "source": "stemma:phys.nuclear-binding-energy",
+      "target": "stemma:phys.nuclear-fission",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000631",
+      "source": "stemma:phys.nuclear-binding-energy",
+      "target": "stemma:phys.nuclear-fusion",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000632",
+      "source": "stemma:phys.nuclear-binding-energy",
+      "target": "stemma:phys.energy",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000633",
+      "source": "stemma:phys.quantized-energy-levels",
+      "target": "stemma:phys.atomic-structure",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000634",
+      "source": "stemma:phys.quantized-energy-levels",
+      "target": "stemma:phys.photoelectric-effect",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000635",
+      "source": "stemma:phys.capacitor",
+      "target": "stemma:phys.electric-charge",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000636",
+      "source": "stemma:phys.capacitor",
+      "target": "stemma:phys.voltage",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000638",
+      "source": "stemma:phys.electric-field",
+      "target": "stemma:phys.force",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000640",
+      "source": "stemma:phys.magnetic-force",
+      "target": "stemma:phys.force",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000641",
+      "source": "stemma:phys.simple-harmonic-motion",
+      "target": "stemma:phys.wave",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000642",
+      "source": "stemma:phys.simple-harmonic-motion",
+      "target": "stemma:phys.motion",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000643",
+      "source": "stemma:phys.simple-harmonic-motion",
+      "target": "stemma:phys.force",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000644",
+      "source": "stemma:phys.heat-capacity",
+      "target": "stemma:phys.specific-heat",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000645",
+      "source": "stemma:phys.heat-capacity",
+      "target": "stemma:phys.temperature",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000646",
+      "source": "stemma:phys.heat-capacity",
+      "target": "stemma:phys.heat",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000647",
+      "source": "stemma:phys.phase-change",
+      "target": "stemma:phys.change-of-state",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000648",
+      "source": "stemma:phys.phase-change",
+      "target": "stemma:phys.heat",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000649",
+      "source": "stemma:phys.phase-change",
+      "target": "stemma:phys.temperature",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000650",
+      "source": "stemma:phys.doppler-effect",
+      "target": "stemma:phys.wave",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000651",
+      "source": "stemma:phys.doppler-effect",
+      "target": "stemma:phys.frequency",
+      "suggested": "mathematically_requires"
+    },
+    {
+      "id": "stemma:conn.000654",
+      "source": "stemma:phys.wave-interference",
+      "target": "stemma:phys.wave",
+      "suggested": "mathematically_requires"
+    }
+  ],
+  "already_specific": [
+    {
+      "id": "stemma:conn.000050",
+      "source": "stemma:chem.atom",
+      "target": "stemma:phys.atomic-structure",
+      "specific_relations": [
+        "bridges"
+      ]
+    },
+    {
+      "id": "stemma:conn.000068",
+      "source": "stemma:chem.diffusion",
+      "target": "stemma:bio.osmosis",
+      "specific_relations": [
+        "bridges",
+        "logically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000080",
+      "source": "stemma:chem.chemical-reaction",
+      "target": "stemma:phys.energy",
+      "specific_relations": [
+        "bridges"
+      ]
+    },
+    {
+      "id": "stemma:conn.000086",
+      "source": "stemma:earth.atmosphere",
+      "target": "stemma:phys.gravitation",
+      "specific_relations": [
+        "bridges"
+      ]
+    },
+    {
+      "id": "stemma:conn.000119",
+      "source": "stemma:phys.atomic-structure",
+      "target": "stemma:phys.radioactivity",
+      "specific_relations": [
+        "logically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000133",
+      "source": "stemma:phys.current",
+      "target": "stemma:phys.resistance",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000135",
+      "source": "stemma:phys.electric-charge",
+      "target": "stemma:phys.current",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000136",
+      "source": "stemma:phys.electric-charge",
+      "target": "stemma:phys.voltage",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000137",
+      "source": "stemma:phys.electric-charge",
+      "target": "stemma:phys.coulombs-law",
+      "specific_relations": [
+        "applies_to"
+      ]
+    },
+    {
+      "id": "stemma:conn.000150",
+      "source": "stemma:phys.electromagnetism",
+      "target": "stemma:phys.electromagnetic-induction",
+      "specific_relations": [
+        "logically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000168",
+      "source": "stemma:phys.voltage",
+      "target": "stemma:phys.resistance",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000176",
+      "source": "stemma:phys.physical-quantity",
+      "target": "stemma:phys.unit",
+      "specific_relations": [
+        "logically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000179",
+      "source": "stemma:phys.time",
+      "target": "stemma:phys.frequency",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000181",
+      "source": "stemma:phys.unit",
+      "target": "stemma:phys.measurement",
+      "specific_relations": [
+        "logically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000185",
+      "source": "stemma:phys.acceleration",
+      "target": "stemma:phys.free-fall",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000195",
+      "source": "stemma:phys.density",
+      "target": "stemma:phys.buoyancy",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000199",
+      "source": "stemma:phys.distance",
+      "target": "stemma:phys.displacement",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000214",
+      "source": "stemma:phys.energy",
+      "target": "stemma:phys.conservation-of-energy",
+      "specific_relations": [
+        "applies_to"
+      ]
+    },
+    {
+      "id": "stemma:conn.000236",
+      "source": "stemma:phys.gravitation",
+      "target": "stemma:phys.free-fall",
+      "specific_relations": [
+        "logically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000245",
+      "source": "stemma:phys.inertia",
+      "target": "stemma:phys.newtons-first-law",
+      "specific_relations": [
+        "applies_to"
+      ]
+    },
+    {
+      "id": "stemma:conn.000249",
+      "source": "stemma:phys.kinetic-energy",
+      "target": "stemma:phys.work-energy-theorem",
+      "specific_relations": [
+        "applies_to"
+      ]
+    },
+    {
+      "id": "stemma:conn.000251",
+      "source": "stemma:phys.mass",
+      "target": "stemma:phys.inertia",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000252",
+      "source": "stemma:phys.mass",
+      "target": "stemma:phys.weight",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000258",
+      "source": "stemma:phys.momentum",
+      "target": "stemma:phys.newtons-second-law",
+      "specific_relations": [
+        "applies_to"
+      ]
+    },
+    {
+      "id": "stemma:conn.000259",
+      "source": "stemma:phys.momentum",
+      "target": "stemma:phys.impulse",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000283",
+      "source": "stemma:phys.potential-energy",
+      "target": "stemma:phys.conservation-of-energy",
+      "specific_relations": [
+        "applies_to"
+      ]
+    },
+    {
+      "id": "stemma:conn.000289",
+      "source": "stemma:phys.pressure",
+      "target": "stemma:phys.buoyancy",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000297",
+      "source": "stemma:phys.speed",
+      "target": "stemma:phys.velocity",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000307",
+      "source": "stemma:phys.velocity",
+      "target": "stemma:phys.acceleration",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000321",
+      "source": "stemma:phys.work",
+      "target": "stemma:phys.power",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000328",
+      "source": "stemma:phys.heat",
+      "target": "stemma:phys.specific-heat",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000338",
+      "source": "stemma:phys.temperature",
+      "target": "stemma:phys.heat",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000345",
+      "source": "stemma:phys.frequency",
+      "target": "stemma:phys.wave-speed",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000350",
+      "source": "stemma:phys.light",
+      "target": "stemma:phys.reflection",
+      "specific_relations": [
+        "logically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000351",
+      "source": "stemma:phys.light",
+      "target": "stemma:phys.refraction",
+      "specific_relations": [
+        "logically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000353",
+      "source": "stemma:phys.light",
+      "target": "stemma:bio.photosynthesis",
+      "specific_relations": [
+        "bridges",
+        "logically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000363",
+      "source": "stemma:phys.refraction",
+      "target": "stemma:phys.lens",
+      "specific_relations": [
+        "logically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000374",
+      "source": "stemma:phys.wavelength",
+      "target": "stemma:phys.wave-speed",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000390",
+      "source": "stemma:phys.bohr-model",
+      "target": "stemma:phys.atomic-structure",
+      "specific_relations": [
+        "approximates"
+      ]
+    },
+    {
+      "id": "stemma:conn.000396",
+      "source": "stemma:phys.ideal-gas-model",
+      "target": "stemma:earth.atmosphere",
+      "specific_relations": [
+        "approximates"
+      ]
+    },
+    {
+      "id": "stemma:conn.000400",
+      "source": "stemma:math.algebraic-expression",
+      "target": "stemma:math.polynomial",
+      "specific_relations": [
+        "generalizes"
+      ]
+    },
+    {
+      "id": "stemma:conn.000401",
+      "source": "stemma:math.algebraic-expression",
+      "target": "stemma:math.linear-equation",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000408",
+      "source": "stemma:math.polynomial",
+      "target": "stemma:math.algebraic-expression",
+      "specific_relations": [
+        "generalizes"
+      ]
+    },
+    {
+      "id": "stemma:conn.000415",
+      "source": "stemma:math.variable",
+      "target": "stemma:math.function",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000416",
+      "source": "stemma:math.variable",
+      "target": "stemma:math.linear-equation",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000419",
+      "source": "stemma:math.decimal",
+      "target": "stemma:math.percentage",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000424",
+      "source": "stemma:math.fraction",
+      "target": "stemma:math.percentage",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000433",
+      "source": "stemma:math.ratio",
+      "target": "stemma:math.proportion",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000444",
+      "source": "stemma:math.rational-number",
+      "target": "stemma:math.decimal",
+      "specific_relations": [
+        "part_of"
+      ]
+    },
+    {
+      "id": "stemma:conn.000446",
+      "source": "stemma:math.function",
+      "target": "stemma:math.linear-function",
+      "specific_relations": [
+        "special_case_of"
+      ]
+    },
+    {
+      "id": "stemma:conn.000447",
+      "source": "stemma:math.function",
+      "target": "stemma:math.quadratic-function",
+      "specific_relations": [
+        "special_case_of"
+      ]
+    },
+    {
+      "id": "stemma:conn.000456",
+      "source": "stemma:math.angle",
+      "target": "stemma:math.triangle",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000463",
+      "source": "stemma:math.pythagorean-theorem",
+      "target": "stemma:math.triangle",
+      "specific_relations": [
+        "applies_to"
+      ]
+    },
+    {
+      "id": "stemma:conn.000464",
+      "source": "stemma:math.pythagorean-theorem",
+      "target": "stemma:math.trigonometric-ratio",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000467",
+      "source": "stemma:math.triangle",
+      "target": "stemma:math.pythagorean-theorem",
+      "specific_relations": [
+        "applies_to"
+      ]
+    },
+    {
+      "id": "stemma:conn.000468",
+      "source": "stemma:math.triangle",
+      "target": "stemma:math.trigonometric-ratio",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000474",
+      "source": "stemma:math.area",
+      "target": "stemma:math.volume",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000539",
+      "source": "stemma:chem.oxidation-reduction",
+      "target": "stemma:chem.oxidation-number",
+      "specific_relations": [
+        "part_of"
+      ]
+    },
+    {
+      "id": "stemma:conn.000544",
+      "source": "stemma:chem.chemical-equilibrium",
+      "target": "stemma:chem.equilibrium-constant",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000570",
+      "source": "stemma:chem.enthalpy",
+      "target": "stemma:chem.gibbs-free-energy",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000573",
+      "source": "stemma:chem.entropy",
+      "target": "stemma:chem.gibbs-free-energy",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000583",
+      "source": "stemma:math.matrix",
+      "target": "stemma:math.determinant",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    },
+    {
+      "id": "stemma:conn.000599",
+      "source": "stemma:math.limit",
+      "target": "stemma:math.derivative",
+      "specific_relations": [
+        "mathematically_requires"
+      ]
+    }
+  ],
+  "measurement_candidates": [
+    {
+      "id": "stemma:conn.000008",
+      "source": "stemma:bio.cellular-respiration",
+      "target": "stemma:phys.energy",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000011",
+      "source": "stemma:bio.homeostasis",
+      "target": "stemma:phys.temperature",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000015",
+      "source": "stemma:bio.osmosis",
+      "target": "stemma:phys.pressure",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000022",
+      "source": "stemma:bio.ecosystem",
+      "target": "stemma:phys.energy",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000067",
+      "source": "stemma:chem.diffusion",
+      "target": "stemma:phys.temperature",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000070",
+      "source": "stemma:chem.matter",
+      "target": "stemma:phys.density",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000082",
+      "source": "stemma:chem.combustion",
+      "target": "stemma:phys.energy",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000092",
+      "source": "stemma:earth.greenhouse-effect",
+      "target": "stemma:phys.thermal-energy",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000098",
+      "source": "stemma:earth.water-cycle",
+      "target": "stemma:phys.heat",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000105",
+      "source": "stemma:earth.plate-tectonics",
+      "target": "stemma:phys.thermal-energy",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000108",
+      "source": "stemma:earth.rock-cycle",
+      "target": "stemma:phys.thermal-energy",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000118",
+      "source": "stemma:phys.atomic-structure",
+      "target": "stemma:phys.electric-charge",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000142",
+      "source": "stemma:phys.electromagnetic-induction",
+      "target": "stemma:phys.voltage",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000146",
+      "source": "stemma:phys.electromagnetic-spectrum",
+      "target": "stemma:phys.frequency",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000147",
+      "source": "stemma:phys.electromagnetic-spectrum",
+      "target": "stemma:phys.wavelength",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000148",
+      "source": "stemma:phys.electromagnetism",
+      "target": "stemma:phys.current",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000152",
+      "source": "stemma:phys.generator",
+      "target": "stemma:phys.magnetic-flux",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000156",
+      "source": "stemma:phys.magnetic-flux",
+      "target": "stemma:phys.electromagnetic-induction",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000178",
+      "source": "stemma:phys.time",
+      "target": "stemma:phys.scalar",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000197",
+      "source": "stemma:phys.displacement",
+      "target": "stemma:phys.vector",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000201",
+      "source": "stemma:phys.efficiency",
+      "target": "stemma:phys.power",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000205",
+      "source": "stemma:phys.energy-loss",
+      "target": "stemma:phys.thermal-energy",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000206",
+      "source": "stemma:phys.energy-sources",
+      "target": "stemma:phys.energy",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000207",
+      "source": "stemma:phys.energy-sources",
+      "target": "stemma:phys.power",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000226",
+      "source": "stemma:phys.force",
+      "target": "stemma:phys.momentum",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000227",
+      "source": "stemma:phys.force",
+      "target": "stemma:phys.weight",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000230",
+      "source": "stemma:phys.free-fall",
+      "target": "stemma:phys.gravitational-acceleration",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000235",
+      "source": "stemma:phys.gravitation",
+      "target": "stemma:phys.weight",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000238",
+      "source": "stemma:phys.gravitational-acceleration",
+      "target": "stemma:phys.free-fall",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000239",
+      "source": "stemma:phys.gravitational-acceleration",
+      "target": "stemma:phys.gravitation",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000254",
+      "source": "stemma:phys.mechanical-advantage",
+      "target": "stemma:phys.work",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000262",
+      "source": "stemma:phys.motion",
+      "target": "stemma:phys.velocity",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000263",
+      "source": "stemma:phys.motion",
+      "target": "stemma:phys.acceleration",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000292",
+      "source": "stemma:phys.projectile-motion",
+      "target": "stemma:phys.acceleration",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000294",
+      "source": "stemma:phys.scalar",
+      "target": "stemma:phys.distance",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000301",
+      "source": "stemma:phys.thermal-energy",
+      "target": "stemma:phys.energy-loss",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000302",
+      "source": "stemma:phys.vector",
+      "target": "stemma:phys.displacement",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000310",
+      "source": "stemma:phys.wave-speed",
+      "target": "stemma:phys.wave",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000313",
+      "source": "stemma:phys.weight",
+      "target": "stemma:phys.force",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000314",
+      "source": "stemma:phys.weight",
+      "target": "stemma:phys.gravitation",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000323",
+      "source": "stemma:phys.change-of-state",
+      "target": "stemma:phys.temperature",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000324",
+      "source": "stemma:phys.change-of-state",
+      "target": "stemma:phys.specific-heat",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000332",
+      "source": "stemma:phys.heating-effect",
+      "target": "stemma:phys.energy",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000333",
+      "source": "stemma:phys.heating-effect",
+      "target": "stemma:phys.power",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000340",
+      "source": "stemma:phys.amplitude",
+      "target": "stemma:phys.wave",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000343",
+      "source": "stemma:phys.frequency",
+      "target": "stemma:phys.wave",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000365",
+      "source": "stemma:phys.sound",
+      "target": "stemma:phys.frequency",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000366",
+      "source": "stemma:phys.sound",
+      "target": "stemma:phys.amplitude",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000367",
+      "source": "stemma:phys.sound",
+      "target": "stemma:phys.wave-speed",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000368",
+      "source": "stemma:phys.wave",
+      "target": "stemma:phys.wavelength",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000369",
+      "source": "stemma:phys.wave",
+      "target": "stemma:phys.frequency",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000370",
+      "source": "stemma:phys.wave",
+      "target": "stemma:phys.amplitude",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000371",
+      "source": "stemma:phys.wave",
+      "target": "stemma:phys.wave-speed",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000372",
+      "source": "stemma:phys.wavelength",
+      "target": "stemma:phys.wave",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000394",
+      "source": "stemma:phys.brownian-motion",
+      "target": "stemma:phys.heat",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000459",
+      "source": "stemma:math.circle",
+      "target": "stemma:math.area",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000475",
+      "source": "stemma:math.area",
+      "target": "stemma:math.triangle",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000476",
+      "source": "stemma:math.area",
+      "target": "stemma:math.circle",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000478",
+      "source": "stemma:math.volume",
+      "target": "stemma:math.circle",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000479",
+      "source": "stemma:math.volume",
+      "target": "stemma:math.triangle",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000481",
+      "source": "stemma:math.mean",
+      "target": "stemma:math.probability",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000483",
+      "source": "stemma:math.median",
+      "target": "stemma:math.probability",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000484",
+      "source": "stemma:math.probability",
+      "target": "stemma:math.mean",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000485",
+      "source": "stemma:math.probability",
+      "target": "stemma:math.median",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000541",
+      "source": "stemma:chem.catalyst",
+      "target": "stemma:chem.reaction-rate",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000542",
+      "source": "stemma:chem.catalyst",
+      "target": "stemma:chem.activation-energy",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000551",
+      "source": "stemma:chem.reaction-rate",
+      "target": "stemma:chem.catalyst",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000571",
+      "source": "stemma:chem.enthalpy",
+      "target": "stemma:chem.chemical-reaction",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000579",
+      "source": "stemma:math.determinant",
+      "target": "stemma:math.algebraic-expression",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000586",
+      "source": "stemma:math.continuity",
+      "target": "stemma:math.derivative",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000589",
+      "source": "stemma:math.derivative",
+      "target": "stemma:math.polynomial",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000609",
+      "source": "stemma:math.arithmetic-sequence",
+      "target": "stemma:math.mean",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000621",
+      "source": "stemma:math.combination",
+      "target": "stemma:math.probability",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000622",
+      "source": "stemma:math.combination",
+      "target": "stemma:math.fraction",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000625",
+      "source": "stemma:math.permutation",
+      "target": "stemma:math.probability",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000627",
+      "source": "stemma:math.standard-deviation",
+      "target": "stemma:math.rational-number",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000628",
+      "source": "stemma:math.standard-deviation",
+      "target": "stemma:math.probability",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000629",
+      "source": "stemma:phys.half-life",
+      "target": "stemma:phys.radioactivity",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000630",
+      "source": "stemma:phys.nuclear-binding-energy",
+      "target": "stemma:phys.nuclear-fission",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000631",
+      "source": "stemma:phys.nuclear-binding-energy",
+      "target": "stemma:phys.nuclear-fusion",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000638",
+      "source": "stemma:phys.electric-field",
+      "target": "stemma:phys.force",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000640",
+      "source": "stemma:phys.magnetic-force",
+      "target": "stemma:phys.force",
+      "suggested": "measured_by"
+    },
+    {
+      "id": "stemma:conn.000648",
+      "source": "stemma:phys.phase-change",
+      "target": "stemma:phys.heat",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000649",
+      "source": "stemma:phys.phase-change",
+      "target": "stemma:phys.temperature",
+      "suggested": "measures"
+    },
+    {
+      "id": "stemma:conn.000651",
+      "source": "stemma:phys.doppler-effect",
+      "target": "stemma:phys.frequency",
+      "suggested": "measures"
+    }
+  ],
+  "by_suggested": {
+    "mathematically_requires": 308,
+    "measures": 53,
+    "measured_by": 32
+  },
+  "note": "Advisory only. Never bulk-relabel; humans author/supersede through review."
+}

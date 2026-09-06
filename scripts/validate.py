@@ -655,6 +655,101 @@ def check_registry_coherence(registry: dict, errors: list) -> None:
                                   f"(known: {sorted(known_types)})")
 
 
+def check_evidence_integrity(conn: dict, errors: list, warnings: list) -> None:
+    """R2 evidence/source integrity (Phase B).
+
+    1. ERROR: a `review.status == canonical` assertion must carry at least one
+       evidence item, or an explicit axiomatic marker (type `axiom`, or type
+       `other` whose description says `axiomatic`). This closes the "direct edit
+       can mark canonical without evidence" hole.
+    2. WARNING (advisory): any *active*, non-rejected assertion with empty
+       evidence is surfaced so the source/evidence backfill report can drive
+       human work without blocking draft ingestion.
+    """
+    here = f"{conn.get('_file', '<connection>')}:"
+    assertion = conn.get("assertion") or {}
+    review = assertion.get("review") or {}
+    evidence = conn.get("evidence") or []
+
+    if review.get("status") == "canonical":
+        if not evidence:
+            errors.append(
+                f"{here} canonical assertion has no evidence — review.status==canonical "
+                "requires >=1 evidence item or an explicit axiomatic marker "
+                "({type: axiom, description: 'axiomatic ...'}) (R2)"
+            )
+
+    if assertion.get("status") == "active" and review.get("status") != "rejected" and not evidence:
+        warnings.append(
+            f"{here} active assertion has no evidence (advisory R2 — see "
+            "reports/academic-sources.json for backfill drivers)"
+        )
+
+
+def _relation_type_fits(info: dict, stype: str, ttype: str) -> bool:
+    domain = info.get("domain") or []
+    range_ = info.get("range") or []
+    return (not domain or stype in domain) and (not range_ or ttype in range_)
+
+
+# Priority order for suggested reclassifications (deterministic; human triage only).
+RELATION_RECLASS_PRIORITY = (
+    "mathematically_requires", "requires", "logically_requires", "depends_on",
+    "prerequisite_of", "expresses_in", "expressed_in", "has_unit", "measures",
+    "quantifies", "causes", "contributes_to", "results_in", "explains",
+    "applies_to", "governed_by", "derived_from", "enables", "used_in",
+    "applied_to", "equivalent_to",
+)
+
+
+def check_relation_triage_advisory(conn: dict, entities: dict, specific_pairs: set,
+                                   registry: dict, warnings: list) -> None:
+    """R4 advisory (not a gate): related_to-only edges that have a reserved/
+    adopted specific relation whose domain/range fits.
+
+    This is the validator side of the triage report; it never relabels anything.
+    """
+    if conn.get("relation") != "related_to":
+        return
+    if (conn.get("assertion") or {}).get("status") != "active":
+        return
+    src, tgt = conn.get("source"), conn.get("target")
+    if not isinstance(src, str) or not isinstance(tgt, str):
+        return
+    if frozenset((src, tgt)) in specific_pairs:
+        # The pair already has a more specific edge; handled by the triage report,
+        # but not worth a validator warning (the specific edge expresses the claim).
+        return
+    stype = entities.get(src, {}).get("type")
+    ttype = entities.get(tgt, {}).get("type")
+    if not stype or not ttype:
+        return
+    relations = registry.get("relations") or {}
+    candidates = []
+    for name in RELATION_RECLASS_PRIORITY:
+        info = relations.get(name) or {}
+        if not info or info.get("family") == "associative":
+            continue
+        if info.get("status") not in ("adopted", "reserved"):
+            continue
+        if _relation_type_fits(info, stype, ttype):
+            candidates.append(name)
+            break
+        # symmetric/inverse fit
+        inverse = info.get("inverse")
+        if inverse:
+            inv = relations.get(inverse) or {}
+            if inv and _relation_type_fits(inv, stype, ttype):
+                candidates.append(inverse)
+                break
+    if candidates:
+        warnings.append(
+            f"{conn.get('_file', '<connection>')}: related_to may be reclassified "
+            f"as {candidates[0]} (only edge for this pair and the reserved relation "
+            "fits domain/range; human triage — reports/relation-triage.json, never bulk-relabel)"
+        )
+
+
 def check_connection_context(conn: dict, vocab: dict, errors: list) -> None:
     """Enforce controlled context vocabularies (ADR-0021, audit F3/F11)."""
     here = f"{conn.get('_file', '<connection>')}:"
@@ -1060,12 +1155,20 @@ def main(argv: list[str] | None = None) -> int:
     if not agents:
         errors.append("schema/agent-registry.yaml missing or empty (plan v2 E4.2: every provenance agent must resolve)")
     check_agent_registry_shape(agents, errors)
+    specific_pairs: set = set()
+    for conn in connections.values():
+        if conn.get("relation") != "related_to":
+            src, tgt = conn.get("source"), conn.get("target")
+            if isinstance(src, str) and isinstance(tgt, str):
+                specific_pairs.add(frozenset((src, tgt)))
     for conn in connections.values():
         check_connection_agents(conn, agents, errors)
         check_connection_context(conn, vocab, errors)
         check_assertion_epistemics(conn, errors, warnings)
         check_lifecycle_pointers(conn, connections, errors)
         check_rejected_lifecycle(conn, errors)
+        check_evidence_integrity(conn, errors, warnings)
+        check_relation_triage_advisory(conn, entities, specific_pairs, registry, warnings)
     check_relationship_cycles(connections, registry, errors)
     check_inline_projection(entities, connections, errors)
     claim_signatures = check_duplicate_claims(connections, errors)

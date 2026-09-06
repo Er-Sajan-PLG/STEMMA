@@ -109,7 +109,7 @@ def test_trusted_export():
     # trusted excludes unreviewed
     import subprocess, json
 
-    subprocess.run(["python3", str(ROOT / "scripts/export_review_aware.py")], check=True)
+    subprocess.run([sys.executable, str(ROOT / "scripts/export_review_aware.py")], check=True)
     trusted = json.loads((ROOT / "exports/knowledge.trusted.json").read_text())
     all_c = json.loads((ROOT / "exports/knowledge.all.json").read_text())
     canonical_files = sum(

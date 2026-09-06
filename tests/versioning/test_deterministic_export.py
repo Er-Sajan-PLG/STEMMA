@@ -1,4 +1,5 @@
 """Versioning & determinism tests (plan v2 E5.1/E5.2, ADR-0022; audit F5/F8)."""
+import sys
 import json
 import pathlib
 import subprocess
@@ -37,7 +38,7 @@ def test_export_regeneration_is_byte_identical():
     exports = sorted((ROOT / "exports").glob("*.json"))
     before = {p.name: p.read_bytes() for p in exports}
     for script in ("validate.py", "export_review_aware.py", "graph_analysis.py"):
-        r = subprocess.run(["python3", str(ROOT / "scripts" / script)], capture_output=True, text=True)
+        r = subprocess.run([sys.executable, str(ROOT / "scripts" / script)], capture_output=True, text=True)
         assert r.returncode == 0, f"{script} failed: {r.stderr[-400:]}"
     after = {p.name: p.read_bytes() for p in exports}
     assert before == after, "regeneration changed derived exports — not deterministic (E5.2)"

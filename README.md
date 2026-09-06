@@ -44,7 +44,7 @@ STEMMA/
 ├── sources/          canonical citation records
 ├── schema/           JSON Schema contracts, relation/agent/extension registries, vocabularies
 ├── adapters/python/  first-party read-only Python consumer adapter (SDK, CLI, local JSON API)
-├── scripts/          the validation gate, review workflow, ingestion, derived-artifact builders
+├── scripts/          the validation gate, review workflow (incl. entity review), ingestion, derived-artifact builders
 ├── webapp/           stdlib ingestion/review UI (upload → extract → draft → human review → staged proposal)
 ├── exports/          DERIVED artifacts (regenerable; never the source of truth)
 ├── tests/            invariant test suite (layered)
