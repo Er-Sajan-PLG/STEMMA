@@ -46,6 +46,7 @@ its enforcement (validator rule and/or test) in the same change set.
 | 0035 | [0035-ingest-proposal-correctness.md](0035-ingest-proposal-correctness.md) | Ingest/proposal correctness (schema-valid source, fail-closed Draft seam, gate-before-stage) | decided & implemented |
 | 0036 | [0036-ingestion-review-webapp.md](0036-ingestion-review-webapp.md) | Stdlib ingestion/review webapp with git-ignored workflow + human-only staging | decided & implemented |
 | 0037 | [0037-phase-b-trust-review-activation.md](0037-phase-b-trust-review-activation.md) | Phase B trust/review activation (R2 evidence+source, R4 relation triage, R6 entity review) | decided & implemented |
+| 0038 | [0038-antigravity-provider-abstraction.md](0038-antigravity-provider-abstraction.md) | Provider abstraction: official Antigravity local agent (SDK/CLI) + separate Gemini/Vertex/openai-compatible | decided & implemented |
 
 ## Historical note
 

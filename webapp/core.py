@@ -23,8 +23,11 @@ from typing import Any
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT / "scripts") not in sys.path:
     sys.path.insert(0, str(ROOT / "scripts"))
+if str(ROOT / "webapp") not in sys.path:
+    sys.path.insert(0, str(ROOT / "webapp"))
 
 import ingest  # noqa: E402
+import providers  # noqa: E402
 import validate  # noqa: E402
 
 WORKFLOW_ENV = "STEMMA_WORKFLOW_DIR"
@@ -32,16 +35,17 @@ DEFAULT_WORKFLOW = ROOT / "workflow"
 
 DOCUMENT_STATUSES = {"uploaded", "extracting", "ready", "error", "unsupported", "generated", "staged"}
 KIND_LABEL = {"pdf": "PDF", "image": "Image (OCR)", "text": "Text file", "other": "Other/unsupported"}
-SYSTEM_DRAFT_NOTE = "You produce only valid JSON proposal payloads for STEMMA."
-DEFAULT_PROVIDERS = {
-    "openai": {"base_url": "https://api.openai.com/v1", "model": "gpt-4o-mini"},
-    "google": {"base_url": "https://generativelanguage.googleapis.com/v1beta", "model": "gemini-3-pro-preview"},
-    # Local harnesses (Antigravity CLI/Gateway, DeepSeek harness, Cline/Continue
-    # proxies, etc.) expose an OpenAI-compatible /v1/chat/completions endpoint.
-    # Replace 127.0.0.1 with the harness machine/tunnel if the webapp is remote.
-    "antigravity": {"base_url": "http://127.0.0.1:6012/v1", "model": "gemini-3-pro"},
-}
-SUPPORTED_PROVIDERS = tuple(DEFAULT_PROVIDERS)
+SYSTEM_DRAFT_NOTE = providers.SYSTEM_DRAFT_NOTE
+
+# Provider abstraction: official Antigravity local agent first, then separate
+# Gemini API / Vertex AI / OpenAI-compatible entitlements. See webapp/providers.py.
+DEFAULT_PROVIDERS = {pid: providers.SPECS[pid].defaults for pid in providers.PROVIDER_IDS}
+SUPPORTED_PROVIDERS = providers.PROVIDER_IDS + tuple(
+    sorted(alias for alias in providers.ALIASES if alias not in providers.PROVIDER_IDS)
+)
+# Include aliases in DEFAULT_PROVIDERS so a UI can still prefill old ids.
+for alias, canonical in providers.ALIASES.items():
+    DEFAULT_PROVIDERS.setdefault(alias, DEFAULT_PROVIDERS.get(canonical))
 
 
 class WebappError(ValueError):
@@ -125,49 +129,64 @@ class Workflow:
     def read_llm_config(self, mask: bool = False) -> dict:
         path = self.config / "llm.json"
         if not path.exists():
-            return {"provider": "antigravity", "base_url": "", "model": "", "api_key": "", "configured": False}
+            return {"provider": "antigravity", "base_url": "", "model": "", "api_key": "",
+                    "project": "", "location": "", "transport": "auto", "effort": "", "agent": "",
+                    "configured": False}
         try:
             data = json.loads(path.read_text(encoding="utf-8"))
         except json.JSONDecodeError:
             data = {}
         key = data.get("api_key") or ""
-        provider = data.get("provider") or "openai"
+        provider = providers.canonical_provider(data.get("provider") or "antigravity") or "antigravity"
         out = {
             "provider": provider,
             "base_url": data.get("base_url") or "",
             "model": data.get("model") or "",
             "api_key": "••••" + key[-4:] if key and mask else key,
-            "configured": bool(provider in SUPPORTED_PROVIDERS and data.get("base_url") and data.get("model") and key),
+            "project": data.get("project") or "",
+            "location": data.get("location") or "",
+            "transport": data.get("transport") or "",
+            "effort": data.get("effort") or "",
+            "agent": data.get("agent") or "",
+            "configured": providers.configured({**data, "provider": provider}),
         }
         return out
 
-    def save_llm_config(self, *, provider: str, base_url: str, model: str, api_key: str) -> dict:
-        provider = (provider or "openai").strip().lower()
-        if provider not in SUPPORTED_PROVIDERS:
+    def save_llm_config(self, *, provider: str, base_url: str = "", model: str = "",
+                        api_key: str = "", project: str = "", location: str = "",
+                        transport: str = "", effort: str = "", agent: str = "") -> dict:
+        provider = providers.canonical_provider((provider or "antigravity"))
+        if not provider:
             raise WebappError(
-                "provider must be one of: " + ", ".join(SUPPORTED_PROVIDERS) +
-                " (antigravity/openai use an OpenAI-compatible chat/completions harness)"
+                "provider must be one of: " + ", ".join(providers.PROVIDER_IDS) +
+                " (antigravity uses the official local SDK/CLI; gemini_api and vertex_ai "
+                "are separate paid entitlements)."
             )
-        if not base_url or not model:
-            raise WebappError("base_url and model are required to configure an LLM Draft")
+        cfg = {"provider": provider, "base_url": base_url or "", "model": model or "",
+               "api_key": api_key or "", "project": project or "", "location": location or "",
+               "transport": transport or "", "effort": effort or "", "agent": agent or ""}
+        spec = providers.spec(provider)
+        if spec.needs_base_url and not cfg["base_url"]:
+            raise WebappError(f"{spec.label} requires base_url")
+        if spec.needs_model and not cfg["model"]:
+            raise WebappError(f"{spec.label} requires model")
         # The GET config masks the key. If the UI submitted the masked value
         # (the user did not type a new key), preserve the existing secret.
         existing = self.read_llm_config()
         if existing.get("provider") != provider:
             # Switching providers always requires a fresh key (no cross-provider secret reuse).
             existing = {"api_key": ""}
-        if api_key.startswith("••••") or not api_key.strip():
-            api_key = existing.get("api_key") or ""
-        data = {
-            "provider": provider,
-            "base_url": base_url.strip().rstrip("/"),
-            "model": model.strip(),
-            "api_key": api_key.strip(),
-        }
+        if cfg["api_key"].startswith("••••") or not cfg["api_key"].strip():
+            cfg["api_key"] = existing.get("api_key") or ""
+        data = {k: (v.strip().rstrip("/") if isinstance(v, str) else v) for k, v in cfg.items()}
         (self.config / "llm.json").write_text(
             json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
         )
-        self.log("config_saved", detail={"base_url": data["base_url"], "model": data["model"]})
+        self.log("config_saved", detail={
+            "provider": provider,
+            "base_url": data["base_url"], "model": data["model"],
+            "project": data.get("project", ""), "location": data.get("location", ""),
+        })
         return self.read_llm_config(mask=True)
 
     # ------------------------------------------------------------------ #
@@ -211,142 +230,56 @@ class Workflow:
         if not config["configured"]:
             raise ProviderNotConfigured(
                 "No LLM Draft provider configured. Open Settings, pick a provider "
-                "(Antigravity/local harness, Google Gemini, or OpenAI-compatible), "
-                "enter base URL, model, API key, then retry."
+                "(Antigravity official local agent, Gemini API, Vertex AI, or "
+                "OpenAI-compatible), configure it, then retry."
             )
-        try:
-            payload = self._llm_chat(config, 'Return ONLY this JSON object: {"candidates": []}')
-        except ProviderError as exc:
-            return {"ok": False, "provider": config.get("provider"), "error": str(exc)}
-        return {"ok": True, "provider": config.get("provider"), "model": config.get("model"),
-                "keys": sorted((payload or {}).keys())[:8]}
+        result = providers.probe(config)
+        if not result.get("ok"):
+            return {"ok": False, "provider": config.get("provider"), "error": result.get("message", "")}
+        return {"ok": True, "provider": config.get("provider"),
+                "model": config.get("model"), "message": result.get("message", "")}
 
     def list_provider_models(self, *, provider: str | None = None,
                              base_url: str | None = None,
                              api_key: str | None = None) -> dict:
-        """List models exposed by a signed-in harness.
-
-        ``antigravity``/``openai`` use an OpenAI-compatible ``GET {base_url}/models``;
-        ``google`` uses ``GET {base_url}/models`` with ``x-goog-api-key``. This is
-        how a DeepSeek/agent-style harness is expected to expose its models, so the
-        webapp can offer a real model picker instead of hand-typed ids.
-        """
-        import urllib.error
-        import urllib.request
-
+        """List models exposed by the selected provider/agent backend."""
         cfg = self.read_llm_config()
-        provider = (provider or cfg.get("provider") or "antigravity").strip().lower()
-        endpoint = (base_url or cfg.get("base_url") or "").strip().rstrip("/")
-        key = (api_key or cfg.get("api_key") or "").strip()
-        # The UI posts the masked value back; fall back to the saved secret.
+        provider = provider or cfg.get("provider") or "antigravity"
+        endpoint = (base_url if base_url is not None else cfg.get("base_url") or "").strip().rstrip("/")
+        key = (api_key if api_key is not None else cfg.get("api_key") or "").strip()
         if key.startswith("••••"):
             key = cfg.get("api_key") or ""
-        if not endpoint:
-            raise WebappError("base_url is required to list models")
-
-        headers = {"Content-Type": "application/json"}
-        if provider == "google":
-            headers["x-goog-api-key"] = key
-        else:
-            headers["Authorization"] = f"Bearer {key}"
-        request = urllib.request.Request(f"{endpoint}/models", headers=headers, method="GET")
+        cfg = {**cfg, "provider": provider, "base_url": endpoint or cfg.get("base_url", ""),
+               "api_key": key or cfg.get("api_key", "")}
         try:
-            with urllib.request.urlopen(request, timeout=30) as response:
-                data = json.loads(response.read().decode("utf-8"))
-        except urllib.error.HTTPError as exc:
-            body = exc.read().decode("utf-8")[:300]
-            raise ProviderError(f"listing models failed: HTTP {exc.code}: {body}") from exc
-        except Exception as exc:  # noqa: BLE001
-            raise ProviderError(f"listing models failed: {exc}") from exc
-
-        raw_ids: list[str] = []
-        if isinstance(data, list):  # some harnesses return a bare id array
-            raw_ids = [str(x) for x in data]
-        elif isinstance(data.get("data"), list):  # OpenAI-compatible
-            raw_ids = [str(m.get("id") or m.get("name") or "") for m in data["data"] if isinstance(m, dict)]
-        elif isinstance(data.get("models"), list):  # Google Generative Language
-            for m in data["models"]:
-                name = m.get("name") if isinstance(m, dict) else str(m)
-                raw_ids.append(str(name).rsplit("/", 1)[-1])
-        models = sorted({x for x in raw_ids if x})
-        if not models:
-            raise ProviderError("provider returned no models")
-        return {"ok": True, "provider": provider, "count": len(models), "models": models}
+            result = providers.list_models(cfg)
+        except providers.ProviderError as exc:
+            raise ProviderError(str(exc)) from exc
+        result["provider"] = providers.canonical_provider(provider) or provider
+        return result
 
     def provider_login(self, *, provider: str | None = None,
                        base_url: str | None = None,
                        api_key: str | None = None) -> dict:
-        """Try to start a sign-in flow on an Antigravity-style local harness.
+        """Hand off to the provider's official login mechanism.
 
-        Local harnesses (antigravity-cli and similar) expose a login endpoint that
-        returns an OAuth/Google login ``url``. The webapp cannot hold Google
-        credentials itself; it only hands the user the URL from their own harness
-        and then lets them pick the resulting models with ``list_provider_models``.
+        The Antigravity provider never collects Google credentials: it tells the
+        user to complete local `agy`/SDK sign-in. A community/OpenAI-compatible
+        harness may expose its own login URL, which is opened in the user's
+        browser.
         """
-        import urllib.error
-        import urllib.request
-
         cfg = self.read_llm_config()
-        provider = (provider or cfg.get("provider") or "antigravity").strip().lower()
-        endpoint = (base_url or cfg.get("base_url") or "").strip().rstrip("/")
-        key = (api_key or cfg.get("api_key") or "").strip()
+        provider = provider or cfg.get("provider") or "antigravity"
+        endpoint = (base_url if base_url is not None else cfg.get("base_url") or "").strip().rstrip("/")
+        key = (api_key if api_key is not None else cfg.get("api_key") or "").strip()
         if key.startswith("••••"):
             key = cfg.get("api_key") or ""
-
-        if provider == "google":
-            return {
-                "ok": False,
-                "provider": provider,
-                "message": (
-                    "The Google Gemini provider uses an AI Studio/GenAI API key "
-                    "and cannot log in to a Google AI Pro account by itself. To use "
-                    "your Google AI Pro models inside Antigravity, choose "
-                    "'Antigravity / local harness', run a harness that signs in with "
-                    "your Google account, then press Sign in here and Load models."
-                ),
-            }
-        if not endpoint:
-            raise WebappError("base_url is required to sign in to a harness")
-
-        errors: list[str] = []
-        for path in ("/api/login", "/login"):
-            url = f"{endpoint}{path}"
-            method = "POST" if path == "/api/login" else "GET"
-            headers = {"Content-Type": "application/json"}
-            if provider != "google" and key:
-                headers["Authorization"] = f"Bearer {key}"
-            request = urllib.request.Request(url, data=b"{}" if method == "POST" else None,
-                                             headers=headers, method=method)
-            try:
-                with urllib.request.urlopen(request, timeout=20) as response:
-                    raw = response.read()
-                text = raw.decode("utf-8", "replace").strip()
-                try:
-                    data = json.loads(text)
-                    result = data.get("url") or data.get("authorization_url") or \
-                        data.get("login_url") or data.get("auth_url")
-                    if isinstance(result, str) and result.startswith("http"):
-                        return {"ok": True, "provider": provider, "url": result,
-                                "message": str(data.get("message") or "Open the sign-in URL in your browser.")}
-                except json.JSONDecodeError:
-                    pass
-                if text.startswith("http"):
-                    return {"ok": True, "provider": provider, "url": text,
-                            "message": "Open the sign-in URL in your browser."}
-            except urllib.error.HTTPError as exc:
-                errors.append(f"{path}: HTTP {exc.code}")
-            except Exception as exc:  # noqa: BLE001
-                errors.append(f"{path}: {exc}")
-        return {
-            "ok": False,
-            "provider": provider,
-            "message": (
-                "No login URL discovered on this harness endpoint. If your harness "
-                "has a web dashboard/CLI, open it directly or run its login command "
-                "first (e.g. `node index.js login` for antigravity-cli) then press "
-                "Load models. Candidate paths tried: " + "; ".join(errors)
-            ),
-        }
+        cfg = {**cfg, "provider": provider, "base_url": endpoint or cfg.get("base_url", ""),
+               "api_key": key or cfg.get("api_key", "")}
+        try:
+            return providers.login(cfg)
+        except providers.ProviderError as exc:
+            raise WebappError(str(exc)) from exc
 
     def list_documents(self) -> list[dict]:
         records = [self._read_meta(path) for path in sorted(self.meta.glob("*.json"))]
@@ -642,33 +575,11 @@ class Workflow:
         return content
 
     def _llm_chat(self, config: dict, prompt: str) -> dict:
-        import urllib.error
-        import urllib.request
-
-        provider = config.get("provider") or "openai"
-        if provider == "google":
-            url, body, headers = self._google_request(config, prompt)
-            parse = self._parse_google_payload
-        else:
-            url, body, headers = self._openai_request(config, prompt)
-            parse = self._parse_openai_payload
-
-        request = urllib.request.Request(url, data=body, method="POST")
-        for key, value in headers.items():
-            request.add_header(key, value)
+        """Dispatch a proposal request to the selected provider adapter."""
         try:
-            with urllib.request.urlopen(request, timeout=120) as response:
-                raw = response.read().decode("utf-8")
-        except urllib.error.HTTPError as exc:
-            raise ProviderError(f"LLM provider returned HTTP {exc.code}: {exc.read().decode('utf-8')[:300]}") from exc
-        except Exception as exc:  # noqa: BLE001
-            raise ProviderError(f"LLM provider request failed: {exc}") from exc
-        try:
-            return parse(json.loads(raw))
-        except ProviderError:
-            raise
-        except (KeyError, IndexError, TypeError, json.JSONDecodeError) as exc:
-            raise ProviderError(f"LLM provider returned an unexpected payload: {raw[:300]}") from exc
+            return providers.chat(config, prompt)
+        except providers.ProviderError as exc:
+            raise ProviderError(str(exc)) from exc
 
     def _parse_candidate_payload(self, payload: dict, doc_id: str) -> list[dict]:
         candidates = []

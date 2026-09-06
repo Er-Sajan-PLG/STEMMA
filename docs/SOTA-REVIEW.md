@@ -329,6 +329,29 @@ The webapp made proposals reviewable; the remaining Phase B work was closing the
 `reports/{academic-sources,relation-triage,entity-review-campaign}/*`,
 ADR-0037. Verify chain runs child scripts through `sys.executable`.
 
+### Decided: Draft provider abstraction — official Antigravity + separate entitlements (2026-09-07, ADR-0038)
+
+Google Antigravity exposes no supported BYOK: the CLI/IDE authenticate with a
+local Google AI Pro session and explicitly do not accept API keys/endpoints.
+Therefore routing STEMMA's Draft through a separate Gemini API key would bypass
+the user's Antigravity entitlement instead of delegating to it.
+
+**Implemented (ADR-0038):** `webapp/providers.py` is the provider seam.
+
+- `antigravity` (default): official local agent — Antigravity SDK
+  (`google.antigravity`) when installed, otherwise official Antigravity CLI
+  (`agy` headless `-p`). Uses the local Google AI Pro / Antigravity session; no
+  Gemini API key; fails closed if the SDK/CLI is unavailable or unauthenticated.
+- `gemini_api` (alias of legacy `google`), `vertex_ai`, `openai_compatible`
+  (alias of legacy `openai`/community bridge) are separate entitlements.
+- Aliases are canonicalized on save; UI exposes Load models + Sign in to
+  Antigravity; the login flow never collects Google credentials.
+
+**Consequences implemented:** `webapp/providers.py`, `webapp/core.py`,
+`webapp/server.py`, `webapp/static/{index.html,app.js}`,
+`tests/webapp/test_webapp_core.py`, `docs/WEBAPP.md`, `docs/MIGRATIONS.md`,
+ADR-0038.
+
 ### Open threads
 
 Recorded so the review can be continued by any agent without re-deriving the

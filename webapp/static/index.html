@@ -30,17 +30,33 @@
     <form id="settings-form">
       <label>Provider
         <select id="cfg-provider">
-          <option value="antigravity">Antigravity / local harness (OpenAI-compatible)</option>
-          <option value="google">Google Gemini / AI Pro (Antigravity) via API key</option>
-          <option value="openai">OpenAI-compatible (any API)</option>
+          <option value="antigravity">Antigravity (official local agent: SDK then CLI)</option>
+          <option value="gemini_api">Gemini API (separate key entitlement)</option>
+          <option value="vertex_ai">Vertex AI (separate GCP entitlement)</option>
+          <option value="openai_compatible">OpenAI-compatible (custom bridge/tunnel)</option>
         </select>
       </label>
-      <label>Base URL <input id="cfg-base" placeholder="http://127.0.0.1:6012/v1" /></label>
+      <label>Base URL <input id="cfg-base" placeholder="https://generativelanguage.googleapis.com/v1beta or http://127.0.0.1:6012/v1" /></label>
       <label>Model
-        <input id="cfg-model" list="cfg-model-list" placeholder="gemini-3-pro / gemini-3.1-pro-high / gemini-3-pro-preview" />
+        <input id="cfg-model" list="cfg-model-list" placeholder="gemini-3-pro / gemini-3-pro-preview / gemini-3.1-pro-high" />
         <datalist id="cfg-model-list"></datalist>
       </label>
-      <label>API key <input id="cfg-key" type="password" placeholder="AIza… or any local harness key" /></label>
+      <label>API key <input id="cfg-key" type="password" placeholder="AIza… (Gemini/Vertex) or harness key; leave blank for Antigravity" /></label>
+      <div id="cfg-vertex-fields" class="hidden">
+        <label>GCP project <input id="cfg-project" placeholder="my-gcp-project" /></label>
+        <label>Location <input id="cfg-location" placeholder="us-central1" /></label>
+      </div>
+      <div id="cfg-antigravity-fields" class="hidden">
+        <label>Transport
+          <select id="cfg-transport">
+            <option value="auto">auto (SDK then CLI)</option>
+            <option value="sdk">Antigravity SDK</option>
+            <option value="cli">Antigravity CLI (agy)</option>
+          </select>
+        </label>
+        <label>Effort <input id="cfg-effort" placeholder="low / medium / high" /></label>
+        <label>Agent <input id="cfg-agent" placeholder="optional agent slug (see `agy agents`)" /></label>
+      </div>
       <div class="row-actions">
         <button class="btn" type="submit">Save</button>
         <button class="btn" type="button" id="cfg-login">Sign in to Google AI Pro / harness</button>

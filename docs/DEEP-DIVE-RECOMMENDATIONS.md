@@ -266,15 +266,18 @@ v1.0.
 7. R2 evidence gate + source backfill report. ✅ done (ADR-0037)
 8. R6 entity review tooling + entity review campaign + coverage report. ✅ done (ADR-0037)
 9. R4 relation-triage report + advisory warning (derived, not gating). ✅ done (ADR-0037)
+10. Draft provider abstraction: official Antigravity local agent (SDK→CLI, no
+    Gemini key), separate Gemini API / Vertex AI / OpenAI-compatible providers,
+    canonical ids + fail-closed local availability. ✅ done (ADR-0038)
 
 ### Phase C — scientific substance
-10. R3 ADR-0024 decision + math schema/validator + mechanics pilot.
-11. R5 taxonomy versioning + entity `subdomain` (rides with T1 vocabularies).
+11. R3 ADR-0024 decision + math schema/validator + mechanics pilot.
+12. R5 taxonomy versioning + entity `subdomain` (rides with T1 vocabularies).
 
 ### Phase D — hygiene (small, parallel)
-12. R8 dead/stale cleanup.
-13. R7 release-check script.
-14. Documentation + ADRs + the requested **agent skills / AGENTS.md contract** +
+13. R8 dead/stale cleanup.
+14. R7 release-check script.
+15. Documentation + ADRs + the requested **agent skills / AGENTS.md contract** +
     **end-to-end vertical proof**.
 
 ---

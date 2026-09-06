@@ -31,7 +31,11 @@ function jsonPre(obj) {
 }
 
 const PROVIDER_DEFAULTS = {
-  antigravity: { base_url: "http://127.0.0.1:6012/v1", model: "gemini-3-pro" },
+  antigravity: { base_url: "", model: "", transport: "auto", effort: "", agent: "" },
+  gemini_api: { base_url: "https://generativelanguage.googleapis.com/v1beta", model: "gemini-3-pro-preview" },
+  vertex_ai: { base_url: "", model: "gemini-2.5-pro", location: "us-central1" },
+  openai_compatible: { base_url: "http://127.0.0.1:6012/v1", model: "gemini-3-pro" },
+  // compatibility aliases
   google: { base_url: "https://generativelanguage.googleapis.com/v1beta", model: "gemini-3-pro-preview" },
   openai: { base_url: "https://api.openai.com/v1", model: "gpt-4o-mini" },
 };
@@ -39,13 +43,22 @@ const PROVIDER_DEFAULTS = {
 function applyProviderDefaults(provider, force) {
   const base = document.getElementById("cfg-base");
   const model = document.getElementById("cfg-model");
+  const key = document.getElementById("cfg-key");
   if (force || !base.value) base.value = (PROVIDER_DEFAULTS[provider] || {}).base_url || "";
   if (force || !model.value) model.value = (PROVIDER_DEFAULTS[provider] || {}).model || "";
+  if (force && provider === "antigravity") key.value = "";
+  const vertex = document.getElementById("cfg-vertex-fields");
+  const ag = document.getElementById("cfg-antigravity-fields");
+  if (vertex) vertex.classList.toggle("hidden", provider !== "vertex_ai");
+  if (ag) ag.classList.toggle("hidden", provider !== "antigravity");
   const hint = document.getElementById("cfg-hint");
   const hints = {
-    antigravity: "Run a harness that is already signed in to your Google AI Pro / Antigravity account (and exposes OpenAI-compatible /v1). Press Sign in to get its login URL, then Load models. In the Arena preview the base URL must be the harness's public/tunneled URL — or run the webapp on the same machine: python3 webapp/server.py --host 0.0.0.0 --port 8080.",
-    google: "Google AI Studio/GenAI API keys start with AIza… and use the Gemini generateContent endpoint. It cannot log in to a Google AI Pro account by itself — use the Antigravity / local harness option for subscription models.",
-    openai: "OpenAI-compatible endpoint: POST {base_url}/chat/completions with a Bearer key.",
+    antigravity: "Official Google Antigravity local agent: uses the Antigravity SDK (google.antigravity) when installed, otherwise the Antigravity CLI (agy). It uses your locally signed-in Google AI Pro / Antigravity session — no Gemini API key. Install/authenticate agy or the SDK on the machine that runs the webapp server (run `python3 webapp/server.py --port 8080` on that machine if you use Arena preview).",
+    gemini_api: "Official Gemini Developer API. Keys start with AIza… and use a separate paid/free entitlement — it is NOT your Antigravity subscription.",
+    vertex_ai: "Official Vertex AI on your own GCP project (ADC or Vertex key). Separate from Antigravity and from the consumer Gemini key.",
+    openai_compatible: "Community harness/bridge or any OpenAI-compatible endpoint. NOT an Antigravity/Google AI Pro entitlement path.",
+    google: "Official Gemini Developer API (old alias).",
+    openai: "Official OpenAI-compatible (old alias).",
   };
   hint.textContent = hints[provider] || "";
 }
@@ -58,6 +71,16 @@ async function loadConfig() {
     document.getElementById("cfg-base").value = cfg.base_url || (PROVIDER_DEFAULTS[provider] || {}).base_url || "";
     document.getElementById("cfg-model").value = cfg.model || (PROVIDER_DEFAULTS[provider] || {}).model || "";
     document.getElementById("cfg-key").value = cfg.api_key || "";
+    const project = document.getElementById("cfg-project");
+    const location = document.getElementById("cfg-location");
+    const transport = document.getElementById("cfg-transport");
+    const effort = document.getElementById("cfg-effort");
+    const agent = document.getElementById("cfg-agent");
+    if (project) project.value = cfg.project || "";
+    if (location) location.value = cfg.location || (PROVIDER_DEFAULTS[provider] || {}).location || "";
+    if (transport) transport.value = cfg.transport || "auto";
+    if (effort) effort.value = cfg.effort || "";
+    if (agent) agent.value = cfg.agent || "";
     applyProviderDefaults(provider, false);
   } catch (e) { alert(e.message); }
 }
@@ -75,10 +98,15 @@ async function saveConfig(event) {
         base_url: document.getElementById("cfg-base").value,
         model: document.getElementById("cfg-model").value,
         api_key: document.getElementById("cfg-key").value,
+        project: document.getElementById("cfg-project")?.value || "",
+        location: document.getElementById("cfg-location")?.value || "",
+        transport: document.getElementById("cfg-transport")?.value || "",
+        effort: document.getElementById("cfg-effort")?.value || "",
+        agent: document.getElementById("cfg-agent")?.value || "",
       }),
     });
     document.getElementById("cfg-key").value = cfg.api_key;
-    status.textContent = (cfg.configured ? "configured ✓" : "configured (missing key/base_url/model?)");
+    status.textContent = (cfg.configured ? "configured ✓" : "configured (check provider availability/fields)");
     status.className = "status ok";
   } catch (e) {
     status.textContent = e.message;
@@ -97,6 +125,10 @@ async function signIn() {
         provider: document.getElementById("cfg-provider").value,
         base_url: document.getElementById("cfg-base").value,
         api_key: document.getElementById("cfg-key").value,
+        model: document.getElementById("cfg-model").value,
+        project: document.getElementById("cfg-project")?.value || "",
+        location: document.getElementById("cfg-location")?.value || "",
+        transport: document.getElementById("cfg-transport")?.value || "",
       }),
     });
     if (res.ok && res.url) {
@@ -124,6 +156,10 @@ async function loadModels() {
         provider: document.getElementById("cfg-provider").value,
         base_url: document.getElementById("cfg-base").value,
         api_key: document.getElementById("cfg-key").value,
+        model: document.getElementById("cfg-model").value,
+        project: document.getElementById("cfg-project")?.value || "",
+        location: document.getElementById("cfg-location")?.value || "",
+        transport: document.getElementById("cfg-transport")?.value || "",
       }),
     });
     const datalist = document.getElementById("cfg-model-list");

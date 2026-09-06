@@ -163,10 +163,15 @@ class _Handler(BaseHTTPRequestHandler):
         if path == "/api/config":
             body = self._read_json_body()
             return 200, wf.save_llm_config(
-                provider=str(body.get("provider") or "openai"),
+                provider=str(body.get("provider") or "antigravity"),
                 base_url=str(body.get("base_url") or ""),
                 model=str(body.get("model") or ""),
                 api_key=str(body.get("api_key") or ""),
+                project=str(body.get("project") or ""),
+                location=str(body.get("location") or ""),
+                transport=str(body.get("transport") or ""),
+                effort=str(body.get("effort") or ""),
+                agent=str(body.get("agent") or ""),
             )
         if path == "/api/config/test":
             return 200, wf.test_llm_provider()

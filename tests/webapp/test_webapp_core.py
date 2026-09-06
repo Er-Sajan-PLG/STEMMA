@@ -61,6 +61,10 @@ def test_unsupported_type_is_retained_and_marked(tmp_path: pathlib.Path):
 
 def test_generation_requires_provider(tmp_path: pathlib.Path):
     wf = _fresh_workflow(tmp_path)
+    # An incomplete (no API key) provider must fail closed, independent of whether
+    # a real local Antigravity agent happens to be installed on the host.
+    wf.save_llm_config(provider="gemini_api", base_url="https://generativelanguage.googleapis.com/v1beta",
+                       model="gemini-mock", api_key="")
     doc = wf.accept_upload(original_name="laws.txt", mime="text/plain", data=b"good content")
     wf.extract_document(doc["id"])
     try:
@@ -122,34 +126,98 @@ def test_invalid_candidate_refuses_stage(tmp_path: pathlib.Path):
 
 def test_llm_config_masks_and_preserves_secret(tmp_path: pathlib.Path):
     wf = _fresh_workflow(tmp_path)
-    saved = wf.save_llm_config(provider="openai", base_url="https://api.example.com/v1", model="example-model", api_key="secret-key-1234")
+    saved = wf.save_llm_config(provider="openai_compatible", base_url="https://api.example.com/v1", model="example-model", api_key="secret-key-1234")
+    assert saved["provider"] == "openai_compatible"
     assert saved["configured"] is True
     assert saved["api_key"] == "••••1234"
     real = wf.read_llm_config()
     assert real["api_key"] == "secret-key-1234"
 
     # A subsequent save with the masked value must NOT overwrite the secret.
-    again = wf.save_llm_config(provider="openai", base_url="https://api.example.com/v1", model="example-model", api_key=saved["api_key"])
+    again = wf.save_llm_config(provider="openai_compatible", base_url="https://api.example.com/v1", model="example-model", api_key=saved["api_key"])
     assert again["configured"] is True
     assert wf.read_llm_config()["api_key"] == "secret-key-1234"
     print("PASS: LLM config masks and preserves secret")
 
 
-def test_google_config_roundtrip(tmp_path: pathlib.Path):
+def test_provider_canonicalization(tmp_path: pathlib.Path):
     wf = _fresh_workflow(tmp_path)
     saved = wf.save_llm_config(provider="google", base_url="https://generativelanguage.googleapis.com/v1beta",
                                model="gemini-3-pro-preview", api_key="AIza-test-key-1234")
-    assert saved["provider"] == "google"
+    assert saved["provider"] == "gemini_api", "google alias must canonicalize to gemini_api"
+    print("PASS: provider aliases canonicalized")
+
+
+def test_gemini_config_roundtrip(tmp_path: pathlib.Path):
+    wf = _fresh_workflow(tmp_path)
+    saved = wf.save_llm_config(provider="gemini_api", base_url="https://generativelanguage.googleapis.com/v1beta",
+                               model="gemini-3-pro-preview", api_key="AIza-test-key-1234")
+    assert saved["provider"] == "gemini_api"
     assert saved["configured"] is True
     assert saved["api_key"] == "••••1234"
     real = wf.read_llm_config()
-    assert real["provider"] == "google"
+    assert real["provider"] == "gemini_api"
     assert real["api_key"] == "AIza-test-key-1234"
-    # Switching provider must not reuse a Google key for OpenAI.
-    again = wf.save_llm_config(provider="openai", base_url="https://api.openai.com/v1",
+    # Switching provider must not reuse a Gemini key for OpenAI-compatible.
+    again = wf.save_llm_config(provider="openai_compatible", base_url="https://api.openai.com/v1",
                                model="gpt-4o-mini", api_key=saved["api_key"])
     assert again["configured"] is False
-    print("PASS: Google LLM config roundtrip + provider isolation")
+    print("PASS: Gemini LLM config roundtrip + provider isolation")
+
+
+def test_provider_registry_contract():
+    import providers
+    # Four distinct entitlement paths, Antigravity is official/local.
+    assert set(providers.PROVIDER_IDS) == {"antigravity", "gemini_api", "vertex_ai", "openai_compatible"}
+    # Aliases never leak into persistence.
+    assert providers.canonical_provider("google") == "gemini_api"
+    assert providers.canonical_provider("openai") == "openai_compatible"
+    # Antigravity does not require an API key; Gemini API does.
+    assert providers.spec("antigravity").needs_api_key is False
+    assert providers.spec("gemini_api").needs_api_key is True
+    print("PASS: provider registry contract")
+
+
+def test_agy_headless_command(tmp_path):
+    import providers
+    cmd = providers.agy_command({"provider": "antigravity", "model": "gemini-3.1-pro-high",
+                                 "effort": "high"}, "hello", timeout="20m")
+    assert cmd[0] == "agy"
+    assert cmd[1] == "-p" and cmd[2] == "hello"
+    assert "--model" in cmd and cmd[cmd.index("--model") + 1] == "gemini-3.1-pro-high"
+    assert "--effort" in cmd and cmd[cmd.index("--effort") + 1] == "high"
+    assert "--print-timeout" in cmd and cmd[cmd.index("--print-timeout") + 1] == "20m"
+    print("PASS: agy command builds official headless invocation")
+
+
+def test_provider_json_parsing():
+    import providers
+    assert providers.json_from_content("```json\n{\"candidates\": []}\n```") == {"candidates": []}
+    assert providers.json_from_content("{\"a\":1}") == {"a": 1}
+    assert providers._extract_chat_text("bare text") == "bare text"
+    openai = {"choices": [{"message": {"content": "{\"candidates\":[]}"}}]}
+    assert providers.json_from_content(providers._extract_chat_text(openai)) == {"candidates": []}
+    gemini = {"candidates": [{"content": {"parts": [{"text": "{\"candidates\":[]}"}]}}]}
+    assert providers.json_from_content(providers._extract_chat_text(gemini)) == {"candidates": []}
+    print("PASS: provider JSON/fence parsing")
+
+
+def test_antigravity_availability_uses_local_tool(tmp_path):
+    import providers
+    old = providers._sdk_importable
+    providers._sdk_importable = lambda: False  # type: ignore[assignment]
+    try:
+        # agy is not on PATH in the gate environment by default, so it should
+        # fail closed with an installation message rather than silently using a
+        # Gemini API key.
+        av = providers.availability("antigravity", {})
+        assert av["ok"] is False or av["mechanism"] in ("antigravity-sdk", "antigravity-cli")
+        if not av["ok"]:
+            assert "Antigravity" in av["message"]
+            assert "API key" not in av["message"].lower()
+    finally:
+        providers._sdk_importable = old  # type: ignore[assignment]
+    print("PASS: Antigravity availability fails closed without local agent")
 
 
 def test_google_request_shape():
@@ -209,19 +277,21 @@ def test_list_provider_models_openai_shape(tmp_path):
     port = server.server_address[1]
     try:
         wf = Workflow(tmp_path / "wf")
-        result = wf.list_provider_models(provider="antigravity",
-                                         base_url=f"http://127.0.0.1:{port}/v1",
-                                         api_key="local-harness-key")
+        result = wf.list_provider_models(
+            provider="openai_compatible",
+            base_url=f"http://127.0.0.1:{port}/v1",
+            api_key="local-harness-key",
+        )
     finally:
         server.shutdown()
     assert result["ok"] is True
     assert result["count"] == 3
     assert "gemini-3-pro" in result["models"]
     assert "claude-opus-4-6-thinking" in result["models"]
-    print("PASS: Antigravity harness model listing")
+    print("PASS: OpenAI-compatible harness model listing")
 
 
-def test_list_provider_models_google_shape(tmp_path):
+def test_list_provider_models_gemini_shape(tmp_path):
     import threading
     from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
@@ -242,17 +312,26 @@ def test_list_provider_models_google_shape(tmp_path):
     port = server.server_address[1]
     try:
         wf = Workflow(tmp_path / "wf2")
-        result = wf.list_provider_models(provider="google",
+        result = wf.list_provider_models(provider="gemini_api",
                                          base_url=f"http://127.0.0.1:{port}/v1beta",
                                          api_key="AIza-test")
     finally:
         server.shutdown()
     assert "gemini-3-pro-preview" in result["models"]
     assert "gemini-3-flash" in result["models"]
-    print("PASS: Google/Gemini model listing")
+    print("PASS: Gemini API model listing")
 
 
-def test_provider_login_antigravity(tmp_path):
+def test_provider_login_antigravity_instructions(tmp_path):
+    wf = Workflow(tmp_path / "wf")
+    result = wf.provider_login(provider="antigravity")
+    assert result["ok"] is False
+    assert "Antigravity CLI" in result["message"] or "Antigravity SDK" in result["message"]
+    assert "Google" in result["message"] and ("sign in" in result["message"].lower() or "credentials" in result["message"].lower())
+    print("PASS: Antigravity sign-in uses local CLI/SDK, never a Google credential")
+
+
+def test_provider_login_openai_harness(tmp_path):
     import threading
     from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
@@ -273,7 +352,7 @@ def test_provider_login_antigravity(tmp_path):
     port = server.server_address[1]
     try:
         wf = Workflow(tmp_path / "wf")
-        result = wf.provider_login(provider="antigravity",
+        result = wf.provider_login(provider="openai_compatible",
                                    base_url=f"http://127.0.0.1:{port}/v1",
                                    api_key="local-harness-key")
     finally:
@@ -281,15 +360,15 @@ def test_provider_login_antigravity(tmp_path):
     assert result["ok"] is True
     assert "accounts.google.com" in result["url"]
     assert "Sign in to Google AI Pro" in result["message"]
-    print("PASS: Antigravity harness sign-in URL flow")
+    print("PASS: OpenAI-compatible harness sign-in URL flow")
 
 
-def test_provider_login_google_explains_key(tmp_path):
+def test_provider_login_gemini_explains_key(tmp_path):
     wf = Workflow(tmp_path / "wf")
-    result = wf.provider_login(provider="google", base_url="https://generativelanguage.googleapis.com/v1beta")
+    result = wf.provider_login(provider="gemini_api", base_url="https://generativelanguage.googleapis.com/v1beta")
     assert result["ok"] is False
-    assert "Antigravity / local harness" in result["message"]
-    print("PASS: Google provider sign-in guidance")
+    assert "API key" in result["message"]
+    print("PASS: Gemini provider sign-in guidance")
 
 
 def test_parse_google_payload():
@@ -349,11 +428,33 @@ def test_llm_chat_google_mock(tmp_path: pathlib.Path):
                            model="gemini-mock", api_key="AIza-mock")
         probe = wf.test_llm_provider()
         assert probe["ok"] is True
-        assert probe["provider"] == "google"
+        assert probe["provider"] == "gemini_api", "google alias canonicalizes to gemini_api"
     finally:
         server.shutdown()
         server.server_close()
-    print("PASS: Google Gemini adapter works against a local mock")
+    print("PASS: Gemini API adapter works against a local mock")
+
+
+def test_antigravity_chat_dispatch_without_api_key(tmp_path):
+    import providers
+    wf = _fresh_workflow(tmp_path)
+    original_transport = providers._antigravity_transport
+    original_cli = providers._antigravity_cli_chat
+    original_sdk = providers._antigravity_sdk_chat
+    providers._antigravity_transport = lambda config: "cli"  # type: ignore[assignment]
+    providers._antigravity_sdk_chat = lambda config, prompt: "should not be used"  # type: ignore[assignment]
+    providers._antigravity_cli_chat = lambda config, prompt: json.dumps({  # type: ignore[assignment]
+        "candidates": [{"kind": "entity", "proposal": {"id": "stemma:phys.antigravity-local"}}]
+    })
+    try:
+        config = {"provider": "antigravity", "model": "gemini-3-pro", "api_key": ""}
+        payload = wf._llm_chat(config, "Prompt")
+        assert payload["candidates"][0]["proposal"]["id"] == "stemma:phys.antigravity-local"
+    finally:
+        providers._antigravity_transport = original_transport  # type: ignore[assignment]
+        providers._antigravity_cli_chat = original_cli  # type: ignore[assignment]
+        providers._antigravity_sdk_chat = original_sdk  # type: ignore[assignment]
+    print("PASS: Antigravity chat dispatches via local agent without an API key")
 
 
 def test_connection_requires_known_endpoints(tmp_path: pathlib.Path):
@@ -383,16 +484,23 @@ def main() -> int:
         test_validation_and_staging(tmp_path)
         test_invalid_candidate_refuses_stage(tmp_path)
         test_llm_config_masks_and_preserves_secret(tmp_path)
-        test_google_config_roundtrip(tmp_path)
+        test_provider_canonicalization(tmp_path)
+        test_gemini_config_roundtrip(tmp_path)
         test_antigravity_openai_request_shape()
         test_parse_openai_fenced_payload()
+        test_provider_registry_contract()
+        test_agy_headless_command(tmp_path)
+        test_provider_json_parsing()
+        test_antigravity_availability_uses_local_tool(tmp_path)
         test_list_provider_models_openai_shape(tmp_path)
-        test_list_provider_models_google_shape(tmp_path)
-        test_provider_login_antigravity(tmp_path)
-        test_provider_login_google_explains_key(tmp_path)
+        test_list_provider_models_gemini_shape(tmp_path)
+        test_provider_login_antigravity_instructions(tmp_path)
+        test_provider_login_openai_harness(tmp_path)
+        test_provider_login_gemini_explains_key(tmp_path)
         test_google_request_shape()
         test_parse_google_payload()
         test_llm_chat_google_mock(tmp_path)
+        test_antigravity_chat_dispatch_without_api_key(tmp_path)
         test_connection_requires_known_endpoints(tmp_path)
     print("ALL WEBAPP CORE TESTS PASS")
     return 0

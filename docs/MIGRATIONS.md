@@ -19,6 +19,25 @@ Template:
 
 ---
 
+## 2026-09-07 — Provider abstraction: official Antigravity local agent + separate entitlements (ADR-0038)
+- **Tag:** ADR-0038 · **Kind:** webapp tooling (no canonical data change)
+- **Changed:** new `webapp/providers.py` registry; first-class providers
+  `antigravity` (official Antigravity SDK → official CLI `agy`, no API key),
+  `gemini_api` (former `google`), `vertex_ai`, `openai_compatible` (former
+  `openai`/community harness). `webapp/core.py` delegates chat/probe/models/
+  login to the registry. `save_llm_config` accepts and canonicalizes aliases
+  (`google`→`gemini_api`, `openai`→`openai_compatible`) and persists optional
+  `project`/`location`/`transport`/`effort`/`agent`. UI exposes the four
+  providers, Load models, Sign in to Antigravity, and Vertex/transport fields.
+- **Old data:** existing `workflow/config/llm.json` with `provider: google` or
+  `provider: openai` still reads correctly (aliases are canonicalized at read
+  time); no canonical schema/export change.
+- **Consumer impact:** API consumers get canonical provider ids instead of
+  aliases. Antigravity now requires the official local SDK/CLI on the machine
+  running the webapp; it fails closed (no placeholder candidates) otherwise.
+
+---
+
 ## 2026-09-06 — Phase B trust/review activation (ADR-0037)
 - **Tag:** ADR-0037 · **Kind:** gate + tooling + derived reports (no canonical data change)
 - **Changed:** `validate.py` — canonical assertions require ≥1 evidence item or an explicit
