@@ -64,6 +64,7 @@ VERSION_SOURCE = SCHEMA / "VERSION.yaml"
 VOCAB_DOMAINS = SCHEMA / "vocabularies" / "domains.yaml"
 VOCAB_SUBDOMAINS = SCHEMA / "vocabularies" / "subdomains.yaml"
 VOCAB_REGIMES = SCHEMA / "vocabularies" / "regimes.yaml"
+ID_DOMAIN_MAP = SCHEMA / "id-domain-map.yaml"
 EXPORT = ROOT / "exports" / "knowledge.json"
 EXPORT_SCHEMA = SCHEMA / "export.schema.json"
 
@@ -372,6 +373,83 @@ def _collect_duplicate_keys(node: Any, dups: list[str], path: str) -> None:
     elif isinstance(node, yaml.SequenceNode):
         for value_node in node.value:
             _collect_duplicate_keys(value_node, dups, f"{path}[]")
+
+
+def load_id_domain_map() -> dict:
+    """Load schema/id-domain-map.yaml (ADR-0034)."""
+    if not ID_DOMAIN_MAP.exists():
+        return {"prefixes": {}}
+    try:
+        data = yaml.safe_load(ID_DOMAIN_MAP.read_text(encoding="utf-8")) or {}
+        return data if isinstance(data, dict) else {"prefixes": {}}
+    except yaml.YAMLError:
+        return {"prefixes": {}}
+
+
+def check_id_domain_map_coherence(domain_map: dict, vocab_domains: list, errors: list) -> None:
+    """ADR-0034: the map's domain/directory values must stay coherent with the
+    controlled domains vocabulary and the content tree."""
+    here = "schema/id-domain-map.yaml:"
+    if not isinstance(domain_map, dict) or not isinstance(domain_map.get("prefixes"), dict):
+        errors.append(f"{here} missing or malformed 'prefixes' map")
+        return
+    if not domain_map.get("prefixes"):
+        errors.append(f"{here} prefixes map is empty")
+        return
+    for prefix, entry in sorted(domain_map["prefixes"].items()):
+        if not isinstance(entry, dict):
+            errors.append(f"{here} prefix '{prefix}' must be a mapping")
+            continue
+        domain = entry.get("domain")
+        directory = entry.get("directory")
+        if not isinstance(domain, str) or not domain.strip():
+            errors.append(f"{here} prefix '{prefix}' missing non-empty 'domain'")
+        elif domain not in vocab_domains:
+            errors.append(f"{here} prefix '{prefix}' domain '{domain}' not in vocabularies/domains.yaml")
+        if not isinstance(directory, str) or not directory.strip():
+            errors.append(f"{here} prefix '{prefix}' missing non-empty 'directory'")
+        elif not (ROOT / "content" / directory).is_dir():
+            errors.append(f"{here} prefix '{prefix}' directory '{directory}' is not a content/ directory")
+
+
+def check_entity_domain_identity(entity: dict, domain_map: dict, vocab_domains: list, errors: list) -> None:
+    """ADR-0034: id-prefix -> domain -> path -> vocabulary must agree.
+
+    Hard gate because the immutable ID (`stemma:<domain>.<slug>`), the scalar
+    `domain` field, and the `content/` tree are three representations of one
+    identity; a silent disagreement makes lookups and consumer inference wrong.
+    """
+    here = f"{entity['_file']}:"
+    prefixes = (domain_map or {}).get("prefixes") or {}
+    _id = entity.get("id")
+    if not isinstance(_id, str) or ":" not in _id:
+        return
+    token = _id.split(":", 1)[1]
+    prefix = token.split(".", 1)[0]
+    entry = prefixes.get(prefix)
+    if entry is None:
+        errors.append(f"{here} id prefix '{prefix}' is not in schema/id-domain-map.yaml (ADR-0034)")
+        return
+    expected_domain = entry.get("domain")
+    expected_directory = entry.get("directory")
+    domain = entity.get("domain")
+    if expected_domain and domain != expected_domain:
+        errors.append(
+            f"{here} entity domain '{domain}' does not match id prefix '{prefix}' -> "
+            f"'{expected_domain}' (schema/id-domain-map.yaml, ADR-0034)"
+        )
+    if domain is not None and domain not in vocab_domains:
+        errors.append(f"{here} entity domain '{domain}' not in vocabularies/domains.yaml (ADR-0034)")
+    if expected_directory and isinstance(entity.get("_file"), str):
+        parts = entity["_file"].split("/")
+        if len(parts) < 2 or parts[0] != "content":
+            return
+        directory = parts[1]
+        if directory != expected_directory:
+            errors.append(
+                f"{here} entity path directory '{directory}' does not match id prefix "
+                f"'{prefix}' -> '{expected_directory}' (schema/id-domain-map.yaml, ADR-0034)"
+            )
 
 
 def validate_entity(entity: dict, errors: list, filename_slug: str | None = None) -> None:
@@ -923,6 +1001,12 @@ def main(argv: list[str] | None = None) -> int:
         print(f"error: content directory not found: {CONTENT}", file=sys.stderr)
         return 1
 
+    # ADR-0034: domain identity is a hard cross-object invariant. Load the
+    # single map once (it must also stay coherent with the vocabularies).
+    id_domain_map = load_id_domain_map()
+    vocab_domains = (load_vocabulary(VOCAB_DOMAINS) or {}).get("domains") or []
+    check_id_domain_map_coherence(id_domain_map, vocab_domains, errors)
+
     for path in sorted(CONTENT.rglob("*.md")):
         try:
             entity = parse_entity(path)
@@ -931,6 +1015,7 @@ def main(argv: list[str] | None = None) -> int:
             continue
         check_legacy_namespace(path.read_text(encoding="utf-8"), str(path.relative_to(ROOT)), errors)
         validate_entity(entity, errors, filename_slug=path.stem)
+        check_entity_domain_identity(entity, id_domain_map, vocab_domains, errors)
         check_extensions(entity, "entity", errors, f"{entity['_file']}:")
         check_historical(entity, errors, f"{entity['_file']}:")
         check_external_ids(entity, errors, f"{entity['_file']}:")

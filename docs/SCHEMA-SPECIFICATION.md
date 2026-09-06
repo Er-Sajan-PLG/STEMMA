@@ -31,7 +31,7 @@ draft 2020-12). This document explains the model; the schemas plus
 
 | Object | ID pattern | File rule | Example |
 |---|---|---|---|
-| Entity | `^stemma:[a-z][a-z0-9-]*\.[a-z0-9][a-z0-9-]*$` | `content/<domain>/<subdomain>/<slug>.md`; filename = final ID segment | `stemma:phys.force` → `content/physics/mechanics/force.md` |
+| Entity | `^stemma:[a-z][a-z0-9-]*\.[a-z0-9][a-z0-9-]*$` | `content/<domain>/<subdomain>/<slug>.md`; filename = final ID segment; id-prefix → domain/directory mapping = `schema/id-domain-map.yaml` (ADR-0034) | `stemma:phys.force` → `content/physics/mechanics/force.md` |
 | Connection | `^stemma:conn\.[0-9]{6}$` | `connections/<id-minus-namespace>.yaml` (colon-free) | `stemma:conn.000001` → `connections/conn.000001.yaml` |
 | Source | `^stemma:src\.[a-z0-9][a-z0-9-]*$` | `sources/<id-minus-namespace>.yaml` | `stemma:src.cavendish-1798` → `sources/src.cavendish-1798.yaml` |
 

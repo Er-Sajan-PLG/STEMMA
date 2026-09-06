@@ -224,7 +224,8 @@ warning collection), `scripts/integrity_anomalies.py` (advisory `--json`/`--stri
 
 ### Decided: T3 — Domain identity enforcement (2026-09-06)
 
-Decisions recorded during the review refinement phase (not yet implemented):
+Decisions recorded during the review refinement phase and **implemented on
+2026-09-06 (ADR-0034)**:
 
 1. **New `schema/id-domain-map.yaml`** is the single source of truth for
    `id-prefix → canonical domain name` (one index file, all prefixes).
@@ -242,10 +243,10 @@ Decisions recorded during the review refinement phase (not yet implemented):
    `domain: physics`; it must move to a `physics`-tree subdomain (e.g.
    `content/physics/...`) and retain `stemma:phys.our-environment`.
 
-**Consequences to implement:** `schema/id-domain-map.yaml`; `scripts/validate.py`
-(new `check_entity_domain_identity`); relocate/fix `our-environment.md`;
-`schema/vocabularies/domains.yaml` (maybe a `codes` note); `docs/SCHEMA-SPECIFICATION.md`
-and `docs/DOMAIN-MODEL.md`; `tests/registry/` or `tests/curation/`; ADR-0034.
+**Consequences implemented:** `schema/id-domain-map.yaml`; `scripts/validate.py`
+(`check_entity_domain_identity` + map coherence); relocated `our-environment.md`;
+`schema/vocabularies/domains.yaml` unchanged (map is the one place codes meet
+names); `docs/MIGRATIONS.md`; `tests/registry/test_domain_identity.py`; ADR-0034.
 
 ### Decided: T4 — Ingest/proposal correctness (2026-09-06)
 

@@ -36,6 +36,21 @@ Template:
 
 ---
 
+## 2026-09-06 — Domain identity gate + `our-environment` path relocation (ADR-0034)
+- **Tag:** ADR-0034 · **Kind:** new gate + single-file path relocation (ID unchanged)
+- **Changed:** new `schema/id-domain-map.yaml` maps id-prefix → domain + content
+  directory; validator hard-errors on id-prefix/domain/path/vocabulary mismatch;
+  `content/earth-space/atmosphere-climate/our-environment.md` moved to
+  `content/physics/thermal-physics/our-environment.md` (its `stemma:phys.our-environment`
+  ID and `domain: physics` were already correct; only the path was wrong).
+- **Old data:** old schema/export unchanged (gate + file move only). The moved file's
+  `id` and `domain` are unchanged, so references (connections, aliases, evidence) are
+  unaffected.
+- **Consumer impact:** none (no contract/ID change; the entity is still exported under
+  `stemma:phys.our-environment`). Regenerate with `python3 scripts/validate.py`.
+
+---
+
 ## 2026-09-06 — Machine-readable validation report + `--json` (ADR-0033)
 - **Tag:** ADR-0033 · **Kind:** tooling/report contract (no canonical data change)
 - **Changed:** `reports/validation-report.json` now has `results[]` with

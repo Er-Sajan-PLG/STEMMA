@@ -28,6 +28,7 @@ steps = [
     ["python3", str(ROOT / "tests/phase-b/test_phase_b.py")],
     ["python3", str(ROOT / "tests/phase-b/test_boundary.py")],
     ["python3", str(ROOT / "tests/registry/test_registry_coherence.py")],
+    ["python3", str(ROOT / "tests/registry/test_domain_identity.py")],
     ["python3", str(ROOT / "tests/versioning/test_validation_report.py")],
     ["python3", str(ROOT / "tests/versioning/test_deterministic_export.py")],
     ["python3", str(ROOT / "tests/curation/test_curation.py")],

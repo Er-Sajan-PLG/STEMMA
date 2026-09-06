@@ -1,0 +1,46 @@
+# Domain identity — single source of truth (ADR-0034).
+
+# Maps the immutable `stemma:<prefix>.<slug>` id prefix to the canonical
+# `domain` field and the `content/<directory>/` path. Both `epist` and
+# `practice` are legacy prefixes for `scientific-practice`; a future migration
+# to one prefix is an identity change requiring an ADR + alias migration.
+#
+# The validator enforces:
+#   * id prefix exists in this map;
+#   * prefix->domain == entity.domain;
+#   * entity path directory == map directory;
+#   * entity.domain is in vocabularies/domains.yaml.
+version: '1.0.0'
+prefixes:
+  phys:
+    domain: physics
+    directory: physics
+    legacy: false
+  chem:
+    domain: chemistry
+    directory: chemistry
+    legacy: false
+  bio:
+    domain: biology
+    directory: biology
+    legacy: false
+  earth:
+    domain: earth-space
+    directory: earth-space
+    legacy: false
+  eng:
+    domain: engineering
+    directory: engineering
+    legacy: false
+  math:
+    domain: mathematics
+    directory: math
+    legacy: false
+  epist:
+    domain: scientific-practice
+    directory: scientific-practice
+    legacy: true
+  practice:
+    domain: scientific-practice
+    directory: scientific-practice
+    legacy: true

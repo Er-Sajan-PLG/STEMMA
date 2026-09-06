@@ -42,6 +42,7 @@ its enforcement (validator rule and/or test) in the same change set.
 | 0031 | [0031-rejected-lifecycle.md](0031-rejected-lifecycle.md) | Rejected lifecycle (schema 1.1.0, review.status=rejected, reason-required, all-excludes) | decided & implemented |
 | 0032 | [0032-export-contract-v2.1-relation-registry.md](0032-export-contract-v2.1-relation-registry.md) | Export contract v2.1; relation registry + vocabularies sidecar | decided & implemented |
 | 0033 | [0033-validation-report.md](0033-validation-report.md) | Machine-readable validation report + `--json`; advisory anomalies | decided & implemented |
+| 0034 | [0034-domain-identity.md](0034-domain-identity.md) | Domain identity enforcement (`id-domain-map.yaml`, hard gate, path relocation) | decided & implemented |
 
 ## Historical note
 

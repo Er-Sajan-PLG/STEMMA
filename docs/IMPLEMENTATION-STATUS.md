@@ -13,6 +13,7 @@ Claims here are backed by the verification chain, not by older documents.
 | Four JSON Schema contracts (entity, connection, source, export) v1.0.0 | `schema/`, validated by gate |
 | Relation registry v1.0.0: 55 relations, 12 adopted, coherence-checked | `schema/relation-registry.yaml` |
 | Controlled vocabularies (domains/subdomains/regimes+scales), gate-enforced | `schema/vocabularies/` |
+| Domain identity: `id-domain-map.yaml`, hard id-prefix/domain/path/vocabulary gate; relocated `our-environment` keeping ID | `schema/id-domain-map.yaml`, `validate.py`, `tests/registry/test_domain_identity.py` |
 | Gate: schema, identity, references, registry, vocabularies, epistemics, cycles, duplicate claims, legacy-namespace guard, filename↔ID | `scripts/validate.py` |
 | Deterministic export, contract-validated before write, content-hash stamped | `validate.py`, `tests/versioning/` |
 | Machine-readable validator report (severity results, warnings, counts, versions) + `--json`; advisory integrity anomalies | `validate.py`, `integrity_anomalies.py`, `tests/versioning/test_validation_report.py` |
