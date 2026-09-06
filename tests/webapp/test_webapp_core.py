@@ -126,24 +126,24 @@ def test_invalid_candidate_refuses_stage(tmp_path: pathlib.Path):
 
 def test_llm_config_masks_and_preserves_secret(tmp_path: pathlib.Path):
     wf = _fresh_workflow(tmp_path)
-    saved = wf.save_llm_config(provider="openai_compatible", base_url="https://api.example.com/v1", model="example-model", api_key="secret-key-1234")
+    saved = wf.save_llm_config(provider="openai_compatible", base_url="https://api.example.com/v1", model="example-model", api_key="k1234")
     assert saved["provider"] == "openai_compatible"
     assert saved["configured"] is True
     assert saved["api_key"] == "••••1234"
     real = wf.read_llm_config()
-    assert real["api_key"] == "secret-key-1234"
+    assert real["api_key"] == "k1234"
 
     # A subsequent save with the masked value must NOT overwrite the secret.
     again = wf.save_llm_config(provider="openai_compatible", base_url="https://api.example.com/v1", model="example-model", api_key=saved["api_key"])
     assert again["configured"] is True
-    assert wf.read_llm_config()["api_key"] == "secret-key-1234"
+    assert wf.read_llm_config()["api_key"] == "k1234"
     print("PASS: LLM config masks and preserves secret")
 
 
 def test_provider_canonicalization(tmp_path: pathlib.Path):
     wf = _fresh_workflow(tmp_path)
     saved = wf.save_llm_config(provider="google", base_url="https://generativelanguage.googleapis.com/v1beta",
-                               model="gemini-3-pro-preview", api_key="AIza-test-key-1234")
+                               model="gemini-3-pro-preview", api_key="k1234")
     assert saved["provider"] == "gemini_api", "google alias must canonicalize to gemini_api"
     print("PASS: provider aliases canonicalized")
 
@@ -151,13 +151,13 @@ def test_provider_canonicalization(tmp_path: pathlib.Path):
 def test_gemini_config_roundtrip(tmp_path: pathlib.Path):
     wf = _fresh_workflow(tmp_path)
     saved = wf.save_llm_config(provider="gemini_api", base_url="https://generativelanguage.googleapis.com/v1beta",
-                               model="gemini-3-pro-preview", api_key="AIza-test-key-1234")
+                               model="gemini-3-pro-preview", api_key="k1234")
     assert saved["provider"] == "gemini_api"
     assert saved["configured"] is True
     assert saved["api_key"] == "••••1234"
     real = wf.read_llm_config()
     assert real["provider"] == "gemini_api"
-    assert real["api_key"] == "AIza-test-key-1234"
+    assert real["api_key"] == "k1234"
     # Switching provider must not reuse a Gemini key for OpenAI-compatible.
     again = wf.save_llm_config(provider="openai_compatible", base_url="https://api.openai.com/v1",
                                model="gpt-4o-mini", api_key=saved["api_key"])
@@ -222,10 +222,10 @@ def test_antigravity_availability_uses_local_tool(tmp_path):
 
 def test_google_request_shape():
     config = {"provider": "google", "base_url": "https://generativelanguage.googleapis.com/v1beta",
-              "model": "gemini-3-pro-preview", "api_key": "AIza-key"}
+              "model": "gemini-3-pro-preview", "api_key": "g1234"}
     url, body, headers = Workflow._google_request(config, "Propose candidates.")
     assert url.endswith("/models/gemini-3-pro-preview:generateContent")
-    assert headers["x-goog-api-key"] == "AIza-key"
+    assert headers["x-goog-api-key"] == "g1234"
     assert "Authorization" not in headers
     payload = json.loads(body.decode("utf-8"))
     assert payload["contents"][0]["parts"][0]["text"] == "Propose candidates."
@@ -235,10 +235,10 @@ def test_google_request_shape():
 
 def test_antigravity_openai_request_shape():
     config = {"provider": "antigravity", "base_url": "http://127.0.0.1:6012/v1",
-              "model": "gemini-3-pro", "api_key": "any-local-key"}
+              "model": "gemini-3-pro", "api_key": "local"}
     url, body, headers = Workflow._openai_request(config, "Propose candidates.")
     assert url == "http://127.0.0.1:6012/v1/chat/completions"
-    assert headers["Authorization"] == "Bearer any-local-key"
+    assert headers["Authorization"] == "Bearer local"
     payload = json.loads(body.decode("utf-8"))
     assert "response_format" not in payload, "local harnesses must not be forced to json_object"
     assert payload["model"] == "gemini-3-pro"
@@ -280,7 +280,7 @@ def test_list_provider_models_openai_shape(tmp_path):
         result = wf.list_provider_models(
             provider="openai_compatible",
             base_url=f"http://127.0.0.1:{port}/v1",
-            api_key="local-harness-key",
+            api_key="local",
         )
     finally:
         server.shutdown()
@@ -314,7 +314,7 @@ def test_list_provider_models_gemini_shape(tmp_path):
         wf = Workflow(tmp_path / "wf2")
         result = wf.list_provider_models(provider="gemini_api",
                                          base_url=f"http://127.0.0.1:{port}/v1beta",
-                                         api_key="AIza-test")
+                                         api_key="g1234")
     finally:
         server.shutdown()
     assert "gemini-3-pro-preview" in result["models"]
@@ -354,7 +354,7 @@ def test_provider_login_openai_harness(tmp_path):
         wf = Workflow(tmp_path / "wf")
         result = wf.provider_login(provider="openai_compatible",
                                    base_url=f"http://127.0.0.1:{port}/v1",
-                                   api_key="local-harness-key")
+                                   api_key="local")
     finally:
         server.shutdown()
     assert result["ok"] is True
@@ -416,16 +416,16 @@ def test_llm_chat_google_mock(tmp_path: pathlib.Path):
     thread.start()
     try:
         config = {"provider": "google", "base_url": f"http://127.0.0.1:{port}/v1beta",
-                  "model": "gemini-mock", "api_key": "AIza-mock"}
+                  "model": "gemini-mock", "api_key": "g1234"}
         payload = wf._llm_chat(config, "Prompt")
         assert payload["candidates"][0]["proposal"]["id"] == "stemma:phys.mock"
         assert captured["path"].endswith("/models/gemini-mock:generateContent")
-        assert captured["auth"] == "AIza-mock"
+        assert captured["auth"] == "g1234"
         assert captured["body"]["generationConfig"]["responseMimeType"] == "application/json"
 
         # The UI's "Test provider" path uses the same adapter.
         wf.save_llm_config(provider="google", base_url=config["base_url"],
-                           model="gemini-mock", api_key="AIza-mock")
+                           model="gemini-mock", api_key="g1234")
         probe = wf.test_llm_provider()
         assert probe["ok"] is True
         assert probe["provider"] == "gemini_api", "google alias canonicalizes to gemini_api"
