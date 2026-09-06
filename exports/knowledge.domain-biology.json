@@ -1,0 +1,4632 @@
+{
+  "export_version": "0.2",
+  "schema_version": "0.3",
+  "policy": "domain:biology",
+  "generated_at": "2026-09-06T07:57:41+00:00",
+  "source": "content/",
+  "entity_count": 33,
+  "connection_count": 66,
+  "entities": [
+    {
+      "id": "lhs:bio.adaptation",
+      "type": "concept",
+      "name": "Adaptation",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "A heritable characteristic, structure, behaviour, or physiological trait that enhances an organism's ability to survive and reproduce in its environment, having arisen through natural selection acting on genetic variation over generations.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Camouflage colouration in insects and mammals reduces predation risk.",
+        "The high-affinity haemoglobin of high-altitude species adapts them to low oxygen.",
+        "Desert plants store water in succulent tissues to cope with aridity."
+      ],
+      "key_experiments": [
+        "Long-term studies in Galápagos finches documented beak-size shifts tracking food supply — selection in action."
+      ],
+      "common_misconceptions": [
+        "An organism acquires adaptations by trying to change during its lifetime (adaptations are inherited and evolve across generations via selection).",
+        "Every current trait must be an adaptation (some traits are by-products or neutral; not all features are adaptive)."
+      ],
+      "learning_objectives": [
+        "Define adaptation as a heritable trait increasing fitness in a specific environment.",
+        "Explain how adaptations arise from heritable variation filtered by natural selection.",
+        "Distinguish adaptation from acclimatization within an individual's lifetime."
+      ],
+      "real_world_applications": [
+        "Bioinspired design drawing on adaptations (e.g. gecko adhesion, lotus surfaces).",
+        "Predicting species responses, including maladaptation risk, under climate change."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Biological Sciences / UNESCO Biology Framework"
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:bio.natural-selection"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.ecosystem"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.allele",
+      "type": "concept",
+      "name": "Allele",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "One of the alternative forms of a gene that occupy the same locus on homologous chromosomes and can specify alternative versions of a trait; a diploid organism carries two alleles for each autosomal gene, which may be identical (homozygous) or different (heterozygous).",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "For a gene controlling seed shape, the alleles may specify round (R) or wrinkled (r) peas.",
+        "The ABO blood group arises from three alleles of a single gene (IA, IB, and i)."
+      ],
+      "key_experiments": [
+        "Mendel's breeding experiments with pea plants demonstrated that alleles segregate and assort independently across generations."
+      ],
+      "common_misconceptions": [
+        "Dominant alleles are always the most frequent in a population (dominance describes expression, not frequency).",
+        "An individual can have more than two alleles of the same autosomal gene (an individual has two; a population may harbour many alleles)."
+      ],
+      "learning_objectives": [
+        "Distinguish alleles from genes and loci.",
+        "Interpret genotypes (homozygous dominant, homozygous recessive, heterozygous) in terms of alleles.",
+        "Apply allele symbols to explain dominance and recessiveness."
+      ],
+      "real_world_applications": [
+        "Genetic screening for recessive disease alleles carried by parents.",
+        "Allele-based paternity testing and forensic DNA analysis."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Biological Sciences"
+      },
+      "relationships": [
+        {
+          "type": "special_case_of",
+          "target": "lhs:bio.gene"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.dna"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.animal-cell",
+      "type": "concept",
+      "name": "Animal Cell",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "A eukaryotic cell characteristic of animals, enclosed by a flexible plasma membrane, lacking a cell wall and chloroplasts, and containing membrane-bound organelles such as mitochondria, lysosomes, and a nucleus.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Muscle, nerve and skin cells are specialized animal cells.",
+        "Mature red blood cells have no nucleus."
+      ],
+      "key_experiments": [
+        "Compare cheek-cell micrographs with plant-cell micrographs and draw labelled diagrams."
+      ],
+      "common_misconceptions": [
+        "Animal cells have cell walls like plant cells (animal cells only have a flexible cell membrane).",
+        "Animal cells contain chloroplasts (animal cells obtain energy through heterotrophic nutrition and respiration)."
+      ],
+      "learning_objectives": [
+        "Identify major organelles in an animal cell (nucleus, mitochondria, ribosomes, endoplasmic reticulum).",
+        "Describe the function of the plasma membrane in regulating cell transport.",
+        "Compare structural features of animal and plant cells."
+      ],
+      "real_world_applications": [
+        "Stem cell research and regenerative medicine.",
+        "Pharmacology and cellular drug toxicity testing."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Biological Sciences"
+      },
+      "relationships": [
+        {
+          "type": "special_case_of",
+          "target": "lhs:bio.cell"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.plant-cell"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.cell",
+      "type": "concept",
+      "name": "Cell",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The basic structural, functional, and biological unit of all known living organisms. Cells carry out essential life processes, contain hereditary material, and arise from pre-existing cells.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Bacteria are single cells; a human body contains trillions.",
+        "Cheek cells and onion skin cells are classic microscope specimens."
+      ],
+      "key_experiments": [
+        "Prepare and observe cheek (animal) and onion (plant) cells under a microscope with a stain."
+      ],
+      "common_misconceptions": [
+        "Cells are flat two-dimensional structures as seen under standard microscope slides (cells are 3D).",
+        "All cells are identical in size and shape (cells exhibit extreme specialization and diversity)."
+      ],
+      "learning_objectives": [
+        "State the three principles of cell theory.",
+        "Distinguish between unicellular and multicellular organisms.",
+        "Identify major cell components common to all living cells (plasma membrane, cytoplasm, DNA, ribosomes)."
+      ],
+      "real_world_applications": [
+        "Cell culture in medical diagnostics and vaccine production.",
+        "Understanding cancer and cellular pathology."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Biological Sciences / UNESCO Biology Framework"
+      },
+      "historical": {
+        "stated_by": "Robert Hooke (discovery); Matthias Schleiden & Theodor Schwann (cell theory)",
+        "year": 1665,
+        "where": "Micrographia",
+        "context": "First observation of cells in cork; cell theory formulated in 1838-1839",
+        "note": "Hooke described empty cork 'cells' (cell walls) under his microscope; the cell theory that all living things are made of cells was later formalized by Schleiden and Schwann, with Rudolf Virchow adding that cells arise from pre-existing cells.",
+        "timeline": [
+          {
+            "year": 1665,
+            "by": "Robert Hooke",
+            "event": "Observed and named 'cells' in cork, published in Micrographia"
+          },
+          {
+            "year": 1838,
+            "by": "Matthias Schleiden",
+            "event": "Proposed that all plants are composed of cells"
+          },
+          {
+            "year": 1839,
+            "by": "Theodor Schwann",
+            "event": "Extended the cell theory to animals; proposed all living things are made of cells"
+          },
+          {
+            "year": 1855,
+            "by": "Rudolf Virchow",
+            "event": "'Omnis cellula e cellula' - all cells arise from pre-existing cells"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.matter"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.compound"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.cellular-respiration",
+      "type": "concept",
+      "name": "Cellular Respiration",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The metabolic process by which cells break down organic molecules (such as glucose) to release energy stored in ATP molecules, utilizing oxygen in aerobic respiration and producing carbon dioxide and water.",
+      "symbol": null,
+      "unit": null,
+      "equation": "C₆H₁₂O₆ + 6O₂ → 6CO₂ + 6H₂O + ATP energy",
+      "examples": [
+        "Exercise muscles oxidize glucose for energy; yeast ferments sugar to alcohol and CO₂ (anaerobic).",
+        "Germinating seeds respire and give out heat."
+      ],
+      "key_experiments": [
+        "Blow into or place germinating seeds in limewater — it turns milky, showing CO₂ from respiration."
+      ],
+      "common_misconceptions": [
+        "Cellular respiration is breathing (breathing is gas exchange at the organism level; cellular respiration is energy release at the cell level).",
+        "Plants do not undergo cellular respiration (plants continuously undergo cellular respiration to power cell work)."
+      ],
+      "learning_objectives": [
+        "Write the chemical equation for aerobic cellular respiration.",
+        "Distinguish aerobic respiration (with oxygen) from anaerobic respiration / fermentation (without oxygen).",
+        "Describe the role of mitochondria as the primary site of ATP generation in eukaryotic cells."
+      ],
+      "real_world_applications": [
+        "Exercise physiology, metabolic rate measurement, and athletic training.",
+        "Fermentation in bread baking, brewing, and industrial biotechnology."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Biochemistry and Molecular Biology"
+      },
+      "historical": {
+        "stated_by": "Hans Krebs (citric acid cycle); long development",
+        "year": 1937,
+        "context": "Modern understanding of cellular respiration and ATP developed across the 20th century",
+        "note": "Understanding of respiration and ATP accumulated over many decades; in 1937 Hans Krebs described the citric acid (Krebs) cycle, a central stage of aerobic respiration. The identification of ATP as the energy currency also built on earlier investigations.",
+        "timeline": [
+          {
+            "year": 1937,
+            "by": "Hans Krebs",
+            "event": "Elucidated the citric acid (Krebs) cycle, central to aerobic respiration"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.cell"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.chemical-reaction"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.photosynthesis"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.energy"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.chromosome",
+      "type": "concept",
+      "name": "Chromosome",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "A long, linear (or circular in prokaryotes) structure of DNA tightly coiled around histone and other proteins, carrying many genes and serving as the unit of genetic organization that is replicated and partitioned during cell division.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Humans have 46 chromosomes arranged as 23 homologous pairs in somatic cells.",
+        "Bacteria typically carry a single circular chromosome."
+      ],
+      "key_experiments": [
+        "Observation of stained chromosomes during mitosis revealed their pairing and separation, forming the chromosome theory of inheritance."
+      ],
+      "common_misconceptions": [
+        "A chromosome is a single DNA gene (a chromosome is one long DNA molecule carrying hundreds or thousands of genes).",
+        "All chromosomes in a cell are identical (homologous pairs differ in the alleles and, in sex chromosomes, in form)."
+      ],
+      "learning_objectives": [
+        "Describe the structure of a chromosome as a DNA-protein complex.",
+        "Distinguish autosomes from sex chromosomes.",
+        "Explain how chromosome number is maintained through mitosis and meiosis."
+      ],
+      "real_world_applications": [
+        "Karyotyping to diagnose chromosomal abnormalities such as Down syndrome (trisomy 21).",
+        "Fluorescence in situ hybridization (FISH) to localize genes."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Campbell Biology"
+      },
+      "historical": {
+        "stated_by": "Heinrich Waldeyer (named); Thomas Hunt Morgan (chromosome theory of inheritance)",
+        "year": 1888,
+        "context": "Term 'chromosome' coined; heredity link established in the early 1900s",
+        "note": "Waldeyer coined 'chromosome' in 1888 for the stained rod-like structures seen in dividing cells. Thomas Hunt Morgan's experiments around 1910 connected chromosomes to Mendelian inheritance, establishing the chromosome theory of inheritance.",
+        "timeline": [
+          {
+            "year": 1888,
+            "by": "Heinrich Waldeyer",
+            "event": "Coined the term 'chromosome' for stained structures observed during cell division"
+          },
+          {
+            "year": 1910,
+            "by": "Thomas Hunt Morgan",
+            "event": "Linked heredity to chromosomes through Drosophila experiments supporting the chromosome theory of inheritance"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:bio.nucleus"
+        },
+        {
+          "type": "part_of",
+          "target": "lhs:bio.cell"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.dna"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.dna",
+      "type": "concept",
+      "name": "Deoxyribonucleic Acid (DNA)",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "A double-stranded helical nucleic acid molecule storing genetic instructions used in the development, functioning, growth, and reproduction of all known living organisms and many viruses.",
+      "symbol": "DNA",
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "DNA fingerprinting identifies people; PCR copies tiny DNA samples in forensic labs.",
+        "Each human cell nucleus packs about 2 m of DNA into chromosomes."
+      ],
+      "key_experiments": [
+        "Extract DNA from a strawberry or banana using detergent and cold alcohol; observe the strands."
+      ],
+      "common_misconceptions": [
+        "DNA is found in all body cells equally except red blood cells (mature human red blood cells lack nuclei and DNA).",
+        "Genes and DNA are separate materials (genes are specific functional segments of DNA molecules)."
+      ],
+      "learning_objectives": [
+        "Describe the double-helix structure of DNA composed of nucleotide units (sugar, phosphate, nitrogenous bases A, T, C, G).",
+        "Explain complementary base pairing rules (A with T, C with G).",
+        "Describe the role of DNA in genetic inheritance and protein synthesis."
+      ],
+      "real_world_applications": [
+        "Forensic DNA profiling and paternity testing.",
+        "Genetic testing for hereditary medical conditions."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC-IUBMB Joint Commission on Biochemical Nomenclature"
+      },
+      "historical": {
+        "stated_by": "James Watson & Francis Crick",
+        "year": 1953,
+        "where": "Nature, 'Molecular Structure of Nucleic Acids'",
+        "context": "Molecular biology; DNA double-helix model",
+        "note": "Built on extensive prior work: Friedrich Miescher's 1869 discovery of nucleic acids, Erwin Chargaff's base-ratio rules, and Maurice Wilkins and Rosalind Franklin's X-ray diffraction - Franklin's 'Photo 51' was critical evidence.",
+        "timeline": [
+          {
+            "year": 1869,
+            "by": "Friedrich Miescher",
+            "event": "Discovered and isolated nucleic acids ('nuclein') from white blood cells"
+          },
+          {
+            "year": 1952,
+            "by": "Erwin Chargaff; Rosalind Franklin",
+            "event": "Chargaff's rules on base pairing; Franklin's Photo 51 X-ray diffraction image revealed DNA's helical structure"
+          },
+          {
+            "year": 1953,
+            "by": "James Watson and Francis Crick",
+            "event": "Published the double-helix model of DNA in Nature"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:bio.cell"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.covalent-bond"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.dna-replication",
+      "type": "concept",
+      "name": "DNA Replication",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The semi-conservative process by which a cell copies its double-stranded DNA before division, in which each parental strand serves as a template for the synthesis of a complementary new strand through the coordinated action of enzymes at an unwound replication fork.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "A single human cell's ~6 billion base pairs are copied accurately in hours before each cell division.",
+        "The lagging strand is built in short Okazaki fragments that are later joined."
+      ],
+      "key_experiments": [
+        "Meselson and Stahl's density-labelling experiment with 15N and 14N demonstrated the semi-conservative mechanism."
+      ],
+      "common_misconceptions": [
+        "The two new DNA molecules are entirely new (each consists of one original and one new strand — semi-conservative).",
+        "Replication proceeds at a constant rate in every cell (the fork moves quickly and is far slower across a chromosome as a whole)."
+      ],
+      "learning_objectives": [
+        "Outline the role of helicase, DNA polymerase, ligase, and primers in replication.",
+        "Explain why the leading and lagging strands are synthesized differently.",
+        "Explain the semi-conservative model and describe the evidence supporting it."
+      ],
+      "real_world_applications": [
+        "The polymerase chain reaction (PCR) in diagnostics, forensics, and research.",
+        "Cancer therapies that target enzymes involved in uncontrolled cell division."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Campbell Biology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.dna"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.enzyme"
+        },
+        {
+          "type": "part_of",
+          "target": "lhs:bio.nucleus"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.ecosystem",
+      "type": "concept",
+      "name": "Ecosystem",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "A biological community of interacting organisms (biotic factors) together with their non-living physical and chemical environment (abiotic factors), functioning as an integrated ecological system.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "A pond, a forest and a coral reef are ecosystems.",
+        "Decomposers break down dead matter and recycle nutrients in a compost heap."
+      ],
+      "key_experiments": [
+        "Build a sealed bottle biome (mini ecosystem) or survey a local pond or lawn with a quadrat."
+      ],
+      "common_misconceptions": [
+        "Ecosystems are static and unchanging when undisturbed (ecosystems experience continuous dynamic fluctuations and succession).",
+        "Decomposers are unimportant compared to predators (decomposers recycle essential chemical nutrients without which ecosystems collapse)."
+      ],
+      "learning_objectives": [
+        "Distinguish biotic components (producers, consumers, decomposers) from abiotic components (temperature, light, water, nutrients).",
+        "Trace energy flow (one-way) and nutrient cycling (recycled) through ecosystems.",
+        "Analyze how changes in biotic or abiotic factors affect ecosystem stability."
+      ],
+      "real_world_applications": [
+        "Wildlife habitat conservation and restoration ecology.",
+        "Ecosystem service evaluation (water purification, pollination, flood control)."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union for Conservation of Nature (IUCN) / UNESCO"
+      },
+      "historical": {
+        "stated_by": "Arthur Tansley",
+        "year": 1935,
+        "context": "Coined the term 'ecosystem' to unite organisms and their physical environment",
+        "note": "Tansley coined 'ecosystem' in 1935. An earlier concept of a biological community and its environment was Karl Möbius's 1877 'biocoenosis'.",
+        "timeline": [
+          {
+            "year": 1877,
+            "by": "Karl Möbius",
+            "event": "Coined 'biocoenosis' for a community of organisms living and interacting together"
+          },
+          {
+            "year": 1935,
+            "by": "Arthur Tansley",
+            "event": "Coined the term 'ecosystem' for the whole system of organisms plus physical factors"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:bio.cell"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.photosynthesis"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.cellular-respiration"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.energy"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.energy-flow-ecosystem",
+      "type": "concept",
+      "name": "Energy Flow in Ecosystems",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The one-way, non-cyclical movement of energy through an ecosystem, entering as sunlight captured by producers, passing through successive trophic levels as chemical energy, and being progressively lost to the environment as heat through respiration at each transfer.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Only about 10% of energy passes between trophic levels (the '10% law'), limiting the number of levels an ecosystem can support.",
+        "A pyramid of energy is always upright because energy lost as heat cannot be recycled to producers."
+      ],
+      "key_experiments": [
+        "Lindeman's trophic-dynamic studies of a lake ecosystem quantified the efficiency of energy transfer between trophic levels."
+      ],
+      "common_misconceptions": [
+        "Energy is recycled within an ecosystem (matter cycles, but energy flows one way and is lost as heat).",
+        "All energy captured by photosynthesis is available to herbivores (a large fraction is used in plant respiration and lost)."
+      ],
+      "learning_objectives": [
+        "Describe energy flow from the Sun through producers to consumers.",
+        "Explain why energy pyramids and food-chain lengths are limited by transfer efficiency.",
+        "Distinguish the flow of energy from the cycling of matter."
+      ],
+      "real_world_applications": [
+        "Designing food systems and fisheries based on trophic transfer efficiencies.",
+        "Estimating the ecosystem's energy budget for conservation and climate modelling."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "academic-or-research",
+        "source": "Raymond Lindeman; Fundamentals of Ecology (Odum)"
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:bio.ecosystem"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.photosynthesis"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.enzyme",
+      "type": "concept",
+      "name": "Enzyme",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "A biological catalyst (typically a protein) that speeds up specific biochemical reactions by lowering activation energy without being consumed in the reaction.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Salivary amylase digests starch in the mouth; catalase breaks down hydrogen peroxide in cells.",
+        "Some laundry detergents use enzymes to remove stains."
+      ],
+      "key_experiments": [
+        "Catalase + hydrogen peroxide: bubbling rate drops as temperature rises past the optimum (denaturation); iodine test for amylase on starch."
+      ],
+      "common_misconceptions": [
+        "Enzymes are alive or die when heated (enzymes are protein molecules that denature/lose active site shape at extreme heat or pH).",
+        "Enzymes work on any reactant (enzymes demonstrate high substrate specificity via lock-and-key / induced fit active sites)."
+      ],
+      "learning_objectives": [
+        "Explain how enzymes lower activation energy for metabolic reactions.",
+        "Describe the effect of temperature and pH on enzyme activity and denaturation.",
+        "Interpret substrate concentration vs. reaction rate graphs."
+      ],
+      "real_world_applications": [
+        "Digestive enzyme supplements and laundry detergent formulations.",
+        "Industrial biocatalytic synthesis of pharmaceuticals."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Biochemistry and Molecular Biology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.chemical-reaction"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.cell"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.compound"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.food-chain",
+      "type": "concept",
+      "name": "Food Chain",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "A linear sequence of organisms within an ecosystem along which energy and nutrients are transferred as one organism is consumed by the next, beginning typically with a producer and passing through consumers of successive trophic levels.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Grass → grasshopper → frog → snake → hawk traces energy transfer through five trophic levels.",
+        "Phytoplankton → zooplankton → small fish → large fish → shark is a marine food chain."
+      ],
+      "key_experiments": [
+        "Radioisotope and biomass studies such as Lindeman's ecosystem energy analysis traced energy flow through defined trophic levels."
+      ],
+      "common_misconceptions": [
+        "A food chain captures all feeding relations in an ecosystem (ecosystems contain complex food webs; a chain is a simplified single pathway).",
+        "Decomposers are absent from food chains (detritivores and decomposers recycle matter and energy from all levels)."
+      ],
+      "learning_objectives": [
+        "Identify producers, primary consumers, and higher trophic levels in a food chain.",
+        "Recognize that arrows indicate the direction of energy transfer between levels.",
+        "Distinguish food chains from food webs."
+      ],
+      "real_world_applications": [
+        "Biomanipulation of lake food chains to manage algal blooms.",
+        "Assessing bioaccumulation of pollutants as they move up trophic levels."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "institutional",
+        "source": "United States National Science Foundation, Ecology Education"
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:bio.ecosystem"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.energy-flow-ecosystem"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.gene",
+      "type": "concept",
+      "name": "Gene",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The basic physical and functional unit of heredity, composed of a specific sequence of nucleotides along a DNA molecule that codes for a specific functional polypeptide (protein) or RNA product.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Eye colour and blood type are controlled by genes.",
+        "Sickle-cell disease results from a single-gene variant."
+      ],
+      "key_experiments": [
+        "Model a cross with a Punnett square and trace how one gene maps to a protein-coding DNA segment."
+      ],
+      "common_misconceptions": [
+        "Single genes strictly dictate complex traits like intelligence or behavior (most traits are polygenic and environmentally influenced).",
+        "Mutated genes are always harmful (mutations provide genetic variation essential for natural selection and evolution)."
+      ],
+      "learning_objectives": [
+        "Define a gene as a functional segment of DNA.",
+        "Explain how genes determine physical traits (phenotype) through protein expression.",
+        "Distinguish between dominant and recessive alleles of a gene."
+      ],
+      "real_world_applications": [
+        "Gene editing technologies (CRISPR-Cas9) and gene therapy.",
+        "Agricultural crop breeding for drought and disease resistance."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Biological Sciences"
+      },
+      "historical": {
+        "stated_by": "Wilhelm Johannsen",
+        "year": 1909,
+        "context": "Genetics; coined the term 'gene' and the genotype/phenotype distinction",
+        "note": "The concept of discrete heredity units dates to Gregor Mendel's 1860s work, rediscovered in 1900. The modern definition of a gene as a DNA segment was established later through molecular genetics.",
+        "timeline": [
+          {
+            "year": 1865,
+            "by": "Gregor Mendel",
+            "event": "Experiments in plant hybridization proposed heritable 'factors' (later called genes)"
+          },
+          {
+            "year": 1900,
+            "by": "Hugo de Vries, Carl Correns, Erich von Tschermak",
+            "event": "Independent rediscovery of Mendel's laws of inheritance"
+          },
+          {
+            "year": 1909,
+            "by": "Wilhelm Johannsen",
+            "event": "Coined the term 'gene' and introduced the genotype/phenotype distinction"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:bio.dna"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.dna"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.glycolysis",
+      "type": "concept",
+      "name": "Glycolysis",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The first stage of cellular respiration, a ten-step cytosolic pathway that breaks down one molecule of glucose into two molecules of pyruvate, producing a net yield of two ATP and two NADH without requiring oxygen, and providing substrates for further aerobic or anaerobic reactions.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Muscle cells rely on rapid glycolysis during intense exercise when oxygen supply is limiting.",
+        "Red blood cells, lacking mitochondria, generate ATP solely by glycolysis."
+      ],
+      "key_experiments": [
+        "The elucidation by Embden, Meyerhof, and Parnas of the glycolytic pathway defined its enzymatic steps and ATP yield."
+      ],
+      "common_misconceptions": [
+        "Glycolysis is the only source of ATP (it yields little ATP; most comes from aerobic respiration when oxygen is present).",
+        "Glycolysis requires oxygen (it is anaerobic; it runs before and independently of the oxygen-requiring stages)."
+      ],
+      "learning_objectives": [
+        "Outline glycolysis as the conversion of glucose to pyruvate with a net gain of two ATP.",
+        "Identify the energy-investment and energy-payoff phases.",
+        "Explain the fate of pyruvate under aerobic and anaerobic conditions."
+      ],
+      "real_world_applications": [
+        "Exploiting the extra reliance of tumour cells on glycolysis (the Warburg effect) for cancer diagnostics and treatment.",
+        "Fermentation industries that capture the end products of glycolysis in brewing and baking."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "academic-or-research",
+        "source": "Lehninger Principles of Biochemistry"
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:bio.cellular-respiration"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.enzyme"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.homeostasis",
+      "type": "concept",
+      "name": "Homeostasis",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The maintenance of a stable internal environment (temperature, pH, water and solute balance, glucose levels) within living organisms despite changes in the external environment, achieved through regulatory feedback mechanisms.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Body temperature stays near 37 °C; insulin regulates blood glucose.",
+        "Sweating cools the body — a negative-feedback response."
+      ],
+      "key_experiments": [
+        "Measure pulse, breathing rate and temperature before, during and after exercise and graph the return to rest."
+      ],
+      "common_misconceptions": [
+        "Homeostasis means conditions never change (it means conditions are kept within a narrow functional range, with continuous adjustment).",
+        "Only warm-blooded animals maintain homeostasis (all living organisms regulate some internal conditions).",
+        "Homeostasis is a static set point rather than dynamic balance (it is a dynamic equilibrium maintained by negative feedback)."
+      ],
+      "learning_objectives": [
+        "Define homeostasis and give examples of regulated internal conditions.",
+        "Explain negative feedback using body temperature or blood glucose as examples.",
+        "Relate homeostasis to enzyme function and cell survival."
+      ],
+      "real_world_applications": [
+        "Clinical monitoring of blood glucose in diabetes.",
+        "Thermoregulation in premature infant care.",
+        "Sports hydration and electrolyte balance."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Physiological Sciences"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.cell"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.enzyme"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.temperature"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.hormone",
+      "type": "concept",
+      "name": "Hormone",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "A chemical messenger secreted by endocrine glands or specialized cells into the bloodstream or extracellular fluid that travels to target cells expressing specific receptors, where it triggers physiological responses, helping to regulate metabolism, growth, reproduction, and homeostasis.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Insulin lowers blood glucose after a meal, while glucagon raises it when glucose falls.",
+        "Thyroxine regulates metabolic rate; adrenaline prepares the body for 'fight or flight'."
+      ],
+      "key_experiments": [
+        "The discovery of insulin by Banting and Best demonstrated that a circulating hormone controls blood glucose."
+      ],
+      "common_misconceptions": [
+        "A hormone affects every cell in the body (only cells with receptors for that hormone are targets).",
+        "Hormones act instantly and are gone immediately (they usually act more slowly than nerve signals and can have lasting effects)."
+      ],
+      "learning_objectives": [
+        "Define a hormone and contrast its mode of action with a nerve signal.",
+        "Describe how hormones act through target-cell receptors.",
+        "Give examples of hormonal control of glucose and other homeostatic variables."
+      ],
+      "real_world_applications": [
+        "Hormone replacement therapy and endocrine disease management.",
+        "Contraceptive and fertility treatments based on the reproductive hormone axis.",
+        "Anabolic hormones in growth and performance contexts."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "academic-or-research",
+        "source": "Guyton and Hall Textbook of Medical Physiology"
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:bio.homeostasis"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.nervous-system"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.immune-system",
+      "type": "concept",
+      "name": "Immune System",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The coordinated network of organs, cells, and molecules that defends the body against pathogens and other foreign substances, comprising nonspecific (innate) mechanisms such as barriers and phagocytes and specific (adaptive) responses including antibody production and immunological memory.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "The skin and mucous membranes form the first line of defence against infection.",
+        "Vaccination primes the adaptive immune system to mount a rapid memory response on later exposure."
+      ],
+      "key_experiments": [
+        "Jenner's vaccination against smallpox and Pasteur's attenuation experiments established the principle of adaptive immunity."
+      ],
+      "common_misconceptions": [
+        "The immune system attacks only bacteria (it also defends against viruses, fungi, parasites, and abnormal self cells).",
+        "Fever is always harmful rather than protective (fever is a nonspecific defence that can inhibit pathogen growth)."
+      ],
+      "learning_objectives": [
+        "Distinguish innate and adaptive immunity.",
+        "Explain the roles of white blood cells, antibodies, and memory cells in defence.",
+        "Describe how vaccination and immunity relate to immune memory."
+      ],
+      "real_world_applications": [
+        "Vaccine development and immunization programmes.",
+        "Understanding autoimmunity, allergies, and transplant rejection.",
+        "Immunotherapy for cancer and immunotherapy-based treatments."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "institutional",
+        "source": "World Health Organization; International Union of Physiological Sciences"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.homeostasis"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.cell"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.inheritance-patterns",
+      "type": "concept",
+      "name": "Inheritance Patterns",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The recurring ways in which traits and alleles are transmitted from parents to offspring, including Mendelian patterns (dominant, recessive, codominant, and incomplete dominance) and non-Mendelian patterns such as sex linkage, multiple alleles, polygenic inheritance, and pleiotropy.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Cystic fibrosis is inherited in an autosomal recessive pattern.",
+        "Red-green colour blindness shows X-linked, recessive inheritance.",
+        "Human height and skin colour arise from polygenic inheritance of many additive alleles."
+      ],
+      "key_experiments": [
+        "Mendel's controlled crosses established the laws of segregation and independent assortment underlying most patterns."
+      ],
+      "common_misconceptions": [
+        "A dominant phenotype means the trait is necessarily common in the population (dominance concerns expression, not frequency).",
+        "All traits follow simple dominant-recessive rules (many are codominant, incompletely dominant, or polygenic)."
+      ],
+      "learning_objectives": [
+        "Predict offspring genotypes and phenotypes using Punnett squares for monohybrid and dihybrid crosses.",
+        "Distinguish autosomal, sex-linked, and polygenic inheritance patterns.",
+        "Recognize patterns from pedigrees to infer mode of inheritance."
+      ],
+      "real_world_applications": [
+        "Genetic counselling and risk assessment for hereditary conditions.",
+        "Pedigree analysis used to trace rare alleles through families."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Biological Sciences"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.allele"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.gene"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.meiosis",
+      "type": "concept",
+      "name": "Meiosis",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "A specialized two-stage cell division (meiosis I and meiosis II) in diploid organisms that produces four genetically distinct haploid gametes or spores, halving the chromosome number and generating genetic variation through crossing over and independent assortment.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "In humans, meiosis produces sperm and egg cells, each with 23 chromosomes.",
+        "Crossing over during prophase I exchanges segments between non-sister chromatids of homologous chromosomes."
+      ],
+      "key_experiments": [
+        "Microscopic observation of gametocyte chromosomes in plant and animal tissues revealed the pairing and reduction of homologous chromosomes."
+      ],
+      "common_misconceptions": [
+        "Meiosis and mitosis are the same process (mitosis yields two identical diploid cells; meiosis yields four variable haploid cells).",
+        "All four products of meiosis remain functional (in many organisms, such as human oogenesis, only one becomes a viable gamete)."
+      ],
+      "learning_objectives": [
+        "Describe how meiosis halved chromosome number compared with a parent cell.",
+        "Explain how crossing over and independent assortment generate genetic variation.",
+        "Distinguish the events of meiosis I from those of meiosis II."
+      ],
+      "real_world_applications": [
+        "Understanding chromosome nondisjunction underlying conditions such as Down syndrome.",
+        "Selective breeding and hybrid production rely on meiotic recombination."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Campbell Biology"
+      },
+      "historical": {
+        "stated_by": "Oskar Hertwig & Édouard van Beneden (description); term by Farmer & Moore",
+        "year": 1876,
+        "context": "Description of reduction division in the late 1800s; the term 'meiosis' coined later",
+        "note": "Hertwig described fertilization and nuclear fusion in sea urchins (1876); van Beneden demonstrated chromosome reduction in 1887; the term 'meiosis' was coined by J. B. Farmer and J. E. Moore in 1905.",
+        "timeline": [
+          {
+            "year": 1876,
+            "by": "Oskar Hertwig",
+            "event": "Recognised the process of fertilization, including fusion of gamete nuclei"
+          },
+          {
+            "year": 1887,
+            "by": "Édouard van Beneden",
+            "event": "Demonstrated the halving (reduction) of chromosome number in gametes"
+          },
+          {
+            "year": 1905,
+            "by": "J. B. Farmer and J. E. Moore",
+            "event": "Coined the term 'meiosis' for reduction division"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.chromosome"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.gene"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.mitosis",
+      "type": "concept",
+      "name": "Mitosis",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The stage of the cell cycle in which a eukaryotic cell's nucleus divides, its duplicated chromosomes separating into two genetically identical daughter nuclei, so that each daughter cell receives the same diploid chromosome complement as the parent.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Mitosis in a human skin cell produces two identical cells, replacing tissue and enabling growth.",
+        "Root tip cells of onion are classic specimens for observing the stages of mitosis under a microscope."
+      ],
+      "key_experiments": [
+        "Preparing and staining onion root tip squashes reveals prophase, metaphase, anaphase, and telophase."
+      ],
+      "common_misconceptions": [
+        "Mitosis reduces chromosome number (mitosis preserves the parent's chromosome number; meiosis halves it).",
+        "Cytokinesis always mirrors mitosis timing across all organism types (plant and animal cells divide the cytoplasm differently)."
+      ],
+      "learning_objectives": [
+        "Describe the stages of mitosis and the behaviour of chromosomes in each.",
+        "Explain how mitosis produces genetically identical daughter cells.",
+        "Relate uncontrolled mitosis to tumour formation."
+      ],
+      "real_world_applications": [
+        "Taxol and other chemotherapies that disrupt mitotic spindles to halt rapid cancer-cell division.",
+        "Cloning and tissue culture depend on mitosis for identical cell copies."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Campbell Biology"
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:bio.cell"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.chromosome"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.mutation",
+      "type": "concept",
+      "name": "Mutation",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "A heritable change in the nucleotide sequence of a genome, arising from errors in DNA replication, repair, or recombination, or from environmental mutagens; mutations range from single base changes (point mutations) to large chromosomal rearrangements.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "A point mutation in the haemoglobin gene causing sickle-cell disease.",
+        "Insertion or deletion of bases leading to frameshift mutations that alter the reading frame."
+      ],
+      "key_experiments": [
+        "X-ray and ultraviolet mutagenesis experiments in Drosophila and microbes established that radiation increases mutation frequency."
+      ],
+      "common_misconceptions": [
+        "All mutations are harmful (most are neutral, some beneficial, and they provide the variation for evolution).",
+        "Mutations occur to meet an organism's needs (they arise randomly, and selection acts on them afterwards)."
+      ],
+      "learning_objectives": [
+        "Distinguish point mutations from frameshift and chromosomal mutations.",
+        "Explain causes of mutation and how DNA repair systems reduce their effects.",
+        "Describe the role of mutations as the ultimate source of genetic variation."
+      ],
+      "real_world_applications": [
+        "Mutations as biomarkers for cancer diagnosis and targeted therapy.",
+        "Understanding antibiotic resistance emerging through mutation in bacteria."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Campbell Biology"
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:bio.gene"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.dna"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.natural-selection"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.natural-selection",
+      "type": "concept",
+      "name": "Natural Selection",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The evolutionary process by which organisms possessing heritable traits better suited to their environment tend to survive and reproduce at higher rates, passing advantageous alleles to subsequent generations.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Peppered moths shifted to dark form during the Industrial Revolution.",
+        "Antibiotic-resistant bacteria spread through selection."
+      ],
+      "key_experiments": [
+        "Camouflage 'predator-prey' activity with coloured beans on patterned cloth selects the well-hidden prey."
+      ],
+      "common_misconceptions": [
+        "Natural selection involves intentional self-adaptation by individual organisms (adaptation occurs across populations over generations).",
+        "Natural selection leads to ultimate perfection in organisms (selection optimizes survival and reproduction relative to current environmental pressures)."
+      ],
+      "learning_objectives": [
+        "State the four conditions required for natural selection: variation, inheritance, overproduction, differential reproductive success.",
+        "Explain how environmental selective pressures drive evolutionary change in populations.",
+        "Describe examples of rapid natural selection (e.g. antibiotic resistance in bacteria, peppered moths)."
+      ],
+      "real_world_applications": [
+        "Managing antibiotic and pesticide resistance in medicine and agriculture.",
+        "Conservation biology and predicting species responses to climate change."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Biological Sciences / UNESCO Biology Framework"
+      },
+      "historical": {
+        "stated_by": "Charles Darwin",
+        "year": 1859,
+        "where": "On the Origin of Species",
+        "context": "Evolutionary biology",
+        "note": "Alfred Russel Wallace independently reached the same conclusion; their joint paper was presented in 1858, and Darwin's book followed in 1859.",
+        "timeline": [
+          {
+            "year": 1858,
+            "by": "Charles Darwin and Alfred Russel Wallace",
+            "event": "Joint paper on natural selection presented to the Linnean Society"
+          },
+          {
+            "year": 1859,
+            "by": "Charles Darwin",
+            "event": "On the Origin of Species published, detailing natural selection"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.gene"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.dna"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.nervous-system",
+      "type": "concept",
+      "name": "Nervous System",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The organ system that enables rapid sensing, integration, and response to internal and external stimuli through electrical and chemical signalling, comprising the central nervous system (brain and spinal cord) and the peripheral nervous system of nerves connecting them to the body.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "A reflex arc passes from a sensory receptor to the spinal cord and back to a muscle for rapid withdrawal.",
+        "Neurons transmit action potentials along their fibres and release chemical messengers across synapses."
+      ],
+      "key_experiments": [
+        "Sherrington's work on reflexes and synaptic transmission established how the nervous system integrates signals."
+      ],
+      "common_misconceptions": [
+        "Nerves and neurons are the same thing (a nerve is a bundle of many neuron fibres).",
+        "The nervous system works entirely independently of hormones (it interacts closely with the endocrine system)."
+      ],
+      "learning_objectives": [
+        "Describe the structure of the central and peripheral nervous systems.",
+        "Explain how nerve impulses and synaptic transmission carry information.",
+        "Relate the nervous system to reflex action and homeostasis."
+      ],
+      "real_world_applications": [
+        "Neuroimaging and diagnosis of neurological disorders.",
+        "Neuromodulation therapies and neural prosthetics.",
+        "Understanding how drugs and anaesthetics act on nervous signalling."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "academic-or-research",
+        "source": "Guyton and Hall Textbook of Medical Physiology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.cell"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.homeostasis"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.neuron",
+      "type": "concept",
+      "name": "Neuron",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The electrically excitable nerve cell that is the fundamental signalling unit of the nervous system, composed of dendrites receiving signals, a cell body integrating them, and an axon conducting action potentials that release neurotransmitters at synapses to transmit information to other cells.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "A motor neuron conducts an impulse from the spinal cord to a muscle to trigger contraction.",
+        "The myelin sheath around many axons speeds conduction through saltatory propagation."
+      ],
+      "key_experiments": [
+        "Hodgkin and Huxley's voltage-clamp studies of the giant squid axon explained the ionic basis of the action potential."
+      ],
+      "common_misconceptions": [
+        "Neurons regenerate easily after injury (most neurons of the mature central nervous system have limited regeneration capacity).",
+        "All neurons carry signals in a single direction only by chance (the polarized structure and specialized synapses enforce signalling direction)."
+      ],
+      "learning_objectives": [
+        "Describe the structure of a neuron: dendrites, soma, axon, and synaptic terminals.",
+        "Explain how a resting potential and action potential arise from ion gradients.",
+        "Trace impulse transmission across a synapse via neurotransmitters."
+      ],
+      "real_world_applications": [
+        "Understanding and treating neurological diseases such as multiple sclerosis and epilepsy.",
+        "Design of brain–computer interfaces that read or stimulate neuronal activity."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "academic-or-research",
+        "source": "Guyton and Hall Textbook of Medical Physiology"
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:bio.nervous-system"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.cell"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.nucleus",
+      "type": "concept",
+      "name": "Nucleus",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The membrane-bound organelle in eukaryotic cells that contains most of the cell's genetic material (DNA) and directs cell activities such as growth, metabolism, and reproduction.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "The nucleus stores the DNA that directs cell activity.",
+        "A stained cheek-cell nucleus is clearly visible under the microscope."
+      ],
+      "key_experiments": [
+        "Stain cheek cells with methylene blue and observe the nuclei; order a karyotype-style set of images by chromosome number."
+      ],
+      "common_misconceptions": [
+        "Every cell has a nucleus (mature red blood cells and prokaryotes lack a nucleus).",
+        "The nucleus is the same as the whole cell's control in prokaryotes (prokaryotes have no nucleus at all; their genetic material floats in the cytoplasm).",
+        "The nuclear membrane is not selective (the nuclear envelope regulates what enters and leaves the nucleus)."
+      ],
+      "learning_objectives": [
+        "Identify the nucleus and its parts (nuclear membrane, nucleoplasm, nucleolus, chromatin).",
+        "Describe the nucleus as the storehouse of hereditary information.",
+        "Distinguish eukaryotic cells (with nucleus) from prokaryotic cells (without)."
+      ],
+      "real_world_applications": [
+        "Genetic fingerprinting from cell nuclei.",
+        "Cancer diagnosis based on abnormal nuclear morphology.",
+        "Somatic cell nuclear transfer research."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Biological Sciences"
+      },
+      "historical": {
+        "stated_by": "Robert Brown",
+        "year": 1831,
+        "context": "Observation of the nucleus in plant (orchid) cells",
+        "note": "Brown described the nucleus in orchid epidermis cells in 1831 but did not assign it a function."
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:bio.cell"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.dna"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.osmosis",
+      "type": "concept",
+      "name": "Osmosis",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The net movement of water molecules across a selectively permeable membrane from a region of lower solute concentration (higher water concentration) to a region of higher solute concentration (lower water concentration), equalizing concentration by water flow.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "A raisin plumps up in water; a cucumber slice in salt shrinks.",
+        "Freshwater fish take in water while marine fish lose it — osmotic balance."
+      ],
+      "key_experiments": [
+        "Soak potato strips in pure water versus salt solutions and measure length/mass change over time."
+      ],
+      "common_misconceptions": [
+        "Osmosis moves solute particles through the membrane (osmosis moves the solvent — water — while solutes stay behind).",
+        "Osmosis and diffusion are identical (osmosis is a special case of diffusion — the diffusion of water across a selectively permeable membrane).",
+        "Water moves toward where there is more water (water moves toward the higher solute concentration to dilute it)."
+      ],
+      "learning_objectives": [
+        "Define osmosis as the diffusion of water across a selectively permeable membrane.",
+        "Predict the direction of water movement given solution concentrations.",
+        "Distinguish hypotonic, isotonic, and hypertonic solutions and their effects on cells."
+      ],
+      "real_world_applications": [
+        "Rehydration of dried fruits and pickling of vegetables.",
+        "Intravenous fluid design (isotonic saline).",
+        "Water uptake by plant roots and turgor in plant cells."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Biological Sciences"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.diffusion"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.pressure"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.cell"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.photosynthesis",
+      "type": "concept",
+      "name": "Photosynthesis",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The biological process by which autotrophic organisms (such as plants and algae) convert light energy into stored chemical energy in glucose, using carbon dioxide and water while releasing oxygen as a byproduct.",
+      "symbol": null,
+      "unit": null,
+      "equation": "6CO₂ + 6H₂O + light energy → C₆H₁₂O₆ + 6O₂",
+      "examples": [
+        "Trees, crops and algae photosynthesize; most atmospheric oxygen comes from photosynthesis.",
+        "Only the green parts of a variegated leaf photosynthesize."
+      ],
+      "key_experiments": [
+        "Starch test on a destarched variegated leaf: light-struck areas turn blue-black with iodine, shaded areas do not."
+      ],
+      "common_misconceptions": [
+        "Photosynthesis occurs to produce energy for plants instead of storing energy as carbohydrates.",
+        "Photosynthesis occurs during the day while cellular respiration only occurs at night (respiration occurs continuously).",
+        "Plants obtain their primary mass from soil nutrients rather than carbon dioxide gas from air."
+      ],
+      "learning_objectives": [
+        "State the balanced chemical equation for oxygenic photosynthesis.",
+        "Describe the role of chlorophyll in absorbing light energy.",
+        "Explain how photosynthesis drives carbon cycling and energy flow in ecosystems."
+      ],
+      "real_world_applications": [
+        "Global primary agricultural food production.",
+        "Atmospheric oxygen regulation and carbon sequestration."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "UNESCO Science Education Framework / IUPAC"
+      },
+      "historical": {
+        "stated_by": "Cumulative understanding (Joseph Priestley, Jan Ingenhousz, Cornelis van Niel)",
+        "year": 1779,
+        "context": "Understanding of photosynthesis built up over centuries",
+        "note": "Photosynthesis understanding is cumulative and cannot be attributed to a single person: Priestley (1770s) showed plants restore air and discovered oxygen; Ingenhousz (1779) showed light is necessary; van Niel (1931) established water as the electron donor, so the released oxygen comes from water.",
+        "timeline": [
+          {
+            "year": 1774,
+            "by": "Joseph Priestley",
+            "event": "Discovered oxygen and showed that plants 'restore' air depleted by burning"
+          },
+          {
+            "year": 1779,
+            "by": "Jan Ingenhousz",
+            "event": "Demonstrated that light is required for plants to take in carbon dioxide and release oxygen"
+          },
+          {
+            "year": 1931,
+            "by": "Cornelis van Niel",
+            "event": "Proposed that the oxygen released in photosynthesis comes from water, unifying the overall equation"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.plant-cell"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.chemical-reaction"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.light"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.conservation-of-energy"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.plant-cell",
+      "type": "concept",
+      "name": "Plant Cell",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "A eukaryotic cell characteristic of plants, distinguished by a rigid cellulose cell wall, a large central vacuole for turgor pressure, and plastids such as chloroplasts for photosynthesis.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Onion epidermis shows a clear cell wall and nucleus; Elodea leaves show moving chloroplasts.",
+        "Leaf cells are packed with chloroplasts for photosynthesis."
+      ],
+      "key_experiments": [
+        "Observe pondweed or Elodea: moving chloroplasts; plasmolysis shrink in a strong salt solution."
+      ],
+      "common_misconceptions": [
+        "Plant cells do not perform cellular respiration (plant cells perform both photosynthesis and respiration).",
+        "Plant cells lack cell membranes (plant cells have a cell membrane inside the rigid cell wall)."
+      ],
+      "learning_objectives": [
+        "Identify key structures unique to plant cells (cell wall, chloroplasts, central vacuole).",
+        "Explain the role of the cell wall and vacuole in providing mechanical support.",
+        "Compare plant cell structures with animal cells."
+      ],
+      "real_world_applications": [
+        "Agriculture and crop yield optimization.",
+        "Biofuel development and plant tissue culture."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Union of Biological Sciences"
+      },
+      "relationships": [
+        {
+          "type": "special_case_of",
+          "target": "lhs:bio.cell"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.animal-cell"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.population-dynamics",
+      "type": "concept",
+      "name": "Population Dynamics",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The study of how population size, density, age structure, and distribution change over time and space in response to birth, death, immigration, and emigration, modulated by resource availability, competition, predation, and other density-dependent and density-independent factors.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Exponential growth in the early phase of an expanding population gives way to logistic growth as resources become limiting.",
+        "Predator and prey populations (e.g. lynx and snowshoe hare) often cycle in linked oscillations."
+      ],
+      "key_experiments": [
+        "Gause's competition experiments with Paramecium species demonstrated competitive exclusion and niche limitation in populations."
+      ],
+      "common_misconceptions": [
+        "Exponential growth can continue indefinitely in nature (it is bounded by carrying capacity and limiting factors).",
+        "Population growth rate is always positive (populations may decline or crash when births fall below deaths)."
+      ],
+      "learning_objectives": [
+        "Distinguish exponential from logistic growth models.",
+        "Explain how density-dependent and density-independent factors regulate population size.",
+        "Interpret survivorship curves and age structures."
+      ],
+      "real_world_applications": [
+        "Managing fisheries and wildlife harvest at sustainable levels.",
+        "Predicting pest outbreaks and epidemic spread in public health."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "academic-or-research",
+        "source": "Ecology (Odum); International Union of Biological Sciences"
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:bio.ecosystem"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.natural-selection"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.protein-synthesis",
+      "type": "concept",
+      "name": "Protein Synthesis",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The two-stage gene-expression pathway by which the information in a gene's DNA is converted into a functional polypeptide: transcription produces messenger RNA from a DNA template, and translation assembles amino acids into a protein on ribosomes.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "The synthesis of insulin involves transcription of the insulin gene followed by translation and post-translational processing.",
+        "Ribosomes simultaneously translate a single mRNA molecule, allowing many copies of a protein to be produced quickly."
+      ],
+      "key_experiments": [
+        "Breaking the genetic code with synthetic RNAs showed exactly how mRNA codons instruct amino acid incorporation."
+      ],
+      "common_misconceptions": [
+        "Protein synthesis refers only to translation (it spans both transcription and translation).",
+        "Every gene produces exactly one final protein (alternative splicing and post-translational modification generate many variants)."
+      ],
+      "learning_objectives": [
+        "Describe how DNA sequence information flows to protein via messenger RNA.",
+        "Outline transcription and translation as the two coupled stages of protein synthesis.",
+        "Explain the central dogma's exception of reverse transcription in certain viruses."
+      ],
+      "real_world_applications": [
+        "Recombinant protein drugs (insulin, growth hormone) produced by engineered cells.",
+        "Messenger RNA vaccines that prompt cells to synthesize a specific antigen protein."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Campbell Biology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.dna"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.enzyme"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.gene"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.speciation",
+      "type": "concept",
+      "name": "Speciation",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The evolutionary process by which populations diverge genetically to the point that they become reproductively isolated from one another, forming distinct species; it commonly proceeds through allopatric (geographic separation) or sympatric (within a shared range) mechanisms.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Darwin's Galápagos finches diverged into many species through adaptive radiation across islands.",
+        "Polyploidy in plants can produce a new species in a single generation without geographic separation."
+      ],
+      "key_experiments": [
+        "Laboratory experiments with Drosophila populations subjected to different conditions demonstrated reproductive isolation can arise from selection in isolation."
+      ],
+      "common_misconceptions": [
+        "A species only changes when its environment changes drastically (gradual divergence can produce new species over long timescales).",
+        "Speciation requires complete physical separation (sympatric speciation occurs within a shared range via reproductive isolating mechanisms)."
+      ],
+      "learning_objectives": [
+        "Compare allopatric and sympatric speciation.",
+        "Explain how reproductive isolating barriers maintain species boundaries.",
+        "Describe adaptive radiation and polyploidy as speciation routes."
+      ],
+      "real_world_applications": [
+        "Conservation management of narrowly endemic species at risk of extinction.",
+        "Understanding crop polyploid species used in agriculture."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "The Origin of Species (Charles Darwin); Campbell Biology"
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:bio.natural-selection"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.ecosystem"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.transcription",
+      "type": "concept",
+      "name": "Transcription",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The first stage of gene expression, in which the enzyme RNA polymerase uses one strand of a DNA template (the template strand) to synthesize a complementary single-stranded RNA molecule, producing messenger RNA, transfer RNA, or ribosomal RNA from a specific gene.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "During the gene for insulin is transcribed into mRNA that is later translated into the insulin protein.",
+        "Eukaryotic pre-mRNA undergoes splicing, 5' capping, and polyadenylation before leaving the nucleus."
+      ],
+      "key_experiments": [
+        "In vitro transcription using purified RNA polymerase and a template DNA strand demonstrated that RNA is synthesized 5' to 3' from the DNA template."
+      ],
+      "common_misconceptions": [
+        "Transcription already produces a functional protein (it produces RNA, which must be translated to protein).",
+        "RNA polymerase copies both DNA strands into distinct messengers (it transcribes only the template strand of each gene)."
+      ],
+      "learning_objectives": [
+        "Describe the roles of promoter regions and RNA polymerase in initiating transcription.",
+        "Explain how transcription differs between prokaryotes and eukaryotes.",
+        "Distinguish the types of RNA (mRNA, tRNA, rRNA) produced by transcription."
+      ],
+      "real_world_applications": [
+        "Antisense RNA and small interfering RNA (siRNA) used to silence gene expression in medicine.",
+        "mRNA vaccines that deliver transcribed RNA encoding antigens."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Campbell Biology"
+      },
+      "relationships": [
+        {
+          "type": "derived_from",
+          "target": "lhs:bio.dna"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.dna"
+        },
+        {
+          "type": "part_of",
+          "target": "lhs:bio.protein-synthesis"
+        }
+      ]
+    },
+    {
+      "id": "lhs:bio.translation",
+      "type": "concept",
+      "name": "Translation",
+      "domain": "biology",
+      "status": "draft",
+      "definition": "The process in which the nucleotide sequence of messenger RNA is decoded by ribosomes to assemble a polypeptide chain, with transfer RNA molecules matching successive codons to their corresponding amino acids and linking them into proteins.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "The codon AUG initiates translation and codes for methionine in most organisms.",
+        "Each ribosome moves along the mRNA reading codons and joining amino acids in three phases: initiation, elongation, termination."
+      ],
+      "key_experiments": [
+        "Use of synthetic RNA polymers (e.g. poly-U) by Nirenberg and colleagues cracked the genetic code by correlating codons with amino acids."
+      ],
+      "common_misconceptions": [
+        "Transfer RNA carries the protein-coding instructions (tRNA carries amino acids and an anticodon; the instructions are in the mRNA codons).",
+        "The ribosome reads three codons at once (it reads one codon at a time, advancing stepwise along the mRNA)."
+      ],
+      "learning_objectives": [
+        "Describe how codons in mRNA specify amino acids through anticodon pairing.",
+        "Outline initiation, elongation, and termination of translation.",
+        "Explain how the genetic code is degenerate yet unambiguous."
+      ],
+      "real_world_applications": [
+        "Recombinant protein production in biotechnology.",
+        "Antibiotics such as erythromycin that block bacterial translation."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Campbell Biology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:bio.transcription"
+        },
+        {
+          "type": "part_of",
+          "target": "lhs:bio.protein-synthesis"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "lhs:conn.000001",
+      "type": "connection",
+      "source": "lhs:bio.animal-cell",
+      "relation": "special_case_of",
+      "target": "lhs:bio.cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "cell-biology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "other",
+          "description": "axiomatic structural/dependency definition — accepted as fundamental",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.biology-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.biology-001",
+            "at": "2026-08-30T18:21:03.589068+00:00",
+            "reason": "structural hierarchy animal-cell is species of cell"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.biology-001",
+            "at": "2026-08-30T18:21:03.589083+00:00",
+            "reason": "structural hierarchy animal-cell is species of cell"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000002",
+      "type": "connection",
+      "source": "lhs:bio.animal-cell",
+      "relation": "related_to",
+      "target": "lhs:bio.plant-cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "cell-biology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000005",
+      "type": "connection",
+      "source": "lhs:bio.cellular-respiration",
+      "relation": "logically_requires",
+      "target": "lhs:bio.cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "cell-biology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "other",
+          "description": "axiomatic structural/dependency definition — accepted as fundamental",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.biology-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.biology-001",
+            "at": "2026-08-30T18:21:03.664802+00:00",
+            "reason": "dependency cellular-respiration requires cell"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.biology-001",
+            "at": "2026-08-30T18:21:03.664816+00:00",
+            "reason": "dependency cellular-respiration requires cell"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000007",
+      "type": "connection",
+      "source": "lhs:bio.cellular-respiration",
+      "relation": "related_to",
+      "target": "lhs:bio.photosynthesis",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "cell-biology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000009",
+      "type": "connection",
+      "source": "lhs:bio.homeostasis",
+      "relation": "logically_requires",
+      "target": "lhs:bio.cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "cell-biology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000010",
+      "type": "connection",
+      "source": "lhs:bio.homeostasis",
+      "relation": "related_to",
+      "target": "lhs:bio.enzyme",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "cell-biology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000012",
+      "type": "connection",
+      "source": "lhs:bio.nucleus",
+      "relation": "part_of",
+      "target": "lhs:bio.cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "cell-biology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "other",
+          "description": "axiomatic structural/dependency definition — accepted as fundamental",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.biology-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.biology-001",
+            "at": "2026-08-30T18:21:03.608214+00:00",
+            "reason": "structural part_of nucleus in cell"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.biology-001",
+            "at": "2026-08-30T18:21:03.608229+00:00",
+            "reason": "structural part_of nucleus in cell"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000013",
+      "type": "connection",
+      "source": "lhs:bio.nucleus",
+      "relation": "related_to",
+      "target": "lhs:bio.dna",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "cell-biology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000016",
+      "type": "connection",
+      "source": "lhs:bio.osmosis",
+      "relation": "related_to",
+      "target": "lhs:bio.cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "cell-biology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000017",
+      "type": "connection",
+      "source": "lhs:bio.plant-cell",
+      "relation": "special_case_of",
+      "target": "lhs:bio.cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "cell-biology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000018",
+      "type": "connection",
+      "source": "lhs:bio.plant-cell",
+      "relation": "related_to",
+      "target": "lhs:bio.animal-cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "cell-biology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000019",
+      "type": "connection",
+      "source": "lhs:bio.ecosystem",
+      "relation": "related_to",
+      "target": "lhs:bio.cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "evolution-ecology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000020",
+      "type": "connection",
+      "source": "lhs:bio.ecosystem",
+      "relation": "related_to",
+      "target": "lhs:bio.photosynthesis",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "evolution-ecology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000021",
+      "type": "connection",
+      "source": "lhs:bio.ecosystem",
+      "relation": "related_to",
+      "target": "lhs:bio.cellular-respiration",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "evolution-ecology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000023",
+      "type": "connection",
+      "source": "lhs:bio.natural-selection",
+      "relation": "logically_requires",
+      "target": "lhs:bio.gene",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "evolution-ecology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000024",
+      "type": "connection",
+      "source": "lhs:bio.natural-selection",
+      "relation": "related_to",
+      "target": "lhs:bio.dna",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "evolution-ecology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000025",
+      "type": "connection",
+      "source": "lhs:bio.dna",
+      "relation": "part_of",
+      "target": "lhs:bio.cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "other",
+          "description": "axiomatic structural/dependency definition — accepted as fundamental",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.biology-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.biology-001",
+            "at": "2026-08-30T18:21:03.627320+00:00",
+            "reason": "structural part_of dna in cell"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.biology-001",
+            "at": "2026-08-30T18:21:03.627332+00:00",
+            "reason": "structural part_of dna in cell"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000027",
+      "type": "connection",
+      "source": "lhs:bio.gene",
+      "relation": "part_of",
+      "target": "lhs:bio.dna",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000028",
+      "type": "connection",
+      "source": "lhs:bio.gene",
+      "relation": "logically_requires",
+      "target": "lhs:bio.dna",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000030",
+      "type": "connection",
+      "source": "lhs:bio.enzyme",
+      "relation": "related_to",
+      "target": "lhs:bio.cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "metabolism-processes",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000032",
+      "type": "connection",
+      "source": "lhs:bio.photosynthesis",
+      "relation": "logically_requires",
+      "target": "lhs:bio.plant-cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "metabolism-processes",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000488",
+      "type": "connection",
+      "source": "lhs:bio.adaptation",
+      "relation": "related_to",
+      "target": "lhs:bio.natural-selection",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "evolution-ecology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000489",
+      "type": "connection",
+      "source": "lhs:bio.adaptation",
+      "relation": "related_to",
+      "target": "lhs:bio.ecosystem",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "evolution-ecology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000490",
+      "type": "connection",
+      "source": "lhs:bio.energy-flow-ecosystem",
+      "relation": "related_to",
+      "target": "lhs:bio.ecosystem",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "evolution-ecology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000491",
+      "type": "connection",
+      "source": "lhs:bio.energy-flow-ecosystem",
+      "relation": "related_to",
+      "target": "lhs:bio.photosynthesis",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "evolution-ecology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000492",
+      "type": "connection",
+      "source": "lhs:bio.food-chain",
+      "relation": "related_to",
+      "target": "lhs:bio.ecosystem",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "evolution-ecology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000493",
+      "type": "connection",
+      "source": "lhs:bio.food-chain",
+      "relation": "related_to",
+      "target": "lhs:bio.energy-flow-ecosystem",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "evolution-ecology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000494",
+      "type": "connection",
+      "source": "lhs:bio.population-dynamics",
+      "relation": "related_to",
+      "target": "lhs:bio.ecosystem",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "evolution-ecology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000495",
+      "type": "connection",
+      "source": "lhs:bio.population-dynamics",
+      "relation": "related_to",
+      "target": "lhs:bio.natural-selection",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "evolution-ecology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000496",
+      "type": "connection",
+      "source": "lhs:bio.speciation",
+      "relation": "related_to",
+      "target": "lhs:bio.natural-selection",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "evolution-ecology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000497",
+      "type": "connection",
+      "source": "lhs:bio.speciation",
+      "relation": "related_to",
+      "target": "lhs:bio.ecosystem",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "evolution-ecology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000498",
+      "type": "connection",
+      "source": "lhs:bio.allele",
+      "relation": "special_case_of",
+      "target": "lhs:bio.gene",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000499",
+      "type": "connection",
+      "source": "lhs:bio.allele",
+      "relation": "related_to",
+      "target": "lhs:bio.dna",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000500",
+      "type": "connection",
+      "source": "lhs:bio.chromosome",
+      "relation": "part_of",
+      "target": "lhs:bio.nucleus",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000501",
+      "type": "connection",
+      "source": "lhs:bio.chromosome",
+      "relation": "part_of",
+      "target": "lhs:bio.cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000502",
+      "type": "connection",
+      "source": "lhs:bio.chromosome",
+      "relation": "related_to",
+      "target": "lhs:bio.dna",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000503",
+      "type": "connection",
+      "source": "lhs:bio.dna-replication",
+      "relation": "logically_requires",
+      "target": "lhs:bio.dna",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000504",
+      "type": "connection",
+      "source": "lhs:bio.dna-replication",
+      "relation": "logically_requires",
+      "target": "lhs:bio.enzyme",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000505",
+      "type": "connection",
+      "source": "lhs:bio.dna-replication",
+      "relation": "part_of",
+      "target": "lhs:bio.nucleus",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000506",
+      "type": "connection",
+      "source": "lhs:bio.inheritance-patterns",
+      "relation": "logically_requires",
+      "target": "lhs:bio.allele",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000507",
+      "type": "connection",
+      "source": "lhs:bio.inheritance-patterns",
+      "relation": "related_to",
+      "target": "lhs:bio.gene",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000508",
+      "type": "connection",
+      "source": "lhs:bio.meiosis",
+      "relation": "logically_requires",
+      "target": "lhs:bio.chromosome",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000509",
+      "type": "connection",
+      "source": "lhs:bio.meiosis",
+      "relation": "related_to",
+      "target": "lhs:bio.gene",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000510",
+      "type": "connection",
+      "source": "lhs:bio.mitosis",
+      "relation": "related_to",
+      "target": "lhs:bio.cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000511",
+      "type": "connection",
+      "source": "lhs:bio.mitosis",
+      "relation": "logically_requires",
+      "target": "lhs:bio.chromosome",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000512",
+      "type": "connection",
+      "source": "lhs:bio.mutation",
+      "relation": "related_to",
+      "target": "lhs:bio.gene",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000513",
+      "type": "connection",
+      "source": "lhs:bio.mutation",
+      "relation": "related_to",
+      "target": "lhs:bio.dna",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000514",
+      "type": "connection",
+      "source": "lhs:bio.mutation",
+      "relation": "related_to",
+      "target": "lhs:bio.natural-selection",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000515",
+      "type": "connection",
+      "source": "lhs:bio.protein-synthesis",
+      "relation": "logically_requires",
+      "target": "lhs:bio.dna",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000516",
+      "type": "connection",
+      "source": "lhs:bio.protein-synthesis",
+      "relation": "logically_requires",
+      "target": "lhs:bio.enzyme",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000517",
+      "type": "connection",
+      "source": "lhs:bio.protein-synthesis",
+      "relation": "related_to",
+      "target": "lhs:bio.gene",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000518",
+      "type": "connection",
+      "source": "lhs:bio.transcription",
+      "relation": "derived_from",
+      "target": "lhs:bio.dna",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000519",
+      "type": "connection",
+      "source": "lhs:bio.transcription",
+      "relation": "logically_requires",
+      "target": "lhs:bio.dna",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000520",
+      "type": "connection",
+      "source": "lhs:bio.transcription",
+      "relation": "part_of",
+      "target": "lhs:bio.protein-synthesis",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000521",
+      "type": "connection",
+      "source": "lhs:bio.translation",
+      "relation": "logically_requires",
+      "target": "lhs:bio.transcription",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000522",
+      "type": "connection",
+      "source": "lhs:bio.translation",
+      "relation": "part_of",
+      "target": "lhs:bio.protein-synthesis",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000523",
+      "type": "connection",
+      "source": "lhs:bio.glycolysis",
+      "relation": "part_of",
+      "target": "lhs:bio.cellular-respiration",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "metabolism-processes",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000524",
+      "type": "connection",
+      "source": "lhs:bio.glycolysis",
+      "relation": "logically_requires",
+      "target": "lhs:bio.enzyme",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "metabolism-processes",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000525",
+      "type": "connection",
+      "source": "lhs:bio.hormone",
+      "relation": "related_to",
+      "target": "lhs:bio.homeostasis",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "physiology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000526",
+      "type": "connection",
+      "source": "lhs:bio.hormone",
+      "relation": "related_to",
+      "target": "lhs:bio.nervous-system",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "physiology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000527",
+      "type": "connection",
+      "source": "lhs:bio.immune-system",
+      "relation": "logically_requires",
+      "target": "lhs:bio.homeostasis",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "physiology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000528",
+      "type": "connection",
+      "source": "lhs:bio.immune-system",
+      "relation": "related_to",
+      "target": "lhs:bio.cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "physiology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000529",
+      "type": "connection",
+      "source": "lhs:bio.nervous-system",
+      "relation": "logically_requires",
+      "target": "lhs:bio.cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "physiology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000530",
+      "type": "connection",
+      "source": "lhs:bio.nervous-system",
+      "relation": "related_to",
+      "target": "lhs:bio.homeostasis",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "physiology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000531",
+      "type": "connection",
+      "source": "lhs:bio.neuron",
+      "relation": "part_of",
+      "target": "lhs:bio.nervous-system",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "physiology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000532",
+      "type": "connection",
+      "source": "lhs:bio.neuron",
+      "relation": "logically_requires",
+      "target": "lhs:bio.cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "physiology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,143 @@
+{
+  "export_version": "0.2",
+  "schema_version": "0.3",
+  "policy": "domain:scientific-practice",
+  "generated_at": "2026-09-06T07:57:41+00:00",
+  "source": "content/",
+  "entity_count": 2,
+  "connection_count": 1,
+  "entities": [
+    {
+      "id": "lhs:epist.observation-vs-inference",
+      "type": "concept",
+      "name": "Observation vs. Inference",
+      "domain": "scientific-practice",
+      "status": "draft",
+      "definition": "The epistemic distinction between direct empirical data gathered through sensing/measurement (observation) and the logical explanation or conclusion derived from those data based on prior knowledge (inference).",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Observation — the ground is wet; inference — it rained.",
+        "Observation — the bulb glows; inference — the circuit is complete."
+      ],
+      "key_experiments": [
+        "Mystery-box or scenario photos: list only what is observed, then separately what is inferred."
+      ],
+      "common_misconceptions": [
+        "Inferences are facts (inferences are interpretations that require logical justification and testing).",
+        "Scientific theories are just guesses (scientific theories are well-supported explanatory frameworks based on extensive observations)."
+      ],
+      "learning_objectives": [
+        "Distinguish direct observations from logical inferences in scientific reports.",
+        "Explain how multiple inferences can be constructed from the same set of observations.",
+        "Evaluate the strength of evidence supporting a scientific inference."
+      ],
+      "real_world_applications": [
+        "Forensic investigation and evidence evaluation.",
+        "Diagnostic medical reasoning and scientific peer review."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "OECD PISA Epistemic Knowledge Framework / NSTA Nature of Science"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:practice.scientific-observation"
+        }
+      ]
+    },
+    {
+      "id": "lhs:practice.scientific-observation",
+      "type": "concept",
+      "name": "Scientific Observation",
+      "domain": "scientific-practice",
+      "status": "draft",
+      "definition": "The systematic gathering of information about natural phenomena using the human senses or scientific instruments. Observation provides the empirical basis for scientific questions, hypotheses, and evidence.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Recording that a liquid turns blue litmus red is an observation.",
+        "Measuring temperature before and after mixing gives observation data."
+      ],
+      "key_experiments": [
+        "Describe an object or event using senses and instruments while deliberately holding back explanations."
+      ],
+      "common_misconceptions": [
+        "Observation is strictly passive watching (scientific observation often involves active measurement and instrumentation).",
+        "Observations and inferences are identical (observations are direct empirical data; inferences are logical interpretations)."
+      ],
+      "learning_objectives": [
+        "Distinguish between qualitative and quantitative observations.",
+        "Differentiate empirical observation from inference and opinion.",
+        "Explain how measurement instruments extend human sensory observation."
+      ],
+      "real_world_applications": [
+        "Field biology, astronomy, and meteorology data collection.",
+        "Medical diagnostics and clinical physical examinations."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "OECD PISA 2025 Science Framework / NGSS Science Practices"
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:phys.measurement"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "lhs:conn.000375",
+      "type": "connection",
+      "source": "lhs:epist.observation-vs-inference",
+      "relation": "logically_requires",
+      "target": "lhs:practice.scientific-observation",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "scientific-practice",
+        "subdomain": "epistemology-nature-of-science",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    }
+  ]
+}

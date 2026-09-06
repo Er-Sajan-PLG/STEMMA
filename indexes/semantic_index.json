@@ -1,0 +1,901 @@
+{
+  "note": "Semantic index requires embedding model. Run embedding generation separately.",
+  "entities": {
+    "lhs:bio.adaptation": {
+      "name": "Adaptation",
+      "domain": "biology"
+    },
+    "lhs:bio.allele": {
+      "name": "Allele",
+      "domain": "biology"
+    },
+    "lhs:bio.animal-cell": {
+      "name": "Animal Cell",
+      "domain": "biology"
+    },
+    "lhs:bio.cell": {
+      "name": "Cell",
+      "domain": "biology"
+    },
+    "lhs:bio.cellular-respiration": {
+      "name": "Cellular Respiration",
+      "domain": "biology"
+    },
+    "lhs:bio.chromosome": {
+      "name": "Chromosome",
+      "domain": "biology"
+    },
+    "lhs:bio.dna": {
+      "name": "Deoxyribonucleic Acid (DNA)",
+      "domain": "biology"
+    },
+    "lhs:bio.dna-replication": {
+      "name": "DNA Replication",
+      "domain": "biology"
+    },
+    "lhs:bio.ecosystem": {
+      "name": "Ecosystem",
+      "domain": "biology"
+    },
+    "lhs:bio.energy-flow-ecosystem": {
+      "name": "Energy Flow in Ecosystems",
+      "domain": "biology"
+    },
+    "lhs:bio.enzyme": {
+      "name": "Enzyme",
+      "domain": "biology"
+    },
+    "lhs:bio.food-chain": {
+      "name": "Food Chain",
+      "domain": "biology"
+    },
+    "lhs:bio.gene": {
+      "name": "Gene",
+      "domain": "biology"
+    },
+    "lhs:bio.glycolysis": {
+      "name": "Glycolysis",
+      "domain": "biology"
+    },
+    "lhs:bio.homeostasis": {
+      "name": "Homeostasis",
+      "domain": "biology"
+    },
+    "lhs:bio.hormone": {
+      "name": "Hormone",
+      "domain": "biology"
+    },
+    "lhs:bio.immune-system": {
+      "name": "Immune System",
+      "domain": "biology"
+    },
+    "lhs:bio.inheritance-patterns": {
+      "name": "Inheritance Patterns",
+      "domain": "biology"
+    },
+    "lhs:bio.meiosis": {
+      "name": "Meiosis",
+      "domain": "biology"
+    },
+    "lhs:bio.mitosis": {
+      "name": "Mitosis",
+      "domain": "biology"
+    },
+    "lhs:bio.mutation": {
+      "name": "Mutation",
+      "domain": "biology"
+    },
+    "lhs:bio.natural-selection": {
+      "name": "Natural Selection",
+      "domain": "biology"
+    },
+    "lhs:bio.nervous-system": {
+      "name": "Nervous System",
+      "domain": "biology"
+    },
+    "lhs:bio.neuron": {
+      "name": "Neuron",
+      "domain": "biology"
+    },
+    "lhs:bio.nucleus": {
+      "name": "Nucleus",
+      "domain": "biology"
+    },
+    "lhs:bio.osmosis": {
+      "name": "Osmosis",
+      "domain": "biology"
+    },
+    "lhs:bio.photosynthesis": {
+      "name": "Photosynthesis",
+      "domain": "biology"
+    },
+    "lhs:bio.plant-cell": {
+      "name": "Plant Cell",
+      "domain": "biology"
+    },
+    "lhs:bio.population-dynamics": {
+      "name": "Population Dynamics",
+      "domain": "biology"
+    },
+    "lhs:bio.protein-synthesis": {
+      "name": "Protein Synthesis",
+      "domain": "biology"
+    },
+    "lhs:bio.speciation": {
+      "name": "Speciation",
+      "domain": "biology"
+    },
+    "lhs:bio.transcription": {
+      "name": "Transcription",
+      "domain": "biology"
+    },
+    "lhs:bio.translation": {
+      "name": "Translation",
+      "domain": "biology"
+    },
+    "lhs:chem.acid": {
+      "name": "Acid",
+      "domain": "chemistry"
+    },
+    "lhs:chem.activation-energy": {
+      "name": "Activation Energy",
+      "domain": "chemistry"
+    },
+    "lhs:chem.alcohol": {
+      "name": "Alcohol",
+      "domain": "chemistry"
+    },
+    "lhs:chem.alkane": {
+      "name": "Alkane",
+      "domain": "chemistry"
+    },
+    "lhs:chem.alkene": {
+      "name": "Alkene",
+      "domain": "chemistry"
+    },
+    "lhs:chem.atom": {
+      "name": "Atom",
+      "domain": "chemistry"
+    },
+    "lhs:chem.base": {
+      "name": "Base",
+      "domain": "chemistry"
+    },
+    "lhs:chem.carboxylic-acid": {
+      "name": "Carboxylic Acid",
+      "domain": "chemistry"
+    },
+    "lhs:chem.catalyst": {
+      "name": "Catalyst",
+      "domain": "chemistry"
+    },
+    "lhs:chem.chemical-equation": {
+      "name": "Balanced Chemical Equation",
+      "domain": "chemistry"
+    },
+    "lhs:chem.chemical-equilibrium": {
+      "name": "Chemical Equilibrium",
+      "domain": "chemistry"
+    },
+    "lhs:chem.chemical-reaction": {
+      "name": "Chemical Reaction",
+      "domain": "chemistry"
+    },
+    "lhs:chem.combustion": {
+      "name": "Combustion",
+      "domain": "chemistry"
+    },
+    "lhs:chem.compound": {
+      "name": "Chemical Compound",
+      "domain": "chemistry"
+    },
+    "lhs:chem.covalent-bond": {
+      "name": "Covalent Bond",
+      "domain": "chemistry"
+    },
+    "lhs:chem.diffusion": {
+      "name": "Diffusion",
+      "domain": "chemistry"
+    },
+    "lhs:chem.electrochemical-cell": {
+      "name": "Electrochemical Cell",
+      "domain": "chemistry"
+    },
+    "lhs:chem.electrolysis": {
+      "name": "Electrolysis",
+      "domain": "chemistry"
+    },
+    "lhs:chem.electron": {
+      "name": "Electron",
+      "domain": "chemistry"
+    },
+    "lhs:chem.element": {
+      "name": "Chemical Element",
+      "domain": "chemistry"
+    },
+    "lhs:chem.enthalpy": {
+      "name": "Enthalpy",
+      "domain": "chemistry"
+    },
+    "lhs:chem.entropy": {
+      "name": "Entropy",
+      "domain": "chemistry"
+    },
+    "lhs:chem.equilibrium-constant": {
+      "name": "Equilibrium Constant",
+      "domain": "chemistry"
+    },
+    "lhs:chem.functional-group": {
+      "name": "Functional Group",
+      "domain": "chemistry"
+    },
+    "lhs:chem.gibbs-free-energy": {
+      "name": "Gibbs Free Energy",
+      "domain": "chemistry"
+    },
+    "lhs:chem.hydrocarbon": {
+      "name": "Hydrocarbon",
+      "domain": "chemistry"
+    },
+    "lhs:chem.ionic-bond": {
+      "name": "Ionic Bond",
+      "domain": "chemistry"
+    },
+    "lhs:chem.isomer": {
+      "name": "Isomer",
+      "domain": "chemistry"
+    },
+    "lhs:chem.le-chateliers-principle": {
+      "name": "Le Chatelier's Principle",
+      "domain": "chemistry"
+    },
+    "lhs:chem.matter": {
+      "name": "Matter",
+      "domain": "chemistry"
+    },
+    "lhs:chem.mixture": {
+      "name": "Mixture",
+      "domain": "chemistry"
+    },
+    "lhs:chem.neutralization": {
+      "name": "Neutralization Reaction",
+      "domain": "chemistry"
+    },
+    "lhs:chem.oxidation-number": {
+      "name": "Oxidation Number",
+      "domain": "chemistry"
+    },
+    "lhs:chem.oxidation-reduction": {
+      "name": "Oxidation-Reduction",
+      "domain": "chemistry"
+    },
+    "lhs:chem.periodic-table": {
+      "name": "Periodic Table of Elements",
+      "domain": "chemistry"
+    },
+    "lhs:chem.ph-scale": {
+      "name": "pH Scale",
+      "domain": "chemistry"
+    },
+    "lhs:chem.polymer": {
+      "name": "Polymer",
+      "domain": "chemistry"
+    },
+    "lhs:chem.proton": {
+      "name": "Proton",
+      "domain": "chemistry"
+    },
+    "lhs:chem.reaction-rate": {
+      "name": "Reaction Rate",
+      "domain": "chemistry"
+    },
+    "lhs:chem.salt": {
+      "name": "Salt",
+      "domain": "chemistry"
+    },
+    "lhs:earth.atmosphere": {
+      "name": "Earth Atmosphere",
+      "domain": "earth-space"
+    },
+    "lhs:earth.big-bang-theory": {
+      "name": "Big Bang Theory",
+      "domain": "earth-space"
+    },
+    "lhs:earth.earth-system": {
+      "name": "Earth System",
+      "domain": "earth-space"
+    },
+    "lhs:earth.greenhouse-effect": {
+      "name": "Greenhouse Effect",
+      "domain": "earth-space"
+    },
+    "lhs:earth.plate-tectonics": {
+      "name": "Plate Tectonics",
+      "domain": "earth-space"
+    },
+    "lhs:earth.rock-cycle": {
+      "name": "Rock Cycle",
+      "domain": "earth-space"
+    },
+    "lhs:earth.seasons-cause": {
+      "name": "Cause of Astronomical Seasons",
+      "domain": "earth-space"
+    },
+    "lhs:earth.solar-system": {
+      "name": "Solar System",
+      "domain": "earth-space"
+    },
+    "lhs:earth.water-cycle": {
+      "name": "Water Cycle",
+      "domain": "earth-space"
+    },
+    "lhs:eng.engineering-design-process": {
+      "name": "Engineering Design Process",
+      "domain": "engineering"
+    },
+    "lhs:epist.observation-vs-inference": {
+      "name": "Observation vs. Inference",
+      "domain": "scientific-practice"
+    },
+    "lhs:math.algebraic-expression": {
+      "name": "Algebraic Expression",
+      "domain": "mathematics"
+    },
+    "lhs:math.angle": {
+      "name": "Angle",
+      "domain": "mathematics"
+    },
+    "lhs:math.area": {
+      "name": "Area",
+      "domain": "mathematics"
+    },
+    "lhs:math.arithmetic-sequence": {
+      "name": "Arithmetic Sequence",
+      "domain": "mathematics"
+    },
+    "lhs:math.circle": {
+      "name": "Circle",
+      "domain": "mathematics"
+    },
+    "lhs:math.combination": {
+      "name": "Combination",
+      "domain": "mathematics"
+    },
+    "lhs:math.complex-number": {
+      "name": "Complex Number",
+      "domain": "mathematics"
+    },
+    "lhs:math.continuity": {
+      "name": "Continuity",
+      "domain": "mathematics"
+    },
+    "lhs:math.decimal": {
+      "name": "Decimal",
+      "domain": "mathematics"
+    },
+    "lhs:math.derivative": {
+      "name": "Derivative",
+      "domain": "mathematics"
+    },
+    "lhs:math.determinant": {
+      "name": "Determinant",
+      "domain": "mathematics"
+    },
+    "lhs:math.exponential-function": {
+      "name": "Exponential Function",
+      "domain": "mathematics"
+    },
+    "lhs:math.fraction": {
+      "name": "Fraction",
+      "domain": "mathematics"
+    },
+    "lhs:math.function": {
+      "name": "Function",
+      "domain": "mathematics"
+    },
+    "lhs:math.fundamental-theorem-of-calculus": {
+      "name": "Fundamental Theorem of Calculus",
+      "domain": "mathematics"
+    },
+    "lhs:math.geometric-sequence": {
+      "name": "Geometric Sequence",
+      "domain": "mathematics"
+    },
+    "lhs:math.integer": {
+      "name": "Integer",
+      "domain": "mathematics"
+    },
+    "lhs:math.integral": {
+      "name": "Integral",
+      "domain": "mathematics"
+    },
+    "lhs:math.irrational-number": {
+      "name": "Irrational Number",
+      "domain": "mathematics"
+    },
+    "lhs:math.limit": {
+      "name": "Limit",
+      "domain": "mathematics"
+    },
+    "lhs:math.linear-equation": {
+      "name": "Linear Equation",
+      "domain": "mathematics"
+    },
+    "lhs:math.linear-function": {
+      "name": "Linear Function",
+      "domain": "mathematics"
+    },
+    "lhs:math.logarithmic-function": {
+      "name": "Logarithmic Function",
+      "domain": "mathematics"
+    },
+    "lhs:math.matrix": {
+      "name": "Matrix",
+      "domain": "mathematics"
+    },
+    "lhs:math.mean": {
+      "name": "Mean (Arithmetic Average)",
+      "domain": "mathematics"
+    },
+    "lhs:math.median": {
+      "name": "Median",
+      "domain": "mathematics"
+    },
+    "lhs:math.natural-number": {
+      "name": "Natural Number",
+      "domain": "mathematics"
+    },
+    "lhs:math.percentage": {
+      "name": "Percentage",
+      "domain": "mathematics"
+    },
+    "lhs:math.permutation": {
+      "name": "Permutation",
+      "domain": "mathematics"
+    },
+    "lhs:math.polynomial": {
+      "name": "Polynomial",
+      "domain": "mathematics"
+    },
+    "lhs:math.probability": {
+      "name": "Probability",
+      "domain": "mathematics"
+    },
+    "lhs:math.proportion": {
+      "name": "Proportion",
+      "domain": "mathematics"
+    },
+    "lhs:math.pythagorean-theorem": {
+      "name": "Pythagorean Theorem",
+      "domain": "mathematics"
+    },
+    "lhs:math.quadratic-equation": {
+      "name": "Quadratic Equation",
+      "domain": "mathematics"
+    },
+    "lhs:math.quadratic-function": {
+      "name": "Quadratic Function",
+      "domain": "mathematics"
+    },
+    "lhs:math.ratio": {
+      "name": "Ratio",
+      "domain": "mathematics"
+    },
+    "lhs:math.rational-number": {
+      "name": "Rational Number",
+      "domain": "mathematics"
+    },
+    "lhs:math.sequence": {
+      "name": "Sequence",
+      "domain": "mathematics"
+    },
+    "lhs:math.standard-deviation": {
+      "name": "Standard Deviation",
+      "domain": "mathematics"
+    },
+    "lhs:math.triangle": {
+      "name": "Triangle",
+      "domain": "mathematics"
+    },
+    "lhs:math.trigonometric-ratio": {
+      "name": "Trigonometric Ratio",
+      "domain": "mathematics"
+    },
+    "lhs:math.variable": {
+      "name": "Variable",
+      "domain": "mathematics"
+    },
+    "lhs:math.volume": {
+      "name": "Volume",
+      "domain": "mathematics"
+    },
+    "lhs:phys.acceleration": {
+      "name": "Acceleration",
+      "domain": "physics"
+    },
+    "lhs:phys.amplitude": {
+      "name": "Amplitude",
+      "domain": "physics"
+    },
+    "lhs:phys.atomic-structure": {
+      "name": "Atomic Structure",
+      "domain": "physics"
+    },
+    "lhs:phys.bohr-model": {
+      "name": "Bohr Model",
+      "domain": "physics"
+    },
+    "lhs:phys.brownian-motion": {
+      "name": "Brownian Motion",
+      "domain": "physics"
+    },
+    "lhs:phys.buoyancy": {
+      "name": "Buoyancy",
+      "domain": "physics"
+    },
+    "lhs:phys.capacitor": {
+      "name": "Capacitance",
+      "domain": "physics"
+    },
+    "lhs:phys.change-of-state": {
+      "name": "Change of State",
+      "domain": "physics"
+    },
+    "lhs:phys.conservation-of-energy": {
+      "name": "Law of Conservation of Energy",
+      "domain": "physics"
+    },
+    "lhs:phys.coulombs-law": {
+      "name": "Coulomb's Law",
+      "domain": "physics"
+    },
+    "lhs:phys.current": {
+      "name": "Electric Current",
+      "domain": "physics"
+    },
+    "lhs:phys.density": {
+      "name": "Density",
+      "domain": "physics"
+    },
+    "lhs:phys.displacement": {
+      "name": "Displacement",
+      "domain": "physics"
+    },
+    "lhs:phys.distance": {
+      "name": "Distance",
+      "domain": "physics"
+    },
+    "lhs:phys.doppler-effect": {
+      "name": "Doppler Effect",
+      "domain": "physics"
+    },
+    "lhs:phys.efficiency": {
+      "name": "Efficiency",
+      "domain": "physics"
+    },
+    "lhs:phys.electric-charge": {
+      "name": "Electric Charge",
+      "domain": "physics"
+    },
+    "lhs:phys.electric-field": {
+      "name": "Electric Field",
+      "domain": "physics"
+    },
+    "lhs:phys.electric-motor": {
+      "name": "Electric Motor",
+      "domain": "physics"
+    },
+    "lhs:phys.electromagnetic-induction": {
+      "name": "Electromagnetic Induction",
+      "domain": "physics"
+    },
+    "lhs:phys.electromagnetic-spectrum": {
+      "name": "Electromagnetic Spectrum",
+      "domain": "physics"
+    },
+    "lhs:phys.electromagnetic-wave": {
+      "name": "Electromagnetic Wave",
+      "domain": "physics"
+    },
+    "lhs:phys.electromagnetism": {
+      "name": "Electromagnetism",
+      "domain": "physics"
+    },
+    "lhs:phys.energy": {
+      "name": "Energy",
+      "domain": "physics"
+    },
+    "lhs:phys.energy-loss": {
+      "name": "Energy Loss",
+      "domain": "physics"
+    },
+    "lhs:phys.energy-sources": {
+      "name": "Energy Sources",
+      "domain": "physics"
+    },
+    "lhs:phys.equations-of-motion": {
+      "name": "Equations of Motion",
+      "domain": "physics"
+    },
+    "lhs:phys.force": {
+      "name": "Force",
+      "domain": "physics"
+    },
+    "lhs:phys.free-fall": {
+      "name": "Free Fall",
+      "domain": "physics"
+    },
+    "lhs:phys.frequency": {
+      "name": "Frequency",
+      "domain": "physics"
+    },
+    "lhs:phys.friction": {
+      "name": "Friction",
+      "domain": "physics"
+    },
+    "lhs:phys.generator": {
+      "name": "Electric Generator",
+      "domain": "physics"
+    },
+    "lhs:phys.graphical-analysis": {
+      "name": "Graphical Analysis of Motion",
+      "domain": "physics"
+    },
+    "lhs:phys.gravitation": {
+      "name": "Gravitation",
+      "domain": "physics"
+    },
+    "lhs:phys.gravitational-acceleration": {
+      "name": "Gravitational Acceleration",
+      "domain": "physics"
+    },
+    "lhs:phys.half-life": {
+      "name": "Half-Life",
+      "domain": "physics"
+    },
+    "lhs:phys.heat": {
+      "name": "Heat",
+      "domain": "physics"
+    },
+    "lhs:phys.heat-capacity": {
+      "name": "Heat Capacity",
+      "domain": "physics"
+    },
+    "lhs:phys.heating-effect": {
+      "name": "Heating Effect of Electric Current",
+      "domain": "physics"
+    },
+    "lhs:phys.ideal-gas-model": {
+      "name": "Ideal Gas Model",
+      "domain": "physics"
+    },
+    "lhs:phys.impulse": {
+      "name": "Impulse",
+      "domain": "physics"
+    },
+    "lhs:phys.inertia": {
+      "name": "Inertia",
+      "domain": "physics"
+    },
+    "lhs:phys.kinetic-energy": {
+      "name": "Kinetic Energy",
+      "domain": "physics"
+    },
+    "lhs:phys.lens": {
+      "name": "Lens",
+      "domain": "physics"
+    },
+    "lhs:phys.light": {
+      "name": "Light",
+      "domain": "physics"
+    },
+    "lhs:phys.magnetic-field": {
+      "name": "Magnetic Field",
+      "domain": "physics"
+    },
+    "lhs:phys.magnetic-flux": {
+      "name": "Magnetic Flux",
+      "domain": "physics"
+    },
+    "lhs:phys.magnetic-force": {
+      "name": "Magnetic Force",
+      "domain": "physics"
+    },
+    "lhs:phys.magnetism": {
+      "name": "Magnetism",
+      "domain": "physics"
+    },
+    "lhs:phys.mass": {
+      "name": "Mass",
+      "domain": "physics"
+    },
+    "lhs:phys.measurement": {
+      "name": "Measurement",
+      "domain": "physics"
+    },
+    "lhs:phys.mechanical-advantage": {
+      "name": "Mechanical Advantage",
+      "domain": "physics"
+    },
+    "lhs:phys.mirror": {
+      "name": "Mirror",
+      "domain": "physics"
+    },
+    "lhs:phys.momentum": {
+      "name": "Momentum",
+      "domain": "physics"
+    },
+    "lhs:phys.motion": {
+      "name": "Motion",
+      "domain": "physics"
+    },
+    "lhs:phys.newtons-first-law": {
+      "name": "Newton's First Law of Motion",
+      "domain": "physics"
+    },
+    "lhs:phys.newtons-law-of-gravitation": {
+      "name": "Newton's Law of Universal Gravitation",
+      "domain": "physics"
+    },
+    "lhs:phys.newtons-second-law": {
+      "name": "Newton's Second Law",
+      "domain": "physics"
+    },
+    "lhs:phys.newtons-third-law": {
+      "name": "Newton's Third Law of Motion",
+      "domain": "physics"
+    },
+    "lhs:phys.nuclear-binding-energy": {
+      "name": "Nuclear Binding Energy",
+      "domain": "physics"
+    },
+    "lhs:phys.nuclear-fission": {
+      "name": "Nuclear Fission",
+      "domain": "physics"
+    },
+    "lhs:phys.nuclear-fusion": {
+      "name": "Nuclear Fusion",
+      "domain": "physics"
+    },
+    "lhs:phys.ohms-law": {
+      "name": "Ohm's Law",
+      "domain": "physics"
+    },
+    "lhs:phys.our-environment": {
+      "name": "Our Environment",
+      "domain": "physics"
+    },
+    "lhs:phys.phase-change": {
+      "name": "Phase Change",
+      "domain": "physics"
+    },
+    "lhs:phys.photoelectric-effect": {
+      "name": "Photoelectric Effect",
+      "domain": "physics"
+    },
+    "lhs:phys.physical-quantity": {
+      "name": "Physical Quantity",
+      "domain": "physics"
+    },
+    "lhs:phys.potential-energy": {
+      "name": "Potential Energy",
+      "domain": "physics"
+    },
+    "lhs:phys.power": {
+      "name": "Power",
+      "domain": "physics"
+    },
+    "lhs:phys.pressure": {
+      "name": "Pressure",
+      "domain": "physics"
+    },
+    "lhs:phys.projectile-motion": {
+      "name": "Projectile Motion",
+      "domain": "physics"
+    },
+    "lhs:phys.quantized-energy-levels": {
+      "name": "Quantized Energy Levels",
+      "domain": "physics"
+    },
+    "lhs:phys.radioactivity": {
+      "name": "Radioactivity",
+      "domain": "physics"
+    },
+    "lhs:phys.ray-model": {
+      "name": "Ray Model of Light",
+      "domain": "physics"
+    },
+    "lhs:phys.reflection": {
+      "name": "Reflection of Light",
+      "domain": "physics"
+    },
+    "lhs:phys.refraction": {
+      "name": "Refraction of Light",
+      "domain": "physics"
+    },
+    "lhs:phys.resistance": {
+      "name": "Electrical Resistance",
+      "domain": "physics"
+    },
+    "lhs:phys.scalar": {
+      "name": "Scalar Quantity",
+      "domain": "physics"
+    },
+    "lhs:phys.simple-harmonic-motion": {
+      "name": "Simple Harmonic Motion",
+      "domain": "physics"
+    },
+    "lhs:phys.sound": {
+      "name": "Sound",
+      "domain": "physics"
+    },
+    "lhs:phys.specific-heat": {
+      "name": "Specific Heat Capacity",
+      "domain": "physics"
+    },
+    "lhs:phys.speed": {
+      "name": "Speed",
+      "domain": "physics"
+    },
+    "lhs:phys.temperature": {
+      "name": "Temperature",
+      "domain": "physics"
+    },
+    "lhs:phys.thermal-energy": {
+      "name": "Thermal Energy",
+      "domain": "physics"
+    },
+    "lhs:phys.time": {
+      "name": "Time",
+      "domain": "physics"
+    },
+    "lhs:phys.unit": {
+      "name": "Unit of Measurement",
+      "domain": "physics"
+    },
+    "lhs:phys.vector": {
+      "name": "Vector Quantity",
+      "domain": "physics"
+    },
+    "lhs:phys.velocity": {
+      "name": "Velocity",
+      "domain": "physics"
+    },
+    "lhs:phys.voltage": {
+      "name": "Potential Difference (Voltage)",
+      "domain": "physics"
+    },
+    "lhs:phys.wave": {
+      "name": "Wave",
+      "domain": "physics"
+    },
+    "lhs:phys.wave-interference": {
+      "name": "Wave Interference",
+      "domain": "physics"
+    },
+    "lhs:phys.wave-speed": {
+      "name": "Wave Speed",
+      "domain": "physics"
+    },
+    "lhs:phys.wavelength": {
+      "name": "Wavelength",
+      "domain": "physics"
+    },
+    "lhs:phys.weight": {
+      "name": "Weight",
+      "domain": "physics"
+    },
+    "lhs:phys.work": {
+      "name": "Work",
+      "domain": "physics"
+    },
+    "lhs:phys.work-energy-theorem": {
+      "name": "Work-Energy Theorem",
+      "domain": "physics"
+    },
+    "lhs:practice.scientific-observation": {
+      "name": "Scientific Observation",
+      "domain": "scientific-practice"
+    }
+  }
+}

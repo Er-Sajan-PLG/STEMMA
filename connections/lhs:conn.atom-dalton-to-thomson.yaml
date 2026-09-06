@@ -1,0 +1,46 @@
+id: lhs:conn.atom-dalton-to-thomson
+type: connection
+source: lhs:chem.atom.dalton
+relation: superseded_by
+target: lhs:chem.atom.plum-pudding
+assertion:
+  status: active
+  type: asserted
+  review:
+    status: canonical
+  confidence: 1.0
+  confidence_basis: experimental
+  polarity: positive
+context:
+  domain: chemistry
+  subdomain: atomic-structure
+  regime:
+  - classical
+  scale: atomic
+  assumptions: []
+  qualifiers: []
+evidence:
+- type: experiment
+  stance: supports
+  source_ref: lhs:src.thomson-1897
+  locator:
+    section: "Cathode Rays"
+  description: "Thomson's cathode ray experiment discovered the electron, showing atoms have substructure"
+provenance:
+  asserted_by:
+    type: human
+    id: human:reviewer.history-001
+  generated_by:
+    type: human
+    id: human:curator.history-001
+  method:
+    type: manual
+  reviewed_by:
+  - type: human
+    id: human:reviewer.history-001
+  review_history:
+  - from: unreviewed
+    to: reviewed
+    reviewer: human:reviewer.history-001
+    at: '2026-09-06T15:00:00+00:00'
+    reason: "Thomson's electron discovery superseded indivisible atom model"

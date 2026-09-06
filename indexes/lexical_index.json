@@ -1,0 +1,8964 @@
+{
+  "physiological": [
+    "lhs:bio.adaptation",
+    "lhs:bio.hormone"
+  ],
+  "trait": [
+    "lhs:bio.adaptation",
+    "lhs:bio.allele"
+  ],
+  "that": [
+    "lhs:bio.adaptation",
+    "lhs:bio.allele",
+    "lhs:bio.chromosome",
+    "lhs:bio.enzyme",
+    "lhs:bio.gene",
+    "lhs:bio.glycolysis",
+    "lhs:bio.hormone",
+    "lhs:bio.immune-system",
+    "lhs:bio.meiosis",
+    "lhs:bio.mitosis",
+    "lhs:bio.nervous-system",
+    "lhs:bio.neuron",
+    "lhs:bio.nucleus",
+    "lhs:bio.speciation",
+    "lhs:chem.acid",
+    "lhs:chem.activation-energy",
+    "lhs:chem.alcohol",
+    "lhs:chem.alkene",
+    "lhs:chem.atom",
+    "lhs:chem.base",
+    "lhs:chem.carboxylic-acid",
+    "lhs:chem.catalyst",
+    "lhs:chem.chemical-equation",
+    "lhs:chem.combustion",
+    "lhs:chem.electrochemical-cell",
+    "lhs:chem.element",
+    "lhs:chem.entropy",
+    "lhs:chem.equilibrium-constant",
+    "lhs:chem.functional-group",
+    "lhs:chem.gibbs-free-energy",
+    "lhs:chem.isomer",
+    "lhs:chem.le-chateliers-principle",
+    "lhs:chem.matter",
+    "lhs:chem.mixture",
+    "lhs:chem.oxidation-number",
+    "lhs:earth.plate-tectonics",
+    "lhs:math.algebraic-expression",
+    "lhs:math.circle",
+    "lhs:math.complex-number",
+    "lhs:math.continuity",
+    "lhs:math.determinant",
+    "lhs:math.fraction",
+    "lhs:math.fundamental-theorem-of-calculus",
+    "lhs:math.integral",
+    "lhs:math.irrational-number",
+    "lhs:math.probability",
+    "lhs:math.proportion",
+    "lhs:math.rational-number",
+    "lhs:math.standard-deviation",
+    "lhs:math.variable",
+    "lhs:phys.electric-charge",
+    "lhs:phys.electric-motor",
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.energy-loss",
+    "lhs:phys.force",
+    "lhs:phys.friction",
+    "lhs:phys.generator",
+    "lhs:phys.gravitation",
+    "lhs:phys.lens",
+    "lhs:phys.light",
+    "lhs:phys.magnetic-field",
+    "lhs:phys.mass",
+    "lhs:phys.mirror",
+    "lhs:phys.momentum",
+    "lhs:phys.nuclear-fusion",
+    "lhs:phys.physical-quantity",
+    "lhs:phys.quantized-energy-levels",
+    "lhs:phys.reflection",
+    "lhs:phys.scalar",
+    "lhs:phys.time",
+    "lhs:phys.unit",
+    "lhs:phys.vector",
+    "lhs:phys.voltage",
+    "lhs:phys.wave"
+  ],
+  "ability": [
+    "lhs:bio.adaptation",
+    "lhs:phys.capacitor"
+  ],
+  "reproduce": [
+    "lhs:bio.adaptation",
+    "lhs:bio.natural-selection"
+  ],
+  "characteristic": [
+    "lhs:bio.adaptation",
+    "lhs:bio.animal-cell",
+    "lhs:bio.plant-cell",
+    "lhs:chem.functional-group"
+  ],
+  "structure": [
+    "lhs:bio.adaptation",
+    "lhs:bio.chromosome",
+    "lhs:bio.population-dynamics",
+    "lhs:phys.atomic-structure",
+    "lhs:phys.gravitation",
+    "lhs:phys.phase-change"
+  ],
+  "its": [
+    "lhs:bio.adaptation",
+    "lhs:bio.dna-replication",
+    "lhs:bio.mitosis",
+    "lhs:chem.electrolysis",
+    "lhs:chem.enthalpy",
+    "lhs:earth.seasons-cause",
+    "lhs:math.continuity",
+    "lhs:math.derivative",
+    "lhs:math.determinant",
+    "lhs:math.irrational-number",
+    "lhs:math.limit",
+    "lhs:math.standard-deviation",
+    "lhs:phys.amplitude",
+    "lhs:phys.energy-loss",
+    "lhs:phys.force",
+    "lhs:phys.inertia",
+    "lhs:phys.kinetic-energy",
+    "lhs:phys.light",
+    "lhs:phys.mass",
+    "lhs:phys.newtons-second-law",
+    "lhs:phys.nuclear-binding-energy",
+    "lhs:phys.phase-change",
+    "lhs:phys.potential-energy",
+    "lhs:phys.simple-harmonic-motion",
+    "lhs:phys.work-energy-theorem"
+  ],
+  "acting": [
+    "lhs:bio.adaptation",
+    "lhs:phys.free-fall",
+    "lhs:phys.impulse",
+    "lhs:phys.newtons-second-law",
+    "lhs:phys.weight"
+  ],
+  "arisen": [
+    "lhs:bio.adaptation"
+  ],
+  "variation": [
+    "lhs:bio.adaptation",
+    "lhs:bio.meiosis",
+    "lhs:earth.seasons-cause",
+    "lhs:phys.simple-harmonic-motion"
+  ],
+  "over": [
+    "lhs:bio.adaptation",
+    "lhs:bio.meiosis",
+    "lhs:bio.population-dynamics",
+    "lhs:chem.chemical-equilibrium",
+    "lhs:earth.plate-tectonics",
+    "lhs:math.exponential-function",
+    "lhs:math.integral",
+    "lhs:phys.impulse",
+    "lhs:phys.mechanical-advantage",
+    "lhs:phys.pressure"
+  ],
+  "concept": [
+    "lhs:bio.adaptation",
+    "lhs:bio.allele",
+    "lhs:bio.animal-cell",
+    "lhs:bio.cell",
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.chromosome",
+    "lhs:bio.dna",
+    "lhs:bio.dna-replication",
+    "lhs:bio.ecosystem",
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:bio.enzyme",
+    "lhs:bio.food-chain",
+    "lhs:bio.gene",
+    "lhs:bio.glycolysis",
+    "lhs:bio.homeostasis",
+    "lhs:bio.hormone",
+    "lhs:bio.immune-system",
+    "lhs:bio.inheritance-patterns",
+    "lhs:bio.meiosis",
+    "lhs:bio.mitosis",
+    "lhs:bio.mutation",
+    "lhs:bio.natural-selection",
+    "lhs:bio.nervous-system",
+    "lhs:bio.neuron",
+    "lhs:bio.nucleus",
+    "lhs:bio.osmosis",
+    "lhs:bio.photosynthesis",
+    "lhs:bio.plant-cell",
+    "lhs:bio.population-dynamics",
+    "lhs:bio.protein-synthesis",
+    "lhs:bio.speciation",
+    "lhs:bio.transcription",
+    "lhs:bio.translation",
+    "lhs:chem.acid",
+    "lhs:chem.alcohol",
+    "lhs:chem.alkane",
+    "lhs:chem.alkene",
+    "lhs:chem.atom",
+    "lhs:chem.base",
+    "lhs:chem.carboxylic-acid",
+    "lhs:chem.catalyst",
+    "lhs:chem.chemical-equilibrium",
+    "lhs:chem.chemical-reaction",
+    "lhs:chem.combustion",
+    "lhs:chem.compound",
+    "lhs:chem.covalent-bond",
+    "lhs:chem.diffusion",
+    "lhs:chem.electrochemical-cell",
+    "lhs:chem.electrolysis",
+    "lhs:chem.electron",
+    "lhs:chem.element",
+    "lhs:chem.functional-group",
+    "lhs:chem.hydrocarbon",
+    "lhs:chem.ionic-bond",
+    "lhs:chem.isomer",
+    "lhs:chem.matter",
+    "lhs:chem.mixture",
+    "lhs:chem.neutralization",
+    "lhs:chem.oxidation-reduction",
+    "lhs:chem.periodic-table",
+    "lhs:chem.ph-scale",
+    "lhs:chem.polymer",
+    "lhs:chem.proton",
+    "lhs:chem.salt",
+    "lhs:earth.atmosphere",
+    "lhs:earth.big-bang-theory",
+    "lhs:earth.earth-system",
+    "lhs:earth.greenhouse-effect",
+    "lhs:earth.plate-tectonics",
+    "lhs:earth.rock-cycle",
+    "lhs:earth.seasons-cause",
+    "lhs:earth.solar-system",
+    "lhs:earth.water-cycle",
+    "lhs:eng.engineering-design-process",
+    "lhs:epist.observation-vs-inference",
+    "lhs:math.algebraic-expression",
+    "lhs:math.angle",
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.circle",
+    "lhs:math.complex-number",
+    "lhs:math.continuity",
+    "lhs:math.decimal",
+    "lhs:math.exponential-function",
+    "lhs:math.fraction",
+    "lhs:math.function",
+    "lhs:math.geometric-sequence",
+    "lhs:math.integer",
+    "lhs:math.irrational-number",
+    "lhs:math.limit",
+    "lhs:math.linear-equation",
+    "lhs:math.linear-function",
+    "lhs:math.logarithmic-function",
+    "lhs:math.matrix",
+    "lhs:math.natural-number",
+    "lhs:math.percentage",
+    "lhs:math.polynomial",
+    "lhs:math.probability",
+    "lhs:math.proportion",
+    "lhs:math.quadratic-equation",
+    "lhs:math.quadratic-function",
+    "lhs:math.ratio",
+    "lhs:math.rational-number",
+    "lhs:math.sequence",
+    "lhs:math.triangle",
+    "lhs:math.trigonometric-ratio",
+    "lhs:math.variable",
+    "lhs:phys.atomic-structure",
+    "lhs:phys.bohr-model",
+    "lhs:phys.brownian-motion",
+    "lhs:phys.buoyancy",
+    "lhs:phys.change-of-state",
+    "lhs:phys.doppler-effect",
+    "lhs:phys.efficiency",
+    "lhs:phys.electric-motor",
+    "lhs:phys.electromagnetic-induction",
+    "lhs:phys.electromagnetic-spectrum",
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.electromagnetism",
+    "lhs:phys.energy-loss",
+    "lhs:phys.energy-sources",
+    "lhs:phys.force",
+    "lhs:phys.free-fall",
+    "lhs:phys.friction",
+    "lhs:phys.generator",
+    "lhs:phys.graphical-analysis",
+    "lhs:phys.gravitation",
+    "lhs:phys.heating-effect",
+    "lhs:phys.ideal-gas-model",
+    "lhs:phys.inertia",
+    "lhs:phys.lens",
+    "lhs:phys.light",
+    "lhs:phys.magnetic-field",
+    "lhs:phys.magnetism",
+    "lhs:phys.measurement",
+    "lhs:phys.mechanical-advantage",
+    "lhs:phys.mirror",
+    "lhs:phys.motion",
+    "lhs:phys.nuclear-fission",
+    "lhs:phys.nuclear-fusion",
+    "lhs:phys.our-environment",
+    "lhs:phys.phase-change",
+    "lhs:phys.photoelectric-effect",
+    "lhs:phys.physical-quantity",
+    "lhs:phys.projectile-motion",
+    "lhs:phys.quantized-energy-levels",
+    "lhs:phys.radioactivity",
+    "lhs:phys.ray-model",
+    "lhs:phys.reflection",
+    "lhs:phys.refraction",
+    "lhs:phys.scalar",
+    "lhs:phys.simple-harmonic-motion",
+    "lhs:phys.sound",
+    "lhs:phys.vector",
+    "lhs:phys.wave",
+    "lhs:phys.wave-interference",
+    "lhs:phys.work-energy-theorem",
+    "lhs:practice.scientific-observation"
+  ],
+  "enhances": [
+    "lhs:bio.adaptation"
+  ],
+  "heritable": [
+    "lhs:bio.adaptation",
+    "lhs:bio.mutation",
+    "lhs:bio.natural-selection"
+  ],
+  "selection": [
+    "lhs:bio.adaptation",
+    "lhs:bio.natural-selection",
+    "lhs:math.combination"
+  ],
+  "having": [
+    "lhs:bio.adaptation"
+  ],
+  "environment": [
+    "lhs:bio.adaptation",
+    "lhs:bio.ecosystem",
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:bio.homeostasis",
+    "lhs:bio.natural-selection",
+    "lhs:phys.our-environment"
+  ],
+  "and": [
+    "lhs:bio.adaptation",
+    "lhs:bio.allele",
+    "lhs:bio.animal-cell",
+    "lhs:bio.cell",
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.chromosome",
+    "lhs:bio.dna",
+    "lhs:bio.ecosystem",
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:bio.food-chain",
+    "lhs:bio.gene",
+    "lhs:bio.glycolysis",
+    "lhs:bio.homeostasis",
+    "lhs:bio.hormone",
+    "lhs:bio.immune-system",
+    "lhs:bio.inheritance-patterns",
+    "lhs:bio.meiosis",
+    "lhs:bio.natural-selection",
+    "lhs:bio.nervous-system",
+    "lhs:bio.neuron",
+    "lhs:bio.nucleus",
+    "lhs:bio.photosynthesis",
+    "lhs:bio.plant-cell",
+    "lhs:bio.population-dynamics",
+    "lhs:bio.protein-synthesis",
+    "lhs:bio.translation",
+    "lhs:chem.acid",
+    "lhs:chem.alcohol",
+    "lhs:chem.atom",
+    "lhs:chem.base",
+    "lhs:chem.catalyst",
+    "lhs:chem.chemical-equation",
+    "lhs:chem.chemical-equilibrium",
+    "lhs:chem.chemical-reaction",
+    "lhs:chem.combustion",
+    "lhs:chem.covalent-bond",
+    "lhs:chem.electrolysis",
+    "lhs:chem.electron",
+    "lhs:chem.enthalpy",
+    "lhs:chem.functional-group",
+    "lhs:chem.gibbs-free-energy",
+    "lhs:chem.hydrocarbon",
+    "lhs:chem.isomer",
+    "lhs:chem.le-chateliers-principle",
+    "lhs:chem.matter",
+    "lhs:chem.mixture",
+    "lhs:chem.neutralization",
+    "lhs:chem.oxidation-reduction",
+    "lhs:chem.periodic-table",
+    "lhs:chem.polymer",
+    "lhs:chem.proton",
+    "lhs:chem.reaction-rate",
+    "lhs:earth.atmosphere",
+    "lhs:earth.big-bang-theory",
+    "lhs:earth.earth-system",
+    "lhs:earth.greenhouse-effect",
+    "lhs:earth.rock-cycle",
+    "lhs:earth.seasons-cause",
+    "lhs:earth.solar-system",
+    "lhs:earth.water-cycle",
+    "lhs:eng.engineering-design-process",
+    "lhs:epist.observation-vs-inference",
+    "lhs:math.algebraic-expression",
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.complex-number",
+    "lhs:math.continuity",
+    "lhs:math.determinant",
+    "lhs:math.exponential-function",
+    "lhs:math.fraction",
+    "lhs:math.function",
+    "lhs:math.fundamental-theorem-of-calculus",
+    "lhs:math.geometric-sequence",
+    "lhs:math.integer",
+    "lhs:math.integral",
+    "lhs:math.limit",
+    "lhs:math.linear-function",
+    "lhs:math.logarithmic-function",
+    "lhs:math.matrix",
+    "lhs:math.median",
+    "lhs:math.natural-number",
+    "lhs:math.polynomial",
+    "lhs:math.probability",
+    "lhs:math.pythagorean-theorem",
+    "lhs:math.rational-number",
+    "lhs:math.sequence",
+    "lhs:math.standard-deviation",
+    "lhs:math.triangle",
+    "lhs:math.variable",
+    "lhs:phys.atomic-structure",
+    "lhs:phys.change-of-state",
+    "lhs:phys.coulombs-law",
+    "lhs:phys.displacement",
+    "lhs:phys.doppler-effect",
+    "lhs:phys.electric-motor",
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.electromagnetism",
+    "lhs:phys.energy",
+    "lhs:phys.energy-sources",
+    "lhs:phys.equations-of-motion",
+    "lhs:phys.frequency",
+    "lhs:phys.friction",
+    "lhs:phys.graphical-analysis",
+    "lhs:phys.gravitation",
+    "lhs:phys.half-life",
+    "lhs:phys.heat-capacity",
+    "lhs:phys.heating-effect",
+    "lhs:phys.ideal-gas-model",
+    "lhs:phys.impulse",
+    "lhs:phys.kinetic-energy",
+    "lhs:phys.light",
+    "lhs:phys.magnetic-field",
+    "lhs:phys.magnetic-flux",
+    "lhs:phys.magnetic-force",
+    "lhs:phys.magnetism",
+    "lhs:phys.measurement",
+    "lhs:phys.mirror",
+    "lhs:phys.momentum",
+    "lhs:phys.motion",
+    "lhs:phys.newtons-first-law",
+    "lhs:phys.newtons-law-of-gravitation",
+    "lhs:phys.newtons-third-law",
+    "lhs:phys.nuclear-fusion",
+    "lhs:phys.our-environment",
+    "lhs:phys.phase-change",
+    "lhs:phys.physical-quantity",
+    "lhs:phys.potential-energy",
+    "lhs:phys.projectile-motion",
+    "lhs:phys.radioactivity",
+    "lhs:phys.ray-model",
+    "lhs:phys.scalar",
+    "lhs:phys.simple-harmonic-motion",
+    "lhs:phys.thermal-energy",
+    "lhs:phys.time",
+    "lhs:phys.unit",
+    "lhs:phys.vector",
+    "lhs:phys.velocity",
+    "lhs:phys.wave",
+    "lhs:phys.wave-interference",
+    "lhs:phys.work",
+    "lhs:practice.scientific-observation"
+  ],
+  "through": [
+    "lhs:bio.adaptation",
+    "lhs:bio.dna-replication",
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:bio.food-chain",
+    "lhs:bio.homeostasis",
+    "lhs:bio.meiosis",
+    "lhs:bio.nervous-system",
+    "lhs:bio.speciation",
+    "lhs:chem.activation-energy",
+    "lhs:chem.chemical-reaction",
+    "lhs:chem.covalent-bond",
+    "lhs:chem.electrolysis",
+    "lhs:chem.ionic-bond",
+    "lhs:earth.rock-cycle",
+    "lhs:earth.water-cycle",
+    "lhs:epist.observation-vs-inference",
+    "lhs:phys.current",
+    "lhs:phys.electric-motor",
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.generator",
+    "lhs:phys.heating-effect",
+    "lhs:phys.magnetic-flux",
+    "lhs:phys.nuclear-binding-energy",
+    "lhs:phys.ohms-law",
+    "lhs:phys.ray-model",
+    "lhs:phys.sound",
+    "lhs:phys.time",
+    "lhs:phys.voltage",
+    "lhs:phys.wave",
+    "lhs:phys.wave-speed"
+  ],
+  "survive": [
+    "lhs:bio.adaptation",
+    "lhs:bio.natural-selection"
+  ],
+  "adaptation": [
+    "lhs:bio.adaptation"
+  ],
+  "behaviour": [
+    "lhs:bio.adaptation",
+    "lhs:chem.functional-group",
+    "lhs:math.limit",
+    "lhs:phys.light"
+  ],
+  "natural": [
+    "lhs:bio.adaptation",
+    "lhs:bio.natural-selection",
+    "lhs:chem.polymer",
+    "lhs:math.integer",
+    "lhs:math.natural-number",
+    "lhs:math.sequence",
+    "lhs:phys.gravitation",
+    "lhs:phys.our-environment",
+    "lhs:practice.scientific-observation"
+  ],
+  "biology": [
+    "lhs:bio.adaptation",
+    "lhs:bio.allele",
+    "lhs:bio.animal-cell",
+    "lhs:bio.cell",
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.chromosome",
+    "lhs:bio.dna",
+    "lhs:bio.dna-replication",
+    "lhs:bio.ecosystem",
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:bio.enzyme",
+    "lhs:bio.food-chain",
+    "lhs:bio.gene",
+    "lhs:bio.glycolysis",
+    "lhs:bio.homeostasis",
+    "lhs:bio.hormone",
+    "lhs:bio.immune-system",
+    "lhs:bio.inheritance-patterns",
+    "lhs:bio.meiosis",
+    "lhs:bio.mitosis",
+    "lhs:bio.mutation",
+    "lhs:bio.natural-selection",
+    "lhs:bio.nervous-system",
+    "lhs:bio.neuron",
+    "lhs:bio.nucleus",
+    "lhs:bio.osmosis",
+    "lhs:bio.photosynthesis",
+    "lhs:bio.plant-cell",
+    "lhs:bio.population-dynamics",
+    "lhs:bio.protein-synthesis",
+    "lhs:bio.speciation",
+    "lhs:bio.transcription",
+    "lhs:bio.translation"
+  ],
+  "generations": [
+    "lhs:bio.adaptation",
+    "lhs:bio.natural-selection"
+  ],
+  "genetic": [
+    "lhs:bio.adaptation",
+    "lhs:bio.chromosome",
+    "lhs:bio.dna",
+    "lhs:bio.meiosis",
+    "lhs:bio.nucleus"
+  ],
+  "organisms": [
+    "lhs:bio.adaptation",
+    "lhs:bio.cell",
+    "lhs:bio.dna",
+    "lhs:bio.ecosystem",
+    "lhs:bio.food-chain",
+    "lhs:bio.homeostasis",
+    "lhs:bio.meiosis",
+    "lhs:bio.natural-selection",
+    "lhs:bio.photosynthesis"
+  ],
+  "which": [
+    "lhs:bio.allele",
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.dna-replication",
+    "lhs:bio.food-chain",
+    "lhs:bio.inheritance-patterns",
+    "lhs:bio.mitosis",
+    "lhs:bio.natural-selection",
+    "lhs:bio.photosynthesis",
+    "lhs:bio.protein-synthesis",
+    "lhs:bio.speciation",
+    "lhs:bio.transcription",
+    "lhs:bio.translation",
+    "lhs:chem.alkane",
+    "lhs:chem.chemical-equilibrium",
+    "lhs:chem.chemical-reaction",
+    "lhs:chem.functional-group",
+    "lhs:chem.neutralization",
+    "lhs:chem.oxidation-reduction",
+    "lhs:earth.atmosphere",
+    "lhs:earth.greenhouse-effect",
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.geometric-sequence",
+    "lhs:math.linear-equation",
+    "lhs:math.logarithmic-function",
+    "lhs:math.quadratic-equation",
+    "lhs:math.ratio",
+    "lhs:math.sequence",
+    "lhs:phys.electric-field",
+    "lhs:phys.gravitation",
+    "lhs:phys.heat-capacity",
+    "lhs:phys.heating-effect",
+    "lhs:phys.impulse",
+    "lhs:phys.magnetism",
+    "lhs:phys.mechanical-advantage",
+    "lhs:phys.phase-change",
+    "lhs:phys.power",
+    "lhs:phys.ray-model",
+    "lhs:phys.simple-harmonic-motion",
+    "lhs:phys.speed",
+    "lhs:phys.unit",
+    "lhs:phys.wave-speed"
+  ],
+  "different": [
+    "lhs:bio.allele",
+    "lhs:chem.chemical-reaction",
+    "lhs:chem.compound",
+    "lhs:chem.isomer",
+    "lhs:chem.oxidation-number",
+    "lhs:phys.refraction",
+    "lhs:phys.specific-heat"
+  ],
+  "chromosomes": [
+    "lhs:bio.allele",
+    "lhs:bio.mitosis"
+  ],
+  "alternative": [
+    "lhs:bio.allele",
+    "lhs:chem.catalyst"
+  ],
+  "can": [
+    "lhs:bio.allele",
+    "lhs:chem.mixture",
+    "lhs:math.algebraic-expression",
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.continuity",
+    "lhs:math.rational-number",
+    "lhs:math.volume",
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.efficiency",
+    "lhs:phys.electric-charge",
+    "lhs:phys.energy",
+    "lhs:phys.force",
+    "lhs:phys.magnetic-field",
+    "lhs:phys.mirror",
+    "lhs:phys.physical-quantity"
+  ],
+  "heterozygous": [
+    "lhs:bio.allele"
+  ],
+  "identical": [
+    "lhs:bio.allele",
+    "lhs:bio.mitosis"
+  ],
+  "gene": [
+    "lhs:bio.allele",
+    "lhs:bio.gene",
+    "lhs:bio.transcription"
+  ],
+  "may": [
+    "lhs:bio.allele",
+    "lhs:chem.isomer",
+    "lhs:chem.polymer",
+    "lhs:phys.quantized-energy-levels"
+  ],
+  "same": [
+    "lhs:bio.allele",
+    "lhs:bio.mitosis",
+    "lhs:chem.element",
+    "lhs:chem.functional-group",
+    "lhs:chem.isomer",
+    "lhs:phys.free-fall",
+    "lhs:phys.mirror"
+  ],
+  "two": [
+    "lhs:bio.allele",
+    "lhs:bio.glycolysis",
+    "lhs:bio.mitosis",
+    "lhs:chem.compound",
+    "lhs:chem.covalent-bond",
+    "lhs:chem.isomer",
+    "lhs:chem.mixture",
+    "lhs:math.angle",
+    "lhs:math.irrational-number",
+    "lhs:math.linear-equation",
+    "lhs:math.median",
+    "lhs:math.proportion",
+    "lhs:math.pythagorean-theorem",
+    "lhs:math.quadratic-equation",
+    "lhs:math.ratio",
+    "lhs:math.rational-number",
+    "lhs:phys.coulombs-law",
+    "lhs:phys.distance",
+    "lhs:phys.friction",
+    "lhs:phys.light",
+    "lhs:phys.ohms-law",
+    "lhs:phys.quantized-energy-levels",
+    "lhs:phys.time",
+    "lhs:phys.voltage",
+    "lhs:phys.wave-interference",
+    "lhs:phys.wavelength"
+  ],
+  "each": [
+    "lhs:bio.allele",
+    "lhs:bio.dna-replication",
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:bio.mitosis",
+    "lhs:chem.chemical-equation",
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.decimal",
+    "lhs:math.exponential-function",
+    "lhs:math.function",
+    "lhs:math.geometric-sequence",
+    "lhs:math.sequence"
+  ],
+  "the": [
+    "lhs:bio.allele",
+    "lhs:bio.cell",
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.chromosome",
+    "lhs:bio.dna",
+    "lhs:bio.dna-replication",
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:bio.enzyme",
+    "lhs:bio.food-chain",
+    "lhs:bio.gene",
+    "lhs:bio.glycolysis",
+    "lhs:bio.homeostasis",
+    "lhs:bio.hormone",
+    "lhs:bio.immune-system",
+    "lhs:bio.inheritance-patterns",
+    "lhs:bio.meiosis",
+    "lhs:bio.mitosis",
+    "lhs:bio.mutation",
+    "lhs:bio.natural-selection",
+    "lhs:bio.nervous-system",
+    "lhs:bio.neuron",
+    "lhs:bio.nucleus",
+    "lhs:bio.osmosis",
+    "lhs:bio.photosynthesis",
+    "lhs:bio.population-dynamics",
+    "lhs:bio.protein-synthesis",
+    "lhs:bio.speciation",
+    "lhs:bio.transcription",
+    "lhs:bio.translation",
+    "lhs:chem.activation-energy",
+    "lhs:chem.alkane",
+    "lhs:chem.alkene",
+    "lhs:chem.atom",
+    "lhs:chem.carboxylic-acid",
+    "lhs:chem.catalyst",
+    "lhs:chem.chemical-equation",
+    "lhs:chem.chemical-equilibrium",
+    "lhs:chem.chemical-reaction",
+    "lhs:chem.diffusion",
+    "lhs:chem.electrolysis",
+    "lhs:chem.electron",
+    "lhs:chem.element",
+    "lhs:chem.enthalpy",
+    "lhs:chem.entropy",
+    "lhs:chem.equilibrium-constant",
+    "lhs:chem.functional-group",
+    "lhs:chem.hydrocarbon",
+    "lhs:chem.ionic-bond",
+    "lhs:chem.isomer",
+    "lhs:chem.le-chateliers-principle",
+    "lhs:chem.neutralization",
+    "lhs:chem.oxidation-number",
+    "lhs:chem.oxidation-reduction",
+    "lhs:chem.ph-scale",
+    "lhs:chem.reaction-rate",
+    "lhs:chem.salt",
+    "lhs:earth.atmosphere",
+    "lhs:earth.big-bang-theory",
+    "lhs:earth.earth-system",
+    "lhs:earth.greenhouse-effect",
+    "lhs:earth.plate-tectonics",
+    "lhs:earth.rock-cycle",
+    "lhs:earth.seasons-cause",
+    "lhs:earth.solar-system",
+    "lhs:earth.water-cycle",
+    "lhs:epist.observation-vs-inference",
+    "lhs:math.angle",
+    "lhs:math.area",
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.circle",
+    "lhs:math.combination",
+    "lhs:math.complex-number",
+    "lhs:math.continuity",
+    "lhs:math.decimal",
+    "lhs:math.derivative",
+    "lhs:math.determinant",
+    "lhs:math.exponential-function",
+    "lhs:math.fraction",
+    "lhs:math.function",
+    "lhs:math.fundamental-theorem-of-calculus",
+    "lhs:math.geometric-sequence",
+    "lhs:math.integer",
+    "lhs:math.integral",
+    "lhs:math.irrational-number",
+    "lhs:math.limit",
+    "lhs:math.linear-equation",
+    "lhs:math.linear-function",
+    "lhs:math.logarithmic-function",
+    "lhs:math.mean",
+    "lhs:math.median",
+    "lhs:math.natural-number",
+    "lhs:math.percentage",
+    "lhs:math.permutation",
+    "lhs:math.polynomial",
+    "lhs:math.probability",
+    "lhs:math.pythagorean-theorem",
+    "lhs:math.quadratic-equation",
+    "lhs:math.quadratic-function",
+    "lhs:math.ratio",
+    "lhs:math.rational-number",
+    "lhs:math.standard-deviation",
+    "lhs:math.triangle",
+    "lhs:math.trigonometric-ratio",
+    "lhs:math.variable",
+    "lhs:math.volume",
+    "lhs:phys.acceleration",
+    "lhs:phys.amplitude",
+    "lhs:phys.atomic-structure",
+    "lhs:phys.bohr-model",
+    "lhs:phys.brownian-motion",
+    "lhs:phys.buoyancy",
+    "lhs:phys.capacitor",
+    "lhs:phys.change-of-state",
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.coulombs-law",
+    "lhs:phys.current",
+    "lhs:phys.density",
+    "lhs:phys.displacement",
+    "lhs:phys.distance",
+    "lhs:phys.doppler-effect",
+    "lhs:phys.efficiency",
+    "lhs:phys.electric-field",
+    "lhs:phys.electric-motor",
+    "lhs:phys.electromagnetic-induction",
+    "lhs:phys.electromagnetic-spectrum",
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.electromagnetism",
+    "lhs:phys.energy",
+    "lhs:phys.energy-loss",
+    "lhs:phys.energy-sources",
+    "lhs:phys.equations-of-motion",
+    "lhs:phys.force",
+    "lhs:phys.free-fall",
+    "lhs:phys.frequency",
+    "lhs:phys.friction",
+    "lhs:phys.graphical-analysis",
+    "lhs:phys.gravitation",
+    "lhs:phys.gravitational-acceleration",
+    "lhs:phys.half-life",
+    "lhs:phys.heat",
+    "lhs:phys.heat-capacity",
+    "lhs:phys.heating-effect",
+    "lhs:phys.impulse",
+    "lhs:phys.inertia",
+    "lhs:phys.kinetic-energy",
+    "lhs:phys.light",
+    "lhs:phys.magnetic-field",
+    "lhs:phys.magnetic-flux",
+    "lhs:phys.magnetic-force",
+    "lhs:phys.magnetism",
+    "lhs:phys.measurement",
+    "lhs:phys.mechanical-advantage",
+    "lhs:phys.mirror",
+    "lhs:phys.momentum",
+    "lhs:phys.motion",
+    "lhs:phys.newtons-law-of-gravitation",
+    "lhs:phys.newtons-second-law",
+    "lhs:phys.nuclear-binding-energy",
+    "lhs:phys.nuclear-fission",
+    "lhs:phys.nuclear-fusion",
+    "lhs:phys.ohms-law",
+    "lhs:phys.our-environment",
+    "lhs:phys.phase-change",
+    "lhs:phys.physical-quantity",
+    "lhs:phys.potential-energy",
+    "lhs:phys.power",
+    "lhs:phys.pressure",
+    "lhs:phys.projectile-motion",
+    "lhs:phys.quantized-energy-levels",
+    "lhs:phys.radioactivity",
+    "lhs:phys.reflection",
+    "lhs:phys.refraction",
+    "lhs:phys.resistance",
+    "lhs:phys.simple-harmonic-motion",
+    "lhs:phys.specific-heat",
+    "lhs:phys.speed",
+    "lhs:phys.temperature",
+    "lhs:phys.thermal-energy",
+    "lhs:phys.time",
+    "lhs:phys.unit",
+    "lhs:phys.velocity",
+    "lhs:phys.voltage",
+    "lhs:phys.wave",
+    "lhs:phys.wave-interference",
+    "lhs:phys.wave-speed",
+    "lhs:phys.wavelength",
+    "lhs:phys.weight",
+    "lhs:phys.work",
+    "lhs:phys.work-energy-theorem",
+    "lhs:practice.scientific-observation"
+  ],
+  "alleles": [
+    "lhs:bio.allele",
+    "lhs:bio.inheritance-patterns",
+    "lhs:bio.natural-selection"
+  ],
+  "versions": [
+    "lhs:bio.allele"
+  ],
+  "carries": [
+    "lhs:bio.allele"
+  ],
+  "specify": [
+    "lhs:bio.allele"
+  ],
+  "one": [
+    "lhs:bio.allele",
+    "lhs:bio.food-chain",
+    "lhs:bio.glycolysis",
+    "lhs:bio.speciation",
+    "lhs:bio.transcription",
+    "lhs:chem.alcohol",
+    "lhs:chem.alkene",
+    "lhs:chem.chemical-reaction",
+    "lhs:chem.covalent-bond",
+    "lhs:chem.ionic-bond",
+    "lhs:chem.isomer",
+    "lhs:chem.oxidation-reduction",
+    "lhs:math.angle",
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.function",
+    "lhs:math.geometric-sequence",
+    "lhs:math.linear-equation",
+    "lhs:math.pythagorean-theorem",
+    "lhs:math.standard-deviation",
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.energy",
+    "lhs:phys.gravitation",
+    "lhs:phys.heat",
+    "lhs:phys.heat-capacity",
+    "lhs:phys.power",
+    "lhs:phys.refraction",
+    "lhs:phys.time",
+    "lhs:phys.wave"
+  ],
+  "homologous": [
+    "lhs:bio.allele",
+    "lhs:chem.alkane",
+    "lhs:chem.alkene"
+  ],
+  "organism": [
+    "lhs:bio.allele",
+    "lhs:bio.food-chain"
+  ],
+  "locus": [
+    "lhs:bio.allele"
+  ],
+  "forms": [
+    "lhs:bio.allele",
+    "lhs:phys.energy",
+    "lhs:phys.energy-loss",
+    "lhs:phys.nuclear-binding-energy"
+  ],
+  "for": [
+    "lhs:bio.allele",
+    "lhs:bio.dna-replication",
+    "lhs:bio.gene",
+    "lhs:bio.glycolysis",
+    "lhs:bio.plant-cell",
+    "lhs:chem.activation-energy",
+    "lhs:chem.alkane",
+    "lhs:chem.equilibrium-constant",
+    "lhs:math.continuity",
+    "lhs:math.determinant",
+    "lhs:math.geometric-sequence",
+    "lhs:math.matrix",
+    "lhs:math.natural-number",
+    "lhs:math.probability",
+    "lhs:math.standard-deviation",
+    "lhs:phys.brownian-motion",
+    "lhs:phys.energy-loss",
+    "lhs:phys.equations-of-motion",
+    "lhs:phys.graphical-analysis",
+    "lhs:phys.gravitational-acceleration",
+    "lhs:phys.half-life",
+    "lhs:phys.newtons-third-law",
+    "lhs:phys.wavelength",
+    "lhs:phys.work",
+    "lhs:practice.scientific-observation"
+  ],
+  "occupy": [
+    "lhs:bio.allele"
+  ],
+  "autosomal": [
+    "lhs:bio.allele"
+  ],
+  "homozygous": [
+    "lhs:bio.allele"
+  ],
+  "allele": [
+    "lhs:bio.allele"
+  ],
+  "diploid": [
+    "lhs:bio.allele",
+    "lhs:bio.meiosis",
+    "lhs:bio.mitosis"
+  ],
+  "lysosomes": [
+    "lhs:bio.animal-cell"
+  ],
+  "nucleus": [
+    "lhs:bio.animal-cell",
+    "lhs:bio.mitosis",
+    "lhs:bio.nucleus",
+    "lhs:chem.atom",
+    "lhs:chem.electron",
+    "lhs:phys.atomic-structure",
+    "lhs:phys.bohr-model",
+    "lhs:phys.nuclear-binding-energy",
+    "lhs:phys.nuclear-fission",
+    "lhs:phys.nuclear-fusion",
+    "lhs:phys.radioactivity"
+  ],
+  "membrane-bound": [
+    "lhs:bio.animal-cell",
+    "lhs:bio.nucleus"
+  ],
+  "mitochondria": [
+    "lhs:bio.animal-cell"
+  ],
+  "membrane": [
+    "lhs:bio.animal-cell",
+    "lhs:bio.osmosis"
+  ],
+  "wall": [
+    "lhs:bio.animal-cell",
+    "lhs:bio.plant-cell"
+  ],
+  "animal": [
+    "lhs:bio.animal-cell"
+  ],
+  "organelles": [
+    "lhs:bio.animal-cell"
+  ],
+  "flexible": [
+    "lhs:bio.animal-cell"
+  ],
+  "such": [
+    "lhs:bio.animal-cell",
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.immune-system",
+    "lhs:bio.inheritance-patterns",
+    "lhs:bio.nucleus",
+    "lhs:bio.photosynthesis",
+    "lhs:bio.plant-cell",
+    "lhs:chem.le-chateliers-principle",
+    "lhs:chem.polymer",
+    "lhs:earth.greenhouse-effect",
+    "lhs:math.determinant",
+    "lhs:math.logarithmic-function",
+    "lhs:math.sequence",
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.phase-change",
+    "lhs:phys.quantized-energy-levels"
+  ],
+  "animals": [
+    "lhs:bio.animal-cell"
+  ],
+  "chloroplasts": [
+    "lhs:bio.animal-cell",
+    "lhs:bio.plant-cell"
+  ],
+  "lacking": [
+    "lhs:bio.animal-cell"
+  ],
+  "enclosed": [
+    "lhs:bio.animal-cell",
+    "lhs:math.area",
+    "lhs:math.volume"
+  ],
+  "containing": [
+    "lhs:bio.animal-cell",
+    "lhs:chem.alcohol",
+    "lhs:chem.carboxylic-acid",
+    "lhs:phys.atomic-structure"
+  ],
+  "eukaryotic": [
+    "lhs:bio.animal-cell",
+    "lhs:bio.mitosis",
+    "lhs:bio.nucleus",
+    "lhs:bio.plant-cell"
+  ],
+  "plasma": [
+    "lhs:bio.animal-cell"
+  ],
+  "cell": [
+    "lhs:bio.animal-cell",
+    "lhs:bio.cell",
+    "lhs:bio.chromosome",
+    "lhs:bio.dna-replication",
+    "lhs:bio.meiosis",
+    "lhs:bio.mitosis",
+    "lhs:bio.neuron",
+    "lhs:bio.nucleus",
+    "lhs:bio.plant-cell",
+    "lhs:chem.electrochemical-cell",
+    "lhs:chem.electrolysis"
+  ],
+  "cells": [
+    "lhs:bio.cell",
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.hormone",
+    "lhs:bio.immune-system",
+    "lhs:bio.mitosis",
+    "lhs:bio.neuron",
+    "lhs:bio.nucleus",
+    "lhs:chem.electrochemical-cell"
+  ],
+  "processes": [
+    "lhs:bio.cell",
+    "lhs:chem.entropy",
+    "lhs:earth.earth-system",
+    "lhs:earth.rock-cycle",
+    "lhs:phys.energy-loss",
+    "lhs:phys.our-environment"
+  ],
+  "known": [
+    "lhs:bio.cell",
+    "lhs:bio.dna",
+    "lhs:phys.measurement"
+  ],
+  "essential": [
+    "lhs:bio.cell"
+  ],
+  "functional": [
+    "lhs:bio.cell",
+    "lhs:bio.gene",
+    "lhs:bio.protein-synthesis",
+    "lhs:chem.alcohol",
+    "lhs:chem.carboxylic-acid",
+    "lhs:chem.functional-group"
+  ],
+  "material": [
+    "lhs:bio.cell",
+    "lhs:bio.nucleus",
+    "lhs:earth.solar-system",
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.heat-capacity",
+    "lhs:phys.photoelectric-effect",
+    "lhs:phys.sound"
+  ],
+  "arise": [
+    "lhs:bio.cell"
+  ],
+  "life": [
+    "lhs:bio.cell"
+  ],
+  "biological": [
+    "lhs:bio.cell",
+    "lhs:bio.ecosystem",
+    "lhs:bio.enzyme",
+    "lhs:bio.photosynthesis",
+    "lhs:earth.earth-system"
+  ],
+  "structural": [
+    "lhs:bio.cell",
+    "lhs:chem.isomer"
+  ],
+  "contain": [
+    "lhs:bio.cell"
+  ],
+  "all": [
+    "lhs:bio.cell",
+    "lhs:bio.dna",
+    "lhs:chem.element",
+    "lhs:chem.oxidation-number",
+    "lhs:chem.proton",
+    "lhs:earth.greenhouse-effect",
+    "lhs:math.circle",
+    "lhs:math.mean",
+    "lhs:math.natural-number",
+    "lhs:math.permutation",
+    "lhs:math.rational-number",
+    "lhs:phys.electromagnetic-spectrum",
+    "lhs:phys.free-fall",
+    "lhs:phys.gravitation",
+    "lhs:phys.gravitational-acceleration"
+  ],
+  "carry": [
+    "lhs:bio.cell"
+  ],
+  "pre-existing": [
+    "lhs:bio.cell"
+  ],
+  "hereditary": [
+    "lhs:bio.cell"
+  ],
+  "from": [
+    "lhs:bio.cell",
+    "lhs:bio.inheritance-patterns",
+    "lhs:bio.mutation",
+    "lhs:bio.osmosis",
+    "lhs:bio.protein-synthesis",
+    "lhs:bio.speciation",
+    "lhs:bio.transcription",
+    "lhs:chem.alcohol",
+    "lhs:chem.carboxylic-acid",
+    "lhs:chem.compound",
+    "lhs:chem.diffusion",
+    "lhs:chem.electrochemical-cell",
+    "lhs:chem.ionic-bond",
+    "lhs:chem.neutralization",
+    "lhs:chem.ph-scale",
+    "lhs:chem.polymer",
+    "lhs:earth.big-bang-theory",
+    "lhs:epist.observation-vs-inference",
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.circle",
+    "lhs:math.combination",
+    "lhs:math.decimal",
+    "lhs:math.determinant",
+    "lhs:math.fundamental-theorem-of-calculus",
+    "lhs:math.geometric-sequence",
+    "lhs:math.permutation",
+    "lhs:phys.amplitude",
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.displacement",
+    "lhs:phys.electromagnetic-spectrum",
+    "lhs:phys.energy",
+    "lhs:phys.heat",
+    "lhs:phys.nuclear-binding-energy",
+    "lhs:phys.photoelectric-effect",
+    "lhs:phys.power",
+    "lhs:phys.radioactivity",
+    "lhs:phys.reflection",
+    "lhs:phys.refraction",
+    "lhs:phys.simple-harmonic-motion",
+    "lhs:phys.temperature",
+    "lhs:phys.thermal-energy",
+    "lhs:phys.time",
+    "lhs:phys.wave",
+    "lhs:phys.work"
+  ],
+  "unit": [
+    "lhs:bio.cell",
+    "lhs:bio.chromosome",
+    "lhs:bio.gene",
+    "lhs:bio.neuron",
+    "lhs:chem.atom",
+    "lhs:chem.proton",
+    "lhs:chem.reaction-rate",
+    "lhs:math.complex-number",
+    "lhs:math.exponential-function",
+    "lhs:math.ratio",
+    "lhs:phys.density",
+    "lhs:phys.electric-field",
+    "lhs:phys.frequency",
+    "lhs:phys.heat-capacity",
+    "lhs:phys.measurement",
+    "lhs:phys.physical-quantity",
+    "lhs:phys.pressure",
+    "lhs:phys.scalar",
+    "lhs:phys.unit",
+    "lhs:phys.voltage"
+  ],
+  "living": [
+    "lhs:bio.cell",
+    "lhs:bio.dna",
+    "lhs:bio.homeostasis"
+  ],
+  "basic": [
+    "lhs:bio.cell",
+    "lhs:bio.gene",
+    "lhs:math.natural-number"
+  ],
+  "out": [
+    "lhs:bio.cell",
+    "lhs:math.standard-deviation",
+    "lhs:phys.wave-interference"
+  ],
+  "organic": [
+    "lhs:bio.cellular-respiration",
+    "lhs:chem.alcohol",
+    "lhs:chem.alkane",
+    "lhs:chem.carboxylic-acid",
+    "lhs:chem.functional-group",
+    "lhs:chem.hydrocarbon"
+  ],
+  "metabolic": [
+    "lhs:bio.cellular-respiration"
+  ],
+  "producing": [
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.glycolysis",
+    "lhs:bio.transcription",
+    "lhs:chem.neutralization",
+    "lhs:math.exponential-function",
+    "lhs:phys.electric-motor",
+    "lhs:phys.simple-harmonic-motion"
+  ],
+  "release": [
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.neuron",
+    "lhs:phys.nuclear-fission",
+    "lhs:phys.nuclear-fusion"
+  ],
+  "glucose": [
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.glycolysis",
+    "lhs:bio.homeostasis",
+    "lhs:bio.photosynthesis"
+  ],
+  "respiration": [
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:bio.glycolysis"
+  ],
+  "aerobic": [
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.glycolysis"
+  ],
+  "water": [
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.homeostasis",
+    "lhs:bio.osmosis",
+    "lhs:bio.photosynthesis",
+    "lhs:chem.acid",
+    "lhs:chem.base",
+    "lhs:chem.combustion",
+    "lhs:chem.neutralization",
+    "lhs:earth.greenhouse-effect",
+    "lhs:earth.water-cycle"
+  ],
+  "break": [
+    "lhs:bio.cellular-respiration",
+    "lhs:phys.change-of-state"
+  ],
+  "utilizing": [
+    "lhs:bio.cellular-respiration"
+  ],
+  "stored": [
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.photosynthesis",
+    "lhs:phys.capacitor",
+    "lhs:phys.heat",
+    "lhs:phys.potential-energy"
+  ],
+  "cellular": [
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.glycolysis"
+  ],
+  "down": [
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.glycolysis",
+    "lhs:chem.element"
+  ],
+  "molecules": [
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.glycolysis",
+    "lhs:bio.immune-system",
+    "lhs:bio.osmosis",
+    "lhs:bio.translation",
+    "lhs:chem.neutralization",
+    "lhs:phys.brownian-motion"
+  ],
+  "atp": [
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.glycolysis"
+  ],
+  "dioxide": [
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.photosynthesis",
+    "lhs:chem.combustion"
+  ],
+  "process": [
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.dna-replication",
+    "lhs:bio.natural-selection",
+    "lhs:bio.photosynthesis",
+    "lhs:bio.speciation",
+    "lhs:bio.translation",
+    "lhs:chem.chemical-reaction",
+    "lhs:chem.electrolysis",
+    "lhs:chem.enthalpy",
+    "lhs:chem.gibbs-free-energy",
+    "lhs:earth.greenhouse-effect",
+    "lhs:eng.engineering-design-process",
+    "lhs:phys.measurement",
+    "lhs:phys.nuclear-fission",
+    "lhs:phys.nuclear-fusion"
+  ],
+  "energy": [
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:bio.enzyme",
+    "lhs:bio.food-chain",
+    "lhs:bio.photosynthesis",
+    "lhs:chem.activation-energy",
+    "lhs:chem.catalyst",
+    "lhs:chem.electrochemical-cell",
+    "lhs:chem.enthalpy",
+    "lhs:chem.entropy",
+    "lhs:chem.gibbs-free-energy",
+    "lhs:chem.matter",
+    "lhs:earth.greenhouse-effect",
+    "lhs:earth.water-cycle",
+    "lhs:phys.amplitude",
+    "lhs:phys.change-of-state",
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.efficiency",
+    "lhs:phys.electric-motor",
+    "lhs:phys.energy",
+    "lhs:phys.energy-loss",
+    "lhs:phys.energy-sources",
+    "lhs:phys.generator",
+    "lhs:phys.gravitation",
+    "lhs:phys.heat",
+    "lhs:phys.heating-effect",
+    "lhs:phys.kinetic-energy",
+    "lhs:phys.nuclear-binding-energy",
+    "lhs:phys.nuclear-fission",
+    "lhs:phys.nuclear-fusion",
+    "lhs:phys.our-environment",
+    "lhs:phys.potential-energy",
+    "lhs:phys.power",
+    "lhs:phys.quantized-energy-levels",
+    "lhs:phys.resistance",
+    "lhs:phys.specific-heat",
+    "lhs:phys.temperature",
+    "lhs:phys.thermal-energy",
+    "lhs:phys.wave",
+    "lhs:phys.work",
+    "lhs:phys.work-energy-theorem"
+  ],
+  "oxygen": [
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.glycolysis",
+    "lhs:bio.photosynthesis",
+    "lhs:chem.combustion",
+    "lhs:earth.atmosphere"
+  ],
+  "carbon": [
+    "lhs:bio.cellular-respiration",
+    "lhs:bio.photosynthesis",
+    "lhs:chem.alcohol",
+    "lhs:chem.alkane",
+    "lhs:chem.combustion",
+    "lhs:chem.functional-group",
+    "lhs:chem.hydrocarbon"
+  ],
+  "around": [
+    "lhs:bio.chromosome",
+    "lhs:earth.seasons-cause",
+    "lhs:math.standard-deviation",
+    "lhs:phys.bohr-model",
+    "lhs:phys.magnetic-field"
+  ],
+  "many": [
+    "lhs:bio.chromosome",
+    "lhs:bio.dna",
+    "lhs:chem.polymer",
+    "lhs:math.continuity",
+    "lhs:phys.energy"
+  ],
+  "chromosome": [
+    "lhs:bio.chromosome",
+    "lhs:bio.meiosis",
+    "lhs:bio.mitosis"
+  ],
+  "genes": [
+    "lhs:bio.chromosome",
+    "lhs:bio.protein-synthesis"
+  ],
+  "during": [
+    "lhs:bio.chromosome",
+    "lhs:chem.reaction-rate",
+    "lhs:phys.change-of-state",
+    "lhs:phys.phase-change"
+  ],
+  "serving": [
+    "lhs:bio.chromosome"
+  ],
+  "proteins": [
+    "lhs:bio.chromosome",
+    "lhs:bio.translation",
+    "lhs:chem.polymer"
+  ],
+  "replicated": [
+    "lhs:bio.chromosome"
+  ],
+  "circular": [
+    "lhs:bio.chromosome",
+    "lhs:phys.bohr-model"
+  ],
+  "long": [
+    "lhs:bio.chromosome"
+  ],
+  "histone": [
+    "lhs:bio.chromosome"
+  ],
+  "partitioned": [
+    "lhs:bio.chromosome"
+  ],
+  "tightly": [
+    "lhs:bio.chromosome"
+  ],
+  "coiled": [
+    "lhs:bio.chromosome"
+  ],
+  "division": [
+    "lhs:bio.chromosome",
+    "lhs:bio.dna-replication",
+    "lhs:bio.meiosis",
+    "lhs:math.algebraic-expression",
+    "lhs:math.ratio"
+  ],
+  "other": [
+    "lhs:bio.chromosome",
+    "lhs:bio.immune-system",
+    "lhs:bio.neuron",
+    "lhs:bio.population-dynamics",
+    "lhs:math.matrix",
+    "lhs:math.natural-number",
+    "lhs:math.pythagorean-theorem",
+    "lhs:phys.energy-loss",
+    "lhs:phys.free-fall",
+    "lhs:phys.magnetism",
+    "lhs:phys.newtons-law-of-gravitation"
+  ],
+  "prokaryotes": [
+    "lhs:bio.chromosome"
+  ],
+  "carrying": [
+    "lhs:bio.chromosome",
+    "lhs:chem.electron",
+    "lhs:chem.proton"
+  ],
+  "linear": [
+    "lhs:bio.chromosome",
+    "lhs:bio.food-chain",
+    "lhs:math.determinant",
+    "lhs:math.linear-equation",
+    "lhs:math.linear-function",
+    "lhs:math.matrix"
+  ],
+  "dna": [
+    "lhs:bio.chromosome",
+    "lhs:bio.dna",
+    "lhs:bio.dna-replication",
+    "lhs:bio.gene",
+    "lhs:bio.mutation",
+    "lhs:bio.nucleus",
+    "lhs:bio.protein-synthesis",
+    "lhs:bio.transcription"
+  ],
+  "organization": [
+    "lhs:bio.chromosome"
+  ],
+  "functioning": [
+    "lhs:bio.dna",
+    "lhs:bio.ecosystem"
+  ],
+  "storing": [
+    "lhs:bio.dna"
+  ],
+  "nucleic": [
+    "lhs:bio.dna"
+  ],
+  "growth": [
+    "lhs:bio.dna",
+    "lhs:bio.hormone",
+    "lhs:bio.nucleus",
+    "lhs:math.exponential-function"
+  ],
+  "deoxyribonucleic": [
+    "lhs:bio.dna"
+  ],
+  "reproduction": [
+    "lhs:bio.dna",
+    "lhs:bio.hormone",
+    "lhs:bio.nucleus"
+  ],
+  "instructions": [
+    "lhs:bio.dna"
+  ],
+  "viruses": [
+    "lhs:bio.dna"
+  ],
+  "development": [
+    "lhs:bio.dna",
+    "lhs:earth.big-bang-theory"
+  ],
+  "double-stranded": [
+    "lhs:bio.dna",
+    "lhs:bio.dna-replication"
+  ],
+  "used": [
+    "lhs:bio.dna",
+    "lhs:math.natural-number",
+    "lhs:phys.change-of-state",
+    "lhs:phys.energy-sources",
+    "lhs:phys.nuclear-fission"
+  ],
+  "helical": [
+    "lhs:bio.dna"
+  ],
+  "acid": [
+    "lhs:bio.dna",
+    "lhs:chem.acid",
+    "lhs:chem.carboxylic-acid",
+    "lhs:chem.neutralization",
+    "lhs:chem.salt"
+  ],
+  "molecule": [
+    "lhs:bio.dna",
+    "lhs:bio.gene",
+    "lhs:bio.glycolysis",
+    "lhs:bio.transcription",
+    "lhs:chem.functional-group",
+    "lhs:chem.hydrocarbon",
+    "lhs:chem.polymer"
+  ],
+  "strand": [
+    "lhs:bio.dna-replication",
+    "lhs:bio.transcription"
+  ],
+  "semi-conservative": [
+    "lhs:bio.dna-replication"
+  ],
+  "coordinated": [
+    "lhs:bio.dna-replication",
+    "lhs:bio.immune-system"
+  ],
+  "action": [
+    "lhs:bio.dna-replication",
+    "lhs:bio.neuron",
+    "lhs:phys.newtons-third-law"
+  ],
+  "unwound": [
+    "lhs:bio.dna-replication"
+  ],
+  "replication": [
+    "lhs:bio.dna-replication",
+    "lhs:bio.mutation"
+  ],
+  "template": [
+    "lhs:bio.dna-replication",
+    "lhs:bio.protein-synthesis",
+    "lhs:bio.transcription"
+  ],
+  "enzymes": [
+    "lhs:bio.dna-replication"
+  ],
+  "new": [
+    "lhs:bio.dna-replication"
+  ],
+  "parental": [
+    "lhs:bio.dna-replication"
+  ],
+  "synthesis": [
+    "lhs:bio.dna-replication",
+    "lhs:bio.protein-synthesis"
+  ],
+  "fork": [
+    "lhs:bio.dna-replication"
+  ],
+  "complementary": [
+    "lhs:bio.dna-replication",
+    "lhs:bio.transcription",
+    "lhs:phys.light"
+  ],
+  "before": [
+    "lhs:bio.dna-replication"
+  ],
+  "copies": [
+    "lhs:bio.dna-replication"
+  ],
+  "serves": [
+    "lhs:bio.dna-replication"
+  ],
+  "abiotic": [
+    "lhs:bio.ecosystem"
+  ],
+  "ecological": [
+    "lhs:bio.ecosystem"
+  ],
+  "non-living": [
+    "lhs:bio.ecosystem"
+  ],
+  "community": [
+    "lhs:bio.ecosystem"
+  ],
+  "physical": [
+    "lhs:bio.ecosystem",
+    "lhs:bio.gene",
+    "lhs:chem.matter",
+    "lhs:chem.mixture",
+    "lhs:chem.periodic-table",
+    "lhs:earth.earth-system",
+    "lhs:phys.measurement",
+    "lhs:phys.our-environment",
+    "lhs:phys.physical-quantity",
+    "lhs:phys.unit"
+  ],
+  "chemical": [
+    "lhs:bio.ecosystem",
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:bio.hormone",
+    "lhs:bio.nervous-system",
+    "lhs:bio.photosynthesis",
+    "lhs:chem.acid",
+    "lhs:chem.atom",
+    "lhs:chem.base",
+    "lhs:chem.catalyst",
+    "lhs:chem.chemical-equation",
+    "lhs:chem.chemical-equilibrium",
+    "lhs:chem.chemical-reaction",
+    "lhs:chem.combustion",
+    "lhs:chem.compound",
+    "lhs:chem.covalent-bond",
+    "lhs:chem.electrochemical-cell",
+    "lhs:chem.element",
+    "lhs:chem.equilibrium-constant",
+    "lhs:chem.functional-group",
+    "lhs:chem.ionic-bond",
+    "lhs:chem.neutralization",
+    "lhs:chem.oxidation-reduction",
+    "lhs:chem.periodic-table",
+    "lhs:chem.reaction-rate",
+    "lhs:earth.earth-system"
+  ],
+  "ecosystem": [
+    "lhs:bio.ecosystem",
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:bio.food-chain"
+  ],
+  "with": [
+    "lhs:bio.ecosystem",
+    "lhs:bio.food-chain",
+    "lhs:bio.translation",
+    "lhs:chem.acid",
+    "lhs:chem.activation-energy",
+    "lhs:chem.alkane",
+    "lhs:chem.alkene",
+    "lhs:chem.base",
+    "lhs:chem.chemical-equation",
+    "lhs:chem.neutralization",
+    "lhs:chem.oxidation-reduction",
+    "lhs:chem.ph-scale",
+    "lhs:chem.salt",
+    "lhs:math.complex-number",
+    "lhs:math.derivative",
+    "lhs:math.exponential-function",
+    "lhs:math.irrational-number",
+    "lhs:math.matrix",
+    "lhs:math.percentage",
+    "lhs:math.triangle",
+    "lhs:phys.acceleration",
+    "lhs:phys.bohr-model",
+    "lhs:phys.brownian-motion",
+    "lhs:phys.electromagnetism",
+    "lhs:phys.free-fall",
+    "lhs:phys.gravitation",
+    "lhs:phys.heating-effect",
+    "lhs:phys.ideal-gas-model",
+    "lhs:phys.inertia",
+    "lhs:phys.measurement",
+    "lhs:phys.motion",
+    "lhs:phys.newtons-first-law",
+    "lhs:phys.newtons-law-of-gravitation",
+    "lhs:phys.our-environment",
+    "lhs:phys.simple-harmonic-motion",
+    "lhs:phys.thermal-energy",
+    "lhs:phys.velocity"
+  ],
+  "integrated": [
+    "lhs:bio.ecosystem",
+    "lhs:earth.earth-system"
+  ],
+  "biotic": [
+    "lhs:bio.ecosystem"
+  ],
+  "system": [
+    "lhs:bio.ecosystem",
+    "lhs:bio.immune-system",
+    "lhs:bio.nervous-system",
+    "lhs:bio.neuron",
+    "lhs:chem.enthalpy",
+    "lhs:chem.entropy",
+    "lhs:earth.earth-system",
+    "lhs:earth.solar-system",
+    "lhs:math.natural-number",
+    "lhs:phys.capacitor",
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.quantized-energy-levels"
+  ],
+  "interacting": [
+    "lhs:bio.ecosystem",
+    "lhs:earth.earth-system"
+  ],
+  "factors": [
+    "lhs:bio.ecosystem",
+    "lhs:bio.population-dynamics"
+  ],
+  "their": [
+    "lhs:bio.ecosystem",
+    "lhs:bio.natural-selection",
+    "lhs:bio.translation",
+    "lhs:chem.compound",
+    "lhs:chem.element",
+    "lhs:chem.equilibrium-constant",
+    "lhs:earth.solar-system",
+    "lhs:math.integer",
+    "lhs:math.median",
+    "lhs:math.sequence",
+    "lhs:phys.coulombs-law",
+    "lhs:phys.gravitational-acceleration",
+    "lhs:phys.newtons-law-of-gravitation",
+    "lhs:phys.thermal-energy"
+  ],
+  "together": [
+    "lhs:bio.ecosystem",
+    "lhs:chem.compound",
+    "lhs:chem.oxidation-reduction",
+    "lhs:math.irrational-number"
+  ],
+  "movement": [
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:bio.osmosis",
+    "lhs:chem.diffusion"
+  ],
+  "non-cyclical": [
+    "lhs:bio.energy-flow-ecosystem"
+  ],
+  "captured": [
+    "lhs:bio.energy-flow-ecosystem"
+  ],
+  "ecosystems": [
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:phys.our-environment"
+  ],
+  "heat": [
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:chem.combustion",
+    "lhs:chem.enthalpy",
+    "lhs:earth.rock-cycle",
+    "lhs:phys.efficiency",
+    "lhs:phys.heat",
+    "lhs:phys.heat-capacity",
+    "lhs:phys.heating-effect",
+    "lhs:phys.phase-change",
+    "lhs:phys.specific-heat",
+    "lhs:phys.temperature"
+  ],
+  "flow": [
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:bio.osmosis",
+    "lhs:phys.current",
+    "lhs:phys.generator",
+    "lhs:phys.our-environment",
+    "lhs:phys.resistance",
+    "lhs:phys.temperature"
+  ],
+  "progressively": [
+    "lhs:bio.energy-flow-ecosystem"
+  ],
+  "lost": [
+    "lhs:bio.energy-flow-ecosystem"
+  ],
+  "levels": [
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:bio.food-chain",
+    "lhs:bio.homeostasis",
+    "lhs:phys.quantized-energy-levels"
+  ],
+  "entering": [
+    "lhs:bio.energy-flow-ecosystem"
+  ],
+  "being": [
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:bio.enzyme",
+    "lhs:chem.catalyst",
+    "lhs:chem.oxidation-reduction",
+    "lhs:chem.ph-scale"
+  ],
+  "trophic": [
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:bio.food-chain"
+  ],
+  "one-way": [
+    "lhs:bio.energy-flow-ecosystem"
+  ],
+  "producers": [
+    "lhs:bio.energy-flow-ecosystem"
+  ],
+  "passing": [
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:bio.food-chain",
+    "lhs:bio.natural-selection",
+    "lhs:chem.electrolysis",
+    "lhs:phys.frequency",
+    "lhs:phys.magnetic-flux"
+  ],
+  "transfer": [
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:bio.transcription",
+    "lhs:bio.translation",
+    "lhs:chem.ionic-bond",
+    "lhs:chem.oxidation-number",
+    "lhs:chem.oxidation-reduction",
+    "lhs:phys.wave"
+  ],
+  "successive": [
+    "lhs:bio.energy-flow-ecosystem",
+    "lhs:bio.food-chain",
+    "lhs:bio.translation"
+  ],
+  "sunlight": [
+    "lhs:bio.energy-flow-ecosystem"
+  ],
+  "lowering": [
+    "lhs:bio.enzyme"
+  ],
+  "speeds": [
+    "lhs:bio.enzyme"
+  ],
+  "catalyst": [
+    "lhs:bio.enzyme",
+    "lhs:chem.catalyst",
+    "lhs:chem.reaction-rate"
+  ],
+  "reaction": [
+    "lhs:bio.enzyme",
+    "lhs:chem.activation-energy",
+    "lhs:chem.catalyst",
+    "lhs:chem.chemical-equation",
+    "lhs:chem.chemical-equilibrium",
+    "lhs:chem.chemical-reaction",
+    "lhs:chem.combustion",
+    "lhs:chem.electrochemical-cell",
+    "lhs:chem.equilibrium-constant",
+    "lhs:chem.neutralization",
+    "lhs:chem.reaction-rate",
+    "lhs:phys.newtons-third-law"
+  ],
+  "enzyme": [
+    "lhs:bio.enzyme",
+    "lhs:bio.transcription"
+  ],
+  "protein": [
+    "lhs:bio.enzyme",
+    "lhs:bio.gene",
+    "lhs:bio.protein-synthesis"
+  ],
+  "typically": [
+    "lhs:bio.enzyme",
+    "lhs:bio.food-chain",
+    "lhs:chem.salt",
+    "lhs:phys.energy-loss",
+    "lhs:phys.weight"
+  ],
+  "specific": [
+    "lhs:bio.enzyme",
+    "lhs:bio.gene",
+    "lhs:bio.hormone",
+    "lhs:bio.immune-system",
+    "lhs:bio.transcription",
+    "lhs:chem.functional-group",
+    "lhs:phys.heat-capacity",
+    "lhs:phys.specific-heat",
+    "lhs:phys.vector"
+  ],
+  "biochemical": [
+    "lhs:bio.enzyme"
+  ],
+  "without": [
+    "lhs:bio.enzyme",
+    "lhs:bio.glycolysis",
+    "lhs:math.continuity",
+    "lhs:math.limit",
+    "lhs:math.ratio",
+    "lhs:phys.wave"
+  ],
+  "activation": [
+    "lhs:bio.enzyme",
+    "lhs:chem.activation-energy",
+    "lhs:chem.catalyst"
+  ],
+  "consumed": [
+    "lhs:bio.enzyme",
+    "lhs:bio.food-chain",
+    "lhs:chem.catalyst"
+  ],
+  "reactions": [
+    "lhs:bio.enzyme",
+    "lhs:bio.glycolysis",
+    "lhs:chem.chemical-equilibrium",
+    "lhs:chem.electrochemical-cell",
+    "lhs:chem.electrolysis",
+    "lhs:chem.element",
+    "lhs:chem.functional-group",
+    "lhs:chem.oxidation-number",
+    "lhs:chem.oxidation-reduction"
+  ],
+  "beginning": [
+    "lhs:bio.food-chain"
+  ],
+  "next": [
+    "lhs:bio.food-chain"
+  ],
+  "food": [
+    "lhs:bio.food-chain"
+  ],
+  "consumers": [
+    "lhs:bio.food-chain"
+  ],
+  "chain": [
+    "lhs:bio.food-chain",
+    "lhs:bio.translation"
+  ],
+  "along": [
+    "lhs:bio.food-chain",
+    "lhs:bio.gene",
+    "lhs:phys.work"
+  ],
+  "sequence": [
+    "lhs:bio.food-chain",
+    "lhs:bio.gene",
+    "lhs:bio.mutation",
+    "lhs:bio.translation",
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.geometric-sequence",
+    "lhs:math.limit",
+    "lhs:math.sequence"
+  ],
+  "nutrients": [
+    "lhs:bio.food-chain"
+  ],
+  "producer": [
+    "lhs:bio.food-chain"
+  ],
+  "are": [
+    "lhs:bio.food-chain",
+    "lhs:bio.inheritance-patterns",
+    "lhs:chem.alcohol",
+    "lhs:chem.alkane",
+    "lhs:chem.carboxylic-acid",
+    "lhs:chem.chemical-equilibrium",
+    "lhs:chem.chemical-reaction",
+    "lhs:chem.compound",
+    "lhs:chem.hydrocarbon",
+    "lhs:chem.mixture",
+    "lhs:math.circle",
+    "lhs:math.complex-number",
+    "lhs:math.linear-function",
+    "lhs:math.median",
+    "lhs:math.natural-number",
+    "lhs:math.proportion",
+    "lhs:math.ratio",
+    "lhs:math.sequence",
+    "lhs:math.triangle",
+    "lhs:phys.energy-loss",
+    "lhs:phys.energy-sources",
+    "lhs:phys.gravitation",
+    "lhs:phys.magnetic-field",
+    "lhs:phys.pressure",
+    "lhs:phys.projectile-motion",
+    "lhs:phys.radioactivity",
+    "lhs:phys.scalar",
+    "lhs:phys.unit",
+    "lhs:phys.wave-interference"
+  ],
+  "within": [
+    "lhs:bio.food-chain",
+    "lhs:bio.homeostasis",
+    "lhs:bio.speciation",
+    "lhs:chem.functional-group",
+    "lhs:math.area",
+    "lhs:math.integer",
+    "lhs:math.matrix"
+  ],
+  "transferred": [
+    "lhs:bio.food-chain",
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.energy",
+    "lhs:phys.heat",
+    "lhs:phys.power",
+    "lhs:phys.work"
+  ],
+  "composed": [
+    "lhs:bio.gene",
+    "lhs:bio.neuron",
+    "lhs:chem.hydrocarbon",
+    "lhs:chem.matter",
+    "lhs:earth.atmosphere"
+  ],
+  "nucleotides": [
+    "lhs:bio.gene"
+  ],
+  "product": [
+    "lhs:bio.gene",
+    "lhs:chem.catalyst",
+    "lhs:chem.enthalpy",
+    "lhs:chem.equilibrium-constant",
+    "lhs:chem.reaction-rate",
+    "lhs:phys.coulombs-law",
+    "lhs:phys.impulse",
+    "lhs:phys.magnetic-flux",
+    "lhs:phys.momentum",
+    "lhs:phys.newtons-law-of-gravitation",
+    "lhs:phys.work"
+  ],
+  "rna": [
+    "lhs:bio.gene",
+    "lhs:bio.protein-synthesis",
+    "lhs:bio.transcription",
+    "lhs:bio.translation"
+  ],
+  "codes": [
+    "lhs:bio.gene"
+  ],
+  "heredity": [
+    "lhs:bio.gene"
+  ],
+  "polypeptide": [
+    "lhs:bio.gene",
+    "lhs:bio.protein-synthesis",
+    "lhs:bio.translation"
+  ],
+  "first": [
+    "lhs:bio.glycolysis",
+    "lhs:bio.transcription",
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.geometric-sequence",
+    "lhs:phys.newtons-first-law"
+  ],
+  "cytosolic": [
+    "lhs:bio.glycolysis"
+  ],
+  "ten-step": [
+    "lhs:bio.glycolysis"
+  ],
+  "pathway": [
+    "lhs:bio.glycolysis",
+    "lhs:bio.protein-synthesis",
+    "lhs:chem.catalyst"
+  ],
+  "net": [
+    "lhs:bio.glycolysis",
+    "lhs:bio.osmosis",
+    "lhs:chem.diffusion",
+    "lhs:phys.force",
+    "lhs:phys.newtons-first-law",
+    "lhs:phys.newtons-second-law",
+    "lhs:phys.work-energy-theorem"
+  ],
+  "pyruvate": [
+    "lhs:bio.glycolysis"
+  ],
+  "anaerobic": [
+    "lhs:bio.glycolysis"
+  ],
+  "further": [
+    "lhs:bio.glycolysis"
+  ],
+  "into": [
+    "lhs:bio.glycolysis",
+    "lhs:bio.hormone",
+    "lhs:bio.mitosis",
+    "lhs:bio.photosynthesis",
+    "lhs:bio.protein-synthesis",
+    "lhs:bio.translation",
+    "lhs:chem.chemical-reaction",
+    "lhs:chem.electrochemical-cell",
+    "lhs:chem.electrolysis",
+    "lhs:chem.element",
+    "lhs:chem.hydrocarbon",
+    "lhs:earth.plate-tectonics",
+    "lhs:math.logarithmic-function",
+    "lhs:math.median",
+    "lhs:math.sequence",
+    "lhs:phys.electric-motor",
+    "lhs:phys.energy-loss",
+    "lhs:phys.generator",
+    "lhs:phys.nuclear-binding-energy",
+    "lhs:phys.nuclear-fission",
+    "lhs:phys.projectile-motion"
+  ],
+  "substrates": [
+    "lhs:bio.glycolysis"
+  ],
+  "glycolysis": [
+    "lhs:bio.glycolysis"
+  ],
+  "nadh": [
+    "lhs:bio.glycolysis"
+  ],
+  "breaks": [
+    "lhs:bio.glycolysis"
+  ],
+  "yield": [
+    "lhs:bio.glycolysis",
+    "lhs:chem.catalyst"
+  ],
+  "providing": [
+    "lhs:bio.glycolysis",
+    "lhs:chem.catalyst"
+  ],
+  "stage": [
+    "lhs:bio.glycolysis",
+    "lhs:bio.mitosis",
+    "lhs:bio.transcription"
+  ],
+  "requiring": [
+    "lhs:bio.glycolysis",
+    "lhs:math.limit",
+    "lhs:math.ratio",
+    "lhs:phys.electromagnetic-wave"
+  ],
+  "despite": [
+    "lhs:bio.homeostasis"
+  ],
+  "changes": [
+    "lhs:bio.homeostasis",
+    "lhs:bio.mutation",
+    "lhs:phys.acceleration",
+    "lhs:phys.magnetic-force",
+    "lhs:phys.phase-change"
+  ],
+  "mechanisms": [
+    "lhs:bio.homeostasis",
+    "lhs:bio.immune-system",
+    "lhs:bio.speciation"
+  ],
+  "achieved": [
+    "lhs:bio.homeostasis"
+  ],
+  "internal": [
+    "lhs:bio.homeostasis",
+    "lhs:bio.nervous-system",
+    "lhs:chem.enthalpy",
+    "lhs:earth.rock-cycle",
+    "lhs:phys.heat",
+    "lhs:phys.phase-change",
+    "lhs:phys.thermal-energy"
+  ],
+  "feedback": [
+    "lhs:bio.homeostasis"
+  ],
+  "stable": [
+    "lhs:bio.homeostasis",
+    "lhs:chem.covalent-bond",
+    "lhs:chem.electron",
+    "lhs:chem.proton"
+  ],
+  "homeostasis": [
+    "lhs:bio.homeostasis",
+    "lhs:bio.hormone"
+  ],
+  "external": [
+    "lhs:bio.homeostasis",
+    "lhs:bio.nervous-system",
+    "lhs:chem.electrochemical-cell",
+    "lhs:chem.electrolysis",
+    "lhs:phys.generator",
+    "lhs:phys.newtons-first-law"
+  ],
+  "temperature": [
+    "lhs:bio.homeostasis",
+    "lhs:chem.activation-energy",
+    "lhs:chem.equilibrium-constant",
+    "lhs:chem.gibbs-free-energy",
+    "lhs:chem.le-chateliers-principle",
+    "lhs:chem.reaction-rate",
+    "lhs:earth.seasons-cause",
+    "lhs:phys.change-of-state",
+    "lhs:phys.heat",
+    "lhs:phys.heat-capacity",
+    "lhs:phys.ideal-gas-model",
+    "lhs:phys.ohms-law",
+    "lhs:phys.phase-change",
+    "lhs:phys.specific-heat",
+    "lhs:phys.temperature",
+    "lhs:phys.thermal-energy"
+  ],
+  "balance": [
+    "lhs:bio.homeostasis",
+    "lhs:math.mean"
+  ],
+  "regulatory": [
+    "lhs:bio.homeostasis"
+  ],
+  "solute": [
+    "lhs:bio.homeostasis",
+    "lhs:bio.osmosis"
+  ],
+  "maintenance": [
+    "lhs:bio.homeostasis"
+  ],
+  "fluid": [
+    "lhs:bio.hormone",
+    "lhs:phys.brownian-motion",
+    "lhs:phys.buoyancy"
+  ],
+  "secreted": [
+    "lhs:bio.hormone"
+  ],
+  "travels": [
+    "lhs:bio.hormone",
+    "lhs:phys.electromagnetic-wave"
+  ],
+  "receptors": [
+    "lhs:bio.hormone"
+  ],
+  "metabolism": [
+    "lhs:bio.hormone",
+    "lhs:bio.nucleus"
+  ],
+  "bloodstream": [
+    "lhs:bio.hormone"
+  ],
+  "hormone": [
+    "lhs:bio.hormone"
+  ],
+  "helping": [
+    "lhs:bio.hormone"
+  ],
+  "specialized": [
+    "lhs:bio.hormone",
+    "lhs:bio.meiosis"
+  ],
+  "where": [
+    "lhs:bio.hormone",
+    "lhs:math.combination",
+    "lhs:math.complex-number",
+    "lhs:math.decimal",
+    "lhs:math.exponential-function",
+    "lhs:math.fraction",
+    "lhs:math.function",
+    "lhs:math.linear-function",
+    "lhs:math.permutation",
+    "lhs:math.polynomial",
+    "lhs:math.rational-number",
+    "lhs:math.standard-deviation",
+    "lhs:phys.magnetic-field",
+    "lhs:phys.vector"
+  ],
+  "regulate": [
+    "lhs:bio.hormone"
+  ],
+  "endocrine": [
+    "lhs:bio.hormone"
+  ],
+  "messenger": [
+    "lhs:bio.hormone",
+    "lhs:bio.protein-synthesis",
+    "lhs:bio.transcription",
+    "lhs:bio.translation"
+  ],
+  "extracellular": [
+    "lhs:bio.hormone"
+  ],
+  "expressing": [
+    "lhs:bio.hormone"
+  ],
+  "triggers": [
+    "lhs:bio.hormone"
+  ],
+  "target": [
+    "lhs:bio.hormone"
+  ],
+  "responses": [
+    "lhs:bio.hormone",
+    "lhs:bio.immune-system"
+  ],
+  "glands": [
+    "lhs:bio.hormone"
+  ],
+  "network": [
+    "lhs:bio.immune-system"
+  ],
+  "immune": [
+    "lhs:bio.immune-system"
+  ],
+  "nonspecific": [
+    "lhs:bio.immune-system"
+  ],
+  "pathogens": [
+    "lhs:bio.immune-system"
+  ],
+  "memory": [
+    "lhs:bio.immune-system"
+  ],
+  "barriers": [
+    "lhs:bio.immune-system"
+  ],
+  "substances": [
+    "lhs:bio.immune-system",
+    "lhs:chem.chemical-reaction",
+    "lhs:chem.electrolysis",
+    "lhs:chem.element",
+    "lhs:chem.mixture",
+    "lhs:phys.specific-heat"
+  ],
+  "adaptive": [
+    "lhs:bio.immune-system"
+  ],
+  "immunological": [
+    "lhs:bio.immune-system"
+  ],
+  "including": [
+    "lhs:bio.immune-system",
+    "lhs:bio.inheritance-patterns",
+    "lhs:math.integer",
+    "lhs:phys.our-environment"
+  ],
+  "antibody": [
+    "lhs:bio.immune-system"
+  ],
+  "foreign": [
+    "lhs:bio.immune-system"
+  ],
+  "production": [
+    "lhs:bio.immune-system",
+    "lhs:phys.electromagnetic-induction"
+  ],
+  "innate": [
+    "lhs:bio.immune-system"
+  ],
+  "phagocytes": [
+    "lhs:bio.immune-system"
+  ],
+  "organs": [
+    "lhs:bio.immune-system"
+  ],
+  "comprising": [
+    "lhs:bio.immune-system",
+    "lhs:bio.nervous-system"
+  ],
+  "defends": [
+    "lhs:bio.immune-system"
+  ],
+  "body": [
+    "lhs:bio.immune-system",
+    "lhs:bio.nervous-system",
+    "lhs:bio.neuron",
+    "lhs:phys.force",
+    "lhs:phys.heat",
+    "lhs:phys.mass",
+    "lhs:phys.newtons-second-law",
+    "lhs:phys.physical-quantity",
+    "lhs:phys.weight"
+  ],
+  "against": [
+    "lhs:bio.immune-system",
+    "lhs:math.median",
+    "lhs:phys.unit"
+  ],
+  "dominance": [
+    "lhs:bio.inheritance-patterns"
+  ],
+  "pleiotropy": [
+    "lhs:bio.inheritance-patterns"
+  ],
+  "linkage": [
+    "lhs:bio.inheritance-patterns"
+  ],
+  "dominant": [
+    "lhs:bio.inheritance-patterns"
+  ],
+  "recurring": [
+    "lhs:bio.inheritance-patterns",
+    "lhs:chem.periodic-table"
+  ],
+  "offspring": [
+    "lhs:bio.inheritance-patterns"
+  ],
+  "ways": [
+    "lhs:bio.inheritance-patterns",
+    "lhs:math.combination",
+    "lhs:math.permutation"
+  ],
+  "inheritance": [
+    "lhs:bio.inheritance-patterns"
+  ],
+  "codominant": [
+    "lhs:bio.inheritance-patterns"
+  ],
+  "parents": [
+    "lhs:bio.inheritance-patterns"
+  ],
+  "traits": [
+    "lhs:bio.inheritance-patterns",
+    "lhs:bio.natural-selection"
+  ],
+  "polygenic": [
+    "lhs:bio.inheritance-patterns"
+  ],
+  "mendelian": [
+    "lhs:bio.inheritance-patterns"
+  ],
+  "transmitted": [
+    "lhs:bio.inheritance-patterns",
+    "lhs:phys.sound"
+  ],
+  "non-mendelian": [
+    "lhs:bio.inheritance-patterns"
+  ],
+  "recessive": [
+    "lhs:bio.inheritance-patterns"
+  ],
+  "incomplete": [
+    "lhs:bio.inheritance-patterns",
+    "lhs:chem.combustion"
+  ],
+  "sex": [
+    "lhs:bio.inheritance-patterns"
+  ],
+  "multiple": [
+    "lhs:bio.inheritance-patterns"
+  ],
+  "patterns": [
+    "lhs:bio.inheritance-patterns",
+    "lhs:math.sequence"
+  ],
+  "produces": [
+    "lhs:bio.meiosis",
+    "lhs:bio.protein-synthesis",
+    "lhs:chem.combustion",
+    "lhs:phys.electromagnetism"
+  ],
+  "four": [
+    "lhs:bio.meiosis",
+    "lhs:earth.earth-system"
+  ],
+  "genetically": [
+    "lhs:bio.meiosis",
+    "lhs:bio.mitosis",
+    "lhs:bio.speciation"
+  ],
+  "haploid": [
+    "lhs:bio.meiosis"
+  ],
+  "meiosis": [
+    "lhs:bio.meiosis"
+  ],
+  "halving": [
+    "lhs:bio.meiosis"
+  ],
+  "two-stage": [
+    "lhs:bio.meiosis",
+    "lhs:bio.protein-synthesis"
+  ],
+  "spores": [
+    "lhs:bio.meiosis"
+  ],
+  "independent": [
+    "lhs:bio.meiosis",
+    "lhs:phys.half-life",
+    "lhs:phys.mass",
+    "lhs:phys.projectile-motion"
+  ],
+  "assortment": [
+    "lhs:bio.meiosis"
+  ],
+  "generating": [
+    "lhs:bio.meiosis"
+  ],
+  "crossing": [
+    "lhs:bio.meiosis"
+  ],
+  "gametes": [
+    "lhs:bio.meiosis"
+  ],
+  "number": [
+    "lhs:bio.meiosis",
+    "lhs:chem.chemical-equation",
+    "lhs:chem.element",
+    "lhs:chem.entropy",
+    "lhs:chem.oxidation-number",
+    "lhs:chem.periodic-table",
+    "lhs:math.combination",
+    "lhs:math.complex-number",
+    "lhs:math.decimal",
+    "lhs:math.fraction",
+    "lhs:math.irrational-number",
+    "lhs:math.mean",
+    "lhs:math.natural-number",
+    "lhs:math.permutation",
+    "lhs:math.probability",
+    "lhs:math.rational-number",
+    "lhs:math.sequence",
+    "lhs:phys.atomic-structure",
+    "lhs:phys.frequency",
+    "lhs:phys.physical-quantity"
+  ],
+  "distinct": [
+    "lhs:bio.meiosis",
+    "lhs:bio.speciation",
+    "lhs:chem.compound",
+    "lhs:math.combination",
+    "lhs:math.permutation",
+    "lhs:phys.thermal-energy"
+  ],
+  "receives": [
+    "lhs:bio.mitosis"
+  ],
+  "complement": [
+    "lhs:bio.mitosis"
+  ],
+  "divides": [
+    "lhs:bio.mitosis",
+    "lhs:math.median"
+  ],
+  "duplicated": [
+    "lhs:bio.mitosis"
+  ],
+  "parent": [
+    "lhs:bio.mitosis"
+  ],
+  "separating": [
+    "lhs:bio.mitosis"
+  ],
+  "cycle": [
+    "lhs:bio.mitosis",
+    "lhs:earth.rock-cycle",
+    "lhs:earth.water-cycle"
+  ],
+  "mitosis": [
+    "lhs:bio.mitosis"
+  ],
+  "daughter": [
+    "lhs:bio.mitosis"
+  ],
+  "nuclei": [
+    "lhs:bio.mitosis",
+    "lhs:chem.covalent-bond",
+    "lhs:chem.element",
+    "lhs:chem.proton",
+    "lhs:phys.half-life",
+    "lhs:phys.nuclear-fission",
+    "lhs:phys.nuclear-fusion"
+  ],
+  "arising": [
+    "lhs:bio.mutation"
+  ],
+  "single": [
+    "lhs:bio.mutation",
+    "lhs:chem.alkane"
+  ],
+  "point": [
+    "lhs:bio.mutation",
+    "lhs:bio.speciation",
+    "lhs:math.circle",
+    "lhs:math.continuity",
+    "lhs:math.decimal",
+    "lhs:math.derivative",
+    "lhs:math.limit",
+    "lhs:math.mean",
+    "lhs:phys.coulombs-law",
+    "lhs:phys.current",
+    "lhs:phys.electric-field",
+    "lhs:phys.frequency",
+    "lhs:phys.ideal-gas-model",
+    "lhs:phys.motion",
+    "lhs:phys.wave-interference"
+  ],
+  "base": [
+    "lhs:bio.mutation",
+    "lhs:chem.base",
+    "lhs:chem.neutralization",
+    "lhs:chem.salt",
+    "lhs:math.exponential-function",
+    "lhs:math.logarithmic-function",
+    "lhs:phys.time"
+  ],
+  "range": [
+    "lhs:bio.mutation",
+    "lhs:bio.speciation",
+    "lhs:chem.alcohol",
+    "lhs:phys.electromagnetic-spectrum"
+  ],
+  "nucleotide": [
+    "lhs:bio.mutation",
+    "lhs:bio.translation"
+  ],
+  "environmental": [
+    "lhs:bio.mutation"
+  ],
+  "repair": [
+    "lhs:bio.mutation"
+  ],
+  "mutation": [
+    "lhs:bio.mutation"
+  ],
+  "errors": [
+    "lhs:bio.mutation"
+  ],
+  "mutations": [
+    "lhs:bio.mutation"
+  ],
+  "change": [
+    "lhs:bio.mutation",
+    "lhs:bio.population-dynamics",
+    "lhs:chem.enthalpy",
+    "lhs:chem.gibbs-free-energy",
+    "lhs:chem.le-chateliers-principle",
+    "lhs:chem.reaction-rate",
+    "lhs:math.derivative",
+    "lhs:math.exponential-function",
+    "lhs:math.geometric-sequence",
+    "lhs:math.limit",
+    "lhs:math.linear-function",
+    "lhs:phys.acceleration",
+    "lhs:phys.change-of-state",
+    "lhs:phys.displacement",
+    "lhs:phys.doppler-effect",
+    "lhs:phys.energy",
+    "lhs:phys.force",
+    "lhs:phys.impulse",
+    "lhs:phys.inertia",
+    "lhs:phys.motion",
+    "lhs:phys.newtons-second-law",
+    "lhs:phys.phase-change",
+    "lhs:phys.refraction",
+    "lhs:phys.velocity",
+    "lhs:phys.work-energy-theorem"
+  ],
+  "large": [
+    "lhs:bio.mutation",
+    "lhs:bio.plant-cell",
+    "lhs:chem.polymer",
+    "lhs:earth.plate-tectonics",
+    "lhs:math.standard-deviation",
+    "lhs:phys.nuclear-fission",
+    "lhs:phys.nuclear-fusion"
+  ],
+  "rearrangements": [
+    "lhs:bio.mutation"
+  ],
+  "mutagens": [
+    "lhs:bio.mutation"
+  ],
+  "chromosomal": [
+    "lhs:bio.mutation"
+  ],
+  "recombination": [
+    "lhs:bio.mutation"
+  ],
+  "genome": [
+    "lhs:bio.mutation"
+  ],
+  "evolutionary": [
+    "lhs:bio.natural-selection",
+    "lhs:bio.speciation"
+  ],
+  "suited": [
+    "lhs:bio.natural-selection"
+  ],
+  "tend": [
+    "lhs:bio.natural-selection"
+  ],
+  "higher": [
+    "lhs:bio.natural-selection",
+    "lhs:bio.osmosis",
+    "lhs:chem.diffusion",
+    "lhs:phys.doppler-effect",
+    "lhs:phys.temperature"
+  ],
+  "subsequent": [
+    "lhs:bio.natural-selection"
+  ],
+  "possessing": [
+    "lhs:bio.natural-selection"
+  ],
+  "better": [
+    "lhs:bio.natural-selection"
+  ],
+  "advantageous": [
+    "lhs:bio.natural-selection"
+  ],
+  "rates": [
+    "lhs:bio.natural-selection",
+    "lhs:chem.chemical-equilibrium",
+    "lhs:chem.reaction-rate"
+  ],
+  "organ": [
+    "lhs:bio.nervous-system"
+  ],
+  "cord": [
+    "lhs:bio.nervous-system"
+  ],
+  "enables": [
+    "lhs:bio.nervous-system"
+  ],
+  "stimuli": [
+    "lhs:bio.nervous-system"
+  ],
+  "signalling": [
+    "lhs:bio.nervous-system",
+    "lhs:bio.neuron"
+  ],
+  "connecting": [
+    "lhs:bio.nervous-system",
+    "lhs:math.fundamental-theorem-of-calculus",
+    "lhs:math.pythagorean-theorem"
+  ],
+  "them": [
+    "lhs:bio.nervous-system",
+    "lhs:bio.neuron",
+    "lhs:bio.translation",
+    "lhs:phys.coulombs-law"
+  ],
+  "peripheral": [
+    "lhs:bio.nervous-system"
+  ],
+  "brain": [
+    "lhs:bio.nervous-system"
+  ],
+  "central": [
+    "lhs:bio.nervous-system",
+    "lhs:bio.plant-cell",
+    "lhs:chem.atom",
+    "lhs:math.mean"
+  ],
+  "spinal": [
+    "lhs:bio.nervous-system"
+  ],
+  "nerves": [
+    "lhs:bio.nervous-system"
+  ],
+  "rapid": [
+    "lhs:bio.nervous-system",
+    "lhs:chem.combustion"
+  ],
+  "nervous": [
+    "lhs:bio.nervous-system",
+    "lhs:bio.neuron"
+  ],
+  "electrical": [
+    "lhs:bio.nervous-system",
+    "lhs:chem.electrochemical-cell",
+    "lhs:phys.electric-motor",
+    "lhs:phys.generator",
+    "lhs:phys.heating-effect",
+    "lhs:phys.resistance"
+  ],
+  "sensing": [
+    "lhs:bio.nervous-system"
+  ],
+  "integration": [
+    "lhs:bio.nervous-system",
+    "lhs:math.fundamental-theorem-of-calculus",
+    "lhs:math.integral"
+  ],
+  "response": [
+    "lhs:bio.nervous-system",
+    "lhs:bio.population-dynamics"
+  ],
+  "receiving": [
+    "lhs:bio.neuron"
+  ],
+  "information": [
+    "lhs:bio.neuron",
+    "lhs:bio.protein-synthesis",
+    "lhs:phys.graphical-analysis",
+    "lhs:phys.wave",
+    "lhs:practice.scientific-observation"
+  ],
+  "potentials": [
+    "lhs:bio.neuron"
+  ],
+  "integrating": [
+    "lhs:bio.neuron"
+  ],
+  "synapses": [
+    "lhs:bio.neuron"
+  ],
+  "signals": [
+    "lhs:bio.neuron"
+  ],
+  "excitable": [
+    "lhs:bio.neuron"
+  ],
+  "axon": [
+    "lhs:bio.neuron"
+  ],
+  "transmit": [
+    "lhs:bio.neuron"
+  ],
+  "dendrites": [
+    "lhs:bio.neuron"
+  ],
+  "nerve": [
+    "lhs:bio.neuron"
+  ],
+  "electrically": [
+    "lhs:bio.neuron"
+  ],
+  "neurotransmitters": [
+    "lhs:bio.neuron"
+  ],
+  "neuron": [
+    "lhs:bio.neuron"
+  ],
+  "fundamental": [
+    "lhs:bio.neuron",
+    "lhs:chem.hydrocarbon",
+    "lhs:chem.matter",
+    "lhs:math.continuity",
+    "lhs:math.fundamental-theorem-of-calculus",
+    "lhs:math.pythagorean-theorem",
+    "lhs:phys.electric-charge",
+    "lhs:phys.gravitation",
+    "lhs:phys.motion",
+    "lhs:phys.time"
+  ],
+  "conducting": [
+    "lhs:bio.neuron"
+  ],
+  "contains": [
+    "lhs:bio.nucleus",
+    "lhs:chem.alkene"
+  ],
+  "directs": [
+    "lhs:bio.nucleus"
+  ],
+  "activities": [
+    "lhs:bio.nucleus"
+  ],
+  "most": [
+    "lhs:bio.nucleus",
+    "lhs:math.natural-number",
+    "lhs:math.pythagorean-theorem",
+    "lhs:math.quadratic-equation",
+    "lhs:phys.motion"
+  ],
+  "organelle": [
+    "lhs:bio.nucleus"
+  ],
+  "permeable": [
+    "lhs:bio.osmosis"
+  ],
+  "concentration": [
+    "lhs:bio.osmosis",
+    "lhs:chem.diffusion",
+    "lhs:chem.le-chateliers-principle",
+    "lhs:chem.ph-scale",
+    "lhs:chem.reaction-rate"
+  ],
+  "across": [
+    "lhs:bio.osmosis",
+    "lhs:chem.chemical-equation",
+    "lhs:chem.periodic-table",
+    "lhs:earth.earth-system",
+    "lhs:earth.seasons-cause",
+    "lhs:phys.capacitor",
+    "lhs:phys.electromagnetic-induction",
+    "lhs:phys.ohms-law"
+  ],
+  "osmosis": [
+    "lhs:bio.osmosis"
+  ],
+  "region": [
+    "lhs:bio.osmosis",
+    "lhs:chem.diffusion",
+    "lhs:math.area",
+    "lhs:phys.electric-field",
+    "lhs:phys.magnetic-field"
+  ],
+  "lower": [
+    "lhs:bio.osmosis",
+    "lhs:chem.catalyst",
+    "lhs:chem.diffusion",
+    "lhs:earth.greenhouse-effect",
+    "lhs:phys.doppler-effect",
+    "lhs:phys.temperature"
+  ],
+  "selectively": [
+    "lhs:bio.osmosis"
+  ],
+  "equalizing": [
+    "lhs:bio.osmosis"
+  ],
+  "photosynthesis": [
+    "lhs:bio.photosynthesis",
+    "lhs:bio.plant-cell"
+  ],
+  "using": [
+    "lhs:bio.photosynthesis",
+    "lhs:math.decimal",
+    "lhs:phys.generator",
+    "lhs:practice.scientific-observation"
+  ],
+  "plants": [
+    "lhs:bio.photosynthesis",
+    "lhs:bio.plant-cell",
+    "lhs:phys.nuclear-fission"
+  ],
+  "releasing": [
+    "lhs:bio.photosynthesis"
+  ],
+  "autotrophic": [
+    "lhs:bio.photosynthesis"
+  ],
+  "algae": [
+    "lhs:bio.photosynthesis"
+  ],
+  "while": [
+    "lhs:bio.photosynthesis",
+    "lhs:chem.catalyst",
+    "lhs:chem.electrochemical-cell",
+    "lhs:math.integral",
+    "lhs:phys.phase-change"
+  ],
+  "convert": [
+    "lhs:bio.photosynthesis",
+    "lhs:math.logarithmic-function"
+  ],
+  "byproduct": [
+    "lhs:bio.photosynthesis"
+  ],
+  "light": [
+    "lhs:bio.photosynthesis",
+    "lhs:chem.combustion",
+    "lhs:phys.electromagnetic-spectrum",
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.frequency",
+    "lhs:phys.lens",
+    "lhs:phys.light",
+    "lhs:phys.mirror",
+    "lhs:phys.nuclear-fusion",
+    "lhs:phys.photoelectric-effect",
+    "lhs:phys.ray-model",
+    "lhs:phys.reflection",
+    "lhs:phys.refraction",
+    "lhs:phys.wavelength"
+  ],
+  "vacuole": [
+    "lhs:bio.plant-cell"
+  ],
+  "rigid": [
+    "lhs:bio.plant-cell",
+    "lhs:earth.plate-tectonics"
+  ],
+  "cellulose": [
+    "lhs:bio.plant-cell",
+    "lhs:chem.polymer"
+  ],
+  "plastids": [
+    "lhs:bio.plant-cell"
+  ],
+  "distinguished": [
+    "lhs:bio.plant-cell"
+  ],
+  "turgor": [
+    "lhs:bio.plant-cell"
+  ],
+  "plant": [
+    "lhs:bio.plant-cell"
+  ],
+  "pressure": [
+    "lhs:bio.plant-cell",
+    "lhs:chem.enthalpy",
+    "lhs:chem.gibbs-free-energy",
+    "lhs:chem.le-chateliers-principle",
+    "lhs:chem.matter",
+    "lhs:earth.rock-cycle",
+    "lhs:phys.ideal-gas-model",
+    "lhs:phys.pressure"
+  ],
+  "space": [
+    "lhs:bio.population-dynamics",
+    "lhs:chem.matter",
+    "lhs:math.area",
+    "lhs:math.volume",
+    "lhs:phys.electric-field",
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.wave"
+  ],
+  "predation": [
+    "lhs:bio.population-dynamics"
+  ],
+  "study": [
+    "lhs:bio.population-dynamics",
+    "lhs:phys.our-environment"
+  ],
+  "population": [
+    "lhs:bio.population-dynamics"
+  ],
+  "death": [
+    "lhs:bio.population-dynamics"
+  ],
+  "density": [
+    "lhs:bio.population-dynamics",
+    "lhs:phys.density"
+  ],
+  "birth": [
+    "lhs:bio.population-dynamics"
+  ],
+  "immigration": [
+    "lhs:bio.population-dynamics"
+  ],
+  "resource": [
+    "lhs:bio.population-dynamics"
+  ],
+  "emigration": [
+    "lhs:bio.population-dynamics"
+  ],
+  "availability": [
+    "lhs:bio.population-dynamics"
+  ],
+  "density-dependent": [
+    "lhs:bio.population-dynamics"
+  ],
+  "density-independent": [
+    "lhs:bio.population-dynamics"
+  ],
+  "competition": [
+    "lhs:bio.population-dynamics"
+  ],
+  "dynamics": [
+    "lhs:bio.population-dynamics"
+  ],
+  "size": [
+    "lhs:bio.population-dynamics",
+    "lhs:math.area",
+    "lhs:math.matrix",
+    "lhs:math.percentage",
+    "lhs:math.ratio",
+    "lhs:phys.half-life",
+    "lhs:phys.heat-capacity",
+    "lhs:phys.mirror",
+    "lhs:phys.vector"
+  ],
+  "modulated": [
+    "lhs:bio.population-dynamics"
+  ],
+  "how": [
+    "lhs:bio.population-dynamics",
+    "lhs:math.standard-deviation",
+    "lhs:math.volume",
+    "lhs:phys.our-environment",
+    "lhs:phys.power",
+    "lhs:phys.pressure"
+  ],
+  "age": [
+    "lhs:bio.population-dynamics"
+  ],
+  "distribution": [
+    "lhs:bio.population-dynamics"
+  ],
+  "time": [
+    "lhs:bio.population-dynamics",
+    "lhs:chem.chemical-equilibrium",
+    "lhs:chem.reaction-rate",
+    "lhs:phys.acceleration",
+    "lhs:phys.equations-of-motion",
+    "lhs:phys.frequency",
+    "lhs:phys.half-life",
+    "lhs:phys.heating-effect",
+    "lhs:phys.impulse",
+    "lhs:phys.motion",
+    "lhs:phys.simple-harmonic-motion",
+    "lhs:phys.speed",
+    "lhs:phys.time",
+    "lhs:phys.velocity"
+  ],
+  "assembles": [
+    "lhs:bio.protein-synthesis"
+  ],
+  "amino": [
+    "lhs:bio.protein-synthesis",
+    "lhs:bio.translation"
+  ],
+  "transcription": [
+    "lhs:bio.protein-synthesis",
+    "lhs:bio.transcription"
+  ],
+  "gene-expression": [
+    "lhs:bio.protein-synthesis"
+  ],
+  "acids": [
+    "lhs:bio.protein-synthesis",
+    "lhs:bio.translation",
+    "lhs:chem.base",
+    "lhs:chem.carboxylic-acid"
+  ],
+  "converted": [
+    "lhs:bio.protein-synthesis",
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.energy",
+    "lhs:phys.heating-effect",
+    "lhs:phys.power"
+  ],
+  "ribosomes": [
+    "lhs:bio.protein-synthesis",
+    "lhs:bio.translation"
+  ],
+  "translation": [
+    "lhs:bio.protein-synthesis",
+    "lhs:bio.translation"
+  ],
+  "species": [
+    "lhs:bio.speciation",
+    "lhs:chem.oxidation-reduction"
+  ],
+  "geographic": [
+    "lhs:bio.speciation"
+  ],
+  "commonly": [
+    "lhs:bio.speciation"
+  ],
+  "reproductively": [
+    "lhs:bio.speciation"
+  ],
+  "isolated": [
+    "lhs:bio.speciation",
+    "lhs:chem.entropy",
+    "lhs:phys.conservation-of-energy"
+  ],
+  "separation": [
+    "lhs:bio.speciation"
+  ],
+  "proceeds": [
+    "lhs:bio.speciation"
+  ],
+  "another": [
+    "lhs:bio.speciation",
+    "lhs:chem.oxidation-reduction",
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.electric-field",
+    "lhs:phys.energy",
+    "lhs:phys.gravitation",
+    "lhs:phys.heat",
+    "lhs:phys.power",
+    "lhs:phys.refraction",
+    "lhs:phys.wave"
+  ],
+  "populations": [
+    "lhs:bio.speciation"
+  ],
+  "diverge": [
+    "lhs:bio.speciation",
+    "lhs:phys.lens"
+  ],
+  "forming": [
+    "lhs:bio.speciation",
+    "lhs:chem.activation-energy",
+    "lhs:chem.chemical-reaction"
+  ],
+  "allopatric": [
+    "lhs:bio.speciation"
+  ],
+  "speciation": [
+    "lhs:bio.speciation"
+  ],
+  "become": [
+    "lhs:bio.speciation"
+  ],
+  "they": [
+    "lhs:bio.speciation",
+    "lhs:math.irrational-number",
+    "lhs:math.sequence",
+    "lhs:phys.equations-of-motion",
+    "lhs:phys.wave-interference"
+  ],
+  "sympatric": [
+    "lhs:bio.speciation"
+  ],
+  "shared": [
+    "lhs:bio.speciation",
+    "lhs:chem.covalent-bond"
+  ],
+  "single-stranded": [
+    "lhs:bio.transcription"
+  ],
+  "ribosomal": [
+    "lhs:bio.transcription"
+  ],
+  "uses": [
+    "lhs:bio.transcription",
+    "lhs:chem.electrochemical-cell"
+  ],
+  "synthesize": [
+    "lhs:bio.transcription"
+  ],
+  "expression": [
+    "lhs:bio.transcription",
+    "lhs:math.algebraic-expression",
+    "lhs:math.polynomial"
+  ],
+  "polymerase": [
+    "lhs:bio.transcription"
+  ],
+  "matching": [
+    "lhs:bio.translation"
+  ],
+  "corresponding": [
+    "lhs:bio.translation"
+  ],
+  "assemble": [
+    "lhs:bio.translation"
+  ],
+  "codons": [
+    "lhs:bio.translation"
+  ],
+  "decoded": [
+    "lhs:bio.translation"
+  ],
+  "linking": [
+    "lhs:bio.translation"
+  ],
+  "solution": [
+    "lhs:chem.acid",
+    "lhs:chem.base",
+    "lhs:chem.ph-scale"
+  ],
+  "bases": [
+    "lhs:chem.acid",
+    "lhs:chem.base"
+  ],
+  "red": [
+    "lhs:chem.acid",
+    "lhs:chem.base"
+  ],
+  "salts": [
+    "lhs:chem.acid"
+  ],
+  "form": [
+    "lhs:chem.acid",
+    "lhs:chem.base",
+    "lhs:chem.carboxylic-acid",
+    "lhs:chem.neutralization",
+    "lhs:math.complex-number",
+    "lhs:math.exponential-function",
+    "lhs:math.irrational-number",
+    "lhs:math.linear-function",
+    "lhs:math.natural-number",
+    "lhs:math.polynomial",
+    "lhs:math.quadratic-equation",
+    "lhs:math.quadratic-function",
+    "lhs:phys.change-of-state",
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.energy",
+    "lhs:phys.nuclear-fusion",
+    "lhs:phys.power"
+  ],
+  "releases": [
+    "lhs:chem.acid",
+    "lhs:chem.base",
+    "lhs:chem.combustion"
+  ],
+  "litmus": [
+    "lhs:chem.acid",
+    "lhs:chem.base"
+  ],
+  "turns": [
+    "lhs:chem.acid"
+  ],
+  "than": [
+    "lhs:chem.acid",
+    "lhs:chem.alkene",
+    "lhs:chem.base",
+    "lhs:math.exponential-function"
+  ],
+  "substance": [
+    "lhs:chem.acid",
+    "lhs:chem.base",
+    "lhs:chem.catalyst",
+    "lhs:chem.combustion",
+    "lhs:chem.compound",
+    "lhs:chem.element",
+    "lhs:phys.density",
+    "lhs:phys.phase-change",
+    "lhs:phys.physical-quantity",
+    "lhs:phys.specific-heat",
+    "lhs:phys.temperature",
+    "lhs:phys.thermal-energy"
+  ],
+  "has": [
+    "lhs:chem.acid",
+    "lhs:chem.matter",
+    "lhs:math.algebraic-expression",
+    "lhs:math.complex-number",
+    "lhs:math.matrix",
+    "lhs:phys.displacement",
+    "lhs:phys.distance",
+    "lhs:phys.scalar",
+    "lhs:phys.vector",
+    "lhs:phys.velocity"
+  ],
+  "paper": [
+    "lhs:chem.acid",
+    "lhs:chem.base"
+  ],
+  "hydrogen": [
+    "lhs:chem.acid",
+    "lhs:chem.hydrocarbon",
+    "lhs:chem.neutralization",
+    "lhs:chem.ph-scale",
+    "lhs:chem.salt",
+    "lhs:phys.bohr-model"
+  ],
+  "hydronium": [
+    "lhs:chem.acid"
+  ],
+  "less": [
+    "lhs:chem.acid"
+  ],
+  "blue": [
+    "lhs:chem.acid",
+    "lhs:chem.base"
+  ],
+  "ions": [
+    "lhs:chem.acid",
+    "lhs:chem.base",
+    "lhs:chem.ionic-bond",
+    "lhs:chem.neutralization"
+  ],
+  "h\u2083o": [
+    "lhs:chem.acid"
+  ],
+  "chemistry": [
+    "lhs:chem.acid",
+    "lhs:chem.activation-energy",
+    "lhs:chem.alcohol",
+    "lhs:chem.alkane",
+    "lhs:chem.alkene",
+    "lhs:chem.atom",
+    "lhs:chem.base",
+    "lhs:chem.carboxylic-acid",
+    "lhs:chem.catalyst",
+    "lhs:chem.chemical-equation",
+    "lhs:chem.chemical-equilibrium",
+    "lhs:chem.chemical-reaction",
+    "lhs:chem.combustion",
+    "lhs:chem.compound",
+    "lhs:chem.covalent-bond",
+    "lhs:chem.diffusion",
+    "lhs:chem.electrochemical-cell",
+    "lhs:chem.electrolysis",
+    "lhs:chem.electron",
+    "lhs:chem.element",
+    "lhs:chem.enthalpy",
+    "lhs:chem.entropy",
+    "lhs:chem.equilibrium-constant",
+    "lhs:chem.functional-group",
+    "lhs:chem.gibbs-free-energy",
+    "lhs:chem.hydrocarbon",
+    "lhs:chem.ionic-bond",
+    "lhs:chem.isomer",
+    "lhs:chem.le-chateliers-principle",
+    "lhs:chem.matter",
+    "lhs:chem.mixture",
+    "lhs:chem.neutralization",
+    "lhs:chem.oxidation-number",
+    "lhs:chem.oxidation-reduction",
+    "lhs:chem.periodic-table",
+    "lhs:chem.ph-scale",
+    "lhs:chem.polymer",
+    "lhs:chem.proton",
+    "lhs:chem.reaction-rate",
+    "lhs:chem.salt"
+  ],
+  "reacts": [
+    "lhs:chem.acid",
+    "lhs:chem.base"
+  ],
+  "tastes": [
+    "lhs:chem.acid"
+  ],
+  "sour": [
+    "lhs:chem.acid"
+  ],
+  "aqueous": [
+    "lhs:chem.acid",
+    "lhs:chem.base",
+    "lhs:chem.ph-scale"
+  ],
+  "exponential": [
+    "lhs:chem.activation-energy",
+    "lhs:math.exponential-function",
+    "lhs:math.logarithmic-function"
+  ],
+  "activated": [
+    "lhs:chem.activation-energy"
+  ],
+  "colliding": [
+    "lhs:chem.activation-energy"
+  ],
+  "complex": [
+    "lhs:chem.activation-energy",
+    "lhs:earth.earth-system",
+    "lhs:math.complex-number"
+  ],
+  "reactant": [
+    "lhs:chem.activation-energy",
+    "lhs:chem.equilibrium-constant",
+    "lhs:chem.reaction-rate"
+  ],
+  "possess": [
+    "lhs:chem.activation-energy",
+    "lhs:phys.quantized-energy-levels"
+  ],
+  "arrhenius": [
+    "lhs:chem.activation-energy"
+  ],
+  "relationship": [
+    "lhs:chem.activation-energy",
+    "lhs:phys.electromagnetism"
+  ],
+  "quantity": [
+    "lhs:chem.activation-energy",
+    "lhs:chem.enthalpy",
+    "lhs:chem.entropy",
+    "lhs:chem.equilibrium-constant",
+    "lhs:chem.gibbs-free-energy",
+    "lhs:chem.oxidation-number",
+    "lhs:chem.reaction-rate",
+    "lhs:math.area",
+    "lhs:math.combination",
+    "lhs:math.derivative",
+    "lhs:math.determinant",
+    "lhs:math.fraction",
+    "lhs:math.integral",
+    "lhs:math.mean",
+    "lhs:math.median",
+    "lhs:math.permutation",
+    "lhs:math.standard-deviation",
+    "lhs:math.variable",
+    "lhs:math.volume",
+    "lhs:phys.acceleration",
+    "lhs:phys.amplitude",
+    "lhs:phys.capacitor",
+    "lhs:phys.current",
+    "lhs:phys.density",
+    "lhs:phys.displacement",
+    "lhs:phys.distance",
+    "lhs:phys.electric-charge",
+    "lhs:phys.electric-field",
+    "lhs:phys.energy",
+    "lhs:phys.force",
+    "lhs:phys.frequency",
+    "lhs:phys.gravitational-acceleration",
+    "lhs:phys.half-life",
+    "lhs:phys.heat",
+    "lhs:phys.heat-capacity",
+    "lhs:phys.impulse",
+    "lhs:phys.kinetic-energy",
+    "lhs:phys.magnetic-flux",
+    "lhs:phys.magnetic-force",
+    "lhs:phys.mass",
+    "lhs:phys.measurement",
+    "lhs:phys.momentum",
+    "lhs:phys.nuclear-binding-energy",
+    "lhs:phys.physical-quantity",
+    "lhs:phys.potential-energy",
+    "lhs:phys.power",
+    "lhs:phys.pressure",
+    "lhs:phys.resistance",
+    "lhs:phys.scalar",
+    "lhs:phys.specific-heat",
+    "lhs:phys.speed",
+    "lhs:phys.temperature",
+    "lhs:phys.thermal-energy",
+    "lhs:phys.time",
+    "lhs:phys.unit",
+    "lhs:phys.vector",
+    "lhs:phys.velocity",
+    "lhs:phys.voltage",
+    "lhs:phys.wave-speed",
+    "lhs:phys.wavelength",
+    "lhs:phys.weight",
+    "lhs:phys.work"
+  ],
+  "rate": [
+    "lhs:chem.activation-energy",
+    "lhs:chem.catalyst",
+    "lhs:chem.reaction-rate",
+    "lhs:math.derivative",
+    "lhs:math.linear-function",
+    "lhs:phys.acceleration",
+    "lhs:phys.current",
+    "lhs:phys.force",
+    "lhs:phys.newtons-second-law",
+    "lhs:phys.power",
+    "lhs:phys.speed",
+    "lhs:phys.velocity"
+  ],
+  "occur": [
+    "lhs:chem.activation-energy",
+    "lhs:chem.oxidation-reduction",
+    "lhs:math.probability"
+  ],
+  "governs": [
+    "lhs:chem.activation-energy",
+    "lhs:phys.gravitation"
+  ],
+  "particles": [
+    "lhs:chem.activation-energy",
+    "lhs:chem.diffusion",
+    "lhs:chem.matter",
+    "lhs:phys.brownian-motion",
+    "lhs:phys.ideal-gas-model",
+    "lhs:phys.radioactivity",
+    "lhs:phys.temperature",
+    "lhs:phys.thermal-energy"
+  ],
+  "must": [
+    "lhs:chem.activation-energy",
+    "lhs:math.logarithmic-function"
+  ],
+  "minimum": [
+    "lhs:chem.activation-energy",
+    "lhs:math.quadratic-function"
+  ],
+  "liquids": [
+    "lhs:chem.alcohol"
+  ],
+  "hydrogen-bonding": [
+    "lhs:chem.alcohol"
+  ],
+  "saturated": [
+    "lhs:chem.alcohol",
+    "lhs:chem.alkane"
+  ],
+  "polar": [
+    "lhs:chem.alcohol"
+  ],
+  "methanol": [
+    "lhs:chem.alcohol"
+  ],
+  "atom": [
+    "lhs:chem.alcohol",
+    "lhs:chem.alkane",
+    "lhs:chem.atom",
+    "lhs:chem.functional-group",
+    "lhs:chem.ionic-bond",
+    "lhs:chem.oxidation-number",
+    "lhs:phys.atomic-structure",
+    "lhs:phys.bohr-model",
+    "lhs:phys.quantized-energy-levels"
+  ],
+  "alcohol": [
+    "lhs:chem.alcohol"
+  ],
+  "more": [
+    "lhs:chem.alcohol",
+    "lhs:chem.alkene",
+    "lhs:chem.chemical-reaction",
+    "lhs:chem.compound",
+    "lhs:chem.covalent-bond",
+    "lhs:chem.ionic-bond",
+    "lhs:chem.isomer",
+    "lhs:chem.mixture",
+    "lhs:phys.wave-interference"
+  ],
+  "high-molecular-mass": [
+    "lhs:chem.alcohol"
+  ],
+  "polyols": [
+    "lhs:chem.alcohol"
+  ],
+  "groups": [
+    "lhs:chem.alcohol",
+    "lhs:chem.periodic-table"
+  ],
+  "ethanol": [
+    "lhs:chem.alcohol"
+  ],
+  "compound": [
+    "lhs:chem.alcohol",
+    "lhs:chem.carboxylic-acid",
+    "lhs:chem.compound",
+    "lhs:chem.electrolysis",
+    "lhs:chem.oxidation-number",
+    "lhs:chem.salt"
+  ],
+  "hydroxyl": [
+    "lhs:chem.alcohol",
+    "lhs:chem.carboxylic-acid"
+  ],
+  "bonded": [
+    "lhs:chem.alcohol",
+    "lhs:chem.alkane",
+    "lhs:chem.carboxylic-acid",
+    "lhs:chem.compound",
+    "lhs:chem.mixture"
+  ],
+  "alcohols": [
+    "lhs:chem.alcohol"
+  ],
+  "others": [
+    "lhs:chem.alkane"
+  ],
+  "bonds": [
+    "lhs:chem.alkane",
+    "lhs:chem.chemical-reaction",
+    "lhs:chem.oxidation-number",
+    "lhs:chem.polymer",
+    "lhs:phys.change-of-state"
+  ],
+  "general": [
+    "lhs:chem.alkane",
+    "lhs:chem.alkene",
+    "lhs:math.polynomial"
+  ],
+  "series": [
+    "lhs:chem.alkane",
+    "lhs:chem.alkene"
+  ],
+  "alkane": [
+    "lhs:chem.alkane"
+  ],
+  "every": [
+    "lhs:chem.alkane",
+    "lhs:math.complex-number",
+    "lhs:math.continuity",
+    "lhs:phys.newtons-law-of-gravitation",
+    "lhs:phys.newtons-third-law"
+  ],
+  "alkanes": [
+    "lhs:chem.alkane",
+    "lhs:chem.alkene",
+    "lhs:chem.hydrocarbon"
+  ],
+  "acyclic": [
+    "lhs:chem.alkane"
+  ],
+  "only": [
+    "lhs:chem.alkane",
+    "lhs:math.algebraic-expression",
+    "lhs:math.polynomial",
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.equations-of-motion"
+  ],
+  "c\u2099h\u2082\u2099\u2082": [
+    "lhs:chem.alkane"
+  ],
+  "simplest": [
+    "lhs:chem.alkane"
+  ],
+  "formula": [
+    "lhs:chem.alkane",
+    "lhs:chem.alkene",
+    "lhs:chem.isomer",
+    "lhs:math.quadratic-equation",
+    "lhs:math.sequence"
+  ],
+  "hydrocarbon": [
+    "lhs:chem.alkane",
+    "lhs:chem.alkene",
+    "lhs:chem.hydrocarbon"
+  ],
+  "compounds": [
+    "lhs:chem.alkane",
+    "lhs:chem.compound",
+    "lhs:chem.hydrocarbon",
+    "lhs:chem.isomer"
+  ],
+  "covalent": [
+    "lhs:chem.alkane",
+    "lhs:chem.covalent-bond",
+    "lhs:chem.polymer"
+  ],
+  "member": [
+    "lhs:chem.alkene"
+  ],
+  "reactive": [
+    "lhs:chem.alkene"
+  ],
+  "carbon-to-carbon": [
+    "lhs:chem.alkene"
+  ],
+  "double": [
+    "lhs:chem.alkene"
+  ],
+  "least": [
+    "lhs:chem.alkene"
+  ],
+  "makes": [
+    "lhs:chem.alkene",
+    "lhs:math.fundamental-theorem-of-calculus"
+  ],
+  "alkenes": [
+    "lhs:chem.alkene",
+    "lhs:chem.hydrocarbon"
+  ],
+  "c\u2099h\u2082\u2099": [
+    "lhs:chem.alkene"
+  ],
+  "unsaturated": [
+    "lhs:chem.alkene"
+  ],
+  "alkene": [
+    "lhs:chem.alkene"
+  ],
+  "bond": [
+    "lhs:chem.alkene",
+    "lhs:chem.covalent-bond",
+    "lhs:chem.ionic-bond"
+  ],
+  "presence": [
+    "lhs:chem.alkene",
+    "lhs:chem.reaction-rate"
+  ],
+  "neutrons": [
+    "lhs:chem.atom",
+    "lhs:phys.atomic-structure"
+  ],
+  "element": [
+    "lhs:chem.atom",
+    "lhs:chem.chemical-equation",
+    "lhs:chem.element",
+    "lhs:phys.atomic-structure"
+  ],
+  "dense": [
+    "lhs:chem.atom",
+    "lhs:earth.big-bang-theory",
+    "lhs:phys.atomic-structure"
+  ],
+  "consists": [
+    "lhs:chem.atom"
+  ],
+  "cloud": [
+    "lhs:chem.atom"
+  ],
+  "properties": [
+    "lhs:chem.atom",
+    "lhs:chem.compound",
+    "lhs:chem.functional-group",
+    "lhs:chem.periodic-table",
+    "lhs:math.determinant",
+    "lhs:phys.wave-speed"
+  ],
+  "smallest": [
+    "lhs:chem.atom"
+  ],
+  "surrounded": [
+    "lhs:chem.atom",
+    "lhs:phys.atomic-structure"
+  ],
+  "protons": [
+    "lhs:chem.atom",
+    "lhs:chem.base",
+    "lhs:chem.element",
+    "lhs:phys.atomic-structure"
+  ],
+  "electrons": [
+    "lhs:chem.atom",
+    "lhs:chem.covalent-bond",
+    "lhs:chem.ionic-bond",
+    "lhs:chem.oxidation-reduction",
+    "lhs:phys.atomic-structure",
+    "lhs:phys.bohr-model",
+    "lhs:phys.photoelectric-effect"
+  ],
+  "retains": [
+    "lhs:chem.atom"
+  ],
+  "slippery": [
+    "lhs:chem.base"
+  ],
+  "have": [
+    "lhs:chem.base",
+    "lhs:chem.compound",
+    "lhs:chem.element",
+    "lhs:chem.isomer",
+    "lhs:chem.oxidation-number",
+    "lhs:math.matrix",
+    "lhs:math.quadratic-equation",
+    "lhs:phys.specific-heat"
+  ],
+  "accepts": [
+    "lhs:chem.base"
+  ],
+  "greater": [
+    "lhs:chem.base",
+    "lhs:phys.amplitude"
+  ],
+  "salt": [
+    "lhs:chem.base",
+    "lhs:chem.neutralization",
+    "lhs:chem.salt"
+  ],
+  "hydroxide": [
+    "lhs:chem.base",
+    "lhs:chem.neutralization"
+  ],
+  "alkali": [
+    "lhs:chem.base",
+    "lhs:chem.neutralization"
+  ],
+  "turn": [
+    "lhs:chem.base"
+  ],
+  "feel": [
+    "lhs:chem.base"
+  ],
+  "taste": [
+    "lhs:chem.base"
+  ],
+  "bitter": [
+    "lhs:chem.base"
+  ],
+  "weak": [
+    "lhs:chem.carboxylic-acid"
+  ],
+  "group": [
+    "lhs:chem.carboxylic-acid",
+    "lhs:chem.functional-group"
+  ],
+  "carbonyl": [
+    "lhs:chem.carboxylic-acid"
+  ],
+  "cooh": [
+    "lhs:chem.carboxylic-acid"
+  ],
+  "carboxyl": [
+    "lhs:chem.carboxylic-acid"
+  ],
+  "carboxylate": [
+    "lhs:chem.carboxylic-acid"
+  ],
+  "anions": [
+    "lhs:chem.carboxylic-acid"
+  ],
+  "proton": [
+    "lhs:chem.carboxylic-acid",
+    "lhs:chem.electron",
+    "lhs:chem.proton"
+  ],
+  "carboxylic": [
+    "lhs:chem.carboxylic-acid"
+  ],
+  "donate": [
+    "lhs:chem.carboxylic-acid"
+  ],
+  "alter": [
+    "lhs:chem.catalyst"
+  ],
+  "regenerated": [
+    "lhs:chem.catalyst"
+  ],
+  "not": [
+    "lhs:chem.catalyst",
+    "lhs:chem.chemical-equilibrium",
+    "lhs:chem.mixture",
+    "lhs:math.combination",
+    "lhs:math.exponential-function",
+    "lhs:math.fraction",
+    "lhs:phys.energy-loss",
+    "lhs:phys.heat",
+    "lhs:phys.inertia",
+    "lhs:phys.magnetic-force",
+    "lhs:phys.wave-speed"
+  ],
+  "equilibrium": [
+    "lhs:chem.catalyst",
+    "lhs:chem.chemical-equilibrium",
+    "lhs:chem.equilibrium-constant",
+    "lhs:chem.le-chateliers-principle",
+    "lhs:phys.amplitude",
+    "lhs:phys.simple-harmonic-motion"
+  ],
+  "position": [
+    "lhs:chem.catalyst",
+    "lhs:chem.equilibrium-constant",
+    "lhs:math.decimal",
+    "lhs:phys.amplitude",
+    "lhs:phys.displacement",
+    "lhs:phys.motion",
+    "lhs:phys.potential-energy"
+  ],
+  "increases": [
+    "lhs:chem.catalyst"
+  ],
+  "does": [
+    "lhs:chem.catalyst",
+    "lhs:chem.chemical-equilibrium",
+    "lhs:math.combination"
+  ],
+  "itself": [
+    "lhs:chem.catalyst"
+  ],
+  "overall": [
+    "lhs:chem.catalyst",
+    "lhs:phys.energy-loss"
+  ],
+  "showing": [
+    "lhs:chem.chemical-equation"
+  ],
+  "left": [
+    "lhs:chem.chemical-equation"
+  ],
+  "representation": [
+    "lhs:chem.chemical-equation",
+    "lhs:math.decimal",
+    "lhs:math.irrational-number",
+    "lhs:math.matrix"
+  ],
+  "atoms": [
+    "lhs:chem.chemical-equation",
+    "lhs:chem.chemical-reaction",
+    "lhs:chem.covalent-bond",
+    "lhs:chem.element",
+    "lhs:chem.functional-group",
+    "lhs:chem.hydrocarbon",
+    "lhs:chem.isomer",
+    "lhs:chem.oxidation-number",
+    "lhs:phys.bohr-model"
+  ],
+  "conserved": [
+    "lhs:chem.chemical-equation",
+    "lhs:phys.energy-loss",
+    "lhs:phys.momentum"
+  ],
+  "reactants": [
+    "lhs:chem.chemical-equation",
+    "lhs:chem.chemical-equilibrium",
+    "lhs:chem.chemical-reaction"
+  ],
+  "products": [
+    "lhs:chem.chemical-equation",
+    "lhs:chem.chemical-equilibrium",
+    "lhs:chem.chemical-reaction"
+  ],
+  "balanced": [
+    "lhs:chem.chemical-equation"
+  ],
+  "ratios": [
+    "lhs:chem.chemical-equation",
+    "lhs:math.proportion",
+    "lhs:math.ratio",
+    "lhs:math.trigonometric-ratio"
+  ],
+  "right": [
+    "lhs:chem.chemical-equation",
+    "lhs:math.pythagorean-theorem",
+    "lhs:math.triangle",
+    "lhs:math.trigonometric-ratio"
+  ],
+  "arrow": [
+    "lhs:chem.chemical-equation"
+  ],
+  "equation": [
+    "lhs:chem.chemical-equation",
+    "lhs:math.algebraic-expression",
+    "lhs:math.linear-equation",
+    "lhs:math.proportion",
+    "lhs:math.quadratic-equation",
+    "lhs:phys.equations-of-motion"
+  ],
+  "symbolic": [
+    "lhs:chem.chemical-equation"
+  ],
+  "coefficient": [
+    "lhs:chem.chemical-equation",
+    "lhs:math.combination"
+  ],
+  "imply": [
+    "lhs:chem.chemical-equilibrium"
+  ],
+  "quantities": [
+    "lhs:chem.chemical-equilibrium",
+    "lhs:math.ratio",
+    "lhs:phys.measurement",
+    "lhs:phys.physical-quantity",
+    "lhs:phys.time",
+    "lhs:phys.vector"
+  ],
+  "equal": [
+    "lhs:chem.chemical-equilibrium",
+    "lhs:chem.enthalpy",
+    "lhs:math.exponential-function",
+    "lhs:math.fraction",
+    "lhs:math.median",
+    "lhs:math.proportion",
+    "lhs:phys.newtons-third-law"
+  ],
+  "forward": [
+    "lhs:chem.chemical-equilibrium"
+  ],
+  "reversible": [
+    "lhs:chem.chemical-equilibrium"
+  ],
+  "dynamic": [
+    "lhs:chem.chemical-equilibrium",
+    "lhs:chem.le-chateliers-principle"
+  ],
+  "concentrations": [
+    "lhs:chem.chemical-equilibrium",
+    "lhs:chem.diffusion",
+    "lhs:chem.equilibrium-constant"
+  ],
+  "remain": [
+    "lhs:chem.chemical-equilibrium"
+  ],
+  "reverse": [
+    "lhs:chem.chemical-equilibrium"
+  ],
+  "state": [
+    "lhs:chem.chemical-equilibrium",
+    "lhs:earth.big-bang-theory",
+    "lhs:phys.change-of-state",
+    "lhs:phys.inertia"
+  ],
+  "constant": [
+    "lhs:chem.chemical-equilibrium",
+    "lhs:chem.enthalpy",
+    "lhs:chem.equilibrium-constant",
+    "lhs:chem.gibbs-free-energy",
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.exponential-function",
+    "lhs:math.geometric-sequence",
+    "lhs:math.linear-function",
+    "lhs:phys.change-of-state",
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.equations-of-motion",
+    "lhs:phys.gravitational-acceleration",
+    "lhs:phys.half-life",
+    "lhs:phys.inertia",
+    "lhs:phys.newtons-first-law",
+    "lhs:phys.newtons-second-law",
+    "lhs:phys.ohms-law",
+    "lhs:phys.phase-change",
+    "lhs:phys.work"
+  ],
+  "breaking": [
+    "lhs:chem.chemical-reaction"
+  ],
+  "chemically": [
+    "lhs:chem.chemical-reaction",
+    "lhs:chem.compound",
+    "lhs:chem.mixture"
+  ],
+  "transformed": [
+    "lhs:chem.chemical-reaction"
+  ],
+  "mass": [
+    "lhs:chem.chemical-reaction",
+    "lhs:chem.electron",
+    "lhs:chem.matter",
+    "lhs:chem.proton",
+    "lhs:phys.density",
+    "lhs:phys.free-fall",
+    "lhs:phys.gravitation",
+    "lhs:phys.gravitational-acceleration",
+    "lhs:phys.heat-capacity",
+    "lhs:phys.inertia",
+    "lhs:phys.kinetic-energy",
+    "lhs:phys.mass",
+    "lhs:phys.momentum",
+    "lhs:phys.newtons-law-of-gravitation",
+    "lhs:phys.newtons-second-law",
+    "lhs:phys.nuclear-binding-energy",
+    "lhs:phys.potential-energy",
+    "lhs:phys.thermal-energy"
+  ],
+  "conserving": [
+    "lhs:chem.chemical-reaction"
+  ],
+  "total": [
+    "lhs:chem.chemical-reaction",
+    "lhs:math.fraction",
+    "lhs:math.probability",
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.distance",
+    "lhs:phys.efficiency",
+    "lhs:phys.magnetic-flux",
+    "lhs:phys.speed",
+    "lhs:phys.thermal-energy"
+  ],
+  "usually": [
+    "lhs:chem.combustion",
+    "lhs:chem.reaction-rate",
+    "lhs:math.matrix",
+    "lhs:math.sequence",
+    "lhs:math.variable",
+    "lhs:phys.efficiency"
+  ],
+  "hydrocarbons": [
+    "lhs:chem.combustion",
+    "lhs:chem.hydrocarbon"
+  ],
+  "monoxide": [
+    "lhs:chem.combustion"
+  ],
+  "combustion": [
+    "lhs:chem.combustion"
+  ],
+  "oxidant": [
+    "lhs:chem.combustion"
+  ],
+  "complete": [
+    "lhs:chem.combustion",
+    "lhs:chem.ionic-bond",
+    "lhs:phys.frequency"
+  ],
+  "soot": [
+    "lhs:chem.combustion"
+  ],
+  "between": [
+    "lhs:chem.combustion",
+    "lhs:chem.covalent-bond",
+    "lhs:chem.hydrocarbon",
+    "lhs:chem.ionic-bond",
+    "lhs:chem.neutralization",
+    "lhs:chem.oxidation-reduction",
+    "lhs:earth.water-cycle",
+    "lhs:epist.observation-vs-inference",
+    "lhs:math.function",
+    "lhs:math.integral",
+    "lhs:math.probability",
+    "lhs:phys.change-of-state",
+    "lhs:phys.coulombs-law",
+    "lhs:phys.distance",
+    "lhs:phys.doppler-effect",
+    "lhs:phys.electric-motor",
+    "lhs:phys.electromagnetism",
+    "lhs:phys.energy",
+    "lhs:phys.friction",
+    "lhs:phys.newtons-law-of-gravitation",
+    "lhs:phys.ohms-law",
+    "lhs:phys.phase-change",
+    "lhs:phys.quantized-energy-levels",
+    "lhs:phys.time",
+    "lhs:phys.voltage",
+    "lhs:phys.wavelength"
+  ],
+  "elements": [
+    "lhs:chem.compound",
+    "lhs:chem.electrolysis",
+    "lhs:chem.element",
+    "lhs:chem.periodic-table",
+    "lhs:math.circle"
+  ],
+  "fixed": [
+    "lhs:chem.compound",
+    "lhs:math.circle",
+    "lhs:math.exponential-function"
+  ],
+  "formed": [
+    "lhs:chem.compound",
+    "lhs:chem.covalent-bond",
+    "lhs:chem.ionic-bond",
+    "lhs:chem.polymer",
+    "lhs:chem.salt",
+    "lhs:math.angle"
+  ],
+  "ratio": [
+    "lhs:chem.compound",
+    "lhs:chem.equilibrium-constant",
+    "lhs:math.geometric-sequence",
+    "lhs:math.irrational-number",
+    "lhs:math.percentage",
+    "lhs:math.ratio",
+    "lhs:math.trigonometric-ratio",
+    "lhs:phys.capacitor",
+    "lhs:phys.efficiency"
+  ],
+  "when": [
+    "lhs:chem.compound",
+    "lhs:chem.covalent-bond",
+    "lhs:chem.salt",
+    "lhs:math.continuity",
+    "lhs:math.geometric-sequence",
+    "lhs:phys.electric-charge",
+    "lhs:phys.electromagnetic-induction",
+    "lhs:phys.equations-of-motion",
+    "lhs:phys.heating-effect",
+    "lhs:phys.newtons-third-law",
+    "lhs:phys.nuclear-binding-energy",
+    "lhs:phys.photoelectric-effect",
+    "lhs:phys.wave-interference"
+  ],
+  "pure": [
+    "lhs:chem.compound",
+    "lhs:chem.element"
+  ],
+  "stoichiometric": [
+    "lhs:chem.compound",
+    "lhs:chem.equilibrium-constant"
+  ],
+  "constituent": [
+    "lhs:chem.compound"
+  ],
+  "achieving": [
+    "lhs:chem.covalent-bond"
+  ],
+  "noble-gas": [
+    "lhs:chem.covalent-bond"
+  ],
+  "electron": [
+    "lhs:chem.covalent-bond",
+    "lhs:chem.electron",
+    "lhs:chem.oxidation-number"
+  ],
+  "electrostatic": [
+    "lhs:chem.covalent-bond",
+    "lhs:chem.ionic-bond",
+    "lhs:phys.coulombs-law"
+  ],
+  "valence": [
+    "lhs:chem.covalent-bond",
+    "lhs:chem.ionic-bond"
+  ],
+  "mutual": [
+    "lhs:chem.covalent-bond"
+  ],
+  "non-metal": [
+    "lhs:chem.covalent-bond",
+    "lhs:chem.ionic-bond"
+  ],
+  "pairs": [
+    "lhs:chem.covalent-bond"
+  ],
+  "share": [
+    "lhs:chem.covalent-bond"
+  ],
+  "attraction": [
+    "lhs:chem.covalent-bond",
+    "lhs:chem.ionic-bond"
+  ],
+  "configurations": [
+    "lhs:chem.covalent-bond",
+    "lhs:chem.isomer"
+  ],
+  "until": [
+    "lhs:chem.diffusion"
+  ],
+  "equalize": [
+    "lhs:chem.diffusion"
+  ],
+  "motion": [
+    "lhs:chem.diffusion",
+    "lhs:phys.brownian-motion",
+    "lhs:phys.doppler-effect",
+    "lhs:phys.equations-of-motion",
+    "lhs:phys.force",
+    "lhs:phys.free-fall",
+    "lhs:phys.friction",
+    "lhs:phys.graphical-analysis",
+    "lhs:phys.gravitation",
+    "lhs:phys.inertia",
+    "lhs:phys.kinetic-energy",
+    "lhs:phys.magnetic-force",
+    "lhs:phys.momentum",
+    "lhs:phys.motion",
+    "lhs:phys.newtons-first-law",
+    "lhs:phys.newtons-third-law",
+    "lhs:phys.projectile-motion",
+    "lhs:phys.simple-harmonic-motion",
+    "lhs:phys.thermal-energy"
+  ],
+  "random": [
+    "lhs:chem.diffusion",
+    "lhs:phys.brownian-motion",
+    "lhs:phys.thermal-energy"
+  ],
+  "driven": [
+    "lhs:chem.diffusion",
+    "lhs:chem.electrolysis",
+    "lhs:earth.plate-tectonics",
+    "lhs:earth.rock-cycle",
+    "lhs:earth.water-cycle"
+  ],
+  "diffusion": [
+    "lhs:chem.diffusion"
+  ],
+  "thermal": [
+    "lhs:chem.diffusion",
+    "lhs:chem.matter",
+    "lhs:earth.greenhouse-effect",
+    "lhs:phys.energy-loss",
+    "lhs:phys.heating-effect",
+    "lhs:phys.resistance",
+    "lhs:phys.thermal-energy"
+  ],
+  "electrochemical": [
+    "lhs:chem.electrochemical-cell"
+  ],
+  "conversely": [
+    "lhs:chem.electrochemical-cell"
+  ],
+  "device": [
+    "lhs:chem.electrochemical-cell",
+    "lhs:phys.capacitor",
+    "lhs:phys.lens"
+  ],
+  "generate": [
+    "lhs:chem.electrochemical-cell"
+  ],
+  "electrolytic": [
+    "lhs:chem.electrochemical-cell",
+    "lhs:chem.electrolysis"
+  ],
+  "redox": [
+    "lhs:chem.electrochemical-cell",
+    "lhs:chem.electrolysis"
+  ],
+  "drive": [
+    "lhs:chem.electrochemical-cell"
+  ],
+  "use": [
+    "lhs:chem.electrochemical-cell",
+    "lhs:phys.graphical-analysis"
+  ],
+  "voltaic": [
+    "lhs:chem.electrochemical-cell"
+  ],
+  "electricity": [
+    "lhs:chem.electrochemical-cell",
+    "lhs:phys.electromagnetism",
+    "lhs:phys.magnetism"
+  ],
+  "voltage": [
+    "lhs:chem.electrochemical-cell",
+    "lhs:chem.electrolysis",
+    "lhs:phys.electromagnetic-induction",
+    "lhs:phys.ohms-law",
+    "lhs:phys.voltage"
+  ],
+  "spontaneous": [
+    "lhs:chem.electrochemical-cell",
+    "lhs:chem.entropy",
+    "lhs:chem.gibbs-free-energy",
+    "lhs:phys.radioactivity"
+  ],
+  "galvanic": [
+    "lhs:chem.electrochemical-cell"
+  ],
+  "converts": [
+    "lhs:chem.electrochemical-cell",
+    "lhs:phys.electric-motor",
+    "lhs:phys.generator",
+    "lhs:phys.resistance"
+  ],
+  "electrolyte": [
+    "lhs:chem.electrolysis"
+  ],
+  "nonspontaneous": [
+    "lhs:chem.electrolysis"
+  ],
+  "simpler": [
+    "lhs:chem.electrolysis",
+    "lhs:chem.element"
+  ],
+  "electric": [
+    "lhs:chem.electrolysis",
+    "lhs:chem.electron",
+    "lhs:chem.proton",
+    "lhs:phys.capacitor",
+    "lhs:phys.current",
+    "lhs:phys.electric-charge",
+    "lhs:phys.electric-field",
+    "lhs:phys.electric-motor",
+    "lhs:phys.electromagnetic-induction",
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.electromagnetism",
+    "lhs:phys.generator",
+    "lhs:phys.heating-effect",
+    "lhs:phys.magnetism",
+    "lhs:phys.resistance",
+    "lhs:phys.voltage"
+  ],
+  "current": [
+    "lhs:chem.electrolysis",
+    "lhs:phys.current",
+    "lhs:phys.heating-effect",
+    "lhs:phys.ohms-law",
+    "lhs:phys.resistance",
+    "lhs:phys.voltage"
+  ],
+  "key": [
+    "lhs:chem.electrolysis",
+    "lhs:math.circle"
+  ],
+  "enabling": [
+    "lhs:chem.electrolysis",
+    "lhs:math.integer",
+    "lhs:phys.measurement",
+    "lhs:phys.physical-quantity"
+  ],
+  "decomposition": [
+    "lhs:chem.electrolysis"
+  ],
+  "electrolysis": [
+    "lhs:chem.electrolysis"
+  ],
+  "-1e": [
+    "lhs:chem.electron"
+  ],
+  "subatomic": [
+    "lhs:chem.electron",
+    "lhs:chem.proton"
+  ],
+  "negative": [
+    "lhs:chem.electron",
+    "lhs:chem.gibbs-free-energy",
+    "lhs:chem.ph-scale",
+    "lhs:math.integer",
+    "lhs:phys.electric-charge"
+  ],
+  "elementary": [
+    "lhs:chem.electron",
+    "lhs:chem.proton"
+  ],
+  "approximately": [
+    "lhs:chem.electron",
+    "lhs:chem.proton",
+    "lhs:earth.big-bang-theory",
+    "lhs:phys.gravitational-acceleration"
+  ],
+  "orbitals": [
+    "lhs:chem.electron",
+    "lhs:phys.atomic-structure"
+  ],
+  "9109": [
+    "lhs:chem.electron"
+  ],
+  "occupying": [
+    "lhs:chem.electron",
+    "lhs:chem.matter"
+  ],
+  "10\u00b3\u00b9": [
+    "lhs:chem.electron"
+  ],
+  "11836th": [
+    "lhs:chem.electron"
+  ],
+  "surrounding": [
+    "lhs:chem.electron",
+    "lhs:earth.atmosphere",
+    "lhs:phys.electric-field"
+  ],
+  "atomic": [
+    "lhs:chem.electron",
+    "lhs:chem.element",
+    "lhs:chem.periodic-table",
+    "lhs:chem.proton",
+    "lhs:phys.atomic-structure",
+    "lhs:phys.nuclear-fission",
+    "lhs:phys.nuclear-fusion",
+    "lhs:phys.radioactivity"
+  ],
+  "particle": [
+    "lhs:chem.electron",
+    "lhs:chem.proton",
+    "lhs:phys.light"
+  ],
+  "charge": [
+    "lhs:chem.electron",
+    "lhs:chem.oxidation-number",
+    "lhs:chem.proton",
+    "lhs:phys.capacitor",
+    "lhs:phys.current",
+    "lhs:phys.electric-charge",
+    "lhs:phys.electric-field",
+    "lhs:phys.generator",
+    "lhs:phys.magnetic-force",
+    "lhs:phys.voltage"
+  ],
+  "cannot": [
+    "lhs:chem.element",
+    "lhs:math.algebraic-expression",
+    "lhs:math.irrational-number",
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.sound"
+  ],
+  "consisting": [
+    "lhs:chem.element",
+    "lhs:earth.solar-system",
+    "lhs:math.polynomial"
+  ],
+  "ordinary": [
+    "lhs:chem.element",
+    "lhs:phys.scalar"
+  ],
+  "broken": [
+    "lhs:chem.element"
+  ],
+  "enthalpy": [
+    "lhs:chem.enthalpy",
+    "lhs:chem.gibbs-free-energy"
+  ],
+  "plus": [
+    "lhs:chem.enthalpy"
+  ],
+  "volume": [
+    "lhs:chem.enthalpy",
+    "lhs:chem.matter",
+    "lhs:math.volume",
+    "lhs:phys.density"
+  ],
+  "released": [
+    "lhs:chem.enthalpy",
+    "lhs:phys.nuclear-binding-energy",
+    "lhs:phys.phase-change"
+  ],
+  "thermodynamic": [
+    "lhs:chem.enthalpy",
+    "lhs:chem.entropy",
+    "lhs:chem.gibbs-free-energy"
+  ],
+  "absorbed": [
+    "lhs:chem.enthalpy",
+    "lhs:phys.phase-change"
+  ],
+  "measures": [
+    "lhs:chem.enthalpy",
+    "lhs:chem.entropy",
+    "lhs:math.integral",
+    "lhs:phys.power"
+  ],
+  "disorder": [
+    "lhs:chem.entropy"
+  ],
+  "available": [
+    "lhs:chem.entropy",
+    "lhs:phys.energy-loss"
+  ],
+  "expressed": [
+    "lhs:chem.entropy",
+    "lhs:chem.reaction-rate",
+    "lhs:math.irrational-number",
+    "lhs:math.percentage",
+    "lhs:math.probability",
+    "lhs:math.ratio",
+    "lhs:math.rational-number",
+    "lhs:phys.efficiency",
+    "lhs:phys.physical-quantity"
+  ],
+  "measure": [
+    "lhs:chem.entropy",
+    "lhs:math.area",
+    "lhs:math.probability",
+    "lhs:math.standard-deviation",
+    "lhs:math.volume",
+    "lhs:phys.magnetic-flux",
+    "lhs:phys.temperature"
+  ],
+  "entropy": [
+    "lhs:chem.entropy",
+    "lhs:chem.gibbs-free-energy"
+  ],
+  "arrangements": [
+    "lhs:chem.entropy",
+    "lhs:chem.isomer"
+  ],
+  "dispersal": [
+    "lhs:chem.entropy"
+  ],
+  "microstates": [
+    "lhs:chem.entropy"
+  ],
+  "tends": [
+    "lhs:chem.entropy",
+    "lhs:chem.le-chateliers-principle"
+  ],
+  "increase": [
+    "lhs:chem.entropy",
+    "lhs:chem.reaction-rate"
+  ],
+  "microscopic": [
+    "lhs:chem.entropy",
+    "lhs:phys.brownian-motion"
+  ],
+  "coefficients": [
+    "lhs:chem.equilibrium-constant",
+    "lhs:math.polynomial"
+  ],
+  "dimensionless": [
+    "lhs:chem.equilibrium-constant"
+  ],
+  "given": [
+    "lhs:chem.equilibrium-constant",
+    "lhs:math.limit",
+    "lhs:phys.frequency",
+    "lhs:phys.half-life",
+    "lhs:phys.magnetic-flux"
+  ],
+  "theirs": [
+    "lhs:chem.equilibrium-constant"
+  ],
+  "characterizes": [
+    "lhs:chem.equilibrium-constant"
+  ],
+  "raised": [
+    "lhs:chem.equilibrium-constant",
+    "lhs:math.logarithmic-function"
+  ],
+  "skeleton": [
+    "lhs:chem.functional-group"
+  ],
+  "regardless": [
+    "lhs:chem.functional-group",
+    "lhs:math.percentage",
+    "lhs:phys.distance",
+    "lhs:phys.free-fall",
+    "lhs:phys.gravitational-acceleration"
+  ],
+  "determines": [
+    "lhs:chem.functional-group",
+    "lhs:phys.amplitude",
+    "lhs:phys.atomic-structure",
+    "lhs:phys.density",
+    "lhs:phys.frequency",
+    "lhs:phys.temperature",
+    "lhs:phys.wavelength"
+  ],
+  "confers": [
+    "lhs:chem.functional-group"
+  ],
+  "predictable": [
+    "lhs:chem.functional-group"
+  ],
+  "attached": [
+    "lhs:chem.functional-group"
+  ],
+  "indicates": [
+    "lhs:chem.gibbs-free-energy",
+    "lhs:math.standard-deviation"
+  ],
+  "combines": [
+    "lhs:chem.gibbs-free-energy"
+  ],
+  "predict": [
+    "lhs:chem.gibbs-free-energy"
+  ],
+  "free": [
+    "lhs:chem.gibbs-free-energy",
+    "lhs:phys.free-fall",
+    "lhs:phys.magnetic-force"
+  ],
+  "gibbs": [
+    "lhs:chem.gibbs-free-energy"
+  ],
+  "whether": [
+    "lhs:chem.gibbs-free-energy",
+    "lhs:math.determinant",
+    "lhs:phys.acceleration",
+    "lhs:phys.density",
+    "lhs:phys.inertia"
+  ],
+  "entirely": [
+    "lhs:chem.hydrocarbon"
+  ],
+  "aromatic": [
+    "lhs:chem.hydrocarbon"
+  ],
+  "bonding": [
+    "lhs:chem.hydrocarbon"
+  ],
+  "according": [
+    "lhs:chem.hydrocarbon"
+  ],
+  "framework": [
+    "lhs:chem.hydrocarbon"
+  ],
+  "alkynes": [
+    "lhs:chem.hydrocarbon"
+  ],
+  "classified": [
+    "lhs:chem.hydrocarbon",
+    "lhs:math.sequence",
+    "lhs:math.triangle",
+    "lhs:phys.energy-sources"
+  ],
+  "charged": [
+    "lhs:chem.ionic-bond",
+    "lhs:phys.atomic-structure"
+  ],
+  "ionic": [
+    "lhs:chem.ionic-bond",
+    "lhs:chem.oxidation-number",
+    "lhs:chem.salt"
+  ],
+  "oppositely": [
+    "lhs:chem.ionic-bond"
+  ],
+  "metal": [
+    "lhs:chem.ionic-bond",
+    "lhs:chem.salt"
+  ],
+  "resulting": [
+    "lhs:chem.ionic-bond",
+    "lhs:phys.wave-interference"
+  ],
+  "stereochemical": [
+    "lhs:chem.isomer"
+  ],
+  "therefore": [
+    "lhs:chem.isomer"
+  ],
+  "isomerism": [
+    "lhs:chem.isomer"
+  ],
+  "molecular": [
+    "lhs:chem.isomer"
+  ],
+  "but": [
+    "lhs:chem.isomer",
+    "lhs:phys.bohr-model",
+    "lhs:phys.distance",
+    "lhs:phys.energy",
+    "lhs:phys.energy-loss",
+    "lhs:phys.magnetic-force",
+    "lhs:phys.scalar",
+    "lhs:phys.thermal-energy"
+  ],
+  "spatial": [
+    "lhs:chem.isomer"
+  ],
+  "constitutional": [
+    "lhs:chem.isomer"
+  ],
+  "structures": [
+    "lhs:chem.isomer"
+  ],
+  "isomer": [
+    "lhs:chem.isomer"
+  ],
+  "principle": [
+    "lhs:chem.le-chateliers-principle",
+    "lhs:phys.buoyancy",
+    "lhs:phys.electromagnetic-induction"
+  ],
+  "law": [
+    "lhs:chem.le-chateliers-principle",
+    "lhs:math.fundamental-theorem-of-calculus",
+    "lhs:math.pythagorean-theorem",
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.coulombs-law",
+    "lhs:phys.newtons-first-law",
+    "lhs:phys.newtons-law-of-gravitation",
+    "lhs:phys.newtons-second-law",
+    "lhs:phys.newtons-third-law",
+    "lhs:phys.ohms-law",
+    "lhs:phys.reflection",
+    "lhs:phys.work-energy-theorem"
+  ],
+  "chateliers": [
+    "lhs:chem.le-chateliers-principle"
+  ],
+  "counteract": [
+    "lhs:chem.le-chateliers-principle"
+  ],
+  "disturbed": [
+    "lhs:chem.le-chateliers-principle"
+  ],
+  "re-establish": [
+    "lhs:chem.le-chateliers-principle"
+  ],
+  "changing": [
+    "lhs:chem.le-chateliers-principle",
+    "lhs:earth.seasons-cause",
+    "lhs:phys.electromagnetic-induction",
+    "lhs:phys.electromagnetism",
+    "lhs:phys.magnetism",
+    "lhs:phys.ray-model"
+  ],
+  "stating": [
+    "lhs:chem.le-chateliers-principle",
+    "lhs:math.proportion"
+  ],
+  "direction": [
+    "lhs:chem.le-chateliers-principle",
+    "lhs:phys.acceleration",
+    "lhs:phys.displacement",
+    "lhs:phys.distance",
+    "lhs:phys.friction",
+    "lhs:phys.magnetic-field",
+    "lhs:phys.magnetic-force",
+    "lhs:phys.newtons-third-law",
+    "lhs:phys.ray-model",
+    "lhs:phys.scalar",
+    "lhs:phys.simple-harmonic-motion",
+    "lhs:phys.temperature",
+    "lhs:phys.vector",
+    "lhs:phys.velocity",
+    "lhs:phys.work"
+  ],
+  "shifts": [
+    "lhs:chem.le-chateliers-principle"
+  ],
+  "condition": [
+    "lhs:chem.le-chateliers-principle",
+    "lhs:phys.potential-energy"
+  ],
+  "exists": [
+    "lhs:chem.matter",
+    "lhs:phys.energy"
+  ],
+  "anything": [
+    "lhs:chem.matter"
+  ],
+  "various": [
+    "lhs:chem.matter"
+  ],
+  "depending": [
+    "lhs:chem.matter"
+  ],
+  "matter": [
+    "lhs:chem.matter",
+    "lhs:math.combination",
+    "lhs:phys.change-of-state",
+    "lhs:phys.electric-charge",
+    "lhs:phys.inertia",
+    "lhs:phys.phase-change"
+  ],
+  "states": [
+    "lhs:chem.matter",
+    "lhs:math.fundamental-theorem-of-calculus",
+    "lhs:phys.phase-change",
+    "lhs:phys.reflection"
+  ],
+  "takes": [
+    "lhs:chem.matter"
+  ],
+  "throughout": [
+    "lhs:chem.mixture"
+  ],
+  "mixtures": [
+    "lhs:chem.mixture"
+  ],
+  "homogeneous": [
+    "lhs:chem.mixture"
+  ],
+  "uniform": [
+    "lhs:chem.mixture",
+    "lhs:phys.equations-of-motion"
+  ],
+  "mixture": [
+    "lhs:chem.mixture"
+  ],
+  "separated": [
+    "lhs:chem.mixture",
+    "lhs:phys.capacitor"
+  ],
+  "vary": [
+    "lhs:chem.mixture"
+  ],
+  "combination": [
+    "lhs:chem.mixture",
+    "lhs:math.algebraic-expression",
+    "lhs:math.combination"
+  ],
+  "heterogeneous": [
+    "lhs:chem.mixture"
+  ],
+  "means": [
+    "lhs:chem.mixture",
+    "lhs:math.determinant",
+    "lhs:math.percentage",
+    "lhs:math.proportion",
+    "lhs:phys.amplitude"
+  ],
+  "composition": [
+    "lhs:chem.mixture"
+  ],
+  "neutral": [
+    "lhs:chem.neutralization",
+    "lhs:chem.ph-scale"
+  ],
+  "react": [
+    "lhs:chem.neutralization"
+  ],
+  "h\u2082o": [
+    "lhs:chem.neutralization"
+  ],
+  "neutralization": [
+    "lhs:chem.neutralization",
+    "lhs:chem.salt"
+  ],
+  "electronegativity": [
+    "lhs:chem.oxidation-number"
+  ],
+  "assigned": [
+    "lhs:chem.oxidation-number"
+  ],
+  "were": [
+    "lhs:chem.oxidation-number"
+  ],
+  "would": [
+    "lhs:chem.oxidation-number"
+  ],
+  "numbers": [
+    "lhs:chem.oxidation-number",
+    "lhs:math.algebraic-expression",
+    "lhs:math.complex-number",
+    "lhs:math.decimal",
+    "lhs:math.integer",
+    "lhs:math.irrational-number",
+    "lhs:math.matrix",
+    "lhs:math.natural-number",
+    "lhs:math.rational-number"
+  ],
+  "oxidation": [
+    "lhs:chem.oxidation-number",
+    "lhs:chem.oxidation-reduction"
+  ],
+  "track": [
+    "lhs:chem.oxidation-number"
+  ],
+  "oxidation-reduction": [
+    "lhs:chem.oxidation-number",
+    "lhs:chem.oxidation-reduction"
+  ],
+  "bookkeeping": [
+    "lhs:chem.oxidation-number"
+  ],
+  "ion": [
+    "lhs:chem.oxidation-number",
+    "lhs:chem.ph-scale",
+    "lhs:chem.salt"
+  ],
+  "represents": [
+    "lhs:chem.oxidation-number",
+    "lhs:math.algebraic-expression",
+    "lhs:math.decimal",
+    "lhs:math.mean",
+    "lhs:math.variable"
+  ],
+  "reduced": [
+    "lhs:chem.oxidation-reduction"
+  ],
+  "class": [
+    "lhs:chem.oxidation-reduction"
+  ],
+  "loss": [
+    "lhs:chem.oxidation-reduction",
+    "lhs:phys.energy-loss"
+  ],
+  "always": [
+    "lhs:chem.oxidation-reduction",
+    "lhs:math.ratio",
+    "lhs:math.triangle",
+    "lhs:phys.efficiency"
+  ],
+  "involving": [
+    "lhs:chem.oxidation-reduction",
+    "lhs:eng.engineering-design-process",
+    "lhs:math.polynomial"
+  ],
+  "gain": [
+    "lhs:chem.oxidation-reduction"
+  ],
+  "oxidized": [
+    "lhs:chem.oxidation-reduction"
+  ],
+  "reduction": [
+    "lhs:chem.oxidation-reduction"
+  ],
+  "increasing": [
+    "lhs:chem.periodic-table"
+  ],
+  "arrangement": [
+    "lhs:chem.periodic-table",
+    "lhs:math.permutation"
+  ],
+  "displaying": [
+    "lhs:chem.periodic-table"
+  ],
+  "periodic": [
+    "lhs:chem.periodic-table"
+  ],
+  "trends": [
+    "lhs:chem.periodic-table"
+  ],
+  "rows": [
+    "lhs:chem.periodic-table",
+    "lhs:math.matrix"
+  ],
+  "tabular": [
+    "lhs:chem.periodic-table"
+  ],
+  "periods": [
+    "lhs:chem.periodic-table"
+  ],
+  "columns": [
+    "lhs:chem.periodic-table",
+    "lhs:math.matrix"
+  ],
+  "table": [
+    "lhs:chem.periodic-table",
+    "lhs:chem.salt"
+  ],
+  "ordered": [
+    "lhs:chem.periodic-table",
+    "lhs:math.median",
+    "lhs:math.permutation",
+    "lhs:math.sequence",
+    "lhs:phys.electromagnetic-spectrum"
+  ],
+  "alkalinity": [
+    "lhs:chem.ph-scale"
+  ],
+  "logarithmic": [
+    "lhs:chem.ph-scale",
+    "lhs:math.logarithmic-function"
+  ],
+  "base-10": [
+    "lhs:chem.ph-scale",
+    "lhs:math.decimal"
+  ],
+  "-log\u2081\u2080h": [
+    "lhs:chem.ph-scale"
+  ],
+  "ranging": [
+    "lhs:chem.ph-scale"
+  ],
+  "defined": [
+    "lhs:chem.ph-scale",
+    "lhs:math.limit",
+    "lhs:math.matrix",
+    "lhs:phys.half-life",
+    "lhs:phys.unit"
+  ],
+  "logarithm": [
+    "lhs:chem.ph-scale"
+  ],
+  "acidity": [
+    "lhs:chem.ph-scale"
+  ],
+  "scale": [
+    "lhs:chem.ph-scale",
+    "lhs:phys.unit"
+  ],
+  "highly": [
+    "lhs:chem.ph-scale"
+  ],
+  "measuring": [
+    "lhs:chem.ph-scale"
+  ],
+  "alkaline": [
+    "lhs:chem.ph-scale"
+  ],
+  "acidic": [
+    "lhs:chem.ph-scale"
+  ],
+  "monomer": [
+    "lhs:chem.polymer"
+  ],
+  "condensation": [
+    "lhs:chem.polymer",
+    "lhs:earth.water-cycle"
+  ],
+  "polymerization": [
+    "lhs:chem.polymer"
+  ],
+  "polymer": [
+    "lhs:chem.polymer"
+  ],
+  "built": [
+    "lhs:chem.polymer"
+  ],
+  "repeating": [
+    "lhs:chem.polymer",
+    "lhs:math.rational-number"
+  ],
+  "addition": [
+    "lhs:chem.polymer",
+    "lhs:math.algebraic-expression",
+    "lhs:math.logarithmic-function",
+    "lhs:math.matrix",
+    "lhs:math.polynomial",
+    "lhs:phys.scalar",
+    "lhs:phys.vector"
+  ],
+  "polyethylene": [
+    "lhs:chem.polymer"
+  ],
+  "nylon": [
+    "lhs:chem.polymer"
+  ],
+  "units": [
+    "lhs:chem.polymer",
+    "lhs:math.area",
+    "lhs:math.volume",
+    "lhs:phys.unit"
+  ],
+  "synthetic": [
+    "lhs:chem.polymer"
+  ],
+  "polymers": [
+    "lhs:chem.polymer"
+  ],
+  "joined": [
+    "lhs:chem.polymer"
+  ],
+  "10\u00b2\u2077": [
+    "lhs:chem.proton"
+  ],
+  "occurring": [
+    "lhs:chem.proton"
+  ],
+  "1673": [
+    "lhs:chem.proton"
+  ],
+  "positive": [
+    "lhs:chem.proton",
+    "lhs:math.exponential-function",
+    "lhs:phys.electric-charge",
+    "lhs:phys.electric-field"
+  ],
+  "per": [
+    "lhs:chem.reaction-rate",
+    "lhs:math.percentage",
+    "lhs:math.ratio",
+    "lhs:phys.density",
+    "lhs:phys.electric-field",
+    "lhs:phys.frequency",
+    "lhs:phys.heat-capacity",
+    "lhs:phys.pressure",
+    "lhs:phys.voltage"
+  ],
+  "depend": [
+    "lhs:chem.reaction-rate"
+  ],
+  "second": [
+    "lhs:chem.reaction-rate",
+    "lhs:phys.newtons-second-law"
+  ],
+  "decrease": [
+    "lhs:chem.reaction-rate",
+    "lhs:math.arithmetic-sequence"
+  ],
+  "ammonium": [
+    "lhs:chem.salt"
+  ],
+  "replaced": [
+    "lhs:chem.salt"
+  ],
+  "nacl": [
+    "lhs:chem.salt"
+  ],
+  "produced": [
+    "lhs:chem.salt",
+    "lhs:phys.heating-effect",
+    "lhs:phys.sound"
+  ],
+  "common": [
+    "lhs:chem.salt",
+    "lhs:math.angle",
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.geometric-sequence",
+    "lhs:math.ratio"
+  ],
+  "sodium": [
+    "lhs:chem.salt"
+  ],
+  "chloride": [
+    "lhs:chem.salt"
+  ],
+  "earth-space": [
+    "lhs:earth.atmosphere",
+    "lhs:earth.big-bang-theory",
+    "lhs:earth.earth-system",
+    "lhs:earth.greenhouse-effect",
+    "lhs:earth.plate-tectonics",
+    "lhs:earth.rock-cycle",
+    "lhs:earth.seasons-cause",
+    "lhs:earth.solar-system",
+    "lhs:earth.water-cycle"
+  ],
+  "layer": [
+    "lhs:earth.atmosphere"
+  ],
+  "via": [
+    "lhs:earth.atmosphere",
+    "lhs:phys.ray-model",
+    "lhs:phys.work"
+  ],
+  "absorbs": [
+    "lhs:earth.atmosphere"
+  ],
+  "earth": [
+    "lhs:earth.atmosphere",
+    "lhs:earth.earth-system",
+    "lhs:phys.weight"
+  ],
+  "primarily": [
+    "lhs:earth.atmosphere",
+    "lhs:earth.seasons-cause"
+  ],
+  "gravity": [
+    "lhs:earth.atmosphere",
+    "lhs:earth.water-cycle",
+    "lhs:phys.gravitational-acceleration",
+    "lhs:phys.projectile-motion"
+  ],
+  "effect": [
+    "lhs:earth.atmosphere",
+    "lhs:earth.greenhouse-effect",
+    "lhs:phys.doppler-effect",
+    "lhs:phys.heating-effect",
+    "lhs:phys.photoelectric-effect"
+  ],
+  "regulates": [
+    "lhs:earth.atmosphere"
+  ],
+  "earths": [
+    "lhs:earth.atmosphere",
+    "lhs:earth.earth-system",
+    "lhs:earth.greenhouse-effect",
+    "lhs:earth.plate-tectonics",
+    "lhs:earth.rock-cycle",
+    "lhs:earth.seasons-cause",
+    "lhs:earth.water-cycle",
+    "lhs:phys.gravitational-acceleration"
+  ],
+  "nitrogen": [
+    "lhs:earth.atmosphere"
+  ],
+  "retained": [
+    "lhs:earth.atmosphere"
+  ],
+  "radiation": [
+    "lhs:earth.atmosphere",
+    "lhs:earth.greenhouse-effect",
+    "lhs:phys.electromagnetic-spectrum",
+    "lhs:phys.light",
+    "lhs:phys.radioactivity"
+  ],
+  "weather": [
+    "lhs:earth.atmosphere"
+  ],
+  "surface": [
+    "lhs:earth.atmosphere",
+    "lhs:earth.greenhouse-effect",
+    "lhs:earth.rock-cycle",
+    "lhs:earth.water-cycle",
+    "lhs:math.area",
+    "lhs:math.volume",
+    "lhs:phys.friction",
+    "lhs:phys.gravitational-acceleration",
+    "lhs:phys.magnetic-flux",
+    "lhs:phys.mirror",
+    "lhs:phys.pressure",
+    "lhs:phys.reflection"
+  ],
+  "gases": [
+    "lhs:earth.atmosphere",
+    "lhs:earth.greenhouse-effect"
+  ],
+  "greenhouse": [
+    "lhs:earth.atmosphere",
+    "lhs:earth.greenhouse-effect"
+  ],
+  "atmosphere": [
+    "lhs:earth.atmosphere",
+    "lhs:earth.earth-system",
+    "lhs:earth.greenhouse-effect",
+    "lhs:earth.water-cycle"
+  ],
+  "warms": [
+    "lhs:earth.atmosphere"
+  ],
+  "ultraviolet": [
+    "lhs:earth.atmosphere",
+    "lhs:phys.electromagnetic-spectrum"
+  ],
+  "model": [
+    "lhs:earth.big-bang-theory",
+    "lhs:phys.bohr-model",
+    "lhs:phys.ideal-gas-model",
+    "lhs:phys.ray-model"
+  ],
+  "big": [
+    "lhs:earth.big-bang-theory"
+  ],
+  "theory": [
+    "lhs:earth.big-bang-theory",
+    "lhs:earth.plate-tectonics",
+    "lhs:phys.brownian-motion"
+  ],
+  "early": [
+    "lhs:earth.big-bang-theory",
+    "lhs:phys.bohr-model"
+  ],
+  "hot": [
+    "lhs:earth.big-bang-theory"
+  ],
+  "metric": [
+    "lhs:earth.big-bang-theory"
+  ],
+  "cosmological": [
+    "lhs:earth.big-bang-theory"
+  ],
+  "expansion": [
+    "lhs:earth.big-bang-theory"
+  ],
+  "years": [
+    "lhs:earth.big-bang-theory"
+  ],
+  "describing": [
+    "lhs:earth.big-bang-theory"
+  ],
+  "billion": [
+    "lhs:earth.big-bang-theory"
+  ],
+  "extremely": [
+    "lhs:earth.big-bang-theory"
+  ],
+  "prevailing": [
+    "lhs:earth.big-bang-theory"
+  ],
+  "138": [
+    "lhs:earth.big-bang-theory"
+  ],
+  "bang": [
+    "lhs:earth.big-bang-theory"
+  ],
+  "ago": [
+    "lhs:earth.big-bang-theory"
+  ],
+  "universe": [
+    "lhs:earth.big-bang-theory",
+    "lhs:phys.gravitation"
+  ],
+  "biosphere": [
+    "lhs:earth.earth-system"
+  ],
+  "hydrosphere": [
+    "lhs:earth.earth-system"
+  ],
+  "spheres": [
+    "lhs:earth.earth-system"
+  ],
+  "geosphere": [
+    "lhs:earth.earth-system"
+  ],
+  "major": [
+    "lhs:earth.earth-system"
+  ],
+  "interconnected": [
+    "lhs:earth.earth-system"
+  ],
+  "geological": [
+    "lhs:earth.earth-system",
+    "lhs:earth.plate-tectonics"
+  ],
+  "emitted": [
+    "lhs:earth.greenhouse-effect"
+  ],
+  "ch\u2084": [
+    "lhs:earth.greenhouse-effect"
+  ],
+  "vapor": [
+    "lhs:earth.greenhouse-effect"
+  ],
+  "warming": [
+    "lhs:earth.greenhouse-effect"
+  ],
+  "outgoing": [
+    "lhs:earth.greenhouse-effect"
+  ],
+  "absorb": [
+    "lhs:earth.greenhouse-effect"
+  ],
+  "infrared": [
+    "lhs:earth.greenhouse-effect",
+    "lhs:phys.electromagnetic-spectrum"
+  ],
+  "directions": [
+    "lhs:earth.greenhouse-effect"
+  ],
+  "co\u2082": [
+    "lhs:earth.greenhouse-effect"
+  ],
+  "re-radiate": [
+    "lhs:earth.greenhouse-effect"
+  ],
+  "mantle": [
+    "lhs:earth.plate-tectonics"
+  ],
+  "plates": [
+    "lhs:earth.plate-tectonics"
+  ],
+  "outer": [
+    "lhs:earth.plate-tectonics"
+  ],
+  "shell": [
+    "lhs:earth.plate-tectonics"
+  ],
+  "divided": [
+    "lhs:earth.plate-tectonics",
+    "lhs:math.mean",
+    "lhs:phys.speed"
+  ],
+  "lithosphere": [
+    "lhs:earth.plate-tectonics"
+  ],
+  "several": [
+    "lhs:earth.plate-tectonics"
+  ],
+  "slowly": [
+    "lhs:earth.plate-tectonics"
+  ],
+  "asthenosphere": [
+    "lhs:earth.plate-tectonics"
+  ],
+  "currents": [
+    "lhs:earth.plate-tectonics",
+    "lhs:phys.electric-motor",
+    "lhs:phys.magnetism"
+  ],
+  "tectonics": [
+    "lhs:earth.plate-tectonics"
+  ],
+  "convection": [
+    "lhs:earth.plate-tectonics"
+  ],
+  "unifying": [
+    "lhs:earth.plate-tectonics"
+  ],
+  "plate": [
+    "lhs:earth.plate-tectonics"
+  ],
+  "move": [
+    "lhs:earth.plate-tectonics",
+    "lhs:phys.voltage"
+  ],
+  "explaining": [
+    "lhs:earth.plate-tectonics",
+    "lhs:phys.bohr-model"
+  ],
+  "deposition": [
+    "lhs:earth.rock-cycle"
+  ],
+  "continuous": [
+    "lhs:earth.rock-cycle",
+    "lhs:earth.water-cycle",
+    "lhs:math.continuity"
+  ],
+  "erosion": [
+    "lhs:earth.rock-cycle"
+  ],
+  "melting": [
+    "lhs:earth.rock-cycle"
+  ],
+  "three": [
+    "lhs:earth.rock-cycle",
+    "lhs:math.triangle",
+    "lhs:math.trigonometric-ratio",
+    "lhs:phys.radioactivity"
+  ],
+  "transformation": [
+    "lhs:earth.rock-cycle",
+    "lhs:math.determinant"
+  ],
+  "families": [
+    "lhs:earth.rock-cycle"
+  ],
+  "weathering": [
+    "lhs:earth.rock-cycle"
+  ],
+  "metamorphic": [
+    "lhs:earth.rock-cycle"
+  ],
+  "burial": [
+    "lhs:earth.rock-cycle"
+  ],
+  "sedimentary": [
+    "lhs:earth.rock-cycle"
+  ],
+  "igneous": [
+    "lhs:earth.rock-cycle"
+  ],
+  "rock": [
+    "lhs:earth.rock-cycle"
+  ],
+  "solar": [
+    "lhs:earth.seasons-cause",
+    "lhs:earth.solar-system",
+    "lhs:earth.water-cycle"
+  ],
+  "cause": [
+    "lhs:earth.seasons-cause"
+  ],
+  "seasons": [
+    "lhs:earth.seasons-cause"
+  ],
+  "daylight": [
+    "lhs:earth.seasons-cause"
+  ],
+  "duration": [
+    "lhs:earth.seasons-cause"
+  ],
+  "axial": [
+    "lhs:earth.seasons-cause"
+  ],
+  "year": [
+    "lhs:earth.seasons-cause"
+  ],
+  "caused": [
+    "lhs:earth.seasons-cause",
+    "lhs:phys.brownian-motion",
+    "lhs:phys.refraction"
+  ],
+  "cyclical": [
+    "lhs:earth.seasons-cause"
+  ],
+  "incidence": [
+    "lhs:earth.seasons-cause",
+    "lhs:phys.reflection"
+  ],
+  "plane": [
+    "lhs:earth.seasons-cause",
+    "lhs:math.circle",
+    "lhs:math.complex-number",
+    "lhs:phys.mirror"
+  ],
+  "235": [
+    "lhs:earth.seasons-cause"
+  ],
+  "astronomical": [
+    "lhs:earth.seasons-cause"
+  ],
+  "length": [
+    "lhs:earth.seasons-cause",
+    "lhs:phys.distance"
+  ],
+  "sun": [
+    "lhs:earth.seasons-cause",
+    "lhs:earth.solar-system",
+    "lhs:phys.nuclear-fusion"
+  ],
+  "orbital": [
+    "lhs:earth.seasons-cause"
+  ],
+  "angle": [
+    "lhs:earth.seasons-cause",
+    "lhs:math.angle",
+    "lhs:math.trigonometric-ratio",
+    "lhs:phys.reflection"
+  ],
+  "relative": [
+    "lhs:earth.seasons-cause",
+    "lhs:math.exponential-function",
+    "lhs:math.ratio",
+    "lhs:math.trigonometric-ratio",
+    "lhs:phys.doppler-effect",
+    "lhs:phys.friction"
+  ],
+  "tilt": [
+    "lhs:earth.seasons-cause"
+  ],
+  "eight": [
+    "lhs:earth.solar-system"
+  ],
+  "dwarf": [
+    "lhs:earth.solar-system"
+  ],
+  "orbiting": [
+    "lhs:earth.solar-system"
+  ],
+  "planets": [
+    "lhs:earth.solar-system",
+    "lhs:phys.gravitation"
+  ],
+  "moons": [
+    "lhs:earth.solar-system"
+  ],
+  "gravitationally": [
+    "lhs:earth.solar-system"
+  ],
+  "asteroids": [
+    "lhs:earth.solar-system"
+  ],
+  "interplanetary": [
+    "lhs:earth.solar-system"
+  ],
+  "bound": [
+    "lhs:earth.solar-system",
+    "lhs:phys.quantized-energy-levels"
+  ],
+  "comets": [
+    "lhs:earth.solar-system"
+  ],
+  "underground": [
+    "lhs:earth.water-cycle"
+  ],
+  "runoff": [
+    "lhs:earth.water-cycle"
+  ],
+  "infiltration": [
+    "lhs:earth.water-cycle"
+  ],
+  "circulation": [
+    "lhs:earth.water-cycle"
+  ],
+  "precipitation": [
+    "lhs:earth.water-cycle"
+  ],
+  "reservoirs": [
+    "lhs:earth.water-cycle"
+  ],
+  "evaporation": [
+    "lhs:earth.water-cycle"
+  ],
+  "transpiration": [
+    "lhs:earth.water-cycle"
+  ],
+  "generation": [
+    "lhs:eng.engineering-design-process"
+  ],
+  "problem-solving": [
+    "lhs:eng.engineering-design-process"
+  ],
+  "evaluation": [
+    "lhs:eng.engineering-design-process"
+  ],
+  "design": [
+    "lhs:eng.engineering-design-process"
+  ],
+  "problem": [
+    "lhs:eng.engineering-design-process"
+  ],
+  "trade-off": [
+    "lhs:eng.engineering-design-process"
+  ],
+  "definition": [
+    "lhs:eng.engineering-design-process"
+  ],
+  "criteria": [
+    "lhs:eng.engineering-design-process"
+  ],
+  "engineering": [
+    "lhs:eng.engineering-design-process"
+  ],
+  "modeling": [
+    "lhs:eng.engineering-design-process"
+  ],
+  "identification": [
+    "lhs:eng.engineering-design-process"
+  ],
+  "prototyping": [
+    "lhs:eng.engineering-design-process"
+  ],
+  "testing": [
+    "lhs:eng.engineering-design-process"
+  ],
+  "optimization": [
+    "lhs:eng.engineering-design-process"
+  ],
+  "iterative": [
+    "lhs:eng.engineering-design-process"
+  ],
+  "methodology": [
+    "lhs:eng.engineering-design-process"
+  ],
+  "constraint": [
+    "lhs:eng.engineering-design-process"
+  ],
+  "empirical": [
+    "lhs:epist.observation-vs-inference",
+    "lhs:practice.scientific-observation"
+  ],
+  "knowledge": [
+    "lhs:epist.observation-vs-inference"
+  ],
+  "scientific-practice": [
+    "lhs:epist.observation-vs-inference",
+    "lhs:practice.scientific-observation"
+  ],
+  "epistemic": [
+    "lhs:epist.observation-vs-inference"
+  ],
+  "inference": [
+    "lhs:epist.observation-vs-inference"
+  ],
+  "direct": [
+    "lhs:epist.observation-vs-inference"
+  ],
+  "derived": [
+    "lhs:epist.observation-vs-inference"
+  ],
+  "distinction": [
+    "lhs:epist.observation-vs-inference"
+  ],
+  "those": [
+    "lhs:epist.observation-vs-inference"
+  ],
+  "sensingmeasurement": [
+    "lhs:epist.observation-vs-inference"
+  ],
+  "gathered": [
+    "lhs:epist.observation-vs-inference"
+  ],
+  "based": [
+    "lhs:epist.observation-vs-inference"
+  ],
+  "conclusion": [
+    "lhs:epist.observation-vs-inference"
+  ],
+  "observation": [
+    "lhs:epist.observation-vs-inference",
+    "lhs:practice.scientific-observation"
+  ],
+  "prior": [
+    "lhs:epist.observation-vs-inference"
+  ],
+  "explanation": [
+    "lhs:epist.observation-vs-inference"
+  ],
+  "logical": [
+    "lhs:epist.observation-vs-inference"
+  ],
+  "data": [
+    "lhs:epist.observation-vs-inference",
+    "lhs:math.mean",
+    "lhs:math.median",
+    "lhs:math.standard-deviation"
+  ],
+  "operations": [
+    "lhs:math.algebraic-expression",
+    "lhs:math.fundamental-theorem-of-calculus",
+    "lhs:math.matrix",
+    "lhs:math.polynomial"
+  ],
+  "multiplication": [
+    "lhs:math.algebraic-expression",
+    "lhs:math.logarithmic-function",
+    "lhs:math.matrix",
+    "lhs:math.polynomial"
+  ],
+  "value": [
+    "lhs:math.algebraic-expression",
+    "lhs:math.continuity",
+    "lhs:math.decimal",
+    "lhs:math.determinant",
+    "lhs:math.limit",
+    "lhs:math.median",
+    "lhs:phys.measurement",
+    "lhs:phys.scalar"
+  ],
+  "evaluated": [
+    "lhs:math.algebraic-expression",
+    "lhs:math.fundamental-theorem-of-calculus"
+  ],
+  "subtraction": [
+    "lhs:math.algebraic-expression",
+    "lhs:math.integer",
+    "lhs:math.polynomial"
+  ],
+  "algebraic": [
+    "lhs:math.algebraic-expression",
+    "lhs:math.determinant",
+    "lhs:math.polynomial",
+    "lhs:math.variable"
+  ],
+  "exponentiation": [
+    "lhs:math.algebraic-expression"
+  ],
+  "equality": [
+    "lhs:math.algebraic-expression"
+  ],
+  "solved": [
+    "lhs:math.algebraic-expression"
+  ],
+  "simplified": [
+    "lhs:math.algebraic-expression",
+    "lhs:phys.ideal-gas-model",
+    "lhs:phys.ray-model"
+  ],
+  "arithmetic": [
+    "lhs:math.algebraic-expression",
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.mean",
+    "lhs:math.sequence",
+    "lhs:math.variable",
+    "lhs:phys.scalar"
+  ],
+  "unlike": [
+    "lhs:math.algebraic-expression",
+    "lhs:math.ratio",
+    "lhs:phys.heat-capacity"
+  ],
+  "variables": [
+    "lhs:math.algebraic-expression",
+    "lhs:math.linear-equation",
+    "lhs:math.polynomial",
+    "lhs:math.variable"
+  ],
+  "mathematics": [
+    "lhs:math.algebraic-expression",
+    "lhs:math.angle",
+    "lhs:math.area",
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.circle",
+    "lhs:math.combination",
+    "lhs:math.complex-number",
+    "lhs:math.continuity",
+    "lhs:math.decimal",
+    "lhs:math.derivative",
+    "lhs:math.determinant",
+    "lhs:math.exponential-function",
+    "lhs:math.fraction",
+    "lhs:math.function",
+    "lhs:math.fundamental-theorem-of-calculus",
+    "lhs:math.geometric-sequence",
+    "lhs:math.integer",
+    "lhs:math.integral",
+    "lhs:math.irrational-number",
+    "lhs:math.limit",
+    "lhs:math.linear-equation",
+    "lhs:math.linear-function",
+    "lhs:math.logarithmic-function",
+    "lhs:math.matrix",
+    "lhs:math.mean",
+    "lhs:math.median",
+    "lhs:math.natural-number",
+    "lhs:math.percentage",
+    "lhs:math.permutation",
+    "lhs:math.polynomial",
+    "lhs:math.probability",
+    "lhs:math.proportion",
+    "lhs:math.pythagorean-theorem",
+    "lhs:math.quadratic-equation",
+    "lhs:math.quadratic-function",
+    "lhs:math.ratio",
+    "lhs:math.rational-number",
+    "lhs:math.sequence",
+    "lhs:math.standard-deviation",
+    "lhs:math.triangle",
+    "lhs:math.trigonometric-ratio",
+    "lhs:math.variable",
+    "lhs:math.volume",
+    "lhs:phys.measurement"
+  ],
+  "sign": [
+    "lhs:math.algebraic-expression"
+  ],
+  "vertex": [
+    "lhs:math.angle",
+    "lhs:math.quadratic-function"
+  ],
+  "measured": [
+    "lhs:math.angle",
+    "lhs:math.area",
+    "lhs:math.volume",
+    "lhs:phys.capacitor",
+    "lhs:phys.current",
+    "lhs:phys.displacement",
+    "lhs:phys.time",
+    "lhs:phys.work"
+  ],
+  "rotation": [
+    "lhs:math.angle"
+  ],
+  "360": [
+    "lhs:math.angle"
+  ],
+  "rays": [
+    "lhs:math.angle",
+    "lhs:phys.electromagnetic-spectrum",
+    "lhs:phys.lens",
+    "lhs:phys.radioactivity",
+    "lhs:phys.ray-model"
+  ],
+  "sharing": [
+    "lhs:math.angle"
+  ],
+  "sides": [
+    "lhs:math.angle",
+    "lhs:math.pythagorean-theorem",
+    "lhs:math.triangle",
+    "lhs:math.trigonometric-ratio"
+  ],
+  "figure": [
+    "lhs:math.angle"
+  ],
+  "endpoint": [
+    "lhs:math.angle"
+  ],
+  "radians": [
+    "lhs:math.angle"
+  ],
+  "degrees": [
+    "lhs:math.angle"
+  ],
+  "rad": [
+    "lhs:math.angle"
+  ],
+  "full": [
+    "lhs:math.angle"
+  ],
+  "boundary": [
+    "lhs:math.area"
+  ],
+  "two-dimensional": [
+    "lhs:math.area"
+  ],
+  "area": [
+    "lhs:math.area",
+    "lhs:math.circle",
+    "lhs:math.integral",
+    "lhs:phys.magnetic-flux",
+    "lhs:phys.pressure"
+  ],
+  "square": [
+    "lhs:math.area",
+    "lhs:math.determinant",
+    "lhs:math.pythagorean-theorem",
+    "lhs:math.quadratic-equation",
+    "lhs:math.standard-deviation",
+    "lhs:phys.coulombs-law",
+    "lhs:phys.kinetic-energy",
+    "lhs:phys.newtons-law-of-gravitation"
+  ],
+  "amount": [
+    "lhs:math.area",
+    "lhs:math.arithmetic-sequence",
+    "lhs:phys.heat-capacity",
+    "lhs:phys.momentum",
+    "lhs:phys.specific-heat",
+    "lhs:phys.unit"
+  ],
+  "differs": [
+    "lhs:math.arithmetic-sequence"
+  ],
+  "grow": [
+    "lhs:math.arithmetic-sequence"
+  ],
+  "term": [
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.geometric-sequence",
+    "lhs:math.sequence"
+  ],
+  "called": [
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.geometric-sequence"
+  ],
+  "difference": [
+    "lhs:math.arithmetic-sequence",
+    "lhs:phys.capacitor",
+    "lhs:phys.heat",
+    "lhs:phys.quantized-energy-levels",
+    "lhs:phys.voltage"
+  ],
+  "sum": [
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.geometric-sequence",
+    "lhs:math.mean",
+    "lhs:math.pythagorean-theorem",
+    "lhs:math.triangle",
+    "lhs:phys.wave-interference"
+  ],
+  "written": [
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.combination",
+    "lhs:math.derivative",
+    "lhs:math.fraction",
+    "lhs:math.function",
+    "lhs:math.limit",
+    "lhs:math.matrix"
+  ],
+  "compactly": [
+    "lhs:math.arithmetic-sequence"
+  ],
+  "terms": [
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.geometric-sequence",
+    "lhs:math.sequence",
+    "lhs:phys.physical-quantity"
+  ],
+  "previous": [
+    "lhs:math.arithmetic-sequence",
+    "lhs:math.geometric-sequence"
+  ],
+  "linearly": [
+    "lhs:math.arithmetic-sequence"
+  ],
+  "radius": [
+    "lhs:math.circle"
+  ],
+  "set": [
+    "lhs:math.circle",
+    "lhs:math.function",
+    "lhs:math.integer",
+    "lhs:math.mean",
+    "lhs:math.median",
+    "lhs:math.sequence",
+    "lhs:math.standard-deviation",
+    "lhs:phys.equations-of-motion",
+    "lhs:phys.quantized-energy-levels"
+  ],
+  "center": [
+    "lhs:math.circle",
+    "lhs:phys.weight"
+  ],
+  "distance": [
+    "lhs:math.circle",
+    "lhs:phys.coulombs-law",
+    "lhs:phys.distance",
+    "lhs:phys.mechanical-advantage",
+    "lhs:phys.newtons-law-of-gravitation",
+    "lhs:phys.speed",
+    "lhs:phys.wavelength",
+    "lhs:phys.work-energy-theorem"
+  ],
+  "circle": [
+    "lhs:math.circle"
+  ],
+  "points": [
+    "lhs:math.circle",
+    "lhs:math.complex-number",
+    "lhs:phys.ohms-law",
+    "lhs:phys.voltage",
+    "lhs:phys.wavelength"
+  ],
+  "circumference": [
+    "lhs:math.circle"
+  ],
+  "diameter": [
+    "lhs:math.circle"
+  ],
+  "order": [
+    "lhs:math.combination",
+    "lhs:math.permutation"
+  ],
+  "choose": [
+    "lhs:math.combination"
+  ],
+  "collection": [
+    "lhs:math.combination",
+    "lhs:math.permutation"
+  ],
+  "larger": [
+    "lhs:math.combination",
+    "lhs:math.permutation",
+    "lhs:phys.mechanical-advantage"
+  ],
+  "unordered": [
+    "lhs:math.combination"
+  ],
+  "binomial": [
+    "lhs:math.combination"
+  ],
+  "items": [
+    "lhs:math.combination",
+    "lhs:math.permutation"
+  ],
+  "often": [
+    "lhs:math.combination"
+  ],
+  "taken": [
+    "lhs:math.combination",
+    "lhs:phys.speed"
+  ],
+  "represented": [
+    "lhs:math.complex-number",
+    "lhs:phys.magnetic-field",
+    "lhs:phys.ray-model"
+  ],
+  "extend": [
+    "lhs:math.complex-number",
+    "lhs:math.integer"
+  ],
+  "axis": [
+    "lhs:math.complex-number"
+  ],
+  "root": [
+    "lhs:math.complex-number",
+    "lhs:math.standard-deviation"
+  ],
+  "polynomial": [
+    "lhs:math.complex-number",
+    "lhs:math.polynomial"
+  ],
+  "non-constant": [
+    "lhs:math.complex-number"
+  ],
+  "imaginary": [
+    "lhs:math.complex-number"
+  ],
+  "real": [
+    "lhs:math.complex-number",
+    "lhs:math.irrational-number",
+    "lhs:math.quadratic-equation",
+    "lhs:phys.efficiency",
+    "lhs:phys.mirror"
+  ],
+  "results": [
+    "lhs:math.continuity"
+  ],
+  "differentiability": [
+    "lhs:math.continuity"
+  ],
+  "lim_xc": [
+    "lhs:math.continuity",
+    "lhs:math.limit"
+  ],
+  "drawn": [
+    "lhs:math.continuity",
+    "lhs:math.permutation"
+  ],
+  "prerequisite": [
+    "lhs:math.continuity"
+  ],
+  "interval": [
+    "lhs:math.continuity",
+    "lhs:math.derivative",
+    "lhs:math.exponential-function",
+    "lhs:math.integral",
+    "lhs:phys.impulse",
+    "lhs:phys.time"
+  ],
+  "property": [
+    "lhs:math.continuity",
+    "lhs:phys.capacitor",
+    "lhs:phys.electric-charge",
+    "lhs:phys.inertia",
+    "lhs:phys.mass",
+    "lhs:phys.physical-quantity"
+  ],
+  "function": [
+    "lhs:math.continuity",
+    "lhs:math.derivative",
+    "lhs:math.exponential-function",
+    "lhs:math.function",
+    "lhs:math.integral",
+    "lhs:math.limit",
+    "lhs:math.linear-function",
+    "lhs:math.logarithmic-function",
+    "lhs:math.quadratic-function"
+  ],
+  "lifting": [
+    "lhs:math.continuity"
+  ],
+  "there": [
+    "lhs:math.continuity",
+    "lhs:math.limit",
+    "lhs:math.median",
+    "lhs:phys.newtons-third-law"
+  ],
+  "meaning": [
+    "lhs:math.continuity",
+    "lhs:phys.unit"
+  ],
+  "graph": [
+    "lhs:math.continuity",
+    "lhs:math.derivative",
+    "lhs:math.linear-equation",
+    "lhs:math.linear-function",
+    "lhs:math.quadratic-function"
+  ],
+  "equals": [
+    "lhs:math.continuity",
+    "lhs:math.pythagorean-theorem",
+    "lhs:math.standard-deviation",
+    "lhs:phys.buoyancy",
+    "lhs:phys.force",
+    "lhs:phys.impulse",
+    "lhs:phys.newtons-second-law",
+    "lhs:phys.quantized-energy-levels",
+    "lhs:phys.reflection",
+    "lhs:phys.work",
+    "lhs:phys.work-energy-theorem"
+  ],
+  "continuity": [
+    "lhs:math.continuity"
+  ],
+  "pen": [
+    "lhs:math.continuity"
+  ],
+  "limit": [
+    "lhs:math.continuity",
+    "lhs:math.derivative",
+    "lhs:math.limit"
+  ],
+  "calculus": [
+    "lhs:math.continuity",
+    "lhs:math.fundamental-theorem-of-calculus"
+  ],
+  "fractional": [
+    "lhs:math.decimal"
+  ],
+  "separates": [
+    "lhs:math.decimal"
+  ],
+  "whole": [
+    "lhs:math.decimal",
+    "lhs:math.fraction",
+    "lhs:math.integer"
+  ],
+  "decimal": [
+    "lhs:math.decimal",
+    "lhs:math.irrational-number"
+  ],
+  "place": [
+    "lhs:math.decimal",
+    "lhs:phys.wave"
+  ],
+  "power": [
+    "lhs:math.decimal",
+    "lhs:math.linear-equation",
+    "lhs:math.logarithmic-function",
+    "lhs:math.quadratic-equation",
+    "lhs:phys.nuclear-fission",
+    "lhs:phys.power"
+  ],
+  "part": [
+    "lhs:math.decimal",
+    "lhs:math.fraction",
+    "lhs:math.fundamental-theorem-of-calculus"
+  ],
+  "slope": [
+    "lhs:math.derivative",
+    "lhs:math.linear-function"
+  ],
+  "fxh": [
+    "lhs:math.derivative"
+  ],
+  "shrinks": [
+    "lhs:math.derivative"
+  ],
+  "respect": [
+    "lhs:math.derivative",
+    "lhs:phys.acceleration",
+    "lhs:phys.motion",
+    "lhs:phys.velocity"
+  ],
+  "lim_h0": [
+    "lhs:math.derivative"
+  ],
+  "derivative": [
+    "lhs:math.derivative",
+    "lhs:math.fundamental-theorem-of-calculus",
+    "lhs:math.integral",
+    "lhs:math.limit"
+  ],
+  "gives": [
+    "lhs:math.derivative",
+    "lhs:math.permutation",
+    "lhs:phys.unit"
+  ],
+  "line": [
+    "lhs:math.derivative",
+    "lhs:math.linear-equation",
+    "lhs:math.linear-function",
+    "lhs:phys.equations-of-motion",
+    "lhs:phys.newtons-first-law"
+  ],
+  "instantaneous": [
+    "lhs:math.derivative",
+    "lhs:math.limit"
+  ],
+  "tangent": [
+    "lhs:math.derivative",
+    "lhs:math.trigonometric-ratio"
+  ],
+  "zero": [
+    "lhs:math.derivative",
+    "lhs:math.determinant",
+    "lhs:math.geometric-sequence",
+    "lhs:math.integer"
+  ],
+  "variable": [
+    "lhs:math.derivative",
+    "lhs:math.linear-equation",
+    "lhs:math.quadratic-equation",
+    "lhs:math.variable"
+  ],
+  "average": [
+    "lhs:math.derivative",
+    "lhs:math.mean",
+    "lhs:math.median",
+    "lhs:phys.impulse",
+    "lhs:phys.temperature"
+  ],
+  "geometric": [
+    "lhs:math.determinant",
+    "lhs:math.geometric-sequence",
+    "lhs:math.sequence",
+    "lhs:phys.ray-model"
+  ],
+  "invertible": [
+    "lhs:math.determinant"
+  ],
+  "determinant": [
+    "lhs:math.determinant"
+  ],
+  "computed": [
+    "lhs:math.determinant"
+  ],
+  "scalar": [
+    "lhs:math.determinant",
+    "lhs:math.matrix",
+    "lhs:phys.distance",
+    "lhs:phys.scalar",
+    "lhs:phys.speed",
+    "lhs:phys.time",
+    "lhs:phys.work"
+  ],
+  "matrix": [
+    "lhs:math.determinant",
+    "lhs:math.matrix"
+  ],
+  "singular": [
+    "lhs:math.determinant"
+  ],
+  "encodes": [
+    "lhs:math.determinant"
+  ],
+  "exponent": [
+    "lhs:math.exponential-function"
+  ],
+  "absolute": [
+    "lhs:math.exponential-function"
+  ],
+  "rather": [
+    "lhs:math.exponential-function"
+  ],
+  "ab\u02e3": [
+    "lhs:math.exponential-function"
+  ],
+  "decay": [
+    "lhs:math.exponential-function",
+    "lhs:phys.half-life"
+  ],
+  "factor": [
+    "lhs:math.exponential-function",
+    "lhs:math.geometric-sequence",
+    "lhs:phys.mechanical-advantage"
+  ],
+  "multiplies": [
+    "lhs:math.exponential-function",
+    "lhs:phys.mechanical-advantage"
+  ],
+  "parts": [
+    "lhs:math.fraction",
+    "lhs:math.percentage"
+  ],
+  "fraction": [
+    "lhs:math.fraction",
+    "lhs:math.percentage"
+  ],
+  "numerical": [
+    "lhs:math.fraction",
+    "lhs:phys.measurement",
+    "lhs:phys.scalar",
+    "lhs:phys.unit"
+  ],
+  "denominator": [
+    "lhs:math.fraction"
+  ],
+  "representing": [
+    "lhs:math.fraction"
+  ],
+  "numerator": [
+    "lhs:math.fraction"
+  ],
+  "exactly": [
+    "lhs:math.function",
+    "lhs:math.fundamental-theorem-of-calculus"
+  ],
+  "inputs": [
+    "lhs:math.function"
+  ],
+  "possible": [
+    "lhs:math.function",
+    "lhs:math.probability"
+  ],
+  "output": [
+    "lhs:math.function",
+    "lhs:phys.efficiency"
+  ],
+  "assigns": [
+    "lhs:math.function",
+    "lhs:math.sequence"
+  ],
+  "domain": [
+    "lhs:math.function",
+    "lhs:math.sequence"
+  ],
+  "unique": [
+    "lhs:math.function"
+  ],
+  "relation": [
+    "lhs:math.function",
+    "lhs:phys.nuclear-binding-energy"
+  ],
+  "related": [
+    "lhs:math.function",
+    "lhs:phys.thermal-energy"
+  ],
+  "codomain": [
+    "lhs:math.function"
+  ],
+  "outputs": [
+    "lhs:math.function"
+  ],
+  "input": [
+    "lhs:math.function",
+    "lhs:math.limit",
+    "lhs:phys.efficiency",
+    "lhs:phys.mechanical-advantage"
+  ],
+  "integrals": [
+    "lhs:math.fundamental-theorem-of-calculus"
+  ],
+  "whenever": [
+    "lhs:math.fundamental-theorem-of-calculus",
+    "lhs:phys.acceleration"
+  ],
+  "derivatives": [
+    "lhs:math.fundamental-theorem-of-calculus"
+  ],
+  "theorem": [
+    "lhs:math.fundamental-theorem-of-calculus",
+    "lhs:math.pythagorean-theorem",
+    "lhs:phys.work-energy-theorem"
+  ],
+  "definite": [
+    "lhs:math.fundamental-theorem-of-calculus",
+    "lhs:math.integral"
+  ],
+  "inverse": [
+    "lhs:math.fundamental-theorem-of-calculus",
+    "lhs:math.logarithmic-function"
+  ],
+  "differentiation": [
+    "lhs:math.fundamental-theorem-of-calculus",
+    "lhs:math.integral"
+  ],
+  "integral": [
+    "lhs:math.fundamental-theorem-of-calculus",
+    "lhs:math.integral",
+    "lhs:math.limit"
+  ],
+  "antiderivative": [
+    "lhs:math.fundamental-theorem-of-calculus",
+    "lhs:math.integral"
+  ],
+  "a\u20811": [
+    "lhs:math.geometric-sequence"
+  ],
+  "growing": [
+    "lhs:math.geometric-sequence"
+  ],
+  "r\u207f1": [
+    "lhs:math.geometric-sequence"
+  ],
+  "obtained": [
+    "lhs:math.geometric-sequence"
+  ],
+  "exponentially": [
+    "lhs:math.geometric-sequence"
+  ],
+  "multiplying": [
+    "lhs:math.geometric-sequence"
+  ],
+  "a\u2081r\u207f\u00b9": [
+    "lhs:math.geometric-sequence"
+  ],
+  "toward": [
+    "lhs:math.geometric-sequence",
+    "lhs:phys.gravitation",
+    "lhs:phys.weight"
+  ],
+  "shrinking": [
+    "lhs:math.geometric-sequence"
+  ],
+  "negatives": [
+    "lhs:math.integer"
+  ],
+  "integers": [
+    "lhs:math.integer",
+    "lhs:math.irrational-number",
+    "lhs:math.rational-number",
+    "lhs:math.sequence"
+  ],
+  "include": [
+    "lhs:math.integer",
+    "lhs:math.rational-number"
+  ],
+  "values": [
+    "lhs:math.integer",
+    "lhs:math.mean",
+    "lhs:math.median",
+    "lhs:math.standard-deviation",
+    "lhs:phys.unit"
+  ],
+  "integer": [
+    "lhs:math.integer",
+    "lhs:math.polynomial"
+  ],
+  "closed": [
+    "lhs:math.integer",
+    "lhs:phys.momentum"
+  ],
+  "curve": [
+    "lhs:math.integral"
+  ],
+  "indefinite": [
+    "lhs:math.integral"
+  ],
+  "functions": [
+    "lhs:math.integral",
+    "lhs:math.sequence"
+  ],
+  "accumulates": [
+    "lhs:math.integral"
+  ],
+  "whose": [
+    "lhs:math.integral",
+    "lhs:math.sequence",
+    "lhs:phys.quantized-energy-levels",
+    "lhs:phys.wave-interference"
+  ],
+  "signed": [
+    "lhs:math.integral"
+  ],
+  "family": [
+    "lhs:math.integral"
+  ],
+  "under": [
+    "lhs:math.integral",
+    "lhs:phys.equations-of-motion",
+    "lhs:phys.free-fall",
+    "lhs:phys.gravitational-acceleration",
+    "lhs:phys.projectile-motion"
+  ],
+  "reverses": [
+    "lhs:math.integral"
+  ],
+  "neither": [
+    "lhs:math.irrational-number"
+  ],
+  "irrational": [
+    "lhs:math.irrational-number"
+  ],
+  "terminates": [
+    "lhs:math.irrational-number"
+  ],
+  "repeats": [
+    "lhs:math.irrational-number"
+  ],
+  "nor": [
+    "lhs:math.irrational-number"
+  ],
+  "rational": [
+    "lhs:math.irrational-number",
+    "lhs:math.rational-number"
+  ],
+  "underpin": [
+    "lhs:math.limit"
+  ],
+  "describes": [
+    "lhs:math.limit"
+  ],
+  "index": [
+    "lhs:math.limit",
+    "lhs:math.sequence"
+  ],
+  "limits": [
+    "lhs:math.limit"
+  ],
+  "approaches": [
+    "lhs:math.limit",
+    "lhs:phys.doppler-effect"
+  ],
+  "near": [
+    "lhs:math.limit",
+    "lhs:math.standard-deviation",
+    "lhs:phys.gravitational-acceleration"
+  ],
+  "formalize": [
+    "lhs:math.limit"
+  ],
+  "straight": [
+    "lhs:math.linear-equation",
+    "lhs:math.linear-function",
+    "lhs:phys.equations-of-motion",
+    "lhs:phys.newtons-first-law",
+    "lhs:phys.ray-model"
+  ],
+  "highest": [
+    "lhs:math.linear-equation",
+    "lhs:math.quadratic-equation"
+  ],
+  "constants": [
+    "lhs:math.linear-function"
+  ],
+  "y-intercept": [
+    "lhs:math.linear-function"
+  ],
+  "everywhere": [
+    "lhs:math.linear-function"
+  ],
+  "satisfy": [
+    "lhs:math.logarithmic-function"
+  ],
+  "log_bxy": [
+    "lhs:math.logarithmic-function"
+  ],
+  "log_bx": [
+    "lhs:math.logarithmic-function"
+  ],
+  "logarithms": [
+    "lhs:math.logarithmic-function"
+  ],
+  "identities": [
+    "lhs:math.logarithmic-function"
+  ],
+  "log_by": [
+    "lhs:math.logarithmic-function"
+  ],
+  "obtain": [
+    "lhs:math.logarithmic-function",
+    "lhs:phys.measurement"
+  ],
+  "array": [
+    "lhs:math.matrix"
+  ],
+  "equations": [
+    "lhs:math.matrix",
+    "lhs:math.quadratic-equation",
+    "lhs:math.variable",
+    "lhs:phys.equations-of-motion"
+  ],
+  "provide": [
+    "lhs:math.matrix",
+    "lhs:math.percentage",
+    "lhs:phys.graphical-analysis",
+    "lhs:phys.unit"
+  ],
+  "transformations": [
+    "lhs:math.matrix"
+  ],
+  "brackets": [
+    "lhs:math.matrix"
+  ],
+  "transposition": [
+    "lhs:math.matrix"
+  ],
+  "arranged": [
+    "lhs:math.matrix"
+  ],
+  "entries": [
+    "lhs:math.matrix"
+  ],
+  "compact": [
+    "lhs:math.matrix"
+  ],
+  "rectangular": [
+    "lhs:math.matrix"
+  ],
+  "matrices": [
+    "lhs:math.matrix"
+  ],
+  "systems": [
+    "lhs:math.matrix",
+    "lhs:math.natural-number",
+    "lhs:phys.momentum"
+  ],
+  "mean": [
+    "lhs:math.mean",
+    "lhs:math.standard-deviation"
+  ],
+  "tendency": [
+    "lhs:math.mean",
+    "lhs:phys.friction",
+    "lhs:phys.inertia"
+  ],
+  "middle": [
+    "lhs:math.median"
+  ],
+  "robust": [
+    "lhs:math.median"
+  ],
+  "outliers": [
+    "lhs:math.median"
+  ],
+  "halves": [
+    "lhs:math.median"
+  ],
+  "median": [
+    "lhs:math.median"
+  ],
+  "foundation": [
+    "lhs:math.natural-number"
+  ],
+  "ordering": [
+    "lhs:math.natural-number"
+  ],
+  "counting": [
+    "lhs:math.natural-number"
+  ],
+  "denoted": [
+    "lhs:math.percentage"
+  ],
+  "standardized": [
+    "lhs:math.percentage"
+  ],
+  "wholes": [
+    "lhs:math.percentage"
+  ],
+  "compare": [
+    "lhs:math.percentage"
+  ],
+  "proportions": [
+    "lhs:math.percentage"
+  ],
+  "symbol": [
+    "lhs:math.percentage",
+    "lhs:math.variable"
+  ],
+  "percentage": [
+    "lhs:math.percentage",
+    "lhs:phys.efficiency"
+  ],
+  "x100": [
+    "lhs:math.percentage"
+  ],
+  "hundredths": [
+    "lhs:math.percentage"
+  ],
+  "percentages": [
+    "lhs:math.percentage",
+    "lhs:math.ratio"
+  ],
+  "hundred": [
+    "lhs:math.percentage",
+    "lhs:math.ratio"
+  ],
+  "way": [
+    "lhs:math.percentage"
+  ],
+  "arranging": [
+    "lhs:math.permutation"
+  ],
+  "permutation": [
+    "lhs:math.permutation"
+  ],
+  "subset": [
+    "lhs:math.permutation"
+  ],
+  "matters": [
+    "lhs:math.permutation",
+    "lhs:phys.vector"
+  ],
+  "possibilities": [
+    "lhs:math.permutation"
+  ],
+  "selected": [
+    "lhs:math.permutation"
+  ],
+  "arrange": [
+    "lhs:math.permutation"
+  ],
+  "non-negative": [
+    "lhs:math.polynomial"
+  ],
+  "degree": [
+    "lhs:math.polynomial",
+    "lhs:phys.specific-heat"
+  ],
+  "exponents": [
+    "lhs:math.polynomial"
+  ],
+  "a\u2081x": [
+    "lhs:math.polynomial"
+  ],
+  "a\u2099\u2081x\u207f\u00b9": [
+    "lhs:math.polynomial"
+  ],
+  "a\u2099x\u207f": [
+    "lhs:math.polynomial"
+  ],
+  "likely": [
+    "lhs:math.probability"
+  ],
+  "will": [
+    "lhs:math.probability"
+  ],
+  "impossible": [
+    "lhs:math.probability"
+  ],
+  "equally": [
+    "lhs:math.probability"
+  ],
+  "event": [
+    "lhs:math.probability"
+  ],
+  "probability": [
+    "lhs:math.probability"
+  ],
+  "outcomes": [
+    "lhs:math.probability"
+  ],
+  "likelihood": [
+    "lhs:math.probability"
+  ],
+  "favorable": [
+    "lhs:math.probability"
+  ],
+  "certain": [
+    "lhs:math.probability"
+  ],
+  "proportion": [
+    "lhs:math.proportion"
+  ],
+  "then": [
+    "lhs:math.proportion"
+  ],
+  "cross-multiplication": [
+    "lhs:math.proportion"
+  ],
+  "equivalently": [
+    "lhs:math.proportion"
+  ],
+  "this": [
+    "lhs:math.proportion",
+    "lhs:math.pythagorean-theorem",
+    "lhs:phys.buoyancy",
+    "lhs:phys.capacitor",
+    "lhs:phys.electromagnetic-induction",
+    "lhs:phys.newtons-second-law",
+    "lhs:phys.work-energy-theorem"
+  ],
+  "squares": [
+    "lhs:math.pythagorean-theorem"
+  ],
+  "algebra": [
+    "lhs:math.pythagorean-theorem"
+  ],
+  "hypotenuse": [
+    "lhs:math.pythagorean-theorem"
+  ],
+  "triangle": [
+    "lhs:math.pythagorean-theorem",
+    "lhs:math.triangle",
+    "lhs:math.trigonometric-ratio"
+  ],
+  "geometry": [
+    "lhs:math.pythagorean-theorem"
+  ],
+  "theorems": [
+    "lhs:math.pythagorean-theorem"
+  ],
+  "pythagorean": [
+    "lhs:math.pythagorean-theorem"
+  ],
+  "completing": [
+    "lhs:math.quadratic-equation"
+  ],
+  "solutions": [
+    "lhs:math.quadratic-equation"
+  ],
+  "found": [
+    "lhs:math.quadratic-equation"
+  ],
+  "ax\u00b2": [
+    "lhs:math.quadratic-equation",
+    "lhs:math.quadratic-function"
+  ],
+  "standard": [
+    "lhs:math.quadratic-equation",
+    "lhs:math.standard-deviation",
+    "lhs:phys.measurement",
+    "lhs:phys.unit"
+  ],
+  "roots": [
+    "lhs:math.quadratic-equation"
+  ],
+  "quadratic": [
+    "lhs:math.quadratic-equation",
+    "lhs:math.quadratic-function"
+  ],
+  "factoring": [
+    "lhs:math.quadratic-equation"
+  ],
+  "parabola": [
+    "lhs:math.quadratic-function"
+  ],
+  "opens": [
+    "lhs:math.quadratic-function"
+  ],
+  "upward": [
+    "lhs:math.quadratic-function",
+    "lhs:phys.buoyancy"
+  ],
+  "maximum": [
+    "lhs:math.quadratic-function",
+    "lhs:phys.amplitude"
+  ],
+  "downward": [
+    "lhs:math.quadratic-function"
+  ],
+  "reveals": [
+    "lhs:math.quadratic-function"
+  ],
+  "describe": [
+    "lhs:math.ratio",
+    "lhs:phys.light",
+    "lhs:phys.physical-quantity"
+  ],
+  "comparison": [
+    "lhs:math.ratio",
+    "lhs:phys.physical-quantity"
+  ],
+  "any": [
+    "lhs:math.rational-number",
+    "lhs:phys.inertia"
+  ],
+  "decimals": [
+    "lhs:math.rational-number"
+  ],
+  "fractions": [
+    "lhs:math.rational-number"
+  ],
+  "quotient": [
+    "lhs:math.rational-number"
+  ],
+  "terminating": [
+    "lhs:math.rational-number"
+  ],
+  "consecutive": [
+    "lhs:math.sequence",
+    "lhs:phys.wavelength"
+  ],
+  "list": [
+    "lhs:math.sequence"
+  ],
+  "rule": [
+    "lhs:math.sequence"
+  ],
+  "sequences": [
+    "lhs:math.sequence"
+  ],
+  "types": [
+    "lhs:math.sequence",
+    "lhs:phys.electromagnetic-spectrum",
+    "lhs:phys.radioactivity"
+  ],
+  "sqrt1n": [
+    "lhs:math.standard-deviation"
+  ],
+  "wide": [
+    "lhs:math.standard-deviation"
+  ],
+  "spread": [
+    "lhs:math.standard-deviation",
+    "lhs:phys.lens"
+  ],
+  "variance": [
+    "lhs:math.standard-deviation"
+  ],
+  "deviation": [
+    "lhs:math.standard-deviation"
+  ],
+  "small": [
+    "lhs:math.standard-deviation"
+  ],
+  "clustered": [
+    "lhs:math.standard-deviation"
+  ],
+  "dispersion": [
+    "lhs:math.standard-deviation"
+  ],
+  "quantifies": [
+    "lhs:math.standard-deviation",
+    "lhs:phys.mass",
+    "lhs:phys.momentum"
+  ],
+  "obtuse": [
+    "lhs:math.triangle"
+  ],
+  "edges": [
+    "lhs:math.triangle"
+  ],
+  "equilateral": [
+    "lhs:math.triangle"
+  ],
+  "180": [
+    "lhs:math.triangle"
+  ],
+  "angles": [
+    "lhs:math.triangle"
+  ],
+  "triangles": [
+    "lhs:math.triangle"
+  ],
+  "isosceles": [
+    "lhs:math.triangle"
+  ],
+  "acute": [
+    "lhs:math.triangle",
+    "lhs:math.trigonometric-ratio"
+  ],
+  "vertices": [
+    "lhs:math.triangle"
+  ],
+  "scalene": [
+    "lhs:math.triangle"
+  ],
+  "interior": [
+    "lhs:math.triangle"
+  ],
+  "polygon": [
+    "lhs:math.triangle"
+  ],
+  "cosecant": [
+    "lhs:math.trigonometric-ratio"
+  ],
+  "trigonometric": [
+    "lhs:math.trigonometric-ratio"
+  ],
+  "cotangent": [
+    "lhs:math.trigonometric-ratio"
+  ],
+  "cosine": [
+    "lhs:math.trigonometric-ratio"
+  ],
+  "oppositeadjacent": [
+    "lhs:math.trigonometric-ratio"
+  ],
+  "secant": [
+    "lhs:math.trigonometric-ratio"
+  ],
+  "adjacenthypotenuse": [
+    "lhs:math.trigonometric-ratio"
+  ],
+  "extended": [
+    "lhs:math.trigonometric-ratio"
+  ],
+  "reciprocal": [
+    "lhs:math.trigonometric-ratio"
+  ],
+  "oppositehypotenuse": [
+    "lhs:math.trigonometric-ratio"
+  ],
+  "sine": [
+    "lhs:math.trigonometric-ratio"
+  ],
+  "primary": [
+    "lhs:math.trigonometric-ratio"
+  ],
+  "unknown": [
+    "lhs:math.variable",
+    "lhs:phys.measurement"
+  ],
+  "formulation": [
+    "lhs:math.variable"
+  ],
+  "allow": [
+    "lhs:math.variable"
+  ],
+  "generalization": [
+    "lhs:math.variable"
+  ],
+  "relationships": [
+    "lhs:math.variable"
+  ],
+  "expressions": [
+    "lhs:math.variable"
+  ],
+  "changeable": [
+    "lhs:math.variable"
+  ],
+  "letter": [
+    "lhs:math.variable"
+  ],
+  "much": [
+    "lhs:math.volume",
+    "lhs:phys.vector"
+  ],
+  "object": [
+    "lhs:math.volume",
+    "lhs:phys.buoyancy",
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.displacement",
+    "lhs:phys.gravitational-acceleration",
+    "lhs:phys.heat",
+    "lhs:phys.heat-capacity",
+    "lhs:phys.impulse",
+    "lhs:phys.inertia",
+    "lhs:phys.kinetic-energy",
+    "lhs:phys.momentum",
+    "lhs:phys.motion",
+    "lhs:phys.newtons-first-law",
+    "lhs:phys.newtons-third-law",
+    "lhs:phys.potential-energy",
+    "lhs:phys.projectile-motion",
+    "lhs:phys.simple-harmonic-motion",
+    "lhs:phys.speed",
+    "lhs:phys.weight",
+    "lhs:phys.work",
+    "lhs:phys.work-energy-theorem"
+  ],
+  "three-dimensional": [
+    "lhs:math.volume"
+  ],
+  "capacity": [
+    "lhs:math.volume",
+    "lhs:phys.energy",
+    "lhs:phys.heat-capacity",
+    "lhs:phys.specific-heat"
+  ],
+  "container": [
+    "lhs:math.volume"
+  ],
+  "cubic": [
+    "lhs:math.volume"
+  ],
+  "occupied": [
+    "lhs:math.volume"
+  ],
+  "refers": [
+    "lhs:math.volume"
+  ],
+  "hold": [
+    "lhs:math.volume"
+  ],
+  "velocity": [
+    "lhs:phys.acceleration",
+    "lhs:phys.equations-of-motion",
+    "lhs:phys.inertia",
+    "lhs:phys.magnetic-force",
+    "lhs:phys.momentum",
+    "lhs:phys.newtons-first-law",
+    "lhs:phys.velocity"
+  ],
+  "physics": [
+    "lhs:phys.acceleration",
+    "lhs:phys.amplitude",
+    "lhs:phys.atomic-structure",
+    "lhs:phys.bohr-model",
+    "lhs:phys.brownian-motion",
+    "lhs:phys.buoyancy",
+    "lhs:phys.capacitor",
+    "lhs:phys.change-of-state",
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.coulombs-law",
+    "lhs:phys.current",
+    "lhs:phys.density",
+    "lhs:phys.displacement",
+    "lhs:phys.distance",
+    "lhs:phys.doppler-effect",
+    "lhs:phys.efficiency",
+    "lhs:phys.electric-charge",
+    "lhs:phys.electric-field",
+    "lhs:phys.electric-motor",
+    "lhs:phys.electromagnetic-induction",
+    "lhs:phys.electromagnetic-spectrum",
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.electromagnetism",
+    "lhs:phys.energy",
+    "lhs:phys.energy-loss",
+    "lhs:phys.energy-sources",
+    "lhs:phys.equations-of-motion",
+    "lhs:phys.force",
+    "lhs:phys.free-fall",
+    "lhs:phys.frequency",
+    "lhs:phys.friction",
+    "lhs:phys.generator",
+    "lhs:phys.graphical-analysis",
+    "lhs:phys.gravitation",
+    "lhs:phys.gravitational-acceleration",
+    "lhs:phys.half-life",
+    "lhs:phys.heat",
+    "lhs:phys.heat-capacity",
+    "lhs:phys.heating-effect",
+    "lhs:phys.ideal-gas-model",
+    "lhs:phys.impulse",
+    "lhs:phys.inertia",
+    "lhs:phys.kinetic-energy",
+    "lhs:phys.lens",
+    "lhs:phys.light",
+    "lhs:phys.magnetic-field",
+    "lhs:phys.magnetic-flux",
+    "lhs:phys.magnetic-force",
+    "lhs:phys.magnetism",
+    "lhs:phys.mass",
+    "lhs:phys.measurement",
+    "lhs:phys.mechanical-advantage",
+    "lhs:phys.mirror",
+    "lhs:phys.momentum",
+    "lhs:phys.motion",
+    "lhs:phys.newtons-first-law",
+    "lhs:phys.newtons-law-of-gravitation",
+    "lhs:phys.newtons-second-law",
+    "lhs:phys.newtons-third-law",
+    "lhs:phys.nuclear-binding-energy",
+    "lhs:phys.nuclear-fission",
+    "lhs:phys.nuclear-fusion",
+    "lhs:phys.ohms-law",
+    "lhs:phys.our-environment",
+    "lhs:phys.phase-change",
+    "lhs:phys.photoelectric-effect",
+    "lhs:phys.physical-quantity",
+    "lhs:phys.potential-energy",
+    "lhs:phys.power",
+    "lhs:phys.pressure",
+    "lhs:phys.projectile-motion",
+    "lhs:phys.quantized-energy-levels",
+    "lhs:phys.radioactivity",
+    "lhs:phys.ray-model",
+    "lhs:phys.reflection",
+    "lhs:phys.refraction",
+    "lhs:phys.resistance",
+    "lhs:phys.scalar",
+    "lhs:phys.simple-harmonic-motion",
+    "lhs:phys.sound",
+    "lhs:phys.specific-heat",
+    "lhs:phys.speed",
+    "lhs:phys.temperature",
+    "lhs:phys.thermal-energy",
+    "lhs:phys.time",
+    "lhs:phys.unit",
+    "lhs:phys.vector",
+    "lhs:phys.velocity",
+    "lhs:phys.voltage",
+    "lhs:phys.wave",
+    "lhs:phys.wave-interference",
+    "lhs:phys.wave-speed",
+    "lhs:phys.wavelength",
+    "lhs:phys.weight",
+    "lhs:phys.work",
+    "lhs:phys.work-energy-theorem"
+  ],
+  "both": [
+    "lhs:phys.acceleration",
+    "lhs:phys.displacement",
+    "lhs:phys.light",
+    "lhs:phys.magnetic-force",
+    "lhs:phys.vector",
+    "lhs:phys.velocity"
+  ],
+  "occurs": [
+    "lhs:phys.acceleration",
+    "lhs:phys.wave-interference"
+  ],
+  "vector": [
+    "lhs:phys.acceleration",
+    "lhs:phys.displacement",
+    "lhs:phys.force",
+    "lhs:phys.momentum",
+    "lhs:phys.vector",
+    "lhs:phys.velocity",
+    "lhs:phys.weight"
+  ],
+  "acceleration": [
+    "lhs:phys.acceleration",
+    "lhs:phys.equations-of-motion",
+    "lhs:phys.free-fall",
+    "lhs:phys.gravitational-acceleration",
+    "lhs:phys.mass",
+    "lhs:phys.potential-energy"
+  ],
+  "magnitude": [
+    "lhs:phys.acceleration",
+    "lhs:phys.displacement",
+    "lhs:phys.distance",
+    "lhs:phys.newtons-third-law",
+    "lhs:phys.scalar",
+    "lhs:phys.vector",
+    "lhs:phys.velocity"
+  ],
+  "objects": [
+    "lhs:phys.acceleration",
+    "lhs:phys.density",
+    "lhs:phys.energy",
+    "lhs:phys.free-fall",
+    "lhs:phys.gravitation",
+    "lhs:phys.gravitational-acceleration",
+    "lhs:phys.heat-capacity",
+    "lhs:phys.sound"
+  ],
+  "displacement": [
+    "lhs:phys.amplitude",
+    "lhs:phys.displacement",
+    "lhs:phys.equations-of-motion",
+    "lhs:phys.simple-harmonic-motion",
+    "lhs:phys.velocity",
+    "lhs:phys.work"
+  ],
+  "amplitude": [
+    "lhs:phys.amplitude",
+    "lhs:phys.wave-interference",
+    "lhs:phys.wave-speed"
+  ],
+  "rest": [
+    "lhs:phys.amplitude",
+    "lhs:phys.inertia",
+    "lhs:phys.newtons-first-law"
+  ],
+  "carried": [
+    "lhs:phys.amplitude"
+  ],
+  "wave": [
+    "lhs:phys.amplitude",
+    "lhs:phys.doppler-effect",
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.frequency",
+    "lhs:phys.light",
+    "lhs:phys.sound",
+    "lhs:phys.wave",
+    "lhs:phys.wave-interference",
+    "lhs:phys.wave-speed",
+    "lhs:phys.wavelength"
+  ],
+  "positively": [
+    "lhs:phys.atomic-structure"
+  ],
+  "negatively": [
+    "lhs:phys.atomic-structure"
+  ],
+  "quantum": [
+    "lhs:phys.bohr-model",
+    "lhs:phys.photoelectric-effect"
+  ],
+  "spectrum": [
+    "lhs:phys.bohr-model",
+    "lhs:phys.electromagnetic-spectrum",
+    "lhs:phys.electromagnetic-wave"
+  ],
+  "bohr": [
+    "lhs:phys.bohr-model"
+  ],
+  "orbits": [
+    "lhs:phys.bohr-model"
+  ],
+  "quantized": [
+    "lhs:phys.bohr-model",
+    "lhs:phys.quantized-energy-levels"
+  ],
+  "limited": [
+    "lhs:phys.bohr-model"
+  ],
+  "hydrogen-like": [
+    "lhs:phys.bohr-model"
+  ],
+  "molecular-kinetic": [
+    "lhs:phys.brownian-motion"
+  ],
+  "suspended": [
+    "lhs:phys.brownian-motion"
+  ],
+  "fast-moving": [
+    "lhs:phys.brownian-motion"
+  ],
+  "brownian": [
+    "lhs:phys.brownian-motion"
+  ],
+  "evidence": [
+    "lhs:phys.brownian-motion",
+    "lhs:practice.scientific-observation"
+  ],
+  "collisions": [
+    "lhs:phys.brownian-motion"
+  ],
+  "erratic": [
+    "lhs:phys.brownian-motion"
+  ],
+  "weight": [
+    "lhs:phys.buoyancy",
+    "lhs:phys.weight"
+  ],
+  "archimedes": [
+    "lhs:phys.buoyancy"
+  ],
+  "force": [
+    "lhs:phys.buoyancy",
+    "lhs:phys.coulombs-law",
+    "lhs:phys.electric-charge",
+    "lhs:phys.electric-field",
+    "lhs:phys.electric-motor",
+    "lhs:phys.electromagnetic-induction",
+    "lhs:phys.force",
+    "lhs:phys.free-fall",
+    "lhs:phys.friction",
+    "lhs:phys.impulse",
+    "lhs:phys.inertia",
+    "lhs:phys.magnetic-force",
+    "lhs:phys.mechanical-advantage",
+    "lhs:phys.newtons-first-law",
+    "lhs:phys.newtons-law-of-gravitation",
+    "lhs:phys.newtons-second-law",
+    "lhs:phys.newtons-third-law",
+    "lhs:phys.pressure",
+    "lhs:phys.simple-harmonic-motion",
+    "lhs:phys.weight",
+    "lhs:phys.work",
+    "lhs:phys.work-energy-theorem"
+  ],
+  "buoyancy": [
+    "lhs:phys.buoyancy"
+  ],
+  "exerted": [
+    "lhs:phys.buoyancy",
+    "lhs:phys.magnetic-force",
+    "lhs:phys.weight"
+  ],
+  "immersed": [
+    "lhs:phys.buoyancy"
+  ],
+  "displaced": [
+    "lhs:phys.buoyancy"
+  ],
+  "conductors": [
+    "lhs:phys.capacitor"
+  ],
+  "capacitance": [
+    "lhs:phys.capacitor"
+  ],
+  "potential": [
+    "lhs:phys.capacitor",
+    "lhs:phys.potential-energy",
+    "lhs:phys.thermal-energy",
+    "lhs:phys.voltage"
+  ],
+  "realizing": [
+    "lhs:phys.capacitor"
+  ],
+  "capacitor": [
+    "lhs:phys.capacitor"
+  ],
+  "insulator": [
+    "lhs:phys.capacitor"
+  ],
+  "store": [
+    "lhs:phys.capacitor"
+  ],
+  "liquid": [
+    "lhs:phys.change-of-state",
+    "lhs:phys.phase-change",
+    "lhs:phys.sound"
+  ],
+  "intermolecular": [
+    "lhs:phys.change-of-state",
+    "lhs:phys.ideal-gas-model"
+  ],
+  "remains": [
+    "lhs:phys.change-of-state",
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.newtons-first-law",
+    "lhs:phys.ohms-law"
+  ],
+  "gas": [
+    "lhs:phys.change-of-state",
+    "lhs:phys.ideal-gas-model",
+    "lhs:phys.phase-change",
+    "lhs:phys.sound"
+  ],
+  "solid": [
+    "lhs:phys.change-of-state",
+    "lhs:phys.phase-change",
+    "lhs:phys.sound"
+  ],
+  "phases": [
+    "lhs:phys.change-of-state"
+  ],
+  "transition": [
+    "lhs:phys.change-of-state",
+    "lhs:phys.phase-change"
+  ],
+  "destroyed": [
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.energy"
+  ],
+  "conservation": [
+    "lhs:phys.conservation-of-energy"
+  ],
+  "created": [
+    "lhs:phys.conservation-of-energy",
+    "lhs:phys.energy"
+  ],
+  "proportional": [
+    "lhs:phys.coulombs-law",
+    "lhs:phys.newtons-law-of-gravitation",
+    "lhs:phys.ohms-law",
+    "lhs:phys.simple-harmonic-motion"
+  ],
+  "directly": [
+    "lhs:phys.coulombs-law",
+    "lhs:phys.ohms-law",
+    "lhs:phys.simple-harmonic-motion",
+    "lhs:phys.work-energy-theorem"
+  ],
+  "coulombs": [
+    "lhs:phys.coulombs-law"
+  ],
+  "magnitudes": [
+    "lhs:phys.coulombs-law"
+  ],
+  "charges": [
+    "lhs:phys.coulombs-law",
+    "lhs:phys.electric-charge",
+    "lhs:phys.magnetism"
+  ],
+  "inversely": [
+    "lhs:phys.coulombs-law",
+    "lhs:phys.newtons-law-of-gravitation"
+  ],
+  "circuit": [
+    "lhs:phys.current",
+    "lhs:phys.generator",
+    "lhs:phys.voltage"
+  ],
+  "conductor": [
+    "lhs:phys.current",
+    "lhs:phys.electromagnetic-induction",
+    "lhs:phys.heating-effect",
+    "lhs:phys.magnetic-field",
+    "lhs:phys.magnetic-force",
+    "lhs:phys.ohms-law",
+    "lhs:phys.resistance"
+  ],
+  "past": [
+    "lhs:phys.current",
+    "lhs:phys.time"
+  ],
+  "sink": [
+    "lhs:phys.density"
+  ],
+  "float": [
+    "lhs:phys.density"
+  ],
+  "fluids": [
+    "lhs:phys.density"
+  ],
+  "initial": [
+    "lhs:phys.displacement",
+    "lhs:phys.equations-of-motion"
+  ],
+  "final": [
+    "lhs:phys.displacement"
+  ],
+  "making": [
+    "lhs:phys.displacement"
+  ],
+  "straight-line": [
+    "lhs:phys.displacement"
+  ],
+  "traveled": [
+    "lhs:phys.distance",
+    "lhs:phys.speed"
+  ],
+  "path": [
+    "lhs:phys.distance"
+  ],
+  "positions": [
+    "lhs:phys.distance"
+  ],
+  "doppler": [
+    "lhs:phys.doppler-effect"
+  ],
+  "observer": [
+    "lhs:phys.doppler-effect"
+  ],
+  "frequency": [
+    "lhs:phys.doppler-effect",
+    "lhs:phys.electromagnetic-spectrum",
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.frequency",
+    "lhs:phys.photoelectric-effect",
+    "lhs:phys.wave-speed"
+  ],
+  "observed": [
+    "lhs:phys.doppler-effect"
+  ],
+  "apparent": [
+    "lhs:phys.doppler-effect"
+  ],
+  "recedes": [
+    "lhs:phys.doppler-effect"
+  ],
+  "due": [
+    "lhs:phys.doppler-effect",
+    "lhs:phys.energy-loss",
+    "lhs:phys.heat",
+    "lhs:phys.kinetic-energy",
+    "lhs:phys.potential-energy"
+  ],
+  "source": [
+    "lhs:phys.doppler-effect"
+  ],
+  "because": [
+    "lhs:phys.efficiency"
+  ],
+  "efficient": [
+    "lhs:phys.efficiency"
+  ],
+  "some": [
+    "lhs:phys.efficiency"
+  ],
+  "efficiency": [
+    "lhs:phys.efficiency"
+  ],
+  "machine": [
+    "lhs:phys.efficiency",
+    "lhs:phys.electric-motor",
+    "lhs:phys.generator",
+    "lhs:phys.mechanical-advantage"
+  ],
+  "dissipated": [
+    "lhs:phys.efficiency"
+  ],
+  "useful": [
+    "lhs:phys.efficiency",
+    "lhs:phys.energy-loss"
+  ],
+  "100": [
+    "lhs:phys.efficiency"
+  ],
+  "experience": [
+    "lhs:phys.electric-charge",
+    "lhs:phys.free-fall"
+  ],
+  "like": [
+    "lhs:phys.electric-charge"
+  ],
+  "electromagnetic": [
+    "lhs:phys.electric-charge",
+    "lhs:phys.electromagnetic-induction",
+    "lhs:phys.electromagnetic-spectrum",
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.generator",
+    "lhs:phys.light"
+  ],
+  "repel": [
+    "lhs:phys.electric-charge"
+  ],
+  "opposite": [
+    "lhs:phys.electric-charge",
+    "lhs:phys.friction",
+    "lhs:phys.newtons-third-law",
+    "lhs:phys.simple-harmonic-motion"
+  ],
+  "attract": [
+    "lhs:phys.electric-charge"
+  ],
+  "field": [
+    "lhs:phys.electric-charge",
+    "lhs:phys.electric-field",
+    "lhs:phys.electric-motor",
+    "lhs:phys.electromagnetic-induction",
+    "lhs:phys.electromagnetism",
+    "lhs:phys.generator",
+    "lhs:phys.magnetic-field",
+    "lhs:phys.magnetic-flux",
+    "lhs:phys.magnetic-force"
+  ],
+  "causes": [
+    "lhs:phys.electric-charge"
+  ],
+  "placed": [
+    "lhs:phys.electric-charge"
+  ],
+  "test": [
+    "lhs:phys.electric-field"
+  ],
+  "experiences": [
+    "lhs:phys.electric-field"
+  ],
+  "quantified": [
+    "lhs:phys.electric-field",
+    "lhs:phys.inertia",
+    "lhs:phys.physical-quantity"
+  ],
+  "mechanical": [
+    "lhs:phys.electric-motor",
+    "lhs:phys.generator",
+    "lhs:phys.mechanical-advantage",
+    "lhs:phys.sound"
+  ],
+  "interaction": [
+    "lhs:phys.electric-motor",
+    "lhs:phys.gravitation"
+  ],
+  "magnetic": [
+    "lhs:phys.electric-motor",
+    "lhs:phys.electromagnetic-induction",
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.electromagnetism",
+    "lhs:phys.generator",
+    "lhs:phys.magnetic-field",
+    "lhs:phys.magnetic-flux",
+    "lhs:phys.magnetic-force",
+    "lhs:phys.magnetism"
+  ],
+  "rotational": [
+    "lhs:phys.electric-motor"
+  ],
+  "torque": [
+    "lhs:phys.electric-motor"
+  ],
+  "winding": [
+    "lhs:phys.electric-motor"
+  ],
+  "motor": [
+    "lhs:phys.electric-motor"
+  ],
+  "exposed": [
+    "lhs:phys.electromagnetic-induction"
+  ],
+  "electromotive": [
+    "lhs:phys.electromagnetic-induction"
+  ],
+  "induction": [
+    "lhs:phys.electromagnetic-induction",
+    "lhs:phys.generator"
+  ],
+  "generators": [
+    "lhs:phys.electromagnetic-induction"
+  ],
+  "behind": [
+    "lhs:phys.electromagnetic-induction"
+  ],
+  "shortest": [
+    "lhs:phys.electromagnetic-spectrum"
+  ],
+  "wavelength": [
+    "lhs:phys.electromagnetic-spectrum",
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.wavelength"
+  ],
+  "microwaves": [
+    "lhs:phys.electromagnetic-spectrum"
+  ],
+  "gamma": [
+    "lhs:phys.electromagnetic-spectrum",
+    "lhs:phys.radioactivity"
+  ],
+  "radio": [
+    "lhs:phys.electromagnetic-spectrum"
+  ],
+  "waves": [
+    "lhs:phys.electromagnetic-spectrum",
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.wave",
+    "lhs:phys.wave-interference"
+  ],
+  "visible": [
+    "lhs:phys.electromagnetic-spectrum",
+    "lhs:phys.light"
+  ],
+  "longest": [
+    "lhs:phys.electromagnetic-spectrum"
+  ],
+  "x-rays": [
+    "lhs:phys.electromagnetic-spectrum"
+  ],
+  "self-propagating": [
+    "lhs:phys.electromagnetic-wave"
+  ],
+  "speed": [
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.kinetic-energy",
+    "lhs:phys.magnetic-force",
+    "lhs:phys.newtons-first-law",
+    "lhs:phys.refraction",
+    "lhs:phys.speed",
+    "lhs:phys.velocity",
+    "lhs:phys.wave-speed"
+  ],
+  "orders": [
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.time"
+  ],
+  "fields": [
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.magnetic-field",
+    "lhs:phys.magnetism"
+  ],
+  "transverse": [
+    "lhs:phys.electromagnetic-wave"
+  ],
+  "perpendicular": [
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.magnetic-flux",
+    "lhs:phys.magnetic-force"
+  ],
+  "medium": [
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.refraction",
+    "lhs:phys.sound",
+    "lhs:phys.wave",
+    "lhs:phys.wave-speed"
+  ],
+  "disturbance": [
+    "lhs:phys.electromagnetic-wave",
+    "lhs:phys.wave",
+    "lhs:phys.wave-interference"
+  ],
+  "magnetism": [
+    "lhs:phys.electromagnetism",
+    "lhs:phys.magnetism"
+  ],
+  "electromagnetism": [
+    "lhs:phys.electromagnetism"
+  ],
+  "dealing": [
+    "lhs:phys.electromagnetism"
+  ],
+  "branch": [
+    "lhs:phys.electromagnetism"
+  ],
+  "work": [
+    "lhs:phys.energy",
+    "lhs:phys.energy-loss",
+    "lhs:phys.power",
+    "lhs:phys.voltage",
+    "lhs:phys.work",
+    "lhs:phys.work-energy-theorem"
+  ],
+  "produce": [
+    "lhs:phys.energy",
+    "lhs:phys.magnetism",
+    "lhs:phys.mechanical-advantage",
+    "lhs:phys.mirror"
+  ],
+  "never": [
+    "lhs:phys.energy"
+  ],
+  "conversion": [
+    "lhs:phys.energy-loss"
+  ],
+  "intended": [
+    "lhs:phys.energy-loss"
+  ],
+  "air": [
+    "lhs:phys.energy-loss",
+    "lhs:phys.free-fall",
+    "lhs:phys.projectile-motion"
+  ],
+  "dissipative": [
+    "lhs:phys.energy-loss"
+  ],
+  "resistance": [
+    "lhs:phys.energy-loss",
+    "lhs:phys.free-fall",
+    "lhs:phys.heating-effect",
+    "lhs:phys.mass",
+    "lhs:phys.ohms-law",
+    "lhs:phys.projectile-motion",
+    "lhs:phys.resistance"
+  ],
+  "friction": [
+    "lhs:phys.energy-loss",
+    "lhs:phys.friction"
+  ],
+  "doing": [
+    "lhs:phys.energy-loss"
+  ],
+  "usefulness": [
+    "lhs:phys.energy-loss"
+  ],
+  "decreases": [
+    "lhs:phys.energy-loss"
+  ],
+  "sources": [
+    "lhs:phys.energy-sources"
+  ],
+  "depleting": [
+    "lhs:phys.energy-sources"
+  ],
+  "naturally": [
+    "lhs:phys.energy-sources"
+  ],
+  "replenished": [
+    "lhs:phys.energy-sources"
+  ],
+  "origins": [
+    "lhs:phys.energy-sources"
+  ],
+  "human": [
+    "lhs:phys.energy-sources",
+    "lhs:phys.light",
+    "lhs:practice.scientific-observation"
+  ],
+  "non-renewable": [
+    "lhs:phys.energy-sources"
+  ],
+  "renewable": [
+    "lhs:phys.energy-sources"
+  ],
+  "finite": [
+    "lhs:phys.energy-sources"
+  ],
+  "civilization": [
+    "lhs:phys.energy-sources"
+  ],
+  "apply": [
+    "lhs:phys.equations-of-motion"
+  ],
+  "2as": [
+    "lhs:phys.equations-of-motion"
+  ],
+  "kinematic": [
+    "lhs:phys.equations-of-motion"
+  ],
+  "relating": [
+    "lhs:phys.equations-of-motion"
+  ],
+  "\u00bdat\u00b2": [
+    "lhs:phys.equations-of-motion"
+  ],
+  "mechanics": [
+    "lhs:phys.force",
+    "lhs:phys.mass",
+    "lhs:phys.motion"
+  ],
+  "influence": [
+    "lhs:phys.force",
+    "lhs:phys.free-fall",
+    "lhs:phys.gravitational-acceleration",
+    "lhs:phys.projectile-motion"
+  ],
+  "accelerate": [
+    "lhs:phys.force"
+  ],
+  "momentum": [
+    "lhs:phys.force",
+    "lhs:phys.impulse",
+    "lhs:phys.momentum",
+    "lhs:phys.newtons-second-law"
+  ],
+  "classical": [
+    "lhs:phys.force"
+  ],
+  "especially": [
+    "lhs:phys.free-fall"
+  ],
+  "forces": [
+    "lhs:phys.free-fall",
+    "lhs:phys.ideal-gas-model",
+    "lhs:phys.magnetic-field",
+    "lhs:phys.magnetism",
+    "lhs:phys.pressure"
+  ],
+  "fall": [
+    "lhs:phys.free-fall"
+  ],
+  "alone": [
+    "lhs:phys.free-fall",
+    "lhs:phys.projectile-motion"
+  ],
+  "negligible": [
+    "lhs:phys.free-fall"
+  ],
+  "provided": [
+    "lhs:phys.free-fall",
+    "lhs:phys.ohms-law"
+  ],
+  "gravitational": [
+    "lhs:phys.free-fall",
+    "lhs:phys.gravitational-acceleration",
+    "lhs:phys.potential-energy",
+    "lhs:phys.weight"
+  ],
+  "cycles": [
+    "lhs:phys.frequency"
+  ],
+  "pitch": [
+    "lhs:phys.frequency",
+    "lhs:phys.wavelength"
+  ],
+  "color": [
+    "lhs:phys.frequency",
+    "lhs:phys.wavelength"
+  ],
+  "sound": [
+    "lhs:phys.frequency",
+    "lhs:phys.sound",
+    "lhs:phys.wavelength"
+  ],
+  "opposes": [
+    "lhs:phys.friction"
+  ],
+  "contact": [
+    "lhs:phys.friction"
+  ],
+  "parallel": [
+    "lhs:phys.friction"
+  ],
+  "attempted": [
+    "lhs:phys.friction"
+  ],
+  "acts": [
+    "lhs:phys.friction",
+    "lhs:phys.impulse"
+  ],
+  "surfaces": [
+    "lhs:phys.friction"
+  ],
+  "rotating": [
+    "lhs:phys.generator"
+  ],
+  "forcing": [
+    "lhs:phys.generator"
+  ],
+  "coil": [
+    "lhs:phys.generator"
+  ],
+  "generator": [
+    "lhs:phys.generator"
+  ],
+  "visual": [
+    "lhs:phys.graphical-analysis"
+  ],
+  "understanding": [
+    "lhs:phys.graphical-analysis"
+  ],
+  "extracting": [
+    "lhs:phys.graphical-analysis"
+  ],
+  "graphical": [
+    "lhs:phys.graphical-analysis"
+  ],
+  "graphs": [
+    "lhs:phys.graphical-analysis"
+  ],
+  "quantitative": [
+    "lhs:phys.graphical-analysis",
+    "lhs:phys.measurement"
+  ],
+  "distance-time": [
+    "lhs:phys.graphical-analysis"
+  ],
+  "velocity-time": [
+    "lhs:phys.graphical-analysis"
+  ],
+  "represent": [
+    "lhs:phys.graphical-analysis",
+    "lhs:phys.vector"
+  ],
+  "tools": [
+    "lhs:phys.graphical-analysis"
+  ],
+  "analyze": [
+    "lhs:phys.graphical-analysis"
+  ],
+  "analysis": [
+    "lhs:phys.graphical-analysis"
+  ],
+  "attracted": [
+    "lhs:phys.gravitation"
+  ],
+  "gravitation": [
+    "lhs:phys.gravitation",
+    "lhs:phys.newtons-law-of-gravitation"
+  ],
+  "phenomenon": [
+    "lhs:phys.gravitation",
+    "lhs:phys.heating-effect",
+    "lhs:phys.magnetism",
+    "lhs:phys.motion",
+    "lhs:phys.physical-quantity"
+  ],
+  "galaxies": [
+    "lhs:phys.gravitation"
+  ],
+  "stars": [
+    "lhs:phys.gravitation",
+    "lhs:phys.nuclear-fusion"
+  ],
+  "experienced": [
+    "lhs:phys.gravitational-acceleration"
+  ],
+  "solely": [
+    "lhs:phys.gravitational-acceleration"
+  ],
+  "statistically": [
+    "lhs:phys.half-life"
+  ],
+  "nuclide": [
+    "lhs:phys.half-life"
+  ],
+  "radioactive": [
+    "lhs:phys.half-life"
+  ],
+  "half-life": [
+    "lhs:phys.half-life"
+  ],
+  "sample": [
+    "lhs:phys.half-life"
+  ],
+  "half": [
+    "lhs:phys.half-life"
+  ],
+  "required": [
+    "lhs:phys.half-life",
+    "lhs:phys.heat-capacity",
+    "lhs:phys.nuclear-binding-energy",
+    "lhs:phys.specific-heat"
+  ],
+  "transit": [
+    "lhs:phys.heat"
+  ],
+  "depends": [
+    "lhs:phys.heat-capacity",
+    "lhs:phys.heating-effect",
+    "lhs:phys.kinetic-energy",
+    "lhs:phys.potential-energy",
+    "lhs:phys.thermal-energy",
+    "lhs:phys.wave-speed"
+  ],
+  "intensive": [
+    "lhs:phys.heat-capacity"
+  ],
+  "raise": [
+    "lhs:phys.heat-capacity",
+    "lhs:phys.specific-heat"
+  ],
+  "entire": [
+    "lhs:phys.heat-capacity"
+  ],
+  "heating": [
+    "lhs:phys.heating-effect"
+  ],
+  "flows": [
+    "lhs:phys.heating-effect",
+    "lhs:phys.temperature"
+  ],
+  "nrt": [
+    "lhs:phys.ideal-gas-model"
+  ],
+  "high": [
+    "lhs:phys.ideal-gas-model"
+  ],
+  "obeying": [
+    "lhs:phys.ideal-gas-model"
+  ],
+  "ideal": [
+    "lhs:phys.ideal-gas-model"
+  ],
+  "valid": [
+    "lhs:phys.ideal-gas-model"
+  ],
+  "moderate": [
+    "lhs:phys.ideal-gas-model"
+  ],
+  "impulse": [
+    "lhs:phys.impulse"
+  ],
+  "inertia": [
+    "lhs:phys.inertia"
+  ],
+  "resist": [
+    "lhs:phys.inertia"
+  ],
+  "moving": [
+    "lhs:phys.inertia",
+    "lhs:phys.magnetic-force",
+    "lhs:phys.magnetism",
+    "lhs:phys.projectile-motion"
+  ],
+  "possessed": [
+    "lhs:phys.kinetic-energy"
+  ],
+  "kinetic": [
+    "lhs:phys.kinetic-energy",
+    "lhs:phys.temperature",
+    "lhs:phys.thermal-energy",
+    "lhs:phys.work-energy-theorem"
+  ],
+  "apart": [
+    "lhs:phys.lens"
+  ],
+  "converging": [
+    "lhs:phys.lens"
+  ],
+  "diverging": [
+    "lhs:phys.lens"
+  ],
+  "focus": [
+    "lhs:phys.lens"
+  ],
+  "optical": [
+    "lhs:phys.lens"
+  ],
+  "convex": [
+    "lhs:phys.lens",
+    "lhs:phys.mirror"
+  ],
+  "transparent": [
+    "lhs:phys.lens",
+    "lhs:phys.ray-model"
+  ],
+  "refracts": [
+    "lhs:phys.lens"
+  ],
+  "bring": [
+    "lhs:phys.lens"
+  ],
+  "lens": [
+    "lhs:phys.lens"
+  ],
+  "converge": [
+    "lhs:phys.lens"
+  ],
+  "lenses": [
+    "lhs:phys.lens"
+  ],
+  "concave": [
+    "lhs:phys.lens",
+    "lhs:phys.mirror"
+  ],
+  "models": [
+    "lhs:phys.light"
+  ],
+  "behaves": [
+    "lhs:phys.light"
+  ],
+  "aspects": [
+    "lhs:phys.light"
+  ],
+  "eye": [
+    "lhs:phys.light"
+  ],
+  "photon": [
+    "lhs:phys.light",
+    "lhs:phys.quantized-energy-levels"
+  ],
+  "lines": [
+    "lhs:phys.magnetic-field",
+    "lhs:phys.ray-model"
+  ],
+  "strength": [
+    "lhs:phys.magnetic-field",
+    "lhs:phys.magnetic-flux"
+  ],
+  "show": [
+    "lhs:phys.magnetic-field"
+  ],
+  "current-carrying": [
+    "lhs:phys.magnetic-field",
+    "lhs:phys.magnetic-force"
+  ],
+  "detected": [
+    "lhs:phys.magnetic-field"
+  ],
+  "magnet": [
+    "lhs:phys.magnetic-field"
+  ],
+  "flux": [
+    "lhs:phys.magnetic-flux"
+  ],
+  "calculated": [
+    "lhs:phys.magnetic-flux"
+  ],
+  "connected": [
+    "lhs:phys.magnetism"
+  ],
+  "exert": [
+    "lhs:phys.magnetism"
+  ],
+  "attractive": [
+    "lhs:phys.magnetism"
+  ],
+  "materials": [
+    "lhs:phys.magnetism"
+  ],
+  "intimately": [
+    "lhs:phys.magnetism"
+  ],
+  "repulsive": [
+    "lhs:phys.magnetism"
+  ],
+  "location": [
+    "lhs:phys.mass"
+  ],
+  "intrinsic": [
+    "lhs:phys.mass"
+  ],
+  "newtonian": [
+    "lhs:phys.mass"
+  ],
+  "comparing": [
+    "lhs:phys.measurement"
+  ],
+  "description": [
+    "lhs:phys.measurement"
+  ],
+  "measurement": [
+    "lhs:phys.measurement",
+    "lhs:phys.unit"
+  ],
+  "prediction": [
+    "lhs:phys.measurement",
+    "lhs:phys.physical-quantity"
+  ],
+  "connects": [
+    "lhs:phys.measurement",
+    "lhs:phys.work-energy-theorem"
+  ],
+  "advantage": [
+    "lhs:phys.mechanical-advantage"
+  ],
+  "though": [
+    "lhs:phys.mechanical-advantage"
+  ],
+  "smaller": [
+    "lhs:phys.mechanical-advantage",
+    "lhs:phys.nuclear-fission"
+  ],
+  "shorter": [
+    "lhs:phys.mechanical-advantage"
+  ],
+  "allows": [
+    "lhs:phys.mechanical-advantage"
+  ],
+  "reflects": [
+    "lhs:phys.mirror",
+    "lhs:phys.nuclear-binding-energy"
+  ],
+  "virtual": [
+    "lhs:phys.mirror"
+  ],
+  "mirrors": [
+    "lhs:phys.mirror"
+  ],
+  "images": [
+    "lhs:phys.mirror"
+  ],
+  "curved": [
+    "lhs:phys.mirror"
+  ],
+  "sizes": [
+    "lhs:phys.mirror"
+  ],
+  "varying": [
+    "lhs:phys.mirror"
+  ],
+  "mirror": [
+    "lhs:phys.mirror"
+  ],
+  "bodys": [
+    "lhs:phys.momentum"
+  ],
+  "possesses": [
+    "lhs:phys.momentum"
+  ],
+  "reference": [
+    "lhs:phys.motion",
+    "lhs:phys.physical-quantity",
+    "lhs:phys.potential-energy",
+    "lhs:phys.unit"
+  ],
+  "studied": [
+    "lhs:phys.motion"
+  ],
+  "continues": [
+    "lhs:phys.newtons-first-law"
+  ],
+  "newtons": [
+    "lhs:phys.newtons-first-law",
+    "lhs:phys.newtons-law-of-gravitation",
+    "lhs:phys.newtons-second-law",
+    "lhs:phys.newtons-third-law"
+  ],
+  "acted": [
+    "lhs:phys.newtons-first-law"
+  ],
+  "upon": [
+    "lhs:phys.newtons-first-law"
+  ],
+  "unless": [
+    "lhs:phys.newtons-first-law"
+  ],
+  "centers": [
+    "lhs:phys.newtons-law-of-gravitation"
+  ],
+  "attracts": [
+    "lhs:phys.newtons-law-of-gravitation"
+  ],
+  "masses": [
+    "lhs:phys.newtons-law-of-gravitation"
+  ],
+  "universal": [
+    "lhs:phys.newtons-law-of-gravitation"
+  ],
+  "reduces": [
+    "lhs:phys.newtons-second-law"
+  ],
+  "third": [
+    "lhs:phys.newtons-third-law"
+  ],
+  "simultaneously": [
+    "lhs:phys.newtons-third-law"
+  ],
+  "exerts": [
+    "lhs:phys.newtons-third-law"
+  ],
+  "mass-energy": [
+    "lhs:phys.nuclear-binding-energy"
+  ],
+  "separate": [
+    "lhs:phys.nuclear-binding-energy"
+  ],
+  "nuclear": [
+    "lhs:phys.nuclear-binding-energy",
+    "lhs:phys.nuclear-fission",
+    "lhs:phys.nuclear-fusion"
+  ],
+  "individual": [
+    "lhs:phys.nuclear-binding-energy",
+    "lhs:phys.wave-interference"
+  ],
+  "constituents": [
+    "lhs:phys.nuclear-binding-energy"
+  ],
+  "binding": [
+    "lhs:phys.nuclear-binding-energy"
+  ],
+  "equivalent": [
+    "lhs:phys.nuclear-binding-energy"
+  ],
+  "nucleons": [
+    "lhs:phys.nuclear-binding-energy"
+  ],
+  "defect": [
+    "lhs:phys.nuclear-binding-energy"
+  ],
+  "accompanied": [
+    "lhs:phys.nuclear-fission",
+    "lhs:phys.nuclear-fusion"
+  ],
+  "amounts": [
+    "lhs:phys.nuclear-fission",
+    "lhs:phys.nuclear-fusion"
+  ],
+  "heavy": [
+    "lhs:phys.nuclear-fission"
+  ],
+  "splitting": [
+    "lhs:phys.nuclear-fission"
+  ],
+  "fission": [
+    "lhs:phys.nuclear-fission"
+  ],
+  "heavier": [
+    "lhs:phys.nuclear-fusion"
+  ],
+  "combining": [
+    "lhs:phys.nuclear-fusion"
+  ],
+  "fusion": [
+    "lhs:phys.nuclear-fusion"
+  ],
+  "powers": [
+    "lhs:phys.nuclear-fusion"
+  ],
+  "ohms": [
+    "lhs:phys.ohms-law"
+  ],
+  "proportionality": [
+    "lhs:phys.ohms-law"
+  ],
+  "our": [
+    "lhs:phys.our-environment"
+  ],
+  "climate": [
+    "lhs:phys.our-environment"
+  ],
+  "interact": [
+    "lhs:phys.our-environment"
+  ],
+  "pollution": [
+    "lhs:phys.our-environment"
+  ],
+  "latent": [
+    "lhs:phys.phase-change"
+  ],
+  "identity": [
+    "lhs:phys.phase-change"
+  ],
+  "preserved": [
+    "lhs:phys.phase-change"
+  ],
+  "phase": [
+    "lhs:phys.phase-change",
+    "lhs:phys.wave-interference",
+    "lhs:phys.wavelength"
+  ],
+  "shines": [
+    "lhs:phys.photoelectric-effect"
+  ],
+  "photoelectric": [
+    "lhs:phys.photoelectric-effect"
+  ],
+  "demonstrating": [
+    "lhs:phys.photoelectric-effect"
+  ],
+  "nature": [
+    "lhs:phys.photoelectric-effect",
+    "lhs:phys.thermal-energy"
+  ],
+  "emission": [
+    "lhs:phys.photoelectric-effect",
+    "lhs:phys.quantized-energy-levels",
+    "lhs:phys.radioactivity"
+  ],
+  "sufficient": [
+    "lhs:phys.photoelectric-effect"
+  ],
+  "calculation": [
+    "lhs:phys.physical-quantity"
+  ],
+  "world": [
+    "lhs:phys.physical-quantity"
+  ],
+  "measurable": [
+    "lhs:phys.physical-quantity"
+  ],
+  "configuration": [
+    "lhs:phys.potential-energy"
+  ],
+  "level": [
+    "lhs:phys.potential-energy"
+  ],
+  "height": [
+    "lhs:phys.potential-energy"
+  ],
+  "above": [
+    "lhs:phys.potential-energy"
+  ],
+  "quickly": [
+    "lhs:phys.power"
+  ],
+  "done": [
+    "lhs:phys.power",
+    "lhs:phys.voltage",
+    "lhs:phys.work-energy-theorem"
+  ],
+  "areas": [
+    "lhs:phys.pressure"
+  ],
+  "applied": [
+    "lhs:phys.pressure"
+  ],
+  "explains": [
+    "lhs:phys.pressure"
+  ],
+  "distributed": [
+    "lhs:phys.pressure"
+  ],
+  "components": [
+    "lhs:phys.projectile-motion"
+  ],
+  "thrown": [
+    "lhs:phys.projectile-motion"
+  ],
+  "horizontal": [
+    "lhs:phys.projectile-motion"
+  ],
+  "projectile": [
+    "lhs:phys.projectile-motion"
+  ],
+  "neglecting": [
+    "lhs:phys.projectile-motion"
+  ],
+  "launched": [
+    "lhs:phys.projectile-motion"
+  ],
+  "vertical": [
+    "lhs:phys.projectile-motion"
+  ],
+  "energies": [
+    "lhs:phys.quantized-energy-levels"
+  ],
+  "involve": [
+    "lhs:phys.quantized-energy-levels"
+  ],
+  "transitions": [
+    "lhs:phys.quantized-energy-levels"
+  ],
+  "discrete": [
+    "lhs:phys.quantized-energy-levels"
+  ],
+  "absorption": [
+    "lhs:phys.quantized-energy-levels"
+  ],
+  "unstable": [
+    "lhs:phys.radioactivity"
+  ],
+  "alpha": [
+    "lhs:phys.radioactivity"
+  ],
+  "beta": [
+    "lhs:phys.radioactivity"
+  ],
+  "main": [
+    "lhs:phys.radioactivity"
+  ],
+  "radioactivity": [
+    "lhs:phys.radioactivity"
+  ],
+  "reflection": [
+    "lhs:phys.ray-model",
+    "lhs:phys.reflection"
+  ],
+  "refraction": [
+    "lhs:phys.ray-model",
+    "lhs:phys.refraction"
+  ],
+  "ray": [
+    "lhs:phys.ray-model"
+  ],
+  "propagation": [
+    "lhs:phys.ray-model"
+  ],
+  "boundaries": [
+    "lhs:phys.ray-model"
+  ],
+  "media": [
+    "lhs:phys.ray-model",
+    "lhs:phys.refraction"
+  ],
+  "traveling": [
+    "lhs:phys.ray-model"
+  ],
+  "bouncing": [
+    "lhs:phys.reflection"
+  ],
+  "back": [
+    "lhs:phys.reflection"
+  ],
+  "bending": [
+    "lhs:phys.refraction"
+  ],
+  "passes": [
+    "lhs:phys.refraction"
+  ],
+  "lights": [
+    "lhs:phys.refraction"
+  ],
+  "opposition": [
+    "lhs:phys.resistance"
+  ],
+  "described": [
+    "lhs:phys.scalar"
+  ],
+  "scalars": [
+    "lhs:phys.scalar"
+  ],
+  "rules": [
+    "lhs:phys.scalar",
+    "lhs:phys.vector"
+  ],
+  "follow": [
+    "lhs:phys.scalar"
+  ],
+  "fully": [
+    "lhs:phys.scalar"
+  ],
+  "restoring": [
+    "lhs:phys.simple-harmonic-motion"
+  ],
+  "sinusoidal": [
+    "lhs:phys.simple-harmonic-motion"
+  ],
+  "harmonic": [
+    "lhs:phys.simple-harmonic-motion"
+  ],
+  "simple": [
+    "lhs:phys.simple-harmonic-motion"
+  ],
+  "longitudinal": [
+    "lhs:phys.sound"
+  ],
+  "vacuum": [
+    "lhs:phys.sound"
+  ],
+  "travel": [
+    "lhs:phys.sound"
+  ],
+  "vibrating": [
+    "lhs:phys.sound"
+  ],
+  "kilogram": [
+    "lhs:phys.specific-heat"
+  ],
+  "celsius": [
+    "lhs:phys.specific-heat"
+  ],
+  "capacities": [
+    "lhs:phys.specific-heat"
+  ],
+  "kelvin": [
+    "lhs:phys.specific-heat"
+  ],
+  "covers": [
+    "lhs:phys.speed"
+  ],
+  "associated": [
+    "lhs:phys.thermal-energy"
+  ],
+  "interactions": [
+    "lhs:phys.thermal-energy"
+  ],
+  "future": [
+    "lhs:phys.time"
+  ],
+  "dimension": [
+    "lhs:phys.time"
+  ],
+  "present": [
+    "lhs:phys.time"
+  ],
+  "events": [
+    "lhs:phys.time"
+  ],
+  "measurements": [
+    "lhs:phys.unit"
+  ],
+  "compared": [
+    "lhs:phys.unit"
+  ],
+  "convention": [
+    "lhs:phys.unit"
+  ],
+  "adopted": [
+    "lhs:phys.unit"
+  ],
+  "vectors": [
+    "lhs:phys.vector"
+  ],
+  "follows": [
+    "lhs:phys.vector"
+  ],
+  "drives": [
+    "lhs:phys.voltage"
+  ],
+  "push": [
+    "lhs:phys.voltage"
+  ],
+  "permanently": [
+    "lhs:phys.wave"
+  ],
+  "displacing": [
+    "lhs:phys.wave"
+  ],
+  "transfers": [
+    "lhs:phys.wave"
+  ],
+  "superposition": [
+    "lhs:phys.wave-interference"
+  ],
+  "interference": [
+    "lhs:phys.wave-interference"
+  ],
+  "combined": [
+    "lhs:phys.wave-interference"
+  ],
+  "constructive": [
+    "lhs:phys.wave-interference"
+  ],
+  "amplitudes": [
+    "lhs:phys.wave-interference"
+  ],
+  "destructive": [
+    "lhs:phys.wave-interference"
+  ],
+  "propagates": [
+    "lhs:phys.wave-speed"
+  ],
+  "example": [
+    "lhs:phys.wavelength"
+  ],
+  "character": [
+    "lhs:phys.wavelength"
+  ],
+  "crest": [
+    "lhs:phys.wavelength"
+  ],
+  "trough": [
+    "lhs:phys.wavelength"
+  ],
+  "massive": [
+    "lhs:phys.weight"
+  ],
+  "gravitating": [
+    "lhs:phys.weight"
+  ],
+  "fdcos\u03b8": [
+    "lhs:phys.work"
+  ],
+  "joules": [
+    "lhs:phys.work"
+  ],
+  "application": [
+    "lhs:phys.work"
+  ],
+  "work-energy": [
+    "lhs:phys.work-energy-theorem"
+  ],
+  "questions": [
+    "lhs:practice.scientific-observation"
+  ],
+  "provides": [
+    "lhs:practice.scientific-observation"
+  ],
+  "gathering": [
+    "lhs:practice.scientific-observation"
+  ],
+  "basis": [
+    "lhs:practice.scientific-observation"
+  ],
+  "phenomena": [
+    "lhs:practice.scientific-observation"
+  ],
+  "senses": [
+    "lhs:practice.scientific-observation"
+  ],
+  "about": [
+    "lhs:practice.scientific-observation"
+  ],
+  "instruments": [
+    "lhs:practice.scientific-observation"
+  ],
+  "systematic": [
+    "lhs:practice.scientific-observation"
+  ],
+  "scientific": [
+    "lhs:practice.scientific-observation"
+  ],
+  "hypotheses": [
+    "lhs:practice.scientific-observation"
+  ]
+}

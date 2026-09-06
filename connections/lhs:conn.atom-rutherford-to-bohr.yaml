@@ -1,0 +1,46 @@
+id: lhs:conn.atom-rutherford-to-bohr
+type: connection
+source: lhs:chem.atom.nuclear
+relation: superseded_by
+target: lhs:chem.atom.bohr
+assertion:
+  status: active
+  type: asserted
+  review:
+    status: canonical
+  confidence: 1.0
+  confidence_basis: experimental
+  polarity: positive
+context:
+  domain: physics
+  subdomain: atomic-structure
+  regime:
+  - classical
+  scale: atomic
+  assumptions: []
+  qualifiers: []
+evidence:
+- type: theoretical
+  stance: supports
+  source_ref: lhs:src.bohr-1913
+  locator:
+    section: "Quantized Orbits"
+  description: "Bohr added quantization to Rutherford's nuclear model to explain atomic stability and hydrogen spectrum"
+provenance:
+  asserted_by:
+    type: human
+    id: human:reviewer.history-001
+  generated_by:
+    type: human
+    id: human:curator.history-001
+  method:
+    type: manual
+  reviewed_by:
+  - type: human
+    id: human:reviewer.history-001
+  review_history:
+  - from: unreviewed
+    to: reviewed
+    reviewer: human:reviewer.history-001
+    at: '2026-09-06T15:00:00+00:00'
+    reason: "Bohr quantized Rutherford's nuclear orbits to explain hydrogen spectrum"

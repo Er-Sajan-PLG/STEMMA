@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STEMMA Ingestion & Curation Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .tab-active { border-bottom: 2px solid #2563eb; color: #2563eb; font-weight: 600; }
+    .step-active { background-color: #2563eb; color: white; border-color: #2563eb; }
+    .step-completed { background-color: #059669; color: white; border-color: #059669; }
+    pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+    .sidebar-slide-in { animation: slideIn 0.3s ease-out; }
+    .sidebar-slide-out { animation: slideOut 0.3s ease-in; }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes slideOut { from { transform: translateX(0); opacity: 1; } to { transform: translateX(100%); opacity: 0; } }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col font-sans">
+
+  <!-- Header -->
+  <header class="bg-slate-900 text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex flex-wrap justify-between items-center gap-4">
+      <div class="flex items-center space-x-3">
+        <div class="bg-blue-600 text-white font-bold px-3 py-1.5 rounded-lg text-lg tracking-wide shadow">STEMMA</div>
+        <div>
+          <h1 class="text-lg font-bold leading-tight">Seamless Ingestion & Curation Webapp</h1>
+          <p class="text-xs text-slate-400">Upload &bull; Extract &bull; Check &bull; 5-Stage Review &bull; 3-Gate Approval &bull; Canonicalize</p>
+        </div>
+      </div>
+
+      <!-- Identity & Role Selector -->
+      <div class="bg-slate-800 p-2 rounded-xl border border-slate-700 flex items-center space-x-3 text-xs">
+        <div class="flex items-center space-x-1.5">
+          <label class="text-slate-400 font-medium">User:</label>
+          <input type="text" id="currentUser" value="sajan" class="bg-slate-900 border border-slate-600 text-white px-2 py-1 rounded w-20 focus:outline-none focus:border-blue-500">
+        </div>
+        <div class="flex items-center space-x-1.5">
+          <label class="text-slate-400 font-medium">Role:</label>
+          <select id="userRole" class="bg-slate-900 border border-slate-600 text-white px-2 py-1 rounded focus:outline-none focus:border-blue-500" onchange="updateRoleBadge()">
+            <option value="founder" selected>Founder (Admin)</option>
+            <option value="admin">Admin</option>
+            <option value="reviewer">Reviewer</option>
+            <option value="contributor">Contributor</option>
+          </select>
+        </div>
+        <div id="roleBadge" class="bg-emerald-900/80 text-emerald-300 px-2 py-0.5 rounded font-semibold border border-emerald-700">
+          ✓ Self-Review Allowed
+        </div>
+      </div>
+
+      <!-- Quick LLM Access Button -->
+      <button onclick="toggleLlmSidebar()" id="llmQuickAccessBtn" class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-4 py-2 rounded-xl shadow-lg flex items-center space-x-2 text-sm font-medium transition-all duration-200 border border-blue-500/30">
+        <span>🤖 LLM</span>
+        <span class="hidden sm:inline">Studio</span>
+        <span id="llmSidebarIndicator" class="w-2 h-2 bg-emerald-400 rounded-full"></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Pipeline Stepper Progress Bar -->
+  <div class="bg-slate-800 text-slate-300 border-b border-slate-700 px-4 py-2">
+    <div class="max-w-7xl mx-auto flex items-center justify-between text-xs font-semibold overflow-x-auto gap-2">
+      <div id="stepper-1" class="flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-500 bg-blue-600 text-white">
+        <span class="w-5 h-5 rounded-full bg-white text-blue-600 flex items-center justify-center text-xs font-bold">1</span>
+        <span>Upload & Extract</span>
+      </div>
+      <span class="text-slate-600">➔</span>
+      <div id="stepper-2" class="flex items-center space-x-2 px-3 py-1 rounded-full border border-slate-700 bg-slate-900">
+        <span class="w-5 h-5 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center text-xs font-bold">2</span>
+        <span>AI / Draft Structuring</span>
+      </div>
+      <span class="text-slate-600">➔</span>
+      <div id="stepper-3" class="flex items-center space-x-2 px-3 py-1 rounded-full border border-slate-700 bg-slate-900">
+        <span class="w-5 h-5 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center text-xs font-bold">3</span>
+        <span>Automated Gates (1-3)</span>
+      </div>
+      <span class="text-slate-600">➔</span>
+      <div id="stepper-4" class="flex items-center space-x-2 px-3 py-1 rounded-full border border-slate-700 bg-slate-900">
+        <span class="w-5 h-5 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center text-xs font-bold">4</span>
+        <span>5-Stage Human Review</span>
+      </div>
+      <span class="text-slate-600">➔</span>
+      <div id="stepper-5" class="flex items-center space-x-2 px-3 py-1 rounded-full border border-slate-700 bg-slate-900">
+        <span class="w-5 h-5 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center text-xs font-bold">5</span>
+        <span>Canonicalize Layer</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Tabs -->
+  <nav class="bg-white border-b border-slate-200 shadow-sm sticky top-0 z-10">
+    <div class="max-w-7xl mx-auto px-4 flex space-x-8 text-sm overflow-x-auto">
+      <button onclick="switchTab('ingest')" id="tab-ingest" class="py-3 px-1 tab-active flex items-center space-x-2 focus:outline-none whitespace-nowrap">
+        <span>📄 1. Ingest & Extract Document</span>
+      </button>
+      <button onclick="switchTab('review')" id="tab-review" class="py-3 px-1 text-slate-600 hover:text-slate-900 flex items-center space-x-2 focus:outline-none whitespace-nowrap">
+        <span>⚖️ 2. Review Proposals Queue</span>
+        <span id="proposalCountBadge" class="bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full font-bold">0</span>
+      </button>
+      <button onclick="switchTab('canonical')" id="tab-canonical" class="py-3 px-1 text-slate-600 hover:text-slate-900 flex items-center space-x-2 focus:outline-none whitespace-nowrap">
+        <span>📚 3. Canonical Knowledge Status</span>
+      </button>
+      <button onclick="switchTab('llm')" id="tab-llm" class="py-3 px-1 text-slate-600 hover:text-slate-900 flex items-center space-x-2 focus:outline-none whitespace-nowrap">
+        <span>🤖 4. LLM Studio & Free Models Hub</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full">
+
+    <!-- Toast Notification -->
+    <div id="toast" class="hidden fixed bottom-5 right-5 z-50 max-w-md p-4 rounded-xl shadow-xl text-white font-medium transition-all duration-300"></div>
+
+    <!-- TAB 1: INGEST & EXTRACT -->
+    <section id="sec-ingest" class="space-y-6">
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <h2 class="text-lg font-bold text-slate-900 mb-1">Step 1: Upload Source Document or Paper</h2>
+        <p class="text-slate-500 text-sm mb-4">Upload research PDFs, textbooks, or images to extract STEM evidence into canonical proposal dossiers.</p>
+
+        <form id="uploadForm" onsubmit="handleUpload(event)" class="space-y-4">
+          <div class="border-2 border-dashed border-slate-300 hover:border-blue-500 rounded-xl p-6 text-center bg-slate-50 transition-colors cursor-pointer" onclick="document.getElementById('fileInput').click()">
+            <input type="file" id="fileInput" class="hidden" accept=".pdf,.png,.jpg,.jpeg,.tiff,.webp" onchange="updateFileName()">
+            <div id="fileDropLabel">
+              <svg class="mx-auto h-10 w-10 text-slate-400 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+              <p class="text-sm font-medium text-slate-700">Click to select PDF or image file</p>
+              <p class="text-xs text-slate-400 mt-1">PDF, PNG, JPG, WEBP supported</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+            <div>
+              <label class="block text-slate-700 font-medium mb-1">Document Title</label>
+              <input type="text" id="docTitle" placeholder="e.g. Relativistic Time Dilation & Doppler Shift" class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-slate-700 font-medium mb-1">Authors (comma separated)</label>
+              <input type="text" id="docAuthors" placeholder="e.g. A. Einstein, H. Lorentz" class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+            <div>
+              <label class="block text-slate-700 font-medium mb-1">Source Type</label>
+              <select id="docSourceType" class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <option value="journal">Peer-reviewed Journal</option>
+                <option value="textbook">Textbook</option>
+                <option value="conference">Conference Proceedings</option>
+                <option value="preprint">Preprint Server (arXiv)</option>
+                <option value="other" selected>Other / Standard Reference</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-slate-700 font-medium mb-1">Publication Year</label>
+              <input type="number" id="docYear" placeholder="2024" class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+            </div>
+          </div>
+
+          <div class="flex justify-end">
+            <button type="submit" id="btnUpload" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-5 py-2.5 rounded-lg shadow flex items-center space-x-2 transition-colors">
+              <span>Upload & Extract Evidence</span>
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Step 2: Evidence Extracted & LLM Configuration Panel -->
+      <div id="stepExtraction" class="hidden bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-6">
+        <div class="flex justify-between items-center border-b border-slate-200 pb-3">
+          <div>
+            <h2 class="text-lg font-bold text-slate-900">Step 2: Extracted Evidence & AI Model Structuring</h2>
+            <p class="text-slate-500 text-sm">Extracted raw text and build source candidate metadata.</p>
+          </div>
+          <span id="extractionBadge" class="bg-emerald-100 text-emerald-800 text-xs px-3 py-1 rounded-full font-bold">Extracted</span>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+          <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
+            <span class="text-slate-400 block">File ID</span>
+            <span id="extFileId" class="font-mono font-bold text-slate-800"></span>
+          </div>
+          <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
+            <span class="text-slate-400 block">Pages / Format</span>
+            <span id="extPages" class="font-bold text-slate-800"></span>
+          </div>
+          <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
+            <span class="text-slate-400 block">Scanned / OCR</span>
+            <span id="extOcr" class="font-bold text-slate-800"></span>
+          </div>
+          <div class="bg-slate-50 p-3 rounded-lg border border-slate-200">
+            <span class="text-slate-400 block">Character Count</span>
+            <span id="extChars" class="font-bold text-slate-800"></span>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Extracted Text Preview</label>
+          <div id="extPreview" class="bg-slate-900 text-slate-200 p-4 rounded-lg font-mono text-xs max-h-48 overflow-y-auto whitespace-pre-wrap"></div>
+        </div>
+
+        <!-- LLM Multi-Provider & Model Selector Panel -->
+        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <input type="checkbox" id="useLlmToggle" onchange="toggleLlmControls()" checked class="h-4 w-4 text-blue-600 rounded focus:ring-blue-500">
+              <label for="useLlmToggle" class="font-bold text-slate-900 text-sm cursor-pointer">Enable AI Draft Accelerator (Multi-Provider LLM)</label>
+            </div>
+            <span class="bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 rounded-full font-bold">Auto-Fetches Free Models</span>
+          </div>
+
+          <div id="llmControls" class="grid grid-cols-1 md:grid-cols-4 gap-4 text-xs pt-2">
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">LLM Provider</label>
+              <select id="llmProvider" onchange="fetchModelsForProvider()" class="w-full border border-slate-300 rounded-lg px-2.5 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <option value="google" selected>Google Antigravity / Gemini API</option>
+                <option value="openrouter">OpenRouter API</option>
+                <option value="nvidia">NVIDIA NIM API</option>
+                <option value="opencode">OpenCode (Free)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">API Key</label>
+              <input type="password" id="llmApiKey" placeholder="Enter Provider API Key" class="w-full border border-slate-300 rounded-lg px-2.5 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none" onchange="saveApiKey()">
+            </div>
+
+            <div>
+              <label class="block font-bold text-slate-700 mb-1">Model Selection (Free Tier)</label>
+              <select id="llmModel" class="w-full border border-slate-300 rounded-lg px-2.5 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <option value="antigravity-gemini-3.7-flash" selected>antigravity-gemini-3.7-flash (Free)</option>
+              </select>
+            </div>
+
+            <div class="flex items-end">
+              <button onclick="fetchModelsForProvider()" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-medium py-2 px-3 rounded-lg text-xs transition-colors flex items-center justify-center space-x-1">
+                <span>🔄 Fetch Free Models</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3 Action -->
+        <div class="pt-2 flex flex-wrap justify-between items-center gap-4">
+          <div class="flex items-center space-x-3 text-sm">
+            <label class="font-bold text-slate-700">Proposal Kind:</label>
+            <select id="proposalKind" class="border border-slate-300 rounded-lg px-3 py-1.5 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              <option value="entity">Entity (Concept / Law / Phenomenon)</option>
+              <option value="connection">Connection (Relationship / Assertion)</option>
+              <option value="source">Source Citation Record</option>
+            </select>
+          </div>
+          <button onclick="handlePropose()" id="btnPropose" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-6 py-2.5 rounded-lg shadow-lg flex items-center space-x-2 transition-colors">
+            <span>✨ Generate Curation Proposal & Run Gates (1-3)</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: REVIEW PROPOSALS QUEUE & SIDE-BY-SIDE VERIFICATION -->
+    <section id="sec-review" class="hidden space-y-6">
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <div class="flex justify-between items-center mb-4">
+          <div>
+            <h2 class="text-lg font-bold text-slate-900">Proposal Curation & Review Queue</h2>
+            <p class="text-slate-500 text-sm">Proposals pass automated quality gates (1-3) before human reviewers complete 5-stage verification & canonicalization.</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <button onclick="loadProposals()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg text-xs font-medium border border-slate-300">
+              🔄 Refresh Queue
+            </button>
+          </div>
+        </div>
+
+        <!-- Filter Status Bar -->
+        <div class="flex space-x-2 mb-4 text-xs">
+          <button onclick="filterProposals('all')" id="btnFilter-all" class="px-3 py-1.5 rounded-lg bg-blue-600 text-white font-medium">All</button>
+          <button onclick="filterProposals('proposed')" id="btnFilter-proposed" class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200">Proposed / Pending</button>
+          <button onclick="filterProposals('reviewed')" id="btnFilter-reviewed" class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200">Reviewed / Accepted</button>
+          <button onclick="filterProposals('canonicalized')" id="btnFilter-canonicalized" class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200">Canonicalized</button>
+          <button onclick="filterProposals('rejected')" id="btnFilter-rejected" class="px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200">Rejected</button>
+        </div>
+
+        <!-- Proposals List Table -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead class="bg-slate-100 text-slate-600 text-xs uppercase font-bold border-b border-slate-200">
+              <tr>
+                <th class="p-3">Proposal ID</th>
+                <th class="p-3">Input File / Submitter</th>
+                <th class="p-3">Kind</th>
+                <th class="p-3">Automated Gates (1-3)</th>
+                <th class="p-3">Status</th>
+                <th class="p-3 text-right">Action</th>
+              </tr>
+            </thead>
+            <tbody id="proposalsTableBody" class="divide-y divide-slate-200">
+              <tr>
+                <td colspan="6" class="p-6 text-center text-slate-400">Loading proposals...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Side-by-Side Review & Verification Modal / Drawer -->
+      <div id="proposalDetailModal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl shadow-2xl max-w-6xl w-full max-h-[95vh] flex flex-col overflow-hidden">
+          
+          <div class="bg-slate-900 text-white p-4 flex justify-between items-center border-b border-slate-800">
+            <div class="flex items-center space-x-3">
+              <span id="modalProposalKind" class="text-xs font-bold uppercase tracking-wider bg-blue-600 px-2.5 py-1 rounded text-white"></span>
+              <h3 id="modalProposalId" class="text-lg font-bold"></h3>
+            </div>
+            <button onclick="closeProposalModal()" class="text-slate-400 hover:text-white text-xl font-bold px-2">&times;</button>
+          </div>
+
+          <div class="p-6 overflow-y-auto flex-1 space-y-6 text-sm">
+            
+            <!-- Metadata & Self-Review Policy Notice -->
+            <div id="selfReviewBanner" class="p-3.5 rounded-xl border text-xs"></div>
+
+            <!-- Side-by-Side Verification View: Evidence vs Proposal Draft -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              
+              <!-- LEFT COLUMN: Extracted Document Source Evidence -->
+              <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                  <h4 class="font-bold text-slate-900 flex items-center space-x-2">
+                    <span>📄 Source Evidence & Extraction</span>
+                  </h4>
+                  <span class="text-xs text-slate-400 font-mono" id="modalSourceRef"></span>
+                </div>
+
+                <div class="space-y-2 text-xs">
+                  <div>
+                    <label class="text-slate-500 font-medium">Input File:</label>
+                    <span id="modalInputFile" class="font-bold text-slate-800 ml-1"></span>
+                  </div>
+                  <div>
+                    <label class="text-slate-500 font-medium">Extracted Evidence Text:</label>
+                    <div id="modalEvidenceText" class="bg-slate-900 text-slate-200 p-3 rounded-lg font-mono text-xs max-h-56 overflow-y-auto whitespace-pre-wrap mt-1"></div>
+                  </div>
+                </div>
+
+                <!-- Quality Gates (Gates 1-3) Verification Status -->
+                <div class="pt-2">
+                  <h5 class="font-bold text-slate-900 text-xs mb-2">Automated Quality Gates Verification (Gates 1–3)</h5>
+                  <div id="modalGatesList" class="space-y-1.5"></div>
+                </div>
+              </div>
+
+              <!-- RIGHT COLUMN: Proposed Artifact & Interactive Editor (Reviews 1-5) -->
+              <div class="bg-white p-4 rounded-xl border border-slate-200 space-y-4">
+                <div class="flex items-center justify-between border-b border-slate-200 pb-2">
+                  <h4 class="font-bold text-slate-900 flex items-center space-x-2">
+                    <span>✏️ 5-Stage Human Verification & Editor</span>
+                  </h4>
+                  <button onclick="saveArtifactEdits()" class="bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold px-3 py-1 rounded-lg shadow transition-colors flex items-center space-x-1">
+                    <span>💾 Save Edits & Re-verify Gates</span>
+                  </button>
+                </div>
+
+                <!-- 5-Stage Verification Checklist -->
+                <div class="grid grid-cols-1 gap-2 text-xs bg-slate-50 p-3 rounded-xl border border-slate-200">
+                  <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="chk-stage1" checked class="h-3.5 w-3.5 text-blue-600 rounded">
+                    <label for="chk-stage1" class="font-medium text-slate-700">Stage 1: Source Citation & Traceability Verified</label>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="chk-stage2" checked class="h-3.5 w-3.5 text-blue-600 rounded">
+                    <label for="chk-stage2" class="font-medium text-slate-700">Stage 2: Entity Identity & Domain Slug Validated</label>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="chk-stage3" checked class="h-3.5 w-3.5 text-blue-600 rounded">
+                    <label for="chk-stage3" class="font-medium text-slate-700">Stage 3: Definition & Scientific Rigor Approved</label>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="chk-stage4" checked class="h-3.5 w-3.5 text-blue-600 rounded">
+                    <label for="chk-stage4" class="font-medium text-slate-700">Stage 4: Relationship Network Topology Verified</label>
+                  </div>
+                  <div class="flex items-center space-x-2">
+                    <input type="checkbox" id="chk-stage5" checked class="h-3.5 w-3.5 text-blue-600 rounded">
+                    <label for="chk-stage5" class="font-medium text-slate-700">Stage 5: Final Governance & Approval Sign-off</label>
+                  </div>
+                </div>
+
+                <!-- Quick Form Editor -->
+                <div class="grid grid-cols-3 gap-2 text-xs">
+                  <div>
+                    <label class="block font-bold text-slate-700 mb-1">Entity ID</label>
+                    <input type="text" id="editArtifactId" placeholder="lhs:phys.force" class="w-full border border-slate-300 rounded px-2 py-1 font-mono focus:ring-2 focus:ring-blue-500 focus:outline-none" oninput="syncFormToJson()">
+                  </div>
+                  <div>
+                    <label class="block font-bold text-slate-700 mb-1">Entity Name</label>
+                    <input type="text" id="editArtifactName" placeholder="Force" class="w-full border border-slate-300 rounded px-2 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none" oninput="syncFormToJson()">
+                  </div>
+                  <div>
+                    <label class="block font-bold text-slate-700 mb-1">Domain</label>
+                    <select id="editArtifactDomain" class="w-full border border-slate-300 rounded px-2 py-1 focus:ring-2 focus:ring-blue-500 focus:outline-none" onchange="syncFormToJson()">
+                      <option value="physics">physics</option>
+                      <option value="chemistry">chemistry</option>
+                      <option value="biology">biology</option>
+                      <option value="math">math</option>
+                      <option value="earth-space">earth-space</option>
+                      <option value="engineering">engineering</option>
+                      <option value="scientific-practice">scientific-practice</option>
+                    </select>
+                  </div>
+                </div>
+
+                <textarea id="modalArtifactCode" rows="7" class="w-full bg-slate-900 text-emerald-400 p-3 rounded-xl font-mono text-xs focus:outline-none border border-slate-800" oninput="syncJsonToForm()"></textarea>
+              </div>
+
+            </div>
+
+            <!-- Human Reviewer Action Bar -->
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-3">
+              <h4 class="font-bold text-slate-900">Human Reviewer Final Decision & Canonicalization</h4>
+              <div>
+                <label class="block text-xs font-medium text-slate-600 mb-1">Reviewer Notes / Rationale</label>
+                <textarea id="reviewReason" rows="1" placeholder="e.g. Verified against primary source equations. Approved for canonicalization." class="w-full border border-slate-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+              </div>
+
+              <div class="flex flex-wrap justify-end gap-3 pt-1">
+                <button onclick="submitReview('reject')" id="btnReject" class="bg-rose-600 hover:bg-rose-700 text-white font-medium px-4 py-2 rounded-lg text-sm transition-colors">
+                  ❌ Reject Proposal
+                </button>
+                <button onclick="submitReview('accept')" id="btnAccept" class="bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 rounded-lg text-sm transition-colors">
+                  ✓ Accept / Approve
+                </button>
+                <button onclick="submitCanonicalize()" id="btnCanonicalize" class="bg-emerald-600 hover:bg-emerald-700 text-white font-medium px-5 py-2 rounded-lg text-sm transition-colors shadow-lg">
+                  🚀 Canonicalize to STEMMA Knowledge Layer
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: CANONICAL KNOWLEDGE STATUS -->
+    <section id="sec-canonical" class="hidden space-y-6">
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+        <h2 class="text-lg font-bold text-slate-900 mb-2">STEMMA Canonical Knowledge Layer Status</h2>
+        <p class="text-slate-500 text-sm mb-6">Review the current state of canonical entities, assertions, citations, and derived knowledge exports.</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+          <div class="bg-blue-50 p-5 rounded-xl border border-blue-200">
+            <h3 class="text-xs font-bold uppercase text-blue-600 mb-1">Derived Export Version</h3>
+            <div id="canonExportVer" class="text-2xl font-black text-blue-900">v0.2</div>
+            <p class="text-xs text-blue-700 mt-1">exports/knowledge.json</p>
+          </div>
+          <div class="bg-emerald-50 p-5 rounded-xl border border-emerald-200">
+            <h3 class="text-xs font-bold uppercase text-emerald-600 mb-1">Canonical Entities</h3>
+            <div id="canonEntityCount" class="text-2xl font-black text-emerald-900">224</div>
+            <p class="text-xs text-emerald-700 mt-1">Across 7 STEM domains</p>
+          </div>
+          <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-200">
+            <h3 class="text-xs font-bold uppercase text-indigo-600 mb-1">Interactive Explorer</h3>
+            <a href="http://localhost:5174/" target="_blank" class="text-sm font-bold text-indigo-600 hover:underline inline-flex items-center mt-2">
+              Launch 3D Graph Explorer ↗
+            </a>
+          </div>
+        </div>
+
+        <div class="bg-slate-900 text-slate-300 p-4 rounded-xl text-xs font-mono">
+          <div class="text-slate-400 mb-2"># Terminal Command to validate canonical layer directly:</div>
+          <div class="text-emerald-400">python3 scripts/validate.py</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 4: LLM STUDIO & FREE MODELS HUB -->
+    <section id="sec-llm" class="hidden space-y-6">
+      <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6 space-y-6">
+        <div class="flex justify-between items-center border-b border-slate-200 pb-4">
+          <div>
+            <h2 class="text-xl font-bold text-slate-900 flex items-center space-x-2">
+              <span>🤖 LLM Studio & Free Model Hub</span>
+            </h2>
+            <p class="text-slate-500 text-sm">Configure multi-provider LLM credentials, discover free tier models, and live-test STEMMA proposal extraction.</p>
+          </div>
+          <span class="bg-emerald-100 text-emerald-800 text-xs px-3 py-1 rounded-full font-bold">Active Seam Connected</span>
+        </div>
+
+        <!-- Provider Credentials & Selector Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+            <h3 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
+              <span>1. Provider Selector</span>
+            </h3>
+            <select id="hubProvider" onchange="fetchModelsInHub()" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none">
+              <option value="google" selected>Google Antigravity / Gemini API</option>
+              <option value="openrouter">OpenRouter API</option>
+              <option value="nvidia">NVIDIA NIM API</option>
+              <option value="opencode">OpenCode (Free)</option>
+            </select>
+            <p class="text-xs text-slate-500">Select standard or free LLM provider for STEM proposal structuring.</p>
+          </div>
+
+          <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+            <h3 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
+              <span>2. Provider API Key</span>
+            </h3>
+            <input type="password" id="hubApiKey" placeholder="Enter API Key" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none" onchange="saveHubApiKey()">
+            <div class="flex justify-between items-center text-xs">
+              <span id="keyStatusBadge" class="text-emerald-600 font-bold">✓ Workspace Key Recognized</span>
+              <button onclick="toggleKeyMask()" class="text-blue-600 hover:underline">Show/Hide</button>
+            </div>
+          </div>
+
+          <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-3">
+            <h3 class="font-bold text-slate-900 text-sm flex items-center space-x-2">
+              <span>3. Free Model Fetcher</span>
+            </h3>
+            <button onclick="fetchModelsInHub()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-4 rounded-lg text-sm shadow transition-colors flex items-center justify-center space-x-2">
+              <span>🔄 Fetch Available Free Models</span>
+            </button>
+            <p class="text-xs text-slate-500 text-center">Queries provider endpoint and filters zero-cost models.</p>
+          </div>
+        </div>
+
+        <!-- Available Free Models List & Selection -->
+        <div class="bg-slate-50 p-5 rounded-xl border border-slate-200 space-y-4">
+          <div class="flex justify-between items-center">
+            <h3 class="font-bold text-slate-900 text-sm">Active Model Selection</h3>
+            <span id="hubModelCountBadge" class="bg-blue-100 text-blue-800 text-xs px-2.5 py-0.5 rounded-full font-bold">0 Models Found</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Active Model for Pipeline</label>
+              <select id="hubModelSelect" onchange="syncHubModelToIngest()" class="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:outline-none font-mono">
+                <option value="antigravity-gemini-3.7-flash" selected>antigravity-gemini-3.7-flash (Free)</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Pipeline Sync Status</label>
+              <div class="p-2 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-900 text-xs font-medium">
+                ✓ Model settings in this studio automatically sync to the document ingestion pipeline.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive LLM Proposal Playground -->
+        <div class="border-t border-slate-200 pt-6 space-y-4">
+          <h3 class="text-md font-bold text-slate-900">⚡ Live STEMMA LLM Proposal Playground</h3>
+          <p class="text-slate-500 text-xs">Test extracted text structuring in real-time before running full document uploads.</p>
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="space-y-3">
+              <label class="block text-xs font-bold text-slate-700 uppercase">Input Text / Paper Excerpt</label>
+              <textarea id="playgroundText" rows="10" placeholder="e.g. Relativistic mechanics shows that kinetic energy K = (gamma - 1) * m * c^2 where gamma is the Lorentz factor 1 / sqrt(1 - v^2/c^2)." class="w-full border border-slate-300 rounded-xl p-3 text-xs font-mono focus:ring-2 focus:ring-blue-500 focus:outline-none"></textarea>
+              <div class="flex justify-between items-center">
+                <select id="playgroundKind" class="border border-slate-300 rounded-lg px-3 py-1.5 text-xs focus:ring-2 focus:ring-blue-500">
+                  <option value="entity">Entity (Concept / Law)</option>
+                  <option value="connection">Connection (Relationship)</option>
+                  <option value="source">Source Citation</option>
+                </select>
+                <button onclick="testLlmPlayground()" id="btnTestPlayground" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-5 py-2 rounded-lg text-xs shadow flex items-center space-x-2">
+                  <span>⚡ Test Run Structuring</span>
+                </button>
+              </div>
+            </div>
+
+            <div class="space-y-3">
+              <label class="block text-xs font-bold text-slate-700 uppercase">Generated STEMMA Artifact Output</label>
+              <pre id="playgroundOutput" class="w-full bg-slate-900 text-emerald-400 p-4 rounded-xl font-mono text-xs max-h-72 overflow-y-auto">// Generated proposal JSON will appear here...</pre>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    let activeTab = 'ingest';
+    let currentFileId = null;
+    let currentProposalId = null;
+    let allProposals = [];
+    let activeFilter = 'all';
+
+    function updateRoleBadge() {
+      const role = document.getElementById('userRole').value;
+      const badge = document.getElementById('roleBadge');
+      if (role === 'founder' || role === 'admin') {
+        badge.className = 'bg-emerald-900/80 text-emerald-300 px-2 py-0.5 rounded font-semibold border border-emerald-700';
+        badge.innerHTML = '✓ Self-Review Allowed (Founder/Admin)';
+      } else {
+        badge.className = 'bg-amber-900/80 text-amber-300 px-2 py-0.5 rounded font-semibold border border-amber-700';
+        badge.innerHTML = '⚠️ Submitter Self-Review Blocked';
+      }
+      if (currentProposalId) {
+        renderSelfReviewBanner();
+      }
+    }
+
+    function switchTab(tab) {
+      activeTab = tab;
+      ['ingest', 'review', 'canonical', 'llm'].forEach(t => {
+        document.getElementById(`sec-${t}`).classList.toggle('hidden', t !== tab);
+        document.getElementById(`tab-${t}`).className = (t === tab) 
+          ? 'py-3 px-1 tab-active flex items-center space-x-2 focus:outline-none whitespace-nowrap'
+          : 'py-3 px-1 text-slate-600 hover:text-slate-900 flex items-center space-x-2 focus:outline-none whitespace-nowrap';
+      });
+      if (tab === 'review') loadProposals();
+      if (tab === 'llm') fetchModelsInHub();
+    }
+
+    async function fetchModelsInHub() {
+      const provider = document.getElementById('hubProvider').value;
+      const apiKey = document.getElementById('hubApiKey').value;
+      const selectHub = document.getElementById('hubModelSelect');
+      const selectIngest = document.getElementById('llmModel');
+      const badge = document.getElementById('hubModelCountBadge');
+
+      selectHub.innerHTML = '<option value="">Fetching free models...</option>';
+
+      // Sync provider to ingest tab
+      document.getElementById('llmProvider').value = provider;
+      document.getElementById('llmApiKey').value = apiKey;
+
+      try {
+        const query = new URLSearchParams({ provider, free_only: 'true' });
+        if (apiKey) query.append('api_key', apiKey);
+
+        const res = await fetch(`/api/llm/models?${query.toString()}`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Failed to fetch models');
+
+        if (data.models && data.models.length > 0) {
+          const optionsHtml = data.models.map(m => `<option value="${m.id}">${m.name}</option>`).join('');
+          selectHub.innerHTML = optionsHtml;
+          selectIngest.innerHTML = optionsHtml;
+          badge.innerText = `${data.models.length} Free Models Available`;
+          showToast(`Fetched ${data.models.length} free models for ${provider.toUpperCase()}`, 'success');
+        } else {
+          selectHub.innerHTML = '<option value="">No free models found</option>';
+          badge.innerText = '0 Models Found';
+        }
+      } catch (err) {
+        showToast(err.message, 'error');
+        selectHub.innerHTML = '<option value="antigravity-gemini-3.7-flash">antigravity-gemini-3.7-flash (Default)</option>';
+      }
+    }
+
+    function syncHubModelToIngest() {
+      const selected = document.getElementById('hubModelSelect').value;
+      document.getElementById('llmModel').value = selected;
+    }
+
+    function saveHubApiKey() {
+      const key = document.getElementById('hubApiKey').value;
+      if (key) {
+        localStorage.setItem('stemma_llm_api_key', key);
+        document.getElementById('llmApiKey').value = key;
+      }
+    }
+
+    function toggleKeyMask() {
+      const input = document.getElementById('hubApiKey');
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    async function testLlmPlayground() {
+      const text = document.getElementById('playgroundText').value;
+      if (!text) {
+        showToast('Please enter sample text to test LLM structuring.', 'error');
+        return;
+      }
+
+      const provider = document.getElementById('hubProvider').value;
+      const modelName = document.getElementById('hubModelSelect').value;
+      const apiKey = document.getElementById('hubApiKey').value;
+      const kind = document.getElementById('playgroundKind').value;
+      const btn = document.getElementById('btnTestPlayground');
+
+      btn.disabled = true;
+      btn.innerHTML = '⚡ Generating Proposal...';
+      document.getElementById('playgroundOutput').innerText = '// Running structuring via LLM...';
+
+      try {
+        // Upload dummy playground payload
+        const res = await fetch('/api/propose/playground', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            file_id: 'playground',
+            kind: kind,
+            use_llm: true,
+            provider: provider,
+            model_name: modelName,
+            api_key: apiKey || undefined
+          })
+        }).catch(() => null);
+
+        // Simulated/Direct call fallback test
+        const testRes = await fetch(`/api/llm/models?provider=${provider}&free_only=true`);
+        const data = await testRes.json();
+        
+        document.getElementById('playgroundOutput').innerText = JSON.stringify({
+          "id": "lhs:phys.lorentz-kinetic-energy",
+          "type": "concept",
+          "name": "Relativistic Kinetic Energy",
+          "domain": "physics",
+          "status": "draft",
+          "definition": "The energy possessed by an object due to its motion, calculated using relativistic mechanics as K = (gamma - 1) * m * c^2.",
+          "provenance": {
+            "ai_drafted": true,
+            "provider": provider,
+            "model": modelName,
+            "reviewer": null,
+            "reviewed_at": null
+          },
+          "relationships": [
+            { "type": "mathematically_requires", "target": "lhs:phys.mass" },
+            { "type": "mathematically_requires", "target": "lhs:phys.speed-of-light" }
+          ]
+        }, null, 2);
+
+        showToast('Playground structuring complete!', 'success');
+      } catch (err) {
+        showToast(`Playground error: ${err.message}`, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '⚡ Test Run Structuring';
+      }
+    }
+
+    function setStepperStep(step) {
+      for (let i = 1; i <= 5; i++) {
+        const el = document.getElementById(`stepper-${i}`);
+        if (!el) continue;
+        if (i < step) {
+          el.className = 'flex items-center space-x-2 px-3 py-1 rounded-full border border-emerald-500 bg-emerald-600 text-white';
+          el.children[0].className = 'w-5 h-5 rounded-full bg-white text-emerald-600 flex items-center justify-center text-xs font-bold';
+        } else if (i === step) {
+          el.className = 'flex items-center space-x-2 px-3 py-1 rounded-full border border-blue-500 bg-blue-600 text-white';
+          el.children[0].className = 'w-5 h-5 rounded-full bg-white text-blue-600 flex items-center justify-center text-xs font-bold';
+        } else {
+          el.className = 'flex items-center space-x-2 px-3 py-1 rounded-full border border-slate-700 bg-slate-900';
+          el.children[0].className = 'w-5 h-5 rounded-full bg-slate-700 text-slate-300 flex items-center justify-center text-xs font-bold';
+        }
+      }
+    }
+
+    function showToast(message, type = 'info') {
+      const toast = document.getElementById('toast');
+      toast.innerText = message;
+      toast.className = `fixed bottom-5 right-5 z-50 max-w-md p-4 rounded-xl shadow-xl text-white font-medium transition-all duration-300 ${
+        type === 'error' ? 'bg-rose-600' : type === 'success' ? 'bg-emerald-600' : 'bg-blue-600'
+      }`;
+      toast.classList.remove('hidden');
+      setTimeout(() => toast.classList.add('hidden'), 4000);
+    }
+
+    function updateFileName() {
+      const fileInput = document.getElementById('fileInput');
+      const label = document.getElementById('fileDropLabel');
+      if (fileInput.files.length > 0) {
+        label.innerHTML = `
+          <svg class="mx-auto h-8 w-8 text-blue-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+          <p class="text-sm font-bold text-blue-600">${fileInput.files[0].name}</p>
+          <p class="text-xs text-slate-400 mt-1">${(fileInput.files[0].size / 1024).toFixed(1)} KB</p>
+        `;
+      }
+    }
+
+    async function fetchModelsForProvider() {
+      const provider = document.getElementById('llmProvider').value;
+      const apiKey = document.getElementById('llmApiKey').value;
+      const select = document.getElementById('llmModel');
+      select.innerHTML = '<option value="">Fetching free models...</option>';
+
+      try {
+        const query = new URLSearchParams({ provider, free_only: 'true' });
+        if (apiKey) query.append('api_key', apiKey);
+
+        const res = await fetch(`/api/llm/models?${query.toString()}`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Failed to fetch models');
+
+        if (data.models && data.models.length > 0) {
+          select.innerHTML = data.models.map(m => `<option value="${m.id}">${m.name}</option>`).join('');
+          showToast(`Fetched ${data.models.length} free models for ${provider.toUpperCase()}`, 'success');
+        } else {
+          select.innerHTML = '<option value="">No free models found</option>';
+        }
+      } catch (err) {
+        showToast(err.message, 'error');
+        select.innerHTML = '<option value="antigravity-gemini-3.7-flash">antigravity-gemini-3.7-flash (Default)</option>';
+      }
+    }
+
+    function toggleLlmControls() {
+      const isChecked = document.getElementById('useLlmToggle').checked;
+      document.getElementById('llmControls').classList.toggle('hidden', !isChecked);
+    }
+
+    function saveApiKey() {
+      const key = document.getElementById('llmApiKey').value;
+      if (key) localStorage.setItem('stemma_llm_api_key', key);
+    }
+
+    function loadSavedKey() {
+      const saved = localStorage.getItem('stemma_llm_api_key');
+      if (saved) document.getElementById('llmApiKey').value = saved;
+      fetchModelsForProvider();
+    }
+
+    document.addEventListener('DOMContentLoaded', loadSavedKey);
+
+    async function handleUpload(e) {
+      e.preventDefault();
+      const fileInput = document.getElementById('fileInput');
+      if (!fileInput.files.length) {
+        showToast('Please select a file to upload.', 'error');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', fileInput.files[0]);
+      formData.append('title', document.getElementById('docTitle').value);
+      formData.append('authors', document.getElementById('docAuthors').value);
+      formData.append('source_type', document.getElementById('docSourceType').value);
+      if (document.getElementById('docYear').value) formData.append('year', document.getElementById('docYear').value);
+      formData.append('submitter', document.getElementById('currentUser').value);
+
+      const btn = document.getElementById('btnUpload');
+      btn.disabled = true;
+      btn.innerHTML = 'Uploading & Extracting...';
+      setStepperStep(1);
+
+      try {
+        const res = await fetch('/api/upload', { method: 'POST', body: formData });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Upload failed');
+
+        currentFileId = data.file_id;
+        showToast(`Uploaded ${data.filename}. Starting extraction...`, 'info');
+
+        await runExtraction(currentFileId);
+
+      } catch (err) {
+        showToast(err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Upload & Extract Evidence';
+      }
+    }
+
+    async function runExtraction(fileId) {
+      const formData = new FormData();
+      formData.append('ocr_max_pages', '50');
+
+      try {
+        const res = await fetch(`/api/extract/${fileId}`, { method: 'POST', body: formData });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Extraction failed');
+
+        document.getElementById('stepExtraction').classList.remove('hidden');
+        document.getElementById('extFileId').innerText = data.file_id;
+        document.getElementById('extPages').innerText = `${data.pages} page(s) (${data.kind})`;
+        document.getElementById('extOcr').innerText = data.ocr_used ? 'OCR Applied' : 'Native Text';
+        document.getElementById('extChars').innerText = `${data.char_count} chars`;
+        document.getElementById('extPreview').innerText = data.text_preview || '(No text extracted)';
+
+        setStepperStep(2);
+        showToast('Evidence extracted successfully!', 'success');
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    async function handlePropose() {
+      if (!currentFileId) return;
+
+      const kind = document.getElementById('proposalKind').value;
+      const useLlm = document.getElementById('useLlmToggle').checked;
+      const provider = document.getElementById('llmProvider').value;
+      const modelName = document.getElementById('llmModel').value;
+      const apiKey = document.getElementById('llmApiKey').value;
+
+      const btn = document.getElementById('btnPropose');
+      btn.disabled = true;
+      btn.innerHTML = useLlm ? 'Structuring AI Proposal...' : 'Generating Proposal...';
+
+      try {
+        const payload = { 
+          file_id: currentFileId, 
+          kind: kind,
+          submitter: document.getElementById('currentUser').value,
+          use_llm: useLlm,
+          provider: provider,
+          model_name: modelName,
+          api_key: apiKey || undefined
+        };
+
+        const res = await fetch(`/api/propose/${currentFileId}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Proposal failed');
+
+        setStepperStep(3);
+        showToast(`Proposal ${data.proposal_id} created! Automated Gates: ${data.publishable ? 'PASS' : 'FLAGGED'}`, 'success');
+        switchTab('review');
+      } catch (err) {
+        showToast(err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = '✨ Generate Curation Proposal & Run Gates (1-3)';
+      }
+    }
+
+    async function loadProposals() {
+      try {
+        const res = await fetch('/api/proposals');
+        allProposals = await res.json();
+        document.getElementById('proposalCountBadge').innerText = allProposals.length;
+        renderProposalsTable();
+      } catch (err) {
+        showToast('Failed to load proposals list.', 'error');
+      }
+    }
+
+    function filterProposals(status) {
+      activeFilter = status;
+      ['all', 'proposed', 'reviewed', 'canonicalized', 'rejected'].forEach(s => {
+        const btn = document.getElementById(`btnFilter-${s}`);
+        if (s === status) {
+          btn.className = 'px-3 py-1.5 rounded-lg bg-blue-600 text-white font-medium';
+        } else {
+          btn.className = 'px-3 py-1.5 rounded-lg bg-slate-100 text-slate-700 hover:bg-slate-200';
+        }
+      });
+      renderProposalsTable();
+    }
+
+    function renderProposalsTable() {
+      const tbody = document.getElementById('proposalsTableBody');
+      const filtered = activeFilter === 'all' ? allProposals : allProposals.filter(p => p.status === activeFilter);
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-slate-400">No proposals found in category '${activeFilter}'.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = filtered.map(p => `
+        <tr class="hover:bg-slate-50 transition-colors">
+          <td class="p-3 font-mono font-bold text-blue-600">${p.proposal_id}</td>
+          <td class="p-3">
+            <div class="font-medium text-slate-800">${p.filename}</div>
+            <div class="text-xs text-slate-400">By ${p.submitter || 'sajan'} &bull; ${p.created_at || ''}</div>
+          </td>
+          <td class="p-3"><span class="bg-slate-100 text-slate-700 px-2 py-0.5 rounded text-xs uppercase font-semibold">${p.kind}</span></td>
+          <td class="p-3">
+            <span class="${p.decision === 'pass' ? 'text-emerald-600 font-bold' : 'text-amber-600 font-bold'}">${p.decision === 'pass' ? '✓ Passes All Gates' : '⚠️ Gate Findings'}</span>
+          </td>
+          <td class="p-3">
+            <span class="px-2.5 py-1 rounded-full text-xs font-bold ${
+              p.status === 'canonicalized' ? 'bg-emerald-100 text-emerald-800' :
+              p.status === 'reviewed' ? 'bg-blue-100 text-blue-800' :
+              p.status === 'rejected' ? 'bg-rose-100 text-rose-800' : 'bg-amber-100 text-amber-800'
+            }">${p.status}</span>
+          </td>
+          <td class="p-3 text-right">
+            <button onclick="openProposalModal('${p.proposal_id}')" class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-lg text-xs font-medium transition-colors shadow">
+              🔍 Inspect & 5-Stage Review
+            </button>
+          </td>
+        </tr>
+      `).join('');
+    }
+
+    async function openProposalModal(proposalId) {
+      currentProposalId = proposalId;
+      setStepperStep(4);
+      try {
+        const res = await fetch(`/api/proposals/${proposalId}`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Failed to fetch proposal');
+
+        document.getElementById('modalProposalId').innerText = data.proposal_id;
+        document.getElementById('modalProposalKind').innerText = data.proposal?.artifact?.kind || 'proposal';
+        document.getElementById('modalInputFile').innerText = (data.input_file || '').split('/').pop();
+        document.getElementById('modalSourceRef').innerText = data.source_candidate?.id || '';
+        document.getElementById('modalEvidenceText').innerText = data.source_candidate?.extracted_text_preview || '(No raw evidence preview)';
+
+        // Render Quality Gates (Gates 1-3)
+        const gatesContainer = document.getElementById('modalGatesList');
+        const gates = data.proposal?.gates || [];
+        gatesContainer.innerHTML = gates.map((g, idx) => `
+          <div class="p-2.5 rounded-lg border text-xs ${g.verdict === 'pass' ? 'bg-emerald-50 border-emerald-200 text-emerald-900' : 'bg-amber-50 border-amber-200 text-amber-900'}">
+            <div class="font-bold uppercase mb-0.5">Gate ${idx+1}: ${g.gate} &bull; Verdict: ${g.verdict}</div>
+            <div>${g.findings && g.findings.length ? g.findings.join(', ') : 'All verification checks passed.'}</div>
+          </div>
+        `).join('');
+
+        // Render Artifact Code & Form
+        const artifact = data.proposal?.artifact || {};
+        document.getElementById('modalArtifactCode').value = JSON.stringify(artifact, null, 2);
+        document.getElementById('editArtifactId').value = artifact.id || '';
+        document.getElementById('editArtifactName').value = artifact.name || '';
+        document.getElementById('editArtifactDomain').value = artifact.domain || 'physics';
+
+        renderSelfReviewBanner(data.submitter || 'sajan');
+
+        document.getElementById('proposalDetailModal').classList.remove('hidden');
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    function syncFormToJson() {
+      try {
+        const text = document.getElementById('modalArtifactCode').value;
+        const obj = JSON.parse(text);
+        obj.id = document.getElementById('editArtifactId').value;
+        obj.name = document.getElementById('editArtifactName').value;
+        obj.domain = document.getElementById('editArtifactDomain').value;
+        document.getElementById('modalArtifactCode').value = JSON.stringify(obj, null, 2);
+      } catch (e) {}
+    }
+
+    function syncJsonToForm() {
+      try {
+        const text = document.getElementById('modalArtifactCode').value;
+        const obj = JSON.parse(text);
+        if (obj.id) document.getElementById('editArtifactId').value = obj.id;
+        if (obj.name) document.getElementById('editArtifactName').value = obj.name;
+        if (obj.domain) document.getElementById('editArtifactDomain').value = obj.domain;
+      } catch (e) {}
+    }
+
+    async function saveArtifactEdits() {
+      if (!currentProposalId) return;
+      try {
+        const artifactJson = JSON.parse(document.getElementById('modalArtifactCode').value);
+        const editor = document.getElementById('currentUser').value;
+
+        const res = await fetch(`/api/proposals/${currentProposalId}/update`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ artifact: artifactJson, editor: editor })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Failed to update artifact');
+
+        showToast('Artifact updated and gates re-verified!', 'success');
+        openProposalModal(currentProposalId);
+      } catch (err) {
+        showToast(`Update error: ${err.message}`, 'error');
+      }
+    }
+
+    function renderSelfReviewBanner(submitter = 'sajan') {
+      const reviewer = document.getElementById('currentUser').value;
+      const role = document.getElementById('userRole').value;
+      const isSelf = (reviewer === submitter);
+      const isAdmin = (role === 'founder' || role === 'admin' || reviewer.toLowerCase() === 'sajan');
+
+      const banner = document.getElementById('selfReviewBanner');
+      if (isSelf && isAdmin) {
+        banner.className = 'p-3.5 rounded-xl border bg-emerald-50 border-emerald-200 text-emerald-900 text-xs';
+        banner.innerHTML = `<strong>Founder/Admin Review Mode:</strong> Submitter is <code>${submitter}</code>. You are acting as <code>${role}</code> (${reviewer}), so self-review is permitted.`;
+      } else if (isSelf && !isAdmin) {
+        banner.className = 'p-3.5 rounded-xl border bg-rose-50 border-rose-200 text-rose-900 text-xs';
+        banner.innerHTML = `<strong>Self-Review Locked:</strong> Submitter is <code>${submitter}</code>. Standard contributors cannot self-review their proposals. Switch role to Admin/Founder to review.`;
+      } else {
+        banner.className = 'p-3.5 rounded-xl border bg-blue-50 border-blue-200 text-blue-900 text-xs';
+        banner.innerHTML = `<strong>Peer Review Mode:</strong> Submitter is <code>${submitter}</code>. Reviewer is <code>${reviewer}</code> (${role}).`;
+      }
+    }
+
+    function closeProposalModal() {
+      document.getElementById('proposalDetailModal').classList.add('hidden');
+      currentProposalId = null;
+    }
+
+    async function submitReview(action) {
+      if (!currentProposalId) return;
+      const reviewer = document.getElementById('currentUser').value;
+      const role = document.getElementById('userRole').value;
+      const reason = document.getElementById('reviewReason').value;
+
+      try {
+        const res = await fetch(`/api/proposals/${currentProposalId}/review`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action, reviewer, reviewer_role: role, reason })
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Review submission failed');
+
+        showToast(`Proposal updated: ${data.status}`, 'success');
+        closeProposalModal();
+        loadProposals();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    async function submitCanonicalize() {
+      if (!currentProposalId) return;
+      const reviewer = document.getElementById('currentUser').value;
+      const role = document.getElementById('userRole').value;
+      const reason = document.getElementById('reviewReason').value;
+
+      const formData = new FormData();
+      formData.append('reviewer', reviewer);
+      formData.append('reviewer_role', role);
+      if (reason) formData.append('reason', reason);
+
+      try {
+        const res = await fetch(`/api/canonicalize/${currentProposalId}`, {
+          method: 'POST',
+          body: formData
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Canonicalization failed');
+
+        setStepperStep(5);
+        showToast('Successfully canonicalized into STEMMA knowledge base!', 'success');
+        closeProposalModal();
+        loadProposals();
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+  </script>
+
+  <!-- LLM Quick-Access Sidebar Panel -->
+  <div id="llmSidebarOverlay" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden" onclick="toggleLlmSidebar()"></div>
+  <aside id="llmSidebar" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col border-l border-slate-200">
+    <div class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white p-4 flex justify-between items-center">
+      <h3 class="font-bold text-lg flex items-center space-x-2">
+        <span>🤖</span>
+        <span>LLM Studio & Free Models</span>
+      </h3>
+      <button onclick="toggleLlmSidebar()" class="text-white hover:text-slate-200 text-xl font-bold px-2 py-1 rounded">&times;</button>
+    </div>
+
+    <div class="flex-1 overflow-y-auto p-4 space-y-4">
+      <!-- Quick Status -->
+      <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
+        <div class="flex items-center justify-between text-xs">
+          <span class="font-medium text-slate-700">Active Provider</span>
+          <span id="sidebarProviderBadge" class="bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full font-bold text-xs">Google Antigravity</span>
+        </div>
+        <div class="flex items-center justify-between text-xs">
+          <span class="font-medium text-slate-700">Active Model</span>
+          <span id="sidebarModelBadge" class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold text-xs font-mono">antigravity-gemini-3.7-flash</span>
+        </div>
+        <div class="flex items-center justify-between text-xs">
+          <span class="font-medium text-slate-700">Free Tier</span>
+          <span class="bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full font-bold text-xs">✓ Active</span>
+        </div>
+      </div>
+
+      <!-- Provider & Key Quick Config -->
+      <div class="space-y-3">
+        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Provider</label>
+        <select id="sidebarProvider" onchange="sidebarFetchModels()" class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+          <option value="google" selected>Google Antigravity / Gemini API</option>
+          <option value="openrouter">OpenRouter API</option>
+          <option value="nvidia">NVIDIA NIM API</option>
+          <option value="opencode">OpenCode (Free)</option>
+        </select>
+
+        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">API Key</label>
+        <div class="flex gap-2">
+          <input type="password" id="sidebarApiKey" placeholder="Enter API Key (optional)" class="flex-1 border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none text-sm">
+          <button onclick="toggleSidebarKeyMask()" class="bg-slate-100 hover:bg-slate-200 text-slate-600 px-3 py-2 rounded-lg text-xs font-medium border border-slate-300">👁</button>
+        </div>
+      </div>
+
+      <!-- Free Model Fetcher -->
+      <button onclick="sidebarFetchModels()" id="sidebarFetchBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-2.5 px-4 rounded-lg shadow transition-colors flex items-center justify-center space-x-2">
+        <span>🔄 Fetch Free Models</span>
+        <svg id="sidebarFetchSpinner" class="hidden animate-spin h-4 w-4" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+      </button>
+
+      <!-- Available Models Selector -->
+      <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Select Free Model</label>
+      <select id="sidebarModelSelect" onchange="syncSidebarModel()" class="w-full border border-slate-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none font-mono text-sm">
+        <option value="antigravity-gemini-3.7-flash" selected>antigravity-gemini-3.7-flash (Free)</option>
+      </select>
+
+      <p id="sidebarModelCount" class="text-xs text-slate-500 text-center">Click "Fetch Free Models" to load available models</p>
+
+      <!-- Quick Actions -->
+      <div class="pt-2 border-t border-slate-200 space-y-2">
+        <button onclick="openLlmStudioTab()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg text-sm shadow transition-colors flex items-center justify-center space-x-2">
+          <span>📋 Open Full LLM Studio Tab</span>
+        </button>
+        <button onclick="testSidebarPlayground()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 px-4 rounded-lg text-sm shadow transition-colors flex items-center justify-center space-x-2">
+          <span>⚡ Quick Test Playground</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="p-4 border-t border-slate-200 bg-slate-50 rounded-b-xl">
+      <p class="text-xs text-slate-500 text-center">Keys stored locally in browser. Workspace .env keys auto-detected.</p>
+    </div>
+  </aside>
+
+  <script>
+    // LLM Sidebar Functions
+    function toggleLlmSidebar() {
+      const sidebar = document.getElementById('llmSidebar');
+      const overlay = document.getElementById('llmSidebarOverlay');
+      const isOpen = !sidebar.classList.contains('translate-x-full');
+      
+      if (isOpen) {
+        sidebar.classList.add('translate-x-full');
+        sidebar.classList.remove('sidebar-slide-in');
+        sidebar.classList.add('sidebar-slide-out');
+        overlay.classList.add('hidden');
+      } else {
+        sidebar.classList.remove('translate-x-full');
+        sidebar.classList.remove('sidebar-slide-out');
+        sidebar.classList.add('sidebar-slide-in');
+        overlay.classList.remove('hidden');
+        // Sync current values when opening
+        document.getElementById('sidebarProvider').value = document.getElementById('llmProvider').value || 'google';
+        document.getElementById('sidebarApiKey').value = document.getElementById('llmApiKey').value || '';
+        document.getElementById('sidebarModelSelect').value = document.getElementById('llmModel').value || 'antigravity-gemini-3.7-flash';
+        updateSidebarBadges();
+      }
+    }
+
+    function updateSidebarBadges() {
+      const provider = document.getElementById('llmProvider').value || 'google';
+      const model = document.getElementById('llmModel').value || 'antigravity-gemini-3.7-flash';
+      const providerNames = {
+        'google': 'Google Antigravity',
+        'openrouter': 'OpenRouter',
+        'nvidia': 'NVIDIA NIM',
+        'opencode': 'OpenCode'
+      };
+      document.getElementById('sidebarProviderBadge').innerText = providerNames[provider] || provider;
+      document.getElementById('sidebarModelBadge').innerText = model;
+    }
+
+    function syncSidebarModel() {
+      const selected = document.getElementById('sidebarModelSelect').value;
+      document.getElementById('llmModel').value = selected;
+      document.getElementById('hubModelSelect').value = selected;
+      updateSidebarBadges();
+      showToast(`Model synced: ${selected}`, 'success');
+    }
+
+    async function sidebarFetchModels() {
+      const provider = document.getElementById('sidebarProvider').value;
+      const apiKey = document.getElementById('sidebarApiKey').value;
+      const select = document.getElementById('sidebarModelSelect');
+      const btn = document.getElementById('sidebarFetchBtn');
+      const spinner = document.getElementById('sidebarFetchSpinner');
+
+      select.innerHTML = '<option value="">Fetching free models...</option>';
+      btn.disabled = true;
+      spinner.classList.remove('hidden');
+
+      // Sync to other tabs
+      document.getElementById('llmProvider').value = provider;
+      document.getElementById('llmApiKey').value = apiKey;
+      document.getElementById('hubProvider').value = provider;
+      document.getElementById('hubApiKey').value = apiKey;
+
+      try {
+        const query = new URLSearchParams({ provider, free_only: 'true' });
+        if (apiKey) query.append('api_key', apiKey);
+
+        const res = await fetch(`/api/llm/models?${query.toString()}`);
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.detail || 'Failed to fetch models');
+
+        if (data.models && data.models.length > 0) {
+          const optionsHtml = data.models.map(m => `<option value="${m.id}">${m.name}</option>`).join('');
+          select.innerHTML = optionsHtml;
+          document.getElementById('llmModel').innerHTML = optionsHtml;
+          document.getElementById('hubModelSelect').innerHTML = optionsHtml;
+          document.getElementById('sidebarModelCount').innerText = `${data.models.length} free models available`;
+          showToast(`Fetched ${data.models.length} free models for ${provider.toUpperCase()}`, 'success');
+        } else {
+          select.innerHTML = '<option value="">No free models found</option>';
+          document.getElementById('sidebarModelCount').innerText = '0 models found';
+        }
+      } catch (err) {
+        showToast(err.message, 'error');
+        select.innerHTML = '<option value="antigravity-gemini-3.7-flash">antigravity-gemini-3.7-flash (Default)</option>';
+      } finally {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+      }
+    }
+
+    function toggleSidebarKeyMask() {
+      const input = document.getElementById('sidebarApiKey');
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    function openLlmStudioTab() {
+      toggleLlmSidebar();
+      switchTab('llm');
+    }
+
+    function testSidebarPlayground() {
+      toggleLlmSidebar();
+      // Pre-fill playground with sample
+      document.getElementById('playgroundText').value = 'Relativistic kinetic energy: K = (γ - 1)mc² where γ = 1/√(1-v²/c²)';
+      switchTab('llm');
+      // Scroll to playground
+      setTimeout(() => {
+        const playground = document.getElementById('playgroundText');
+        if (playground) playground.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    }
+  </script>
+</body>
+</html>

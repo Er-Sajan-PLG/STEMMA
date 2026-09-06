@@ -1,0 +1,12 @@
+id: lhs:src.ingest-041ca440
+type: source
+title: TEST
+kind: ingested-document
+format: pdf
+source_type: textbook
+license: CC BY 4.0
+lifecycle: active
+accessed_at: '2026-09-06T23:03:21.547070+00:00'
+authors:
+- TEST
+year: 2026

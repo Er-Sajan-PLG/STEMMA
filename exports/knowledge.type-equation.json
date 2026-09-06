@@ -1,0 +1,124 @@
+{
+  "export_version": "0.2",
+  "schema_version": "0.3",
+  "policy": "type:equation",
+  "generated_at": "2026-09-06T07:57:41+00:00",
+  "source": "content/",
+  "entity_count": 2,
+  "connection_count": 0,
+  "entities": [
+    {
+      "id": "lhs:chem.chemical-equation",
+      "type": "equation",
+      "name": "Balanced Chemical Equation",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A symbolic representation of a chemical reaction showing reactants on the left and products on the right, with coefficient ratios balanced so that the number of atoms of each element is conserved across the arrow.",
+      "symbol": null,
+      "unit": null,
+      "equation": "2H₂ + O₂ → 2H₂O   ·   CH₄ + 2O₂ → CO₂ + 2H₂O",
+      "examples": [
+        "2H₂ + O₂ → 2H₂O models hydrogen burning; CH₄ + 2O₂ → CO₂ + 2H₂O models methane combustion.",
+        "Photosynthesis: 6CO₂ + 6H₂O + light → C₆H₁₂O₆ + 6O₂."
+      ],
+      "key_experiments": [
+        "Balance equations and verify atom conservation using molecular model kits."
+      ],
+      "common_misconceptions": [
+        "Coefficients and subscripts can be changed freely to balance an equation (coefficients may change; subscripts define the substance and must not).",
+        "Balancing changes the identity of the substances (balancing only adjusts amounts, never the compounds involved).",
+        "The arrow means equality of amounts (it indicates transformation; total atom count is conserved, not the number of molecules)."
+      ],
+      "learning_objectives": [
+        "Write and balance chemical equations for common reactions.",
+        "Interpret a balanced equation in terms of particles, moles, and mass.",
+        "Verify that atoms of each element are conserved."
+      ],
+      "real_world_applications": [
+        "Stoichiometric calculation of reactants and products in industry.",
+        "Fuel combustion tuning and air quality modeling.",
+        "Recipe-like dosage in pharmaceutical synthesis."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "mathematically_requires",
+          "target": "lhs:chem.chemical-reaction"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.element"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.matter"
+        }
+      ]
+    },
+    {
+      "id": "lhs:phys.equations-of-motion",
+      "type": "equation",
+      "name": "Equations of Motion",
+      "domain": "physics",
+      "status": "draft",
+      "definition": "The set of kinematic equations relating displacement, initial velocity, uniform acceleration, and time for motion in a straight line under constant acceleration: v = u + at, s = ut + ½at², v² = u² + 2as, and s = ½(u + v)t. They apply only when acceleration is constant.",
+      "symbol": "v, u, a, s, t",
+      "unit": null,
+      "equation": "v = u + at;  s = ut + ½at²;  v² = u² + 2as;  s = ½(u+v)t",
+      "examples": [
+        "A ball dropped from rest falls with v = g·t after t seconds.",
+        "Estimating a car's braking distance from its speed and deceleration using v² = u² + 2as."
+      ],
+      "key_experiments": [
+        "Braking/accelerating cart on a linear track: measure times and distances to verify v = u + at."
+      ],
+      "common_misconceptions": [
+        "Equations of motion apply whenever an object moves (they are valid only for uniform, constant acceleration).",
+        "u and v are interchangeable (u is the initial velocity and v is the final velocity; swapping them changes the answer).",
+        "The equations work for any motion including circular motion (they describe straight-line kinematics only)."
+      ],
+      "learning_objectives": [
+        "State the four equations of motion for uniform acceleration.",
+        "Select the correct equation given the known and unknown quantities.",
+        "Solve numerical problems for displacement, velocity, acceleration, and time."
+      ],
+      "real_world_applications": [
+        "Calculating vehicle stopping distances and reaction distance.",
+        "Predicting the time and height of a ball thrown vertically upward.",
+        "Analyzing free fall near Earth's surface."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "Nepal CDC SEE / CBSE / UK KS4 kinematics objectives"
+      },
+      "relationships": [
+        {
+          "type": "mathematically_requires",
+          "target": "lhs:phys.velocity"
+        },
+        {
+          "type": "mathematically_requires",
+          "target": "lhs:phys.acceleration"
+        },
+        {
+          "type": "mathematically_requires",
+          "target": "lhs:phys.time"
+        },
+        {
+          "type": "mathematically_requires",
+          "target": "lhs:phys.displacement"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.free-fall"
+        }
+      ]
+    }
+  ],
+  "connections": []
+}

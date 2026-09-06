@@ -1,0 +1,62 @@
+id: lhs:conn.atp-delta-g
+type: connection
+source: lhs:chem.atp-hydrolysis
+relation: qualifies
+target: lhs:chem.atp-hydrolysis-standard
+assertion:
+  status: active
+  type: proposed
+  review:
+    status: unreviewed
+  confidence: 0.9
+  confidence_basis: experimental
+  polarity: negative
+context:
+  domain: chemistry
+  subdomain: thermodynamics
+  regime:
+  - biochemical
+  scale: molecular
+  assumptions:
+  - "Standard state definitions differ"
+  - "pH, pMg, ionic strength specified"
+  qualifiers: []
+evidence:
+- type: textbook
+  stance: supports
+  source_ref: lhs:src.alberty-2003
+  locator:
+    page: "45"
+    equation: "Eq. 4.12"
+  description: "Alberty 2003: ATP hydrolysis ΔG°' = -30.5 kJ/mol at pH 7, [Mg²⁺]=1mM, I=0.25M"
+- type: standard
+  stance: contradicts
+  source_ref: lhs:src.nist-thermodynamic
+  locator:
+    section: "6.2"
+    table: "Table 6.1"
+  description: "NIST Δ_f G°(ATP⁴⁻) = -2761.9 ± 3.5 kJ/mol → ΔG° ≈ -20.5 kJ/mol (different standard state)"
+- type: standard
+  stance: qualifies
+  source_ref: lhs:src.iupac-green-book
+  locator:
+    section: "3.2"
+  description: "IUPAC defines standard state at 1 bar, 1 M, no specified pH; biochemical standard state ΔG°' at pH 7 is distinct"
+provenance:
+  asserted_by:
+    type: human
+    id: human:reviewer.thermo-001
+  generated_by:
+    type: human
+    id: human:curator.thermo-001
+  method:
+    type: manual
+  reviewed_by:
+  - type: human
+    id: human:reviewer.thermo-001
+  review_history:
+  - from: unreviewed
+    to: reviewed
+    reviewer: human:reviewer.thermo-001
+    at: '2026-09-06T14:30:00+00:00'
+    reason: "Contradictory ΔG claims resolved by distinguishing standard states (ΔG°' vs ΔG°)"

@@ -1,0 +1,1110 @@
+{
+  "export_version": "0.2",
+  "schema_version": "0.3",
+  "policy": "type:law",
+  "generated_at": "2026-09-06T07:57:41+00:00",
+  "source": "content/",
+  "entity_count": 11,
+  "connection_count": 7,
+  "entities": [
+    {
+      "id": "lhs:chem.le-chateliers-principle",
+      "type": "law",
+      "name": "Le Chatelier's Principle",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "The principle stating that if a dynamic equilibrium is disturbed by changing a condition such as concentration, pressure, or temperature, the equilibrium shifts in the direction that tends to counteract that change and re-establish equilibrium.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Increasing pressure shifts the ammonia synthesis equilibrium toward the side with fewer gas moles.",
+        "Raising temperature favors the endothermic direction of a reversible reaction."
+      ],
+      "key_experiments": [
+        "Add concentrated acid to a cobalt complex equilibrium and observe the color shift."
+      ],
+      "common_misconceptions": [
+        "Le Chatelier's principle predicts the new equilibrium constant (temperature is the only condition that changes K).",
+        "A catalyst shifts the equilibrium toward products (a catalyst speeds both directions equally)."
+      ],
+      "learning_objectives": [
+        "Predict the direction of equilibrium shift under changes in concentration, pressure, and temperature.",
+        "Apply the principle to optimize reaction yield in industrial processes.",
+        "Recognize that a catalyst does not change the equilibrium position."
+      ],
+      "real_world_applications": [
+        "Optimizing the Haber and Contact industrial processes.",
+        "Controlling gas exchange and acid-base balance in the body."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Atkins' Physical Chemistry"
+      },
+      "historical": {
+        "stated_by": "Henri-Louis Le Chatelier",
+        "year": 1884,
+        "where": "Comptes rendus de l'Académie des Sciences (C. R. Acad. Sci.)",
+        "context": "Chemical equilibrium under changing conditions",
+        "note": "Le Chatelier announced the principle in 1884 in the Comptes rendus. Similar reasoning about equilibrium response to stress was being developed by others around the same time."
+      },
+      "relationships": [
+        {
+          "type": "applies_to",
+          "target": "lhs:chem.chemical-equilibrium"
+        },
+        {
+          "type": "mathematically_requires",
+          "target": "lhs:chem.equilibrium-constant"
+        }
+      ]
+    },
+    {
+      "id": "lhs:math.fundamental-theorem-of-calculus",
+      "type": "law",
+      "name": "Fundamental Theorem of Calculus",
+      "domain": "mathematics",
+      "status": "draft",
+      "definition": "A theorem connecting differentiation and integration. Part 1 states that the derivative of the integral of f from a to x is exactly f(x); Part 2 states that a definite integral is evaluated by an antiderivative: ∫ₐᵇ f(x) dx = F(b) − F(a) whenever F′ = f. The theorem makes derivatives and integrals inverse operations.",
+      "symbol": null,
+      "unit": null,
+      "equation": "d/dx ∫ₐˣ f(t) dt = f(x)   and   ∫ₐᵇ f(x) dx = F(b) − F(a)",
+      "examples": [
+        "Since F = x³ is an antiderivative of f = 3x², ∫₁² 3x² dx = 2³ − 1³ = 7",
+        "The area under f(x) = 2x from 0 to 4 is F(4) − F(0) = 4² − 0 = 16"
+      ],
+      "common_misconceptions": [
+        "The fundamental theorem applies only to areas (it links any rate of change to its accumulation)",
+        "Differentiation and integration are independent ideas (the theorem shows they are inverse)"
+      ],
+      "learning_objectives": [
+        "State both parts of the fundamental theorem of calculus",
+        "Use the theorem to evaluate definite integrals through antiderivatives",
+        "Explain how differentiation and integration are inverse operations",
+        "Apply the theorem to compute cumulative change from a rate of change"
+      ],
+      "real_world_applications": [
+        "Converting velocity into distance travelled, and acceleration into velocity",
+        "Relating rates (marginal measures) to accumulated totals in science and finance"
+      ],
+      "key_experiments": [
+        "Show that the area-accumulation function F(x) = ∫ₐˣ f(t) dt has derivative f(x)"
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "academic-or-research",
+        "source": "Standard content of calculus curricula; classical theorem (Newton, Leibniz)",
+        "reviewer": null,
+        "reviewed_at": null
+      },
+      "historical": {
+        "stated_by": "Isaac Newton and Gottfried Wilhelm Leibniz (independent)",
+        "year": 1666,
+        "where": "Newton's early work; Leibniz's published formulation",
+        "context": "Calculus",
+        "note": "Developed independently by Newton (c. 1665-1666) and Leibniz (1670s; published 1693), giving rise to a priority dispute.",
+        "timeline": [
+          {
+            "year": 1665,
+            "by": "Isaac Newton",
+            "event": "Early development of the calculus relating differentiation and integration"
+          },
+          {
+            "year": 1666,
+            "by": "Isaac Newton",
+            "event": "Further development of the calculus (fluxions)"
+          },
+          {
+            "year": 1693,
+            "by": "Gottfried Wilhelm Leibniz",
+            "event": "Publication of the fundamental theorem of calculus"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "applies_to",
+          "target": "lhs:math.derivative"
+        },
+        {
+          "type": "applies_to",
+          "target": "lhs:math.integral"
+        },
+        {
+          "type": "mathematically_requires",
+          "target": "lhs:math.limit"
+        }
+      ]
+    },
+    {
+      "id": "lhs:math.pythagorean-theorem",
+      "type": "law",
+      "name": "Pythagorean Theorem",
+      "domain": "mathematics",
+      "status": "draft",
+      "definition": "In a right triangle, the square of the hypotenuse equals the sum of squares of the other two sides. This is one of the most fundamental theorems in geometry, connecting algebra and geometry.",
+      "symbol": "a² + b² = c²",
+      "unit": null,
+      "equation": "a² + b² = c²",
+      "examples": [
+        "3-4-5 triangle: 3² + 4² = 9 + 16 = 25 = 5²",
+        "Ladder problem: base 3m from wall, top 4m high → ladder = 5m",
+        "Diagonal of rectangle: w² + h² = d²"
+      ],
+      "common_misconceptions": [
+        "Works for all triangles (only right triangles)",
+        "c is always the longest side (yes, hypotenuse is longest, but must identify which is c)",
+        "a² + b² = c² means a + b = c (false; √(a²+b²) ≠ a+b)"
+      ],
+      "learning_objectives": [
+        "State and apply the theorem",
+        "Identify right triangles using the converse (if a²+b²=c², then right angle)",
+        "Solve real-world problems (distance, height, diagonal)",
+        "Extend to 3D: distance in space = √(x²+y²+z²)"
+      ],
+      "real_world_applications": [
+        "Construction (ensuring right angles)",
+        "Navigation (shortest distance)",
+        "Physics (vector magnitude)",
+        "Computer graphics (distance calculation)"
+      ],
+      "key_experiments": [
+        "Rope with 12 equally spaced knots: form 3-4-5 triangle for right angle"
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "NCTM Principles and Standards / ICSE Mathematics Curriculum",
+        "reviewer": null,
+        "reviewed_at": null
+      },
+      "historical": {
+        "stated_by": "Pythagoras (traditionally attributed)",
+        "year": -530,
+        "where": "Traditionally attributed to the Pythagorean school (6th century BCE)",
+        "context": "Geometry",
+        "note": "The relation between the sides of a right triangle was known to earlier Babylonian, Indian and Chinese mathematicians; the attribution of a formal proof to Pythagoras is traditional and not directly documented."
+      },
+      "relationships": [
+        {
+          "type": "applies_to",
+          "target": "lhs:math.triangle"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:math.triangle"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:math.trigonometric-ratio"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:math.quadratic-equation"
+        }
+      ]
+    },
+    {
+      "id": "lhs:phys.conservation-of-energy",
+      "type": "law",
+      "name": "Law of Conservation of Energy",
+      "domain": "physics",
+      "status": "draft",
+      "definition": "Energy cannot be created or destroyed; it can only be transferred from one object to another or converted from one form to another. The total energy of an isolated system remains constant.",
+      "symbol": null,
+      "unit": null,
+      "equation": "E_initial = E_final ; KE_i + PE_i = KE_f + PE_f (conservative systems)",
+      "examples": [
+        "A swinging pendulum never quite returns to its release height — energy is transferred, not lost.",
+        "A roller coaster trades height for speed all along the track."
+      ],
+      "key_experiments": [
+        "Newton's cradle: the last ball swings out while the first stops — energy and momentum are transferred."
+      ],
+      "common_misconceptions": [
+        "Energy can be \"used up\" (energy is conserved; it only changes form).",
+        "Perpetual motion machines are possible (they violate conservation of energy).",
+        "Friction creates energy (friction converts mechanical energy to thermal energy).",
+        "Conservation of energy applies only to mechanical energy (it applies to all forms)."
+      ],
+      "learning_objectives": [
+        "State the law of conservation of energy.",
+        "Apply conservation of energy to solve problems involving energy transfers.",
+        "Analyze situations where mechanical energy is conserved vs. not conserved.",
+        "Explain why perpetual motion machines are impossible."
+      ],
+      "real_world_applications": [
+        "Roller coasters and pendulums.",
+        "Power generation (energy conversion chains).",
+        "Food chains (energy flow through ecosystems).",
+        "Spacecraft trajectories (gravitational assists)."
+      ],
+      "provenance": {
+        "ai_drafted": true
+      },
+      "historical": {
+        "stated_by": "Hermann von Helmholtz (consolidation); earlier by others",
+        "year": 1847,
+        "where": "Über die Erhaltung der Kraft",
+        "context": "Multidisciplinary (mechanics, thermodynamics, chemistry, biology)",
+        "note": "Conservation of energy has a multidisciplinary origin and no single first discoverer. Independent contributors during the 1840s–1850s include James Prescott Joule (mechanical equivalent of heat, 1843), Julius Robert Mayer (1842), and Hermann von Helmholtz (general statement, 1847); the principle was consolidated through their combined work.",
+        "timeline": [
+          {
+            "year": 1842,
+            "by": "Julius Robert Mayer",
+            "event": "Argues for conservation of force/energy from considerations of heat and motion"
+          },
+          {
+            "year": 1843,
+            "by": "James Prescott Joule",
+            "event": "Quantifies the mechanical equivalent of heat experimentally"
+          },
+          {
+            "year": 1847,
+            "by": "Hermann von Helmholtz",
+            "event": "Publishes Über die Erhaltung der Kraft, a general statement of conservation of energy"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.energy"
+        },
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.kinetic-energy"
+        },
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.potential-energy"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.work-energy-theorem"
+        }
+      ]
+    },
+    {
+      "id": "lhs:phys.coulombs-law",
+      "type": "law",
+      "name": "Coulomb's Law",
+      "domain": "physics",
+      "status": "draft",
+      "definition": "The electrostatic force between two point charges is directly proportional to the product of their magnitudes and inversely proportional to the square of the distance between them.",
+      "symbol": null,
+      "unit": null,
+      "equation": "F = k·|q₁·q₂| / r² (k ≈ 9×10⁹ N·m²/C²)",
+      "real_world_applications": [
+        "Static cling and electrostatic painting rely on attraction between charges.",
+        "Understanding lightning and electrostatic precipitators that clean industrial smoke."
+      ],
+      "examples": [
+        "A charged balloon is pushed away by a like-charged one.",
+        "Static cling holds a charged balloon to a wall."
+      ],
+      "key_experiments": [
+        "Pith balls: observe repulsion between like charges and stronger force at smaller separations (inverse-square behaviour)."
+      ],
+      "common_misconceptions": [
+        "Coulomb's law applies to charges of any size (it is exact for point charges).",
+        "Force between charges depends on the medium (it does — the constant k changes).",
+        "Coulomb's law is the same as Newton's gravitation (both are inverse-square but differ in detail)."
+      ],
+      "learning_objectives": [
+        "State Coulomb's law.",
+        "Calculate electrostatic force between two charges.",
+        "Compare electrostatic and gravitational forces.",
+        "Explain the inverse-square nature of electrostatic force."
+      ],
+      "provenance": {
+        "ai_drafted": true
+      },
+      "historical": {
+        "stated_by": "Charles-Augustin de Coulomb",
+        "year": 1785,
+        "where": "Mémoires de l'Académie Royale des Sciences (First and Second Memoirs on Electricity and Magnetism)",
+        "context": "Electrostatics",
+        "note": "Established experimentally using a torsion balance. An inverse-square law for electrostatics had also been suggested earlier by Joseph Priestley (1767) and Henry Cavendish, so the 'first' formulation is contested; Coulomb provided the quantitative experimental basis.",
+        "timeline": [
+          {
+            "year": 1767,
+            "by": "Joseph Priestley",
+            "event": "Infers an inverse-square law for electrical force from a charged-cup experiment (prior, non-quantitative suggestion)"
+          },
+          {
+            "year": 1785,
+            "by": "Charles-Augustin de Coulomb",
+            "event": "Publishes the inverse-square law of electrostatic force based on torsion-balance measurements"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.electric-charge"
+        },
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.force"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.newtons-law-of-gravitation"
+        }
+      ]
+    },
+    {
+      "id": "lhs:phys.newtons-first-law",
+      "type": "law",
+      "name": "Newton's First Law of Motion",
+      "domain": "physics",
+      "status": "draft",
+      "definition": "An object at rest remains at rest, and an object in motion continues in motion with constant velocity (constant speed in a straight line), unless acted upon by a net external force.",
+      "symbol": null,
+      "unit": null,
+      "equation": "ΣF = 0 → a = 0",
+      "examples": [
+        "A puck glides a long way on smooth ice before slowing.",
+        "A book stays on a table until pushed; a satellite coasts in orbit."
+      ],
+      "key_experiments": [
+        "Flick a card out from under a coin: the coin stays put — an object resists change in motion.",
+        "Air track experiments showing nearly frictionless motion at constant velocity.",
+        "Rolling a ball on increasingly smooth surfaces."
+      ],
+      "common_misconceptions": [
+        "An object in motion naturally comes to rest (friction is the external force stopping it).",
+        "No motion means no forces (forces can balance to zero net force).",
+        "A constant force is needed to maintain constant velocity (no net force is needed for constant velocity)."
+      ],
+      "learning_objectives": [
+        "State Newton's first law in words and mathematically.",
+        "Explain inertia as the tendency of an object to resist changes in motion.",
+        "Analyze situations where balanced forces produce no acceleration.",
+        "Recognize that constant velocity implies zero net force."
+      ],
+      "real_world_applications": [
+        "Seatbelts (passengers continue forward when a car stops suddenly).",
+        "Tablecloth trick (objects at rest tend to stay at rest).",
+        "Spacecraft coasting in deep space with engines off."
+      ],
+      "provenance": {
+        "ai_drafted": true
+      },
+      "historical": {
+        "stated_by": "Isaac Newton",
+        "year": 1687,
+        "where": "Philosophiæ Naturalis Principia Mathematica",
+        "context": "Classical mechanics",
+        "note": "Stated as the first law of motion. The concept of inertia (resistance to change of motion) had earlier formulations — notably in Galileo's work on horizontal motion — so Newton's statement synthesized prior ideas rather than originating the notion of inertia.",
+        "timeline": [
+          {
+            "year": 1632,
+            "by": "Galileo Galilei",
+            "event": "Argues in Dialogo for the principle that motion continues indefinitely unless a force acts (inertia precedent)"
+          },
+          {
+            "year": 1687,
+            "by": "Isaac Newton",
+            "event": "First law stated in Philosophiæ Naturalis Principia Mathematica"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.force"
+        },
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.inertia"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.newtons-second-law"
+        }
+      ]
+    },
+    {
+      "id": "lhs:phys.newtons-law-of-gravitation",
+      "type": "law",
+      "name": "Newton's Law of Universal Gravitation",
+      "domain": "physics",
+      "status": "draft",
+      "definition": "Every mass attracts every other mass with a force proportional to the product of their masses and inversely proportional to the square of the distance between their centers.",
+      "symbol": null,
+      "unit": null,
+      "equation": "F = G·m₁·m₂ / r² (G ≈ 6.674×10⁻¹¹ N·m²/kg²)",
+      "examples": [
+        "The Moon stays in orbit through mutual gravitational attraction with Earth.",
+        "Ocean tides are raised mainly by the Moon's gravity."
+      ],
+      "key_experiments": [
+        "Compare the weight-force between two masses at different separations with a torsion-balance model or simulation (Cavendish-type)."
+      ],
+      "common_misconceptions": [
+        "Gravity only exists on Earth (gravitation is universal).",
+        "Gravity requires air to act (gravitation acts through vacuum).",
+        "Heavier objects fall faster (in vacuum, all fall at the same rate)."
+      ],
+      "learning_objectives": [
+        "State Newton's law of universal gravitation.",
+        "Calculate gravitational force between two masses.",
+        "Explain why weight varies with location.",
+        "Relate gravitation to weight and free fall."
+      ],
+      "real_world_applications": [
+        "Planetary motion.",
+        "Tides.",
+        "Satellite orbits.",
+        "Space exploration."
+      ],
+      "provenance": {
+        "ai_drafted": true
+      },
+      "historical": {
+        "stated_by": "Isaac Newton",
+        "year": 1687,
+        "where": "Philosophiæ Naturalis Principia Mathematica",
+        "context": "Universal gravitation",
+        "note": "The inverse-square law of gravitation was prompted by questions from Edmund Halley (who also financed the Principia's publication). Earlier 'inverse-square' gravitational suggestions existed (e.g. Hooke), and the gravitational constant G was measured later (Cavendish, 1798); Newton's contribution was the full synthesis and mathematical treatment.",
+        "timeline": [
+          {
+            "year": 1684,
+            "by": "Edmund Halley",
+            "event": "Prompts Newton to work out the orbit corresponding to an inverse-square force, leading to the Principia"
+          },
+          {
+            "year": 1687,
+            "by": "Isaac Newton",
+            "event": "Law of universal gravitation published in Philosophiæ Naturalis Principia Mathematica"
+          },
+          {
+            "year": 1798,
+            "by": "Henry Cavendish",
+            "event": "Torsion-balance experiment measuring the gravitational constant G and the density of Earth"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.gravitation"
+        },
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.mass"
+        },
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.force"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.free-fall"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.coulombs-law"
+        }
+      ]
+    },
+    {
+      "id": "lhs:phys.newtons-second-law",
+      "type": "law",
+      "name": "Newton's Second Law",
+      "domain": "physics",
+      "status": "draft",
+      "definition": "The net force acting on a body equals the rate of change of its momentum; at constant mass this reduces to F = m·a.",
+      "symbol": null,
+      "unit": null,
+      "equation": "F = dp/dt (general); F = m·a at constant mass",
+      "real_world_applications": [
+        "Larger vehicles need bigger engines because more mass needs more force for the same acceleration.",
+        "Smartphone accelerometers measure force per unit mass to detect motion."
+      ],
+      "examples": [
+        "Doubling the push on a trolley roughly doubles its acceleration.",
+        "A loaded cart needs more force than a light one for the same acceleration (a = F/m)."
+      ],
+      "key_experiments": [
+        "Dynamics cart + force sensor: log force against acceleration; the slope is the mass."
+      ],
+      "common_misconceptions": [
+        "F = m·a means the force is a property of the object itself (F is the net external force acting on the object)."
+      ],
+      "provenance": {
+        "ai_drafted": true
+      },
+      "historical": {
+        "stated_by": "Isaac Newton",
+        "year": 1687,
+        "where": "Philosophiæ Naturalis Principia Mathematica",
+        "context": "Classical mechanics",
+        "note": "Stated as the second law of motion. The F = ma form is the constant-mass special case; Newton's general statement was in terms of change of momentum.",
+        "timeline": [
+          {
+            "year": 1687,
+            "by": "Isaac Newton",
+            "event": "Second law stated in Philosophiæ Naturalis Principia Mathematica"
+          },
+          {
+            "year": 1750,
+            "event": "Euler's analytic formulation of force as mass × acceleration"
+          }
+        ]
+      },
+      "extensions": {
+        "symbol_set": "F, m, a, p, t",
+        "dimensions": "M L T^-2"
+      },
+      "relationships": [
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.force"
+        },
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.mass"
+        },
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.acceleration"
+        },
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.momentum"
+        }
+      ]
+    },
+    {
+      "id": "lhs:phys.newtons-third-law",
+      "type": "law",
+      "name": "Newton's Third Law of Motion",
+      "domain": "physics",
+      "status": "draft",
+      "definition": "For every action, there is an equal and opposite reaction. When object A exerts a force on object B, object B simultaneously exerts a force equal in magnitude and opposite in direction on object A.",
+      "symbol": null,
+      "unit": null,
+      "equation": "F_AB = -F_BA",
+      "examples": [
+        "A rocket pushes exhaust gas down and the gas pushes the rocket up.",
+        "You push Earth backward when you walk; Earth pushes you forward."
+      ],
+      "key_experiments": [
+        "Two carts push apart with a spring between them — equal and opposite impulses.",
+        "Two spring balances pulling each other show equal readings.",
+        "Magnets on carts repelling each other move equal distances (same mass) or inversely proportional distances (different mass)."
+      ],
+      "common_misconceptions": [
+        "Action and reaction forces cancel each other (they act on different objects, so they cannot cancel).",
+        "The stronger object exerts a larger force (forces in an action-reaction pair are always equal).",
+        "Action and reaction occur at different times (they are simultaneous)."
+      ],
+      "learning_objectives": [
+        "State Newton's third law in words and mathematically.",
+        "Identify action-reaction force pairs in physical situations.",
+        "Explain why action-reaction pairs do not cancel.",
+        "Analyze forces on multiple interacting objects."
+      ],
+      "real_world_applications": [
+        "Rocket propulsion (exhaust gases push backward; rocket moves forward).",
+        "Walking (foot pushes backward on ground; ground pushes forward on foot).",
+        "Swimming (water pushed backward; swimmer moves forward).",
+        "Recoil of a gun."
+      ],
+      "provenance": {
+        "ai_drafted": true
+      },
+      "historical": {
+        "stated_by": "Isaac Newton",
+        "year": 1687,
+        "where": "Philosophiæ Naturalis Principia Mathematica",
+        "context": "Classical mechanics",
+        "note": "Stated as the third law of motion: to every action there is always opposed an equal reaction.",
+        "timeline": [
+          {
+            "year": 1687,
+            "by": "Isaac Newton",
+            "event": "Third law stated in Philosophiæ Naturalis Principia Mathematica"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.force"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.newtons-first-law"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.newtons-second-law"
+        }
+      ]
+    },
+    {
+      "id": "lhs:phys.ohms-law",
+      "type": "law",
+      "name": "Ohm's Law",
+      "domain": "physics",
+      "status": "draft",
+      "definition": "The current through a conductor between two points is directly proportional to the voltage across the two points, provided the temperature remains constant. The constant of proportionality is the resistance.",
+      "symbol": null,
+      "unit": null,
+      "equation": "V = I·R",
+      "examples": [
+        "Doubling the voltage across a fixed resistor doubles the current.",
+        "Adding a series resistor dims a lamp — less current flows."
+      ],
+      "key_experiments": [
+        "Vary voltage across a resistor, record current, and plot I against V; the slope is 1/R.",
+        "Measuring V and I for a fixed resistor to verify Ohm's law."
+      ],
+      "common_misconceptions": [
+        "Ohm's law applies to all conductors (only ohmic conductors show linear V-I relationship).",
+        "Resistance depends on voltage and current (for ohmic conductors, resistance is constant).",
+        "Ohm's law is always true (it breaks down at very high currents or for non-ohmic materials)."
+      ],
+      "learning_objectives": [
+        "State Ohm's law in words and mathematically.",
+        "Calculate voltage, current, or resistance using V = IR.",
+        "Plot and interpret V-I graphs for ohmic and non-ohmic conductors.",
+        "Distinguish between ohmic and non-ohmic conductors."
+      ],
+      "real_world_applications": [
+        "Circuit design.",
+        "Fuse and breaker sizing.",
+        "Sensor design (thermistors, LDRs)."
+      ],
+      "provenance": {
+        "ai_drafted": true
+      },
+      "historical": {
+        "stated_by": "Georg Simon Ohm",
+        "year": 1827,
+        "where": "Die galvanische Kette, mathematisch bearbeitet",
+        "context": "Electrical circuits",
+        "note": "Ohm formulated the relation between current, electromotive force and resistance from experiment and theory.",
+        "timeline": [
+          {
+            "year": 1827,
+            "by": "Georg Simon Ohm",
+            "event": "Publishes Die galvanische Kette, mathematisch bearbeitet, stating the law relating current, voltage and resistance"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.current"
+        },
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.voltage"
+        },
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.resistance"
+        }
+      ]
+    },
+    {
+      "id": "lhs:phys.work-energy-theorem",
+      "type": "law",
+      "name": "Work-Energy Theorem",
+      "domain": "physics",
+      "status": "draft",
+      "definition": "The net work done on an object equals the change in its kinetic energy. This theorem connects the concept of work (force × distance) directly to the concept of energy.",
+      "symbol": null,
+      "unit": null,
+      "equation": "W_net = ΔKE = ½·m·v_f² - ½·m·v_i²",
+      "examples": [
+        "Braking a car — friction does negative work, removing its kinetic energy.",
+        "A hammer driving a nail: the work done transfers kinetic energy into the wood."
+      ],
+      "key_experiments": [
+        "Ramp-and-block: the work done pushing a block equals the kinetic energy it gains, within measurement error."
+      ],
+      "common_misconceptions": [
+        "Work and kinetic energy are the same thing (work is the process of transferring energy; kinetic energy is the quantity).",
+        "Work-energy theorem only applies to constant forces (it applies to any force, constant or varying).",
+        "Work done by friction increases kinetic energy (friction does negative work, decreasing kinetic energy)."
+      ],
+      "learning_objectives": [
+        "State the work-energy theorem.",
+        "Apply the theorem to calculate work done or change in kinetic energy.",
+        "Explain the relationship between work and energy."
+      ],
+      "real_world_applications": [
+        "Braking distance calculations.",
+        "Sports (work done on a ball increases its kinetic energy).",
+        "Engineering (energy transfer in machines)."
+      ],
+      "provenance": {
+        "ai_drafted": true
+      },
+      "historical": {
+        "stated_by": "Derived from Newton's laws of motion (Isaac Newton)",
+        "year": 1687,
+        "where": "Philosophiæ Naturalis Principia Mathematica (foundation)",
+        "context": "Mechanics (work, kinetic energy)",
+        "note": "The work-energy theorem is a derived reformulation of Newtonian mechanics rather than a single distinct discovery; it emerges from Newton's laws of motion (1687). Its explicit statement as 'net work equals change in kinetic energy' was consolidated later in the development of energy concepts (18th–19th century).",
+        "timeline": [
+          {
+            "year": 1687,
+            "by": "Isaac Newton",
+            "event": "Newton's laws of motion establish the foundation from which the work-energy relation is derived"
+          },
+          {
+            "year": 1715,
+            "by": "Johann Bernoulli",
+            "event": "Coins the term 'vis viva' (living force, proportional to mass × velocity²), a precursor of kinetic energy"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.work"
+        },
+        {
+          "type": "applies_to",
+          "target": "lhs:phys.kinetic-energy"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.conservation-of-energy"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "lhs:conn.000129",
+      "type": "connection",
+      "source": "lhs:phys.coulombs-law",
+      "relation": "related_to",
+      "target": "lhs:phys.newtons-law-of-gravitation",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "electricity-magnetism",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000192",
+      "type": "connection",
+      "source": "lhs:phys.conservation-of-energy",
+      "relation": "related_to",
+      "target": "lhs:phys.work-energy-theorem",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000266",
+      "type": "connection",
+      "source": "lhs:phys.newtons-first-law",
+      "relation": "related_to",
+      "target": "lhs:phys.newtons-second-law",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000271",
+      "type": "connection",
+      "source": "lhs:phys.newtons-law-of-gravitation",
+      "relation": "related_to",
+      "target": "lhs:phys.coulombs-law",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000277",
+      "type": "connection",
+      "source": "lhs:phys.newtons-third-law",
+      "relation": "related_to",
+      "target": "lhs:phys.newtons-first-law",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000278",
+      "type": "connection",
+      "source": "lhs:phys.newtons-third-law",
+      "relation": "related_to",
+      "target": "lhs:phys.newtons-second-law",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000317",
+      "type": "connection",
+      "source": "lhs:phys.work-energy-theorem",
+      "relation": "related_to",
+      "target": "lhs:phys.conservation-of-energy",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    }
+  ]
+}

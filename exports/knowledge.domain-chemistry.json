@@ -1,0 +1,5463 @@
+{
+  "export_version": "0.2",
+  "schema_version": "0.3",
+  "policy": "domain:chemistry",
+  "generated_at": "2026-09-06T07:57:41+00:00",
+  "source": "content/",
+  "entity_count": 40,
+  "connection_count": 79,
+  "entities": [
+    {
+      "id": "lhs:chem.acid",
+      "type": "concept",
+      "name": "Acid",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A chemical substance that releases hydrogen ions (H⁺ or hydronium H₃O⁺) in aqueous solution, tastes sour, turns blue litmus paper red, has a pH less than 7, and reacts with bases to form salts and water.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Vinegar (acetic acid) and lemon juice (citric acid) are weak acids.",
+        "Car-battery electrolyte is strongly acidic sulfuric acid."
+      ],
+      "key_experiments": [
+        "Test household substances with litmus or universal indicator; add acid to a metal and test the gas with a burning splint (pops)."
+      ],
+      "common_misconceptions": [
+        "All acids burn skin and dissolve everything (many weak acids are safe and essential in biological systems, e.g. citric acid, amino acids).",
+        "Strong acids and concentrated acids mean the same thing (strength is degree of ionization; concentration is amount of acid per volume)."
+      ],
+      "learning_objectives": [
+        "Define an acid according to Arrhenius (H⁺ producer) and Brønsted-Lowry (proton donor) models.",
+        "Distinguish strong acids (fully ionized) from weak acids (partially ionized).",
+        "Describe characteristic acid reactions with metals, carbonates, and bases."
+      ],
+      "real_world_applications": [
+        "Stomach digestion (hydrochloric acid).",
+        "Lead-acid car batteries (sulfuric acid) and food preservation (vinegar/acetic acid)."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "historical": {
+        "stated_by": "Johannes Brønsted & Thomas Lowry (Brønsted-Lowry model)",
+        "year": 1923,
+        "context": "Acid-base theory (proton-donor model)",
+        "note": "Brønsted and Lowry independently proposed the proton-donor/acceptor model of acids and bases in 1923. Earlier, Svante Arrhenius had defined acids as substances producing H⁺ in water (1884).",
+        "timeline": [
+          {
+            "year": 1884,
+            "by": "Svante Arrhenius",
+            "event": "Arrhenius acid-base theory (H⁺ production in aqueous solution)"
+          },
+          {
+            "year": 1923,
+            "by": "Johannes Brønsted & Thomas Lowry",
+            "event": "Independent proposal of the proton-transfer (Brønsted-Lowry) acid-base model"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.compound"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.proton"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.activation-energy",
+      "type": "quantity",
+      "name": "Activation Energy",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "The minimum energy that colliding reactant particles must possess for a reaction to occur, forming an activated complex. Activation energy governs the rate of a reaction through the exponential Arrhenius relationship with temperature.",
+      "symbol": "E_a",
+      "unit": "J mol⁻¹",
+      "equation": "k = A e^{−E_a/(RT)}  (Arrhenius equation)",
+      "examples": [
+        "Hydrogen and oxygen mixed at room temperature react negligibly despite a favourable equilibrium because E_a is high.",
+        "A catalyst lowers activation energy, dramatically accelerating a reaction."
+      ],
+      "key_experiments": [
+        "Measure a rate at several temperatures and extract E_a from an Arrhenius plot of ln k against 1/T."
+      ],
+      "common_misconceptions": [
+        "All collisions lead to reaction (only collisions with energy above E_a are effective).",
+        "Raising temperature always changes the reaction mechanism (it increases the fraction of energetic collisions)."
+      ],
+      "learning_objectives": [
+        "Explain activation energy in terms of an energy barrier and activated complex.",
+        "Use the Arrhenius equation to relate rate constant to temperature.",
+        "Explain how catalysts lower activation energy."
+      ],
+      "real_world_applications": [
+        "Designing catalysts for fuel cells and industrial synthesis.",
+        "Controlling reaction kinetics in food preservation and explosives."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:chem.reaction-rate"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.alcohol",
+      "type": "concept",
+      "name": "Alcohol",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "An organic compound containing one or more hydroxyl (—OH) functional groups bonded to a saturated carbon atom. Alcohols are polar, hydrogen-bonding liquids that range from methanol and ethanol to high-molecular-mass polyols.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Methanol (CH₃OH) and ethanol (C₂H₅OH) are the simplest alcohols.",
+        "Glycerol, a triol, is a constituent of lipids and cosmetic formulations."
+      ],
+      "key_experiments": [
+        "React an alcohol with sodium metal to observe hydrogen evolution, confirming the hydroxyl group."
+      ],
+      "common_misconceptions": [
+        "Alcohols and the hydroxyl group make a solution basic (alcohols are generally neutral or weakly acidic).",
+        "All alcohols are safe to consume (methanol is toxic)."
+      ],
+      "learning_objectives": [
+        "Name simple alcohols and describe hydrogen bonding among them.",
+        "Explain oxidation of primary and secondary alcohols.",
+        "Compare boiling points of alcohols with analogous alkanes."
+      ],
+      "real_world_applications": [
+        "Ethanol as a biofuel and solvent; methanol in fuels and synthesis.",
+        "Isopropyl alcohol as a disinfectant."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Atkins' Physical Chemistry"
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:chem.functional-group"
+        },
+        {
+          "type": "derived_from",
+          "target": "lhs:chem.alkene"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.alkane",
+      "type": "concept",
+      "name": "Alkane",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A saturated hydrocarbon in which every carbon atom is bonded to others by single covalent bonds only, with the general formula CₙH₂ₙ₊₂ for acyclic alkanes. Alkanes are the simplest homologous series of organic compounds.",
+      "symbol": null,
+      "unit": null,
+      "equation": "C_n H_{2n+2}  (acyclic alkanes, n ≥ 1)",
+      "examples": [
+        "Methane (CH₄), ethane (C₂H₆), and propane (C₃H₈) are the first three alkanes.",
+        "Octane (C₈H₁₈) is a key component of motor fuels."
+      ],
+      "key_experiments": [
+        "Compare the reactivity of methane with bromine under light to show halogen substitution."
+      ],
+      "common_misconceptions": [
+        "Alkanes are highly reactive (their single bonds make them relatively unreactive).",
+        "All alkanes are gases (boiling point rises with chain length)."
+      ],
+      "learning_objectives": [
+        "Write the general formula and names of simple alkanes.",
+        "Explain why alkanes are relatively unreactive.",
+        "Describe combustion and halogen substitution reactions of alkanes."
+      ],
+      "real_world_applications": [
+        "Natural gas (methane) and petroleum fractions used as fuels.",
+        "Waxes and paraffins used in candles and coatings."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "historical": {
+        "stated_by": "Recognition of the paraffin (alkane) series in 19th-century hydrocarbon chemistry",
+        "year": 1830,
+        "where": "19th-century hydrocarbon chemistry",
+        "note": "The saturated hydrocarbons were recognised as a family (the paraffins) during the 19th century; the term 'paraffin' was coined by Carl von Reichenbach (c. 1830). The systematic 'alkane' nomenclature came later with the development of organic nomenclature, so no single discoverer is attributed."
+      },
+      "relationships": [
+        {
+          "type": "special_case_of",
+          "target": "lhs:chem.hydrocarbon"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.alkene",
+      "type": "concept",
+      "name": "Alkene",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "An unsaturated hydrocarbon that contains at least one carbon-to-carbon double bond, with the general formula CₙH₂ₙ as a member of the homologous series. The presence of the double bond makes alkenes more reactive than alkanes.",
+      "symbol": null,
+      "unit": null,
+      "equation": "C_n H_{2n}  (acyclic alkenes with one double bond, n ≥ 2)",
+      "examples": [
+        "Ethene (C₂H₄) is the industrial precursor of polyethylene.",
+        "Propene (C₃H₆) is a feedstock for polypropylene plastics."
+      ],
+      "key_experiments": [
+        "Decolourise bromine water with an alkene to demonstrate addition across the double bond."
+      ],
+      "common_misconceptions": [
+        "Alkenes are stable and unreactive (the electron-rich double bond readily undergoes addition).",
+        "An alkene and its isomeric alkane have the same properties."
+      ],
+      "learning_objectives": [
+        "Identify the carbon-carbon double bond and write alkene names and formulas.",
+        "Explain addition reactions such as hydrogenation and hydration.",
+        "Relate the double bond to geometric (cis/trans) isomerism."
+      ],
+      "real_world_applications": [
+        "Manufacture of polymers such as polyethylene and polypropylene.",
+        "Ripening agents for fruit and feedstocks for alcohols."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "historical": {
+        "stated_by": "Recognition of the ethylene class (Erlenmeyer, early structural chemistry)",
+        "year": 1860,
+        "where": "early structural (constitutional) chemistry",
+        "note": "Alkenes were recognised as a class as organic structural chemistry grew in the mid-19th century. No single individual 'discovered' the class; Emil Erlenmeyer and others developed representations of the carbon-carbon double bond, and the systematic nomenclature/term 'alkene' came later. Attribution is therefore kept deliberately conservative."
+      },
+      "relationships": [
+        {
+          "type": "special_case_of",
+          "target": "lhs:chem.hydrocarbon"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.atom",
+      "type": "concept",
+      "name": "Atom",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "The smallest unit of an element that retains the chemical properties of that element. An atom consists of a dense central nucleus of protons and neutrons surrounded by a cloud of electrons.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "A gold atom is about 0.3 nm across; iron atoms pack in a regular metal lattice.",
+        "Atoms of one element all share the same proton number."
+      ],
+      "key_experiments": [
+        "Build atomic structure models and use the periodic table to find proton/neutron/electron counts."
+      ],
+      "common_misconceptions": [
+        "Atoms are solid spheres with fixed orbits like solar systems (electrons exist in probability clouds).",
+        "Atoms can be seen with optical microscopes (atoms are smaller than wavelengths of visible light)."
+      ],
+      "learning_objectives": [
+        "Describe the internal structure of an atom (protons, neutrons, electrons).",
+        "Explain how the number of protons defines an element's atomic number.",
+        "Relate atomic structure to chemical reactivity."
+      ],
+      "real_world_applications": [
+        "Semiconductor electronics and nanotechnology.",
+        "Nuclear medicine and radiocarbon dating."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.matter"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.electric-charge"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.atomic-structure"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.base",
+      "type": "concept",
+      "name": "Base",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A chemical substance that reacts with acids to form salt and water, accepts protons (H⁺), or releases hydroxide ions (OH⁻) in aqueous solution (alkali). Bases taste bitter, feel slippery, turn red litmus paper blue, and have a pH greater than 7.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Soap, baking soda and antacids are basic substances.",
+        "Caustic soda (sodium hydroxide) is a strong base."
+      ],
+      "key_experiments": [
+        "Universal-indicator testing of household bases; mix a base with an acid and feel the temperature change."
+      ],
+      "common_misconceptions": [
+        "Bases are completely harmless compared to acids (strong alkalis like sodium hydroxide cause severe chemical burns).",
+        "All bases are soluble in water (alkalis are water-soluble bases; insoluble bases like copper oxide are not alkalis)."
+      ],
+      "learning_objectives": [
+        "Define a base (proton acceptor / hydroxide producer) and distinguish alkalis from insoluble bases.",
+        "Explain strong vs. weak bases in terms of dissociation.",
+        "Describe neutralization reactions of bases with acids."
+      ],
+      "real_world_applications": [
+        "Antacids for neutralizing stomach acid.",
+        "Household cleaning products (ammonia, drain cleaner / sodium hydroxide)."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.compound"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.acid"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.carboxylic-acid",
+      "type": "concept",
+      "name": "Carboxylic Acid",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "An organic compound containing a carboxyl functional group (—COOH), a carbonyl group bonded to a hydroxyl group. Carboxylic acids are weak acids that donate a proton from the hydroxyl group to form carboxylate anions.",
+      "symbol": null,
+      "unit": null,
+      "equation": "RCOOH ⇌ RCOO⁻ + H⁺  (generic ionization)",
+      "examples": [
+        "Ethanoic acid (CH₃COOH, vinegar) and citric acid in citrus fruit are carboxylic acids.",
+        "Fatty acids contain long hydrocarbon chains ending in a carboxyl group."
+      ],
+      "key_experiments": [
+        "Add a carboxylic acid to sodium carbonate and test the carbon dioxide evolved."
+      ],
+      "common_misconceptions": [
+        "Carboxylic acids are strong acids (they are typically weak acids that ionize only partially).",
+        "The carboxyl group alone determines intensity of acidity (substituents affect acid strength)."
+      ],
+      "learning_objectives": [
+        "Identify the carboxyl group and write structural formulas of simple carboxylic acids.",
+        "Describe the acidic character and formation of carboxylate salts.",
+        "Explain esterification of carboxylic acids with alcohols."
+      ],
+      "real_world_applications": [
+        "Aspirin (acetylsalicylic acid) and other pharmaceuticals.",
+        "Preservatives and flavorings; soaps derived from fatty acids."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Atkins' Physical Chemistry"
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:chem.acid"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.functional-group"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.catalyst",
+      "type": "concept",
+      "name": "Catalyst",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A substance that increases the rate of a chemical reaction by providing an alternative reaction pathway of lower activation energy, while itself being regenerated and not consumed overall. A catalyst does not alter the equilibrium position or product yield.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Iron catalyzes the Haber synthesis of ammonia; platinum catalyzes the oxidation of ammonia to nitric oxide.",
+        "Enzymes are biological catalysts that accelerate metabolic reactions at body temperature."
+      ],
+      "key_experiments": [
+        "Add manganese dioxide to hydrogen peroxide and compare oxygen evolution rates with and without it."
+      ],
+      "common_misconceptions": [
+        "A catalyst is consumed by the reaction (it is recycled and not used up).",
+        "A catalyst changes the final equilibrium amounts (it only speeds the approach to equilibrium)."
+      ],
+      "learning_objectives": [
+        "Explain how a catalyst lowers activation energy and increases reaction rate.",
+        "Distinguish homogeneous and heterogeneous catalysis.",
+        "Recognize the role of enzymes as selective biological catalysts."
+      ],
+      "real_world_applications": [
+        "Catalytic converters in vehicles reduce pollutant emissions.",
+        "Industrial catalysts enable economical production of ammonia, fuels, and plastics."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:chem.reaction-rate"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.activation-energy"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.chemical-equation",
+      "type": "equation",
+      "name": "Balanced Chemical Equation",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A symbolic representation of a chemical reaction showing reactants on the left and products on the right, with coefficient ratios balanced so that the number of atoms of each element is conserved across the arrow.",
+      "symbol": null,
+      "unit": null,
+      "equation": "2H₂ + O₂ → 2H₂O   ·   CH₄ + 2O₂ → CO₂ + 2H₂O",
+      "examples": [
+        "2H₂ + O₂ → 2H₂O models hydrogen burning; CH₄ + 2O₂ → CO₂ + 2H₂O models methane combustion.",
+        "Photosynthesis: 6CO₂ + 6H₂O + light → C₆H₁₂O₆ + 6O₂."
+      ],
+      "key_experiments": [
+        "Balance equations and verify atom conservation using molecular model kits."
+      ],
+      "common_misconceptions": [
+        "Coefficients and subscripts can be changed freely to balance an equation (coefficients may change; subscripts define the substance and must not).",
+        "Balancing changes the identity of the substances (balancing only adjusts amounts, never the compounds involved).",
+        "The arrow means equality of amounts (it indicates transformation; total atom count is conserved, not the number of molecules)."
+      ],
+      "learning_objectives": [
+        "Write and balance chemical equations for common reactions.",
+        "Interpret a balanced equation in terms of particles, moles, and mass.",
+        "Verify that atoms of each element are conserved."
+      ],
+      "real_world_applications": [
+        "Stoichiometric calculation of reactants and products in industry.",
+        "Fuel combustion tuning and air quality modeling.",
+        "Recipe-like dosage in pharmaceutical synthesis."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "mathematically_requires",
+          "target": "lhs:chem.chemical-reaction"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.element"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.matter"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.chemical-equilibrium",
+      "type": "concept",
+      "name": "Chemical Equilibrium",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "The state of a reversible reaction in which the rates of the forward and reverse reactions are equal, so the concentrations of reactants and products remain constant over time. Equilibrium is dynamic and does not imply equal quantities of reactants and products.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "The Haber process N₂ + 3H₂ ⇌ 2NH₃ establishes equilibrium at high pressure.",
+        "Dissolving silver chloride, AgCl(s) ⇌ Ag⁺ + Cl⁻, reaches a solubility equilibrium."
+      ],
+      "key_experiments": [
+        "Equilibrate iodine and iodide between aqueous and organic phases and measure the partition ratio."
+      ],
+      "common_misconceptions": [
+        "At equilibrium the reaction has stopped (forward and reverse reactions continue at equal rates).",
+        "Equilibrium means equal amounts of reactants and products (concentrations are constant, not necessarily equal)."
+      ],
+      "learning_objectives": [
+        "Describe the dynamic nature of chemical equilibrium.",
+        "Write the equilibrium position for a reversible reaction.",
+        "Explain how changes in conditions disturb and re-establish equilibrium."
+      ],
+      "real_world_applications": [
+        "Industrial ammonia synthesis and the Contact process for sulfuric acid.",
+        "Gas exchange in blood (oxygen and carbon dioxide equilibria)."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Atkins' Physical Chemistry"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.chemical-reaction"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.equilibrium-constant"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.chemical-reaction",
+      "type": "concept",
+      "name": "Chemical Reaction",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A process in which one or more substances (reactants) are chemically transformed into one or more different substances (products) through the breaking and forming of chemical bonds, conserving total mass and atoms.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Rusting of iron, burning wood and baking a cake are chemical reactions.",
+        "Photosynthesis is one of the most important natural chemical reactions."
+      ],
+      "key_experiments": [
+        "Evidence-of-reaction stations: colour change, gas bubbles, precipitate formation and temperature change."
+      ],
+      "common_misconceptions": [
+        "Atoms are destroyed or created during chemical reactions (atoms are only rearranged).",
+        "Mass changes significantly during chemical reactions in closed systems (mass is conserved)."
+      ],
+      "learning_objectives": [
+        "Identify evidence of chemical reactions (color change, gas evolution, precipitate, temperature change).",
+        "Write and balance chemical equations demonstrating mass conservation.",
+        "Distinguish between reactants and products."
+      ],
+      "real_world_applications": [
+        "Combustion in engines and power plants.",
+        "Biological metabolism and photosynthesis."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.compound"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.element"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.conservation-of-energy"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.energy"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.combustion",
+      "type": "concept",
+      "name": "Combustion",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A rapid chemical reaction between a substance and an oxidant (usually oxygen) that releases heat and light. Complete combustion of hydrocarbons produces carbon dioxide and water; incomplete combustion produces carbon monoxide and soot.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Gas stoves, car engines and campfires run on combustion of fuel.",
+        "Incomplete combustion makes soot and dangerous carbon monoxide."
+      ],
+      "key_experiments": [
+        "Burn a small candle in a jar: observe moisture and test the gas with limewater to show CO₂ from complete combustion."
+      ],
+      "common_misconceptions": [
+        "Combustion can occur without oxygen (combustion requires an oxidant, normally oxygen in air).",
+        "Fire and combustion are the same thing (fire is the visible, observable event of combustion, not the reaction itself).",
+        "Complete combustion is always achieved with plenty of fuel (complete combustion needs sufficient oxygen, not more fuel)."
+      ],
+      "learning_objectives": [
+        "Describe combustion as an exothermic oxidation reaction.",
+        "Distinguish complete from incomplete combustion and their products.",
+        "Relate combustion to everyday fuels and their environmental effects."
+      ],
+      "real_world_applications": [
+        "Burning fossil fuels for energy and transport.",
+        "Cooking and heating with gas burners.",
+        "Fire safety and extinguishing principles."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "special_case_of",
+          "target": "lhs:chem.chemical-reaction"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.energy"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.our-environment"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.compound",
+      "type": "concept",
+      "name": "Chemical Compound",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A pure substance formed when two or more different chemical elements are chemically bonded together in a fixed stoichiometric ratio. Compounds have chemical properties distinct from their constituent elements.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Water (H₂O), carbon dioxide (CO₂) and table salt (NaCl) are compounds.",
+        "Sodium and chlorine are dangerous, yet the compound sodium chloride is table salt."
+      ],
+      "key_experiments": [
+        "Electrolysis of water collects hydrogen and oxygen in a 2 : 1 volume ratio — decomposition of a compound."
+      ],
+      "common_misconceptions": [
+        "Compounds retain the physical and chemical properties of their constituent elements (e.g., sodium and chlorine vs. table salt).",
+        "Mixtures and compounds are identical (mixtures are physically combined without fixed ratios or chemical bonds)."
+      ],
+      "learning_objectives": [
+        "Define a chemical compound and distinguish it from a mixture.",
+        "Interpret chemical formulae representing molecular and ionic compounds.",
+        "Explain how chemical bonding creates compounds with unique properties."
+      ],
+      "real_world_applications": [
+        "Pharmaceuticals and drug formulation.",
+        "Water treatment and agricultural fertilizers."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.element"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.atom"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.covalent-bond",
+      "type": "concept",
+      "name": "Covalent Bond",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A chemical bond formed when two non-metal atoms share one or more pairs of valence electrons, achieving stable noble-gas electron configurations through mutual electrostatic attraction between shared electrons and nuclei.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Water and methane share electrons in covalent bonds.",
+        "Diamond, a giant covalent lattice, is the hardest natural substance."
+      ],
+      "key_experiments": [
+        "Build molecular models of H₂O, CO₂ and CH₄ to visualize shared electron pairs."
+      ],
+      "common_misconceptions": [
+        "Covalent bonding involves transfer of electrons (covalent bonding involves sharing of electron pairs).",
+        "All covalent compounds are simple small molecules (some form giant covalent network structures like diamond and quartz)."
+      ],
+      "learning_objectives": [
+        "Draw Lewis dot structures for single, double, and triple covalent bonds (e.g. H₂, O₂, N₂).",
+        "Distinguish simple molecular covalent structures from giant covalent networks.",
+        "Relate covalent molecular structures to low melting/boiling points."
+      ],
+      "real_world_applications": [
+        "Organic chemistry, polymers, and plastics manufacturing.",
+        "Molecular biology (DNA backbone and proteins)."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.electron"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.compound"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.diffusion",
+      "type": "concept",
+      "name": "Diffusion",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "The net movement of particles from a region of higher concentration to a region of lower concentration, driven by the random thermal motion of particles, until concentrations equalize.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "A drop of ink spreads through water on its own.",
+        "Oxygen diffuses from lung air into the blood across thin membranes."
+      ],
+      "key_experiments": [
+        "Drop potassium permanganate into hot and cold water: diffusion is faster at higher temperature."
+      ],
+      "common_misconceptions": [
+        "Diffusion happens only in gases (diffusion occurs in gases, liquids, and across solutions).",
+        "Particles move because they are pushed toward empty space (particles move randomly; net flow arises from statistical imbalance, not repulsion).",
+        "Higher temperature slows diffusion (higher temperature increases particle kinetic energy and speeds diffusion)."
+      ],
+      "learning_objectives": [
+        "Explain diffusion in terms of random particle motion.",
+        "Describe factors that affect the rate of diffusion (temperature, particle size, concentration gradient).",
+        "Distinguish diffusion from osmosis."
+      ],
+      "real_world_applications": [
+        "Spreading of perfume or cooking smells through a room.",
+        "Gas exchange of oxygen and carbon dioxide in lungs.",
+        "Dissolving and mixing of substances."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.matter"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.temperature"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.osmosis"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.electrochemical-cell",
+      "type": "concept",
+      "name": "Electrochemical Cell",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A device that converts chemical energy into electrical energy or, conversely, uses electrical energy to drive a chemical reaction. Galvanic (voltaic) cells generate electricity from spontaneous redox reactions, while electrolytic cells use an external voltage.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "A common zinc-carbon battery produces electricity from the spontaneous zinc and manganese dioxide redox couple.",
+        "A hydrogen fuel cell combines hydrogen and oxygen to produce electricity and water."
+      ],
+      "key_experiments": [
+        "Build a simple zinc/copper galvanic cell and measure its voltage with a voltmeter."
+      ],
+      "common_misconceptions": [
+        "Electrons flow through the salt bridge (ions flow through it to maintain charge balance, not electrons).",
+        "The anode is always positive (in a galvanic cell the anode is negative; the label depends on cell type)."
+      ],
+      "learning_objectives": [
+        "Distinguish galvanic and electrolytic cells.",
+        "Identify anode and cathode and the direction of electron flow.",
+        "Explain the role of the salt bridge and electrode potentials."
+      ],
+      "real_world_applications": [
+        "Batteries in portable electronics and vehicles.",
+        "Fuel cells and corrosion protection via sacrificial anodes."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Atkins' Physical Chemistry"
+      },
+      "historical": {
+        "stated_by": "Alessandro Volta",
+        "year": 1800,
+        "where": "Letter to the Royal Society (March 1800), 'On the Electricity Excited by the Mere Contact of Conducting Substances'",
+        "context": "Galvanic (voltaic) cell",
+        "note": "Volta's pile built on earlier observations of galvanism; Luigi Galvani had described 'animal electricity' from frog preparations in the 1780s.",
+        "timeline": [
+          {
+            "year": 1780,
+            "by": "Luigi Galvani",
+            "event": "Observations of animal electricity from frog preparations"
+          },
+          {
+            "year": 1800,
+            "by": "Alessandro Volta",
+            "event": "Invention of the voltaic pile, announced in a letter to the Royal Society"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:chem.oxidation-reduction"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.salt"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.electrolysis",
+      "type": "concept",
+      "name": "Electrolysis",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "The decomposition of a compound into its elements or simpler substances by passing an electric current through an electrolyte. Electrolysis is driven by an external voltage and is the key process in an electrolytic cell, enabling nonspontaneous redox reactions.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Electrolysis of molten sodium chloride yields sodium metal and chlorine gas.",
+        "Electrolysis of water produces hydrogen and oxygen gases."
+      ],
+      "key_experiments": [
+        "Electrolyse acidified water using inert electrodes and collect the hydrogen and oxygen gases."
+      ],
+      "common_misconceptions": [
+        "An electrolyte conducts electrons through its bulk (ions carry charge in the electrolyte).",
+        "The same products form regardless of electrode material (electrode material can participate)."
+      ],
+      "learning_objectives": [
+        "Explain electrolysis in terms of migration of ions toward electrodes.",
+        "Predict products of electrolysis for molten and aqueous electrolytes.",
+        "Relate the amount of substance produced to the charge passed (Faraday's laws)."
+      ],
+      "real_world_applications": [
+        "Production of aluminium, chlorine, and hydrogen.",
+        "Electroplating of metals and rechargeable battery operation."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Atkins' Physical Chemistry"
+      },
+      "historical": {
+        "stated_by": "Michael Faraday",
+        "year": 1834,
+        "where": "Faraday's laws of electrolysis (Philosophical Transactions of the Royal Society)",
+        "context": "Electrolysis and its quantitative laws",
+        "note": "Faraday formulated his laws of electrolysis in 1834, building on the electrolytic decomposition of compounds developed earlier by Humphry Davy (e.g. isolation of sodium and potassium in 1807).",
+        "timeline": [
+          {
+            "year": 1807,
+            "by": "Humphry Davy",
+            "event": "Electrolytic isolation of sodium and potassium"
+          },
+          {
+            "year": 1834,
+            "by": "Michael Faraday",
+            "event": "Statement of the laws of electrolysis and introduction of terms such as electrolyte, electrode, and ion"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "special_case_of",
+          "target": "lhs:chem.electrochemical-cell"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.oxidation-reduction"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.electron",
+      "type": "concept",
+      "name": "Electron",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A stable subatomic particle carrying a negative elementary electric charge (-1e) and a mass approximately 1/1836th of a proton (9.109 × 10⁻³¹ kg), occupying atomic orbitals surrounding the nucleus.",
+      "symbol": "e-",
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Electrons flow through wires as electric current.",
+        "Shared electron pairs form covalent bonds such as in water."
+      ],
+      "key_experiments": [
+        "Electrolysis of water (or a conductivity test) shows charge carried by moving electrons/ions."
+      ],
+      "common_misconceptions": [
+        "Electrons orbit the nucleus in fixed circular paths like planets (electrons exist in 3D atomic orbitals/probability clouds).",
+        "Electrons move at the speed of light in wires (electron drift speed is slow, but electromagnetic signal propagates fast)."
+      ],
+      "learning_objectives": [
+        "State the charge, mass, and location of electrons in an atom.",
+        "Explain how valence electrons determine chemical bonding and reactivity.",
+        "Relate electron arrangement to periodic table group properties."
+      ],
+      "real_world_applications": [
+        "Electronics, semiconductors, and integrated circuits.",
+        "Electron microscopy and cathode ray tubes."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Gold Book"
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:chem.atom"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.electric-charge"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.element",
+      "type": "concept",
+      "name": "Chemical Element",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A pure chemical substance consisting of atoms that all have the same number of protons in their atomic nuclei. Elements cannot be broken down into simpler substances by ordinary chemical reactions.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Oxygen, carbon, iron and gold are elements — the simplest pure substances.",
+        "The periodic table organizes about 118 known elements."
+      ],
+      "key_experiments": [
+        "Classify everyday materials as elements, compounds or mixtures."
+      ],
+      "common_misconceptions": [
+        "Elements and compounds are the same thing (compounds contain two or more different elements).",
+        "Molecules can only be compounds (some elements exist naturally as diatomic or polyatomic molecules, e.g., O₂, N₂)."
+      ],
+      "learning_objectives": [
+        "Define a chemical element in terms of atomic number.",
+        "Locate and identify elements on the periodic table.",
+        "Distinguish between elemental substances and chemical compounds."
+      ],
+      "real_world_applications": [
+        "Metallurgy and industrial elemental extraction.",
+        "Chemical synthesis and materials engineering."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Nomenclature of Inorganic Chemistry"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.atom"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.matter"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.enthalpy",
+      "type": "quantity",
+      "name": "Enthalpy",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A thermodynamic quantity equal to the internal energy of a system plus the product of its pressure and volume, H = U + PV. The change in enthalpy, ΔH, measures the heat absorbed or released by a process at constant pressure.",
+      "symbol": "H",
+      "unit": "J",
+      "equation": "ΔH = H_products − H_reactants  (at constant pressure)",
+      "examples": [
+        "Burning methane releases heat, so the reaction has a negative enthalpy change (exothermic).",
+        "Melting ice absorbs heat from the surroundings, giving a positive enthalpy change (endothermic)."
+      ],
+      "key_experiments": [
+        "Dissolve a salt in water in a calorimeter and use the temperature change to measure ΔH of solution."
+      ],
+      "common_misconceptions": [
+        "Exothermic always means hot to the touch and dangerous (exothermic is about the sign of heat flow, not harm).",
+        "ΔH and total heat are the same in every condition (ΔH equals heat only at constant pressure)."
+      ],
+      "learning_objectives": [
+        "Interpret enthalpy change as heat at constant pressure.",
+        "Distinguish exothermic from endothermic processes.",
+        "Apply Hess's law to calculate enthalpy changes."
+      ],
+      "real_world_applications": [
+        "Calorimetry of fuels and foods to determine energy content.",
+        "Designing exothermic reactors and thermal energy storage."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Atkins' Physical Chemistry"
+      },
+      "historical": {
+        "stated_by": "Heike Kamerlingh Onnes",
+        "year": 1909,
+        "where": "Lecture/publication in which the term 'enthalpy' was introduced",
+        "context": "Thermodynamic state function H = U + PV",
+        "note": "Kamerlingh Onnes coined the term 'enthalpy' in 1909. The underlying state-function concept (heat exchanged at constant pressure) was already present in earlier thermodynamics, including J. Willard Gibbs's work in the 1870s."
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:chem.entropy"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.gibbs-free-energy"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.chemical-reaction"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.entropy",
+      "type": "quantity",
+      "name": "Entropy",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A thermodynamic quantity that measures the dispersal of energy or the number of microscopic arrangements (microstates) available to a system, expressed as a measure of disorder. The entropy of an isolated system tends to increase in spontaneous processes.",
+      "symbol": "S",
+      "unit": "J K⁻¹",
+      "equation": "ΔS = S_products − S_reactants",
+      "examples": [
+        "Melting ice increases entropy as the solid lattice gives way to mobile molecules.",
+        "A gas expanding into a vacuum increases entropy because the molecules occupy more microstates."
+      ],
+      "key_experiments": [
+        "Allow a gas to expand freely into an evacuated volume and reason about the increase in disorder."
+      ],
+      "common_misconceptions": [
+        "Entropy is the same as chaos or mess (it is a measure of energy dispersal and available microstates).",
+        "Entropy can never decrease locally (entropy can decrease in a system if the surroundings compensate)."
+      ],
+      "learning_objectives": [
+        "Relate entropy to molecular disorder and the number of microstates.",
+        "Predict the sign of entropy change from states of matter and particle counts.",
+        "State the second law of thermodynamics in terms of entropy."
+      ],
+      "real_world_applications": [
+        "Predicting the feasibility of processes via entropy and free energy.",
+        "Understanding the direction of heat flow and energy conservation in engines."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Atkins' Physical Chemistry"
+      },
+      "historical": {
+        "stated_by": "Rudolf Clausius",
+        "year": 1865,
+        "context": "Second law of thermodynamics",
+        "note": "Clausius coined the term 'entropy' in 1865, building on his formulation of the second law in the 1850s. He chose the name (from the Greek 'tropē', transformation) for its similarity to 'energy'.",
+        "timeline": [
+          {
+            "year": 1850,
+            "by": "Rudolf Clausius",
+            "event": "Formulation of the second law of thermodynamics"
+          },
+          {
+            "year": 1865,
+            "by": "Rudolf Clausius",
+            "event": "Coined the term 'entropy'"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:chem.enthalpy"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.gibbs-free-energy"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.equilibrium-constant",
+      "type": "quantity",
+      "name": "Equilibrium Constant",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A dimensionless quantity that characterizes the position of a chemical equilibrium. For a reaction aA + bB ⇌ cC + dD it is the ratio of product concentrations raised to their stoichiometric coefficients to reactant concentrations raised to theirs, at a given temperature.",
+      "symbol": "K",
+      "unit": null,
+      "equation": "K = [C]^c [D]^d / ([A]^a [B]^b)",
+      "examples": [
+        "For acetic acid ionization, K_a ≈ 1.8 × 10⁻⁵ at 25 °C indicates a weak acid.",
+        "A very large K for a formation reaction implies products dominate at equilibrium."
+      ],
+      "key_experiments": [
+        "Measure equilibrium concentrations from a visible color change and compute K."
+      ],
+      "common_misconceptions": [
+        "The equilibrium constant changes when concentrations change (K depends only on temperature for a given reaction).",
+        "Pure solids and liquids must always appear in K (their activity is taken as 1 and omitted)."
+      ],
+      "learning_objectives": [
+        "Write the equilibrium constant expression for a balanced reaction.",
+        "Interpret whether a large or small K favours products or reactants.",
+        "Distinguish K from the reaction quotient Q."
+      ],
+      "real_world_applications": [
+        "Predicting the yield of industrial processes such as ammonia synthesis.",
+        "Estimating acid and base strengths via their equilibrium constants."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "mathematically_requires",
+          "target": "lhs:chem.chemical-equilibrium"
+        },
+        {
+          "type": "appears_in_law",
+          "target": "lhs:chem.le-chateliers-principle"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.functional-group",
+      "type": "concept",
+      "name": "Functional Group",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A specific atom or group of atoms within an organic molecule that determines the characteristic chemical reactions and properties of that molecule. The same functional group confers predictable behaviour regardless of the carbon skeleton to which it is attached.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "The hydroxyl group (—OH) makes a compound an alcohol; the carboxyl group (—COOH) makes it a carboxylic acid.",
+        "A carbonyl group (C=O) characterizes aldehydes and ketones."
+      ],
+      "key_experiments": [
+        "Use chemical tests (such as sodium for alcohols or sodium carbonate for acids) to identify functional groups."
+      ],
+      "common_misconceptions": [
+        "The carbon skeleton alone determines a compound's chemistry (the functional group dominates reactivity).",
+        "Every functional group reacts the same way in every molecule (reactivity is modulated by the rest of the molecule)."
+      ],
+      "learning_objectives": [
+        "Recognize common functional groups from their structural formulas.",
+        "Predict chemical properties from the functional groups present.",
+        "Use functional groups to name and classify organic compounds."
+      ],
+      "real_world_applications": [
+        "Drug design relies on functional groups that bind biological targets.",
+        "Functional groups define the behaviour of dyes, solvents, and agrochemicals."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.compound"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.hydrocarbon"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.alcohol"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.carboxylic-acid"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.gibbs-free-energy",
+      "type": "quantity",
+      "name": "Gibbs Free Energy",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A thermodynamic quantity, G = H − TS, that combines enthalpy and entropy to predict whether a process is spontaneous at constant temperature and pressure. A negative Gibbs free energy change indicates a spontaneous process.",
+      "symbol": "G",
+      "unit": "J",
+      "equation": "ΔG = ΔH − TΔS",
+      "examples": [
+        "Ice melting above 0 °C is spontaneous despite being endothermic because TΔS outweighs ΔH.",
+        "A negative ΔG for rusting predicts that iron oxidizes spontaneously in air."
+      ],
+      "key_experiments": [
+        "Mix solutions whose precipitate formation has known ΔG and observe spontaneity directly."
+      ],
+      "common_misconceptions": [
+        "A negative ΔH alone guarantees spontaneity (entropy and temperature also matter via TΔS).",
+        "Spontaneous means fast (spontaneous only refers to thermodynamic favorability, not reaction speed)."
+      ],
+      "learning_objectives": [
+        "Relate Gibbs free energy to enthalpy, entropy, and temperature.",
+        "Predict spontaneity from the sign of ΔG.",
+        "Connect ΔG to the equilibrium constant and cell potential."
+      ],
+      "real_world_applications": [
+        "Predicting corrosion, metabolic feasibility, and phase stability.",
+        "Designing batteries and assessing the viability of chemical synthesis."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Atkins' Physical Chemistry"
+      },
+      "historical": {
+        "stated_by": "Josiah Willard Gibbs",
+        "year": 1876,
+        "where": "On the Equilibrium of Heterogeneous Substances (1876–1878), Transactions of the Connecticut Academy of Arts and Sciences",
+        "context": "Gibbs free energy and chemical thermodynamics",
+        "note": "Gibbs introduced the function combining enthalpy, entropy, and temperature (G = H − TS) in his memoir published across 1876–1878.",
+        "timeline": [
+          {
+            "year": 1876,
+            "by": "Josiah Willard Gibbs",
+            "event": "First part of 'On the Equilibrium of Heterogeneous Substances' published (series ran to 1878)"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "mathematically_requires",
+          "target": "lhs:chem.enthalpy"
+        },
+        {
+          "type": "mathematically_requires",
+          "target": "lhs:chem.entropy"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.equilibrium-constant"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.hydrocarbon",
+      "type": "concept",
+      "name": "Hydrocarbon",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "An organic molecule composed entirely of carbon and hydrogen atoms. Hydrocarbons are the fundamental framework of organic chemistry, classified into alkanes, alkenes, alkynes, and aromatic compounds according to the bonding between carbon atoms.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Methane (CH₄) and octane (C₈H₁₈, a component of gasoline) are saturated alkanes.",
+        "Ethene (C₂H₄) and benzene (C₆H₆) contain multiple carbon-carbon bonds."
+      ],
+      "key_experiments": [
+        "Burn a hydrocarbon in air and test the gases with limewater to show carbon dioxide forms."
+      ],
+      "common_misconceptions": [
+        "All hydrocarbons are liquids (small hydrocarbons such as methane are gases at room temperature).",
+        "Hydrocarbons dissolve in water (they are non-polar and largely immiscible with water)."
+      ],
+      "learning_objectives": [
+        "Classify hydrocarbons by the types of carbon-carbon bonds present.",
+        "Explain why carbon forms the backbone of so many distinct compounds.",
+        "Distinguish saturated from unsaturated hydrocarbons."
+      ],
+      "real_world_applications": [
+        "Fuels (natural gas, petrol, diesel) and lubricants derived from crude oil.",
+        "Feedstocks for plastics, solvents, and synthetic materials."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.compound"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.element"
+        },
+        {
+          "type": "generalizes",
+          "target": "lhs:chem.alkane"
+        },
+        {
+          "type": "generalizes",
+          "target": "lhs:chem.alkene"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.ionic-bond",
+      "type": "concept",
+      "name": "Ionic Bond",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A chemical bond formed through the electrostatic attraction between oppositely charged ions, resulting from the complete transfer of one or more valence electrons from a metal atom to a non-metal atom.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Table salt is an ionic lattice of Na⁺ and Cl⁻ ions.",
+        "Ionic compounds conduct electricity when molten or dissolved in water."
+      ],
+      "key_experiments": [
+        "Compare the conductivity of pure water, salt solution and molten salt with a bulb-and-electrodes circuit."
+      ],
+      "common_misconceptions": [
+        "Ionic compounds consist of individual discrete molecules (ionic compounds form continuous 3D giant crystal lattices).",
+        "Ionic bonds exist in liquid solution without ion dissociation (in water, ionic lattices dissociate into solvated free ions)."
+      ],
+      "learning_objectives": [
+        "Describe electron transfer leading to cation and anion formation.",
+        "Explain how electrostatic forces hold ionic crystal lattices together.",
+        "Predict formula units for binary ionic compounds (e.g. NaCl, MgO)."
+      ],
+      "real_world_applications": [
+        "Table salt production and mineralogy.",
+        "Electrolyte solutions in batteries and physiological fluids."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.electron"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.coulombs-law"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.compound"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.isomer",
+      "type": "concept",
+      "name": "Isomer",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "One of two or more compounds that have the same molecular formula but different arrangements of atoms, and therefore different structures or spatial configurations. Isomerism may be structural (constitutional) or stereochemical.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Butane and 2-methylpropane share the formula C₄H₁₀ but differ in carbon skeleton.",
+        "Cis- and trans-2-butene are geometric isomers differing in bond orientation."
+      ],
+      "key_experiments": [
+        "Build molecular models of structural isomers to compare their connectivity and shapes."
+      ],
+      "common_misconceptions": [
+        "Same formula always means the same compound (isomers share a formula but differ in structure).",
+        "Isomers have identical physical and chemical properties (different structure changes properties)."
+      ],
+      "learning_objectives": [
+        "Distinguish constitutional and stereoisomerism.",
+        "Count and draw isomers for a given molecular formula.",
+        "Explain the role of isomerism in the diversity of organic compounds."
+      ],
+      "real_world_applications": [
+        "Drug enantiomers can differ in pharmacological effect (e.g. thalidomide).",
+        "Octane isomers differ in fuel performance."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Clayden Organic Chemistry"
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:chem.compound"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.alkene"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.le-chateliers-principle",
+      "type": "law",
+      "name": "Le Chatelier's Principle",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "The principle stating that if a dynamic equilibrium is disturbed by changing a condition such as concentration, pressure, or temperature, the equilibrium shifts in the direction that tends to counteract that change and re-establish equilibrium.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Increasing pressure shifts the ammonia synthesis equilibrium toward the side with fewer gas moles.",
+        "Raising temperature favors the endothermic direction of a reversible reaction."
+      ],
+      "key_experiments": [
+        "Add concentrated acid to a cobalt complex equilibrium and observe the color shift."
+      ],
+      "common_misconceptions": [
+        "Le Chatelier's principle predicts the new equilibrium constant (temperature is the only condition that changes K).",
+        "A catalyst shifts the equilibrium toward products (a catalyst speeds both directions equally)."
+      ],
+      "learning_objectives": [
+        "Predict the direction of equilibrium shift under changes in concentration, pressure, and temperature.",
+        "Apply the principle to optimize reaction yield in industrial processes.",
+        "Recognize that a catalyst does not change the equilibrium position."
+      ],
+      "real_world_applications": [
+        "Optimizing the Haber and Contact industrial processes.",
+        "Controlling gas exchange and acid-base balance in the body."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Atkins' Physical Chemistry"
+      },
+      "historical": {
+        "stated_by": "Henri-Louis Le Chatelier",
+        "year": 1884,
+        "where": "Comptes rendus de l'Académie des Sciences (C. R. Acad. Sci.)",
+        "context": "Chemical equilibrium under changing conditions",
+        "note": "Le Chatelier announced the principle in 1884 in the Comptes rendus. Similar reasoning about equilibrium response to stress was being developed by others around the same time."
+      },
+      "relationships": [
+        {
+          "type": "applies_to",
+          "target": "lhs:chem.chemical-equilibrium"
+        },
+        {
+          "type": "mathematically_requires",
+          "target": "lhs:chem.equilibrium-constant"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.matter",
+      "type": "concept",
+      "name": "Matter",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "Anything that has mass and takes up space by occupying volume. Matter is composed of fundamental particles and exists in various physical states depending on thermal energy and pressure.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Air, water, rock and living tissue are all matter.",
+        "Ice, liquid water and steam are the same matter in different states."
+      ],
+      "key_experiments": [
+        "Demonstrate melting, boiling and condensation while showing that the amount of substance is conserved."
+      ],
+      "common_misconceptions": [
+        "Energy and matter are the same thing at introductory levels (energy has no mass or volume).",
+        "Gases do not count as matter because they are invisible (gases have mass and occupy volume)."
+      ],
+      "learning_objectives": [
+        "Define matter in terms of mass and volume.",
+        "Distinguish between physical and chemical properties of matter.",
+        "Classify samples of matter as pure substances or mixtures."
+      ],
+      "real_world_applications": [
+        "Materials science and chemical manufacturing.",
+        "Environmental monitoring of air and water quality."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Gold Book / UNESCO Science Education Framework"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.mass"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.density"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.mixture",
+      "type": "concept",
+      "name": "Mixture",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A physical combination of two or more substances that are not chemically bonded, can vary in composition, and can be separated by physical means. Homogeneous mixtures are uniform throughout; heterogeneous mixtures are not.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Air, seawater and sand are mixtures with variable composition.",
+        "Filtering muddy water separates the sand — a physical change."
+      ],
+      "key_experiments": [
+        "Separate a salt-and-sand mixture: dissolve in water, filter off the sand, then evaporate to recover the salt."
+      ],
+      "common_misconceptions": [
+        "A mixture and a compound are the same (mixtures keep the properties of their components and separate physically; compounds form new substances with new properties).",
+        "Every mixture looks uniform (only homogeneous mixtures do; heterogeneous mixtures, like sand in water, are visibly uneven).",
+        "Separating a mixture changes its nature (physical separation preserves the identity of the components)."
+      ],
+      "learning_objectives": [
+        "Distinguish a mixture from a pure substance and from a compound.",
+        "Classify mixtures as homogeneous or heterogeneous.",
+        "Describe physical separation methods (filtration, distillation, evaporation, chromatography)."
+      ],
+      "real_world_applications": [
+        "Separation of crude oil by fractional distillation.",
+        "Purifying drinking water by filtration.",
+        "Air and seawater as naturally occurring mixtures."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.matter"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.compound"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.diffusion"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.neutralization",
+      "type": "concept",
+      "name": "Neutralization Reaction",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A chemical reaction between an acid and a base (or alkali) producing a salt and water, in which hydrogen ions (H⁺) from the acid react with hydroxide ions (OH⁻) from the base to form neutral water molecules (H₂O).",
+      "symbol": null,
+      "unit": null,
+      "equation": "H⁺(aq) + OH⁻(aq) → H₂O(l)",
+      "examples": [
+        "Antacids relieve acid indigestion by neutralizing stomach acid.",
+        "Farmers spread lime on acidic soil to raise its pH."
+      ],
+      "key_experiments": [
+        "Add acid to a base dropwise until the indicator turns neutral, then evaporate the water to recover salt crystals."
+      ],
+      "common_misconceptions": [
+        "Neutralization always results in a solution of exactly pH 7 (neutralization of weak acids or bases can produce acidic or basic salt solutions).",
+        "Neutralization destroys energy (neutralization is exothermic and releases heat)."
+      ],
+      "learning_objectives": [
+        "Write word and balanced chemical equations for acid-base neutralization.",
+        "Predict the specific salt formed from given acids and bases (e.g. HCl + NaOH → NaCl + H₂O).",
+        "Explain how neutralization changes solution pH toward neutral."
+      ],
+      "real_world_applications": [
+        "Agricultural liming to neutralize acidic soil.",
+        "Treatment of industrial acidic wastewater prior to discharge."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.acid"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.base"
+        },
+        {
+          "type": "special_case_of",
+          "target": "lhs:chem.chemical-reaction"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.oxidation-number",
+      "type": "quantity",
+      "name": "Oxidation Number",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A bookkeeping number assigned to an atom in a compound or ion that represents the charge the atom would have if all bonds to atoms of different electronegativity were ionic. Oxidation numbers track electron transfer in oxidation-reduction reactions.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "In H₂O the oxidation numbers are +1 for H and −2 for O.",
+        "In MnO₄⁻, manganese has oxidation number +7."
+      ],
+      "key_experiments": [
+        "Use visible redox titrations, such as permanganate, to confirm electron-transfer stoichiometry."
+      ],
+      "common_misconceptions": [
+        "Oxidation number is a real charge felt by the atom (it is a bookkeeping convention).",
+        "Atoms in a molecule must all have nonzero oxidation numbers (some atoms have oxidation number zero)."
+      ],
+      "learning_objectives": [
+        "Assign oxidation numbers by applying the standard rules.",
+        "Use oxidation numbers to identify oxidation and reduction.",
+        "Balance redox equations using changes in oxidation number."
+      ],
+      "real_world_applications": [
+        "Naming inorganic compounds and balancing industrial redox processes.",
+        "Understanding oxidation states in corrosion and metallurgy."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:chem.oxidation-reduction"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.oxidation-reduction",
+      "type": "concept",
+      "name": "Oxidation-Reduction",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A class of chemical reactions involving the transfer of electrons between species, in which oxidation is the loss of electrons and reduction is the gain of electrons. Oxidation and reduction always occur together, with one species being oxidized and another reduced.",
+      "symbol": null,
+      "unit": null,
+      "equation": "X → Xⁿ⁺ + ne⁻  (oxidation);  Y + ne⁻ → Yⁿ⁻  (reduction)",
+      "examples": [
+        "Iron rusting, 4Fe + 3O₂ → 2Fe₂O₃, is an oxidation-reduction reaction.",
+        "Reaction of zinc metal with copper(II) ions transfers electrons when zinc is oxidized."
+      ],
+      "key_experiments": [
+        "Dip a zinc strip into copper sulfate solution and observe copper plating while zinc dissolves."
+      ],
+      "common_misconceptions": [
+        "Oxidation always involves oxygen (oxidation is defined as loss of electrons, oxygen not required).",
+        "A reaction can be only oxidation or only reduction (the two always occur together)."
+      ],
+      "learning_objectives": [
+        "Assign oxidation and reduction as electron loss and gain.",
+        "Identify oxidizing and reducing agents in a reaction.",
+        "Balance oxidation-reduction reactions by the half-reaction method."
+      ],
+      "real_world_applications": [
+        "Batteries, corrosion of metals, and biological respiration.",
+        "Bleaching, electroplating, and metallurgical extraction."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "special_case_of",
+          "target": "lhs:chem.chemical-reaction"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.oxidation-number"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.periodic-table",
+      "type": "concept",
+      "name": "Periodic Table of Elements",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A tabular arrangement of chemical elements ordered by increasing atomic number, displaying recurring (periodic) trends in chemical and physical properties across periods (rows) and groups (columns).",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "key_experiments": [
+        "Explore the periodic table by comparing group reactivity across elements using data or handled samples."
+      ],
+      "examples": [
+        "Elements are arranged by increasing atomic number; elements in the same group share similar properties.",
+        "The halogens (F, Cl, Br, I) form one group with similar reactions."
+      ],
+      "common_misconceptions": [
+        "Elements in the periodic table are ordered by atomic mass (they are strictly ordered by atomic number Z).",
+        "All elements in a group have identical physical states (groups share chemical reactivity patterns, but physical states vary)."
+      ],
+      "learning_objectives": [
+        "Locate elements by period number and group number on the periodic table.",
+        "Explain why elements in the same group exhibit similar chemical properties.",
+        "Identify major categories: alkali metals, alkaline earths, transition metals, halogens, noble gases."
+      ],
+      "real_world_applications": [
+        "Predicting chemical reactivity and bond formation in chemistry labs.",
+        "Discovering new materials and semiconductor doping."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Periodic Table of the Elements"
+      },
+      "historical": {
+        "stated_by": "Dmitri Mendeleev (with Lothar Meyer independently)",
+        "year": 1869,
+        "where": "Mendeleev's periodic table (1869), communicated to the Russian Chemical Society",
+        "context": "Periodic law",
+        "note": "Mendeleev arranged the elements by atomic weight and left gaps for undiscovered elements; Lothar Meyer independently recognised periodicity at about the same time (1869). The modern table is ordered by atomic number rather than atomic weight.",
+        "timeline": [
+          {
+            "year": 1869,
+            "by": "Dmitri Mendeleev",
+            "event": "Periodic table and periodic law presented"
+          },
+          {
+            "year": 1869,
+            "by": "Lothar Meyer",
+            "event": "Independent recognition of periodicity in the elements"
+          }
+        ]
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.element"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.proton"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.ph-scale",
+      "type": "concept",
+      "name": "pH Scale",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A logarithmic scale measuring the acidity or alkalinity of an aqueous solution, defined as the negative base-10 logarithm of the hydrogen ion concentration (pH = -log₁₀[H⁺]), ranging from 0 (highly acidic) to 14 (highly alkaline), with 7 being neutral.",
+      "symbol": "pH",
+      "unit": null,
+      "equation": "pH = -log₁₀[H⁺]",
+      "examples": [
+        "Lemon juice is about pH 2, pure water pH 7, and soap pH 9-10.",
+        "Soil pH decides which crops grow well in a region."
+      ],
+      "key_experiments": [
+        "Use universal indicator against a colour chart to measure the pH of a range of household solutions."
+      ],
+      "common_misconceptions": [
+        "A change of 1 pH unit represents a 1-fold change in acidity (pH is logarithmic: a 1-unit change is a 10-fold change in H⁺ concentration).",
+        "Neutral pH is always 7 regardless of temperature (neutral pH equals 7 at 25 °C, but changes slightly with temperature)."
+      ],
+      "learning_objectives": [
+        "Interpret values on the 0–14 pH scale (acidic < 7, neutral = 7, basic > 7).",
+        "Use indicators (litmus, universal indicator, pH meters) to estimate solution pH.",
+        "Calculate H⁺ concentration from pH and vice versa."
+      ],
+      "real_world_applications": [
+        "Soil testing for agricultural crop suitability.",
+        "Swimming pool and aquarium water quality maintenance."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Quantities, Units and Symbols in Physical Chemistry"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.acid"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.base"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.polymer",
+      "type": "concept",
+      "name": "Polymer",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A large molecule built from many repeating monomer units joined by covalent bonds. Polymers may be natural, such as proteins and cellulose, or synthetic, such as polyethylene and nylon, formed by addition or condensation polymerization.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Polyethylene is formed by addition polymerization of ethene monomers.",
+        "Nylon-66 and polyesters are produced by condensation polymerization."
+      ],
+      "key_experiments": [
+        "Synthesize a nylon rope from interfacial polymerization and draw it from the interface."
+      ],
+      "common_misconceptions": [
+        "All polymers are synthetic plastics (many, like cellulose and proteins, are natural).",
+        "A polymer is a single fixed molecule (samples have a distribution of chain lengths)."
+      ],
+      "learning_objectives": [
+        "Distinguish monomers, polymers, and the degree of polymerization.",
+        "Compare addition and condensation polymerization.",
+        "Relate polymer structure to physical properties such as flexibility and strength."
+      ],
+      "real_world_applications": [
+        "Plastics, fibers, and coatings in packaging, textiles, and construction.",
+        "Biopolymers in medicine and biodegradable materials."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "related_to",
+          "target": "lhs:chem.chemical-reaction"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.proton",
+      "type": "concept",
+      "name": "Proton",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "A stable subatomic particle occurring in all atomic nuclei, carrying a positive elementary electric charge (+1e) and a mass of approximately 1 atomic mass unit (1.673 × 10⁻²⁷ kg).",
+      "symbol": "p+",
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "The proton number defines the element — hydrogen has one proton.",
+        "The sodium ion Na⁺ has 11 protons but only 10 electrons."
+      ],
+      "key_experiments": [
+        "Element-identification activity: given Z, name the element and build its atomic notation."
+      ],
+      "common_misconceptions": [
+        "Protons leave the nucleus during ordinary chemical reactions (only outer electrons are transferred or shared).",
+        "Changing the number of protons does not change the element (proton count strictly determines elemental identity)."
+      ],
+      "learning_objectives": [
+        "Identify the charge, mass, and location of protons in an atom.",
+        "Relate proton count (atomic number Z) to elemental identity on the periodic table.",
+        "Calculate net atomic/ionic charge from proton and electron numbers."
+      ],
+      "real_world_applications": [
+        "Proton beam radiation therapy in cancer treatment.",
+        "Mass spectrometry for chemical structural analysis."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Gold Book"
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:chem.atom"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.electric-charge"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.reaction-rate",
+      "type": "quantity",
+      "name": "Reaction Rate",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "The change in concentration of a reactant or product per unit time during a chemical reaction, usually expressed as the decrease in reactant concentration or increase in product concentration per second. Reaction rates depend on concentration, temperature, and the presence of a catalyst.",
+      "symbol": "r",
+      "unit": "mol L⁻¹ s⁻¹",
+      "equation": "rate = -Δ[A]/Δt = +Δ[B]/Δt  (for aA → products)",
+      "examples": [
+        "The rusting of iron proceeds slowly, whereas a firework reaction is very fast.",
+        "Increasing reactant concentration raises the rate of a collision-controlled reaction."
+      ],
+      "key_experiments": [
+        "Monitor a reaction by color change or gas volume over time and plot a rate curve."
+      ],
+      "common_misconceptions": [
+        "The rate is constant throughout a reaction (rates generally slow as reactants are consumed).",
+        "Temperature has no effect on speed (each 10 °C increase typically roughly doubles the rate)."
+      ],
+      "learning_objectives": [
+        "Define and measure the rate of a reaction from concentration-versus-time data.",
+        "Explain how concentration and temperature affect rate via collision theory.",
+        "Contrast average rate, instantaneous rate, and initial rate."
+      ],
+      "real_world_applications": [
+        "Controlling shelf-life and spoilage of foods and pharmaceuticals.",
+        "Designing industrial reactors and catalytic converters."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "textbook",
+        "source": "Atkins' Physical Chemistry"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.chemical-reaction"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.activation-energy"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.catalyst"
+        }
+      ]
+    },
+    {
+      "id": "lhs:chem.salt",
+      "type": "concept",
+      "name": "Salt",
+      "domain": "chemistry",
+      "status": "draft",
+      "definition": "An ionic compound formed when the hydrogen ion of an acid is replaced by a metal ion (or ammonium ion), typically produced by neutralization of an acid with a base. Common table salt is sodium chloride, NaCl.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Table salt is sodium chloride; ammonium nitrate is a salt used in fertilizers.",
+        "Road salt lowers the freezing point of water for de-icing."
+      ],
+      "key_experiments": [
+        "Neutralize hydrochloric acid with sodium hydroxide and evaporate to obtain sodium chloride crystals."
+      ],
+      "common_misconceptions": [
+        "Salt means only sodium chloride (a salt is any ionic compound formed from acid-base chemistry; NaCl is one example).",
+        "All salts are safe to eat (many salts such as ammonium nitrate or heavy-metal salts are toxic or hazardous).",
+        "Salts are always neutral (salts of weak acids or weak bases can form acidic or basic solutions)."
+      ],
+      "learning_objectives": [
+        "Define a salt and describe how it forms from an acid and a base.",
+        "Give examples of common salts and their uses.",
+        "Predict the salt produced by a given acid-base pair."
+      ],
+      "real_world_applications": [
+        "Table salt and food preservation.",
+        "Fertilizers (ammonium sulfate, potassium nitrate).",
+        "De-icing roads (sodium chloride lowers the freezing point)."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IUPAC Compendium of Chemical Terminology"
+      },
+      "relationships": [
+        {
+          "type": "derived_from",
+          "target": "lhs:chem.neutralization"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.compound"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.ionic-bond"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "lhs:conn.000036",
+      "type": "connection",
+      "source": "lhs:chem.acid",
+      "relation": "logically_requires",
+      "target": "lhs:chem.compound",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "acids-bases",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000037",
+      "type": "connection",
+      "source": "lhs:chem.acid",
+      "relation": "related_to",
+      "target": "lhs:chem.proton",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "acids-bases",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000038",
+      "type": "connection",
+      "source": "lhs:chem.base",
+      "relation": "logically_requires",
+      "target": "lhs:chem.compound",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "acids-bases",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000039",
+      "type": "connection",
+      "source": "lhs:chem.base",
+      "relation": "related_to",
+      "target": "lhs:chem.acid",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "acids-bases",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000040",
+      "type": "connection",
+      "source": "lhs:chem.neutralization",
+      "relation": "logically_requires",
+      "target": "lhs:chem.acid",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "acids-bases",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000041",
+      "type": "connection",
+      "source": "lhs:chem.neutralization",
+      "relation": "logically_requires",
+      "target": "lhs:chem.base",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "acids-bases",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000042",
+      "type": "connection",
+      "source": "lhs:chem.neutralization",
+      "relation": "special_case_of",
+      "target": "lhs:chem.chemical-reaction",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "acids-bases",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000043",
+      "type": "connection",
+      "source": "lhs:chem.ph-scale",
+      "relation": "logically_requires",
+      "target": "lhs:chem.acid",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "acids-bases",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000044",
+      "type": "connection",
+      "source": "lhs:chem.ph-scale",
+      "relation": "logically_requires",
+      "target": "lhs:chem.base",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "acids-bases",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000045",
+      "type": "connection",
+      "source": "lhs:chem.salt",
+      "relation": "derived_from",
+      "target": "lhs:chem.neutralization",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "acids-bases",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000046",
+      "type": "connection",
+      "source": "lhs:chem.salt",
+      "relation": "logically_requires",
+      "target": "lhs:chem.compound",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "acids-bases",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000047",
+      "type": "connection",
+      "source": "lhs:chem.salt",
+      "relation": "related_to",
+      "target": "lhs:chem.ionic-bond",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "acids-bases",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000048",
+      "type": "connection",
+      "source": "lhs:chem.atom",
+      "relation": "logically_requires",
+      "target": "lhs:chem.matter",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "atomic-structure-periodicity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.atkins-physical-chemistry",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for logically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.chemistry-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.chemistry-001",
+            "at": "2026-08-30T18:28:02.861705+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.chemistry-001",
+            "at": "2026-08-30T18:28:02.861710+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000051",
+      "type": "connection",
+      "source": "lhs:chem.electron",
+      "relation": "part_of",
+      "target": "lhs:chem.atom",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "atomic-structure-periodicity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000053",
+      "type": "connection",
+      "source": "lhs:chem.element",
+      "relation": "logically_requires",
+      "target": "lhs:chem.atom",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "atomic-structure-periodicity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.atkins-physical-chemistry",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for logically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.chemistry-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.chemistry-001",
+            "at": "2026-08-30T18:28:02.886790+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.chemistry-001",
+            "at": "2026-08-30T18:28:02.886795+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000054",
+      "type": "connection",
+      "source": "lhs:chem.element",
+      "relation": "related_to",
+      "target": "lhs:chem.matter",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "atomic-structure-periodicity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000055",
+      "type": "connection",
+      "source": "lhs:chem.periodic-table",
+      "relation": "logically_requires",
+      "target": "lhs:chem.element",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "atomic-structure-periodicity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000056",
+      "type": "connection",
+      "source": "lhs:chem.periodic-table",
+      "relation": "logically_requires",
+      "target": "lhs:chem.proton",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "atomic-structure-periodicity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000057",
+      "type": "connection",
+      "source": "lhs:chem.proton",
+      "relation": "part_of",
+      "target": "lhs:chem.atom",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "atomic-structure-periodicity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000059",
+      "type": "connection",
+      "source": "lhs:chem.compound",
+      "relation": "logically_requires",
+      "target": "lhs:chem.element",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "bonding-structure",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000060",
+      "type": "connection",
+      "source": "lhs:chem.compound",
+      "relation": "logically_requires",
+      "target": "lhs:chem.atom",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "bonding-structure",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.atkins-physical-chemistry",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for logically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.chemistry-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.chemistry-001",
+            "at": "2026-08-30T18:28:02.874234+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.chemistry-001",
+            "at": "2026-08-30T18:28:02.874244+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000061",
+      "type": "connection",
+      "source": "lhs:chem.covalent-bond",
+      "relation": "logically_requires",
+      "target": "lhs:chem.electron",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "bonding-structure",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000062",
+      "type": "connection",
+      "source": "lhs:chem.covalent-bond",
+      "relation": "related_to",
+      "target": "lhs:chem.compound",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "bonding-structure",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000063",
+      "type": "connection",
+      "source": "lhs:chem.ionic-bond",
+      "relation": "logically_requires",
+      "target": "lhs:chem.electron",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "bonding-structure",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000065",
+      "type": "connection",
+      "source": "lhs:chem.ionic-bond",
+      "relation": "related_to",
+      "target": "lhs:chem.compound",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "bonding-structure",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000066",
+      "type": "connection",
+      "source": "lhs:chem.diffusion",
+      "relation": "logically_requires",
+      "target": "lhs:chem.matter",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "matter-foundations",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000071",
+      "type": "connection",
+      "source": "lhs:chem.mixture",
+      "relation": "logically_requires",
+      "target": "lhs:chem.matter",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "matter-foundations",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000072",
+      "type": "connection",
+      "source": "lhs:chem.mixture",
+      "relation": "related_to",
+      "target": "lhs:chem.compound",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "matter-foundations",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000073",
+      "type": "connection",
+      "source": "lhs:chem.mixture",
+      "relation": "related_to",
+      "target": "lhs:chem.diffusion",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "matter-foundations",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000074",
+      "type": "connection",
+      "source": "lhs:chem.chemical-equation",
+      "relation": "mathematically_requires",
+      "target": "lhs:chem.chemical-reaction",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "reactions-stoichiometry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000075",
+      "type": "connection",
+      "source": "lhs:chem.chemical-equation",
+      "relation": "related_to",
+      "target": "lhs:chem.element",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "reactions-stoichiometry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000076",
+      "type": "connection",
+      "source": "lhs:chem.chemical-equation",
+      "relation": "related_to",
+      "target": "lhs:chem.matter",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "reactions-stoichiometry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000077",
+      "type": "connection",
+      "source": "lhs:chem.chemical-reaction",
+      "relation": "logically_requires",
+      "target": "lhs:chem.compound",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "reactions-stoichiometry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000078",
+      "type": "connection",
+      "source": "lhs:chem.chemical-reaction",
+      "relation": "logically_requires",
+      "target": "lhs:chem.element",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "reactions-stoichiometry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000081",
+      "type": "connection",
+      "source": "lhs:chem.combustion",
+      "relation": "special_case_of",
+      "target": "lhs:chem.chemical-reaction",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "reactions-stoichiometry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000533",
+      "type": "connection",
+      "source": "lhs:chem.electrochemical-cell",
+      "relation": "related_to",
+      "target": "lhs:chem.oxidation-reduction",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "electrochemistry-redox",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000534",
+      "type": "connection",
+      "source": "lhs:chem.electrochemical-cell",
+      "relation": "logically_requires",
+      "target": "lhs:chem.salt",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "electrochemistry-redox",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000535",
+      "type": "connection",
+      "source": "lhs:chem.electrolysis",
+      "relation": "special_case_of",
+      "target": "lhs:chem.electrochemical-cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "electrochemistry-redox",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000536",
+      "type": "connection",
+      "source": "lhs:chem.electrolysis",
+      "relation": "logically_requires",
+      "target": "lhs:chem.oxidation-reduction",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "electrochemistry-redox",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000537",
+      "type": "connection",
+      "source": "lhs:chem.oxidation-number",
+      "relation": "part_of",
+      "target": "lhs:chem.oxidation-reduction",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "electrochemistry-redox",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000538",
+      "type": "connection",
+      "source": "lhs:chem.oxidation-reduction",
+      "relation": "special_case_of",
+      "target": "lhs:chem.chemical-reaction",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "electrochemistry-redox",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000539",
+      "type": "connection",
+      "source": "lhs:chem.oxidation-reduction",
+      "relation": "related_to",
+      "target": "lhs:chem.oxidation-number",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "electrochemistry-redox",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000540",
+      "type": "connection",
+      "source": "lhs:chem.activation-energy",
+      "relation": "related_to",
+      "target": "lhs:chem.reaction-rate",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "equilibrium-kinetics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000541",
+      "type": "connection",
+      "source": "lhs:chem.catalyst",
+      "relation": "related_to",
+      "target": "lhs:chem.reaction-rate",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "equilibrium-kinetics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000542",
+      "type": "connection",
+      "source": "lhs:chem.catalyst",
+      "relation": "related_to",
+      "target": "lhs:chem.activation-energy",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "equilibrium-kinetics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000543",
+      "type": "connection",
+      "source": "lhs:chem.chemical-equilibrium",
+      "relation": "logically_requires",
+      "target": "lhs:chem.chemical-reaction",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "equilibrium-kinetics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000544",
+      "type": "connection",
+      "source": "lhs:chem.chemical-equilibrium",
+      "relation": "related_to",
+      "target": "lhs:chem.equilibrium-constant",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "equilibrium-kinetics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000545",
+      "type": "connection",
+      "source": "lhs:chem.equilibrium-constant",
+      "relation": "mathematically_requires",
+      "target": "lhs:chem.chemical-equilibrium",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "equilibrium-kinetics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000546",
+      "type": "connection",
+      "source": "lhs:chem.equilibrium-constant",
+      "relation": "appears_in_law",
+      "target": "lhs:chem.le-chateliers-principle",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "equilibrium-kinetics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000547",
+      "type": "connection",
+      "source": "lhs:chem.le-chateliers-principle",
+      "relation": "applies_to",
+      "target": "lhs:chem.chemical-equilibrium",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "equilibrium-kinetics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000548",
+      "type": "connection",
+      "source": "lhs:chem.le-chateliers-principle",
+      "relation": "mathematically_requires",
+      "target": "lhs:chem.equilibrium-constant",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "equilibrium-kinetics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000549",
+      "type": "connection",
+      "source": "lhs:chem.reaction-rate",
+      "relation": "logically_requires",
+      "target": "lhs:chem.chemical-reaction",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "equilibrium-kinetics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000550",
+      "type": "connection",
+      "source": "lhs:chem.reaction-rate",
+      "relation": "related_to",
+      "target": "lhs:chem.activation-energy",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "equilibrium-kinetics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000551",
+      "type": "connection",
+      "source": "lhs:chem.reaction-rate",
+      "relation": "related_to",
+      "target": "lhs:chem.catalyst",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "equilibrium-kinetics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000552",
+      "type": "connection",
+      "source": "lhs:chem.alcohol",
+      "relation": "related_to",
+      "target": "lhs:chem.functional-group",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "organic-chemistry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000553",
+      "type": "connection",
+      "source": "lhs:chem.alcohol",
+      "relation": "derived_from",
+      "target": "lhs:chem.alkene",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "organic-chemistry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000554",
+      "type": "connection",
+      "source": "lhs:chem.alkane",
+      "relation": "special_case_of",
+      "target": "lhs:chem.hydrocarbon",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "organic-chemistry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000555",
+      "type": "connection",
+      "source": "lhs:chem.alkene",
+      "relation": "special_case_of",
+      "target": "lhs:chem.hydrocarbon",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "organic-chemistry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000556",
+      "type": "connection",
+      "source": "lhs:chem.carboxylic-acid",
+      "relation": "related_to",
+      "target": "lhs:chem.acid",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "organic-chemistry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000557",
+      "type": "connection",
+      "source": "lhs:chem.carboxylic-acid",
+      "relation": "related_to",
+      "target": "lhs:chem.functional-group",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "organic-chemistry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000558",
+      "type": "connection",
+      "source": "lhs:chem.functional-group",
+      "relation": "logically_requires",
+      "target": "lhs:chem.compound",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "organic-chemistry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000559",
+      "type": "connection",
+      "source": "lhs:chem.functional-group",
+      "relation": "related_to",
+      "target": "lhs:chem.hydrocarbon",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "organic-chemistry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000560",
+      "type": "connection",
+      "source": "lhs:chem.functional-group",
+      "relation": "related_to",
+      "target": "lhs:chem.alcohol",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "organic-chemistry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000561",
+      "type": "connection",
+      "source": "lhs:chem.functional-group",
+      "relation": "related_to",
+      "target": "lhs:chem.carboxylic-acid",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "organic-chemistry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000562",
+      "type": "connection",
+      "source": "lhs:chem.hydrocarbon",
+      "relation": "logically_requires",
+      "target": "lhs:chem.compound",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "organic-chemistry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000563",
+      "type": "connection",
+      "source": "lhs:chem.hydrocarbon",
+      "relation": "logically_requires",
+      "target": "lhs:chem.element",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "organic-chemistry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000564",
+      "type": "connection",
+      "source": "lhs:chem.hydrocarbon",
+      "relation": "generalizes",
+      "target": "lhs:chem.alkane",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "organic-chemistry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000565",
+      "type": "connection",
+      "source": "lhs:chem.hydrocarbon",
+      "relation": "generalizes",
+      "target": "lhs:chem.alkene",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "organic-chemistry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000566",
+      "type": "connection",
+      "source": "lhs:chem.isomer",
+      "relation": "related_to",
+      "target": "lhs:chem.compound",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "organic-chemistry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000567",
+      "type": "connection",
+      "source": "lhs:chem.isomer",
+      "relation": "related_to",
+      "target": "lhs:chem.alkene",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "organic-chemistry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000568",
+      "type": "connection",
+      "source": "lhs:chem.polymer",
+      "relation": "related_to",
+      "target": "lhs:chem.chemical-reaction",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "organic-chemistry",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000569",
+      "type": "connection",
+      "source": "lhs:chem.enthalpy",
+      "relation": "related_to",
+      "target": "lhs:chem.entropy",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "thermodynamics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000570",
+      "type": "connection",
+      "source": "lhs:chem.enthalpy",
+      "relation": "related_to",
+      "target": "lhs:chem.gibbs-free-energy",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "thermodynamics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000571",
+      "type": "connection",
+      "source": "lhs:chem.enthalpy",
+      "relation": "related_to",
+      "target": "lhs:chem.chemical-reaction",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "thermodynamics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000572",
+      "type": "connection",
+      "source": "lhs:chem.entropy",
+      "relation": "related_to",
+      "target": "lhs:chem.enthalpy",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "thermodynamics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000573",
+      "type": "connection",
+      "source": "lhs:chem.entropy",
+      "relation": "related_to",
+      "target": "lhs:chem.gibbs-free-energy",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "thermodynamics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000574",
+      "type": "connection",
+      "source": "lhs:chem.gibbs-free-energy",
+      "relation": "mathematically_requires",
+      "target": "lhs:chem.enthalpy",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "thermodynamics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000575",
+      "type": "connection",
+      "source": "lhs:chem.gibbs-free-energy",
+      "relation": "mathematically_requires",
+      "target": "lhs:chem.entropy",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "thermodynamics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    },
+    {
+      "id": "lhs:conn.000576",
+      "type": "connection",
+      "source": "lhs:chem.gibbs-free-energy",
+      "relation": "related_to",
+      "target": "lhs:chem.equilibrium-constant",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "thermodynamics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      }
+    }
+  ]
+}

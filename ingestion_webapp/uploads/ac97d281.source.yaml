@@ -1,0 +1,13 @@
+id: lhs:src.ingest-ac97d281
+type: source
+title: string
+kind: ingested-document
+format: pdf
+source_type: other
+license: CC BY 4.0
+lifecycle: active
+accessed_at: '2026-09-06T22:57:02.141270+00:00'
+authors:
+- string
+doi: string
+publisher: string

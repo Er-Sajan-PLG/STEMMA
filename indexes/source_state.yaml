@@ -1,0 +1,14 @@
+sources:
+  lhs:src.cavendish-1798:
+    content_hash: 2563ffb0b5b5342ccadf4c0b48bb40cc4a8a87e8fa8f5ba19163bdc3630b03e1
+    lifecycle: active
+    last_seen: '2026-09-06T08:32:28.922340+00:00'
+  lhs:src.halliday-resnick:
+    content_hash: 2904a00d10d185449421325bf196c4cdcdb366c7776eef91043958e1dd29932f
+    lifecycle: active
+    last_seen: '2026-09-06T08:32:28.922351+00:00'
+  lhs:src.atkins-physical-chemistry:
+    content_hash: 380491921626e3be94c504213de7e38c9ab0cfe0312afba1f4d6185a65d7c772
+    lifecycle: active
+    last_seen: '2026-09-06T08:32:28.922354+00:00'
+last_check: '2026-09-06T08:32:28.922356+00:00'

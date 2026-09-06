@@ -1,0 +1,46 @@
+id: lhs:conn.atom-sommerfeld-to-qm
+type: connection
+source: lhs:chem.atom.bohr-sommerfeld
+relation: superseded_by
+target: lhs:chem.atom.quantum-mechanical
+assertion:
+  status: active
+  type: asserted
+  review:
+    status: canonical
+  confidence: 1.0
+  confidence_basis: theoretical
+  polarity: positive
+context:
+  domain: physics
+  subdomain: atomic-structure
+  regime:
+  - quantum
+  scale: atomic
+  assumptions: []
+  qualifiers: []
+evidence:
+- type: theoretical
+  stance: supports
+  source_ref: lhs:src.schrodinger-1926
+  locator:
+    section: "Wave Mechanics"
+  description: "Schrödinger's wave mechanics provided a complete wave mechanical description, superseding semiclassical models"
+provenance:
+  asserted_by:
+    type: human
+    id: human:reviewer.history-001
+  generated_by:
+    type: human
+    id: human:curator.history-001
+  method:
+    type: manual
+  reviewed_by:
+  - type: human
+    id: human:reviewer.history-001
+  review_history:
+  - from: unreviewed
+    to: reviewed
+    reviewer: human:reviewer.history-001
+    at: '2026-09-06T15:00:00+00:00'
+    reason: "Schrödinger/Heisenberg QM superseded Bohr-Sommerfeld semiclassical model"

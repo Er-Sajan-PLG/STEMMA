@@ -1,43 +1,60 @@
 ---
-id: stemma:phys.work
+id: lhs:phys.work
 type: quantity
 name: Work
 domain: physics
 status: draft
 definition: >-
-  The product of the force applied to an object and the distance the object moves in the direction
-  of the force. Work measures the transfer of energy by a mechanical force.
+  Energy transferred to or from an object via the application of force along a
+  displacement. For a constant force, work equals the product of force and
+  displacement in the direction of the force: W = F·d·cos(θ). Work is a scalar
+  quantity measured in joules.
 symbol: W
 unit: joule (J)
-equation: W = F·d·cos(θ)
+equation: W = F·d·cos(θ) ; W = ∫ F·ds
 examples:
-  - "Lifting a box onto a shelf does work against gravity."
-  - "Pushing a stalled car along the road does work; holding it still does not."
-key_experiments:
-  - "Pull a block with a spring balance through a measured distance; work = force × distance."
+- Lifting a book from the floor to a shelf does positive work on the book.
+- Holding a heavy weight stationary does no work (no displacement).
+- Friction does negative work on a sliding block.
 common_misconceptions:
-  - Holding a heavy object requires work (no displacement in the direction of force means no work by that force).
-  - Work is a form of energy (work is the process of transferring energy; energy is the quantity).
-  - More force always means more work (work depends on force, distance, AND the angle between them).
+- Work is done whenever a force is applied (work requires displacement in the force direction).
+- Holding an object stationary requires work (no displacement = no work, despite muscular effort).
+- Work is a vector quantity (work is scalar; force and displacement are vectors).
 learning_objectives:
-  - Define work as force × displacement in the direction of force.
-  - Calculate work done by a constant force at various angles.
-  - Distinguish between positive, negative, and zero work.
-  - Explain when a force does no work.
+- Define work as energy transfer via force through displacement.
+- Calculate work done by constant and variable forces.
+- Distinguish positive, negative, and zero work.
+- Apply the work-energy theorem (W = ΔK).
 real_world_applications:
-  - Lifting objects against gravity.
-  - Pushing a stalled car.
-  - Work done by friction (always negative).
-  - Energy billing (kWh is a unit of work/energy).
-external_ids:
-  wd: Q42213
+- Mechanical machines (levers, pulleys, inclined planes).
+- Vehicle engines (work done by combustion forces).
+- Electrical circuits (work done by electric fields on charges).
+- Sports physics (work done by athletes).
+key_experiments:
+- Measuring work done lifting masses with a force sensor and displacement sensor.
+- Investigating work done by friction on a sliding block.
+- Verifying the work-energy theorem with a dynamics cart on a track.
 provenance:
   ai_drafted: true
+  source_kind: textbook
+  source: "Halliday, Resnick & Walker, Fundamentals of Physics, 12th Ed."
+relationships:
+- type: mathematically_requires
+  target: lhs:phys.force
+- type: mathematically_requires
+  target: lhs:phys.displacement
+- type: mathematically_requires
+  target: lhs:phys.energy
+- type: appears_in_law
+  target: lhs:phys.work-energy-theorem
+- type: related_to
+  target: lhs:phys.power
+- type: related_to
+  target: lhs:phys.kinetic-energy
 ---
 
 ## Notes
 
-Work is the mechanical means of transferring energy. It is defined precisely: force times
-displacement in the direction of force. This precision matters — carrying a heavy suitcase
-horizontally does no work against gravity, even though it feels tiring (the work is done by
-muscles internally, not mechanically).
+Work is the mechanism of energy transfer in mechanics. It bridges force (vector) and energy (scalar).
+The work-energy theorem (W = ΔK) is one of the most powerful principles in mechanics, allowing
+problems to be solved without analyzing forces in detail.

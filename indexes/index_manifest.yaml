@@ -1,0 +1,15 @@
+generated_at: '2026-09-06T07:57:41.859463+00:00'
+source_export_hash: 1b199640c5b85a09
+indexes:
+  lexical_index.json:
+    type: lexical
+    token_count: 1822
+  structural_index.json:
+    type: structural
+    domains: 7
+  citation_index.json:
+    type: citation
+    sources: 3
+  semantic_index.json:
+    type: semantic
+    status: placeholder

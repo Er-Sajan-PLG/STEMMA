@@ -1,1056 +1,15 @@
 {
-  "export_version": "2.1.0",
-  "schema_version": "1.1.0",
-  "content_hash": "sha256:5cef0afdf3cf68654ae1e42a61dc6e387e564b74fa21facc65bdbe0e8d64e456",
-  "kernel_version": "3.0.0",
-  "relation_registry_version": "1.0.0",
-  "relation_registry": {
-    "part_of": {
-      "family": "structural",
-      "inverse": "has_part",
-      "transitive": true,
-      "domain": [
-        "concept",
-        "phenomenon",
-        "model",
-        "quantity"
-      ],
-      "range": [
-        "concept",
-        "phenomenon",
-        "model",
-        "quantity"
-      ],
-      "status": "adopted"
-    },
-    "has_part": {
-      "family": "structural",
-      "inverse": "part_of",
-      "transitive": true,
-      "domain": [
-        "concept",
-        "phenomenon",
-        "model",
-        "quantity"
-      ],
-      "range": [
-        "concept",
-        "phenomenon",
-        "model",
-        "quantity"
-      ],
-      "status": "reserved"
-    },
-    "composed_of": {
-      "family": "structural",
-      "transitive": true,
-      "domain": [
-        "concept",
-        "model",
-        "phenomenon"
-      ],
-      "range": [
-        "concept",
-        "phenomenon"
-      ],
-      "status": "reserved"
-    },
-    "generalizes": {
-      "family": "hierarchical",
-      "inverse": "special_case_of",
-      "transitive": true,
-      "domain": [
-        "concept",
-        "law",
-        "model"
-      ],
-      "range": [
-        "concept",
-        "law",
-        "model"
-      ],
-      "status": "adopted"
-    },
-    "special_case_of": {
-      "family": "hierarchical",
-      "inverse": "generalizes",
-      "transitive": true,
-      "domain": [
-        "concept",
-        "law",
-        "model"
-      ],
-      "range": [
-        "concept",
-        "law",
-        "model"
-      ],
-      "status": "adopted"
-    },
-    "requires": {
-      "family": "dependency",
-      "transitive": true,
-      "domain": [
-        "concept",
-        "quantity",
-        "law",
-        "equation",
-        "model",
-        "phenomenon"
-      ],
-      "range": [
-        "concept",
-        "quantity",
-        "law",
-        "equation",
-        "model",
-        "phenomenon"
-      ],
-      "status": "reserved"
-    },
-    "prerequisite_of": {
-      "family": "dependency",
-      "transitive": true,
-      "domain": [
-        "concept",
-        "quantity",
-        "law",
-        "phenomenon"
-      ],
-      "range": [
-        "concept",
-        "quantity",
-        "law",
-        "phenomenon"
-      ],
-      "status": "reserved"
-    },
-    "mathematically_requires": {
-      "family": "dependency",
-      "inverse": "mathematically_required_by",
-      "transitive": true,
-      "domain": [
-        "law",
-        "equation",
-        "model",
-        "quantity",
-        "concept",
-        "phenomenon"
-      ],
-      "range": [
-        "concept",
-        "quantity",
-        "equation",
-        "phenomenon",
-        "unit",
-        "law"
-      ],
-      "status": "adopted"
-    },
-    "mathematically_required_by": {
-      "family": "dependency",
-      "inverse": "mathematically_requires",
-      "transitive": true,
-      "domain": [
-        "concept",
-        "quantity",
-        "equation",
-        "phenomenon",
-        "unit",
-        "law"
-      ],
-      "range": [
-        "law",
-        "equation",
-        "model",
-        "quantity",
-        "concept",
-        "phenomenon"
-      ],
-      "status": "reserved"
-    },
-    "logically_requires": {
-      "family": "dependency",
-      "inverse": "logically_required_by",
-      "transitive": true,
-      "domain": [
-        "concept",
-        "quantity",
-        "law",
-        "equation",
-        "model",
-        "phenomenon",
-        "unit"
-      ],
-      "range": [
-        "concept",
-        "quantity",
-        "law",
-        "equation",
-        "model",
-        "phenomenon",
-        "unit"
-      ],
-      "status": "adopted"
-    },
-    "logically_required_by": {
-      "family": "dependency",
-      "inverse": "logically_requires",
-      "transitive": true,
-      "domain": [
-        "concept",
-        "quantity",
-        "law",
-        "equation",
-        "model",
-        "phenomenon",
-        "unit"
-      ],
-      "range": [
-        "concept",
-        "quantity",
-        "law",
-        "equation",
-        "model",
-        "phenomenon",
-        "unit"
-      ],
-      "status": "reserved"
-    },
-    "depends_on": {
-      "family": "dependency",
-      "transitive": true,
-      "domain": [
-        "concept",
-        "quantity",
-        "law",
-        "equation",
-        "model",
-        "phenomenon"
-      ],
-      "range": [
-        "concept",
-        "quantity",
-        "law",
-        "equation",
-        "model",
-        "phenomenon"
-      ],
-      "status": "reserved"
-    },
-    "causes": {
-      "family": "causal",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "phenomenon",
-        "model",
-        "law",
-        "concept"
-      ],
-      "range": [
-        "phenomenon",
-        "concept"
-      ],
-      "status": "reserved"
-    },
-    "contributes_to": {
-      "family": "causal",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "phenomenon",
-        "model",
-        "law",
-        "concept"
-      ],
-      "range": [
-        "phenomenon",
-        "concept"
-      ],
-      "status": "reserved"
-    },
-    "results_in": {
-      "family": "causal",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "phenomenon",
-        "concept",
-        "model"
-      ],
-      "range": [
-        "phenomenon",
-        "concept"
-      ],
-      "status": "reserved"
-    },
-    "influences": {
-      "family": "causal",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "phenomenon",
-        "concept",
-        "model"
-      ],
-      "range": [
-        "phenomenon",
-        "concept",
-        "model"
-      ],
-      "status": "reserved"
-    },
-    "prevents": {
-      "family": "causal",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "phenomenon",
-        "concept",
-        "model"
-      ],
-      "range": [
-        "phenomenon",
-        "concept"
-      ],
-      "status": "reserved"
-    },
-    "explains": {
-      "family": "explanatory",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "law",
-        "model"
-      ],
-      "range": [
-        "phenomenon",
-        "concept",
-        "law"
-      ],
-      "status": "reserved"
-    },
-    "accounts_for": {
-      "family": "explanatory",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "law",
-        "model"
-      ],
-      "range": [
-        "phenomenon",
-        "concept"
-      ],
-      "status": "reserved"
-    },
-    "predicted_by": {
-      "family": "explanatory",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "phenomenon",
-        "concept"
-      ],
-      "range": [
-        "law",
-        "model"
-      ],
-      "status": "reserved"
-    },
-    "supported_by": {
-      "family": "explanatory",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "law",
-        "model",
-        "concept"
-      ],
-      "range": [
-        "phenomenon",
-        "concept",
-        "law"
-      ],
-      "status": "reserved"
-    },
-    "evidenced_by": {
-      "family": "explanatory",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "law",
-        "model",
-        "concept"
-      ],
-      "range": [
-        "phenomenon",
-        "concept"
-      ],
-      "status": "reserved"
-    },
-    "approximates": {
-      "family": "model",
-      "inverse": "approximated_by",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "model",
-        "equation",
-        "law",
-        "concept",
-        "phenomenon",
-        "quantity"
-      ],
-      "range": [
-        "phenomenon",
-        "model",
-        "law",
-        "equation",
-        "concept",
-        "quantity"
-      ],
-      "status": "adopted"
-    },
-    "approximated_by": {
-      "family": "model",
-      "inverse": "approximates",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "phenomenon",
-        "model",
-        "law",
-        "equation",
-        "concept",
-        "quantity"
-      ],
-      "range": [
-        "model",
-        "equation",
-        "law",
-        "concept",
-        "phenomenon",
-        "quantity"
-      ],
-      "status": "reserved"
-    },
-    "idealizes": {
-      "family": "model",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "model"
-      ],
-      "range": [
-        "phenomenon",
-        "model"
-      ],
-      "status": "reserved"
-    },
-    "extends": {
-      "family": "model",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "model",
-        "law"
-      ],
-      "range": [
-        "model",
-        "law"
-      ],
-      "status": "reserved"
-    },
-    "supersedes": {
-      "family": "model",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "model",
-        "law"
-      ],
-      "range": [
-        "model",
-        "law"
-      ],
-      "status": "reserved"
-    },
-    "simplifies": {
-      "family": "model",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "model",
-        "equation"
-      ],
-      "range": [
-        "model",
-        "equation"
-      ],
-      "status": "reserved"
-    },
-    "contradicts": {
-      "family": "conflict",
-      "symmetric": true,
-      "transitive": false,
-      "domain": [
-        "law",
-        "model",
-        "concept",
-        "phenomenon"
-      ],
-      "range": [
-        "law",
-        "model",
-        "concept",
-        "phenomenon"
-      ],
-      "status": "reserved"
-    },
-    "inconsistent_with": {
-      "family": "conflict",
-      "symmetric": true,
-      "transitive": false,
-      "domain": [
-        "law",
-        "model",
-        "concept",
-        "phenomenon"
-      ],
-      "range": [
-        "law",
-        "model",
-        "concept",
-        "phenomenon"
-      ],
-      "status": "reserved"
-    },
-    "competes_with": {
-      "family": "conflict",
-      "symmetric": true,
-      "transitive": false,
-      "domain": [
-        "law",
-        "model",
-        "concept",
-        "phenomenon"
-      ],
-      "range": [
-        "law",
-        "model",
-        "concept",
-        "phenomenon"
-      ],
-      "status": "reserved"
-    },
-    "limited_by": {
-      "family": "conflict",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "law",
-        "model",
-        "concept",
-        "phenomenon"
-      ],
-      "range": [
-        "law",
-        "model",
-        "concept"
-      ],
-      "status": "reserved"
-    },
-    "measures": {
-      "family": "measurement",
-      "inverse": "measured_by",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "concept",
-        "experiment"
-      ],
-      "range": [
-        "quantity"
-      ],
-      "status": "reserved"
-    },
-    "measured_by": {
-      "family": "measurement",
-      "inverse": "measures",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "quantity"
-      ],
-      "range": [
-        "concept",
-        "experiment"
-      ],
-      "status": "reserved"
-    },
-    "quantifies": {
-      "family": "measurement",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "quantity"
-      ],
-      "range": [
-        "concept",
-        "phenomenon"
-      ],
-      "status": "reserved"
-    },
-    "expressed_in": {
-      "family": "measurement",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "quantity"
-      ],
-      "range": [
-        "unit"
-      ],
-      "status": "reserved"
-    },
-    "has_unit": {
-      "family": "measurement",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "quantity",
-        "concept"
-      ],
-      "range": [
-        "unit"
-      ],
-      "status": "reserved"
-    },
-    "enables": {
-      "family": "engineering",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "concept",
-        "law",
-        "model",
-        "phenomenon"
-      ],
-      "range": [
-        "concept",
-        "model"
-      ],
-      "status": "reserved"
-    },
-    "used_in": {
-      "family": "engineering",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "concept",
-        "law",
-        "model",
-        "phenomenon"
-      ],
-      "range": [
-        "concept",
-        "model"
-      ],
-      "status": "reserved"
-    },
-    "applied_to": {
-      "family": "engineering",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "concept",
-        "law",
-        "model"
-      ],
-      "range": [
-        "concept",
-        "phenomenon"
-      ],
-      "status": "reserved"
-    },
-    "implemented_by": {
-      "family": "engineering",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "concept",
-        "model",
-        "phenomenon"
-      ],
-      "range": [
-        "concept",
-        "model"
-      ],
-      "status": "reserved"
-    },
-    "analogous_to": {
-      "family": "analogy",
-      "symmetric": true,
-      "transitive": false,
-      "domain": [
-        "concept",
-        "quantity",
-        "phenomenon",
-        "model"
-      ],
-      "range": [
-        "concept",
-        "quantity",
-        "phenomenon",
-        "model"
-      ],
-      "status": "adopted"
-    },
-    "isomorphic_to": {
-      "family": "analogy",
-      "symmetric": true,
-      "transitive": false,
-      "domain": [
-        "concept",
-        "quantity",
-        "phenomenon",
-        "model"
-      ],
-      "range": [
-        "concept",
-        "quantity",
-        "phenomenon",
-        "model"
-      ],
-      "status": "reserved"
-    },
-    "corresponds_to": {
-      "family": "analogy",
-      "symmetric": true,
-      "transitive": false,
-      "domain": [
-        "concept",
-        "phenomenon",
-        "model"
-      ],
-      "range": [
-        "concept",
-        "phenomenon",
-        "model"
-      ],
-      "status": "reserved"
-    },
-    "bridges": {
-      "family": "cross_domain",
-      "symmetric": true,
-      "transitive": false,
-      "domain": [
-        "concept",
-        "quantity",
-        "phenomenon",
-        "law",
-        "model",
-        "unit"
-      ],
-      "range": [
-        "concept",
-        "quantity",
-        "phenomenon",
-        "law",
-        "model",
-        "unit"
-      ],
-      "status": "adopted"
-    },
-    "maps_to": {
-      "family": "cross_domain",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "concept",
-        "phenomenon",
-        "law",
-        "model"
-      ],
-      "range": [
-        "concept",
-        "phenomenon",
-        "law",
-        "model"
-      ],
-      "status": "reserved"
-    },
-    "manifestation_of": {
-      "family": "cross_domain",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "phenomenon",
-        "concept"
-      ],
-      "range": [
-        "phenomenon",
-        "concept"
-      ],
-      "status": "reserved"
-    },
-    "shared_mechanism_with": {
-      "family": "cross_domain",
-      "symmetric": true,
-      "transitive": false,
-      "domain": [
-        "phenomenon",
-        "concept",
-        "model"
-      ],
-      "range": [
-        "phenomenon",
-        "concept",
-        "model"
-      ],
-      "status": "reserved"
-    },
-    "related_to": {
-      "family": "associative",
-      "symmetric": true,
-      "transitive": false,
-      "domain": [
-        "concept",
-        "quantity",
-        "law",
-        "equation",
-        "unit",
-        "phenomenon",
-        "model",
-        "misconception"
-      ],
-      "range": [
-        "concept",
-        "quantity",
-        "law",
-        "equation",
-        "unit",
-        "phenomenon",
-        "model",
-        "misconception"
-      ],
-      "status": "adopted"
-    },
-    "derived_from": {
-      "family": "derivation",
-      "inverse": "is_basis_of",
-      "transitive": true,
-      "domain": [
-        "concept",
-        "law",
-        "model",
-        "equation"
-      ],
-      "range": [
-        "concept",
-        "law",
-        "model",
-        "equation"
-      ],
-      "status": "adopted"
-    },
-    "is_basis_of": {
-      "family": "derivation",
-      "inverse": "derived_from",
-      "transitive": true,
-      "domain": [
-        "concept",
-        "law",
-        "model",
-        "equation"
-      ],
-      "range": [
-        "concept",
-        "law",
-        "model",
-        "equation"
-      ],
-      "status": "reserved"
-    },
-    "appears_in_law": {
-      "family": "derivation",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "concept",
-        "quantity",
-        "unit",
-        "phenomenon",
-        "model"
-      ],
-      "range": [
-        "law"
-      ],
-      "status": "adopted"
-    },
-    "applies_to": {
-      "family": "derivation",
-      "inverse": "governed_by",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "law"
-      ],
-      "range": [
-        "concept",
-        "quantity",
-        "equation",
-        "phenomenon",
-        "model"
-      ],
-      "status": "adopted"
-    },
-    "governed_by": {
-      "family": "derivation",
-      "inverse": "applies_to",
-      "transitive": false,
-      "symmetric": false,
-      "domain": [
-        "concept",
-        "quantity",
-        "equation",
-        "phenomenon",
-        "model"
-      ],
-      "range": [
-        "law"
-      ],
-      "status": "reserved"
-    },
-    "equivalent_to": {
-      "family": "derivation",
-      "symmetric": true,
-      "transitive": true,
-      "domain": [
-        "concept",
-        "quantity",
-        "law",
-        "equation",
-        "unit",
-        "phenomenon",
-        "model"
-      ],
-      "range": [
-        "concept",
-        "quantity",
-        "law",
-        "equation",
-        "unit",
-        "phenomenon",
-        "model"
-      ],
-      "status": "reserved"
-    }
-  },
-  "vocabularies": {
-    "domains": [
-      "physics",
-      "chemistry",
-      "biology",
-      "earth-space",
-      "engineering",
-      "mathematics",
-      "scientific-practice"
-    ],
-    "subdomains": {
-      "physics": [
-        "mechanics",
-        "thermal-physics",
-        "electricity-magnetism",
-        "waves-optics",
-        "atomic-nuclear",
-        "measurement-units"
-      ],
-      "chemistry": [
-        "matter-foundations",
-        "atomic-structure-periodicity",
-        "bonding-structure",
-        "reactions-stoichiometry",
-        "acids-bases",
-        "electrochemistry-redox",
-        "equilibrium-kinetics",
-        "organic-chemistry",
-        "thermodynamics"
-      ],
-      "biology": [
-        "cell-biology",
-        "genetics-heredity",
-        "evolution-ecology",
-        "metabolism-processes",
-        "physiology"
-      ],
-      "earth-space": [
-        "atmosphere-climate",
-        "earth-systems-geology",
-        "space-cosmology"
-      ],
-      "engineering": [
-        "design-process"
-      ],
-      "scientific-practice": [
-        "inquiry-observation",
-        "epistemology-nature-of-science"
-      ],
-      "mathematics": [
-        "foundations",
-        "arithmetic",
-        "number-theory",
-        "algebra",
-        "geometry",
-        "measurement",
-        "statistics-probability",
-        "functions",
-        "calculus"
-      ]
-    },
-    "regimes": [
-      "classical",
-      "quantum",
-      "relativistic",
-      "statistical",
-      "nonrelativistic",
-      "equilibrium",
-      "nonequilibrium",
-      "macroscopic",
-      "microscopic",
-      "mesoscopic",
-      "continuum",
-      "discrete",
-      "low_velocity",
-      "high_velocity",
-      "weak_gravity",
-      "strong_gravity",
-      "moderate_pressure",
-      "high_temperature",
-      "low_temperature",
-      "none"
-    ],
-    "scales": [
-      "quantum",
-      "atomic",
-      "molecular",
-      "microscopic",
-      "macroscopic",
-      "astronomical",
-      "cosmological"
-    ]
-  },
+  "export_version": "0.2",
+  "schema_version": "0.3",
   "policy": "trusted",
   "count": 50,
   "connections": [
     {
-      "id": "stemma:conn.000001",
+      "id": "lhs:conn.000001",
       "type": "connection",
-      "source": "stemma:bio.animal-cell",
+      "source": "lhs:bio.animal-cell",
       "relation": "special_case_of",
-      "target": "stemma:bio.cell",
+      "target": "lhs:bio.cell",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -1064,7 +23,9 @@
       "context": {
         "domain": "biology",
         "subdomain": "cell-biology",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -1116,15 +77,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:ec41e63cf692e035f2163ac34195db588d6ad10686977588eb41d0db7f27e3a5"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000005",
+      "id": "lhs:conn.000005",
       "type": "connection",
-      "source": "stemma:bio.cellular-respiration",
+      "source": "lhs:bio.cellular-respiration",
       "relation": "logically_requires",
-      "target": "stemma:bio.cell",
+      "target": "lhs:bio.cell",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -1138,7 +98,9 @@
       "context": {
         "domain": "biology",
         "subdomain": "cell-biology",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -1190,15 +152,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:a4f2efe814bf1fed5d90324e09d80894578e71065fb78610a2f6098bded9beaf"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000012",
+      "id": "lhs:conn.000012",
       "type": "connection",
-      "source": "stemma:bio.nucleus",
+      "source": "lhs:bio.nucleus",
       "relation": "part_of",
-      "target": "stemma:bio.cell",
+      "target": "lhs:bio.cell",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -1212,7 +173,9 @@
       "context": {
         "domain": "biology",
         "subdomain": "cell-biology",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -1264,15 +227,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:9b94f7447bf4d773bd0df8a5e5b2cfb6c7e0879f736f730c29840678dcf004af"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000014",
+      "id": "lhs:conn.000014",
       "type": "connection",
-      "source": "stemma:bio.osmosis",
+      "source": "lhs:bio.osmosis",
       "relation": "logically_requires",
-      "target": "stemma:chem.diffusion",
+      "target": "lhs:chem.diffusion",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -1286,7 +248,9 @@
       "context": {
         "domain": "biology",
         "subdomain": "cell-biology",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -1338,15 +302,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:52fec52c719d27e097e9ba30cd19cbe42225b4358e31fd0534fe8fddfb4ffed0"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000025",
+      "id": "lhs:conn.000025",
       "type": "connection",
-      "source": "stemma:bio.dna",
+      "source": "lhs:bio.dna",
       "relation": "part_of",
-      "target": "stemma:bio.cell",
+      "target": "lhs:bio.cell",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -1360,7 +323,9 @@
       "context": {
         "domain": "biology",
         "subdomain": "genetics-heredity",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -1412,15 +377,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:c93cad5210c3efba82bf161f839e5b35bb3d03e9aa18e92f24c548f87b3d925b"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000048",
+      "id": "lhs:conn.000048",
       "type": "connection",
-      "source": "stemma:chem.atom",
+      "source": "lhs:chem.atom",
       "relation": "logically_requires",
-      "target": "stemma:chem.matter",
+      "target": "lhs:chem.matter",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -1434,7 +398,9 @@
       "context": {
         "domain": "chemistry",
         "subdomain": "atomic-structure-periodicity",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -1442,7 +408,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.atkins-physical-chemistry",
+          "source_ref": "lhs:src.atkins-physical-chemistry",
           "locator": "Ch. review",
           "description": "dependency relation evidence for logically_requires",
           "locator_struct": null,
@@ -1488,15 +454,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:1ef3cd6e812959f90b2d35e097f0f2bd31f6b89c251440d657769c82a8f7de1b"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000049",
+      "id": "lhs:conn.000049",
       "type": "connection",
-      "source": "stemma:chem.atom",
+      "source": "lhs:chem.atom",
       "relation": "logically_requires",
-      "target": "stemma:phys.electric-charge",
+      "target": "lhs:phys.electric-charge",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -1510,7 +475,9 @@
       "context": {
         "domain": "chemistry",
         "subdomain": "atomic-structure-periodicity",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -1518,7 +485,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.atkins-physical-chemistry",
+          "source_ref": "lhs:src.atkins-physical-chemistry",
           "locator": "Ch. review",
           "description": "dependency relation evidence for logically_requires",
           "locator_struct": null,
@@ -1564,15 +531,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:18c6c5850ec22479d8b13388a11571fa7969c92d65f4057b0ea9a3ca2da52298"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000053",
+      "id": "lhs:conn.000053",
       "type": "connection",
-      "source": "stemma:chem.element",
+      "source": "lhs:chem.element",
       "relation": "logically_requires",
-      "target": "stemma:chem.atom",
+      "target": "lhs:chem.atom",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -1586,7 +552,9 @@
       "context": {
         "domain": "chemistry",
         "subdomain": "atomic-structure-periodicity",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -1594,7 +562,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.atkins-physical-chemistry",
+          "source_ref": "lhs:src.atkins-physical-chemistry",
           "locator": "Ch. review",
           "description": "dependency relation evidence for logically_requires",
           "locator_struct": null,
@@ -1640,15 +608,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:6d5dad8416c9b1f6e1b0ba2836daff72654afbf61f434d5c37b09e0a425fe69e"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000060",
+      "id": "lhs:conn.000060",
       "type": "connection",
-      "source": "stemma:chem.compound",
+      "source": "lhs:chem.compound",
       "relation": "logically_requires",
-      "target": "stemma:chem.atom",
+      "target": "lhs:chem.atom",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -1662,7 +629,9 @@
       "context": {
         "domain": "chemistry",
         "subdomain": "bonding-structure",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -1670,7 +639,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.atkins-physical-chemistry",
+          "source_ref": "lhs:src.atkins-physical-chemistry",
           "locator": "Ch. review",
           "description": "dependency relation evidence for logically_requires",
           "locator_struct": null,
@@ -1716,15 +685,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:44d8263ccd71604eeaf1f2b2186c988b9b9b9c86ed72ea9f5d4b9d255a7f7f88"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000069",
+      "id": "lhs:conn.000069",
       "type": "connection",
-      "source": "stemma:chem.matter",
+      "source": "lhs:chem.matter",
       "relation": "logically_requires",
-      "target": "stemma:phys.mass",
+      "target": "lhs:phys.mass",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -1738,7 +706,9 @@
       "context": {
         "domain": "chemistry",
         "subdomain": "matter-foundations",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -1746,7 +716,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.atkins-physical-chemistry",
+          "source_ref": "lhs:src.atkins-physical-chemistry",
           "locator": "Ch. review",
           "description": "dependency relation evidence for logically_requires",
           "locator_struct": null,
@@ -1792,15 +762,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:86aefe4a2e9595277a0ae55a81765b41a8399d54a2d11afa6be36bebd323b8c8"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000130",
+      "id": "lhs:conn.000130",
       "type": "connection",
-      "source": "stemma:phys.current",
+      "source": "lhs:phys.current",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.electric-charge",
+      "target": "lhs:phys.electric-charge",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -1814,7 +783,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "electricity-magnetism",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -1822,7 +793,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -1868,15 +839,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:bf4fb74da1fbf190dde5331f95f41907c7cd5f2b1b2f5c62a029fd9f9ecca5c8"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000131",
+      "id": "lhs:conn.000131",
       "type": "connection",
-      "source": "stemma:phys.current",
+      "source": "lhs:phys.current",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.time",
+      "target": "lhs:phys.time",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -1890,7 +860,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "electricity-magnetism",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -1898,7 +870,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -1944,15 +916,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:f952f1535e3a4861c3f93cd1308afd40ad955579cdb8d4a7de9913c3b46cf7ee"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000165",
+      "id": "lhs:conn.000165",
       "type": "connection",
-      "source": "stemma:phys.voltage",
+      "source": "lhs:phys.voltage",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.electric-charge",
+      "target": "lhs:phys.electric-charge",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -1966,7 +937,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "electricity-magnetism",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -1974,7 +947,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -2020,15 +993,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:66c09158354e0a56c9c9afe64f47d170006afbed47a61fe2e9c69d1d747b2df9"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000173",
+      "id": "lhs:conn.000173",
       "type": "connection",
-      "source": "stemma:phys.measurement",
+      "source": "lhs:phys.measurement",
       "relation": "logically_requires",
-      "target": "stemma:phys.unit",
+      "target": "lhs:phys.unit",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -2042,7 +1014,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "measurement-units",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -2094,15 +1068,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:f8db93a350482ee42b51e6cf881099de7af48a53b53d874877bf497de94bddfb"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000177",
+      "id": "lhs:conn.000177",
       "type": "connection",
-      "source": "stemma:phys.time",
+      "source": "lhs:phys.time",
       "relation": "logically_requires",
-      "target": "stemma:phys.measurement",
+      "target": "lhs:phys.measurement",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -2116,7 +1089,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "measurement-units",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -2124,7 +1099,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for logically_requires",
           "locator_struct": null,
@@ -2170,15 +1145,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:d33fd96ec7ef384d5d50c449f003b6365aff0f891453fe83fb0697d0fdac6362"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000180",
+      "id": "lhs:conn.000180",
       "type": "connection",
-      "source": "stemma:phys.unit",
+      "source": "lhs:phys.unit",
       "relation": "logically_requires",
-      "target": "stemma:phys.physical-quantity",
+      "target": "lhs:phys.physical-quantity",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -2192,7 +1166,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "measurement-units",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -2200,7 +1176,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for logically_requires",
           "locator_struct": null,
@@ -2246,15 +1222,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:d11f637b9d39072320db02640d9fbbfe7387e58e971f54c9ca216f41f90e8e75"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000183",
+      "id": "lhs:conn.000183",
       "type": "connection",
-      "source": "stemma:phys.acceleration",
+      "source": "lhs:phys.acceleration",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.time",
+      "target": "lhs:phys.time",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -2268,7 +1243,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -2276,7 +1253,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -2322,15 +1299,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:569349e387745da6783888076050b0eecaa183d249ec4c8a6afde3aea7e112ee"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000184",
+      "id": "lhs:conn.000184",
       "type": "connection",
-      "source": "stemma:phys.acceleration",
+      "source": "lhs:phys.acceleration",
       "relation": "appears_in_law",
-      "target": "stemma:phys.newtons-second-law",
+      "target": "lhs:phys.newtons-second-law",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -2344,7 +1320,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -2352,7 +1330,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "derivation relation evidence for appears_in_law",
           "locator_struct": null,
@@ -2398,15 +1376,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:50c520b683665c56e0b4b486a4b7562650b7ed596d02fba64936741da2bab70a"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000193",
+      "id": "lhs:conn.000193",
       "type": "connection",
-      "source": "stemma:phys.density",
+      "source": "lhs:phys.density",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.mass",
+      "target": "lhs:phys.mass",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -2420,7 +1397,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -2428,7 +1407,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -2474,15 +1453,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:a8d570af413eddfd3e63cb1f5b45f101fdeb403c43a5d3345a2bc13c0550a884"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000196",
+      "id": "lhs:conn.000196",
       "type": "connection",
-      "source": "stemma:phys.displacement",
+      "source": "lhs:phys.displacement",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.distance",
+      "target": "lhs:phys.distance",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -2496,7 +1474,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -2504,7 +1484,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -2550,15 +1530,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:692e52f519f702c010714dbe92f3f71530567ff5af2100f2a8f795636052ab15"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000198",
+      "id": "lhs:conn.000198",
       "type": "connection",
-      "source": "stemma:phys.distance",
+      "source": "lhs:phys.distance",
       "relation": "logically_requires",
-      "target": "stemma:phys.unit",
+      "target": "lhs:phys.unit",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -2572,7 +1551,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -2580,7 +1561,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for logically_requires",
           "locator_struct": null,
@@ -2626,15 +1607,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:deda61cd811e40255596afb94eedec64df5f1b49f5c0042fd56d4f4b163e807a"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000220",
+      "id": "lhs:conn.000220",
       "type": "connection",
-      "source": "stemma:phys.force",
+      "source": "lhs:phys.force",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.mass",
+      "target": "lhs:phys.mass",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -2648,7 +1628,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -2656,7 +1638,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -2702,15 +1684,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:5ef7c09f3a7927a4522a322893f6bd70a865899b90dd4abacd884d8d5f29887b"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000221",
+      "id": "lhs:conn.000221",
       "type": "connection",
-      "source": "stemma:phys.force",
+      "source": "lhs:phys.force",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.acceleration",
+      "target": "lhs:phys.acceleration",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -2724,7 +1705,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -2732,7 +1715,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -2778,15 +1761,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:46984cfddad90a950560bf6d0efb87991708d95282660025f2573a0c57dbce9f"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000222",
+      "id": "lhs:conn.000222",
       "type": "connection",
-      "source": "stemma:phys.force",
+      "source": "lhs:phys.force",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.vector",
+      "target": "lhs:phys.vector",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -2800,7 +1782,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -2808,7 +1792,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -2854,15 +1838,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:46f3eefae80e3e1f0ad62a9a23891341858660a3f023cd6773ce06c0e32ba897"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000224",
+      "id": "lhs:conn.000224",
       "type": "connection",
-      "source": "stemma:phys.force",
+      "source": "lhs:phys.force",
       "relation": "appears_in_law",
-      "target": "stemma:phys.newtons-second-law",
+      "target": "lhs:phys.newtons-second-law",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -2876,7 +1859,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -2884,7 +1869,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "derivation relation evidence for appears_in_law",
           "locator_struct": null,
@@ -2930,15 +1915,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:025b71ef17aec69ad97130ea3ec3047ee7c03618f373e5b19609ba9581f53d09"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000231",
+      "id": "lhs:conn.000231",
       "type": "connection",
-      "source": "stemma:phys.friction",
+      "source": "lhs:phys.friction",
       "relation": "logically_requires",
-      "target": "stemma:phys.force",
+      "target": "lhs:phys.force",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -2952,7 +1936,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -2960,7 +1946,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for logically_requires",
           "locator_struct": null,
@@ -3006,15 +1992,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:72177f278107649cc5eaac5efa6ae34ce723005e4635dacc3116e4346501ba6e"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000240",
+      "id": "lhs:conn.000240",
       "type": "connection",
-      "source": "stemma:phys.impulse",
+      "source": "lhs:phys.impulse",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.force",
+      "target": "lhs:phys.force",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -3028,7 +2013,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -3036,7 +2023,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -3082,15 +2069,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:e8dd6d5128ec200ab6c5158a614d101bc8c08fdbac279a43e8a2f5a13ccb80d4"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000244",
+      "id": "lhs:conn.000244",
       "type": "connection",
-      "source": "stemma:phys.inertia",
+      "source": "lhs:phys.inertia",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.mass",
+      "target": "lhs:phys.mass",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -3104,7 +2090,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -3112,7 +2100,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -3158,15 +2146,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:6cdb5a8ad44f9a49f328cbc46373ba151957c364f27af674900f9723de9b8381"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000246",
+      "id": "lhs:conn.000246",
       "type": "connection",
-      "source": "stemma:phys.kinetic-energy",
+      "source": "lhs:phys.kinetic-energy",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.mass",
+      "target": "lhs:phys.mass",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -3180,7 +2167,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -3188,7 +2177,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -3234,15 +2223,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:c0cc1b350b4125edca534038bcb760ccee9e1be83e26e04b231f5928a1ac2771"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000250",
+      "id": "lhs:conn.000250",
       "type": "connection",
-      "source": "stemma:phys.mass",
+      "source": "lhs:phys.mass",
       "relation": "appears_in_law",
-      "target": "stemma:phys.newtons-second-law",
+      "target": "lhs:phys.newtons-second-law",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -3256,7 +2244,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -3264,7 +2254,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "derivation relation evidence for appears_in_law",
           "locator_struct": null,
@@ -3310,15 +2300,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:87e0441e1929c7ca653edfd4545eaddb1cf60ec2ec159445dc7bf40c62b48397"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000256",
+      "id": "lhs:conn.000256",
       "type": "connection",
-      "source": "stemma:phys.momentum",
+      "source": "lhs:phys.momentum",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.mass",
+      "target": "lhs:phys.mass",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -3332,7 +2321,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -3340,7 +2331,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -3386,15 +2377,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:f4547360100e1825d1719271a6f7734046558937f225a21d3fbf9603b8fd798e"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000268",
+      "id": "lhs:conn.000268",
       "type": "connection",
-      "source": "stemma:phys.newtons-law-of-gravitation",
+      "source": "lhs:phys.newtons-law-of-gravitation",
       "relation": "applies_to",
-      "target": "stemma:phys.mass",
+      "target": "lhs:phys.mass",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -3408,7 +2398,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -3416,7 +2408,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "derivation relation evidence for applies_to",
           "locator_struct": null,
@@ -3462,15 +2454,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:e368d76211dec87d6ad60447d3bef3de819aeffe57e854660bf9b6055e23e5de"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000272",
+      "id": "lhs:conn.000272",
       "type": "connection",
-      "source": "stemma:phys.newtons-second-law",
+      "source": "lhs:phys.newtons-second-law",
       "relation": "applies_to",
-      "target": "stemma:phys.force",
+      "target": "lhs:phys.force",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -3484,7 +2475,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -3492,7 +2485,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "derivation relation evidence for applies_to",
           "locator_struct": null,
@@ -3538,15 +2531,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:b2dcfb665d24f0dee5d6f3846c853ae2ceb5b2678c41e7aca206fe04ea96060a"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000273",
+      "id": "lhs:conn.000273",
       "type": "connection",
-      "source": "stemma:phys.newtons-second-law",
+      "source": "lhs:phys.newtons-second-law",
       "relation": "applies_to",
-      "target": "stemma:phys.mass",
+      "target": "lhs:phys.mass",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -3560,7 +2552,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -3568,7 +2562,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "derivation relation evidence for applies_to",
           "locator_struct": null,
@@ -3614,15 +2608,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:408c091a58de21242bb6b006ca35e7c57c7fbc29e446961f297716c0ef4744ed"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000279",
+      "id": "lhs:conn.000279",
       "type": "connection",
-      "source": "stemma:phys.potential-energy",
+      "source": "lhs:phys.potential-energy",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.mass",
+      "target": "lhs:phys.mass",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -3636,7 +2629,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -3644,7 +2639,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -3690,15 +2685,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:2ff8f304350fe681758e1331634b4da4349dc926419fb7e34e3580cd845cedf8"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000287",
+      "id": "lhs:conn.000287",
       "type": "connection",
-      "source": "stemma:phys.pressure",
+      "source": "lhs:phys.pressure",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.force",
+      "target": "lhs:phys.force",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -3712,7 +2706,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -3720,7 +2716,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -3766,15 +2762,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:eb90b74b5538d6773821f1ff521e5f3b880b7fabf42cae01dee91004fefb98c1"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000311",
+      "id": "lhs:conn.000311",
       "type": "connection",
-      "source": "stemma:phys.weight",
+      "source": "lhs:phys.weight",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.mass",
+      "target": "lhs:phys.mass",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -3788,7 +2783,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -3796,7 +2793,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -3842,15 +2839,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:1c0d0a6b16eee8f7c2c6eb57537f67903d773500931163512529a1808d4ce343"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000318",
+      "id": "lhs:conn.000318",
       "type": "connection",
-      "source": "stemma:phys.work",
+      "source": "lhs:phys.work",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.force",
+      "target": "lhs:phys.force",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -3864,7 +2860,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "mechanics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -3872,7 +2870,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -3918,15 +2916,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:958f7c6bd4ce3e2fe358b5e3520a3141a41d3b4d17b0f8279a2bd9deba7a2814"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000325",
+      "id": "lhs:conn.000325",
       "type": "connection",
-      "source": "stemma:phys.heat",
+      "source": "lhs:phys.heat",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.mass",
+      "target": "lhs:phys.mass",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -3940,7 +2937,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "thermal-physics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -3948,7 +2947,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -3994,15 +2993,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:188c0b8f60f7d4105f5cb1eacd81b11da13d0f5a7d4a6ae07604e59a569d92b0"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000335",
+      "id": "lhs:conn.000335",
       "type": "connection",
-      "source": "stemma:phys.specific-heat",
+      "source": "lhs:phys.specific-heat",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.mass",
+      "target": "lhs:phys.mass",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -4016,7 +3014,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "thermal-physics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -4024,7 +3024,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -4070,15 +3070,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:4c0976805ddec9bf6f3eec2d1eef3415ef7b579ff80a22da502c09b852bd9c70"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000342",
+      "id": "lhs:conn.000342",
       "type": "connection",
-      "source": "stemma:phys.frequency",
+      "source": "lhs:phys.frequency",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.time",
+      "target": "lhs:phys.time",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -4092,7 +3091,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "waves-optics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -4100,7 +3101,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. review",
           "description": "dependency relation evidence for mathematically_requires",
           "locator_struct": null,
@@ -4146,15 +3147,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:1295033c86abd792c94b7b35f0d5ccd15499307ded71539b1efa0d4a959eb9cd"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000364",
+      "id": "lhs:conn.000364",
       "type": "connection",
-      "source": "stemma:phys.sound",
+      "source": "lhs:phys.sound",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.wave",
+      "target": "lhs:phys.wave",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -4168,7 +3168,9 @@
       "context": {
         "domain": "physics",
         "subdomain": "waves-optics",
-        "regime": [],
+        "regime": [
+          "classical"
+        ],
         "scale": "macroscopic",
         "assumptions": [],
         "qualifiers": []
@@ -4220,15 +3222,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:3a7eaa3d4b73437f6e37ec212b8f4ee96797c68aa28372786b4da73df73f6324"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000377",
+      "id": "lhs:conn.000377",
       "type": "connection",
-      "source": "stemma:phys.newtons-second-law",
+      "source": "lhs:phys.newtons-second-law",
       "relation": "mathematically_requires",
-      "target": "stemma:phys.force",
+      "target": "lhs:phys.force",
       "assertion": {
         "status": "active",
         "type": "asserted",
@@ -4256,7 +3257,7 @@
       "evidence": [
         {
           "type": "derivation",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Chapter 5, Eq. 5.1",
           "description": "F=ma derived from N2L at constant mass",
           "stance": "supports",
@@ -4264,7 +3265,7 @@
         },
         {
           "type": "experiment",
-          "source_ref": "stemma:src.cavendish-1798",
+          "source_ref": "lhs:src.cavendish-1798",
           "locator": "Fig. 3",
           "description": "Empirical verification of force proportionality",
           "stance": "supports",
@@ -4303,15 +3304,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:d008b43774c9a1b21ed9a0d15ffda594a71f721ceccaa67d38030b81cf854c7f"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000378",
+      "id": "lhs:conn.000378",
       "type": "connection",
-      "source": "stemma:chem.diffusion",
+      "source": "lhs:chem.diffusion",
       "relation": "bridges",
-      "target": "stemma:bio.osmosis",
+      "target": "lhs:bio.osmosis",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -4335,7 +3335,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.atkins-physical-chemistry",
+          "source_ref": "lhs:src.atkins-physical-chemistry",
           "locator": "Ch. 20, diffusion & osmosis",
           "description": "Osmosis as diffusion through semipermeable membrane",
           "stance": "supports",
@@ -4381,15 +3381,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:b986dc83e2020cab3064a1d6c3d31a8265097068bcd180906de7a36459167840"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000379",
+      "id": "lhs:conn.000379",
       "type": "connection",
-      "source": "stemma:phys.energy",
+      "source": "lhs:phys.energy",
       "relation": "bridges",
-      "target": "stemma:chem.chemical-reaction",
+      "target": "lhs:chem.chemical-reaction",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -4413,7 +3412,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. 8, energy & work",
           "description": "Chemical reactions conserve/produce energy",
           "stance": "supports",
@@ -4459,15 +3458,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:aaa3a748c20744da9f634f6fd36d243416fc7fddb097bcb8ca04b1efe9da04a4"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000380",
+      "id": "lhs:conn.000380",
       "type": "connection",
-      "source": "stemma:phys.light",
+      "source": "lhs:phys.light",
       "relation": "bridges",
-      "target": "stemma:bio.photosynthesis",
+      "target": "lhs:bio.photosynthesis",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -4491,7 +3489,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. 33, EM waves",
           "description": "Photosynthesis requires light energy",
           "stance": "supports",
@@ -4537,15 +3535,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:2d8c83026855a9f4f640f831967dfbf835504e10bb531d69842e2407898190e6"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000381",
+      "id": "lhs:conn.000381",
       "type": "connection",
-      "source": "stemma:phys.gravitation",
+      "source": "lhs:phys.gravitation",
       "relation": "bridges",
-      "target": "stemma:earth.atmosphere",
+      "target": "lhs:earth.atmosphere",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -4569,7 +3566,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. 13, gravitation",
           "description": "Atmosphere retained by gravitational field",
           "stance": "supports",
@@ -4615,15 +3612,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:bab9e886b085ef2f28ffe900a288974d5dcaa224b37906cb422d714d03d28e3f"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000384",
+      "id": "lhs:conn.000384",
       "type": "connection",
-      "source": "stemma:phys.current",
+      "source": "lhs:phys.current",
       "relation": "analogous_to",
-      "target": "stemma:chem.diffusion",
+      "target": "lhs:chem.diffusion",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -4647,7 +3643,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. 26, current",
           "description": "Charge flow analogous to particle flow; mapping: voltage:pressure, current:flow_rate",
           "stance": "supports",
@@ -4693,15 +3689,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:eaacd8d03d664dbaa6678f1470fa44bda2ba52c3d55bb2dfab26c066e1210ef6"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000387",
+      "id": "lhs:conn.000387",
       "type": "connection",
-      "source": "stemma:phys.ideal-gas-model",
+      "source": "lhs:phys.ideal-gas-model",
       "relation": "approximates",
-      "target": "stemma:earth.atmosphere",
+      "target": "lhs:earth.atmosphere",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -4729,7 +3724,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.atkins-physical-chemistry",
+          "source_ref": "lhs:src.atkins-physical-chemistry",
           "locator": "Ch. 1, ideal gas, validity: moderate pressure/high T",
           "description": "Atmosphere approximated as ideal gas at moderate pressure",
           "stance": "supports",
@@ -4775,15 +3770,14 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:dcd4b55bdc8be2664bd44476778607e05afeaa8a6b6a4f624b76f319bee6b6ad"
+      "rights": null
     },
     {
-      "id": "stemma:conn.000388",
+      "id": "lhs:conn.000388",
       "type": "connection",
-      "source": "stemma:phys.bohr-model",
+      "source": "lhs:phys.bohr-model",
       "relation": "approximates",
-      "target": "stemma:phys.atomic-structure",
+      "target": "lhs:phys.atomic-structure",
       "assertion": {
         "status": "active",
         "type": "proposed",
@@ -4808,7 +3802,7 @@
       "evidence": [
         {
           "type": "textbook",
-          "source_ref": "stemma:src.halliday-resnick",
+          "source_ref": "lhs:src.halliday-resnick",
           "locator": "Ch. 39, Bohr model",
           "description": "Bohr model approximates hydrogen-like atoms; limited to nonrelativistic",
           "stance": "supports",
@@ -4854,8 +3848,7 @@
       "updated_at": null,
       "validity": null,
       "lifecycle": null,
-      "rights": null,
-      "claim_signature": "sha256:1a1a8bbd070abecd4c206cea9d3248d098908558c805cbcce37c2cd08da8bf78"
+      "rights": null
     }
   ]
 }

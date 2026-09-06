@@ -1,0 +1,319 @@
+{
+  "source_metadata": {
+    "lhs:src.atkins-physical-chemistry": {
+      "id": "lhs:src.atkins-physical-chemistry",
+      "type": "textbook",
+      "citation": "Atkins, de Paula \u2014 Atkins' Physical Chemistry, 11th ed., Oxford",
+      "title": null,
+      "publisher": null,
+      "journal": null,
+      "volume": null,
+      "doi": null,
+      "url": null,
+      "isbn": null,
+      "edition": null,
+      "language": null,
+      "source_role": null,
+      "accessed_at": null,
+      "publication_date": null,
+      "authors": [],
+      "year": null,
+      "rights": null
+    },
+    "lhs:src.cavendish-1798": {
+      "id": "lhs:src.cavendish-1798",
+      "type": "academic-paper",
+      "citation": "Cavendish, H. \u2014 Experiments to determine the density of the Earth (Phil. Trans. R. Soc. 1798)",
+      "locator_authority": "publisher",
+      "title": null,
+      "publisher": null,
+      "journal": null,
+      "volume": null,
+      "doi": null,
+      "url": null,
+      "isbn": null,
+      "edition": null,
+      "language": null,
+      "source_role": null,
+      "accessed_at": null,
+      "publication_date": null,
+      "authors": [],
+      "year": null,
+      "rights": null
+    },
+    "lhs:src.halliday-resnick": {
+      "id": "lhs:src.halliday-resnick",
+      "type": "textbook",
+      "citation": "Halliday, Resnick, Walker \u2014 Fundamentals of Physics, 12th ed., Wiley",
+      "locator_authority": "publisher",
+      "title": null,
+      "publisher": null,
+      "journal": null,
+      "volume": null,
+      "doi": null,
+      "url": null,
+      "isbn": null,
+      "edition": null,
+      "language": null,
+      "source_role": null,
+      "accessed_at": null,
+      "publication_date": null,
+      "authors": [],
+      "year": null,
+      "rights": null
+    }
+  },
+  "evidence_to_source": {
+    "lhs:src.atkins-physical-chemistry": [
+      {
+        "connection_id": "lhs:conn.000048",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000049",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000053",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000060",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000069",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000378",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000382",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000383",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000387",
+        "stance": "supports",
+        "type": "textbook"
+      }
+    ],
+    "lhs:src.halliday-resnick": [
+      {
+        "connection_id": "lhs:conn.000130",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000131",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000165",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000177",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000180",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000183",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000184",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000193",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000196",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000198",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000220",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000221",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000222",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000224",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000231",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000240",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000244",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000246",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000250",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000256",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000268",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000272",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000273",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000279",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000287",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000311",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000318",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000325",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000335",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000342",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000377",
+        "stance": "supports",
+        "type": "derivation"
+      },
+      {
+        "connection_id": "lhs:conn.000379",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000380",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000381",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000384",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000385",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000386",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000388",
+        "stance": "supports",
+        "type": "textbook"
+      },
+      {
+        "connection_id": "lhs:conn.000389",
+        "stance": "supports",
+        "type": "textbook"
+      }
+    ],
+    "lhs:src.cavendish-1798": [
+      {
+        "connection_id": "lhs:conn.000377",
+        "stance": "supports",
+        "type": "experiment"
+      }
+    ]
+  }
+}

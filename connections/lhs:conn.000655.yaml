@@ -1,0 +1,31 @@
+id: lhs:conn.000655
+type: connection
+source: lhs:phys.work
+relation: mathematically_requires
+target: lhs:phys.force
+assertion:
+  status: active
+  type: proposed
+  review:
+    status: unreviewed
+  confidence: null
+  confidence_basis: null
+  polarity: positive
+context:
+  domain: physics
+  subdomain: mechanics
+  regime:
+  - classical
+  scale: macroscopic
+  assumptions: []
+  qualifiers: []
+evidence: []
+provenance:
+  asserted_by:
+    type: human
+    id: human:curator.001
+  generated_by:
+    type: human
+    id: human:curator.001
+  method:
+    type: manual

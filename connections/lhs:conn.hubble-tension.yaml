@@ -1,0 +1,69 @@
+id: lhs:conn.hubble-tension
+type: connection
+source: lhs:phys.hubble-constant
+relation: contradicts
+target: lhs:phys.lambda-cdm-model
+assertion:
+  status: active
+  type: proposed
+  review:
+    status: unreviewed
+  confidence: 0.95
+  confidence_basis: experimental
+  polarity: negative
+context:
+  domain: physics
+  subdomain: cosmology
+  regime:
+  - classical
+  scale: cosmological
+  assumptions:
+  - "ΛCDM model is correct"
+  - "CMB systematics understood"
+  - "Distance ladder systematics understood"
+  qualifiers: []
+evidence:
+- type: empirical_measurement
+  stance: supports
+  source_ref: lhs:src.planck-2018
+  locator:
+    page: "12"
+    equation: "Eq. 12"
+  description: "Planck 2018 CMB: H₀ = 67.4 ± 0.5 km/s/Mpc under ΛCDM"
+- type: empirical_measurement
+  stance: supports
+  source_ref: lhs:src.sh0es-2022
+  locator:
+    page: "5"
+    equation: "Eq. 3"
+  description: "SH0ES 2022 distance ladder: H₀ = 73.04 ± 1.04 km/s/Mpc"
+- type: empirical_measurement
+  stance: qualifies
+  source_ref: lhs:src.trgb-freedman
+  locator:
+    page: "8"
+  description: "TRGB method: H₀ = 69.8 ± 1.9 km/s/Mpc, intermediate value"
+- type: empirical_measurement
+  stance: qualifies
+  source_ref: lhs:src.h0licow
+  locator:
+    page: "12"
+  description: "H0LiCOW lensing: H₀ = 73.3 +1.7/-1.8, supports higher value"
+provenance:
+  asserted_by:
+    type: human
+    id: human:reviewer.cosmology-001
+  generated_by:
+    type: human
+    id: human:curator.cosmology-001
+  method:
+    type: manual
+  reviewed_by:
+  - type: human
+    id: human:reviewer.cosmology-001
+  review_history:
+  - from: unreviewed
+    to: reviewed
+    reviewer: human:reviewer.cosmology-001
+    at: '2026-09-06T14:00:00+00:00'
+    reason: "Strong evidence for tension; qualifies with TRGB intermediate value"

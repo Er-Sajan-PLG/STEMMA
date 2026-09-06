@@ -1,0 +1,46 @@
+id: lhs:conn.atom-thomson-to-rutherford
+type: connection
+source: lhs:chem.atom.plum-pudding
+relation: superseded_by
+target: lhs:chem.atom.nuclear
+assertion:
+  status: active
+  type: asserted
+  review:
+    status: canonical
+  confidence: 1.0
+  confidence_basis: experimental
+  polarity: positive
+context:
+  domain: physics
+  subdomain: atomic-structure
+  regime:
+  - classical
+  scale: atomic
+  assumptions: []
+  qualifiers: []
+evidence:
+- type: experiment
+  stance: supports
+  source_ref: lhs:src.geiger-marsden-1909
+  locator:
+    section: "Gold Foil Scattering"
+  description: "Geiger-Marsden gold foil experiment: ~1 in 8000 alpha particles scattered at >90°, impossible for plum pudding"
+provenance:
+  asserted_by:
+    type: human
+    id: human:reviewer.history-001
+  generated_by:
+    type: human
+    id: human:curator.history-001
+  method:
+    type: manual
+  reviewed_by:
+  - type: human
+    id: human:reviewer.history-001
+  review_history:
+  - from: unreviewed
+    to: reviewed
+    reviewer: human:reviewer.history-001
+    at: '2026-09-06T15:00:00+00:00'
+    reason: "Gold foil scattering falsified plum pudding; required nuclear model"

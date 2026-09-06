@@ -1,122 +1,287 @@
-# STEMMA Knowledge Ingestion — from document to review-ready proposal
+# STEMMA Document Ingestion Pipeline
 
-**Status:** Implemented. **Scope:** extract knowledge from any-size PDFs, images,
-scanned docs, and text-based documents and stage *review-ready candidate* content
-(source + proposed entities/connections) for the canonical knowledge graph. Nothing
-becomes canonical automatically.
-
-Related: `scripts/ingest.py`, `scripts/curation_pipeline.py`,
-`scripts/ingest_to_proposals.py`, and the interactive
-[Ingestion & Review webapp](WEBAPP.md) (`webapp/`).
+**Version:** 1.0  
+**Status:** Implemented (basic) / Extensible  
+**Related:** `docs/KNOWLEDGE-ACQUISITION.md`, `scripts/ingest.py`, `scripts/ingest_to_proposals.py`
 
 ---
 
-## Why
+## Overview
 
-STEMMA gains knowledge from documents. The ingestion layer turns an arbitrary
-document into **extracted text + a canonical Source candidate**, which the curation
-pipeline's Draft stage turns into proposed entities/connections. Every step is gated;
-**no one can add canonical knowledge by merging** (the merge/review gate — the human
-Governance Gate) is where the human decides what enters `content/` / `connections/`.
+The ingestion pipeline transforms arbitrary documents (PDFs, images, scanned documents) into structured evidence and source candidates for the curation pipeline.
 
-## Pipeline
+**Key Principle:** Ingestion NEVER writes to canonical directories (`content/`, `connections/`, `sources/`). It produces CurationRequests staged under `proposals/` for human review.
+
+---
+
+## Supported Document Types
+
+| Format | Extension | Text Extraction | OCR | Structure Preserved |
+|--------|-----------|-----------------|-----|---------------------|
+| Native PDF | `.pdf` | pdftotext (poppler) | — | Page boundaries, layout |
+| Scanned PDF | `.pdf` | — | pdftoppm + tesseract | Page images |
+| Images | `.png`, `.jpg`, `.jpeg`, `.tif`, `.tiff`, `.bmp`, `.webp` | — | tesseract | Single page |
+
+---
+
+## Ingestion Flow
 
 ```
-document (PDF / image / scanned PDF)
-   │  scripts/ingest.py extract()
-   ▼
-Extraction{kind, text, pages, is_scanned, ocr_used, source_name}
-   │  scripts/ingest.py to_curation_request()
-   ▼
-CurationRequest(kind=entity|connection, source_ref=stemma:src.*, data[extracted_text])
-   │  scripts/curation_pipeline.py run_pipeline() with a Draft seam (LLM)
-   ▼
-PublicationDecision{propose | request_review | hold | reject}
-   │          └─ NEVER 'canonical' — the human Governance Gate decides via review.py
-   ▼
-scripts/ingest_to_proposals.py → proposals/<id>.proposal.yaml  (staged, gitignored)
+Document (PDF/Image)
+    ↓
+detect_kind() → "pdf" | "image"
+    ↓
+extract()
+    ├── PDF: pdftotext (native) OR pdftoppm + tesseract (scanned)
+    └── Image: tesseract (with preprocessing)
+    ↓
+Extraction Result:
+    kind, text, pages, is_scanned, ocr_used, source_name
+    ↓
+build_source_candidate() → Source record (lhs:src.<slug>)
+    ↓
+to_curation_request() → CurationRequest for curation pipeline
+    ↓
+curation_pipeline.run_pipeline() → PublicationDecision
+    ↓
+Stage dossier under proposals/
 ```
 
-## Extractors (deterministic, no fragile deps)
+---
 
-PDFs use poppler (`pdftotext` / `pdfinfo`) when available. If poppler is not
-installed, a pure-Python `pypdf` fallback extracts text-based PDFs (scanned
-PDFs still require poppler + tesseract OCR). Text-based files
-(`txt/md/csv/json/yaml/xml/html`) are read directly. Unsupported types are
-retained and marked `unsupported` with a reason.
+## Extraction Details
 
-Install the fallback when poppler is unavailable (`pip install pypdf`); CI/gate
-runs should still install `pyyaml jsonschema` and may use either engine. A
-scanned/image-only PDF without poppler reports its status but has no OCR text —
-install `poppler-utils` + `tesseract` on that machine to OCR it.
+### PDF Extraction (`extract_pdf`)
 
-| Input | Tool | Behavior |
-|-------|------|----------|
-| Text PDF | `pdftotext` (poppler), else `pypdf` | exact text; `is_scanned=False` |
-| Scanned / image-only PDF | `pdftoppm` (render pages) + `tesseract` | OCR; `is_scanned=True`, `ocr_used=True`; bounded to first N pages for huge docs |
-| Image (PNG/JPG/TIFF/BMP/WebP) | `tesseract` + Pillow | OCR after grayscale + upscale for small images |
+1. **Page count** via `pdfinfo`
+2. **Scanned detection** via `pdftotext` - if < 20 chars extracted, treat as scanned
+3. **Native PDF** → `pdftotext -layout` preserves reading order
+4. **Scanned PDF** → `pdftoppm -r 200 -png` → tesseract per page (max 500 pages)
 
-Detection: a PDF is considered scanned if `pdftotext` yields < ~20 chars. All tooling is
-checked at runtime; a clear error is raised if unavailable.
+### Image Extraction (`extract_image`)
 
-## Safety invariants
+1. **Open with PIL** → grayscale conversion
+2. **Upscale** if min dimension < 800px (improves OCR)
+3. **Tesseract** with English language model
 
-1. **Never writes canonical.** `ingest.py` and `ingest_to_proposals.py` do not write to
-   `content/`, `connections/`, or `sources/`. Output lands in the gitignored `proposals/`
-   staging area.
-2. **Never auto-canonicalizes.** The pipeline's `DecisionAction` set is
-   `{propose, request_review, hold, reject}` — it can never emit `canonical`.
-   Canonicalization is always a human `scripts/review.py canonicalize ... --reviewer=...`
-   action gated by `scripts/curation_state.py` (proposed→reviewed→canonical, reviewer
-   required).
-3. **AI stays downstream of canonical truth.** Extraction is deterministic (poppler +
-   tesseract). Entity/connection *proposal* generation is an **LLM-agnostic Draft seam**
-   supplied by a runner; deterministic gates (identity/schema/provenance/relations) reuse
-   `scripts/validate.py`. No hardcoded subject, curriculum, or language.
+### Tool Requirements
 
-## Usage
+| Tool | Purpose | Package (Debian/Ubuntu) |
+|------|---------|-------------------------|
+| `pdftotext` | Native PDF text extraction | `poppler-utils` |
+| `pdfinfo` | PDF metadata (page count) | `poppler-utils` |
+| `pdftoppm` | PDF page rendering for OCR | `poppler-utils` |
+| `tesseract` | OCR engine | `tesseract-ocr` |
+| `tesseract-eng` | English language data | `tesseract-ocr-eng` |
+| `Pillow` | Image preprocessing | `python3-pil` |
+
+---
+
+## Extraction Output
+
+```python
+@dataclass
+class Extraction:
+    kind: str              # "pdf" | "image"
+    text: str              # Full extracted text
+    pages: int             # Number of pages
+    is_scanned: bool       # True if OCR was used
+    ocr_used: bool         # True if tesseract was invoked
+    source_name: str       # Original filename
+```
+
+---
+
+## Source Candidate Construction
+
+```python
+def build_source_candidate(ext: Extraction, *, source_id: str | None = None) -> dict:
+    _id = source_id or "lhs:src.ingest-%08x" % (abs(hash((ext.source_name, ext.pages))) & 0xFFFFFFF)
+    return {
+        "id": _id,
+        "type": "source",
+        "title": ext.source_name,
+        "kind": "ingested-document",
+        "format": ext.kind,
+        "pages": ext.pages,
+        "ocr_used": ext.ocr_used,
+        "extracted_text_preview": ext.text[:2000],
+        "provenance": {
+            "ai_drafted": False,
+            "source_kind": "other",
+            "reviewer": None,
+            "reviewed_at": None,
+        },
+    }
+```
+
+---
+
+## Curation Request
+
+```python
+def make_ingest_request(ext: Extraction) -> dict:
+    source = build_source_candidate(ext)
+    return {
+        "kind": "source",
+        "intent": f"ingest document '{ext.source_name}' and propose canonical entities/connections from its content",
+        "data": {**source, "_extracted_text": ext.text},
+        "extracted_text": ext.text,
+    }
+```
+
+---
+
+## Curation Pipeline Integration
+
+The ingestion output feeds `curation_pipeline.run_pipeline()`:
+
+```python
+decision = curation_pipeline.run_pipeline(
+    request,
+    draft_callback=draft or _default_draft,
+    semantic_review_callback=lambda gate, artifact, bp: GateResult(gate, "pass", []),
+)
+```
+
+### Default Draft (No LLM)
+Produces a Source proposal + placeholder entity clearly marked for human completion.
+
+### LLM Draft (Optional)
+Supply `--draft module:function` for AI-assisted extraction.
+
+---
+
+## Proposal Staging
+
+Dossier written to `proposals/<source-slug>.proposal.yaml`:
+
+```yaml
+schema_version: "0.1"
+created_at: "2026-09-06T12:00:00+00:00"
+input_file: "path/to/doc.pdf"
+extraction:
+  kind: pdf
+  pages: 45
+  is_scanned: false
+  ocr_used: false
+  char_count: 123456
+source_candidate:
+  id: lhs:src.ingest-abc12345
+  type: source
+  title: "doc.pdf"
+  kind: ingested-document
+  format: pdf
+  pages: 45
+  ocr_used: false
+proposal:
+  decision: request_review
+  publishable: true
+  gates:
+    - gate: schema
+      verdict: pass
+      findings: []
+    - gate: identity
+      verdict: pass
+      findings: []
+    ...
+  artifact: { ... proposed canonical object ... }
+  reason: "all gates pass; human Governance Gate must canonicalize"
+status: proposed
+```
+
+**Critical:** Proposals are NEVER canonical. Human must approve via `scripts/review.py`.
+
+---
+
+## CLI Usage
 
 ```bash
-# With an LLM Draft seam (module:function) that proposes entities/connections.
-# REQUIRED (ADR-0035): without --draft the runner fails closed — it never stages
-# a schema-invalid placeholder.
-python3 scripts/ingest_to_proposals.py --path img.png --draft mymodule:my_draft_fn
-python3 scripts/ingest_to_proposals.py --path scan.pdf --draft mymodule:my_draft_fn --json
+# Basic ingestion
+python3 scripts/ingest.py path/to/document.pdf
 
-# Library use:
-python3 - <<'PY'
-from pathlib import Path
-import sys; sys.path.insert(0,'scripts')
-import ingest, curation_pipeline as cp
-ex = ingest.extract(Path("doc.pdf"))
-req = ingest.to_curation_request(ex, kind="entity")
-def draft(bp, data, **kw):   # your LLM seam
-    return {"id":"stemma:phys.draft-x","type":"concept","name":"X","domain":"physics",
-            "status":"draft","definition":data["_extracted_text"][:200],
-            "provenance":{"ai_drafted":True,"source":bp.source_ref}}
-dec = cp.run_pipeline(req, draft_callback=draft,
-                      semantic_review_callback=lambda g,a,b: cp.GateResult(g,"pass",[]))
-print(dec.action)   # request_review — human must `review.py canonicalize` it
-PY
+# With JSON output
+python3 scripts/ingest.py path/to/document.pdf --json
+
+# Full pipeline to proposals
+python3 scripts/ingest_to_proposals.py --path path/to/document.pdf
+
+# With LLM draft seam
+python3 scripts/ingest_to_proposals.py --path doc.pdf --draft mymodule:my_draft_fn
+
+# Output proposal as JSON
+python3 scripts/ingest_to_proposals.py --path doc.pdf --json
 ```
 
-## Interactive review (webapp)
+---
 
-For a visual upload → extract → draft → human-review → stage-proposal loop, run the
-[Ingestion & Review webapp](WEBAPP.md):
+## Quality Considerations
+
+### OCR Quality Factors
+- **Resolution:** 200 DPI minimum for `pdftoppm`
+- **Language:** English only (configurable via `-l` flag)
+- **Preprocessing:** Grayscale + upscale for small images
+- **Page limit:** 500 pages max per document (configurable)
+
+### Extraction Fidelity
+- Native PDF: High fidelity (text layer preserved)
+- Scanned PDF: Depends on scan quality, OCR engine
+- Images: Depends on resolution, contrast, font
+
+### Known Limitations
+- Multi-column layouts may have reading order issues
+- Equations render as garbled text (no MathML/MathJAX extraction)
+- Tables lose structure (become linear text)
+- Figures/captions not extracted
+- Non-English text requires language pack installation
+
+---
+
+## Extending the Pipeline
+
+### Adding New Formats
+1. Add extension to `_IMAGE_EXTS` or new detector
+2. Implement `extract_<format>` function
+3. Update `extract()` dispatcher
+4. Add tool checks
+
+### Improving Structure Preservation
+Future work: Integrate `pdfplumber`, `pymupdf`, or `marker-pdf` for:
+- Heading detection
+- Section boundaries
+- Table extraction (as CSV/Markdown)
+- Equation detection (LaTeX/MathML)
+- Figure/caption association
+
+### Adding Language Support
+```bash
+# Install language packs
+apt-get install tesseract-ocr-fra tesseract-ocr-deu tesseract-ocr-spa
+```
+Then pass `-l eng+fra` to tesseract.
+
+---
+
+## Testing Ingestion
 
 ```bash
-python3 webapp/server.py --host 0.0.0.0 --port 8080
+# Test with a native PDF
+python3 scripts/ingest.py test_native.pdf --json
+
+# Test with scanned PDF
+python3 scripts/ingest.py test_scanned.pdf --json
+
+# Test with image
+python3 scripts/ingest.py test_image.png --json
+
+# Full pipeline test
+python3 scripts/ingest_to_proposals.py --path test.pdf --json
 ```
 
-The webapp keeps every artifact under git-ignored `workflow/`, uses the same fail-closed
-Draft seam policy (the LLM provider is configured in the UI, not committed), and never
-writes to `content/`/`connections/`/`sources/`.
+---
 
-## Review gate
+## Version History
 
-A human-review/merge-gate system so that "not anyone can update the knowledge graph by
-merging" is the intended follow-up: branch/PR-based proposals + a human reviewer that
-approves before canonicalization, enforced in the merge path. The webapp's staged proposals
-are the input to that gate; the canonical write is still a separate human +
-`scripts/review.py` + `scripts/verify_all.py` decision.
+| Version | Date | Changes |
+|---------|------|---------|
+| 1.0 | 2026-09-06 | Initial ingestion documentation |

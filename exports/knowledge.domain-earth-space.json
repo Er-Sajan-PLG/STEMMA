@@ -1,0 +1,991 @@
+{
+  "export_version": "0.2",
+  "schema_version": "0.3",
+  "policy": "domain:earth-space",
+  "generated_at": "2026-09-06T07:57:41+00:00",
+  "source": "content/",
+  "entity_count": 9,
+  "connection_count": 11,
+  "entities": [
+    {
+      "id": "lhs:earth.atmosphere",
+      "type": "concept",
+      "name": "Earth Atmosphere",
+      "domain": "earth-space",
+      "status": "draft",
+      "definition": "The layer of gases surrounding Earth, retained by Earth's gravity, composed primarily of nitrogen (78%) and oxygen (21%), which absorbs ultraviolet radiation, warms the surface via the greenhouse effect, and regulates weather.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Airlines fly in the troposphere while the ozone layer sits in the stratosphere.",
+        "Air at sea level exerts about 101 kPa of pressure."
+      ],
+      "key_experiments": [
+        "Demonstrate air has mass and occupies space; read atmospheric pressure with a barometer and see it drop with altitude."
+      ],
+      "common_misconceptions": [
+        "Space begins abruptly where the atmosphere stops (atmospheric density decreases continuously with altitude).",
+        "The greenhouse effect is entirely harmful (the natural greenhouse effect makes Earth habitable)."
+      ],
+      "learning_objectives": [
+        "Describe the gas composition and vertical structure of the atmosphere (troposphere, stratosphere, mesosphere, thermosphere).",
+        "Explain how atmospheric pressure decreases with altitude.",
+        "Analyze the natural greenhouse effect and thermal radiation absorption."
+      ],
+      "real_world_applications": [
+        "Aviation and satellite orbit decay management.",
+        "Climate change mitigation and air quality control."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "NOAA / WMO Atmospheric Science Standards"
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:earth.earth-system"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.pressure"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.gravitation"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.acid"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.cellular-respiration"
+        }
+      ]
+    },
+    {
+      "id": "lhs:earth.big-bang-theory",
+      "type": "concept",
+      "name": "Big Bang Theory",
+      "domain": "earth-space",
+      "status": "draft",
+      "definition": "The prevailing cosmological model describing the early development and metric expansion of the universe from an extremely hot, dense state approximately 13.8 billion years ago.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Distant galaxies are moving apart — the expansion of the universe.",
+        "The cosmic microwave background is remnant radiation from the early universe."
+      ],
+      "key_experiments": [
+        "Balloon or raisin-cake model: dots drawn on the surface separate as the balloon inflates, like distant galaxies receding."
+      ],
+      "common_misconceptions": [
+        "The Big Bang was an explosion into pre-existing space (the Big Bang describes the expansion of space itself everywhere).",
+        "The universe expands into empty outer space (space itself is expanding between distant galaxy clusters)."
+      ],
+      "learning_objectives": [
+        "Summarize key observational evidence supporting the Big Bang: cosmic microwave background radiation (CMB) and galactic redshift (Hubble's law).",
+        "Describe the age and continuous metric expansion of the observable universe.",
+        "Distinguish scientific cosmological consensus from speculative hypotheses."
+      ],
+      "real_world_applications": [
+        "Radio astronomy telescope development and satellite microwave detectors.",
+        "Fundamental physics research into elemental nucleosynthesis."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "International Astronomical Union (IAU) / NASA Cosmology Framework"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.electromagnetic-spectrum"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.gravitation"
+        }
+      ]
+    },
+    {
+      "id": "lhs:earth.earth-system",
+      "type": "concept",
+      "name": "Earth System",
+      "domain": "earth-space",
+      "status": "draft",
+      "definition": "The integrated complex of physical, chemical, biological, and geological processes interacting across Earth's four major interconnected spheres: the geosphere, hydrosphere, atmosphere, and biosphere.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "The water cycle moves water across the hydrosphere, atmosphere and biosphere.",
+        "Volcanic eruptions transfer matter from the geosphere into the atmosphere."
+      ],
+      "key_experiments": [
+        "Trace one carbon or water atom's journey across the four spheres in a systems map."
+      ],
+      "common_misconceptions": [
+        "Earth's spheres operate independently of one another (they are constantly exchanging matter and energy).",
+        "Human activity is external to the Earth system (human activities are an integral component of biosphere interactions)."
+      ],
+      "learning_objectives": [
+        "Identify and describe the four primary Earth spheres.",
+        "Explain examples of energy and matter transport between spheres (e.g. water and carbon cycles).",
+        "Analyze human impacts on Earth system feedback mechanisms."
+      ],
+      "real_world_applications": [
+        "Global climate modeling and weather forecasting.",
+        "Natural resource management and environmental policy."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "NASA Earth System Science Framework / AGU"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.matter"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.cell"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:bio.ecosystem"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.conservation-of-energy"
+        }
+      ]
+    },
+    {
+      "id": "lhs:earth.greenhouse-effect",
+      "type": "concept",
+      "name": "Greenhouse Effect",
+      "domain": "earth-space",
+      "status": "draft",
+      "definition": "The process by which greenhouse gases in Earth's atmosphere (such as water vapor, CO₂, CH₄) absorb outgoing infrared radiation emitted by Earth's surface and re-radiate thermal energy in all directions, warming the lower atmosphere.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Earth's natural greenhouse warming keeps the average surface near 15 °C; Venus is hot from a dense CO₂ atmosphere.",
+        "Rising CO₂ and methane from human activity strengthen the greenhouse effect."
+      ],
+      "key_experiments": [
+        "Two-bottle model: a sealed jar and an open jar in sunlight with a thermometer — compare the temperature rise."
+      ],
+      "common_misconceptions": [
+        "The greenhouse effect functions like a physical glass greenhouse preventing convection (the atmospheric effect operates primarily by absorbing and re-emitting infrared radiation).",
+        "The natural greenhouse effect is harmful (without the natural greenhouse effect, Earth's average surface temperature would be approximately -18 °C)."
+      ],
+      "learning_objectives": [
+        "Explain energy balance between incoming solar radiation (shortwave) and outgoing terrestrial radiation (longwave/infrared).",
+        "Identify major greenhouse gases and their relative warming potentials.",
+        "Distinguish the natural greenhouse effect from the enhanced greenhouse effect caused by human activities."
+      ],
+      "real_world_applications": [
+        "Global climate modeling and carbon footprint accounting.",
+        "Renewable energy policy and emission reduction technologies."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "IPCC Sixth Assessment Report / WMO"
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:earth.atmosphere"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.electromagnetic-spectrum"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:earth.earth-system"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.thermal-energy"
+        }
+      ]
+    },
+    {
+      "id": "lhs:earth.plate-tectonics",
+      "type": "concept",
+      "name": "Plate Tectonics",
+      "domain": "earth-space",
+      "status": "draft",
+      "definition": "The unifying geological theory explaining that Earth's rigid outer shell (lithosphere) is divided into several large plates that move slowly over the asthenosphere, driven by mantle convection currents.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "The Himalayas formed from continental collision; earthquakes cluster at plate boundaries.",
+        "The mid-Atlantic ridge spreads and widens the ocean a few centimetres a year."
+      ],
+      "key_experiments": [
+        "Convection model: heat water with dye in a beaker to watch convection cells, then map plate boundaries on a globe."
+      ],
+      "common_misconceptions": [
+        "Continents float on liquid ocean magma (tectonic plates consist of rigid lithospheric rock moving over ductile asthenosphere).",
+        "Tectonic plate movement is fast and noticeable daily (plates move at rates of 1–10 cm per year)."
+      ],
+      "learning_objectives": [
+        "Describe the three types of plate boundaries: convergent, divergent, and transform.",
+        "Relate plate tectonics to earthquakes, volcanic activity, mountain building, and oceanic trench formation.",
+        "Explain mantle convection as the primary thermal driving mechanism for plate motion."
+      ],
+      "real_world_applications": [
+        "Earthquake hazard assessment and building code engineering.",
+        "Geothermal energy site exploration and mineral resource discovery."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "USGS / AGU Earth Science Education Framework"
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:earth.earth-system"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:chem.matter"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.thermal-energy"
+        }
+      ]
+    },
+    {
+      "id": "lhs:earth.rock-cycle",
+      "type": "concept",
+      "name": "Rock Cycle",
+      "domain": "earth-space",
+      "status": "draft",
+      "definition": "The continuous transformation of the three rock families — igneous, sedimentary, and metamorphic — through weathering, erosion, deposition, burial, heat, pressure, and melting, driven by Earth's internal heat and surface processes.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Granite weathers to sand, becomes sandstone, and is buried and heated into metamorphic rock.",
+        "Marble is metamorphosed limestone; basalt is volcanic rock."
+      ],
+      "key_experiments": [
+        "Lay down graded sediments in a jar to model sedimentary layering; identify rock samples and chart their cycle pathway."
+      ],
+      "common_misconceptions": [
+        "Rocks are permanent and unchanging (rocks continuously transform between the three families over geological time).",
+        "The rock cycle moves only in one direction (rocks can take many different pathways through the cycle).",
+        "Magma is found only inside volcanoes (magma is melt within the crust and upper mantle; lava is melt at the surface)."
+      ],
+      "learning_objectives": [
+        "Describe the three rock families and how each forms.",
+        "Trace pathways through the rock cycle.",
+        "Relate the rock cycle to plate tectonics and Earth's internal heat."
+      ],
+      "real_world_applications": [
+        "Geological resource exploration (minerals, fossil fuels, groundwater).",
+        "Understanding volcanic hazard and earthquake risk.",
+        "Interpreting Earth's history from rock records."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "NASA Earth System Science Framework / AGU"
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:earth.earth-system"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:earth.plate-tectonics"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.thermal-energy"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:chem.matter"
+        }
+      ]
+    },
+    {
+      "id": "lhs:earth.seasons-cause",
+      "type": "concept",
+      "name": "Cause of Astronomical Seasons",
+      "domain": "earth-space",
+      "status": "draft",
+      "definition": "The cyclical variation in temperature and daylight duration across Earth's year, caused primarily by Earth's 23.5° axial tilt relative to its orbital plane around the Sun, changing solar incidence angle and daylight length.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Nepal's warm summers and cool winters come from Earth's ~23.5° axial tilt.",
+        "Solstices and equinoxes mark the extremes of the tilt cycle."
+      ],
+      "key_experiments": [
+        "Globe-and-lamp model: tilt the globe and observe how the amount and angle of sunlight change for a fixed location."
+      ],
+      "common_misconceptions": [
+        "Seasons are caused by Earth being significantly closer to the Sun in summer (Earth is actually closest to the Sun in January during Northern Hemisphere winter).",
+        "Both Northern and Southern hemispheres experience summer at the same time (hemispheres experience opposite seasons due to axial tilt orientation)."
+      ],
+      "learning_objectives": [
+        "Explain how Earth's 23.5° axial tilt alters solar angle of incidence and daylight duration throughout the year.",
+        "Interpret solstices and equinoxes on orbital diagrams.",
+        "Disprove the distance misconception using orbital data (perihelion vs. aphelion distance differences)."
+      ],
+      "real_world_applications": [
+        "Agricultural crop planting schedules and solar energy system tilt design.",
+        "Climate zone classification and architectural daylighting."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "NASA Science Framework / IAU Astronomy Education"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.gravitation"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:earth.earth-system"
+        }
+      ]
+    },
+    {
+      "id": "lhs:earth.solar-system",
+      "type": "concept",
+      "name": "Solar System",
+      "domain": "earth-space",
+      "status": "draft",
+      "definition": "The gravitationally bound system consisting of the Sun, eight planets and their moons, dwarf planets, asteroids, comets, and interplanetary material, orbiting the Sun.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Mars, Jupiter and the other planets orbit the Sun; comets return on long elliptical orbits.",
+        "The Sun holds about 99.8% of the solar system's mass."
+      ],
+      "key_experiments": [
+        "Build a scale model of solar-system distances (or sizes) across a school field to feel the emptiness between planets."
+      ],
+      "common_misconceptions": [
+        "The planets orbit the Sun because the Sun is the biggest object (planets orbit because of the mutual gravitational attraction, dominated by the Sun's mass).",
+        "Pluto is counted among the eight major planets (Pluto is classified as a dwarf planet).",
+        "All solar system bodies orbit in the same plane and direction because of imposed rules (they formed from a single rotating protoplanetary disk)."
+      ],
+      "learning_objectives": [
+        "Describe the structure and members of the solar system.",
+        "Explain the role of gravity in holding the solar system together.",
+        "Relate Earth's motion (orbit and axial tilt) to seasons."
+      ],
+      "real_world_applications": [
+        "Space exploration mission planning.",
+        "Understanding Earth's place and habitability in the solar system.",
+        "Orbital mechanics and satellite deployment."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "NASA / IAU"
+      },
+      "relationships": [
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.gravitation"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:earth.earth-system"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:earth.seasons-cause"
+        }
+      ]
+    },
+    {
+      "id": "lhs:earth.water-cycle",
+      "type": "concept",
+      "name": "Water Cycle",
+      "domain": "earth-space",
+      "status": "draft",
+      "definition": "The continuous circulation of water between the atmosphere, Earth's surface, and underground reservoirs through evaporation, transpiration, condensation, precipitation, infiltration, and runoff, driven by solar energy and gravity.",
+      "symbol": null,
+      "unit": null,
+      "equation": null,
+      "examples": [
+        "Evaporation from lakes forms clouds, rain falls over mountains, and rivers carry water back to the sea.",
+        "Dew forms on grass by condensation of overnight water vapour."
+      ],
+      "key_experiments": [
+        "Cover a glass of warm water with a plate and watch condensation — model evaporation, condensation and precipitation in a sealed bag."
+      ],
+      "common_misconceptions": [
+        "The water cycle creates new water (the total water on Earth is essentially constant; the cycle only moves and changes its state).",
+        "Evaporation and boiling are the same (evaporation occurs at any temperature at the surface; boiling occurs throughout the liquid at the boiling point).",
+        "Rainwater is completely pure (rain picks up dissolved gases and particles as it falls)."
+      ],
+      "learning_objectives": [
+        "Trace the movement of water through the stages of the water cycle.",
+        "Identify the energy sources that drive the water cycle (solar energy, gravity).",
+        "Explain the role of the atmosphere and oceans as water reservoirs."
+      ],
+      "real_world_applications": [
+        "Weather forecasting and precipitation prediction.",
+        "Freshwater resource management and irrigation scheduling.",
+        "Understanding droughts, floods, and groundwater recharge."
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "source_kind": "standards-or-specification",
+        "source": "NOAA / WMO Atmospheric Science Standards"
+      },
+      "relationships": [
+        {
+          "type": "part_of",
+          "target": "lhs:earth.earth-system"
+        },
+        {
+          "type": "logically_requires",
+          "target": "lhs:phys.change-of-state"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:earth.atmosphere"
+        },
+        {
+          "type": "related_to",
+          "target": "lhs:phys.heat"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "lhs:conn.000084",
+      "type": "connection",
+      "source": "lhs:earth.atmosphere",
+      "relation": "part_of",
+      "target": "lhs:earth.earth-system",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "earth-space",
+        "subdomain": "atmosphere-climate",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000089",
+      "type": "connection",
+      "source": "lhs:earth.greenhouse-effect",
+      "relation": "part_of",
+      "target": "lhs:earth.atmosphere",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "earth-space",
+        "subdomain": "atmosphere-climate",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000091",
+      "type": "connection",
+      "source": "lhs:earth.greenhouse-effect",
+      "relation": "related_to",
+      "target": "lhs:earth.earth-system",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "earth-space",
+        "subdomain": "atmosphere-climate",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000095",
+      "type": "connection",
+      "source": "lhs:earth.water-cycle",
+      "relation": "part_of",
+      "target": "lhs:earth.earth-system",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "earth-space",
+        "subdomain": "atmosphere-climate",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000097",
+      "type": "connection",
+      "source": "lhs:earth.water-cycle",
+      "relation": "related_to",
+      "target": "lhs:earth.atmosphere",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "earth-space",
+        "subdomain": "atmosphere-climate",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000103",
+      "type": "connection",
+      "source": "lhs:earth.plate-tectonics",
+      "relation": "part_of",
+      "target": "lhs:earth.earth-system",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "earth-space",
+        "subdomain": "earth-systems-geology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000106",
+      "type": "connection",
+      "source": "lhs:earth.rock-cycle",
+      "relation": "part_of",
+      "target": "lhs:earth.earth-system",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "earth-space",
+        "subdomain": "earth-systems-geology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000107",
+      "type": "connection",
+      "source": "lhs:earth.rock-cycle",
+      "relation": "related_to",
+      "target": "lhs:earth.plate-tectonics",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "earth-space",
+        "subdomain": "earth-systems-geology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000113",
+      "type": "connection",
+      "source": "lhs:earth.seasons-cause",
+      "relation": "related_to",
+      "target": "lhs:earth.earth-system",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "earth-space",
+        "subdomain": "space-cosmology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000115",
+      "type": "connection",
+      "source": "lhs:earth.solar-system",
+      "relation": "related_to",
+      "target": "lhs:earth.earth-system",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "earth-space",
+        "subdomain": "space-cosmology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000116",
+      "type": "connection",
+      "source": "lhs:earth.solar-system",
+      "relation": "related_to",
+      "target": "lhs:earth.seasons-cause",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "earth-space",
+        "subdomain": "space-cosmology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        }
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    }
+  ]
+}

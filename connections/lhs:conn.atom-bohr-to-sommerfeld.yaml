@@ -1,0 +1,46 @@
+id: lhs:conn.atom-bohr-to-sommerfeld
+type: connection
+source: lhs:chem.atom.bohr
+relation: superseded_by
+target: lhs:chem.atom.bohr-sommerfeld
+assertion:
+  status: active
+  type: asserted
+  review:
+    status: canonical
+  confidence: 1.0
+  confidence_basis: theoretical
+  polarity: positive
+context:
+  domain: physics
+  subdomain: atomic-structure
+  regime:
+  - classical
+  scale: atomic
+  assumptions: []
+  qualifiers: []
+evidence:
+- type: theoretical
+  stance: supports
+  source_ref: lhs:src.sommerfeld-1916
+  locator:
+    section: "Elliptical Orbits"
+  description: "Sommerfeld extended Bohr model with elliptical orbits and azimuthal quantum number, explaining fine structure"
+provenance:
+  asserted_by:
+    type: human
+    id: human:reviewer.history-001
+  generated_by:
+    type: human
+    id: human:curator.history-001
+  method:
+    type: manual
+  reviewed_by:
+  - type: human
+    id: human:reviewer.history-001
+  review_history:
+  - from: unreviewed
+    to: reviewed
+    reviewer: human:reviewer.history-001
+    at: '2026-09-06T15:00:00+00:00'
+    reason: "Sommerfeld's elliptical orbits extended Bohr model, explained fine structure"

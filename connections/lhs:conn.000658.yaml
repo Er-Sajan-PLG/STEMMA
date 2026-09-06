@@ -1,0 +1,29 @@
+id: lhs:conn.000658
+type: connection
+source: lhs:phys.work
+relation: appears_in_law
+target: lhs:phys.work-energy-theorem
+assertion:
+  status: active
+  type: proposed
+  review:
+    status: unreviewed
+  confidence: null
+  confidence_basis: null
+context:
+  domain: physics
+  subdomain: mechanics
+  regime:
+  - classical
+  scale: macroscopic
+  assumptions: []
+evidence: []
+provenance:
+  asserted_by:
+    type: unknown
+    id: unknown:legacy-relationship
+  generated_by:
+    type: process
+    id: process:migration.relationships-v0.2
+  method:
+    type: migration
