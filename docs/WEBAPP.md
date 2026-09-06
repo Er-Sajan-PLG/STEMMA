@@ -52,13 +52,24 @@ STEMMA_WORKFLOW_DIR=/tmp/stemma-workflow python3 webapp/server.py --port 8080
 The app only *proposes*; it never generates canonical content.
 
 1. Open **LLM Draft settings** in the UI.
-2. Enter a base URL (OpenAI-compatible, e.g. `https://api.openai.com/v1`), a
-   model, and an API key.
-3. Save. The config is stored in `workflow/config/llm.json` (git-ignored; the
-   GET summary masks the key).
+2. Pick a provider:
+   - **Google Gemini / AI Pro (Antigravity)** — calls
+     `POST {base_url}/models/{model}:generateContent` with an
+     `x-goog-api-key` header. Defaults:
+     `https://generativelanguage.googleapis.com/v1beta` /
+     `gemini-3-pro-preview` (or any Gemini Pro/Flash model id you have
+     access to).
+   - **OpenAI-compatible** — calls `POST {base_url}/chat/completions` with a
+     Bearer key. Defaults: `https://api.openai.com/v1`.
+3. Enter the base URL, model, and API key. Google AI Studio/GenAI API keys
+   usually start with `AIza…`.
+4. Save. The config is stored in `workflow/config/llm.json` (git-ignored; the
+   GET summary masks the key). Switching providers requires a fresh key; the
+   app never reuses a masked key across providers.
 
-Without a configured provider the `Draft` button refuses to run (fail closed,
-ADR-0035), and no placeholder proposal is ever staged.
+The Draft/LLM step is never auto-run: the app refuses to run until a provider
+is configured (fail closed, ADR-0035), and no placeholder proposal is ever
+staged.
 
 ## Where things live
 

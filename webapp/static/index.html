@@ -28,11 +28,21 @@
     <h2>LLM Draft provider</h2>
     <p>Used only to <em>propose</em> candidates. The API key never leaves this repo's git-ignored <code>workflow/config/llm.json</code>.</p>
     <form id="settings-form">
-      <label>Base URL <input id="cfg-base" placeholder="https://api.openai.com/v1" /></label>
-      <label>Model <input id="cfg-model" placeholder="gpt-4o-mini" /></label>
-      <label>API key <input id="cfg-key" type="password" placeholder="sk-…" /></label>
-      <button class="btn" type="submit">Save</button>
+      <label>Provider
+        <select id="cfg-provider">
+          <option value="google">Google Gemini / AI Pro (Antigravity)</option>
+          <option value="openai">OpenAI-compatible (any API)</option>
+        </select>
+      </label>
+      <label>Base URL <input id="cfg-base" placeholder="https://generativelanguage.googleapis.com/v1beta" /></label>
+      <label>Model <input id="cfg-model" placeholder="gemini-3-pro-preview" /></label>
+      <label>API key <input id="cfg-key" type="password" placeholder="AIza… or sk-…" /></label>
+      <div class="row-actions">
+        <button class="btn" type="submit">Save</button>
+        <button class="btn primary" type="button" id="cfg-test">Test provider</button>
+      </div>
       <span id="cfg-status" class="status"></span>
+      <p id="cfg-hint" class="hint">Google AI Studio/GenAI API keys start with AIza… and use the Gemini <code>generateContent</code> endpoint.</p>
     </form>
   </section>
 

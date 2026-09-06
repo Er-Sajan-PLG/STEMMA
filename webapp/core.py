@@ -32,6 +32,11 @@ DEFAULT_WORKFLOW = ROOT / "workflow"
 
 DOCUMENT_STATUSES = {"uploaded", "extracting", "ready", "error", "unsupported", "generated", "staged"}
 KIND_LABEL = {"pdf": "PDF", "image": "Image (OCR)", "text": "Text file", "other": "Other/unsupported"}
+SYSTEM_DRAFT_NOTE = "You produce only valid JSON proposal payloads for STEMMA."
+DEFAULT_PROVIDERS = {
+    "openai": {"base_url": "https://api.openai.com/v1", "model": "gpt-4o-mini"},
+    "google": {"base_url": "https://generativelanguage.googleapis.com/v1beta", "model": "gemini-3-pro-preview"},
+}
 
 
 class WebappError(ValueError):
@@ -115,29 +120,42 @@ class Workflow:
     def read_llm_config(self, mask: bool = False) -> dict:
         path = self.config / "llm.json"
         if not path.exists():
-            return {"base_url": "", "model": "", "api_key": "", "configured": False}
+            return {"provider": "openai", "base_url": "", "model": "", "api_key": "", "configured": False}
         try:
             data = json.loads(path.read_text(encoding="utf-8"))
         except json.JSONDecodeError:
             data = {}
         key = data.get("api_key") or ""
+        provider = data.get("provider") or "openai"
         out = {
+            "provider": provider,
             "base_url": data.get("base_url") or "",
             "model": data.get("model") or "",
             "api_key": "••••" + key[-4:] if key and mask else key,
-            "configured": bool(data.get("base_url") and data.get("model") and key),
+            "configured": bool(provider in ("openai", "google") and data.get("base_url") and data.get("model") and key),
         }
         return out
 
-    def save_llm_config(self, *, base_url: str, model: str, api_key: str) -> dict:
+    def save_llm_config(self, *, provider: str, base_url: str, model: str, api_key: str) -> dict:
+        provider = (provider or "openai").strip().lower()
+        if provider not in ("openai", "google"):
+            raise WebappError("provider must be 'openai' (OpenAI-compatible) or 'google' (Gemini API)")
         if not base_url or not model:
             raise WebappError("base_url and model are required to configure an LLM Draft")
         # The GET config masks the key. If the UI submitted the masked value
         # (the user did not type a new key), preserve the existing secret.
         existing = self.read_llm_config()
+        if existing.get("provider") != provider:
+            # Switching providers always requires a fresh key (no cross-provider secret reuse).
+            existing = {"api_key": ""}
         if api_key.startswith("••••") or not api_key.strip():
-            api_key = existing.get("api_key") or api_key
-        data = {"base_url": base_url.strip().rstrip("/"), "model": model.strip(), "api_key": api_key.strip()}
+            api_key = existing.get("api_key") or ""
+        data = {
+            "provider": provider,
+            "base_url": base_url.strip().rstrip("/"),
+            "model": model.strip(),
+            "api_key": api_key.strip(),
+        }
         (self.config / "llm.json").write_text(
             json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
         )
@@ -178,6 +196,21 @@ class Workflow:
         self.log("document_uploaded", doc_id=doc_id,
                   detail={"name": original_name, "size": len(data), "kind": kind})
         return record
+
+    def test_llm_provider(self) -> dict:
+        """Send a tiny probe to the configured provider (no document/draft)."""
+        config = self.read_llm_config()
+        if not config["configured"]:
+            raise ProviderNotConfigured(
+                "No LLM Draft provider configured. Open Settings, pick a provider "
+                "(Google Gemini / OpenAI-compatible), enter base URL, model, API key, then retry."
+            )
+        try:
+            payload = self._llm_chat(config, 'Return ONLY this JSON object: {"candidates": []}')
+        except ProviderError as exc:
+            return {"ok": False, "provider": config.get("provider"), "error": str(exc)}
+        return {"ok": True, "provider": config.get("provider"), "model": config.get("model"),
+                "keys": sorted((payload or {}).keys())[:8]}
 
     def list_documents(self) -> list[dict]:
         records = [self._read_meta(path) for path in sorted(self.meta.glob("*.json"))]
@@ -403,23 +436,77 @@ class Workflow:
             f"EXTRACTED TEXT:\n{text[:12000]}"
         )
 
-    def _llm_chat(self, config: dict, prompt: str) -> dict:
-        import urllib.error
-        import urllib.request
-
+    @staticmethod
+    def _openai_request(config: dict, prompt: str) -> tuple[str, bytes, dict[str, str]]:
         url = f"{config['base_url']}/chat/completions"
         body = json.dumps({
             "model": config["model"],
             "temperature": 0.2,
             "messages": [
-                {"role": "system", "content": "You produce only valid JSON proposal payloads for STEMMA."},
+                {"role": "system", "content": SYSTEM_DRAFT_NOTE},
                 {"role": "user", "content": prompt},
             ],
             "response_format": {"type": "json_object"},
         }).encode("utf-8")
+        headers = {"Content-Type": "application/json", "Authorization": f"Bearer {config['api_key']}"}
+        return url, body, headers
+
+    @staticmethod
+    def _google_request(config: dict, prompt: str) -> tuple[str, bytes, dict[str, str]]:
+        # Gemini REST (Google AI Studio / GenAI Developer API, and the Gemini API
+        # backing Antigravity-style agents): POST /models/{model}:generateContent
+        # with x-goog-api-key and a generationConfig responseMimeType of json.
+        url = f"{config['base_url']}/models/{config['model']}:generateContent"
+        body = json.dumps({
+            "contents": [{"role": "user", "parts": [{"text": prompt}]}],
+            "systemInstruction": {
+                "parts": [{"text": f"{SYSTEM_DRAFT_NOTE} Return only a JSON object; no markdown fences."}]
+            },
+            "generationConfig": {
+                "temperature": 0.2,
+                "responseMimeType": "application/json",
+            },
+        }).encode("utf-8")
+        headers = {"Content-Type": "application/json", "x-goog-api-key": config["api_key"]}
+        return url, body, headers
+
+    @staticmethod
+    def _parse_google_payload(payload: dict) -> dict:
+        parts = (
+            payload.get("candidates") or [{}]
+        )[0].get("content", {}).get("parts", [])
+        text = "".join(p.get("text", "") for p in parts if isinstance(p, dict)).strip()
+        if not text:
+            raise ProviderError(f"Google model returned no text: {json.dumps(payload)[:300]}")
+        # Google may wrap JSON in ```json ... ``` fences despite responseMimeType.
+        if text.startswith("```"):
+            text = re.sub(r"^```(?:json)?\s*", "", text)
+            text = re.sub(r"\s*```$", "", text)
+        try:
+            return json.loads(text) if isinstance(text, str) else text
+        except json.JSONDecodeError as exc:
+            raise ProviderError(f"Google model returned non-JSON content: {text[:300]}") from exc
+
+    @staticmethod
+    def _parse_openai_payload(payload: dict) -> dict:
+        content = payload["choices"][0]["message"]["content"]
+        return json.loads(content) if isinstance(content, str) else content
+
+    def _llm_chat(self, config: dict, prompt: str) -> dict:
+        import urllib.error
+        import urllib.request
+
+        provider = config.get("provider") or "openai"
+        if provider == "google":
+            url, body, headers = self._google_request(config, prompt)
+            parse = self._parse_google_payload
+        else:
+            url, body, headers = self._openai_request(config, prompt)
+            parse = self._parse_openai_payload
+
         request = urllib.request.Request(url, data=body, method="POST")
-        request.add_header("Content-Type", "application/json")
-        request.add_header("Authorization", f"Bearer {config['api_key']}")
+        for key, value in headers.items():
+            request.add_header(key, value)
         try:
             with urllib.request.urlopen(request, timeout=120) as response:
                 raw = response.read().decode("utf-8")
@@ -428,9 +515,9 @@ class Workflow:
         except Exception as exc:  # noqa: BLE001
             raise ProviderError(f"LLM provider request failed: {exc}") from exc
         try:
-            payload = json.loads(raw)
-            content = payload["choices"][0]["message"]["content"]
-            return json.loads(content) if isinstance(content, str) else content
+            return parse(json.loads(raw))
+        except ProviderError:
+            raise
         except (KeyError, IndexError, TypeError, json.JSONDecodeError) as exc:
             raise ProviderError(f"LLM provider returned an unexpected payload: {raw[:300]}") from exc
 

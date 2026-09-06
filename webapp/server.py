@@ -163,10 +163,13 @@ class _Handler(BaseHTTPRequestHandler):
         if path == "/api/config":
             body = self._read_json_body()
             return 200, wf.save_llm_config(
+                provider=str(body.get("provider") or "openai"),
                 base_url=str(body.get("base_url") or ""),
                 model=str(body.get("model") or ""),
                 api_key=str(body.get("api_key") or ""),
             )
+        if path == "/api/config/test":
+            return 200, wf.test_llm_provider()
         if path == "/api/documents":
             body = self._read_json_body()
             try:

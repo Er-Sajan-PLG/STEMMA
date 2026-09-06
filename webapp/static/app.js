@@ -30,12 +30,31 @@ function jsonPre(obj) {
   return el("pre", { class: "jsonpre" }, JSON.stringify(obj, null, 2));
 }
 
+const PROVIDER_DEFAULTS = {
+  google: { base_url: "https://generativelanguage.googleapis.com/v1beta", model: "gemini-3-pro-preview" },
+  openai: { base_url: "https://api.openai.com/v1", model: "gpt-4o-mini" },
+};
+
+function applyProviderDefaults(provider, force) {
+  const base = document.getElementById("cfg-base");
+  const model = document.getElementById("cfg-model");
+  if (force || !base.value) base.value = (PROVIDER_DEFAULTS[provider] || {}).base_url || "";
+  if (force || !model.value) model.value = (PROVIDER_DEFAULTS[provider] || {}).model || "";
+  const hint = document.getElementById("cfg-hint");
+  hint.textContent = provider === "google"
+    ? "Google AI Studio/GenAI API keys start with AIza… and use the Gemini generateContent endpoint (Gemini 3 Pro powers Antigravity)."
+    : "OpenAI-compatible endpoint: POST {base_url}/chat/completions with a Bearer key.";
+}
+
 async function loadConfig() {
   try {
     const cfg = await api("/api/config");
-    document.getElementById("cfg-base").value = cfg.base_url || "";
-    document.getElementById("cfg-model").value = cfg.model || "";
+    const provider = (cfg.provider || "google");
+    document.getElementById("cfg-provider").value = provider;
+    document.getElementById("cfg-base").value = cfg.base_url || (PROVIDER_DEFAULTS[provider] || {}).base_url || "";
+    document.getElementById("cfg-model").value = cfg.model || (PROVIDER_DEFAULTS[provider] || {}).model || "";
     document.getElementById("cfg-key").value = cfg.api_key || "";
+    applyProviderDefaults(provider, false);
   } catch (e) { alert(e.message); }
 }
 
@@ -48,16 +67,32 @@ async function saveConfig(event) {
     const cfg = await api("/api/config", {
       method: "POST",
       body: JSON.stringify({
+        provider: document.getElementById("cfg-provider").value,
         base_url: document.getElementById("cfg-base").value,
         model: document.getElementById("cfg-model").value,
         api_key: document.getElementById("cfg-key").value,
       }),
     });
     document.getElementById("cfg-key").value = cfg.api_key;
-    status.textContent = cfg.configured ? "configured ✓" : "configured (missing key/model?)";
+    status.textContent = (cfg.configured ? "configured ✓" : "configured (missing key/base_url/model?)");
     status.className = "status ok";
   } catch (e) {
     status.textContent = e.message;
+    status.className = "status err";
+  }
+}
+
+async function testConfig() {
+  const status = document.getElementById("cfg-status");
+  status.textContent = "saving then testing provider…";
+  status.className = "status";
+  try {
+    await saveConfig(new Event("submit"));
+    const res = await api("/api/config/test", { method: "POST", body: "{}" });
+    status.textContent = res.ok ? `provider ok ✓ (${res.model})` : `provider failed: ${res.error}`;
+    status.className = res.ok ? "status ok" : "status err";
+  } catch (e) {
+    status.textContent = `provider failed: ${e.message}`;
     status.className = "status err";
   }
 }
@@ -282,6 +317,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const settings = document.getElementById("settings");
   document.getElementById("settings-toggle").onclick = () => settings.classList.toggle("hidden");
   document.getElementById("settings-form").onsubmit = saveConfig;
+  document.getElementById("cfg-provider").onchange = (e) => applyProviderDefaults(e.target.value, true);
+  document.getElementById("cfg-test").onclick = testConfig;
   const input = document.getElementById("file-input");
   const drop = document.getElementById("drop");
   drop.onclick = () => input.click();
