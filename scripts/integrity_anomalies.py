@@ -58,7 +58,7 @@ def main(argv=None):
     import pathlib as pl
 
     entities = set()
-    for p in (ROOT / "content").rglob("*.md"):
+    for p in sorted((ROOT / "content").rglob("*.md")):
         d = yaml.safe_load(p.read_text().split("---", 2)[1])
         if d.get("id"):
             entities.add(d["id"])

@@ -45,6 +45,29 @@ def test_export_regeneration_is_byte_identical():
     print(f"PASS: full export regeneration is byte-identical ({len(exports)} artifacts)")
 
 
+def test_report_regeneration_is_byte_identical():
+    """ADR-0022 determinism extends to derived reports, not just exports.
+
+    Report writers walk content/ with globs; a filesystem-dependent return order
+    would make CI regenerate a different byte stream. Guard the two files that
+    are most sensitive to directory order (curation-status and integrity
+    anomalies) so a non-sorted walk is caught immediately.
+    """
+    reports = (
+        (ROOT / "reports" / "curation-status.json"),
+        (ROOT / "reports" / "curation-status.md"),
+        (ROOT / "reports" / "integrity-anomalies.json"),
+        (ROOT / "reports" / "integrity-anomalies.md"),
+    )
+    before = {p.name: p.read_bytes() for p in reports}
+    for script in ("curation_status.py", "integrity_anomalies.py"):
+        r = subprocess.run([sys.executable, str(ROOT / "scripts" / script)], capture_output=True, text=True)
+        assert r.returncode == 0, f"{script} failed: {r.stderr[-400:]}"
+    after = {p.name: p.read_bytes() for p in reports}
+    assert before == after, "report regeneration changed derived reports — not deterministic (ADR-0022)"
+    print(f"PASS: derived reports regenerate byte-identically ({len(before)} artifacts)")
+
+
 def test_content_hash_tracks_canonical_content():
     export = json.loads((ROOT / "exports" / "knowledge.json").read_text())
     assert export.get("content_hash", "").startswith("sha256:"), "export missing deterministic content_hash"
@@ -124,6 +147,7 @@ if __name__ == "__main__":
     test_version_source_exists_and_matches_export()
     test_no_version_literals_in_exporters()
     test_export_regeneration_is_byte_identical()
+    test_report_regeneration_is_byte_identical()
     test_content_hash_tracks_canonical_content()
     test_export_contract_required_members()
     test_legacy_compat_view_during_co_release_window()

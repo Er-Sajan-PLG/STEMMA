@@ -15,9 +15,9 @@ REGISTRY = ROOT / "schema/relation-registry.yaml"
 def main():
     conns = [yaml.safe_load(p.read_text()) for p in sorted(CONNECTIONS.glob("*.yaml"))]
     registry = yaml.safe_load(REGISTRY.read_text())["relations"]
-    # Load entities for domain
+    # Load entities for domain (sorted so all filesystems produce the same order)
     ents = {}
-    for p in (ROOT / "content").rglob("*.md"):
+    for p in sorted((ROOT / "content").rglob("*.md")):
         d = yaml.safe_load(p.read_text().split("---", 2)[1])
         if d.get("id"):
             ents[d["id"]] = d
