@@ -84,7 +84,17 @@ class Stemma:
         retired_entities = sum(
             1 for entity in self.entities_by_id.values() if self._is_retired_entity(entity)
         )
-        active_connections = sum(1 for conn in self.all_connections if self._is_active_connection(conn))
+        active_connections = sum(
+            1
+            for conn in self.all_connections
+            if self._is_active_connection(conn)
+            and conn.get("assertion", {}).get("review", {}).get("status") != "rejected"
+        )
+        rejected_connections = sum(
+            1
+            for conn in self.all_connections
+            if conn.get("assertion", {}).get("review", {}).get("status") == "rejected"
+        )
         return {
             "active_connection_count": active_connections,
             "connection_count": self.export["connection_count"],
@@ -92,6 +102,7 @@ class Stemma:
             "entity_count": self.export["entity_count"],
             "export_version": self.export["export_version"],
             "kernel_version": self.export.get("kernel_version"),
+            "rejected_connection_count": rejected_connections,
             "relation_registry_version": self.relation_registry_version,
             "retired_entity_count": retired_entities,
             "schema_version": self.export["schema_version"],
@@ -416,7 +427,12 @@ class Stemma:
         review: str | None,
     ) -> bool:
         if policy is None:
+            # Default consumer view = active and not rejected (ADR-0031). An
+            # explicit review filter overrides the rejected exclusion so the
+            # audit set remains queryable.
             if not self._is_active_connection(connection):
+                return False
+            if review is None and connection.get("assertion", {}).get("review", {}).get("status") == "rejected":
                 return False
         elif not should_include_connection(connection, policy):
             return False

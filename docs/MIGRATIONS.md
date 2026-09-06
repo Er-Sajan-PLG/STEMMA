@@ -19,6 +19,23 @@ Template:
 
 ---
 
+## 2026-09-06 — Rejected lifecycle: `assertion.review.status=rejected` (ADR-0031)
+- **Tag:** ADR-0031 · **Kind:** additive (schema minor, no canonical rewrite)
+- **Changed:** `schema/connection.schema.json` `assertion.review.status` enum gains
+  `rejected`; `schema/VERSION.yaml` `schema_version` `1.0.0 → 1.1.0`; validator adds a hard
+  `ERROR` if a rejected assertion has no written reason; `all` policy (and adapter default)
+  now excludes rejected; `review.py`/`apply_review_decisions.py` keep the record `active` and
+  record rejection in `review_history`; reopen `rejected → unreviewed/proposed` is
+  human-only + reason-required. Export shape is unchanged (stays 2.1.0).
+- **Old data:** no canonical files change. Existing 4 `assertion.status: deprecated`
+  connections are materialized-inverse repairs, not rejections — unchanged. Old 1.0.0 files
+  still validate against old schema; new `1.1.0` is a superset enum.
+- **Consumer impact:** additive enum value. Consumers reading `all` should now treat it as
+  active-and-not-rejected; rejected claims are only in `knowledge.rejected.json`. Regenerate
+  exports with `python3 scripts/validate.py`.
+
+---
+
 ## 2026-09-06 — Relation registry + controlled vocabularies in the export (ADR-0032)
 - **Tag:** ADR-0032 · **Kind:** additive (contract minor bump)
 - **Changed:** `exports/knowledge.json` gains optional top-level `relation_registry_version`,

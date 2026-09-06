@@ -19,6 +19,7 @@ Claims here are backed by the verification chain, not by older documents.
 | Review-policy export views + extended graph view (derived inverses/closure) | `export_review_aware.py`, `graph_analysis.py` |
 | Git-history ID + assertion-triple immutability guards (namespace-alias aware) | `check_id_immutability.py` |
 | Review state machine + campaign worksheets for human review | `review.py`, `curation_state.py`, `apply_review_decisions.py`, `dependency_review_campaign.py` |
+| Rejected lifecycle (schema 1.1.0): `review.status=rejected`, reason-required gate, `all` excludes rejected, human-only reopen | `schema/connection.schema.json`, `validate.py`, `graph_policy.py`, `review.py`, `apply_review_decisions.py`, adapter |
 | Ingestion pipeline (PDF/image/OCR → staged proposals; never canonical) | `ingest.py`, `ingest_to_proposals.py`, `curation_pipeline.py` |
 | Extension registry + agent registry (gate-resolved) | `schema/*-registry.yaml` |
 | 3-D explorer reading only the export, trust-annotated, contract-pinned | `explorer/` (`npm run verify`) |

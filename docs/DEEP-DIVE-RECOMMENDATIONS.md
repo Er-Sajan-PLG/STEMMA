@@ -44,8 +44,8 @@ and design specifics:
 
 | # | Item | Build this | Contract effect | Gate/test |
 |---|---|---|---|---|
-| 1 | **Relation registry + vocab in export** | Add optional `relation_registry`, `relation_registry_version`, `vocabularies` to `knowledge.json` | export 2.1.0 (additive); schema unchanged | export schema + adapter fail-closed + introspect API |
-| 2 | **Rejected lifecycle** | Add `rejected` to `assertion.review.status`; keep `assertion.status` for record retirement; reject requires reason (`ERROR`); `all` excludes rejected; reopen command | schema 1.0.0 → 1.1.0; export 2.0.0 → 2.1.0 (list only, no shape change) | validator + `graph_policy` + review tools + adapter |
+| 1 | **Relation registry + vocab in export** | Add optional `relation_registry`, `relation_registry_version`, `vocabularies` to `knowledge.json` | export 2.1.0 (additive); schema unchanged | export schema + adapter fail-closed + introspect API — **done (ADR-0032)** |
+| 2 | **Rejected lifecycle** | Add `rejected` to `assertion.review.status`; keep `assertion.status` for record retirement; reject requires reason (`ERROR`); `all` excludes rejected; reopen command | schema 1.0.0 → 1.1.0; export stays 2.1.0 (list only, no shape change) | validator + `graph_policy` + review tools + adapter — **done (ADR-0031)** |
 | 3 | **Machine-readable validator** | `results[]` with `severity`, plus `errors[]/warnings[]/info[]` + counts; `--json`; fold `integrity_anomalies.py` advisory | report contract only | report tests + `verify_all` step |
 | 4 | **Domain identity** | `schema/id-domain-map.yaml`; hard ERROR on id-prefix/domain/path/vocabulary mismatch; relocate `our-environment` | vocabulary contract; content path fix | validator + repo test |
 | 5 | **Ingest/proposal** | schema-valid `source` candidate; no `relationships`; remove `validate.REL_TYPES`; fail closed without Draft seam; gate before staging | ingest contract only | `test_ingest.py` negative cases |
@@ -255,8 +255,8 @@ v1.0.
 ## 5. Prioritized build roadmap
 
 ### Phase A — contract/validator hardening (highest value, lowest risk)
-1. T1 relation registry + vocabularies in export (export 2.1.0).
-2. Rejected lifecycle (schema 1.1.0, authoring correctness).
+1. T1 relation registry + vocabularies in export (export 2.1.0). ✅ done (ADR-0032)
+2. Rejected lifecycle (schema 1.1.0, authoring correctness). ✅ done (ADR-0031)
 3. Machine-readable validator report + `--json`.
 4. T3 domain identity (`id-domain-map.yaml`, fix `our-environment`).
 5. T4 ingest correctness (fail-closed, schema-valid proposals).

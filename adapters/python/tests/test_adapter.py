@@ -218,7 +218,7 @@ def synthetic_export() -> dict[str, Any]:
     ]
     return {
         "export_version": "2.1.0",
-        "schema_version": "1.0.0",
+        "schema_version": "1.1.0",
         "content_hash": "sha256:" + ("0" * 64),
         "kernel_version": "3.0.0",
         "relation_registry_version": "1.0.0",
@@ -399,6 +399,22 @@ def test_synthetic_export() -> None:
     expect_raises(ExportError, v20_client.relation, "requires")
 
 
+def test_rejected_visibility() -> None:
+    """ADR-0031: default/all views exclude rejected; stats expose it and the
+    rejected set is queryable explicitly (rejected is still an active record)."""
+    export = synthetic_export()
+    target = export["connections"][0]
+    target["assertion"]["review"]["status"] = "rejected"
+    target["lifecycle"] = {"reason": "contradicts primary source", "replaced_by": None}
+    client = Stemma.from_dict(export)
+    assert client.stats["rejected_connection_count"] == 1
+    assert client.stats["active_connection_count"] == 4
+    assert len(client.connections(policy="all")) == 4
+    assert all(c["id"] != target["id"] for c in client.connections())
+    assert client.connections(review="rejected") == [target]
+    print("OK: rejected visibility")
+
+
 def test_relation_introspection() -> None:
     export = synthetic_export()
     client = Stemma.from_dict(export)
@@ -554,6 +570,8 @@ def test_server() -> None:
 def main() -> int:
     test_real_export()
     test_synthetic_export()
+    test_rejected_visibility()
+    test_relation_introspection()
     test_cli_smoke()
     test_server()
     print("OK: adapter tests passed")

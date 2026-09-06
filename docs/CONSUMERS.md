@@ -43,6 +43,10 @@ and nothing in this repository may assume a particular consumer exists
   views exist (`knowledge.canonical.json`, `knowledge.trusted.json`,
   `knowledge.reviewed.json`, `knowledge.proposed.json`); semantics in
   `scripts/graph_policy.py`. A conservative consumer uses `canonical` only.
+- **Rejected (schema 1.1.0 / ADR-0031):** a rejected assertion is still an
+  active record but is excluded from `all`; it surfaces only in
+  `knowledge.rejected.json`. Do not treat `rejected` as the same as
+  `deprecated`/`superseded` (structural retirement).
 - Deprecated/superseded objects remain exported (with successors) — never
   assume absence.
 - `claim_signature` lets you deduplicate claims across views without

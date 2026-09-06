@@ -637,6 +637,34 @@ def check_lifecycle_pointers(conn: dict, connections: dict, errors: list) -> Non
         errors.append(f"{here} lifecycle.replaced_by does not resolve to a connection: {replaced_by!r}")
 
 
+def check_rejected_lifecycle(conn: dict, errors: list) -> None:
+    """ADR-0031: a rejected assertion must never be silent.
+
+    A rejection carries a written reason in either lifecycle.reason or the most
+    recent provenance.review_history[].reason. This is a hard gate (review is
+    human discipline, not a deletion path).
+    """
+    review = (conn.get("assertion") or {}).get("review") or {}
+    if review.get("status") != "rejected":
+        return
+    here = f"{conn.get('_file', '<connection>')}:"
+    lifecycle = conn.get("lifecycle") or {}
+    lifecycle_reason = lifecycle.get("reason")
+    history = (conn.get("provenance") or {}).get("review_history") or []
+    history_reason = None
+    for entry in reversed(history):
+        if isinstance(entry, dict) and entry.get("to") == "rejected":
+            history_reason = entry.get("reason")
+            break
+    if not (lifecycle_reason and str(lifecycle_reason).strip()) and not (
+        history_reason and str(history_reason).strip()
+    ):
+        errors.append(
+            f"{here} assertion.review.status is 'rejected' but no reason was recorded; "
+            "set lifecycle.reason or a review_history[].reason for the rejection (ADR-0031)"
+        )
+
+
 def claim_signature(conn: dict) -> str:
     """Derived identity of the *claim* a connection asserts (plan v2 E4.3; ADR-0026).
 
@@ -915,6 +943,7 @@ def main() -> int:
         check_connection_context(conn, vocab, errors)
         check_assertion_epistemics(conn, errors, warnings)
         check_lifecycle_pointers(conn, connections, errors)
+        check_rejected_lifecycle(conn, errors)
     check_relationship_cycles(connections, registry, errors)
     check_inline_projection(entities, connections, errors)
     claim_signatures = check_duplicate_claims(connections, errors)

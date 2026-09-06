@@ -22,6 +22,6 @@
 #                    special_case_of; contains duplicated has_part; is_a duplicated
 #                    special_case_of for taxonomic use). No adopted relation changed.
 
-schema_version: '1.0.0'
+schema_version: '1.1.0'
 export_version: '2.1.0'
 relation_registry_version: '1.0.0'

@@ -1,6 +1,6 @@
 # STEMMA — Schema Specification
 
-**Status:** Authoritative for `schema_version` 1.0.0 (ADR-0027/0028).
+**Status:** Authoritative for `schema_version` 1.1.0 (ADR-0027/0028/0031).
 **Contracts:** `schema/concept.schema.json`, `schema/connection.schema.json`,
 `schema/source.schema.json`, `schema/export.schema.json` (JSON Schema
 draft 2020-12). This document explains the model; the schemas plus

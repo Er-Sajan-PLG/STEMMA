@@ -147,6 +147,7 @@ decisions are recorded here as the implementation contract for Tier-1 item 1:
   canonical / rejected`). A rejected record remains an active canonical object
   (`assertion.status: active`); `deprecated`/`superseded` stay reserved for
   structural retirement (dedup, merge, replaced), not scientific rejection.
+  **Implemented 2026-09-06 (ADR-0031, schema 1.1.0).**
 - **A rejection must carry a written reason.** The gate raises a hard `ERROR`
   when `assertion.review.status == rejected` but neither `lifecycle.reason`
   nor the most recent `provenance.review_history[]` entry supplies a reason.
