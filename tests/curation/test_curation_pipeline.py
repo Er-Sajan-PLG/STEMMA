@@ -14,6 +14,7 @@ from typing import Any
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[2] / "scripts"))
 
 import curation_pipeline as cp  # noqa: E402
+import validate  # noqa: E402
 
 
 def _pass(gate: str) -> cp.GateResult:
@@ -46,7 +47,6 @@ def test_good_entity_reaches_request_review():
     req = cp.CurationRequest(kind="entity", intent="t", data={
         "id": "stemma:test.p1", "type": "concept", "name": "P", "domain": "test",
         "status": "draft", "definition": "def", "provenance": {"ai_drafted": True},
-        "relationships": [],
     })
     dec = cp.run_pipeline(
         req,
@@ -61,7 +61,7 @@ def test_good_entity_reaches_request_review():
 def test_bad_entity_is_hold_and_never_publishable():
     req = cp.CurationRequest(kind="entity", intent="bad", data={
         "id": "nope", "type": "concept", "name": "Bad", "domain": "test",
-        "status": "draft", "definition": "x", "provenance": {}, "relationships": [],
+        "status": "draft", "definition": "x", "provenance": {},
     })
     dec = cp.run_pipeline(
         req,
@@ -98,8 +98,7 @@ def test_repair_loop_bounded_and_recovers():
             return {"id": "bad", "type": "concept", "name": "", "domain": "test",
                     "status": "draft", "definition": "", "provenance": {}}
         return {"id": "stemma:test.fixed", "type": "concept", "name": "Fixed", "domain": "test",
-                "status": "draft", "definition": "ok", "provenance": {"ai_drafted": True},
-                "relationships": []}
+                "status": "draft", "definition": "ok", "provenance": {"ai_drafted": True}}
 
     req = cp.CurationRequest(kind="entity", intent="t", data={})
     dec = cp.run_pipeline(
@@ -118,7 +117,7 @@ def test_never_emits_canonical_action():
     # run on a valid proposal; action must be request_review, not canonical
     req = cp.CurationRequest(kind="entity", intent="t", data={
         "id": "stemma:t.c", "type": "concept", "name": "C", "domain": "test",
-        "status": "draft", "definition": "d", "provenance": {"ai_drafted": True}, "relationships": []})
+        "status": "draft", "definition": "d", "provenance": {"ai_drafted": True}})
     dec = cp.run_pipeline(
         req,
         draft_callback=lambda bp, data, **kw: data,
@@ -134,6 +133,18 @@ def test_blueprint_carries_source_ref():
     assert bp.source_ref == "stemma:src.x"
 
 
+def test_entity_relationships_field_is_rejected():
+    """ADR-0028/0035: entities carry no relationships, and the old relation gate
+    no longer references a nonexistent validate.REL_TYPES."""
+    assert not hasattr(validate, "REL_TYPES"), "dead validate.REL_TYPES must be gone"
+    ok, findings = cp._check_relations({"id": "stemma:x.y", "relationships": []})
+    assert not ok
+    assert any("entities carry no relationships" in f for f in findings)
+    ok, findings = cp._check_relations({"id": "stemma:x.y"})
+    assert ok, findings
+    print("PASS: entity relationships / dead REL_TYPES rejected")
+
+
 if __name__ == "__main__":
     fns = [
         test_route_repair_maps_gates_to_stages,
@@ -144,6 +155,7 @@ if __name__ == "__main__":
         test_repair_loop_bounded_and_recovers,
         test_never_emits_canonical_action,
         test_blueprint_carries_source_ref,
+        test_entity_relationships_field_is_rejected,
     ]
     for fn in fns:
         fn()

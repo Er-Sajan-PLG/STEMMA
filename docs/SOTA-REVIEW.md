@@ -250,7 +250,8 @@ names); `docs/MIGRATIONS.md`; `tests/registry/test_domain_identity.py`; ADR-0034
 
 ### Decided: T4 — Ingest/proposal correctness (2026-09-06)
 
-Decisions recorded during the review refinement phase (not yet implemented):
+Decisions recorded during the review refinement phase and **implemented on
+2026-09-06 (ADR-0035)**:
 
 1. **Fail closed when no real Draft seam is wired.** `ingest_to_proposals.py`
    refuses to stage a non-schema-valid placeholder; it errors and tells the
@@ -266,12 +267,14 @@ Decisions recorded during the review refinement phase (not yet implemented):
    dead `validate.REL_TYPES` reference is removed/replaced by registry-aware
    checks (entities carry no relationships per ADR-0028).
 
-**Consequences to implement:** `scripts/ingest.py` (source candidate shape +
-sidecar), `scripts/ingest_to_proposals.py` (fail-closed + gate-before-stage),
-`scripts/curation_pipeline.py` (remove `REL_TYPES`/`_check_relations`),
-`docs/INGESTION.md` (remove `relationships: []` example), `tests/curation/test_ingest.py`
-and `tests/curation/test_curation_pipeline.py` (negative tests that the path
-never writes canonical and rejects invalid proposals), ADR-0035 (ingest/proposal contract).
+**Consequences implemented:** `scripts/ingest.py` (schema-valid source candidate +
+`build_extraction_sidecar` + lazy PIL import), `scripts/ingest_to_proposals.py`
+(fail-closed `DraftSeamError` + gate-before-stage `ProposalGateError`),
+`scripts/curation_pipeline.py` (removed `validate.REL_TYPES`; entity-side
+`relationships` rejected), `docs/INGESTION.md` (removed `relationships: []`
+example; `--draft` documented required), `tests/curation/test_ingest.py`,
+`test_ingest_to_proposals.py`, `test_curation_pipeline.py` (now in the chain),
+ADR-0035 (ingest/proposal contract).
 
 ### Open threads
 

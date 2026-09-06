@@ -31,8 +31,6 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from PIL import Image  # type: ignore
-
 # Image formats we can OCR directly.
 _IMAGE_EXTS = {".png", ".jpg", ".jpeg", ".tif", ".tiff", ".bmp", ".webp"}
 
@@ -150,9 +148,13 @@ def extract_pdf(path: Path, *, ocr_max_pages: int = _MAX_OCR_PAGES) -> Extractio
 # Image extraction
 # --------------------------------------------------------------------------- #
 
-def _tesseract_image(img: Path | Image.Image) -> str:
+def _tesseract_image(img: Any) -> str:
     if not _have("tesseract"):
         raise IngestionError("tesseract not installed (required for image OCR)")
+    try:
+        from PIL import Image  # type: ignore
+    except ImportError as exc:  # pragma: no cover
+        raise IngestionError("Pillow not installed (required for image OCR)") from exc
     if isinstance(img, Image.Image):
         with tempfile.NamedTemporaryFile(suffix=".png", delete=True) as tf:
             img.save(tf.name)
@@ -173,6 +175,10 @@ def _tesseract_path(path: Path) -> str:
 
 def extract_image(path: Path) -> Extraction:
     _check_tools(need_ocr=True)
+    try:
+        from PIL import Image  # type: ignore
+    except ImportError as exc:  # pragma: no cover
+        raise IngestionError("Pillow not installed (required for image OCR)") from exc
     try:
         with Image.open(path) as img:
             # Normalize to improve OCR: grayscale + modest upscale for tiny images.
@@ -202,39 +208,50 @@ def extract(path: Path, *, ocr_max_pages: int = _MAX_OCR_PAGES) -> Extraction:
 
 
 def build_source_candidate(ext: Extraction, *, source_id: str | None = None) -> dict[str, Any]:
-    """Build a canonical Source candidate from an Extraction.
+    """Build a schema-conforming canonical Source candidate from an Extraction.
 
-    This is a SOURCE object (cite/location metadata) — never entity content. The
-    extracted text itself is NOT stuffed into canonical fields; it is carried in the
-    CurationRequest so the Draft stage (LLM seam) proposes entities/connections.
+    ADR-0035: the source object is a cite/location record (`id`, `type`,
+    `citation`, optional `title`) — it conforms to `source.schema.json` and does
+    NOT carry extraction-only fields. Those live in the CurationRequest sidecar,
+    so a human Governance Gate sees a canonical-shaped source and the extraction
+    metadata stays separate.
     """
     _id = source_id or "stemma:src.ingest-%08x" % (abs(hash((ext.source_name, ext.pages))) & 0xFFFFFFF)
     return {
         "id": _id,
-        "type": "source",
+        "type": "other",
+        "citation": f"Ingested document: {ext.source_name}",
         "title": ext.source_name,
-        "kind": "ingested-document",
+    }
+
+
+def build_extraction_sidecar(ext: Extraction) -> dict[str, Any]:
+    """Extraction metadata for the CurationRequest sidecar (ADR-0035).
+
+    These are not canonical-source fields; they describe how the text was
+    obtained so a reviewer can audit OCR/format/pages without the source record
+    carrying extraction-only data.
+    """
+    return {
+        "kind": ext.kind,
         "format": ext.kind,
         "pages": ext.pages,
+        "is_scanned": ext.is_scanned,
         "ocr_used": ext.ocr_used,
-        "extracted_text_preview": ext.text[:2000],
-        "provenance": {
-            "ai_drafted": False,
-            "source_kind": "other",
-            "reviewer": None,
-            "reviewed_at": None,
-        },
+        "preview": ext.text[:2000],
+        "source_name": ext.source_name,
     }
 
 
 def make_ingest_request(ext: Extraction) -> dict[str, Any]:
-    """Build the payload (a CurationRequest 'source' + the extracted text) a runner
+    """Build the payload (a CurationRequest 'source' + extraction sidecar) a runner
     feeds to the curation pipeline's Draft stage for entity/connection generation."""
     source = build_source_candidate(ext)
     return {
         "kind": "source",
         "intent": f"ingest document '{ext.source_name}' and propose canonical entities/connections from its content",
-        "data": {**source, "_extracted_text": ext.text},
+        "data": source,
+        "extraction": build_extraction_sidecar(ext),
         "extracted_text": ext.text,
     }
 
@@ -244,10 +261,12 @@ def to_curation_request(ext: Extraction, *, kind: str = "entity",
     """Return a scripts/curation_pipeline.CurationRequest from an extraction.
 
     This is the typed hand-off: extract() → CurationRequest → run_pipeline(). The
-    extracted text rides on request.data['_extracted_text'] and the ingested Source
-    id on request.source_ref, so the Draft seam (an LLM) proposes canonical
-    entities/connections anchored to that source. The Human Governance Gate still
-    approves anything that enters canonical; ingestion itself never writes.
+    extracted text rides on request.data['_extracted_text'] (draft input only) and
+    the extraction metadata rides on request.extraction (ADR-0035 sidecar). The
+    ingested Source id is on request.source_ref, so the Draft seam (an LLM)
+    proposes canonical entities/connections anchored to that source. The Human
+    Governance Gate still approves anything that enters canonical; ingestion
+    itself never writes.
 
     ``kind`` is the *target* object kind the Draft should produce (default 'entity';
     use 'connection' when extracting couplet relationships). The Source candidate
@@ -262,6 +281,7 @@ def to_curation_request(ext: Extraction, *, kind: str = "entity",
         intent=f"ingest document '{ext.source_name}' and propose canonical {kind}s from its content",
         data={**_empty_object(kind), "_extracted_text": ext.text},
         source_ref=source_anchor or source["id"],
+        extraction=build_extraction_sidecar(ext),
     )
 
 

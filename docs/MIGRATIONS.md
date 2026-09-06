@@ -51,6 +51,24 @@ Template:
 
 ---
 
+## 2026-09-06 — Ingest/proposal correctness: schema-valid source + fail-closed Draft seam (ADR-0035)
+- **Tag:** ADR-0035 · **Kind:** tooling/pipeline correctness (no canonical data change)
+- **Changed:** `scripts/ingest.py` builds a `source.schema.json`-conforming Source
+  candidate (`id`/`type: other`/`citation`/`title`) and pushes extraction metadata into a
+  `CurationRequest.extraction` sidecar (no extraction-only fields on canonical source);
+  `scripts/ingest_to_proposals.py` now **requires** `--draft module:function` (fails closed
+  without a real seam) and refuses to stage a dossier whose deterministic curation gates
+  failed; `scripts/curation_pipeline.py` removes the dead `validate.REL_TYPES` reference and
+  rejects any `relationships` field on an entity draft (ADR-0020/0028). `ingest.py` lazily
+  imports Pillow so text-PDF extraction does not require an image dependency at import time.
+- **Old data:** no canonical files changed. Old placeholder proposals are invalid and should
+  not be staged; the CLI now refuses them.
+- **Consumer impact:** ingest/proposal runners must supply a real Draft seam. Source
+  candidates previously carried extraction-only fields; consumers should read them from the
+  `extraction` sidecar. Regenerate nothing; this is a tooling path.
+
+---
+
 ## 2026-09-06 — Machine-readable validation report + `--json` (ADR-0033)
 - **Tag:** ADR-0033 · **Kind:** tooling/report contract (no canonical data change)
 - **Changed:** `reports/validation-report.json` now has `results[]` with

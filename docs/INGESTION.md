@@ -64,14 +64,11 @@ checked at runtime; a clear error is raised if unavailable.
 ## Usage
 
 ```bash
-# Stage a review-ready proposal from any document (no LLM wired -> placeholder artifact):
-python3 scripts/ingest_to_proposals.py --path doc.pdf --out proposals/
-
-# Same, JSON to stdout:
-python3 scripts/ingest_to_proposals.py --path scan.pdf --json
-
-# With an LLM Draft seam (module:function) that proposes entities/connections:
+# With an LLM Draft seam (module:function) that proposes entities/connections.
+# REQUIRED (ADR-0035): without --draft the runner fails closed — it never stages
+# a schema-invalid placeholder.
 python3 scripts/ingest_to_proposals.py --path img.png --draft mymodule:my_draft_fn
+python3 scripts/ingest_to_proposals.py --path scan.pdf --draft mymodule:my_draft_fn --json
 
 # Library use:
 python3 - <<'PY'
@@ -83,7 +80,7 @@ req = ingest.to_curation_request(ex, kind="entity")
 def draft(bp, data, **kw):   # your LLM seam
     return {"id":"stemma:phys.draft-x","type":"concept","name":"X","domain":"physics",
             "status":"draft","definition":data["_extracted_text"][:200],
-            "provenance":{"ai_drafted":True,"source":bp.source_ref},"relationships":[]}
+            "provenance":{"ai_drafted":True,"source":bp.source_ref}}
 dec = cp.run_pipeline(req, draft_callback=draft,
                       semantic_review_callback=lambda g,a,b: cp.GateResult(g,"pass",[]))
 print(dec.action)   # request_review — human must `review.py canonicalize` it

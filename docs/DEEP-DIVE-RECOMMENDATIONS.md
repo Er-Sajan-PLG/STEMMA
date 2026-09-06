@@ -48,7 +48,7 @@ and design specifics:
 | 2 | **Rejected lifecycle** | Add `rejected` to `assertion.review.status`; keep `assertion.status` for record retirement; reject requires reason (`ERROR`); `all` excludes rejected; reopen command | schema 1.0.0 → 1.1.0; export stays 2.1.0 (list only, no shape change) | validator + `graph_policy` + review tools + adapter — **done (ADR-0031)** |
 | 3 | **Machine-readable validator** | `results[]` with `severity`, plus `errors[]/warnings[]/info[]` + counts; `--json`; fold `integrity_anomalies.py` advisory | report contract only | report tests + `verify_all` step — **done (ADR-0033)** |
 | 4 | **Domain identity** | `schema/id-domain-map.yaml`; hard ERROR on id-prefix/domain/path/vocabulary mismatch; relocate `our-environment` | vocabulary contract; content path fix | validator + repo test — **done (ADR-0034)** |
-| 5 | **Ingest/proposal** | schema-valid `source` candidate; no `relationships`; remove `validate.REL_TYPES`; fail closed without Draft seam; gate before staging | ingest contract only | `test_ingest.py` negative cases |
+| 5 | **Ingest/proposal** | schema-valid `source` candidate; no `relationships`; remove `validate.REL_TYPES`; fail closed without Draft seam; gate before staging | ingest contract only | `test_ingest.py` negative cases — **done (ADR-0035)** |
 
 **Recommended sequencing:** 1 → 2 → 3 → 4 → 5 (approved order). Do **1** first
 because it is pure additive export value and makes the adapter boundary real;
@@ -259,7 +259,7 @@ v1.0.
 2. Rejected lifecycle (schema 1.1.0, authoring correctness). ✅ done (ADR-0031)
 3. Machine-readable validator report + `--json`. ✅ done (ADR-0033)
 4. T3 domain identity (`id-domain-map.yaml`, fix `our-environment`). ✅ done (ADR-0034)
-5. T4 ingest correctness (fail-closed, schema-valid proposals).
+5. T4 ingest correctness (fail-closed, schema-valid proposals). ✅ done (ADR-0035)
 
 ### Phase B — trust and review activation (the product)
 6. R2 evidence gate + source backfill report.
