@@ -1,9 +1,0 @@
-id: lhs:src.ingest-b73b1c0b
-type: source
-title: Test Document
-kind: ingested-document
-format: pdf
-source_type: other
-license: CC BY 4.0
-lifecycle: active
-accessed_at: '2026-09-06T23:04:50.152766+00:00'

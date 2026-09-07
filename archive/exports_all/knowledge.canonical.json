@@ -1,0 +1,3854 @@
+{
+  "export_version": "0.2",
+  "schema_version": "0.3",
+  "policy": "canonical",
+  "count": 50,
+  "connections": [
+    {
+      "id": "lhs:conn.000001",
+      "type": "connection",
+      "source": "lhs:bio.animal-cell",
+      "relation": "special_case_of",
+      "target": "lhs:bio.cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "cell-biology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "other",
+          "description": "axiomatic structural/dependency definition — accepted as fundamental",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.biology-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.biology-001",
+            "at": "2026-08-30T18:21:03.589068+00:00",
+            "reason": "structural hierarchy animal-cell is species of cell"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.biology-001",
+            "at": "2026-08-30T18:21:03.589083+00:00",
+            "reason": "structural hierarchy animal-cell is species of cell"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000005",
+      "type": "connection",
+      "source": "lhs:bio.cellular-respiration",
+      "relation": "logically_requires",
+      "target": "lhs:bio.cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "cell-biology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "other",
+          "description": "axiomatic structural/dependency definition — accepted as fundamental",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.biology-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.biology-001",
+            "at": "2026-08-30T18:21:03.664802+00:00",
+            "reason": "dependency cellular-respiration requires cell"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.biology-001",
+            "at": "2026-08-30T18:21:03.664816+00:00",
+            "reason": "dependency cellular-respiration requires cell"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000012",
+      "type": "connection",
+      "source": "lhs:bio.nucleus",
+      "relation": "part_of",
+      "target": "lhs:bio.cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "cell-biology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "other",
+          "description": "axiomatic structural/dependency definition — accepted as fundamental",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.biology-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.biology-001",
+            "at": "2026-08-30T18:21:03.608214+00:00",
+            "reason": "structural part_of nucleus in cell"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.biology-001",
+            "at": "2026-08-30T18:21:03.608229+00:00",
+            "reason": "structural part_of nucleus in cell"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000014",
+      "type": "connection",
+      "source": "lhs:bio.osmosis",
+      "relation": "logically_requires",
+      "target": "lhs:chem.diffusion",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "cell-biology",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "other",
+          "description": "axiomatic structural/dependency definition — accepted as fundamental",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.chemistry-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.chemistry-001",
+            "at": "2026-08-30T18:21:03.723171+00:00",
+            "reason": "dependency osmosis requires diffusion"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.chemistry-001",
+            "at": "2026-08-30T18:21:03.723181+00:00",
+            "reason": "dependency osmosis requires diffusion"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000025",
+      "type": "connection",
+      "source": "lhs:bio.dna",
+      "relation": "part_of",
+      "target": "lhs:bio.cell",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "biology",
+        "subdomain": "genetics-heredity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "other",
+          "description": "axiomatic structural/dependency definition — accepted as fundamental",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.biology-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.biology-001",
+            "at": "2026-08-30T18:21:03.627320+00:00",
+            "reason": "structural part_of dna in cell"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.biology-001",
+            "at": "2026-08-30T18:21:03.627332+00:00",
+            "reason": "structural part_of dna in cell"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000048",
+      "type": "connection",
+      "source": "lhs:chem.atom",
+      "relation": "logically_requires",
+      "target": "lhs:chem.matter",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "atomic-structure-periodicity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.atkins-physical-chemistry",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for logically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.chemistry-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.chemistry-001",
+            "at": "2026-08-30T18:28:02.861705+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.chemistry-001",
+            "at": "2026-08-30T18:28:02.861710+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000049",
+      "type": "connection",
+      "source": "lhs:chem.atom",
+      "relation": "logically_requires",
+      "target": "lhs:phys.electric-charge",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "atomic-structure-periodicity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.atkins-physical-chemistry",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for logically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.chemistry-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.chemistry-001",
+            "at": "2026-08-30T18:28:02.853219+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.chemistry-001",
+            "at": "2026-08-30T18:28:02.853230+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000053",
+      "type": "connection",
+      "source": "lhs:chem.element",
+      "relation": "logically_requires",
+      "target": "lhs:chem.atom",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "atomic-structure-periodicity",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.atkins-physical-chemistry",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for logically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.chemistry-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.chemistry-001",
+            "at": "2026-08-30T18:28:02.886790+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.chemistry-001",
+            "at": "2026-08-30T18:28:02.886795+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000060",
+      "type": "connection",
+      "source": "lhs:chem.compound",
+      "relation": "logically_requires",
+      "target": "lhs:chem.atom",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "bonding-structure",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.atkins-physical-chemistry",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for logically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.chemistry-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.chemistry-001",
+            "at": "2026-08-30T18:28:02.874234+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.chemistry-001",
+            "at": "2026-08-30T18:28:02.874244+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000069",
+      "type": "connection",
+      "source": "lhs:chem.matter",
+      "relation": "logically_requires",
+      "target": "lhs:phys.mass",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "matter-foundations",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.atkins-physical-chemistry",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for logically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.chemistry-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.chemistry-001",
+            "at": "2026-08-30T18:28:02.818585+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.chemistry-001",
+            "at": "2026-08-30T18:28:02.818591+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000130",
+      "type": "connection",
+      "source": "lhs:phys.current",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.electric-charge",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "electricity-magnetism",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.859677+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.859682+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000131",
+      "type": "connection",
+      "source": "lhs:phys.current",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.time",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "electricity-magnetism",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.872134+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.872139+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000165",
+      "type": "connection",
+      "source": "lhs:phys.voltage",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.electric-charge",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "electricity-magnetism",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.867904+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.867908+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000173",
+      "type": "connection",
+      "source": "lhs:phys.measurement",
+      "relation": "logically_requires",
+      "target": "lhs:phys.unit",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "measurement-units",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "other",
+          "description": "axiomatic structural/dependency definition — accepted as fundamental",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:21:03.685126+00:00",
+            "reason": "dependency measurement requires unit"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:21:03.685137+00:00",
+            "reason": "dependency measurement requires unit"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000177",
+      "type": "connection",
+      "source": "lhs:phys.time",
+      "relation": "logically_requires",
+      "target": "lhs:phys.measurement",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "measurement-units",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for logically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.846755+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.846760+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000180",
+      "type": "connection",
+      "source": "lhs:phys.unit",
+      "relation": "logically_requires",
+      "target": "lhs:phys.physical-quantity",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "measurement-units",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for logically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.831912+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.831918+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000183",
+      "type": "connection",
+      "source": "lhs:phys.acceleration",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.time",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.878337+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.878342+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000184",
+      "type": "connection",
+      "source": "lhs:phys.acceleration",
+      "relation": "appears_in_law",
+      "target": "lhs:phys.newtons-second-law",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "derivation relation evidence for appears_in_law",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.888836+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.888841+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000193",
+      "type": "connection",
+      "source": "lhs:phys.density",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.mass",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.822952+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.822958+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000196",
+      "type": "connection",
+      "source": "lhs:phys.displacement",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.distance",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.870057+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.870064+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000198",
+      "type": "connection",
+      "source": "lhs:phys.distance",
+      "relation": "logically_requires",
+      "target": "lhs:phys.unit",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for logically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.842706+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.842712+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000220",
+      "type": "connection",
+      "source": "lhs:phys.force",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.mass",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.816257+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.816271+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000221",
+      "type": "connection",
+      "source": "lhs:phys.force",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.acceleration",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.848960+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.848964+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000222",
+      "type": "connection",
+      "source": "lhs:phys.force",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.vector",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.850961+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.850965+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000224",
+      "type": "connection",
+      "source": "lhs:phys.force",
+      "relation": "appears_in_law",
+      "target": "lhs:phys.newtons-second-law",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "derivation relation evidence for appears_in_law",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.855397+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.855403+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000231",
+      "type": "connection",
+      "source": "lhs:phys.friction",
+      "relation": "logically_requires",
+      "target": "lhs:phys.force",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for logically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.884578+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.884582+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000240",
+      "type": "connection",
+      "source": "lhs:phys.impulse",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.force",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.882575+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.882580+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000244",
+      "type": "connection",
+      "source": "lhs:phys.inertia",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.mass",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.824999+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.825004+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000246",
+      "type": "connection",
+      "source": "lhs:phys.kinetic-energy",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.mass",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.835958+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.835965+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000250",
+      "type": "connection",
+      "source": "lhs:phys.mass",
+      "relation": "appears_in_law",
+      "target": "lhs:phys.newtons-second-law",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "derivation relation evidence for appears_in_law",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.827319+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.827327+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000256",
+      "type": "connection",
+      "source": "lhs:phys.momentum",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.mass",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.838410+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.838419+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000268",
+      "type": "connection",
+      "source": "lhs:phys.newtons-law-of-gravitation",
+      "relation": "applies_to",
+      "target": "lhs:phys.mass",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "derivation relation evidence for applies_to",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.876328+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.876332+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000272",
+      "type": "connection",
+      "source": "lhs:phys.newtons-second-law",
+      "relation": "applies_to",
+      "target": "lhs:phys.force",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "derivation relation evidence for applies_to",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.857450+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.857454+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000273",
+      "type": "connection",
+      "source": "lhs:phys.newtons-second-law",
+      "relation": "applies_to",
+      "target": "lhs:phys.mass",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "derivation relation evidence for applies_to",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.829639+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.829646+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000279",
+      "type": "connection",
+      "source": "lhs:phys.potential-energy",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.mass",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.840507+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.840512+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000287",
+      "type": "connection",
+      "source": "lhs:phys.pressure",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.force",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.865881+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.865886+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000311",
+      "type": "connection",
+      "source": "lhs:phys.weight",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.mass",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.820719+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.820725+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000318",
+      "type": "connection",
+      "source": "lhs:phys.work",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.force",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.863865+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.863871+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000325",
+      "type": "connection",
+      "source": "lhs:phys.heat",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.mass",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "thermal-physics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.833921+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.833925+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000335",
+      "type": "connection",
+      "source": "lhs:phys.specific-heat",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.mass",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "thermal-physics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.844736+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.844741+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000342",
+      "type": "connection",
+      "source": "lhs:phys.frequency",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.time",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "waves-optics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. review",
+          "description": "dependency relation evidence for mathematically_requires",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.880522+00:00",
+            "reason": "E3-E5 batch review"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:28:02.880528+00:00",
+            "reason": "E15 gate passed"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000364",
+      "type": "connection",
+      "source": "lhs:phys.sound",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.wave",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "waves-optics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "other",
+          "description": "axiomatic structural/dependency definition — accepted as fundamental",
+          "locator_struct": null,
+          "stance": "supports"
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "unknown",
+          "id": "unknown:legacy-relationship"
+        },
+        "generated_by": {
+          "type": "process",
+          "id": "process:migration.relationships-v0.2"
+        },
+        "method": {
+          "type": "migration"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:21:03.704022+00:00",
+            "reason": "dependency sound mathematically requires wave"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:21:03.704036+00:00",
+            "reason": "dependency sound mathematically requires wave"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000377",
+      "type": "connection",
+      "source": "lhs:phys.newtons-second-law",
+      "relation": "mathematically_requires",
+      "target": "lhs:phys.force",
+      "assertion": {
+        "status": "active",
+        "type": "asserted",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": 0.99,
+        "confidence_basis": "expert_review",
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical",
+          "nonrelativistic"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [
+          "weak_gravity",
+          "low_velocity"
+        ],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "derivation",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Chapter 5, Eq. 5.1",
+          "description": "F=ma derived from N2L at constant mass",
+          "stance": "supports",
+          "locator_struct": null
+        },
+        {
+          "type": "experiment",
+          "source_ref": "lhs:src.cavendish-1798",
+          "locator": "Fig. 3",
+          "description": "Empirical verification of force proportionality",
+          "stance": "supports",
+          "locator_struct": null
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "human",
+          "id": "human:reviewer.physics-001"
+        },
+        "generated_by": {
+          "type": "human",
+          "id": "human:reviewer.physics-001"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "method": {
+          "type": "manual"
+        },
+        "review_history": [
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:21:03.630008+00:00",
+            "reason": "dependency N2L mathematically requires force — reviewed example"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000378",
+      "type": "connection",
+      "source": "lhs:chem.diffusion",
+      "relation": "bridges",
+      "target": "lhs:bio.osmosis",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "chemistry",
+        "subdomain": "matter-foundations",
+        "regime": [
+          "classical"
+        ],
+        "scale": "microscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.atkins-physical-chemistry",
+          "locator": "Ch. 20, diffusion & osmosis",
+          "description": "Osmosis as diffusion through semipermeable membrane",
+          "stance": "supports",
+          "locator_struct": null
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "human",
+          "id": "human:reviewer.physics-001"
+        },
+        "generated_by": {
+          "type": "human",
+          "id": "human:curator.001"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "method": {
+          "type": "manual"
+        },
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:21:03.632277+00:00",
+            "reason": "bridge chemistry-biology diffusion→osmosis"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:21:03.632283+00:00",
+            "reason": "bridge chemistry-biology diffusion→osmosis"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000379",
+      "type": "connection",
+      "source": "lhs:phys.energy",
+      "relation": "bridges",
+      "target": "lhs:chem.chemical-reaction",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. 8, energy & work",
+          "description": "Chemical reactions conserve/produce energy",
+          "stance": "supports",
+          "locator_struct": null
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "human",
+          "id": "human:reviewer.physics-001"
+        },
+        "generated_by": {
+          "type": "human",
+          "id": "human:curator.001"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "method": {
+          "type": "manual"
+        },
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:21:03.634541+00:00",
+            "reason": "bridge physics-chemistry energy→reaction"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:21:03.634546+00:00",
+            "reason": "bridge physics-chemistry energy→reaction"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000380",
+      "type": "connection",
+      "source": "lhs:phys.light",
+      "relation": "bridges",
+      "target": "lhs:bio.photosynthesis",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "waves-optics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. 33, EM waves",
+          "description": "Photosynthesis requires light energy",
+          "stance": "supports",
+          "locator_struct": null
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "human",
+          "id": "human:reviewer.physics-001"
+        },
+        "generated_by": {
+          "type": "human",
+          "id": "human:curator.001"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "method": {
+          "type": "manual"
+        },
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:21:03.636762+00:00",
+            "reason": "bridge physics-biology light→photosynthesis"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:21:03.636767+00:00",
+            "reason": "bridge physics-biology light→photosynthesis"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000381",
+      "type": "connection",
+      "source": "lhs:phys.gravitation",
+      "relation": "bridges",
+      "target": "lhs:earth.atmosphere",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. 13, gravitation",
+          "description": "Atmosphere retained by gravitational field",
+          "stance": "supports",
+          "locator_struct": null
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "human",
+          "id": "human:reviewer.physics-001"
+        },
+        "generated_by": {
+          "type": "human",
+          "id": "human:curator.001"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "method": {
+          "type": "manual"
+        },
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:21:03.638957+00:00",
+            "reason": "bridge gravitation→atmosphere"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:21:03.638963+00:00",
+            "reason": "bridge gravitation→atmosphere"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000384",
+      "type": "connection",
+      "source": "lhs:phys.current",
+      "relation": "analogous_to",
+      "target": "lhs:chem.diffusion",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "electricity-magnetism",
+        "regime": [
+          "classical"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. 26, current",
+          "description": "Charge flow analogous to particle flow; mapping: voltage:pressure, current:flow_rate",
+          "stance": "supports",
+          "locator_struct": null
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "human",
+          "id": "human:reviewer.physics-001"
+        },
+        "generated_by": {
+          "type": "human",
+          "id": "human:curator.001"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "method": {
+          "type": "manual"
+        },
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:21:03.641209+00:00",
+            "reason": "analogy current→diffusion"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:21:03.641214+00:00",
+            "reason": "analogy current→diffusion"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000387",
+      "type": "connection",
+      "source": "lhs:phys.ideal-gas-model",
+      "relation": "approximates",
+      "target": "lhs:earth.atmosphere",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "thermal-physics",
+        "regime": [
+          "classical",
+          "moderate_pressure"
+        ],
+        "scale": "macroscopic",
+        "assumptions": [
+          "low_velocity",
+          "weak_gravity"
+        ],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.atkins-physical-chemistry",
+          "locator": "Ch. 1, ideal gas, validity: moderate pressure/high T",
+          "description": "Atmosphere approximated as ideal gas at moderate pressure",
+          "stance": "supports",
+          "locator_struct": null
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "human",
+          "id": "human:reviewer.physics-001"
+        },
+        "generated_by": {
+          "type": "human",
+          "id": "human:curator.001"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "method": {
+          "type": "manual"
+        },
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:21:03.643478+00:00",
+            "reason": "model ideal-gas approximates atmosphere with regime"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:21:03.643483+00:00",
+            "reason": "model ideal-gas approximates atmosphere with regime"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    },
+    {
+      "id": "lhs:conn.000388",
+      "type": "connection",
+      "source": "lhs:phys.bohr-model",
+      "relation": "approximates",
+      "target": "lhs:phys.atomic-structure",
+      "assertion": {
+        "status": "active",
+        "type": "proposed",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": null,
+        "confidence_basis": null,
+        "polarity": "positive"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "atomic-nuclear",
+        "regime": [
+          "quantum",
+          "nonrelativistic"
+        ],
+        "scale": "atomic",
+        "assumptions": [],
+        "qualifiers": []
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "source_ref": "lhs:src.halliday-resnick",
+          "locator": "Ch. 39, Bohr model",
+          "description": "Bohr model approximates hydrogen-like atoms; limited to nonrelativistic",
+          "stance": "supports",
+          "locator_struct": null
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "human",
+          "id": "human:reviewer.physics-001"
+        },
+        "generated_by": {
+          "type": "human",
+          "id": "human:curator.001"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:reviewer.physics-001"
+          }
+        ],
+        "method": {
+          "type": "manual"
+        },
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:21:03.645818+00:00",
+            "reason": "model bohr approximates atomic-structure"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:reviewer.physics-001",
+            "at": "2026-08-30T18:21:03.645823+00:00",
+            "reason": "model bohr approximates atomic-structure"
+          }
+        ]
+      },
+      "created_at": null,
+      "updated_at": null,
+      "validity": null,
+      "lifecycle": null,
+      "rights": null
+    }
+  ]
+}

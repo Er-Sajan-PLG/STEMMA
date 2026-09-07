@@ -580,14 +580,16 @@ async def canonicalize_proposal(
     artifact_id = artifact.get("id", "")
     
     if not artifact_id or "<" in artifact_id or ">" in artifact_id:
-        raise HTTPException(400, f"Invalid placeholder stable ID '{artifact_id}'. Please edit artifact ID to valid format (e.g. lhs:phys.newtons-second-law or lhs:conn.000001) before canonicalizing.")
+        raise HTTPException(400, f"Invalid placeholder stable ID '{artifact_id}'. Please edit artifact ID to valid format (e.g. stemma:phys.newtons-second-law or conn.000001) before canonicalizing.")
 
     # Canonicalize artifact into content/ or sources/ or connections/
     if artifact_id.startswith("lhs:src."):
         source_file = ROOT / "sources" / f"{artifact_id}.yaml"
         source_file.write_text(yaml.safe_dump(artifact, sort_keys=False, allow_unicode=True))
-    elif artifact_id.startswith("lhs:conn."):
-        conn_file = ROOT / "connections" / f"{artifact_id}.yaml"
+    elif artifact_id.startswith("conn.") or artifact_id.startswith("lhs:conn."):
+        # Support both new format (conn.000001) and legacy (lhs:conn.*)
+        conn_filename = artifact_id.replace("lhs:conn.", "conn.")
+        conn_file = ROOT / "connections" / f"{conn_filename}.yaml"
         conn_file.write_text(yaml.safe_dump(artifact, sort_keys=False, allow_unicode=True))
     else:
         # Entity markdown
@@ -666,4 +668,4 @@ async def delete_file(file_id: str):
     return {"status": "deleted", "file_id": file_id}
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8002)

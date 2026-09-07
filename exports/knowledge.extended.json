@@ -1,4502 +1,1088 @@
 {
-  "export_version": "0.1",
-  "schema_version": "0.1",
-  "generated_at": "2026-09-02T16:45:31.245932+00:00",
+  "export_version": "2.1.0",
+  "schema_version": "1.1.0",
+  "content_hash": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "kernel_version": "3.0.0",
+  "relation_registry_version": "1.0.0",
+  "relation_registry": {
+    "part_of": {
+      "family": "structural",
+      "inverse": "has_part",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "phenomenon",
+        "model",
+        "quantity"
+      ],
+      "range": [
+        "concept",
+        "phenomenon",
+        "model",
+        "quantity"
+      ],
+      "status": "adopted"
+    },
+    "has_part": {
+      "family": "structural",
+      "inverse": "part_of",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "phenomenon",
+        "model",
+        "quantity"
+      ],
+      "range": [
+        "concept",
+        "phenomenon",
+        "model",
+        "quantity"
+      ],
+      "status": "reserved"
+    },
+    "composed_of": {
+      "family": "structural",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "model",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "generalizes": {
+      "family": "hierarchical",
+      "inverse": "special_case_of",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "law",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "law",
+        "model"
+      ],
+      "status": "adopted"
+    },
+    "special_case_of": {
+      "family": "hierarchical",
+      "inverse": "generalizes",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "law",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "law",
+        "model"
+      ],
+      "status": "adopted"
+    },
+    "requires": {
+      "family": "dependency",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "prerequisite_of": {
+      "family": "dependency",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "mathematically_requires": {
+      "family": "dependency",
+      "inverse": "mathematically_required_by",
+      "transitive": true,
+      "domain": [
+        "law",
+        "equation",
+        "model",
+        "quantity",
+        "concept",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "equation",
+        "phenomenon",
+        "unit",
+        "law"
+      ],
+      "status": "adopted"
+    },
+    "mathematically_required_by": {
+      "family": "dependency",
+      "inverse": "mathematically_requires",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "equation",
+        "phenomenon",
+        "unit",
+        "law"
+      ],
+      "range": [
+        "law",
+        "equation",
+        "model",
+        "quantity",
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "logically_requires": {
+      "family": "dependency",
+      "inverse": "logically_required_by",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon",
+        "unit"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon",
+        "unit"
+      ],
+      "status": "adopted"
+    },
+    "logically_required_by": {
+      "family": "dependency",
+      "inverse": "logically_requires",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon",
+        "unit"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon",
+        "unit"
+      ],
+      "status": "reserved"
+    },
+    "depends_on": {
+      "family": "dependency",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "causes": {
+      "family": "causal",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "model",
+        "law",
+        "concept"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "contributes_to": {
+      "family": "causal",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "model",
+        "law",
+        "concept"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "results_in": {
+      "family": "causal",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "concept",
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "influences": {
+      "family": "causal",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "concept",
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "concept",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "prevents": {
+      "family": "causal",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "concept",
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "explains": {
+      "family": "explanatory",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "law",
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "concept",
+        "law"
+      ],
+      "status": "reserved"
+    },
+    "accounts_for": {
+      "family": "explanatory",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "law",
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "predicted_by": {
+      "family": "explanatory",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "concept"
+      ],
+      "range": [
+        "law",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "supported_by": {
+      "family": "explanatory",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "law",
+        "model",
+        "concept"
+      ],
+      "range": [
+        "phenomenon",
+        "concept",
+        "law"
+      ],
+      "status": "reserved"
+    },
+    "evidenced_by": {
+      "family": "explanatory",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "law",
+        "model",
+        "concept"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "approximates": {
+      "family": "model",
+      "inverse": "approximated_by",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "model",
+        "equation",
+        "law",
+        "concept",
+        "phenomenon",
+        "quantity"
+      ],
+      "range": [
+        "phenomenon",
+        "model",
+        "law",
+        "equation",
+        "concept",
+        "quantity"
+      ],
+      "status": "adopted"
+    },
+    "approximated_by": {
+      "family": "model",
+      "inverse": "approximates",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "model",
+        "law",
+        "equation",
+        "concept",
+        "quantity"
+      ],
+      "range": [
+        "model",
+        "equation",
+        "law",
+        "concept",
+        "phenomenon",
+        "quantity"
+      ],
+      "status": "reserved"
+    },
+    "idealizes": {
+      "family": "model",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "extends": {
+      "family": "model",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "model",
+        "law"
+      ],
+      "range": [
+        "model",
+        "law"
+      ],
+      "status": "reserved"
+    },
+    "supersedes": {
+      "family": "model",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "model",
+        "law"
+      ],
+      "range": [
+        "model",
+        "law"
+      ],
+      "status": "reserved"
+    },
+    "simplifies": {
+      "family": "model",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "model",
+        "equation"
+      ],
+      "range": [
+        "model",
+        "equation"
+      ],
+      "status": "reserved"
+    },
+    "contradicts": {
+      "family": "conflict",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "range": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "inconsistent_with": {
+      "family": "conflict",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "range": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "competes_with": {
+      "family": "conflict",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "range": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "limited_by": {
+      "family": "conflict",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "range": [
+        "law",
+        "model",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "measures": {
+      "family": "measurement",
+      "inverse": "measured_by",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "experiment"
+      ],
+      "range": [
+        "quantity"
+      ],
+      "status": "reserved"
+    },
+    "measured_by": {
+      "family": "measurement",
+      "inverse": "measures",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "quantity"
+      ],
+      "range": [
+        "concept",
+        "experiment"
+      ],
+      "status": "reserved"
+    },
+    "quantifies": {
+      "family": "measurement",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "quantity"
+      ],
+      "range": [
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "expressed_in": {
+      "family": "measurement",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "quantity"
+      ],
+      "range": [
+        "unit"
+      ],
+      "status": "reserved"
+    },
+    "has_unit": {
+      "family": "measurement",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "quantity",
+        "concept"
+      ],
+      "range": [
+        "unit"
+      ],
+      "status": "reserved"
+    },
+    "enables": {
+      "family": "engineering",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "law",
+        "model",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "used_in": {
+      "family": "engineering",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "law",
+        "model",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "applied_to": {
+      "family": "engineering",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "law",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "implemented_by": {
+      "family": "engineering",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "model",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "analogous_to": {
+      "family": "analogy",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "concept",
+        "quantity",
+        "phenomenon",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "phenomenon",
+        "model"
+      ],
+      "status": "adopted"
+    },
+    "isomorphic_to": {
+      "family": "analogy",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "concept",
+        "quantity",
+        "phenomenon",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "phenomenon",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "corresponds_to": {
+      "family": "analogy",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "concept",
+        "phenomenon",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "phenomenon",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "bridges": {
+      "family": "cross_domain",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "concept",
+        "quantity",
+        "phenomenon",
+        "law",
+        "model",
+        "unit"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "phenomenon",
+        "law",
+        "model",
+        "unit"
+      ],
+      "status": "adopted"
+    },
+    "maps_to": {
+      "family": "cross_domain",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "phenomenon",
+        "law",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "phenomenon",
+        "law",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "manifestation_of": {
+      "family": "cross_domain",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "concept"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "shared_mechanism_with": {
+      "family": "cross_domain",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "phenomenon",
+        "concept",
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "concept",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "related_to": {
+      "family": "associative",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "unit",
+        "phenomenon",
+        "model",
+        "misconception"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "unit",
+        "phenomenon",
+        "model",
+        "misconception"
+      ],
+      "status": "adopted"
+    },
+    "derived_from": {
+      "family": "derivation",
+      "inverse": "is_basis_of",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "law",
+        "model",
+        "equation"
+      ],
+      "range": [
+        "concept",
+        "law",
+        "model",
+        "equation"
+      ],
+      "status": "adopted"
+    },
+    "is_basis_of": {
+      "family": "derivation",
+      "inverse": "derived_from",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "law",
+        "model",
+        "equation"
+      ],
+      "range": [
+        "concept",
+        "law",
+        "model",
+        "equation"
+      ],
+      "status": "reserved"
+    },
+    "appears_in_law": {
+      "family": "derivation",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "quantity",
+        "unit",
+        "phenomenon",
+        "model"
+      ],
+      "range": [
+        "law"
+      ],
+      "status": "adopted"
+    },
+    "applies_to": {
+      "family": "derivation",
+      "inverse": "governed_by",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "law"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "equation",
+        "phenomenon",
+        "model"
+      ],
+      "status": "adopted"
+    },
+    "governed_by": {
+      "family": "derivation",
+      "inverse": "applies_to",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "quantity",
+        "equation",
+        "phenomenon",
+        "model"
+      ],
+      "range": [
+        "law"
+      ],
+      "status": "reserved"
+    },
+    "equivalent_to": {
+      "family": "derivation",
+      "symmetric": true,
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "unit",
+        "phenomenon",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "unit",
+        "phenomenon",
+        "model"
+      ],
+      "status": "reserved"
+    }
+  },
+  "vocabularies": {
+    "domains": [
+      "physics",
+      "chemistry",
+      "biology",
+      "earth-space",
+      "engineering",
+      "mathematics",
+      "scientific-practice"
+    ],
+    "subdomains": {
+      "physics": [
+        "mechanics",
+        "thermal-physics",
+        "electricity-magnetism",
+        "waves-optics",
+        "atomic-nuclear",
+        "measurement-units"
+      ],
+      "chemistry": [
+        "matter-foundations",
+        "atomic-structure-periodicity",
+        "bonding-structure",
+        "reactions-stoichiometry",
+        "acids-bases",
+        "electrochemistry-redox",
+        "equilibrium-kinetics",
+        "organic-chemistry",
+        "thermodynamics"
+      ],
+      "biology": [
+        "cell-biology",
+        "genetics-heredity",
+        "evolution-ecology",
+        "metabolism-processes",
+        "physiology"
+      ],
+      "earth-space": [
+        "atmosphere-climate",
+        "earth-systems-geology",
+        "space-cosmology"
+      ],
+      "engineering": [
+        "design-process"
+      ],
+      "scientific-practice": [
+        "inquiry-observation",
+        "epistemology-nature-of-science"
+      ],
+      "mathematics": [
+        "foundations",
+        "arithmetic",
+        "number-theory",
+        "algebra",
+        "geometry",
+        "measurement",
+        "statistics-probability",
+        "functions",
+        "calculus"
+      ]
+    },
+    "regimes": [
+      "classical",
+      "quantum",
+      "relativistic",
+      "statistical",
+      "nonrelativistic",
+      "equilibrium",
+      "nonequilibrium",
+      "macroscopic",
+      "microscopic",
+      "mesoscopic",
+      "continuum",
+      "discrete",
+      "low_velocity",
+      "high_velocity",
+      "weak_gravity",
+      "strong_gravity",
+      "moderate_pressure",
+      "high_temperature",
+      "low_temperature",
+      "none"
+    ],
+    "scales": [
+      "quantum",
+      "atomic",
+      "molecular",
+      "microscopic",
+      "macroscopic",
+      "astronomical",
+      "cosmological"
+    ]
+  },
   "source": "content/ + connections/ (canonical) + derived",
-  "entity_count": 224,
-  "connection_count": 654,
+  "entity_count": 0,
+  "connection_count": 0,
   "explicit": {
-    "count": 654,
+    "count": 0,
     "note": "canonical source-of-truth"
   },
   "derived": {
     "inverse_edges": {
-      "count": 274,
-      "edges": [
-        {
-          "source": "lhs:bio.allele",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.inheritance-patterns",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000506"
-          }
-        },
-        {
-          "source": "lhs:bio.cell",
-          "relation": "generalizes",
-          "target": "lhs:bio.animal-cell",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000001"
-          }
-        },
-        {
-          "source": "lhs:bio.cell",
-          "relation": "generalizes",
-          "target": "lhs:bio.plant-cell",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000017"
-          }
-        },
-        {
-          "source": "lhs:bio.cell",
-          "relation": "has_part",
-          "target": "lhs:bio.chromosome",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000501"
-          }
-        },
-        {
-          "source": "lhs:bio.cell",
-          "relation": "has_part",
-          "target": "lhs:bio.dna",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000025"
-          }
-        },
-        {
-          "source": "lhs:bio.cell",
-          "relation": "has_part",
-          "target": "lhs:bio.nucleus",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000012"
-          }
-        },
-        {
-          "source": "lhs:bio.cell",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.cellular-respiration",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000005"
-          }
-        },
-        {
-          "source": "lhs:bio.cell",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.homeostasis",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000009"
-          }
-        },
-        {
-          "source": "lhs:bio.cell",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.nervous-system",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000529"
-          }
-        },
-        {
-          "source": "lhs:bio.cell",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.neuron",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000532"
-          }
-        },
-        {
-          "source": "lhs:bio.cellular-respiration",
-          "relation": "has_part",
-          "target": "lhs:bio.glycolysis",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000523"
-          }
-        },
-        {
-          "source": "lhs:bio.chromosome",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.meiosis",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000508"
-          }
-        },
-        {
-          "source": "lhs:bio.chromosome",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.mitosis",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000511"
-          }
-        },
-        {
-          "source": "lhs:bio.dna",
-          "relation": "has_part",
-          "target": "lhs:bio.gene",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000027"
-          }
-        },
-        {
-          "source": "lhs:bio.dna",
-          "relation": "is_basis_of",
-          "target": "lhs:bio.transcription",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000518"
-          }
-        },
-        {
-          "source": "lhs:bio.dna",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.dna-replication",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000503"
-          }
-        },
-        {
-          "source": "lhs:bio.dna",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.gene",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000028"
-          }
-        },
-        {
-          "source": "lhs:bio.dna",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.protein-synthesis",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000515"
-          }
-        },
-        {
-          "source": "lhs:bio.dna",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.transcription",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000519"
-          }
-        },
-        {
-          "source": "lhs:bio.enzyme",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.dna-replication",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000504"
-          }
-        },
-        {
-          "source": "lhs:bio.enzyme",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.glycolysis",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000524"
-          }
-        },
-        {
-          "source": "lhs:bio.enzyme",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.protein-synthesis",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000516"
-          }
-        },
-        {
-          "source": "lhs:bio.gene",
-          "relation": "generalizes",
-          "target": "lhs:bio.allele",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000498"
-          }
-        },
-        {
-          "source": "lhs:bio.gene",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.natural-selection",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000023"
-          }
-        },
-        {
-          "source": "lhs:bio.homeostasis",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.immune-system",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000527"
-          }
-        },
-        {
-          "source": "lhs:bio.nervous-system",
-          "relation": "has_part",
-          "target": "lhs:bio.neuron",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000531"
-          }
-        },
-        {
-          "source": "lhs:bio.nucleus",
-          "relation": "has_part",
-          "target": "lhs:bio.chromosome",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000500"
-          }
-        },
-        {
-          "source": "lhs:bio.nucleus",
-          "relation": "has_part",
-          "target": "lhs:bio.dna-replication",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000505"
-          }
-        },
-        {
-          "source": "lhs:bio.plant-cell",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.photosynthesis",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000032"
-          }
-        },
-        {
-          "source": "lhs:bio.protein-synthesis",
-          "relation": "has_part",
-          "target": "lhs:bio.transcription",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000520"
-          }
-        },
-        {
-          "source": "lhs:bio.protein-synthesis",
-          "relation": "has_part",
-          "target": "lhs:bio.translation",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000522"
-          }
-        },
-        {
-          "source": "lhs:bio.transcription",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.translation",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000521"
-          }
-        },
-        {
-          "source": "lhs:chem.acid",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.neutralization",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000040"
-          }
-        },
-        {
-          "source": "lhs:chem.acid",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.ph-scale",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000043"
-          }
-        },
-        {
-          "source": "lhs:chem.alkane",
-          "relation": "special_case_of",
-          "target": "lhs:chem.hydrocarbon",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000564"
-          }
-        },
-        {
-          "source": "lhs:chem.alkene",
-          "relation": "is_basis_of",
-          "target": "lhs:chem.alcohol",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000553"
-          }
-        },
-        {
-          "source": "lhs:chem.alkene",
-          "relation": "special_case_of",
-          "target": "lhs:chem.hydrocarbon",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000565"
-          }
-        },
-        {
-          "source": "lhs:chem.atom",
-          "relation": "has_part",
-          "target": "lhs:chem.electron",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000051"
-          }
-        },
-        {
-          "source": "lhs:chem.atom",
-          "relation": "has_part",
-          "target": "lhs:chem.proton",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000057"
-          }
-        },
-        {
-          "source": "lhs:chem.atom",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.compound",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000060"
-          }
-        },
-        {
-          "source": "lhs:chem.atom",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.element",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000053"
-          }
-        },
-        {
-          "source": "lhs:chem.base",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.neutralization",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000041"
-          }
-        },
-        {
-          "source": "lhs:chem.base",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.ph-scale",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000044"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-equilibrium",
-          "relation": "governed_by",
-          "target": "lhs:chem.le-chateliers-principle",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000547"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-equilibrium",
-          "relation": "mathematically_required_by",
-          "target": "lhs:chem.equilibrium-constant",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000545"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-reaction",
-          "relation": "generalizes",
-          "target": "lhs:chem.combustion",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000081"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-reaction",
-          "relation": "generalizes",
-          "target": "lhs:chem.neutralization",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000042"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-reaction",
-          "relation": "generalizes",
-          "target": "lhs:chem.oxidation-reduction",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000538"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-reaction",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.cellular-respiration",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000006"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-reaction",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.enzyme",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000029"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-reaction",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.photosynthesis",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000033"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-reaction",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.chemical-equilibrium",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000543"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-reaction",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.reaction-rate",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000549"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-reaction",
-          "relation": "mathematically_required_by",
-          "target": "lhs:chem.chemical-equation",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000074"
-          }
-        },
-        {
-          "source": "lhs:chem.compound",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.acid",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000036"
-          }
-        },
-        {
-          "source": "lhs:chem.compound",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.base",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000038"
-          }
-        },
-        {
-          "source": "lhs:chem.compound",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.chemical-reaction",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000077"
-          }
-        },
-        {
-          "source": "lhs:chem.compound",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.functional-group",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000558"
-          }
-        },
-        {
-          "source": "lhs:chem.compound",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.hydrocarbon",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000562"
-          }
-        },
-        {
-          "source": "lhs:chem.compound",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.salt",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000046"
-          }
-        },
-        {
-          "source": "lhs:chem.diffusion",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.osmosis",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000014"
-          }
-        },
-        {
-          "source": "lhs:chem.electrochemical-cell",
-          "relation": "generalizes",
-          "target": "lhs:chem.electrolysis",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000535"
-          }
-        },
-        {
-          "source": "lhs:chem.electron",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.covalent-bond",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000061"
-          }
-        },
-        {
-          "source": "lhs:chem.electron",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.ionic-bond",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000063"
-          }
-        },
-        {
-          "source": "lhs:chem.element",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.chemical-reaction",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000078"
-          }
-        },
-        {
-          "source": "lhs:chem.element",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.compound",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000059"
-          }
-        },
-        {
-          "source": "lhs:chem.element",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.hydrocarbon",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000563"
-          }
-        },
-        {
-          "source": "lhs:chem.element",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.periodic-table",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000055"
-          }
-        },
-        {
-          "source": "lhs:chem.enthalpy",
-          "relation": "mathematically_required_by",
-          "target": "lhs:chem.gibbs-free-energy",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000574"
-          }
-        },
-        {
-          "source": "lhs:chem.entropy",
-          "relation": "mathematically_required_by",
-          "target": "lhs:chem.gibbs-free-energy",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000575"
-          }
-        },
-        {
-          "source": "lhs:chem.equilibrium-constant",
-          "relation": "mathematically_required_by",
-          "target": "lhs:chem.le-chateliers-principle",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000548"
-          }
-        },
-        {
-          "source": "lhs:chem.hydrocarbon",
-          "relation": "generalizes",
-          "target": "lhs:chem.alkane",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000554"
-          }
-        },
-        {
-          "source": "lhs:chem.hydrocarbon",
-          "relation": "generalizes",
-          "target": "lhs:chem.alkene",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000555"
-          }
-        },
-        {
-          "source": "lhs:chem.le-chateliers-principle",
-          "relation": "contains",
-          "target": "lhs:chem.equilibrium-constant",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000546"
-          }
-        },
-        {
-          "source": "lhs:chem.matter",
-          "relation": "logically_required_by",
-          "target": "lhs:bio.cell",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000003"
-          }
-        },
-        {
-          "source": "lhs:chem.matter",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.atom",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000048"
-          }
-        },
-        {
-          "source": "lhs:chem.matter",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.diffusion",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000066"
-          }
-        },
-        {
-          "source": "lhs:chem.matter",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.mixture",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000071"
-          }
-        },
-        {
-          "source": "lhs:chem.matter",
-          "relation": "logically_required_by",
-          "target": "lhs:earth.earth-system",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000099"
-          }
-        },
-        {
-          "source": "lhs:chem.matter",
-          "relation": "logically_required_by",
-          "target": "lhs:earth.plate-tectonics",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000104"
-          }
-        },
-        {
-          "source": "lhs:chem.neutralization",
-          "relation": "is_basis_of",
-          "target": "lhs:chem.salt",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000045"
-          }
-        },
-        {
-          "source": "lhs:chem.oxidation-reduction",
-          "relation": "has_part",
-          "target": "lhs:chem.oxidation-number",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000537"
-          }
-        },
-        {
-          "source": "lhs:chem.oxidation-reduction",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.electrolysis",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000536"
-          }
-        },
-        {
-          "source": "lhs:chem.proton",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.periodic-table",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000056"
-          }
-        },
-        {
-          "source": "lhs:chem.salt",
-          "relation": "logically_required_by",
-          "target": "lhs:chem.electrochemical-cell",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000534"
-          }
-        },
-        {
-          "source": "lhs:earth.atmosphere",
-          "relation": "approximated_by",
-          "target": "lhs:phys.ideal-gas-model",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000387"
-          }
-        },
-        {
-          "source": "lhs:earth.atmosphere",
-          "relation": "has_part",
-          "target": "lhs:earth.greenhouse-effect",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000089"
-          }
-        },
-        {
-          "source": "lhs:earth.earth-system",
-          "relation": "has_part",
-          "target": "lhs:earth.atmosphere",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000084"
-          }
-        },
-        {
-          "source": "lhs:earth.earth-system",
-          "relation": "has_part",
-          "target": "lhs:earth.plate-tectonics",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000103"
-          }
-        },
-        {
-          "source": "lhs:earth.earth-system",
-          "relation": "has_part",
-          "target": "lhs:earth.rock-cycle",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000106"
-          }
-        },
-        {
-          "source": "lhs:earth.earth-system",
-          "relation": "has_part",
-          "target": "lhs:earth.water-cycle",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000095"
-          }
-        },
-        {
-          "source": "lhs:math.algebraic-expression",
-          "relation": "has_part",
-          "target": "lhs:math.variable",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000414"
-          }
-        },
-        {
-          "source": "lhs:math.algebraic-expression",
-          "relation": "mathematically_required_by",
-          "target": "lhs:math.linear-equation",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000402"
-          }
-        },
-        {
-          "source": "lhs:math.algebraic-expression",
-          "relation": "mathematically_required_by",
-          "target": "lhs:math.quadratic-equation",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000409"
-          }
-        },
-        {
-          "source": "lhs:math.algebraic-expression",
-          "relation": "special_case_of",
-          "target": "lhs:math.polynomial",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000406"
-          }
-        },
-        {
-          "source": "lhs:math.angle",
-          "relation": "mathematically_required_by",
-          "target": "lhs:math.triangle",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000466"
-          }
-        },
-        {
-          "source": "lhs:math.area",
-          "relation": "mathematically_required_by",
-          "target": "lhs:math.volume",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000477"
-          }
-        },
-        {
-          "source": "lhs:math.arithmetic-sequence",
-          "relation": "special_case_of",
-          "target": "lhs:math.sequence",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000616"
-          }
-        },
-        {
-          "source": "lhs:math.decimal",
-          "relation": "mathematically_required_by",
-          "target": "lhs:math.percentage",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000426"
-          }
-        },
-        {
-          "source": "lhs:math.derivative",
-          "relation": "governed_by",
-          "target": "lhs:math.fundamental-theorem-of-calculus",
-          "derived": true,
-          "derivation": {
-            "method": "inverse",
-            "source_connection": "lhs:conn.000591"
-          }
-        }
-      ]
+      "count": 0,
+      "edges": []
     },
     "transitive_closure": {
-      "count": 300,
-      "edges": [
-        {
-          "source": "lhs:bio.cell",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.cell",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.cellular-respiration",
-          "relation": "logically_requires",
-          "target": "lhs:chem.atom",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.cellular-respiration",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.cellular-respiration",
-          "relation": "logically_requires",
-          "target": "lhs:chem.compound",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.cellular-respiration",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.cellular-respiration",
-          "relation": "logically_requires",
-          "target": "lhs:chem.element",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.cellular-respiration",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.element"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.cellular-respiration",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.cellular-respiration",
-              "lhs:bio.cell",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.cellular-respiration",
-          "relation": "logically_requires",
-          "target": "lhs:phys.electric-charge",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.cellular-respiration",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:phys.electric-charge"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.cellular-respiration",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.cellular-respiration",
-              "lhs:bio.cell",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.dna-replication",
-          "relation": "logically_requires",
-          "target": "lhs:chem.atom",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.dna-replication",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.dna-replication",
-          "relation": "logically_requires",
-          "target": "lhs:chem.chemical-reaction",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.dna-replication",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.dna-replication",
-          "relation": "logically_requires",
-          "target": "lhs:chem.compound",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.dna-replication",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.dna-replication",
-          "relation": "logically_requires",
-          "target": "lhs:chem.element",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.dna-replication",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.element"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.dna-replication",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.dna-replication",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.dna-replication",
-          "relation": "logically_requires",
-          "target": "lhs:phys.electric-charge",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.dna-replication",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:phys.electric-charge"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.dna-replication",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.dna-replication",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.dna-replication",
-          "relation": "part_of",
-          "target": "lhs:bio.cell",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.dna-replication",
-              "lhs:bio.nucleus",
-              "lhs:bio.cell"
-            ],
-            "rule": "part_of"
-          }
-        },
-        {
-          "source": "lhs:bio.enzyme",
-          "relation": "logically_requires",
-          "target": "lhs:chem.atom",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.enzyme",
-          "relation": "logically_requires",
-          "target": "lhs:chem.compound",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.enzyme",
-          "relation": "logically_requires",
-          "target": "lhs:chem.element",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.element"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.enzyme",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.enzyme",
-          "relation": "logically_requires",
-          "target": "lhs:phys.electric-charge",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:phys.electric-charge"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.enzyme",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.gene",
-          "relation": "part_of",
-          "target": "lhs:bio.cell",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.gene",
-              "lhs:bio.dna",
-              "lhs:bio.cell"
-            ],
-            "rule": "part_of"
-          }
-        },
-        {
-          "source": "lhs:bio.glycolysis",
-          "relation": "logically_requires",
-          "target": "lhs:chem.atom",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.glycolysis",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.glycolysis",
-          "relation": "logically_requires",
-          "target": "lhs:chem.chemical-reaction",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.glycolysis",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.glycolysis",
-          "relation": "logically_requires",
-          "target": "lhs:chem.compound",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.glycolysis",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.glycolysis",
-          "relation": "logically_requires",
-          "target": "lhs:chem.element",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.glycolysis",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.element"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.glycolysis",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.glycolysis",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.glycolysis",
-          "relation": "logically_requires",
-          "target": "lhs:phys.electric-charge",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.glycolysis",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:phys.electric-charge"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.glycolysis",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.glycolysis",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.homeostasis",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.homeostasis",
-              "lhs:bio.cell",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.homeostasis",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.homeostasis",
-              "lhs:bio.cell",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.immune-system",
-          "relation": "logically_requires",
-          "target": "lhs:bio.cell",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.immune-system",
-              "lhs:bio.homeostasis",
-              "lhs:bio.cell"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.immune-system",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.immune-system",
-              "lhs:bio.homeostasis",
-              "lhs:bio.cell",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.immune-system",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.immune-system",
-              "lhs:bio.homeostasis",
-              "lhs:bio.cell",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.natural-selection",
-          "relation": "logically_requires",
-          "target": "lhs:bio.dna",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.natural-selection",
-              "lhs:bio.gene",
-              "lhs:bio.dna"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.nervous-system",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.nervous-system",
-              "lhs:bio.cell",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.nervous-system",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.nervous-system",
-              "lhs:bio.cell",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.neuron",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.neuron",
-              "lhs:bio.cell",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.neuron",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.neuron",
-              "lhs:bio.cell",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.osmosis",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.osmosis",
-              "lhs:chem.diffusion",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.osmosis",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.osmosis",
-              "lhs:chem.diffusion",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.photosynthesis",
-          "relation": "logically_requires",
-          "target": "lhs:chem.atom",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.photosynthesis",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.photosynthesis",
-          "relation": "logically_requires",
-          "target": "lhs:chem.compound",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.photosynthesis",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.photosynthesis",
-          "relation": "logically_requires",
-          "target": "lhs:chem.element",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.photosynthesis",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.element"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.photosynthesis",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.photosynthesis",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.photosynthesis",
-          "relation": "logically_requires",
-          "target": "lhs:phys.electric-charge",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.photosynthesis",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:phys.electric-charge"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.photosynthesis",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.photosynthesis",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.protein-synthesis",
-          "relation": "logically_requires",
-          "target": "lhs:chem.atom",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.protein-synthesis",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.protein-synthesis",
-          "relation": "logically_requires",
-          "target": "lhs:chem.chemical-reaction",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.protein-synthesis",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.protein-synthesis",
-          "relation": "logically_requires",
-          "target": "lhs:chem.compound",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.protein-synthesis",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.protein-synthesis",
-          "relation": "logically_requires",
-          "target": "lhs:chem.element",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.protein-synthesis",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.element"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.protein-synthesis",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.protein-synthesis",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.protein-synthesis",
-          "relation": "logically_requires",
-          "target": "lhs:phys.electric-charge",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.protein-synthesis",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:phys.electric-charge"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.protein-synthesis",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.protein-synthesis",
-              "lhs:bio.enzyme",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:bio.translation",
-          "relation": "logically_requires",
-          "target": "lhs:bio.dna",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:bio.translation",
-              "lhs:bio.transcription",
-              "lhs:bio.dna"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.acid",
-          "relation": "logically_requires",
-          "target": "lhs:chem.atom",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.acid",
-              "lhs:chem.compound",
-              "lhs:chem.atom"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.acid",
-          "relation": "logically_requires",
-          "target": "lhs:chem.element",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.acid",
-              "lhs:chem.compound",
-              "lhs:chem.element"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.acid",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.acid",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.acid",
-          "relation": "logically_requires",
-          "target": "lhs:phys.electric-charge",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.acid",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:phys.electric-charge"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.acid",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.acid",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.atom",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.atom",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.base",
-          "relation": "logically_requires",
-          "target": "lhs:chem.atom",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.base",
-              "lhs:chem.compound",
-              "lhs:chem.atom"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.base",
-          "relation": "logically_requires",
-          "target": "lhs:chem.element",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.base",
-              "lhs:chem.compound",
-              "lhs:chem.element"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.base",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.base",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.base",
-          "relation": "logically_requires",
-          "target": "lhs:phys.electric-charge",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.base",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:phys.electric-charge"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.base",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.base",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-equilibrium",
-          "relation": "logically_requires",
-          "target": "lhs:chem.atom",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.chemical-equilibrium",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-equilibrium",
-          "relation": "logically_requires",
-          "target": "lhs:chem.compound",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.chemical-equilibrium",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-equilibrium",
-          "relation": "logically_requires",
-          "target": "lhs:chem.element",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.chemical-equilibrium",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.element"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-equilibrium",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.chemical-equilibrium",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-equilibrium",
-          "relation": "logically_requires",
-          "target": "lhs:phys.electric-charge",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.chemical-equilibrium",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:phys.electric-charge"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-equilibrium",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.chemical-equilibrium",
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-reaction",
-          "relation": "logically_requires",
-          "target": "lhs:chem.atom",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-reaction",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-reaction",
-          "relation": "logically_requires",
-          "target": "lhs:phys.electric-charge",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:phys.electric-charge"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.chemical-reaction",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.chemical-reaction",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.compound",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.compound",
-          "relation": "logically_requires",
-          "target": "lhs:phys.electric-charge",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:phys.electric-charge"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.compound",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.covalent-bond",
-          "relation": "logically_requires",
-          "target": "lhs:phys.electric-charge",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.covalent-bond",
-              "lhs:chem.electron",
-              "lhs:phys.electric-charge"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.diffusion",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.diffusion",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.electrochemical-cell",
-          "relation": "logically_requires",
-          "target": "lhs:chem.atom",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.electrochemical-cell",
-              "lhs:chem.salt",
-              "lhs:chem.compound",
-              "lhs:chem.atom"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.electrochemical-cell",
-          "relation": "logically_requires",
-          "target": "lhs:chem.compound",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.electrochemical-cell",
-              "lhs:chem.salt",
-              "lhs:chem.compound"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.electrochemical-cell",
-          "relation": "logically_requires",
-          "target": "lhs:chem.element",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.electrochemical-cell",
-              "lhs:chem.salt",
-              "lhs:chem.compound",
-              "lhs:chem.element"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.electrochemical-cell",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.electrochemical-cell",
-              "lhs:chem.salt",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.electrochemical-cell",
-          "relation": "logically_requires",
-          "target": "lhs:phys.electric-charge",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.electrochemical-cell",
-              "lhs:chem.salt",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:phys.electric-charge"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.electrochemical-cell",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.electrochemical-cell",
-              "lhs:chem.salt",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.element",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.element",
-              "lhs:chem.atom",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.element",
-          "relation": "logically_requires",
-          "target": "lhs:phys.electric-charge",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.element",
-              "lhs:chem.atom",
-              "lhs:phys.electric-charge"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.element",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.element",
-              "lhs:chem.atom",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.functional-group",
-          "relation": "logically_requires",
-          "target": "lhs:chem.atom",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.functional-group",
-              "lhs:chem.compound",
-              "lhs:chem.atom"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.functional-group",
-          "relation": "logically_requires",
-          "target": "lhs:chem.element",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.functional-group",
-              "lhs:chem.compound",
-              "lhs:chem.element"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.functional-group",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.functional-group",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.functional-group",
-          "relation": "logically_requires",
-          "target": "lhs:phys.electric-charge",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.functional-group",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:phys.electric-charge"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.functional-group",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.functional-group",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.hydrocarbon",
-          "relation": "logically_requires",
-          "target": "lhs:chem.atom",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.hydrocarbon",
-              "lhs:chem.compound",
-              "lhs:chem.atom"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.hydrocarbon",
-          "relation": "logically_requires",
-          "target": "lhs:chem.matter",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.hydrocarbon",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.hydrocarbon",
-          "relation": "logically_requires",
-          "target": "lhs:phys.electric-charge",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.hydrocarbon",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:phys.electric-charge"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.hydrocarbon",
-          "relation": "logically_requires",
-          "target": "lhs:phys.mass",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.hydrocarbon",
-              "lhs:chem.compound",
-              "lhs:chem.atom",
-              "lhs:chem.matter",
-              "lhs:phys.mass"
-            ],
-            "rule": "logically_requires"
-          }
-        },
-        {
-          "source": "lhs:chem.ionic-bond",
-          "relation": "logically_requires",
-          "target": "lhs:phys.electric-charge",
-          "derived": true,
-          "derivation": {
-            "method": "transitive_closure",
-            "path": [
-              "lhs:chem.ionic-bond",
-              "lhs:chem.electron",
-              "lhs:phys.electric-charge"
-            ],
-            "rule": "logically_requires"
-          }
-        }
-      ]
+      "count": 0,
+      "edges": []
     },
     "centrality": {
-      "top_20": [
-        [
-          "lhs:phys.mass",
-          {
-            "degree": 15,
-            "in_degree": 12,
-            "out_degree": 3,
-            "pagerank": 0.031018
-          }
-        ],
-        [
-          "lhs:chem.atom",
-          {
-            "degree": 9,
-            "in_degree": 5,
-            "out_degree": 4,
-            "pagerank": 0.019516
-          }
-        ],
-        [
-          "lhs:chem.matter",
-          {
-            "degree": 12,
-            "in_degree": 10,
-            "out_degree": 2,
-            "pagerank": 0.019373
-          }
-        ],
-        [
-          "lhs:phys.force",
-          {
-            "degree": 25,
-            "in_degree": 17,
-            "out_degree": 8,
-            "pagerank": 0.018022
-          }
-        ],
-        [
-          "lhs:phys.electric-charge",
-          {
-            "degree": 13,
-            "in_degree": 9,
-            "out_degree": 4,
-            "pagerank": 0.017842
-          }
-        ],
-        [
-          "lhs:phys.unit",
-          {
-            "degree": 5,
-            "in_degree": 3,
-            "out_degree": 2,
-            "pagerank": 0.017037
-          }
-        ],
-        [
-          "lhs:phys.measurement",
-          {
-            "degree": 6,
-            "in_degree": 4,
-            "out_degree": 2,
-            "pagerank": 0.016754
-          }
-        ],
-        [
-          "lhs:phys.newtons-second-law",
-          {
-            "degree": 12,
-            "in_degree": 7,
-            "out_degree": 5,
-            "pagerank": 0.016393
-          }
-        ],
-        [
-          "lhs:chem.compound",
-          {
-            "degree": 14,
-            "in_degree": 12,
-            "out_degree": 2,
-            "pagerank": 0.015586
-          }
-        ],
-        [
-          "lhs:math.rational-number",
-          {
-            "degree": 14,
-            "in_degree": 10,
-            "out_degree": 4,
-            "pagerank": 0.014373
-          }
-        ],
-        [
-          "lhs:phys.energy",
-          {
-            "degree": 19,
-            "in_degree": 14,
-            "out_degree": 5,
-            "pagerank": 0.014185
-          }
-        ],
-        [
-          "lhs:phys.physical-quantity",
-          {
-            "degree": 4,
-            "in_degree": 2,
-            "out_degree": 2,
-            "pagerank": 0.01399
-          }
-        ],
-        [
-          "lhs:chem.element",
-          {
-            "degree": 7,
-            "in_degree": 5,
-            "out_degree": 2,
-            "pagerank": 0.013657
-          }
-        ],
-        [
-          "lhs:phys.density",
-          {
-            "degree": 6,
-            "in_degree": 3,
-            "out_degree": 3,
-            "pagerank": 0.013456
-          }
-        ],
-        [
-          "lhs:math.integer",
-          {
-            "degree": 12,
-            "in_degree": 9,
-            "out_degree": 3,
-            "pagerank": 0.013081
-          }
-        ],
-        [
-          "lhs:phys.wave",
-          {
-            "degree": 16,
-            "in_degree": 11,
-            "out_degree": 5,
-            "pagerank": 0.012512
-          }
-        ],
-        [
-          "lhs:phys.current",
-          {
-            "degree": 14,
-            "in_degree": 8,
-            "out_degree": 6,
-            "pagerank": 0.012463
-          }
-        ],
-        [
-          "lhs:phys.weight",
-          {
-            "degree": 7,
-            "in_degree": 3,
-            "out_degree": 4,
-            "pagerank": 0.012122
-          }
-        ],
-        [
-          "lhs:phys.distance",
-          {
-            "degree": 9,
-            "in_degree": 7,
-            "out_degree": 2,
-            "pagerank": 0.011739
-          }
-        ],
-        [
-          "lhs:phys.frequency",
-          {
-            "degree": 11,
-            "in_degree": 7,
-            "out_degree": 4,
-            "pagerank": 0.01158
-          }
-        ]
-      ],
-      "all": {
-        "lhs:bio.adaptation": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:bio.allele": {
-          "degree": 3,
-          "in_degree": 1,
-          "out_degree": 2,
-          "pagerank": 0.000954
-        },
-        "lhs:bio.animal-cell": {
-          "degree": 3,
-          "in_degree": 1,
-          "out_degree": 2,
-          "pagerank": 0.001678
-        },
-        "lhs:bio.cell": {
-          "degree": 17,
-          "in_degree": 15,
-          "out_degree": 2,
-          "pagerank": 0.009802
-        },
-        "lhs:bio.cellular-respiration": {
-          "degree": 7,
-          "in_degree": 3,
-          "out_degree": 4,
-          "pagerank": 0.001989
-        },
-        "lhs:bio.chromosome": {
-          "degree": 5,
-          "in_degree": 2,
-          "out_degree": 3,
-          "pagerank": 0.001239
-        },
-        "lhs:bio.dna": {
-          "degree": 13,
-          "in_degree": 11,
-          "out_degree": 2,
-          "pagerank": 0.004902
-        },
-        "lhs:bio.dna-replication": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:bio.ecosystem": {
-          "degree": 10,
-          "in_degree": 6,
-          "out_degree": 4,
-          "pagerank": 0.002706
-        },
-        "lhs:bio.energy-flow-ecosystem": {
-          "degree": 3,
-          "in_degree": 1,
-          "out_degree": 2,
-          "pagerank": 0.000954
-        },
-        "lhs:bio.enzyme": {
-          "degree": 7,
-          "in_degree": 4,
-          "out_degree": 3,
-          "pagerank": 0.001991
-        },
-        "lhs:bio.food-chain": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:bio.gene": {
-          "degree": 8,
-          "in_degree": 6,
-          "out_degree": 2,
-          "pagerank": 0.002909
-        },
-        "lhs:bio.glycolysis": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:bio.homeostasis": {
-          "degree": 6,
-          "in_degree": 3,
-          "out_degree": 3,
-          "pagerank": 0.001765
-        },
-        "lhs:bio.hormone": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:bio.immune-system": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:bio.inheritance-patterns": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:bio.meiosis": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:bio.mitosis": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:bio.mutation": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:bio.natural-selection": {
-          "degree": 6,
-          "in_degree": 4,
-          "out_degree": 2,
-          "pagerank": 0.001713
-        },
-        "lhs:bio.nervous-system": {
-          "degree": 4,
-          "in_degree": 2,
-          "out_degree": 2,
-          "pagerank": 0.001239
-        },
-        "lhs:bio.neuron": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:bio.nucleus": {
-          "degree": 4,
-          "in_degree": 2,
-          "out_degree": 2,
-          "pagerank": 0.00121
-        },
-        "lhs:bio.osmosis": {
-          "degree": 5,
-          "in_degree": 2,
-          "out_degree": 3,
-          "pagerank": 0.001342
-        },
-        "lhs:bio.photosynthesis": {
-          "degree": 9,
-          "in_degree": 5,
-          "out_degree": 4,
-          "pagerank": 0.003052
-        },
-        "lhs:bio.plant-cell": {
-          "degree": 4,
-          "in_degree": 2,
-          "out_degree": 2,
-          "pagerank": 0.002191
-        },
-        "lhs:bio.population-dynamics": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:bio.protein-synthesis": {
-          "degree": 5,
-          "in_degree": 2,
-          "out_degree": 3,
-          "pagerank": 0.001225
-        },
-        "lhs:bio.speciation": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:bio.transcription": {
-          "degree": 4,
-          "in_degree": 1,
-          "out_degree": 3,
-          "pagerank": 0.000954
-        },
-        "lhs:bio.translation": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:chem.acid": {
-          "degree": 7,
-          "in_degree": 5,
-          "out_degree": 2,
-          "pagerank": 0.002699
-        },
-        "lhs:chem.activation-energy": {
-          "degree": 3,
-          "in_degree": 2,
-          "out_degree": 1,
-          "pagerank": 0.002669
-        },
-        "lhs:chem.alcohol": {
-          "degree": 3,
-          "in_degree": 1,
-          "out_degree": 2,
-          "pagerank": 0.001011
-        },
-        "lhs:chem.alkane": {
-          "degree": 2,
-          "in_degree": 1,
-          "out_degree": 1,
-          "pagerank": 0.001905
-        },
-        "lhs:chem.alkene": {
-          "degree": 4,
-          "in_degree": 3,
-          "out_degree": 1,
-          "pagerank": 0.002659
-        },
-        "lhs:chem.atom": {
-          "degree": 9,
-          "in_degree": 5,
-          "out_degree": 4,
-          "pagerank": 0.019516
-        },
-        "lhs:chem.base": {
-          "degree": 4,
-          "in_degree": 2,
-          "out_degree": 2,
-          "pagerank": 0.00123
-        },
-        "lhs:chem.carboxylic-acid": {
-          "degree": 3,
-          "in_degree": 1,
-          "out_degree": 2,
-          "pagerank": 0.001011
-        },
-        "lhs:chem.catalyst": {
-          "degree": 3,
-          "in_degree": 1,
-          "out_degree": 2,
-          "pagerank": 0.00184
-        },
-        "lhs:chem.chemical-equation": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:chem.chemical-equilibrium": {
-          "degree": 4,
-          "in_degree": 2,
-          "out_degree": 2,
-          "pagerank": 0.00362
-        },
-        "lhs:chem.chemical-reaction": {
-          "degree": 17,
-          "in_degree": 13,
-          "out_degree": 4,
-          "pagerank": 0.01121
-        },
-        "lhs:chem.combustion": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:chem.compound": {
-          "degree": 14,
-          "in_degree": 12,
-          "out_degree": 2,
-          "pagerank": 0.015586
-        },
-        "lhs:chem.covalent-bond": {
-          "degree": 3,
-          "in_degree": 1,
-          "out_degree": 2,
-          "pagerank": 0.002776
-        },
-        "lhs:chem.diffusion": {
-          "degree": 8,
-          "in_degree": 4,
-          "out_degree": 4,
-          "pagerank": 0.003252
-        },
-        "lhs:chem.electrochemical-cell": {
-          "degree": 3,
-          "in_degree": 1,
-          "out_degree": 2,
-          "pagerank": 0.000954
-        },
-        "lhs:chem.electrolysis": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:chem.electron": {
-          "degree": 5,
-          "in_degree": 3,
-          "out_degree": 2,
-          "pagerank": 0.003829
-        },
-        "lhs:chem.element": {
-          "degree": 7,
-          "in_degree": 5,
-          "out_degree": 2,
-          "pagerank": 0.013657
-        },
-        "lhs:chem.enthalpy": {
-          "degree": 5,
-          "in_degree": 2,
-          "out_degree": 3,
-          "pagerank": 0.002323
-        },
-        "lhs:chem.entropy": {
-          "degree": 4,
-          "in_degree": 2,
-          "out_degree": 2,
-          "pagerank": 0.002079
-        },
-        "lhs:chem.equilibrium-constant": {
-          "degree": 5,
-          "in_degree": 3,
-          "out_degree": 2,
-          "pagerank": 0.00411
-        },
-        "lhs:chem.functional-group": {
-          "degree": 6,
-          "in_degree": 2,
-          "out_degree": 4,
-          "pagerank": 0.001608
-        },
-        "lhs:chem.gibbs-free-energy": {
-          "degree": 5,
-          "in_degree": 2,
-          "out_degree": 3,
-          "pagerank": 0.002323
-        },
-        "lhs:chem.hydrocarbon": {
-          "degree": 7,
-          "in_degree": 3,
-          "out_degree": 4,
-          "pagerank": 0.005101
-        },
-        "lhs:chem.ionic-bond": {
-          "degree": 5,
-          "in_degree": 2,
-          "out_degree": 3,
-          "pagerank": 0.004616
-        },
-        "lhs:chem.isomer": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:chem.le-chateliers-principle": {
-          "degree": 3,
-          "in_degree": 1,
-          "out_degree": 2,
-          "pagerank": 0.002495
-        },
-        "lhs:chem.matter": {
-          "degree": 12,
-          "in_degree": 10,
-          "out_degree": 2,
-          "pagerank": 0.019373
-        },
-        "lhs:chem.mixture": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:chem.neutralization": {
-          "degree": 4,
-          "in_degree": 1,
-          "out_degree": 3,
-          "pagerank": 0.000974
-        },
-        "lhs:chem.oxidation-number": {
-          "degree": 2,
-          "in_degree": 1,
-          "out_degree": 1,
-          "pagerank": 0.002138
-        },
-        "lhs:chem.oxidation-reduction": {
-          "degree": 5,
-          "in_degree": 3,
-          "out_degree": 2,
-          "pagerank": 0.003704
-        },
-        "lhs:chem.periodic-table": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:chem.ph-scale": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:chem.polymer": {
-          "degree": 1,
-          "in_degree": 0,
-          "out_degree": 1,
-          "pagerank": 0.00067
-        },
-        "lhs:chem.proton": {
-          "degree": 4,
-          "in_degree": 2,
-          "out_degree": 2,
-          "pagerank": 0.00213
-        },
-        "lhs:chem.reaction-rate": {
-          "degree": 5,
-          "in_degree": 2,
-          "out_degree": 3,
-          "pagerank": 0.003884
-        },
-        "lhs:chem.salt": {
-          "degree": 4,
-          "in_degree": 1,
-          "out_degree": 3,
-          "pagerank": 0.001075
-        },
-        "lhs:earth.atmosphere": {
-          "degree": 10,
-          "in_degree": 5,
-          "out_degree": 5,
-          "pagerank": 0.002697
-        },
-        "lhs:earth.big-bang-theory": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:earth.earth-system": {
-          "degree": 11,
-          "in_degree": 7,
-          "out_degree": 4,
-          "pagerank": 0.002335
-        },
-        "lhs:earth.greenhouse-effect": {
-          "degree": 4,
-          "in_degree": 0,
-          "out_degree": 4,
-          "pagerank": 0.00067
-        },
-        "lhs:earth.plate-tectonics": {
-          "degree": 4,
-          "in_degree": 1,
-          "out_degree": 3,
-          "pagerank": 0.000812
-        },
-        "lhs:earth.rock-cycle": {
-          "degree": 4,
-          "in_degree": 0,
-          "out_degree": 4,
-          "pagerank": 0.00067
-        },
-        "lhs:earth.seasons-cause": {
-          "degree": 3,
-          "in_degree": 1,
-          "out_degree": 2,
-          "pagerank": 0.000859
-        },
-        "lhs:earth.solar-system": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:earth.water-cycle": {
-          "degree": 4,
-          "in_degree": 0,
-          "out_degree": 4,
-          "pagerank": 0.00067
-        },
-        "lhs:eng.engineering-design-process": {
-          "degree": 1,
-          "in_degree": 0,
-          "out_degree": 1,
-          "pagerank": 0.00067
-        },
-        "lhs:epist.observation-vs-inference": {
-          "degree": 1,
-          "in_degree": 0,
-          "out_degree": 1,
-          "pagerank": 0.00067
-        },
-        "lhs:math.algebraic-expression": {
-          "degree": 12,
-          "in_degree": 8,
-          "out_degree": 4,
-          "pagerank": 0.007823
-        },
-        "lhs:math.angle": {
-          "degree": 6,
-          "in_degree": 3,
-          "out_degree": 3,
-          "pagerank": 0.005164
-        },
-        "lhs:math.area": {
-          "degree": 7,
-          "in_degree": 4,
-          "out_degree": 3,
-          "pagerank": 0.003536
-        },
-        "lhs:math.arithmetic-sequence": {
-          "degree": 4,
-          "in_degree": 1,
-          "out_degree": 3,
-          "pagerank": 0.001093
-        },
-        "lhs:math.circle": {
-          "degree": 8,
-          "in_degree": 5,
-          "out_degree": 3,
-          "pagerank": 0.006347
-        },
-        "lhs:math.combination": {
-          "degree": 5,
-          "in_degree": 1,
-          "out_degree": 4,
-          "pagerank": 0.000918
-        },
-        "lhs:math.complex-number": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:math.continuity": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:math.decimal": {
-          "degree": 7,
-          "in_degree": 3,
-          "out_degree": 4,
-          "pagerank": 0.007443
-        },
-        "lhs:math.derivative": {
-          "degree": 8,
-          "in_degree": 4,
-          "out_degree": 4,
-          "pagerank": 0.002219
-        },
-        "lhs:math.determinant": {
-          "degree": 4,
-          "in_degree": 1,
-          "out_degree": 3,
-          "pagerank": 0.000867
-        },
-        "lhs:math.exponential-function": {
-          "degree": 6,
-          "in_degree": 2,
-          "out_degree": 4,
-          "pagerank": 0.001394
-        },
-        "lhs:math.fraction": {
-          "degree": 11,
-          "in_degree": 7,
-          "out_degree": 4,
-          "pagerank": 0.010009
-        },
-        "lhs:math.function": {
-          "degree": 12,
-          "in_degree": 8,
-          "out_degree": 4,
-          "pagerank": 0.006046
-        },
-        "lhs:math.fundamental-theorem-of-calculus": {
-          "degree": 5,
-          "in_degree": 2,
-          "out_degree": 3,
-          "pagerank": 0.001515
-        },
-        "lhs:math.geometric-sequence": {
-          "degree": 5,
-          "in_degree": 2,
-          "out_degree": 3,
-          "pagerank": 0.0014
-        },
-        "lhs:math.integer": {
-          "degree": 12,
-          "in_degree": 9,
-          "out_degree": 3,
-          "pagerank": 0.013081
-        },
-        "lhs:math.integral": {
-          "degree": 4,
-          "in_degree": 1,
-          "out_degree": 3,
-          "pagerank": 0.001137
-        },
-        "lhs:math.irrational-number": {
-          "degree": 5,
-          "in_degree": 3,
-          "out_degree": 2,
-          "pagerank": 0.007398
-        },
-        "lhs:math.limit": {
-          "degree": 6,
-          "in_degree": 3,
-          "out_degree": 3,
-          "pagerank": 0.001837
-        },
-        "lhs:math.linear-equation": {
-          "degree": 9,
-          "in_degree": 5,
-          "out_degree": 4,
-          "pagerank": 0.006376
-        },
-        "lhs:math.linear-function": {
-          "degree": 6,
-          "in_degree": 3,
-          "out_degree": 3,
-          "pagerank": 0.004324
-        },
-        "lhs:math.logarithmic-function": {
-          "degree": 4,
-          "in_degree": 1,
-          "out_degree": 3,
-          "pagerank": 0.000977
-        },
-        "lhs:math.matrix": {
-          "degree": 5,
-          "in_degree": 1,
-          "out_degree": 4,
-          "pagerank": 0.000918
-        },
-        "lhs:math.mean": {
-          "degree": 6,
-          "in_degree": 4,
-          "out_degree": 2,
-          "pagerank": 0.003851
-        },
-        "lhs:math.median": {
-          "degree": 4,
-          "in_degree": 2,
-          "out_degree": 2,
-          "pagerank": 0.00342
-        },
-        "lhs:math.natural-number": {
-          "degree": 4,
-          "in_degree": 2,
-          "out_degree": 2,
-          "pagerank": 0.004718
-        },
-        "lhs:math.percentage": {
-          "degree": 7,
-          "in_degree": 4,
-          "out_degree": 3,
-          "pagerank": 0.006279
-        },
-        "lhs:math.permutation": {
-          "degree": 4,
-          "in_degree": 1,
-          "out_degree": 3,
-          "pagerank": 0.000867
-        },
-        "lhs:math.polynomial": {
-          "degree": 8,
-          "in_degree": 5,
-          "out_degree": 3,
-          "pagerank": 0.005306
-        },
-        "lhs:math.probability": {
-          "degree": 9,
-          "in_degree": 5,
-          "out_degree": 4,
-          "pagerank": 0.004621
-        },
-        "lhs:math.proportion": {
-          "degree": 4,
-          "in_degree": 1,
-          "out_degree": 3,
-          "pagerank": 0.001997
-        },
-        "lhs:math.pythagorean-theorem": {
-          "degree": 7,
-          "in_degree": 3,
-          "out_degree": 4,
-          "pagerank": 0.006527
-        },
-        "lhs:math.quadratic-equation": {
-          "degree": 8,
-          "in_degree": 4,
-          "out_degree": 4,
-          "pagerank": 0.005788
-        },
-        "lhs:math.quadratic-function": {
-          "degree": 7,
-          "in_degree": 3,
-          "out_degree": 4,
-          "pagerank": 0.00455
-        },
-        "lhs:math.ratio": {
-          "degree": 7,
-          "in_degree": 4,
-          "out_degree": 3,
-          "pagerank": 0.00443
-        },
-        "lhs:math.rational-number": {
-          "degree": 14,
-          "in_degree": 10,
-          "out_degree": 4,
-          "pagerank": 0.014373
-        },
-        "lhs:math.sequence": {
-          "degree": 5,
-          "in_degree": 2,
-          "out_degree": 3,
-          "pagerank": 0.001433
-        },
-        "lhs:math.standard-deviation": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:math.triangle": {
-          "degree": 10,
-          "in_degree": 6,
-          "out_degree": 4,
-          "pagerank": 0.0063
-        },
-        "lhs:math.trigonometric-ratio": {
-          "degree": 8,
-          "in_degree": 4,
-          "out_degree": 4,
-          "pagerank": 0.006517
-        },
-        "lhs:math.variable": {
-          "degree": 8,
-          "in_degree": 4,
-          "out_degree": 4,
-          "pagerank": 0.005614
-        },
-        "lhs:math.volume": {
-          "degree": 4,
-          "in_degree": 1,
-          "out_degree": 3,
-          "pagerank": 0.001698
-        },
-        "lhs:phys.acceleration": {
-          "degree": 13,
-          "in_degree": 9,
-          "out_degree": 4,
-          "pagerank": 0.009926
-        },
-        "lhs:phys.amplitude": {
-          "degree": 4,
-          "in_degree": 2,
-          "out_degree": 2,
-          "pagerank": 0.00337
-        },
-        "lhs:phys.atomic-structure": {
-          "degree": 8,
-          "in_degree": 6,
-          "out_degree": 2,
-          "pagerank": 0.008764
-        },
-        "lhs:phys.bohr-model": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.brownian-motion": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.buoyancy": {
-          "degree": 5,
-          "in_degree": 2,
-          "out_degree": 3,
-          "pagerank": 0.006079
-        },
-        "lhs:phys.capacitor": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.change-of-state": {
-          "degree": 5,
-          "in_degree": 2,
-          "out_degree": 3,
-          "pagerank": 0.001002
-        },
-        "lhs:phys.conservation-of-energy": {
-          "degree": 13,
-          "in_degree": 9,
-          "out_degree": 4,
-          "pagerank": 0.010997
-        },
-        "lhs:phys.coulombs-law": {
-          "degree": 6,
-          "in_degree": 3,
-          "out_degree": 3,
-          "pagerank": 0.00586
-        },
-        "lhs:phys.current": {
-          "degree": 14,
-          "in_degree": 8,
-          "out_degree": 6,
-          "pagerank": 0.012463
-        },
-        "lhs:phys.density": {
-          "degree": 6,
-          "in_degree": 3,
-          "out_degree": 3,
-          "pagerank": 0.013456
-        },
-        "lhs:phys.displacement": {
-          "degree": 6,
-          "in_degree": 4,
-          "out_degree": 2,
-          "pagerank": 0.01007
-        },
-        "lhs:phys.distance": {
-          "degree": 9,
-          "in_degree": 7,
-          "out_degree": 2,
-          "pagerank": 0.011739
-        },
-        "lhs:phys.doppler-effect": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.efficiency": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.electric-charge": {
-          "degree": 13,
-          "in_degree": 9,
-          "out_degree": 4,
-          "pagerank": 0.017842
-        },
-        "lhs:phys.electric-field": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.electric-motor": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.electromagnetic-induction": {
-          "degree": 6,
-          "in_degree": 3,
-          "out_degree": 3,
-          "pagerank": 0.003176
-        },
-        "lhs:phys.electromagnetic-spectrum": {
-          "degree": 8,
-          "in_degree": 4,
-          "out_degree": 4,
-          "pagerank": 0.002348
-        },
-        "lhs:phys.electromagnetic-wave": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.electromagnetism": {
-          "degree": 7,
-          "in_degree": 4,
-          "out_degree": 3,
-          "pagerank": 0.005964
-        },
-        "lhs:phys.energy": {
-          "degree": 19,
-          "in_degree": 14,
-          "out_degree": 5,
-          "pagerank": 0.014185
-        },
-        "lhs:phys.energy-loss": {
-          "degree": 6,
-          "in_degree": 3,
-          "out_degree": 3,
-          "pagerank": 0.003
-        },
-        "lhs:phys.energy-sources": {
-          "degree": 6,
-          "in_degree": 1,
-          "out_degree": 5,
-          "pagerank": 0.001035
-        },
-        "lhs:phys.equations-of-motion": {
-          "degree": 5,
-          "in_degree": 0,
-          "out_degree": 5,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.force": {
-          "degree": 25,
-          "in_degree": 17,
-          "out_degree": 8,
-          "pagerank": 0.018022
-        },
-        "lhs:phys.free-fall": {
-          "degree": 9,
-          "in_degree": 6,
-          "out_degree": 3,
-          "pagerank": 0.006369
-        },
-        "lhs:phys.frequency": {
-          "degree": 11,
-          "in_degree": 7,
-          "out_degree": 4,
-          "pagerank": 0.01158
-        },
-        "lhs:phys.friction": {
-          "degree": 4,
-          "in_degree": 1,
-          "out_degree": 3,
-          "pagerank": 0.001578
-        },
-        "lhs:phys.generator": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.graphical-analysis": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.gravitation": {
-          "degree": 12,
-          "in_degree": 8,
-          "out_degree": 4,
-          "pagerank": 0.007927
-        },
-        "lhs:phys.gravitational-acceleration": {
-          "degree": 6,
-          "in_degree": 3,
-          "out_degree": 3,
-          "pagerank": 0.005831
-        },
-        "lhs:phys.half-life": {
-          "degree": 1,
-          "in_degree": 0,
-          "out_degree": 1,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.heat": {
-          "degree": 13,
-          "in_degree": 8,
-          "out_degree": 5,
-          "pagerank": 0.007368
-        },
-        "lhs:phys.heat-capacity": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.heating-effect": {
-          "degree": 5,
-          "in_degree": 0,
-          "out_degree": 5,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.ideal-gas-model": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.impulse": {
-          "degree": 5,
-          "in_degree": 1,
-          "out_degree": 4,
-          "pagerank": 0.00169
-        },
-        "lhs:phys.inertia": {
-          "degree": 4,
-          "in_degree": 2,
-          "out_degree": 2,
-          "pagerank": 0.010664
-        },
-        "lhs:phys.kinetic-energy": {
-          "degree": 7,
-          "in_degree": 3,
-          "out_degree": 4,
-          "pagerank": 0.007077
-        },
-        "lhs:phys.lens": {
-          "degree": 5,
-          "in_degree": 2,
-          "out_degree": 3,
-          "pagerank": 0.002625
-        },
-        "lhs:phys.light": {
-          "degree": 14,
-          "in_degree": 8,
-          "out_degree": 6,
-          "pagerank": 0.006185
-        },
-        "lhs:phys.magnetic-field": {
-          "degree": 8,
-          "in_degree": 6,
-          "out_degree": 2,
-          "pagerank": 0.005875
-        },
-        "lhs:phys.magnetic-flux": {
-          "degree": 3,
-          "in_degree": 1,
-          "out_degree": 2,
-          "pagerank": 0.000954
-        },
-        "lhs:phys.magnetic-force": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.magnetism": {
-          "degree": 3,
-          "in_degree": 1,
-          "out_degree": 2,
-          "pagerank": 0.003265
-        },
-        "lhs:phys.mass": {
-          "degree": 15,
-          "in_degree": 12,
-          "out_degree": 3,
-          "pagerank": 0.031018
-        },
-        "lhs:phys.measurement": {
-          "degree": 6,
-          "in_degree": 4,
-          "out_degree": 2,
-          "pagerank": 0.016754
-        },
-        "lhs:phys.mechanical-advantage": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.mirror": {
-          "degree": 3,
-          "in_degree": 1,
-          "out_degree": 2,
-          "pagerank": 0.001437
-        },
-        "lhs:phys.momentum": {
-          "degree": 7,
-          "in_degree": 3,
-          "out_degree": 4,
-          "pagerank": 0.005284
-        },
-        "lhs:phys.motion": {
-          "degree": 5,
-          "in_degree": 1,
-          "out_degree": 4,
-          "pagerank": 0.000859
-        },
-        "lhs:phys.newtons-first-law": {
-          "degree": 7,
-          "in_degree": 4,
-          "out_degree": 3,
-          "pagerank": 0.007612
-        },
-        "lhs:phys.newtons-law-of-gravitation": {
-          "degree": 6,
-          "in_degree": 1,
-          "out_degree": 5,
-          "pagerank": 0.002198
-        },
-        "lhs:phys.newtons-second-law": {
-          "degree": 12,
-          "in_degree": 7,
-          "out_degree": 5,
-          "pagerank": 0.016393
-        },
-        "lhs:phys.newtons-third-law": {
-          "degree": 4,
-          "in_degree": 1,
-          "out_degree": 3,
-          "pagerank": 0.002397
-        },
-        "lhs:phys.nuclear-binding-energy": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.nuclear-fission": {
-          "degree": 6,
-          "in_degree": 4,
-          "out_degree": 2,
-          "pagerank": 0.006528
-        },
-        "lhs:phys.nuclear-fusion": {
-          "degree": 6,
-          "in_degree": 4,
-          "out_degree": 2,
-          "pagerank": 0.006528
-        },
-        "lhs:phys.ohms-law": {
-          "degree": 6,
-          "in_degree": 3,
-          "out_degree": 3,
-          "pagerank": 0.005575
-        },
-        "lhs:phys.our-environment": {
-          "degree": 3,
-          "in_degree": 1,
-          "out_degree": 2,
-          "pagerank": 0.000859
-        },
-        "lhs:phys.phase-change": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.photoelectric-effect": {
-          "degree": 3,
-          "in_degree": 1,
-          "out_degree": 2,
-          "pagerank": 0.000954
-        },
-        "lhs:phys.physical-quantity": {
-          "degree": 4,
-          "in_degree": 2,
-          "out_degree": 2,
-          "pagerank": 0.01399
-        },
-        "lhs:phys.potential-energy": {
-          "degree": 7,
-          "in_degree": 2,
-          "out_degree": 5,
-          "pagerank": 0.005681
-        },
-        "lhs:phys.power": {
-          "degree": 7,
-          "in_degree": 4,
-          "out_degree": 3,
-          "pagerank": 0.002706
-        },
-        "lhs:phys.pressure": {
-          "degree": 7,
-          "in_degree": 4,
-          "out_degree": 3,
-          "pagerank": 0.006766
-        },
-        "lhs:phys.projectile-motion": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.quantized-energy-levels": {
-          "degree": 2,
-          "in_degree": 0,
-          "out_degree": 2,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.radioactivity": {
-          "degree": 7,
-          "in_degree": 4,
-          "out_degree": 3,
-          "pagerank": 0.010383
-        },
-        "lhs:phys.ray-model": {
-          "degree": 4,
-          "in_degree": 0,
-          "out_degree": 4,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.reflection": {
-          "degree": 6,
-          "in_degree": 4,
-          "out_degree": 2,
-          "pagerank": 0.003734
-        },
-        "lhs:phys.refraction": {
-          "degree": 7,
-          "in_degree": 4,
-          "out_degree": 3,
-          "pagerank": 0.004213
-        },
-        "lhs:phys.resistance": {
-          "degree": 7,
-          "in_degree": 4,
-          "out_degree": 3,
-          "pagerank": 0.005668
-        },
-        "lhs:phys.scalar": {
-          "degree": 4,
-          "in_degree": 2,
-          "out_degree": 2,
-          "pagerank": 0.007183
-        },
-        "lhs:phys.simple-harmonic-motion": {
-          "degree": 3,
-          "in_degree": 0,
-          "out_degree": 3,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.sound": {
-          "degree": 5,
-          "in_degree": 1,
-          "out_degree": 4,
-          "pagerank": 0.002758
-        },
-        "lhs:phys.specific-heat": {
-          "degree": 8,
-          "in_degree": 4,
-          "out_degree": 4,
-          "pagerank": 0.004158
-        },
-        "lhs:phys.speed": {
-          "degree": 5,
-          "in_degree": 2,
-          "out_degree": 3,
-          "pagerank": 0.003327
-        },
-        "lhs:phys.temperature": {
-          "degree": 10,
-          "in_degree": 8,
-          "out_degree": 2,
-          "pagerank": 0.006493
-        },
-        "lhs:phys.thermal-energy": {
-          "degree": 11,
-          "in_degree": 7,
-          "out_degree": 4,
-          "pagerank": 0.007361
-        },
-        "lhs:phys.time": {
-          "degree": 13,
-          "in_degree": 10,
-          "out_degree": 3,
-          "pagerank": 0.010315
-        },
-        "lhs:phys.unit": {
-          "degree": 5,
-          "in_degree": 3,
-          "out_degree": 2,
-          "pagerank": 0.017037
-        },
-        "lhs:phys.vector": {
-          "degree": 5,
-          "in_degree": 3,
-          "out_degree": 2,
-          "pagerank": 0.009547
-        },
-        "lhs:phys.velocity": {
-          "degree": 11,
-          "in_degree": 7,
-          "out_degree": 4,
-          "pagerank": 0.005312
-        },
-        "lhs:phys.voltage": {
-          "degree": 11,
-          "in_degree": 6,
-          "out_degree": 5,
-          "pagerank": 0.010312
-        },
-        "lhs:phys.wave": {
-          "degree": 16,
-          "in_degree": 11,
-          "out_degree": 5,
-          "pagerank": 0.012512
-        },
-        "lhs:phys.wave-interference": {
-          "degree": 1,
-          "in_degree": 0,
-          "out_degree": 1,
-          "pagerank": 0.00067
-        },
-        "lhs:phys.wave-speed": {
-          "degree": 7,
-          "in_degree": 4,
-          "out_degree": 3,
-          "pagerank": 0.008094
-        },
-        "lhs:phys.wavelength": {
-          "degree": 7,
-          "in_degree": 4,
-          "out_degree": 3,
-          "pagerank": 0.007952
-        },
-        "lhs:phys.weight": {
-          "degree": 7,
-          "in_degree": 3,
-          "out_degree": 4,
-          "pagerank": 0.012122
-        },
-        "lhs:phys.work": {
-          "degree": 9,
-          "in_degree": 5,
-          "out_degree": 4,
-          "pagerank": 0.00714
-        },
-        "lhs:phys.work-energy-theorem": {
-          "degree": 5,
-          "in_degree": 2,
-          "out_degree": 3,
-          "pagerank": 0.004789
-        },
-        "lhs:practice.scientific-observation": {
-          "degree": 3,
-          "in_degree": 2,
-          "out_degree": 1,
-          "pagerank": 0.001808
-        }
-      }
+      "top_20": [],
+      "all": {}
     },
     "components": {
-      "count": 2,
-      "largest": 181,
+      "count": 0,
+      "largest": 0,
       "isolated": [],
-      "sizes": [
-        181,
-        43
-      ]
+      "sizes": []
     },
     "prerequisite_chains": {
-      "count": 97,
-      "sample": [
-        {
-          "from": "lhs:bio.cellular-respiration",
-          "to": "lhs:chem.matter",
-          "path": [
-            "lhs:bio.cellular-respiration",
-            "lhs:chem.chemical-reaction",
-            "lhs:chem.compound",
-            "lhs:chem.atom",
-            "lhs:chem.matter"
-          ],
-          "length": 4
-        },
-        {
-          "from": "lhs:bio.cellular-respiration",
-          "to": "lhs:phys.electric-charge",
-          "path": [
-            "lhs:bio.cellular-respiration",
-            "lhs:chem.chemical-reaction",
-            "lhs:chem.compound",
-            "lhs:chem.atom",
-            "lhs:phys.electric-charge"
-          ],
-          "length": 4
-        },
-        {
-          "from": "lhs:bio.cellular-respiration",
-          "to": "lhs:chem.atom",
-          "path": [
-            "lhs:bio.cellular-respiration",
-            "lhs:chem.chemical-reaction",
-            "lhs:chem.compound",
-            "lhs:chem.element",
-            "lhs:chem.atom"
-          ],
-          "length": 4
-        },
-        {
-          "from": "lhs:bio.cellular-respiration",
-          "to": "lhs:chem.matter",
-          "path": [
-            "lhs:bio.cellular-respiration",
-            "lhs:chem.chemical-reaction",
-            "lhs:chem.element",
-            "lhs:chem.atom",
-            "lhs:chem.matter"
-          ],
-          "length": 4
-        },
-        {
-          "from": "lhs:bio.cellular-respiration",
-          "to": "lhs:phys.electric-charge",
-          "path": [
-            "lhs:bio.cellular-respiration",
-            "lhs:chem.chemical-reaction",
-            "lhs:chem.element",
-            "lhs:chem.atom",
-            "lhs:phys.electric-charge"
-          ],
-          "length": 4
-        },
-        {
-          "from": "lhs:bio.dna-replication",
-          "to": "lhs:chem.atom",
-          "path": [
-            "lhs:bio.dna-replication",
-            "lhs:bio.enzyme",
-            "lhs:chem.chemical-reaction",
-            "lhs:chem.compound",
-            "lhs:chem.atom"
-          ],
-          "length": 4
-        },
-        {
-          "from": "lhs:bio.dna-replication",
-          "to": "lhs:chem.element",
-          "path": [
-            "lhs:bio.dna-replication",
-            "lhs:bio.enzyme",
-            "lhs:chem.chemical-reaction",
-            "lhs:chem.compound",
-            "lhs:chem.element"
-          ],
-          "length": 4
-        },
-        {
-          "from": "lhs:bio.dna-replication",
-          "to": "lhs:chem.atom",
-          "path": [
-            "lhs:bio.dna-replication",
-            "lhs:bio.enzyme",
-            "lhs:chem.chemical-reaction",
-            "lhs:chem.element",
-            "lhs:chem.atom"
-          ],
-          "length": 4
-        },
-        {
-          "from": "lhs:bio.enzyme",
-          "to": "lhs:chem.matter",
-          "path": [
-            "lhs:bio.enzyme",
-            "lhs:chem.chemical-reaction",
-            "lhs:chem.compound",
-            "lhs:chem.atom",
-            "lhs:chem.matter"
-          ],
-          "length": 4
-        },
-        {
-          "from": "lhs:bio.enzyme",
-          "to": "lhs:phys.electric-charge",
-          "path": [
-            "lhs:bio.enzyme",
-            "lhs:chem.chemical-reaction",
-            "lhs:chem.compound",
-            "lhs:chem.atom",
-            "lhs:phys.electric-charge"
-          ],
-          "length": 4
-        },
-        {
-          "from": "lhs:bio.enzyme",
-          "to": "lhs:chem.atom",
-          "path": [
-            "lhs:bio.enzyme",
-            "lhs:chem.chemical-reaction",
-            "lhs:chem.compound",
-            "lhs:chem.element",
-            "lhs:chem.atom"
-          ],
-          "length": 4
-        },
-        {
-          "from": "lhs:bio.enzyme",
-          "to": "lhs:chem.matter",
-          "path": [
-            "lhs:bio.enzyme",
-            "lhs:chem.chemical-reaction",
-            "lhs:chem.element",
-            "lhs:chem.atom",
-            "lhs:chem.matter"
-          ],
-          "length": 4
-        },
-        {
-          "from": "lhs:bio.enzyme",
-          "to": "lhs:phys.electric-charge",
-          "path": [
-            "lhs:bio.enzyme",
-            "lhs:chem.chemical-reaction",
-            "lhs:chem.element",
-            "lhs:chem.atom",
-            "lhs:phys.electric-charge"
-          ],
-          "length": 4
-        },
-        {
-          "from": "lhs:bio.glycolysis",
-          "to": "lhs:chem.atom",
-          "path": [
-            "lhs:bio.glycolysis",
-            "lhs:bio.enzyme",
-            "lhs:chem.chemical-reaction",
-            "lhs:chem.compound",
-            "lhs:chem.atom"
-          ],
-          "length": 4
-        },
-        {
-          "from": "lhs:bio.glycolysis",
-          "to": "lhs:chem.element",
-          "path": [
-            "lhs:bio.glycolysis",
-            "lhs:bio.enzyme",
-            "lhs:chem.chemical-reaction",
-            "lhs:chem.compound",
-            "lhs:chem.element"
-          ],
-          "length": 4
-        },
-        {
-          "from": "lhs:bio.glycolysis",
-          "to": "lhs:chem.atom",
-          "path": [
-            "lhs:bio.glycolysis",
-            "lhs:bio.enzyme",
-            "lhs:chem.chemical-reaction",
-            "lhs:chem.element",
-            "lhs:chem.atom"
-          ],
-          "length": 4
-        },
-        {
-          "from": "lhs:bio.immune-system",
-          "to": "lhs:phys.mass",
-          "path": [
-            "lhs:bio.immune-system",
-            "lhs:bio.homeostasis",
-            "lhs:bio.cell",
-            "lhs:chem.matter",
-            "lhs:phys.mass"
-          ],
-          "length": 4
-        },
-        {
-          "from": "lhs:bio.photosynthesis",
-          "to": "lhs:chem.matter",
-          "path": [
-            "lhs:bio.photosynthesis",
-            "lhs:chem.chemical-reaction",
-            "lhs:chem.compound",
-            "lhs:chem.atom",
-            "lhs:chem.matter"
-          ],
-          "length": 4
-        },
-        {
-          "from": "lhs:bio.photosynthesis",
-          "to": "lhs:phys.electric-charge",
-          "path": [
-            "lhs:bio.photosynthesis",
-            "lhs:chem.chemical-reaction",
-            "lhs:chem.compound",
-            "lhs:chem.atom",
-            "lhs:phys.electric-charge"
-          ],
-          "length": 4
-        },
-        {
-          "from": "lhs:bio.photosynthesis",
-          "to": "lhs:chem.atom",
-          "path": [
-            "lhs:bio.photosynthesis",
-            "lhs:chem.chemical-reaction",
-            "lhs:chem.compound",
-            "lhs:chem.element",
-            "lhs:chem.atom"
-          ],
-          "length": 4
-        }
-      ]
+      "count": 0,
+      "sample": []
     },
     "cross_domain_pathways": {
-      "count": 6,
-      "pathways": [
-        {
-          "source": "lhs:chem.diffusion",
-          "target": "lhs:bio.osmosis",
-          "domains": "chemistry→biology",
-          "connection": "lhs:conn.000378"
-        },
-        {
-          "source": "lhs:chem.atom",
-          "target": "lhs:phys.atomic-structure",
-          "domains": "chemistry→physics",
-          "connection": "lhs:conn.000382"
-        },
-        {
-          "source": "lhs:phys.light",
-          "target": "lhs:bio.photosynthesis",
-          "domains": "physics→biology",
-          "connection": "lhs:conn.000380"
-        },
-        {
-          "source": "lhs:phys.energy",
-          "target": "lhs:chem.chemical-reaction",
-          "domains": "physics→chemistry",
-          "connection": "lhs:conn.000379"
-        },
-        {
-          "source": "lhs:phys.electric-charge",
-          "target": "lhs:chem.ionic-bond",
-          "domains": "physics→chemistry",
-          "connection": "lhs:conn.000383"
-        },
-        {
-          "source": "lhs:phys.gravitation",
-          "target": "lhs:earth.atmosphere",
-          "domains": "physics→earth-space",
-          "connection": "lhs:conn.000381"
-        }
-      ]
+      "count": 0,
+      "pathways": []
     },
     "analogy_clusters": {
-      "count": 3,
-      "pairs": [
-        [
-          "lhs:phys.current",
-          "lhs:chem.diffusion"
-        ],
-        [
-          "lhs:phys.heat",
-          "lhs:phys.current"
-        ],
-        [
-          "lhs:phys.wave",
-          "lhs:phys.sound"
-        ]
-      ]
+      "count": 0,
+      "pairs": []
     },
     "approximation_chains": {
-      "count": 3,
-      "chains": [
-        {
-          "source": "lhs:phys.bohr-model",
-          "target": "lhs:phys.atomic-structure",
-          "regime": [
-            "quantum",
-            "nonrelativistic"
-          ]
-        },
-        {
-          "source": "lhs:phys.ideal-gas-model",
-          "target": "lhs:earth.atmosphere",
-          "regime": [
-            "classical",
-            "moderate_pressure"
-          ]
-        },
-        {
-          "source": "lhs:phys.ray-model",
-          "target": "lhs:phys.light",
-          "regime": [
-            "classical"
-          ]
-        }
-      ]
+      "count": 0,
+      "chains": []
     }
   },
   "policy": {

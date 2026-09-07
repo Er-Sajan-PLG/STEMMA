@@ -1,0 +1,26 @@
+# Pre-commit hooks for STEMMA
+repos:
+  - repo: local
+    hooks:
+      - id: validate-canonical
+        name: Validate Canonical Knowledge
+        entry: python3 scripts/validate.py
+        language: system
+        files: ^(content|connections|sources|schema)/
+        pass_filenames: false
+        always_run: true
+
+      - id: check-version-bump
+        name: Check Version Bump
+        entry: bash -c 'if git diff --name-only | grep -qE "^schema/.*\.json$|^schema/VERSION\.yaml$"; then echo "⚠️  Schema changed — check schema/VERSION.yaml bump"; fi'
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: regenerate-exports
+        name: Regenerate Exports
+        entry: python3 scripts/validate.py
+        language: system
+        files: ^(content|connections|sources)/
+        pass_filenames: false
+        always_run: true

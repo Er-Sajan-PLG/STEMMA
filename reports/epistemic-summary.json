@@ -1,44 +1,29 @@
 {
-  "total_connection_records": 654,
-  "canonical_object_records": 654,
-  "canonical_scientific_assertions": 50,
-  "asserted": 1,
+  "total_connection_records": 0,
+  "canonical_object_records": 0,
+  "canonical_scientific_assertions": 0,
+  "asserted": 0,
   "inferred": 0,
-  "proposed": 653,
+  "proposed": 0,
   "reviewed_only": 0,
   "reviewed": 0,
-  "canonical": 50,
-  "unreviewed": 604,
-  "total_reviewed_including_canonical": 50,
-  "active": 650,
-  "deprecated": 4,
+  "canonical": 0,
+  "unreviewed": 0,
+  "total_reviewed_including_canonical": 0,
+  "active": 0,
+  "deprecated": 0,
   "rejected": 0,
-  "migrated": 641,
-  "manually_authored": 13,
+  "migrated": 0,
+  "manually_authored": 0,
   "llm_authored": 0,
-  "human_reviewed": 50,
-  "with_confidence": 1,
-  "without_confidence": 653,
-  "by_assertion_type": {
-    "proposed": 653,
-    "asserted": 1
-  },
-  "by_review": {
-    "canonical": 50,
-    "unreviewed": 604
-  },
-  "by_status": {
-    "active": 650,
-    "deprecated": 4
-  },
-  "by_origin": {
-    "migrated": 641,
-    "human-authored": 13
-  },
-  "by_method": {
-    "migration": 641,
-    "manual": 13
-  },
+  "human_reviewed": 0,
+  "with_confidence": 0,
+  "without_confidence": 0,
+  "by_assertion_type": {},
+  "by_review": {},
+  "by_status": {},
+  "by_origin": {},
+  "by_method": {},
   "review_semantics": "reviewed-only (review.status==reviewed) vs canonical (review.status==canonical, terminal reviewed state); canonical implies reviewed; total_reviewed_including_canonical = reviewed-only + canonical",
   "note": "canonical object (file exists) != canonical scientific assertion (review.status==canonical). All 397 are canonical objects; 15 are canonical assertions."
 }

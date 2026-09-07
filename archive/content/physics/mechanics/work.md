@@ -1,14 +1,10 @@
 ---
-id: lhs:phys.work
+id: stemma:phys.work
 type: quantity
 name: Work
 domain: physics
 status: draft
-definition: >-
-  Energy transferred to or from an object via the application of force along a
-  displacement. For a constant force, work equals the product of force and
-  displacement in the direction of the force: W = F·d·cos(θ). Work is a scalar
-  quantity measured in joules.
+definition: Energy transferred to or from an object via the application of force along a displacement. For a constant force, work equals the product of force and displacement in the direction of the force: W = F·d·cos(θ). Work is a scalar quantity measured in joules.
 symbol: W
 unit: joule (J)
 equation: W = F·d·cos(θ) ; W = ∫ F·ds
@@ -18,7 +14,7 @@ examples:
 - Friction does negative work on a sliding block.
 common_misconceptions:
 - Work is done whenever a force is applied (work requires displacement in the force direction).
-- Holding an object stationary requires work (no displacement = no work, despite muscular effort).
+- Holding a heavy weight stationary requires work (no displacement = no work, despite muscular effort).
 - Work is a vector quantity (work is scalar; force and displacement are vectors).
 learning_objectives:
 - Define work as energy transfer via force through displacement.
@@ -38,19 +34,6 @@ provenance:
   ai_drafted: true
   source_kind: textbook
   source: "Halliday, Resnick & Walker, Fundamentals of Physics, 12th Ed."
-relationships:
-- type: mathematically_requires
-  target: lhs:phys.force
-- type: mathematically_requires
-  target: lhs:phys.displacement
-- type: mathematically_requires
-  target: lhs:phys.energy
-- type: appears_in_law
-  target: lhs:phys.work-energy-theorem
-- type: related_to
-  target: lhs:phys.power
-- type: related_to
-  target: lhs:phys.kinetic-energy
 ---
 
 ## Notes

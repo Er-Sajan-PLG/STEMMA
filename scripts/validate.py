@@ -1,8 +1,25 @@
 #!/usr/bin/env python3
-"""STEMMA validator + export generator (v0.3).
+"""STEMMA validator + export generator.
 
-Validates canonical content under content/ against schema/concept.schema.json,
-then regenerates exports/knowledge.json (a derived artifact — never the source of truth).
+Validates canonical content under content/ (entities), connections/ (first-class
+assertions) and sources/ (citations) against their schemas, the relation
+registry, the controlled vocabularies, and the cross-object invariants added by
+plan v2 (ADR-0020/0021):
+
+    (connections/ is the single source of truth; regenerate with
+    scripts/sync_relationships.py)
+  - registry inverse coherence (mutual inverses, mirrored domain/range,
+    symmetric relations carry no inverse, domain/range reference known types)
+  - context vocabulary conformance (domains/subdomains/regimes/scales)
+  - inference-rule mutual exclusivity (ADR-0014) and confidence/basis pairing
+    (ADR-0013)
+  - lifecycle pointer resolution (deprecated_by, lifecycle.replaced_by)
+  - dependency/hierarchy cycle detection on transitive relations
+
+then regenerates exports/knowledge.json (a derived artifact — never the source
+of truth). Version constants come from schema/VERSION.yaml (ADR-0022); the
+export stamps a deterministic content_hash instead of wall-clock time so the
+tracked artifact is reproducible byte-for-byte.
 
 Exit codes
     0  valid; export regenerated
@@ -17,7 +34,6 @@ import hashlib
 import json
 import re
 import sys
-from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, cast
 
@@ -44,113 +60,22 @@ SCHEMA_ = SCHEMA / "concept.schema.json"
 CONN_SCHEMA = SCHEMA / "connection.schema.json"
 SOURCE_SCHEMA = SCHEMA / "source.schema.json"
 RELATION_REGISTRY = SCHEMA / "relation-registry.yaml"
-EXTENSION_REGISTRY = ROOT / "schema" / "extension-registry.yaml"
+VERSION_SOURCE = SCHEMA / "VERSION.yaml"
+VOCAB_DOMAINS = SCHEMA / "vocabularies" / "domains.yaml"
+VOCAB_SUBDOMAINS = SCHEMA / "vocabularies" / "subdomains.yaml"
+VOCAB_REGIMES = SCHEMA / "vocabularies" / "regimes.yaml"
+ID_DOMAIN_MAP = SCHEMA / "id-domain-map.yaml"
 EXPORT = ROOT / "exports" / "knowledge.json"
+EXPORT_SCHEMA = SCHEMA / "export.schema.json"
 
-ID_RE = re.compile(r"^lhs:[a-z][a-z0-9-]*\.[a-z0-9][a-z0-9-]*$")
-CONN_ID_RE = re.compile(r"^lhs:conn\.[0-9]{6}$")
-SRC_ID_RE = re.compile(r"^lhs:src\.[a-z0-9][a-z0-9-]*$")
-
-# Extended entity types per v0.3 schema
-TYPES = {
-    "concept", "quantity", "unit", "law", "equation", "misconception",
-    "phenomenon", "model", "experiment", "regime",
-    "observation", "measurement", "classification", "definition", "claim"
-}
+ID_RE = re.compile(r"^stemma:[a-z][a-z0-9-]*\.[a-z0-9][a-z0-9-]*$")
+CONN_ID_RE = re.compile(r"^stemma:conn\.[0-9]{6}$")
+SRC_ID_RE = re.compile(r"^stemma:src\.[a-z0-9][a-z0-9-]*$")
 STATUSES = {"draft", "machine_validated", "human_reviewed", "canonical", "deprecated", "superseded"}
-
-# Core relationship types (inline entity.relationships[])
-REL_TYPES = {
-    "logically_requires", "mathematically_requires", "part_of", "derived_from",
-    "special_case_of", "generalizes", "equivalent_to", "applies_to",
-    "appears_in_law", "related_to",
-}
-
-# Transitive relationship types that should NOT have cycles (structural/hierarchical)
-# These represent true "is-a" or "part-of" hierarchies where cycles are logical errors
-STRUCTURAL_TRANSITIVE_REL_TYPES = {
-    "part_of", "has_part", "is_a", "special_case_of", "generalizes",
-    "broader_than", "narrower_than", "equivalent_to",
-}
-
-# Dependency transitive types where cycles MAY be legitimate (mutual dependencies in math/science)
-DEPENDENCY_TRANSITIVE_REL_TYPES = {
-    "logically_requires", "mathematically_requires", "derived_from",
-    "requires", "prerequisite_of", "depends_on",
-}
-
-# Inverse relationship pairs
-INVERSE_PAIRS = {
-    "part_of": "has_part",
-    "has_part": "part_of",
-    "generalizes": "special_case_of",
-    "special_case_of": "generalizes",
-    "broader_than": "narrower_than",
-    "narrower_than": "broader_than",
-    "logically_requires": "logically_required_by",
-    "logically_required_by": "logically_requires",
-    "mathematically_requires": "mathematically_required_by",
-    "mathematically_required_by": "mathematically_requires",
-    "derived_from": "is_basis_of",
-    "is_basis_of": "derived_from",
-    "requires": "required_by",
-    "required_by": "requires",
-    "prerequisite_of": "enables_learning_of",
-    "enables_learning_of": "prerequisite_of",
-    "depends_on": "depended_on_by",
-    "depended_on_by": "depends_on",
-    "causes": "caused_by",
-    "caused_by": "causes",
-    "contributes_to": "has_contribution_from",
-    "has_contribution_from": "contributes_to",
-    "results_in": "results_from",
-    "results_from": "results_in",
-    "influences": "influenced_by",
-    "influenced_by": "influences",
-    "prevents": "prevented_by",
-    "prevented_by": "prevents",
-    "explains": "explained_by",
-    "explained_by": "explains",
-    "accounts_for": "accounted_for_by",
-    "accounted_for_by": "accounts_for",
-    "predicted_by": "predicts",
-    "predicts": "predicted_by",
-    "supported_by": "supports",
-    "supports": "supported_by",
-    "evidenced_by": "evidence_for",
-    "evidence_for": "evidenced_by",
-    "approximates": "approximated_by",
-    "approximated_by": "approximates",
-    "idealizes": "idealized_by",
-    "idealized_by": "idealizes",
-    "extends": "extended_by",
-    "extended_by": "extends",
-    "supersedes": "superseded_by",
-    "superseded_by": "supersedes",
-    "simplifies": "simplified_by",
-    "simplified_by": "simplifies",
-    "measures": "measured_by",
-    "measured_by": "measures",
-    "quantifies": "quantified_by",
-    "quantified_by": "quantifies",
-    "expressed_in": "expresses",
-    "expresses": "expressed_in",
-    "has_unit": "unit_of",
-    "unit_of": "has_unit",
-    "enables": "enabled_by",
-    "enabled_by": "enables",
-    "used_in": "uses",
-    "uses": "used_in",
-    "applied_to": "applies",
-    "applies": "applied_to",
-    "implemented_by": "implements",
-    "implements": "implemented_by",
-    "maps_to": "mapped_from",
-    "mapped_from": "maps_to",
-    "manifestation_of": "manifests_as",
-    "manifests_as": "manifestation_of",
-}
-
+# Entity types — must match the enum in concept.schema.json (v0.3 adds
+# phenomenon/model/experiment per ADR-0021; check_registry_coherence reads the
+# schema enum as the authoritative list and falls back to this set).
+TYPES = {"concept", "quantity", "unit", "law", "equation", "misconception", "phenomenon", "model", "experiment"}
 REQUIRED = ["id", "type", "name", "domain", "status", "definition", "provenance"]
 
 SOURCE_KINDS = {
@@ -158,12 +83,134 @@ SOURCE_KINDS = {
     "standards-or-specification", "ai-assisted-draft", "other",
 }
 REVIEWED_STATUSES = {"human_reviewed", "canonical"}
+EXTENSION_REGISTRY = ROOT / "schema" / "extension-registry.yaml"
+AGENT_REGISTRY = SCHEMA / "agent-registry.yaml"
+AGENT_ID_RE = re.compile(r"^(human|process|llm|unknown):[A-Za-z0-9][A-Za-z0-9._/@-]*$")
 
-# Error severity levels
-class Severity:
-    ERROR = "ERROR"
-    WARNING = "WARNING"
-    INFO = "INFO"
+# external_ids (ADR-0016 / plan v2 E4.1): scheme -> value pattern. Unknown schemes
+# are allowed (registry stays open) but the schema restricts scheme names; known
+# schemes get format-checked so a typo'd QID cannot silently anchor an entity.
+EXTERNAL_ID_FORMATS = {
+    "wd": re.compile(r"^Q[1-9][0-9]*$"),
+    "orcid": re.compile(r"^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]$"),
+    "doi": re.compile(r"^10\.[0-9]{4,9}/\S+$"),
+    "isbn": re.compile(r"^(97[89])?[0-9]{9}[0-9X]$"),
+    "qudt": re.compile(r"^[A-Za-z0-9_-]+$"),
+    "ucum": re.compile(r"^\S+$"),
+    "cas": re.compile(r"^[0-9]{2,7}-[0-9]{2}-[0-9]$"),
+}
+
+
+def load_versions() -> dict:
+    """Load the single authoritative version source (ADR-0022)."""
+    if not VERSION_SOURCE.exists():
+        raise SystemExit(f"error: missing {VERSION_SOURCE.relative_to(ROOT)} (ADR-0022 single version source)")
+    data = yaml.safe_load(VERSION_SOURCE.read_text(encoding="utf-8")) or {}
+    for key in ("schema_version", "export_version"):
+        if not data.get(key):
+            raise SystemExit(f"error: {VERSION_SOURCE.relative_to(ROOT)} missing {key}")
+    return data
+
+
+def load_agent_registry() -> dict[str, dict]:
+    """Load schema/agent-registry.yaml (plan v2 E4.2) -> {agent_id: entry}."""
+    if not AGENT_REGISTRY.exists():
+        return {}
+    data = yaml.safe_load(AGENT_REGISTRY.read_text(encoding="utf-8")) or {}
+    out: dict[str, dict] = {}
+    for entry in data.get("agents") or []:
+        if isinstance(entry, dict) and isinstance(entry.get("id"), str):
+            out[entry["id"]] = entry
+    return out
+
+
+def check_agent_registry_shape(agents: dict[str, dict], errors: list) -> None:
+    """Registry self-consistency: id prefix == class; well-formed ids."""
+    for aid, entry in agents.items():
+        if not AGENT_ID_RE.fullmatch(aid):
+            errors.append(f"schema/agent-registry.yaml: malformed agent id {aid!r}")
+            continue
+        prefix = aid.split(":", 1)[0]
+        if entry.get("class") != prefix:
+            errors.append(f"schema/agent-registry.yaml: agent {aid} class {entry.get('class')!r} != id prefix {prefix!r}")
+        if entry.get("status") not in ("active", "retired", "test"):
+            errors.append(f"schema/agent-registry.yaml: agent {aid} status must be active|retired|test")
+
+
+def _agent_refs(conn: dict) -> list[tuple[str, str]]:
+    """All (field, agent_id) pairs referenced by a connection's provenance."""
+    prov = conn.get("provenance") or {}
+    refs: list[tuple[str, str]] = []
+    for field in ("asserted_by", "generated_by"):
+        obj = prov.get(field)
+        if isinstance(obj, dict) and isinstance(obj.get("id"), str):
+            refs.append((f"provenance.{field}.id", obj["id"]))
+    for i, obj in enumerate(prov.get("reviewed_by") or []):
+        if isinstance(obj, dict) and isinstance(obj.get("id"), str):
+            refs.append((f"provenance.reviewed_by[{i}].id", obj["id"]))
+    for i, h in enumerate(prov.get("review_history") or []):
+        if isinstance(h, dict) and isinstance(h.get("reviewer"), str):
+            refs.append((f"provenance.review_history[{i}].reviewer", h["reviewer"]))
+    return refs
+
+
+def check_connection_agents(conn: dict, agents: dict[str, dict], errors: list) -> None:
+    """Every agent id in provenance must resolve in the agent registry (E4.2).
+
+    Additionally: the id's class prefix must match the declared `type`, a
+    reviewer must be a human agent, and newly authored (non-migrated) assertions
+    may not be attributed to an `unknown:` agent (plan v2 §4 metric)."""
+    here = f"{conn.get('_file', '<connection>')}:"
+    prov = conn.get("provenance") or {}
+    for field, aid in _agent_refs(conn):
+        if aid not in agents:
+            errors.append(f"{here} {field} '{aid}' not in schema/agent-registry.yaml (E4.2)")
+    for field in ("asserted_by", "generated_by"):
+        obj = prov.get(field)
+        if isinstance(obj, dict) and isinstance(obj.get("id"), str) and isinstance(obj.get("type"), str):
+            if not obj["id"].startswith(obj["type"] + ":"):
+                errors.append(f"{here} provenance.{field}: id '{obj['id']}' prefix != type '{obj['type']}'")
+    for i, obj in enumerate(prov.get("reviewed_by") or []):
+        if isinstance(obj, dict) and isinstance(obj.get("id"), str):
+            if not obj["id"].startswith(str(obj.get("type")) + ":"):
+                errors.append(f"{here} provenance.reviewed_by[{i}]: id '{obj['id']}' prefix != type '{obj.get('type')}'")
+    for i, h in enumerate(prov.get("review_history") or []):
+        if isinstance(h, dict) and isinstance(h.get("reviewer"), str) and not h["reviewer"].startswith("human:"):
+            errors.append(f"{here} provenance.review_history[{i}].reviewer must be a human agent (found '{h['reviewer']}')")
+    method = (prov.get("method") or {}).get("type") if isinstance(prov.get("method"), dict) else None
+    asserted = prov.get("asserted_by") or {}
+    if method != "migration" and isinstance(asserted, dict) and str(asserted.get("id", "")).startswith("unknown:"):
+        errors.append(f"{here} non-migrated assertion attributed to an unknown: agent — forbidden (E4.2)")
+
+
+def check_external_ids(obj: dict, errors: list, here: str) -> None:
+    """Format-check external_ids values for known schemes (E4.1)."""
+    ext = obj.get("external_ids")
+    if ext is None:
+        return
+    if not isinstance(ext, dict):
+        errors.append(f"{here} external_ids must be a mapping")
+        return
+    for scheme, value in ext.items():
+        values = value if isinstance(value, list) else [value]
+        pattern = EXTERNAL_ID_FORMATS.get(str(scheme))
+        for v in values:
+            if not isinstance(v, str) or not v.strip():
+                errors.append(f"{here} external_ids.{scheme} contains a non-string/empty value")
+            elif pattern and not pattern.fullmatch(v):
+                errors.append(f"{here} external_ids.{scheme} value {v!r} does not match the {scheme} format")
+        if isinstance(value, list) and len(set(value)) != len(value):
+            errors.append(f"{here} external_ids.{scheme} has duplicate values")
+
+
+def load_vocabulary(path: Path) -> Any:
+    if not path.exists():
+        return None
+    try:
+        return yaml.safe_load(path.read_text(encoding="utf-8"))
+    except yaml.YAMLError:
+        return None
+
 
 
 def load_extension_registry() -> dict:
@@ -328,9 +375,81 @@ def _collect_duplicate_keys(node: Any, dups: list[str], path: str) -> None:
             _collect_duplicate_keys(value_node, dups, f"{path}[]")
 
 
-def add_error(errors: list, message: str, severity: str = Severity.ERROR) -> None:
-    """Add an error with severity level."""
-    errors.append(f"[{severity}] {message}")
+def load_id_domain_map() -> dict:
+    """Load schema/id-domain-map.yaml (ADR-0034)."""
+    if not ID_DOMAIN_MAP.exists():
+        return {"prefixes": {}}
+    try:
+        data = yaml.safe_load(ID_DOMAIN_MAP.read_text(encoding="utf-8")) or {}
+        return data if isinstance(data, dict) else {"prefixes": {}}
+    except yaml.YAMLError:
+        return {"prefixes": {}}
+
+
+def check_id_domain_map_coherence(domain_map: dict, vocab_domains: list, errors: list) -> None:
+    """ADR-0034: the map's domain/directory values must stay coherent with the
+    controlled domains vocabulary and the content tree."""
+    here = "schema/id-domain-map.yaml:"
+    if not isinstance(domain_map, dict) or not isinstance(domain_map.get("prefixes"), dict):
+        errors.append(f"{here} missing or malformed 'prefixes' map")
+        return
+    if not domain_map.get("prefixes"):
+        errors.append(f"{here} prefixes map is empty")
+        return
+    for prefix, entry in sorted(domain_map["prefixes"].items()):
+        if not isinstance(entry, dict):
+            errors.append(f"{here} prefix '{prefix}' must be a mapping")
+            continue
+        domain = entry.get("domain")
+        directory = entry.get("directory")
+        if not isinstance(domain, str) or not domain.strip():
+            errors.append(f"{here} prefix '{prefix}' missing non-empty 'domain'")
+        elif domain not in vocab_domains:
+            errors.append(f"{here} prefix '{prefix}' domain '{domain}' not in vocabularies/domains.yaml")
+        if not isinstance(directory, str) or not directory.strip():
+            errors.append(f"{here} prefix '{prefix}' missing non-empty 'directory'")
+        elif not (ROOT / "content" / directory).is_dir():
+            errors.append(f"{here} prefix '{prefix}' directory '{directory}' is not a content/ directory")
+
+
+def check_entity_domain_identity(entity: dict, domain_map: dict, vocab_domains: list, errors: list) -> None:
+    """ADR-0034: id-prefix -> domain -> path -> vocabulary must agree.
+
+    Hard gate because the immutable ID (`stemma:<domain>.<slug>`), the scalar
+    `domain` field, and the `content/` tree are three representations of one
+    identity; a silent disagreement makes lookups and consumer inference wrong.
+    """
+    here = f"{entity['_file']}:"
+    prefixes = (domain_map or {}).get("prefixes") or {}
+    _id = entity.get("id")
+    if not isinstance(_id, str) or ":" not in _id:
+        return
+    token = _id.split(":", 1)[1]
+    prefix = token.split(".", 1)[0]
+    entry = prefixes.get(prefix)
+    if entry is None:
+        errors.append(f"{here} id prefix '{prefix}' is not in schema/id-domain-map.yaml (ADR-0034)")
+        return
+    expected_domain = entry.get("domain")
+    expected_directory = entry.get("directory")
+    domain = entity.get("domain")
+    if expected_domain and domain != expected_domain:
+        errors.append(
+            f"{here} entity domain '{domain}' does not match id prefix '{prefix}' -> "
+            f"'{expected_domain}' (schema/id-domain-map.yaml, ADR-0034)"
+        )
+    if domain is not None and domain not in vocab_domains:
+        errors.append(f"{here} entity domain '{domain}' not in vocabularies/domains.yaml (ADR-0034)")
+    if expected_directory and isinstance(entity.get("_file"), str):
+        parts = entity["_file"].split("/")
+        if len(parts) < 2 or parts[0] != "content":
+            return
+        directory = parts[1]
+        if directory != expected_directory:
+            errors.append(
+                f"{here} entity path directory '{directory}' does not match id prefix "
+                f"'{prefix}' -> '{expected_directory}' (schema/id-domain-map.yaml, ADR-0034)"
+            )
 
 
 def validate_entity(entity: dict, errors: list, filename_slug: str | None = None) -> None:
@@ -340,70 +459,55 @@ def validate_entity(entity: dict, errors: list, filename_slug: str | None = None
     for field in REQUIRED:
         value = entity.get(field)
         if value is None or (isinstance(value, str) and not value.strip()):
-            add_error(errors, f"{here} missing/empty required field '{field}'")
+            errors.append(f"{here} missing/empty required field '{field}'")
 
     # ID format
     _id = entity.get("id")
     if isinstance(_id, str) and not ID_RE.fullmatch(_id):
-        add_error(errors, f"{here} invalid stable ID format: {_id!r} (expected lhs:<domain>.<slug>)")
+        errors.append(f"{here} invalid stable ID format: {_id!r} (expected stemma:<domain>.<slug>)")
 
     # Filename must equal the final ID slug (canonical representation rule)
     if isinstance(_id, str) and filename_slug:
         slug = _id.rsplit(".", 1)[-1]
         if filename_slug != slug:
-            add_error(errors,
-                f"{here} filename '{filename_slug}.md' does not match id slug '{slug}'")
+            errors.append(
+                f"{here} filename '{filename_slug}.md' does not match id slug '{slug}'"
+            )
 
-    # Enums
+    # Enums (schema would catch these too; keep checks independent of jsonschema)
     if entity.get("type") not in TYPES:
-        add_error(errors, f"{here} unknown type: {entity.get('type')!r}")
+        errors.append(f"{here} unknown type: {entity.get('type')!r}")
     if entity.get("status") not in STATUSES:
-        add_error(errors, f"{here} unknown status: {entity.get('status')!r}")
+        errors.append(f"{here} unknown status: {entity.get('status')!r}")
 
     # Provenance shape
     prov = entity.get("provenance")
     if isinstance(prov, dict) and not isinstance(prov.get("ai_drafted"), bool):
-        add_error(errors, f"{here} provenance.ai_drafted must be a boolean")
+        errors.append(f"{here} provenance.ai_drafted must be a boolean")
     if isinstance(prov, dict) and prov.get("source_kind") is not None:
         if prov.get("source_kind") not in SOURCE_KINDS:
-            add_error(errors, f"{here} provenance.source_kind not in vocabulary: {prov.get('source_kind')!r}")
+            errors.append(f"{here} provenance.source_kind not in vocabulary: {prov.get('source_kind')!r}")
     if isinstance(prov, dict) and prov.get("ai_drafted") is False:
         if not (prov.get("source") or prov.get("reviewer")):
-            add_error(errors, f"{here} provenance needs source or reviewer when not AI-drafted")
+            errors.append(f"{here} provenance needs source or reviewer when not AI-drafted")
 
     # Reviewed/canonical status requires a named reviewer
     if entity.get("status") in REVIEWED_STATUSES:
         if not (isinstance(prov, dict) and prov.get("reviewer")):
-            add_error(errors, f"{here} status {entity.get('status')!r} requires provenance.reviewer")
+            errors.append(f"{here} status {entity.get('status')!r} requires provenance.reviewer")
 
     # Aliases must be valid IDs and not equal the entity's own id
     for alias in entity.get("aliases", []) or []:
         if not isinstance(alias, str) or not ID_RE.fullmatch(alias):
-            add_error(errors, f"{here} alias is not a valid stable ID: {alias!r}")
+            errors.append(f"{here} alias is not a valid stable ID: {alias!r}")
         elif alias == _id:
-            add_error(errors, f"{here} alias must not equal the entity's own id: {alias!r}")
+            errors.append(f"{here} alias must not equal the entity's own id: {alias!r}")
 
-    # Relationships (inline - compatibility projection)
-    for rel in entity.get("relationships", []) or []:
-        if not isinstance(rel, dict):
-            add_error(errors, f"{here} relationship must be an object")
-            continue
-        rtype = rel.get("type")
-        if rtype not in REL_TYPES:
-            add_error(errors, f"{here} relationship type not in core whitelist: {rtype!r}")
-        target = rel.get("target")
-        if not isinstance(target, str) or not target.startswith("lhs:"):
-            add_error(errors, f"{here} relationship target must be an 'lhs:' ID: {target!r}")
+    # Relationships live ONLY in connections/ (ADR-0020/0028); entities carry none.
 
     # Deprecation hygiene
     if entity.get("status") in ("deprecated", "superseded") and not entity.get("deprecated_by"):
-        add_error(errors, f"{here} status is {entity.get('status')} but no deprecated_by set")
-
-    # Extensions
-    check_extensions(entity, "entity", errors, here)
-
-    # Historical
-    check_historical(entity, errors, here)
+        errors.append(f"{here} status is {entity.get('status')} but no deprecated_by set")
 
 
 def load_relation_registry() -> dict:
@@ -437,27 +541,27 @@ def validate_connection(conn: dict, entities: dict, sources: dict, errors: list)
     here = f"{conn.get('_file', '<connection>')}:"
     cid = conn.get("id")
     if cid is None:
-        add_error(errors, f"{here} missing required 'id'")
+        errors.append(f"{here} missing required 'id'")
     elif not isinstance(cid, str) or not CONN_ID_RE.fullmatch(cid):
-        add_error(errors, f"{here} invalid connection ID: {cid!r} (expected lhs:conn.NNNNNN)")
+        errors.append(f"{here} invalid connection ID: {cid!r} (expected stemma:conn.NNNNNN)")
 
     if conn.get("type") != "connection":
-        add_error(errors, f"{here} connection type must be 'connection' (found {conn.get('type')!r})")
+        errors.append(f"{here} connection type must be 'connection' (found {conn.get('type')!r})")
 
     src = conn.get("source")
     tgt = conn.get("target")
     if not isinstance(src, str) or src not in entities:
-        add_error(errors, f"{here} source does not resolve to a canonical entity: {src!r}")
+        errors.append(f"{here} source does not resolve to a canonical entity: {src!r}")
     if not isinstance(tgt, str) or tgt not in entities:
-        add_error(errors, f"{here} target does not resolve to a canonical entity: {tgt!r}")
+        errors.append(f"{here} target does not resolve to a canonical entity: {tgt!r}")
 
     rel = conn.get("relation")
     registry = load_relation_registry().get("relations", {})
     info = registry.get(rel) if isinstance(rel, str) else None
     if rel is None:
-        add_error(errors, f"{here} missing required 'relation'")
+        errors.append(f"{here} missing required 'relation'")
     elif not isinstance(rel, str) or info is None:
-        add_error(errors, f"{here} relation not in relation-registry.yaml: {rel!r}")
+        errors.append(f"{here} relation not in relation-registry.yaml: {rel!r}")
 
     # Domain/range: only when both endpoint types and the registry allow-list are known.
     if info and isinstance(src, str) and isinstance(tgt, str):
@@ -465,30 +569,30 @@ def validate_connection(conn: dict, entities: dict, sources: dict, errors: list)
         ttype = entities.get(tgt, {}).get("type")
         domain, range_ = _relation_semantics(None, info)
         if stype and domain and stype not in domain:
-            add_error(errors, f"{here} relation '{rel}' domain excludes source type '{stype}'")
+            errors.append(f"{here} relation '{rel}' domain excludes source type '{stype}'")
         if ttype and range_ and ttype not in range_:
-            add_error(errors, f"{here} relation '{rel}' range excludes target type '{ttype}'")
+            errors.append(f"{here} relation '{rel}' range excludes target type '{ttype}'")
 
     # Assertion must be present (required by schema); enforce provenance presence.
     prov = conn.get("provenance")
     if not isinstance(prov, dict):
-        add_error(errors, f"{here} connection requires a provenance object")
+        errors.append(f"{here} connection requires a provenance object")
     else:
         if not prov.get("asserted_by"):
-            add_error(errors, f"{here} provenance.asserted_by is required")
+            errors.append(f"{here} provenance.asserted_by is required")
         if not prov.get("generated_by"):
-            add_error(errors, f"{here} provenance.generated_by is required")
+            errors.append(f"{here} provenance.generated_by is required")
         if not prov.get("method"):
-            add_error(errors, f"{here} provenance.method is required")
+            errors.append(f"{here} provenance.method is required")
 
     # Evidence source_ref must resolve to a canonical source.
     for idx, ev in enumerate(conn.get("evidence", []) or []):
         if not isinstance(ev, dict):
-            add_error(errors, f"{here} evidence[{idx}] must be an object")
+            errors.append(f"{here} evidence[{idx}] must be an object")
             continue
         ref = ev.get("source_ref")
         if ref is not None and ref not in sources:
-            add_error(errors, f"{here} evidence.source_ref does not resolve to a source: {ref!r}")
+            errors.append(f"{here} evidence.source_ref does not resolve to a source: {ref!r}")
 
     check_extensions(conn, "connection", errors, here)
 
@@ -498,10 +602,428 @@ def validate_source(src: dict, errors: list) -> None:
     here = f"{src.get('_file', '<source>')}:"
     sid = src.get("id")
     if sid is None:
-        add_error(errors, f"{here} missing required 'id'")
+        errors.append(f"{here} missing required 'id'")
     elif not isinstance(sid, str) or not SRC_ID_RE.fullmatch(sid):
-        add_error(errors, f"{here} invalid source ID: {sid!r} (expected lhs:src.<slug>)")
+        errors.append(f"{here} invalid source ID: {sid!r} (expected stemma:src.<slug>)")
     check_extensions(src, "source", errors, here)
+
+
+def check_registry_coherence(registry: dict, errors: list) -> None:
+    """Enforce relation-registry integrity (ADR-0021, audit F3).
+
+    Invariants:
+      - every `inverse` names a defined relation, is mutual, and mirrors
+        domain/range
+      - symmetric relations carry no `inverse` field
+      - domain/range reference known entity types only (schema enum)
+    """
+    here = "relation-registry.yaml: "
+    relations = registry.get("relations") or {}
+
+    known_types: set = set(TYPES)
+    schema = SCHEMA_
+    if schema.exists():
+        try:
+            raw = json.loads(schema.read_text(encoding="utf-8"))
+            known_types = set(raw.get("properties", {}).get("type", {}).get("enum") or known_types)
+        except (json.JSONDecodeError, OSError):
+            pass
+
+    for name, meta in relations.items():
+        if not isinstance(meta, dict):
+            errors.append(f"{here}{name}: malformed descriptor")
+            continue
+        inv = meta.get("inverse")
+        if meta.get("symmetric") and inv is not None:
+            errors.append(f"{here}{name}: symmetric relation must not declare an inverse")
+        if inv is not None:
+            if inv not in relations:
+                errors.append(f"{here}{name}: inverse '{inv}' is not defined in the registry")
+                continue
+            inv_meta = relations[inv] or {}
+            if inv_meta.get("inverse") != name:
+                errors.append(f"{here}{name}: inverse '{inv}' does not point back "
+                              f"(its inverse is {inv_meta.get('inverse')!r})")
+            if sorted(str(x) for x in (meta.get("domain") or [])) != sorted(str(x) for x in (inv_meta.get("range") or [])):
+                errors.append(f"{here}{name}: domain does not mirror {inv}.range")
+            if sorted(str(x) for x in (meta.get("range") or [])) != sorted(str(x) for x in (inv_meta.get("domain") or [])):
+                errors.append(f"{here}{name}: range does not mirror {inv}.domain")
+        for side in ("domain", "range"):
+            for t in (meta.get(side) or []):
+                if t not in known_types:
+                    errors.append(f"{here}{name}: {side} references unknown entity type '{t}' "
+                                  f"(known: {sorted(known_types)})")
+
+
+def check_evidence_integrity(conn: dict, errors: list, warnings: list) -> None:
+    """R2 evidence/source integrity (Phase B).
+
+    1. ERROR: a `review.status == canonical` assertion must carry at least one
+       evidence item, or an explicit axiomatic marker (type `axiom`, or type
+       `other` whose description says `axiomatic`). This closes the "direct edit
+       can mark canonical without evidence" hole.
+    2. WARNING (advisory): any *active*, non-rejected assertion with empty
+       evidence is surfaced so the source/evidence backfill report can drive
+       human work without blocking draft ingestion.
+    """
+    here = f"{conn.get('_file', '<connection>')}:"
+    assertion = conn.get("assertion") or {}
+    review = assertion.get("review") or {}
+    evidence = conn.get("evidence") or []
+
+    if review.get("status") == "canonical":
+        if not evidence:
+            errors.append(
+                f"{here} canonical assertion has no evidence — review.status==canonical "
+                "requires >=1 evidence item or an explicit axiomatic marker "
+                "({type: axiom, description: 'axiomatic ...'}) (R2)"
+            )
+
+    if assertion.get("status") == "active" and review.get("status") != "rejected" and not evidence:
+        warnings.append(
+            f"{here} active assertion has no evidence (advisory R2 — see "
+            "reports/academic-sources.json for backfill drivers)"
+        )
+
+
+def _relation_type_fits(info: dict, stype: str, ttype: str) -> bool:
+    domain = info.get("domain") or []
+    range_ = info.get("range") or []
+    return (not domain or stype in domain) and (not range_ or ttype in range_)
+
+
+# Priority order for suggested reclassifications (deterministic; human triage only).
+RELATION_RECLASS_PRIORITY = (
+    "mathematically_requires", "requires", "logically_requires", "depends_on",
+    "prerequisite_of", "expresses_in", "expressed_in", "has_unit", "measures",
+    "quantifies", "causes", "contributes_to", "results_in", "explains",
+    "applies_to", "governed_by", "derived_from", "enables", "used_in",
+    "applied_to", "equivalent_to",
+)
+
+
+def check_relation_triage_advisory(conn: dict, entities: dict, specific_pairs: set,
+                                   registry: dict, warnings: list) -> None:
+    """R4 advisory (not a gate): related_to-only edges that have a reserved/
+    adopted specific relation whose domain/range fits.
+
+    This is the validator side of the triage report; it never relabels anything.
+    """
+    if conn.get("relation") != "related_to":
+        return
+    if (conn.get("assertion") or {}).get("status") != "active":
+        return
+    src, tgt = conn.get("source"), conn.get("target")
+    if not isinstance(src, str) or not isinstance(tgt, str):
+        return
+    if frozenset((src, tgt)) in specific_pairs:
+        # The pair already has a more specific edge; handled by the triage report,
+        # but not worth a validator warning (the specific edge expresses the claim).
+        return
+    stype = entities.get(src, {}).get("type")
+    ttype = entities.get(tgt, {}).get("type")
+    if not stype or not ttype:
+        return
+    relations = registry.get("relations") or {}
+    candidates = []
+    for name in RELATION_RECLASS_PRIORITY:
+        info = relations.get(name) or {}
+        if not info or info.get("family") == "associative":
+            continue
+        if info.get("status") not in ("adopted", "reserved"):
+            continue
+        if _relation_type_fits(info, stype, ttype):
+            candidates.append(name)
+            break
+        # symmetric/inverse fit
+        inverse = info.get("inverse")
+        if inverse:
+            inv = relations.get(inverse) or {}
+            if inv and _relation_type_fits(inv, stype, ttype):
+                candidates.append(inverse)
+                break
+    if candidates:
+        warnings.append(
+            f"{conn.get('_file', '<connection>')}: related_to may be reclassified "
+            f"as {candidates[0]} (only edge for this pair and the reserved relation "
+            "fits domain/range; human triage — reports/relation-triage.json, never bulk-relabel)"
+        )
+
+
+def check_connection_context(conn: dict, vocab: dict, errors: list) -> None:
+    """Enforce controlled context vocabularies (ADR-0021, audit F3/F11)."""
+    here = f"{conn.get('_file', '<connection>')}:"
+    ctx = conn.get("context") or {}
+    domains = vocab.get("domains") or []
+    subdomains = vocab.get("subdomains") or {}
+    regimes = vocab.get("regimes") or []
+    scales = vocab.get("scales") or []
+
+    dom = ctx.get("domain")
+    if dom is not None and dom not in domains:
+        errors.append(f"{here} context.domain '{dom}' not in vocabularies/domains.yaml")
+    sub = ctx.get("subdomain")
+    if dom is not None and sub is not None:
+        allowed = subdomains.get(dom)
+        if allowed is None:
+            errors.append(f"{here} context.domain '{dom}' has no subdomain vocabulary")
+        elif sub not in allowed:
+            errors.append(f"{here} context.subdomain '{sub}' not allowed for domain '{dom}' "
+                          f"(vocabularies/subdomains.yaml)")
+    for r in ctx.get("regime") or []:
+        if r not in regimes:
+            errors.append(f"{here} context.regime '{r}' not in vocabularies/regimes.yaml")
+    scale = ctx.get("scale")
+    if scale is not None and scales and scale not in scales:
+        errors.append(f"{here} context.scale '{scale}' not in vocabularies/regimes.yaml (scales)")
+
+
+def check_assertion_epistemics(conn: dict, errors: list, warnings: list) -> None:
+    """Enforce ADR-0014 inference exclusivity + ADR-0013 confidence pairing."""
+    here = f"{conn.get('_file', '<connection>')}:"
+    assertion = conn.get("assertion") or {}
+    atype = assertion.get("type")
+    inference = conn.get("inference")
+
+    if atype == "inferred":
+        if not isinstance(inference, dict) or not inference.get("rule") or not inference.get("path"):
+            errors.append(f"{here} assertion.type 'inferred' requires inference.rule and inference.path (ADR-0014)")
+    elif inference:
+        errors.append(f"{here} inference block is only legal when assertion.type is 'inferred' "
+                      f"(found type {atype!r}) (ADR-0014)")
+
+    conf = assertion.get("confidence")
+    basis = assertion.get("confidence_basis")
+    if (conf is None) != (basis is None):
+        warnings.append(f"{here} confidence and confidence_basis must be set together "
+                        f"(confidence={conf!r}, basis={basis!r}) (ADR-0013)")
+    if isinstance(conf, (int, float)) and not isinstance(conf, bool) and not (0.0 <= float(conf) <= 1.0):
+        errors.append(f"{here} confidence {conf!r} outside [0.0, 1.0]")
+
+
+def check_lifecycle_pointers(conn: dict, connections: dict, errors: list) -> None:
+    """lifecycle.replaced_by must resolve to an existing connection (ADR-0016)."""
+    here = f"{conn.get('_file', '<connection>')}:"
+    lifecycle = conn.get("lifecycle") or {}
+    replaced_by = lifecycle.get("replaced_by")
+    if replaced_by is not None and replaced_by not in connections:
+        errors.append(f"{here} lifecycle.replaced_by does not resolve to a connection: {replaced_by!r}")
+
+
+def check_rejected_lifecycle(conn: dict, errors: list) -> None:
+    """ADR-0031: a rejected assertion must never be silent.
+
+    A rejection carries a written reason in either lifecycle.reason or the most
+    recent provenance.review_history[].reason. This is a hard gate (review is
+    human discipline, not a deletion path).
+    """
+    review = (conn.get("assertion") or {}).get("review") or {}
+    if review.get("status") != "rejected":
+        return
+    here = f"{conn.get('_file', '<connection>')}:"
+    lifecycle = conn.get("lifecycle") or {}
+    lifecycle_reason = lifecycle.get("reason")
+    history = (conn.get("provenance") or {}).get("review_history") or []
+    history_reason = None
+    for entry in reversed(history):
+        if isinstance(entry, dict) and entry.get("to") == "rejected":
+            history_reason = entry.get("reason")
+            break
+    if not (lifecycle_reason and str(lifecycle_reason).strip()) and not (
+        history_reason and str(history_reason).strip()
+    ):
+        errors.append(
+            f"{here} assertion.review.status is 'rejected' but no reason was recorded; "
+            "set lifecycle.reason or a review_history[].reason for the rejection (ADR-0031)"
+        )
+
+
+def claim_signature(conn: dict) -> str:
+    """Derived identity of the *claim* a connection asserts (plan v2 E4.3; ADR-0026).
+
+    signature = sha256(source | relation | target | polarity | sorted(qualifiers))
+
+    It is the identity of the PROPOSITION, not of the record: two connections with the
+    same signature assert the same thing, which `check_duplicate_claims` rejects for
+    active connections (E4.3). Derived — never stored in canonical YAML — but emitted
+    into the export so consumers can deduplicate claims without recomputing.
+
+    Deterministic: qualifiers are order-insensitive (sorted, canonically serialised);
+    polarity defaults to `positive` per connection.schema.json.
+    """
+    assertion = conn.get("assertion") or {}
+    context = conn.get("context") or {}
+    qualifiers = context.get("qualifiers") or []
+    if not isinstance(qualifiers, list):
+        qualifiers = [qualifiers]
+    normalised = sorted(
+        json.dumps(q, sort_keys=True, ensure_ascii=False, default=str) if isinstance(q, (dict, list)) else str(q)
+        for q in qualifiers
+    )
+    polarity = assertion.get("polarity") or "positive"
+    parts = [
+        str(conn.get("source")),
+        str(conn.get("relation")),
+        str(conn.get("target")),
+        str(polarity),
+        json.dumps(normalised, sort_keys=True, ensure_ascii=False),
+    ]
+    return "sha256:" + hashlib.sha256("\x1f".join(parts).encode("utf-8")).hexdigest()
+
+
+def check_duplicate_claims(connections: dict, errors: list) -> dict[str, str]:
+    """Reject two ACTIVE connections asserting the same proposition (E4.3 / ADR-0026).
+
+    Returns {connection_id: signature} for every active connection so the export can
+    carry the derived signature without recomputing it.
+    """
+    by_signature: dict[str, list[str]] = {}
+    signatures: dict[str, str] = {}
+    for cid, conn in connections.items():
+        if (conn.get("assertion") or {}).get("status", "active") != "active":
+            continue
+        sig = claim_signature(conn)
+        signatures[cid] = sig
+        by_signature.setdefault(sig, []).append(cid)
+    for sig, ids in sorted(by_signature.items()):
+        if len(ids) > 1:
+            errors.append(
+                "duplicate claim: " + ", ".join(sorted(ids))
+                + f" assert the same proposition (claim_signature {sig[:19]}… over "
+                "source|relation|target|polarity|qualifiers). Keep one connection and "
+                "supersede the rest via lifecycle.replaced_by (plan v2 E4.3)"
+            )
+    return signatures
+
+
+def check_relationship_cycles(connections: dict, registry: dict, errors: list) -> None:
+    """Reject cycles on non-symmetric transitive relations (ADR-0012/0021).
+
+    A cycle A requires B requires A (or part_of/hierarchy/derivation cycles) is a
+    logical contradiction for a transitive relation.
+    """
+    transitive = {
+        name for name, meta in (registry.get("relations") or {}).items()
+        if isinstance(meta, dict) and meta.get("transitive") and not meta.get("symmetric")
+    }
+    by_relation: dict[str, dict[str, set]] = {}
+    for cid, conn in connections.items():
+        rel = conn.get("relation")
+        if conn.get("assertion", {}).get("status") != "active":
+            continue
+        if rel in transitive:
+            by_relation.setdefault(rel, {}).setdefault(conn["source"], set()).add(conn["target"])
+
+    for rel in sorted(by_relation):
+        graph = by_relation[rel]
+        for start in sorted(graph):
+            # iterative DFS looking for a path back to start
+            stack = [(start, [start])]
+            while stack:
+                node, path = stack.pop()
+                for nxt in sorted(graph.get(node, ())):
+                    if nxt == start:
+                        errors.append(
+                            "cycle detected: " + " -> ".join(p.replace("stemma:", "") for p in path + [nxt])
+                            + f" (relation '{rel}')"
+                        )
+                        break
+                    if nxt not in path:
+                        stack.append((nxt, path + [nxt]))
+
+
+def build_validation_results(errors: list, warnings: list) -> list[dict]:
+    """Turn the human-facing validator messages into deterministic report items.
+
+    Each item has `severity` (ERROR/WARNING/INFO), `rule`, `focus`, `message`.
+    `focus` is the part before the first ': ' (usually a file/ID); `message` is
+    the remainder. This is the single machine-readable shape for ADR-0033.
+    """
+    def _item(severity: str, line: str) -> dict:
+        parts = line.split(": ", 1)
+        return {
+            "severity": severity,
+            "rule": "validator",
+            "focus": parts[0] if len(parts) > 1 else "unknown",
+            "message": parts[1] if len(parts) > 1 else line,
+        }
+
+    return [_item("ERROR", line) for line in errors] + [_item("WARNING", line) for line in warnings]
+
+
+def write_validation_report(
+    conforms: bool,
+    errors: list,
+    warnings: list,
+    content_hash: str | None,
+) -> dict:
+    """Write the machine-readable validation report (ADR-0033).
+
+    Kept from the AXIOM-kernel work (PR #22), reconciled with ADR-0022: the
+    report is DETERMINISTIC — stamped with the canonical content_hash and the
+    single-sourced versions, never wall-clock time — so the tracked
+    reports/validation-report.json never churns between runs.
+
+    Returns the report dict so callers can also emit it as JSON.
+    """
+    results = build_validation_results(errors, warnings)
+    severity_counts = {"ERROR": 0, "WARNING": 0, "INFO": 0}
+    for item in results:
+        severity_counts[item["severity"]] = severity_counts.get(item["severity"], 0) + 1
+
+    def _by_severity(severity: str) -> list[dict]:
+        return [item for item in results if item["severity"] == severity]
+
+    versions = load_versions()
+    kernel_version = None
+    version_file = ROOT / "VERSION"
+    if version_file.exists():
+        kernel_version = version_file.read_text(encoding="utf-8").strip()
+    report = {
+        "conforms": bool(conforms),
+        "valid": bool(conforms),
+        "ok": bool(conforms),
+        "schema_version": versions.get("schema_version"),
+        "export_version": versions.get("export_version"),
+        "relation_registry_version": versions.get("relation_registry_version"),
+        "kernel_version": kernel_version,
+        "content_hash": content_hash,
+        "severity_counts": severity_counts,
+        "results": results,
+        "errors": _by_severity("ERROR"),
+        "warnings": _by_severity("WARNING"),
+        "info": _by_severity("INFO"),
+    }
+    report_path = ROOT / "reports" / "validation-report.json"
+    report_path.parent.mkdir(parents=True, exist_ok=True)
+    report_path.write_text(
+        json.dumps(report, indent=2, ensure_ascii=False) + "\n",
+        encoding="utf-8",
+    )
+    return report
+
+
+def check_legacy_namespace(raw_text: str, where: str, errors: list) -> None:
+    """ADR-0027 migration completeness: the retired `lhs:` namespace must never
+    reappear in canonical files (an `stemma:` ID would be unresolvable and would
+    silently fork the identity space)."""
+    if "lhs:" in raw_text:
+        errors.append(
+            f"{where}: retired `lhs:` namespace reference found — canonical IDs use "
+            "`stemma:` (ADR-0027); see docs/MIGRATIONS.md"
+        )
+
+
+def check_inline_projection(entities: dict, connections: dict, errors: list) -> None:
+    """ADR-0028: entities carry NO relationship data at all — connections/ is the
+    single relationship source. Any relationship-shaped block on an entity is an
+    authoring error (the generated projection was removed with export contract 2.0)."""
+    for eid, entity in entities.items():
+        if "relationships" in entity:
+            errors.append(
+                f"{entity['_file']}: `relationships` is not an entity field — assert "
+                "relationships as first-class objects in connections/ (ADR-0020/0028)"
+            )
 
 
 def load_canonical_yaml_dir(directory: Path, schema_path: Path, errors: list,
@@ -527,18 +1049,30 @@ def load_canonical_yaml_dir(directory: Path, schema_path: Path, errors: list,
 
     for path in sorted(directory.glob("*.yaml")):
         try:
-            data = load_yaml_strict(path.read_text(encoding="utf-8"), where=str(path.relative_to(ROOT)))
+            raw = path.read_text(encoding="utf-8")
+            data = load_yaml_strict(raw, where=str(path.relative_to(ROOT)))
         except ValueError as exc:
             errors.append(f"{path.relative_to(ROOT)}: {exc}")
             continue
         if not isinstance(data, dict):
             errors.append(f"{path.relative_to(ROOT)}: expected a YAML mapping")
             continue
+        check_legacy_namespace(raw, str(path.relative_to(ROOT)), errors)
+        # Filename ↔ ID consistency (ADR-0027): colon-free filenames carry the ID
+        # minus the namespace segment — stemma:conn.000001 → conn.000001.yaml.
+        _id = data.get("id")
+        if isinstance(_id, str) and _id.startswith("stemma:"):
+            expected_stem = _id.split(":", 1)[1]
+            if path.stem != expected_stem:
+                errors.append(
+                    f"{path.relative_to(ROOT)}: filename must be '{expected_stem}.yaml' "
+                    f"for id {_id!r} (colon-free form of the ID)"
+                )
         data["_file"] = str(path.relative_to(ROOT))
         if validator:
             obj = {k: v for k, v in data.items() if not k.startswith("_")}
             for err in validator.iter_errors(obj):
-                add_error(errors, f"{data['_file']}: schema violation: {err.message}")
+                errors.append(f"{data['_file']}: schema violation: {err.message}")
         # kind-specific deep checks
         kind = data.get("type")
         if kind == "connection":
@@ -548,160 +1082,13 @@ def load_canonical_yaml_dir(directory: Path, schema_path: Path, errors: list,
         _id = data.get("id")
         if isinstance(_id, str):
             if _id in out:
-                add_error(errors, f"duplicate {kind} id {_id!r} in {out[_id]['_file']} and {data['_file']}")
+                errors.append(f"duplicate {kind} id {_id!r} in {out[_id]['_file']} and {data['_file']}")
             out[_id] = data
     return out
 
 
-def detect_transitive_cycles(entities: dict, errors: list) -> None:
-    """Detect cycles in STRUCTURAL transitive relationships only.
-
-    Dependency cycles (mathematically_requires, logically_requires) are often
-    legitimate in scientific knowledge (mutual interdependencies). Only structural
-    hierarchies (part_of, is_a, special_case_of, etc.) should be acyclic.
-
-    2-node cycles between inverse relationships (e.g., A generalizes B, B special_case_of A)
-    are expected and correct - they represent the bidirectional nature of the relationship.
-    Only cycles of length > 2 indicate true structural problems.
-    """
-    # Build adjacency for structural transitive relations only
-    adj: dict[str, list[str]] = {}
-    for eid, entity in entities.items():
-        for rel in entity.get("relationships", []) or []:
-            rtype = rel.get("type")
-            target = rel.get("target")
-            if rtype in STRUCTURAL_TRANSITIVE_REL_TYPES and target in entities:
-                adj.setdefault(eid, []).append(target)
-
-    # DFS cycle detection - only report cycles of length > 2
-    # (2-node cycles between inverses are expected)
-    visited = set()
-    rec_stack = set()
-    path = []
-
-    def dfs(node: str) -> bool:
-        visited.add(node)
-        rec_stack.add(node)
-        path.append(node)
-
-        for neighbor in adj.get(node, []):
-            if neighbor not in visited:
-                if dfs(neighbor):
-                    return True
-            elif neighbor in rec_stack:
-                # Found cycle - check length
-                cycle_start = path.index(neighbor)
-                cycle = path[cycle_start:] + [neighbor]
-                if len(cycle) > 3:  # > 2 edges means > 2 nodes in cycle
-                    add_error(errors, f"Cycle detected in structural transitive relationship: {' -> '.join(cycle)}", Severity.WARNING)
-                    return True
-                # 2-node cycle (A->B->A) between inverses is expected, ignore
-
-        rec_stack.remove(node)
-        path.pop()
-        return False
-
-    for node in adj:
-        if node not in visited:
-            dfs(node)
-
-
-def validate_inverse_relationships(entities: dict, errors: list) -> None:
-    """Validate that inverse relationship pairs are consistent.
-
-    Note: This check is INFO-level because the existing dataset was created
-    before this validation existed. New entities should include both directions.
-    """
-    # Build map of relationships
-    rel_map: dict[tuple[str, str, str], dict] = {}  # (source, relation, target) -> relationship
-    for eid, entity in entities.items():
-        for rel in entity.get("relationships", []) or []:
-            rtype = rel.get("type")
-            target = rel.get("target")
-            if rtype and target:
-                rel_map[(eid, rtype, target)] = rel
-
-    # Check inverse pairs
-    for (source, rtype, target), rel in rel_map.items():
-        inverse = INVERSE_PAIRS.get(rtype)
-        if inverse and (target, inverse, source) not in rel_map:
-            add_error(errors,
-                f"{entities[source]['_file']}: missing inverse relationship '{inverse}' "
-                f"for '{rtype}' from {source} to {target}",
-                Severity.INFO)
-
-
-def validate_semantic_layers(entities: dict, errors: list) -> None:
-    """Validate semantic layer constraints.
-
-    Ensure that entity types are used appropriately:
-    - law entities should be sources of applies_to
-    - quantity entities should have unit/symbol
-    - misconception entities should have related_to to correct concept
-    - observation/measurement should have evidence-like properties
-    """
-    for eid, entity in entities.items():
-        etype = entity.get("type")
-        here = f"{entity['_file']}:"
-
-        # Law should not be target of applies_to (only source)
-        if etype == "law":
-            # Laws can have applies_to outgoing, not incoming
-            pass  # Already validated in dangling check
-
-        # Quantity should have unit (recommended)
-        if etype == "quantity" and not entity.get("unit"):
-            add_error(errors, f"{here} quantity entity should have a unit", Severity.INFO)
-
-        # Misconception should relate to a concept
-        if etype == "misconception":
-            has_related = any(
-                r.get("type") == "related_to" and entities.get(r.get("target"), {}).get("type") == "concept"
-                for r in entity.get("relationships", []) or []
-            )
-            if not has_related:
-                add_error(errors, f"{here} misconception should have related_to pointing to a concept", Severity.WARNING)
-
-        # Claim entities should have evidence-like provenance
-        if etype == "claim":
-            if not entity.get("provenance", {}).get("source"):
-                add_error(errors, f"{here} claim entity should have provenance.source", Severity.INFO)
-
-
-def validate_entity_connection_consistency(entities: dict, connections: dict, errors: list) -> None:
-    """Validate that inline entity.relationships[] are consistent with first-class connections.
-
-    This is the compatibility projection check - inline relationships should be
-    derivable from first-class connections.
-    """
-    # Build set of inline relationships
-    inline_rels: set[tuple[str, str, str]] = set()
-    for eid, entity in entities.items():
-        for rel in entity.get("relationships", []) or []:
-            rtype = rel.get("type")
-            target = rel.get("target")
-            if rtype and target:
-                inline_rels.add((eid, rtype, target))
-
-    # Build set of first-class connections (mapped to inline types)
-    conn_rels: set[tuple[str, str, str]] = set()
-    for cid, conn in connections.items():
-        rel_type = conn.get("relation")
-        source = conn.get("source")
-        target = conn.get("target")
-        if rel_type in REL_TYPES and source and target:
-            conn_rels.add((source, rel_type, target))
-
-    # Check for inline relationships not represented in connections
-    for (source, rtype, target) in inline_rels:
-        if (source, rtype, target) not in conn_rels:
-            add_error(errors,
-                f"{entities[source]['_file']}: inline relationship '{rtype}' -> {target} "
-                f"not found in first-class connections (connection drift)",
-                Severity.WARNING)
-
-
-def main() -> int:
+def main(argv: list[str] | None = None) -> int:
+    emit_json = "--json" in (argv if argv is not None else sys.argv[1:])
     errors: list = []
     entities: dict[str, dict] = {}
 
@@ -709,128 +1096,144 @@ def main() -> int:
         print(f"error: content directory not found: {CONTENT}", file=sys.stderr)
         return 1
 
-    # Phase 1: Parse and validate entities
+    # ADR-0034: domain identity is a hard cross-object invariant. Load the
+    # single map once (it must also stay coherent with the vocabularies).
+    id_domain_map = load_id_domain_map()
+    vocab_domains = (load_vocabulary(VOCAB_DOMAINS) or {}).get("domains") or []
+    check_id_domain_map_coherence(id_domain_map, vocab_domains, errors)
+
     for path in sorted(CONTENT.rglob("*.md")):
         try:
             entity = parse_entity(path)
         except ValueError as exc:
-            add_error(errors, f"{path.relative_to(ROOT)}: {exc}")
+            errors.append(f"{path.relative_to(ROOT)}: {exc}")
             continue
+        check_legacy_namespace(path.read_text(encoding="utf-8"), str(path.relative_to(ROOT)), errors)
         validate_entity(entity, errors, filename_slug=path.stem)
+        check_entity_domain_identity(entity, id_domain_map, vocab_domains, errors)
+        check_extensions(entity, "entity", errors, f"{entity['_file']}:")
+        check_historical(entity, errors, f"{entity['_file']}:")
+        check_external_ids(entity, errors, f"{entity['_file']}:")
         _id = entity.get("id")
         if isinstance(_id, str):
             if _id in entities:
-                add_error(errors, f"duplicate id {_id!r} in {entities[_id]['_file']} and {entity['_file']}")
+                errors.append(f"duplicate id {_id!r} in {entities[_id]['_file']} and {entity['_file']}")
             entities[_id] = entity
 
-    # Phase 2: Schema conformance (optional dependency)
+    # Schema conformance (optional dependency)
     schema = load_schema()
     if schema is not None:
         validator = cast(Any, Draft202012Validator)(schema)
         for _id, entity in entities.items():
             data = {k: v for k, v in entity.items() if not k.startswith("_")}
             for err in validator.iter_errors(data):
-                add_error(errors, f"{entity['_file']}: schema violation: {err.message}")
+                errors.append(f"{entity['_file']}: schema violation: {err.message}")
 
-    # Phase 3: Dangling relationship targets + semantic type rules
+    # Dangling entity→entity pointers (aliases, deprecated_by) + semantic type rules
+    # (relationship targets are checked on connections below — entities carry none).
     for _id, entity in entities.items():
-        etype = entity.get("type")
-        for rel in entity.get("relationships", []) or []:
-            target = rel.get("target")
-            if isinstance(target, str) and target not in entities:
-                add_error(errors, f"{entity['_file']}: dangling relationship target: {target} (from {_id})")
-                continue
-            rtype = rel.get("type")
-            target_type = entities.get(target, {}).get("type")
-            # Core semantic rules (specification §5.1)
-            if rtype == "applies_to" and etype != "law":
-                add_error(errors, f"{entity['_file']}: applies_to requires a 'law' source (found {etype})")
-            if rtype == "appears_in_law" and target_type != "law":
-                add_error(errors, f"{entity['_file']}: appears_in_law target must be a 'law' (found {target_type})")
+        for alias in entity.get("aliases", []) or []:
+            if isinstance(alias, str) and alias not in entities and not alias.startswith("stemma:"):
+                errors.append(f"{entity['_file']}: alias is not a valid stemma: ID: {alias!r}")
 
-    # Phase 4: Load + validate first-class connections and sources
+    # Q2: load + validate first-class connections and sources (ADR-011). These are
+    # first-class canonical inputs — the gate now covers content/ + connections/ + sources/.
     sources = load_canonical_yaml_dir(SOURCES, SOURCE_SCHEMA, errors, entities, {})
     connections = load_canonical_yaml_dir(CONNECTIONS, CONN_SCHEMA, errors, entities, sources)
 
-    # Phase 5: Semantic validation (cross-entity)
-    detect_transitive_cycles(entities, errors)
-    validate_inverse_relationships(entities, errors)
-    validate_semantic_layers(entities, errors)
-    validate_entity_connection_consistency(entities, connections, errors)
+    # Plan v2 cross-object invariants (ADR-0020/0021; audit F1, F3, F5–F7).
+    registry = load_relation_registry()
+    check_registry_coherence(registry, errors)
+    vocab = {
+        "domains": (load_vocabulary(VOCAB_DOMAINS) or {}).get("domains") or [],
+        "subdomains": load_vocabulary(VOCAB_SUBDOMAINS) or {},
+        "regimes": (load_vocabulary(VOCAB_REGIMES) or {}).get("regimes") or [],
+        "scales": (load_vocabulary(VOCAB_REGIMES) or {}).get("scales") or [],
+    }
+    warnings: list = []
+    agents = load_agent_registry()
+    if not agents:
+        errors.append("schema/agent-registry.yaml missing or empty (plan v2 E4.2: every provenance agent must resolve)")
+    check_agent_registry_shape(agents, errors)
+    specific_pairs: set = set()
+    for conn in connections.values():
+        if conn.get("relation") != "related_to":
+            src, tgt = conn.get("source"), conn.get("target")
+            if isinstance(src, str) and isinstance(tgt, str):
+                specific_pairs.add(frozenset((src, tgt)))
+    for conn in connections.values():
+        check_connection_agents(conn, agents, errors)
+        check_connection_context(conn, vocab, errors)
+        check_assertion_epistemics(conn, errors, warnings)
+        check_lifecycle_pointers(conn, connections, errors)
+        check_rejected_lifecycle(conn, errors)
+        check_evidence_integrity(conn, errors, warnings)
+        check_relation_triage_advisory(conn, entities, specific_pairs, registry, warnings)
+    check_relationship_cycles(connections, registry, errors)
+    check_inline_projection(entities, connections, errors)
+    claim_signatures = check_duplicate_claims(connections, errors)
+
+    # Entity-side reviewer ids resolve in the agent registry too (E4.2).
+    for _id, entity in entities.items():
+        reviewer = (entity.get("provenance") or {}).get("reviewer")
+        if isinstance(reviewer, str) and reviewer not in agents:
+            errors.append(f"{entity['_file']}: provenance.reviewer '{reviewer}' not in schema/agent-registry.yaml (E4.2)")
+    # Extension registrants resolve as well.
+    for ext_entry in (load_extension_registry().get("extensions") or []):
+        reg = ext_entry.get("registered_by") if isinstance(ext_entry, dict) else None
+        if isinstance(reg, str) and reg not in agents:
+            errors.append(f"schema/extension-registry.yaml: registered_by '{reg}' not in schema/agent-registry.yaml (E4.2)")
+
+    # deprecated_by must resolve to an existing entity (never a dangling pointer).
+    for _id, entity in entities.items():
+        successor = entity.get("deprecated_by")
+        if successor is not None and successor not in entities:
+            errors.append(f"{entity['_file']}: deprecated_by does not resolve to an entity: {successor!r}")
 
     # Report
-    # Only fail on ERROR severity. WARNING and INFO are reported but don't block.
-    has_errors = any(e.startswith("[ERROR]") or (not e.startswith("[") and not e.startswith("[WARNING]") and not e.startswith("[INFO]")) for e in errors)
-
-    # Build validation report
-    validation_results = []
-    for line in errors:
-        parts = line.split(": ", 1)
-        focus_node = parts[0] if len(parts) > 1 else "unknown"
-        message = parts[1] if len(parts) > 1 else line
-        # Extract severity if present
-        severity = Severity.ERROR
-        if message.startswith("[ERROR] "):
-            severity = Severity.ERROR
-            message = message[8:]
-        elif message.startswith("[WARNING] "):
-            severity = Severity.WARNING
-            message = message[10:]
-        elif message.startswith("[INFO] "):
-            severity = Severity.INFO
-            message = message[7:]
-
-        validation_results.append({
-            "resultSeverity": "Violation" if severity == Severity.ERROR else severity,
-            "focusNode": focus_node,
-            "resultPath": None,
-            "resultMessage": message,
-            "sourceConstraintComponent": "STEMMAValidator",
-        })
-    validation_report = {
-        "conforms": not has_errors,
-        "results": validation_results,
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "kernel_version": (ROOT / "VERSION").read_text(encoding="utf-8").strip() if (ROOT / "VERSION").exists() else "unknown",
-    }
-    report_path = ROOT / "reports" / "validation-report.json"
-    report_path.parent.mkdir(parents=True, exist_ok=True)
-    report_path.write_text(
-        json.dumps(validation_report, indent=2, ensure_ascii=False) + "\n",
-        encoding="utf-8",
-    )
-
-    error_count = sum(1 for e in errors if e.startswith("[ERROR]") or (not e.startswith("[") and not e.startswith("[WARNING]") and not e.startswith("[INFO]")))
-    warning_count = sum(1 for e in errors if e.startswith("[WARNING]"))
-    info_count = sum(1 for e in errors if e.startswith("[INFO]"))
-
-    if has_errors:
-        print(f"FAIL: {error_count} error(s), {warning_count} warning(s), {info_count} info", file=sys.stderr)
+    for line in warnings:
+        print(f"WARNING: {line}", file=sys.stderr)
+    if errors:
+        print(f"FAIL: {len(errors)} problem(s) found", file=sys.stderr)
         for line in errors:
             print(f"  - {line}", file=sys.stderr)
+        report = write_validation_report(conforms=False, errors=errors, warnings=warnings, content_hash=None)
+        if emit_json:
+            print(json.dumps(report, indent=2, ensure_ascii=False, sort_keys=True))
         return 1
-    else:
-        print(f"OK: {error_count} error(s), {warning_count} warning(s), {info_count} info (validation passed)")
 
-    # Regenerate derived export (sorted for determinism)
-    content_hash = hashlib.sha256()
-    for path in sorted(CONTENT.rglob("*.md")):
-        content_hash.update(path.read_bytes())
-    for path in sorted(CONNECTIONS.glob("*.yaml")):
-        content_hash.update(path.read_bytes())
-    for path in sorted(SOURCES.glob("*.yaml")):
-        content_hash.update(path.read_bytes())
-
-    kernel_version = (ROOT / "VERSION").read_text(encoding="utf-8").strip() if (ROOT / "VERSION").exists() else "1.0.0"
-    schema_version = "0.3"  # v0.3 schema with extended entity types
-
+    # Regenerate derived export (sorted for determinism; versions from the single
+    # source ADR-0022; deterministic content_hash instead of wall-clock generated_at,
+    # so the tracked artifact is reproducible byte-for-byte and CI can enforce
+    # freshness via `git diff --exit-code exports/`).
+    hasher = hashlib.sha256()
+    for canonical_dir in (CONTENT, CONNECTIONS, SOURCES):
+        if not canonical_dir.exists():
+            continue
+        for path in sorted(p for p in canonical_dir.rglob("*") if p.is_file()):
+            hasher.update(str(path.relative_to(ROOT)).encode("utf-8"))
+            hasher.update(b"\x00")
+            hasher.update(path.read_bytes())
+            hasher.update(b"\x00")
+    versions = load_versions()
+    content_hash_value = f"sha256:{hasher.hexdigest()}"
+    kernel_version = (ROOT / "VERSION").read_text(encoding="utf-8").strip() if (ROOT / "VERSION").exists() else None
     payload = {
-        "export_version": "0.2",  # Bumped due to new entity types in export
-        "schema_version": schema_version,
+        "export_version": versions["export_version"],
+        "schema_version": versions["schema_version"],
+        "content_hash": content_hash_value,
         "kernel_version": kernel_version,
-        "content_hash": content_hash.hexdigest(),
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "source": "content/",
+        "relation_registry_version": versions.get("relation_registry_version"),
+        # ADR-0032 / contract v2.1: publish producer-side semantics so consumers
+        # can introspect families/inverses/domain-range without cloning the repo.
+        "relation_registry": registry.get("relations", {}),
+        "vocabularies": {
+            "domains": vocab["domains"],
+            "subdomains": vocab["subdomains"],
+            "regimes": vocab["regimes"],
+            "scales": vocab["scales"],
+        },
+        "source": "content/ + connections/ + sources/ (canonical)",
         "entity_count": len(entities),
         "connection_count": len(connections),
         "source_count": len(sources),
@@ -838,8 +1241,14 @@ def main() -> int:
             {k: v for k, v in entities[i].items() if not k.startswith("_")}
             for i in sorted(entities)
         ],
+        # `claim_signature` is DERIVED (E4.3 / ADR-0026): the identity of the asserted
+        # proposition (source|relation|target|polarity|qualifiers). Never canonical;
+        # it lets consumers deduplicate claims without recomputing the hash.
         "connections": [
-            {k: v for k, v in connections[i].items() if not k.startswith("_")}
+            {
+                **{k: v for k, v in connections[i].items() if not k.startswith("_")},
+                "claim_signature": claim_signatures.get(i, claim_signature(connections[i])),
+            }
             for i in sorted(connections)
         ],
         "sources": [
@@ -847,39 +1256,43 @@ def main() -> int:
             for i in sorted(sources)
         ],
     }
+    # Contract v1.0 (ADR-0023 / gate G-A): the export must conform to
+    # schema/export.schema.json BEFORE it is written — a producer can never ship
+    # a payload that violates the contract it advertises.
+    if HAVE_JSONSCHEMA and EXPORT_SCHEMA.exists():
+        export_schema = json.loads(EXPORT_SCHEMA.read_text(encoding="utf-8"))
+        contract_errors = [
+            f"export contract violation ({EXPORT_SCHEMA.name}): {err.message}"
+            for err in cast(Any, Draft202012Validator)(export_schema).iter_errors(payload)
+        ]
+        if contract_errors:
+            print(f"FAIL: {len(contract_errors)} export contract problem(s)", file=sys.stderr)
+            for line in contract_errors[:20]:
+                print(f"  - {line}", file=sys.stderr)
+            report = write_validation_report(conforms=False, errors=contract_errors, warnings=[], content_hash=None)
+            if emit_json:
+                print(json.dumps(report, indent=2, ensure_ascii=False, sort_keys=True))
+            return 1
     EXPORT.parent.mkdir(parents=True, exist_ok=True)
     EXPORT.write_text(
         json.dumps(payload, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
-    print(f"OK: {len(entities)} entities valid; export written to {EXPORT.relative_to(ROOT)}")
+    if emit_json:
+        print(f"OK: {len(entities)} entities valid; export written to {EXPORT.relative_to(ROOT)}", file=sys.stderr)
+    else:
+        print(f"OK: {len(entities)} entities valid; export written to {EXPORT.relative_to(ROOT)}")
+    report = write_validation_report(conforms=True, errors=[], warnings=warnings, content_hash=content_hash_value)
+    if emit_json:
+        print("OK: validation report written to reports/validation-report.json", file=sys.stderr)
+        print(json.dumps(report, indent=2, ensure_ascii=False, sort_keys=True))
+    else:
+        print("OK: validation report written to reports/validation-report.json")
 
-    # Auto-sync the derived export into the explorer (3D visual)
-    explorer_target = ROOT / "explorer" / "public" / "exports" / "knowledge.json"
-    if explorer_target.parent.is_dir() or (ROOT / "explorer").is_dir():
-        explorer_target.parent.mkdir(parents=True, exist_ok=True)
-        explorer_target.write_text(
-            json.dumps(payload, indent=2, ensure_ascii=False) + "\n",
-            encoding="utf-8",
-        )
-        print(f"OK: explorer export synced to {explorer_target.relative_to(ROOT)}")
-
-    # Write validation report (success)
-    validation_report = {
-        "conforms": True,
-        "results": [],
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
-        "kernel_version": kernel_version,
-        "content_hash": content_hash.hexdigest(),
-    }
-    report_path = ROOT / "reports" / "validation-report.json"
-    report_path.parent.mkdir(parents=True, exist_ok=True)
-    report_path.write_text(
-        json.dumps(validation_report, indent=2, ensure_ascii=False) + "\n",
-        encoding="utf-8",
-    )
-    print(f"OK: validation report written to {report_path.relative_to(ROOT)}")
-
+    # E7.4: the validator no longer writes into explorer/. The explorer is a consumer,
+    # not part of the canonical gate: it copies exports/knowledge.json itself via
+    # explorer/scripts/sync-export.mjs (wired to `predev`/`prebuild`), so the validator
+    # never mutates another component's tree.
     return 0
 
 
