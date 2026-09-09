@@ -372,13 +372,31 @@ def test_provider_login_gemini_explains_key(tmp_path):
 
 
 def test_parse_google_payload():
-    raw = {"candidates": [{"content": {"parts": [{"text": "{\"candidates\":[{\"kind\":\"entity\",\"proposal\":{\"id\":\"stemma:phys.test\"}}]}"}]}}]}
+    inner = '{"candidates":[{"kind":"entity","proposal":{"id":"stemma:phys.test"}}]}'
+    raw = {"candidates": [{"content": {"parts": [{"text": inner}]}}]}
     payload = Workflow._parse_google_payload(raw)
     assert payload["candidates"][0]["kind"] == "entity"
     # Fence-wrapped variant must also parse.
-    fenced = {"candidates": [{"content": {"parts": [{"text": "```json\n{\"candidates\":[]}\n```"}]}}]}
+    fenced_inner = '```json\n{"candidates":[]}\n```'
+    fenced = {"candidates": [{"content": {"parts": [{"text": fenced_inner}]}}]}
     assert Workflow._parse_google_payload(fenced) == {"candidates": []}
     print("PASS: Google Gemini response parsing")
+
+
+def test_free_model_catalog():
+    import providers
+    # Deterministic, no network: a curated known-free quick-pick catalog.
+    cc = providers.free_models("openai_compatible")
+    assert "deepseek/deepseek-r1:free" in cc
+    assert all(m.endswith(":free") for m in cc)
+    # 'google' alias canonicalizes to gemini_api.
+    gg = providers.free_models("google")
+    assert "gemini-2.5-flash" in gg
+    # Unknown provider yields an empty catalog (fail-safe, not a crash).
+    assert providers.free_models("bogus") == []
+    # Vertex has no meaningful free catalog entry.
+    assert providers.free_models("vertex_ai") == []
+    print("PASS: free-model catalog is deterministic and alias-aware")
 
 
 def test_llm_chat_google_mock(tmp_path: pathlib.Path):
@@ -499,6 +517,7 @@ def main() -> int:
         test_provider_login_gemini_explains_key(tmp_path)
         test_google_request_shape()
         test_parse_google_payload()
+        test_free_model_catalog()
         test_llm_chat_google_mock(tmp_path)
         test_antigravity_chat_dispatch_without_api_key(tmp_path)
         test_connection_requires_known_endpoints(tmp_path)

@@ -538,6 +538,38 @@ def list_models(config: dict[str, Any]) -> dict[str, Any]:
     raise ProviderNotConfigured(f"unknown provider: {config.get('provider')}")
 
 
+#: Curated known-free models per provider, used as a deterministic fallback catalog
+#: when a live /models listing is unavailable or the provider has no listing
+#: endpoint. Read-only; never fetched from a network by this module.
+FREE_MODEL_CATALOG: dict[str, list[str]] = {
+    "openai_compatible": [
+        "meta-llama/llama-3.3-70b-instruct:free",
+        "deepseek/deepseek-r1:free",
+        "google/gemini-2.0-flash-exp:free",
+        "nvidia/nemotron-3.5-lightning:free",
+        "qwen/qwen-2.5-72b-instruct:free",
+    ],
+    "gemini_api": [
+        "gemini-2.5-flash",
+        "gemini-2.5-pro",
+        "gemini-2.5-flash-lite",
+        "gemini-2.0-flash",
+    ],
+    "vertex_ai": [],
+    "antigravity": _antigravity_unknown_models(),
+}
+
+
+def free_models(provider: str | None) -> list[str]:
+    """Return the curated known-free model catalog for a provider (deterministic).
+
+    No network access — this is a fallback for a UI quick-pick list, not a live
+    entitlement check. Providers without a meaningful free catalog return [].
+    """
+    cid = canonical_provider(provider)
+    return list(FREE_MODEL_CATALOG.get(cid, []))
+
+
 def _http_models(config: dict[str, Any], provider: str, *, headers: dict[str, str]) -> list[str]:
     import urllib.error
     import urllib.request
