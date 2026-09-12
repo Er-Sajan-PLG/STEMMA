@@ -31,9 +31,9 @@
 - [x] Progress bar / spinner for long operations
 - [x] Better error messages with actionable suggestions
 - [x] Audit log UI in webapp
-- [ ] Export version migration tooling
-- [ ] Documentation: WEBAPP.md, INGESTION.md updates
-- [ ] ADR for webapp consolidation
+- [x] Export version migration tooling
+- [x] Documentation: WEBAPP.md, INGESTION.md updates
+- [x] ADR for webapp consolidation
 
 ---
 
