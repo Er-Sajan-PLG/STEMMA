@@ -976,7 +976,7 @@ def write_validation_report(
 
     versions = load_versions()
     kernel_version = None
-    version_file = ROOT / "VERSION"
+    version_file = ROOT / "version.txt"
     if version_file.exists():
         kernel_version = version_file.read_text(encoding="utf-8").strip()
     report = {
@@ -1217,7 +1217,7 @@ def main(argv: list[str] | None = None) -> int:
             hasher.update(b"\x00")
     versions = load_versions()
     content_hash_value = f"sha256:{hasher.hexdigest()}"
-    kernel_version = (ROOT / "VERSION").read_text(encoding="utf-8").strip() if (ROOT / "VERSION").exists() else None
+    kernel_version = (ROOT / "version.txt").read_text(encoding="utf-8").strip() if (ROOT / "version.txt").exists() else None
     payload = {
         "export_version": versions["export_version"],
         "schema_version": versions["schema_version"],
