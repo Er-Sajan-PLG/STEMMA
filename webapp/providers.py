@@ -38,6 +38,19 @@ import sys
 from dataclasses import dataclass
 from typing import Any
 
+# Default API Keys loaded from workspace environment if available
+ENV_KEYS = {}
+ENV_FILE = os.path.join(os.path.dirname(__file__), "..", ".env")
+if os.path.exists(ENV_FILE):
+    try:
+        with open(ENV_FILE, "r") as f:
+            for line in f:
+                if "=" in line and not line.strip().startswith("#"):
+                    k, v = line.strip().split("=", 1)
+                    ENV_KEYS[k] = v
+    except Exception:
+        pass
+
 SYSTEM_DRAFT_NOTE = "You produce only valid JSON proposal payloads for STEMMA."
 
 ALIASES = {
@@ -48,7 +61,7 @@ ALIASES = {
 
 # Canonical provider ids. ``aliases`` above are accepted by save_llm_config but
 # are canonicalized before persistence so a future reader never has to guess.
-PROVIDER_IDS = ("antigravity", "gemini_api", "vertex_ai", "openai_compatible")
+PROVIDER_IDS = ("antigravity", "gemini_api", "vertex_ai", "openai_compatible", "openrouter", "nvidia", "opencode")
 
 
 class ProviderError(ValueError):
@@ -116,6 +129,33 @@ SPECS: dict[str, ProviderSpec] = {
         needs_model=True,
         defaults={"base_url": "http://127.0.0.1:6012/v1", "model": "gemini-3-pro"},
         hint="Community harness/bridge or any OpenAI-compatible endpoint. NOT an Antigravity/Google AI Pro entitlement path.",
+    ),
+    "openrouter": ProviderSpec(
+        id="openrouter",
+        label="OpenRouter (Free/Paid Models)",
+        needs_base_url=False,
+        needs_api_key=True,
+        needs_model=True,
+        defaults={"base_url": "https://openrouter.ai/api/v1", "model": "meta-llama/llama-3.3-70b-instruct:free"},
+        hint="OpenRouter API. Uses OPENROUTER_API_KEY from .env or config.",
+    ),
+    "nvidia": ProviderSpec(
+        id="nvidia",
+        label="NVIDIA NIM (Free Models)",
+        needs_base_url=False,
+        needs_api_key=True,
+        needs_model=True,
+        defaults={"base_url": "https://integrate.api.nvidia.com/v1", "model": "meta/llama-3.3-70b-instruct"},
+        hint="NVIDIA NIM API. Uses NVIDIA_NIM_API_KEY from .env or config.",
+    ),
+    "opencode": ProviderSpec(
+        id="opencode",
+        label="OpenCode (Free Coder)",
+        needs_base_url=False,
+        needs_api_key=True,
+        needs_model=True,
+        defaults={"base_url": "https://api.opencode.example.com", "model": "opencode-zen"},
+        hint="OpenCode API. Uses OPENCODE_API_KEY from .env or config.",
     ),
 }
 
@@ -189,6 +229,92 @@ def configured(config: dict[str, Any] | None) -> bool:
     av = availability((config or {}).get("provider") or "", config)
     return bool(av.get("ok"))
 
+
+def fetch_provider_models(provider: str, api_key: str = "", free_only: bool = True) -> list[dict[str, Any]]:
+    """Fetch available models for a given provider, filtering for FREE models when requested."""
+    import requests
+    provider = canonical_provider(provider)
+    
+    if provider in ["google", "antigravity", "gemini_api"]:
+        return [
+            {"id": "antigravity-gemini-3.7-flash", "name": "antigravity-gemini-3.7-flash (Free / Antigravity)", "free": True, "provider": "google"},
+            {"id": "gemini-2.5-flash", "name": "gemini-2.5-flash (Google AI Free Tier)", "free": True, "provider": "google"},
+            {"id": "gemini-1.5-flash", "name": "gemini-1.5-flash (Google AI Free Tier)", "free": True, "provider": "google"},
+            {"id": "gemini-2.5-pro", "name": "gemini-2.5-pro (Google AI Free Tier)", "free": True, "provider": "google"},
+        ]
+
+    elif provider == "openrouter":
+        effective_key = api_key or ENV_KEYS.get("OPENROUTER_API_KEY")
+        headers = {}
+        if effective_key:
+            headers["Authorization"] = f"Bearer {effective_key}"
+        try:
+            r = requests.get("https://openrouter.ai/api/v1/models", headers=headers, timeout=5)
+            if r.status_code == 200:
+                raw_models = r.json().get("data", [])
+                models = []
+                for m in raw_models:
+                    m_id = m.get("id", "")
+                    pricing = m.get("pricing", {})
+                    is_free = ":free" in m_id or (float(pricing.get("prompt", 1)) == 0 and float(pricing.get("completion", 1)) == 0)
+                    if free_only and not is_free:
+                        continue
+                    models.append({
+                        "id": m_id,
+                        "name": f"{m.get('name', m_id)} {'(Free)' if is_free else ''}".strip(),
+                        "free": is_free,
+                        "provider": "openrouter"
+                    })
+                if models:
+                    return models
+        except Exception as e:
+            print(f"Error fetching OpenRouter models: {e}")
+
+        # Fallback free OpenRouter models
+        return [
+            {"id": "meta-llama/llama-3.3-70b-instruct:free", "name": "Llama 3.3 70B Instruct (Free)", "free": True, "provider": "openrouter"},
+            {"id": "deepseek/deepseek-r1:free", "name": "DeepSeek R1 (Free)", "free": True, "provider": "openrouter"},
+            {"id": "google/gemini-2.0-flash-exp:free", "name": "Gemini 2.0 Flash Exp (Free)", "free": True, "provider": "openrouter"},
+            {"id": "nvidia/nemotron-3.5-lightning:free", "name": "NVIDIA Nemotron 3.5 Lightning (Free)", "free": True, "provider": "openrouter"},
+            {"id": "qwen/qwen-2.5-72b-instruct:free", "name": "Qwen 2.5 72B Instruct (Free)", "free": True, "provider": "openrouter"},
+        ]
+
+    elif provider == "nvidia":
+        effective_key = api_key or ENV_KEYS.get("NVIDIA_NIM_API_KEY")
+        headers = {}
+        if effective_key:
+            headers["Authorization"] = f"Bearer {effective_key}"
+        try:
+            r = requests.get("https://integrate.api.nvidia.com/v1/models", headers=headers, timeout=5)
+            if r.status_code == 200:
+                raw_models = r.json().get("data", [])
+                models = []
+                for m in raw_models:
+                    m_id = m.get("id", "")
+                    models.append({
+                        "id": m_id,
+                        "name": f"{m_id} (NVIDIA NIM)",
+                        "free": True,
+                        "provider": "nvidia"
+                    })
+                if models:
+                    return models
+        except Exception as e:
+            print(f"Error fetching NVIDIA models: {e}")
+
+        return [
+            {"id": "meta/llama-3.3-70b-instruct", "name": "Meta Llama 3.3 70B Instruct (NVIDIA NIM)", "free": True, "provider": "nvidia"},
+            {"id": "deepseek-ai/deepseek-r1", "name": "DeepSeek R1 (NVIDIA NIM)", "free": True, "provider": "nvidia"},
+            {"id": "nvidia/llama-3.1-nemotron-70b-instruct", "name": "NVIDIA Nemotron 70B (NVIDIA NIM)", "free": True, "provider": "nvidia"},
+        ]
+
+    elif provider == "opencode":
+        return [
+            {"id": "opencode-zen", "name": "OpenCode Zen (Free)", "free": True, "provider": "opencode"},
+            {"id": "opencode/free-coder", "name": "OpenCode Free Coder (Free)", "free": True, "provider": "opencode"},
+        ]
+
+    return []
 
 # --------------------------------------------------------------------------- #
 # Shared HTTP + JSON helpers

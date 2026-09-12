@@ -20,18 +20,17 @@
 
 ## 🔄 In Progress
 - [ ] Port ingestion webapp features to upstream `webapp/`
-  - [ ] Multi-provider LLM Studio (Google, OpenRouter, NVIDIA, OpenCode)
-  - [ ] Free model fetcher with API key management
-  - [ ] 5-stage review + side-by-side verification
-  - [ ] Proposal artifact editor with gate re-verification
-  - [ ] LLM Quick-Access Sidebar Panel
-- [ ] Review & merge `feat/adaptive-metadata-grade12` (69 Grade-12 entities)
+  - [x] Multi-provider LLM Studio (Google, OpenRouter, NVIDIA, OpenCode)
+  - [x] Free model fetcher with API key management
+  - [x] 5-stage review + side-by-side verification
+  - [x] Proposal artifact editor with gate re-verification
+  - [x] LLM Quick-Access Sidebar Panel
 - [ ] Run full verify_all.py chain (requires campaign files)
 
 ## 📋 Backlog
-- [ ] Progress bar / spinner for long operations
-- [ ] Better error messages with actionable suggestions
-- [ ] Audit log UI in webapp
+- [x] Progress bar / spinner for long operations
+- [x] Better error messages with actionable suggestions
+- [x] Audit log UI in webapp
 - [ ] Export version migration tooling
 - [ ] Documentation: WEBAPP.md, INGESTION.md updates
 - [ ] ADR for webapp consolidation

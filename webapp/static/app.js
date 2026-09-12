@@ -239,26 +239,32 @@ async function refreshDocs() {
     view.onclick = () => selectDoc(doc.id);
     actions.appendChild(view);
     const ex = el("button", { class: "btn sm" }, "Extract");
-    ex.onclick = () => extract(doc.id);
+    ex.onclick = () => extract(doc.id, ex);
     actions.appendChild(ex);
     const gen = el("button", { class: "btn sm primary" }, "Draft");
-    gen.onclick = () => generate(doc.id);
+    gen.onclick = () => generate(doc.id, gen);
     actions.appendChild(gen);
     row.appendChild(actions);
     container.appendChild(row);
   });
 }
 
-async function extract(docId) {
+async function extract(docId, btn) {
+  if (btn) { btn.textContent = "Extracting... ⏳"; btn.disabled = true; }
   try {
     await api(`/api/documents/${docId}/extract`, { method: "POST", body: "{}" });
     await refresh();
     await selectDoc(docId);
-  } catch (e) { alert(`extract failed: ${e.message}`); }
+  } catch (e) { 
+    alert(`Extract failed: ${e.message}\n\nSuggestion: Check if the document type is supported or if it's corrupted.`); 
+  } finally {
+    if (btn) { btn.textContent = "Extract"; btn.disabled = false; }
+  }
 }
 
-async function generate(docId) {
+async function generate(docId, btn) {
   if (!confirm("Run the configured LLM Draft to propose candidates? It will not write canonical content.")) return;
+  if (btn) { btn.textContent = "Drafting... ⏳"; btn.disabled = true; }
   try {
     await api(`/api/documents/${docId}/generate`, {
       method: "POST",
@@ -266,7 +272,17 @@ async function generate(docId) {
     });
     await refresh();
     await selectDoc(docId);
-  } catch (e) { alert(`draft failed: ${e.message}`); }
+  } catch (e) { 
+    let suggestion = "Try again later or check your API quotas.";
+    if (e.message.includes("provider_not_configured") || e.message.includes("api_key")) {
+      suggestion = "Please open 'LLM Draft settings' and ensure you have selected a valid provider and entered your API key.";
+    } else if (e.message.includes("HTTP 429")) {
+      suggestion = "You are being rate limited by the provider. Please wait a moment.";
+    }
+    alert(`Draft failed: ${e.message}\n\nSuggestion: ${suggestion}`); 
+  } finally {
+    if (btn) { btn.textContent = "Draft"; btn.disabled = false; }
+  }
 }
 
 async function selectDoc(docId) {
@@ -398,7 +414,32 @@ async function refreshAudit() {
   try { data = await api("/api/audit"); } catch (e) { data = { events: [] }; }
   clear(container);
   if (!data.events.length) { container.appendChild(el("p", { class: "hint" }, "No audit events yet.")); return; }
-  container.appendChild(el("pre", { class: "jsonpre" }, JSON.stringify(data.events.slice(-40), null, 2)));
+  
+  const table = el("table", { style: "width: 100%; border-collapse: collapse; font-size: 0.9em;" });
+  const thead = el("thead");
+  const trHead = el("tr", { style: "border-bottom: 1px solid var(--border);" });
+  trHead.appendChild(el("th", { style: "text-align: left; padding: 8px;" }, "Timestamp"));
+  trHead.appendChild(el("th", { style: "text-align: left; padding: 8px;" }, "Event"));
+  trHead.appendChild(el("th", { style: "text-align: left; padding: 8px;" }, "Doc ID"));
+  trHead.appendChild(el("th", { style: "text-align: left; padding: 8px;" }, "Details"));
+  thead.appendChild(trHead);
+  table.appendChild(thead);
+  
+  const tbody = el("tbody");
+  data.events.slice(-40).reverse().forEach(ev => {
+    const tr = el("tr", { style: "border-bottom: 1px solid var(--border-subtle);" });
+    tr.appendChild(el("td", { style: "padding: 8px; color: var(--text-muted);" }, new Date(ev.timestamp).toLocaleString()));
+    tr.appendChild(el("td", { style: "padding: 8px; font-weight: bold;" }, ev.event));
+    tr.appendChild(el("td", { style: "padding: 8px; color: var(--text-muted);" }, ev.doc_id || "-"));
+    
+    const detailsTd = el("td", { style: "padding: 8px;" });
+    const detailsPre = el("pre", { style: "margin: 0; padding: 4px; background: var(--bg-card); font-size: 0.85em;" }, JSON.stringify(ev.detail, null, 2));
+    detailsTd.appendChild(detailsPre);
+    tr.appendChild(detailsTd);
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  container.appendChild(table);
 }
 
 async function refresh() {

@@ -133,6 +133,12 @@ class _Handler(BaseHTTPRequestHandler):
 
         if path == "/api/config":
             return 200, wf.read_llm_config(mask=True)
+        if path == "/api/models":
+            provider = self._query_value(query, "provider") or wf.read_llm_config().get("provider", "antigravity")
+            free_only = self._query_value(query, "free_only") != "false"
+            import providers
+            models = providers.fetch_provider_models(provider, free_only=free_only)
+            return 200, {"models": models}
         if path == "/api/documents":
             return 200, {"documents": wf.list_documents()}
         if path == "/api/candidates":
