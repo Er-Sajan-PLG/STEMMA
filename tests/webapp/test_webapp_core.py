@@ -168,7 +168,7 @@ def test_gemini_config_roundtrip(tmp_path: pathlib.Path):
 def test_provider_registry_contract():
     import providers
     # Four distinct entitlement paths, Antigravity is official/local.
-    assert set(providers.PROVIDER_IDS) == {"antigravity", "gemini_api", "vertex_ai", "openai_compatible"}
+    assert set(providers.PROVIDER_IDS) == {"antigravity", "gemini_api", "vertex_ai", "openai_compatible", "openrouter", "nvidia", "opencode"}
     # Aliases never leak into persistence.
     assert providers.canonical_provider("google") == "gemini_api"
     assert providers.canonical_provider("openai") == "openai_compatible"
