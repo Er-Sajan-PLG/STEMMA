@@ -1,13 +1,13 @@
 #!/bin/bash
 echo "[STEMMA] Delegating pre-push verification to STEMMA's n8n Orchestrator..."
 
-# Attempt to trigger the local STEMMA n8n webhook (port 5679)
-RESPONSE=$(curl -s -w "%{http_code}" -X POST http://127.0.0.1:5679/webhook/stemma-ci)
+# Attempt to trigger the local STEMMA n8n webhook (port 5680)
+RESPONSE=$(curl -s -w "%{http_code}" -X POST http://127.0.0.1:5680/webhook/stemma-ci)
 STATUS_CODE=${RESPONSE: -3}
 BODY=${RESPONSE::-3}
 
 if [ "$STATUS_CODE" -eq 000 ]; then
-    echo "⚠️ STEMMA n8n orchestrator not reachable on port 5679."
+    echo "⚠️ STEMMA n8n orchestrator not reachable on port 5680."
     echo "Falling back to local execution..."
     python3 scripts/verify_all.py
     if [ $? -ne 0 ]; then

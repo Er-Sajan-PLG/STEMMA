@@ -6,13 +6,14 @@ services:
     container_name: stemma-n8n
     restart: unless-stopped
     ports:
-      - "5679:5678"
+      - "5680:5678"
     environment:
       - N8N_HOST=127.0.0.1
       - N8N_PORT=5678
       - N8N_PROTOCOL=http
       - NODE_ENV=production
-      - WEBHOOK_URL=http://127.0.0.1:5679/
+      - WEBHOOK_URL=http://127.0.0.1:5680/
       - GENERIC_TIMEZONE=UTC
     volumes:
       - ./n8n/data:/home/node/.n8n
+      - ./n8n/workflows:/home/node/workflows
