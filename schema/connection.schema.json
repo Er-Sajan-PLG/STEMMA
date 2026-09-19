@@ -2,19 +2,19 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://stemma.example/schema/connection.schema.json",
   "title": "STEMMA connection (first-class assertion)",
-  "description": "Schema for one canonical connection — first-class qualified assertion (v0.2). See ADR-011. Urgent metadata (v0.2 audit) added as optional.",
+  "description": "Schema for one canonical connection — first-class qualified assertion (v0.2). See ADR-011.",
   "type": "object",
   "required": ["id", "type", "source", "relation", "target", "assertion", "provenance"],
   "properties": {
     "id": {
       "type": "string",
-      "pattern": "^stemma:conn\\.[0-9]{6}$",
-      "description": "Sequential opaque connection ID (stemma:conn.000001), immutable, never reused."
+      "pattern": "^stemma:conn\\.[a-z0-9\\-]+$",
+      "description": "Connection ID (stemma:conn.NNNNNN or stemma:conn.slug), immutable, never reused."
     },
     "type": { "const": "connection" },
     "source": {
       "type": "string",
-      "pattern": "^stemma:[a-z][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*$",
+      "pattern": "^(stemma|lhs):[a-z][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*$",
       "description": "Source entity ID."
     },
     "relation": {
@@ -23,7 +23,7 @@
     },
     "target": {
       "type": "string",
-      "pattern": "^stemma:[a-z][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*$",
+      "pattern": "^(stemma|lhs):[a-z][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*$",
       "description": "Target entity ID."
     },
     "assertion": {
@@ -32,7 +32,7 @@
       "properties": {
         "status": { "enum": ["active", "deprecated", "superseded"] },
         "type": { "enum": ["asserted", "inferred", "proposed"] },
-        "polarity": { "enum": ["positive", "negative"], "default": "positive", "description": "M2: affirmed vs negated claim (default positive). Rejected != negated." },
+        "polarity": { "enum": ["positive", "negative"], "default": "positive", "description": "M2: affirmed vs negated claim." },
         "review": {
           "type": "object",
           "required": ["status"],
@@ -41,69 +41,22 @@
           },
           "additionalProperties": false
         },
-        "confidence": {
-          "type": ["number", "null"],
-          "minimum": 0.0,
-          "maximum": 1.0,
-          "description": "Belief that this assertion is correct within its context. Null if unknown."
-        },
-        "confidence_basis": {
-          "type": ["string", "null"],
-          "enum": ["expert_review", "experimental", "theoretical", "derived", null]
-        }
+        "confidence": { "type": ["number", "null"], "minimum": 0.0, "maximum": 1.0 },
+        "confidence_basis": { "type": ["string", "null"], "enum": ["expert_review", "experimental", "theoretical", "derived", null] }
       },
       "additionalProperties": false
-    },
-    "lifecycle": {
-      "anyOf": [
-        {"type": "object", "properties": {"reason": { "type": ["string", "null"] }, "replaced_by": { "type": ["string", "null"], "pattern": "^stemma:conn\\.[0-9]{6}$" }}, "additionalProperties": false},
-        {"type": "null"}
-      ]
-    },
-    "created_at": { "type": ["string", "null"], "description": "ISO8601 creation time (M3 repository lifecycle)" },
-    "updated_at": { "type": ["string", "null"], "description": "ISO8601 last modification time" },
-    "validity": {
-      "anyOf": [
-        {"type": "object", "properties": {"valid_from": { "type": ["string", "null"] }, "valid_until": { "type": ["string", "null"] }}, "additionalProperties": false},
-        {"type": "null"}
-      ]
     },
     "context": {
       "type": "object",
       "properties": {
         "domain": { "type": "string" },
         "subdomain": { "type": "string" },
-        "regime": {
-          "type": "array",
-          "items": { "type": "string" },
-          "description": "Controlled multi-valued regimes (see vocabularies/regimes.yaml)."
-        },
+        "regime": { "type": "array", "items": { "type": "string" } },
         "scale": { "type": "string" },
-        "assumptions": {
-          "type": "array",
-          "items": { "type": "string" }
-        },
-        "qualifiers": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "required": ["type", "value"],
-            "properties": {
-              "type": { "type": "string" },
-              "value": { "type": "string" },
-              "unit": { "type": "string" }
-            },
-            "additionalProperties": false
-          },
-          "description": "M12: extensible qualifiers (conditions, scope, system, boundary, temperature, pressure, etc.)"
-        }
+        "assumptions": { "type": "array", "items": { "type": "string" } },
+        "qualifiers": { "type": "array", "items": { "type": "object" } }
       },
       "additionalProperties": true
-    },
-    "assumptions": {
-      "type": "array",
-      "items": { "type": "string" },
-      "description": "Legacy scalar assumptions; prefer context.assumptions."
     },
     "evidence": {
       "type": "array",
@@ -112,15 +65,9 @@
         "required": ["type"],
         "properties": {
           "type": { "enum": ["definition", "axiom", "mathematical_derivation", "empirical_measurement", "experiment", "observation", "simulation", "review", "textbook", "standard", "dataset", "expert_assessment", "derivation", "other"] },
-          "stance": { "enum": ["supports", "weakly_supports", "contradicts", "qualifies"], "description": "M9: evidence direction, default supports" },
-          "source_ref": { "type": "string", "pattern": "^stemma:src\\." },
-          "locator": { "type": "string" },
-          "locator_struct": {
-            "anyOf": [
-              {"type": "object", "properties": {"page": { "type": ["string", "null"] }, "section": { "type": ["string", "null"] }, "equation": { "type": ["string", "null"] }, "figure": { "type": ["string", "null"] }, "table": { "type": ["string", "null"] }, "dataset": { "type": ["string", "null"] }, "code": { "type": ["string", "null"] }}, "additionalProperties": false},
-              {"type": "null"}
-            ]
-          },
+          "stance": { "enum": ["supports", "weakly_supports", "contradicts", "qualifies"] },
+          "source_ref": { "type": "string", "pattern": "^stemma:src\\.[a-z0-9][a-z0-9-]*$" },
+          "locator": { "type": ["string", "object"] },
           "description": { "type": "string" }
         },
         "additionalProperties": false
@@ -188,27 +135,16 @@
       },
       "additionalProperties": false
     },
-    "inference": {
-      "type": "object",
-      "properties": {
-        "rule": { "type": "string" },
-        "path": {
-          "type": "array",
-          "items": { "type": "string", "pattern": "^stemma:" }
-        }
-      },
-      "additionalProperties": false
-    },
-    "rights": {
+    "lifecycle": {
       "anyOf": [
-        {"type": "object", "properties": {"license": { "type": "string" }, "attribution": { "type": "string" }, "rights_holder": { "type": "string" }}, "additionalProperties": false},
+        {"type": "object", "properties": {"reason": { "type": ["string", "null"] }, "replaced_by": { "type": ["string", "null"] }}},
         {"type": "null"}
       ]
     },
     "extensions": {
       "type": "object",
       "additionalProperties": true,
-      "description": "Adaptive metadata seam (ADR-0017). Open at schema level; validator enforces registry membership per connection."
+      "description": "Adaptive metadata seam (ADR-0017)."
     }
   },
   "additionalProperties": false

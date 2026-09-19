@@ -8,8 +8,8 @@
   "properties": {
     "id": {
       "type": "string",
-      "pattern": "^lhs:[a-z][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*$",
-      "description": "Stable identifier, namespace lhs:<domain>.<slug>. Never reused."
+      "pattern": "^stemma:[a-z][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*$",
+      "description": "Stable identifier, namespace stemma:<domain>.<slug>. Never reused."
     },
     "type": {
       "enum": ["concept", "quantity", "unit", "law", "equation", "misconception", "phenomenon", "model", "experiment", "regime", "observation", "measurement", "classification", "definition", "claim"],
@@ -86,7 +86,7 @@
               "related_to"
             ]
           },
-          "target": { "type": "string", "pattern": "^lhs:" },
+          "target": { "type": "string", "pattern": "^stemma:[a-z][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*$" },
           "note": { "type": "string" }
         },
         "additionalProperties": false

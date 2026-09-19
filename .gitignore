@@ -12,3 +12,4 @@ workflow/
 # Explorer copy of the derived export (E7.4): synced by explorer/scripts/sync-export.mjs
 # at dev/build time — the validator never writes into explorer/.
 explorer/public/exports/
+n8n/data/
