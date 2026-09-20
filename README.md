@@ -28,10 +28,11 @@ export that any curriculum, application, or AI system can build on.
 Machine-checkable live counts — `scripts/status_truth.py` (CI) fails if this
 block drifts from canonical content (audit F2: status honesty is a gate):
 
-- Entities: **224** — human-reviewed/canonical: **0**, draft: **224**
-- Connections (first-class assertions): **654** — review-canonical: **50** (7.6%), unreviewed: **604**
-- Canonical source records: **3**
+- Entities: **0** — human-reviewed/canonical: **0**, draft: **0**
+- Connections (first-class assertions): **0** — review-canonical: **0** (0.0%), unreviewed: **0**
+- Canonical source records: **0**
 <!-- status-truth:end -->
+
 
 
 
