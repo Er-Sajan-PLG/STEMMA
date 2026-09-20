@@ -77,18 +77,15 @@ class _Handler(BaseHTTPRequestHandler):
     @staticmethod
     def _read_asset(name: str) -> tuple[bytes, str]:
         safe = Path(name).name
-        path = STATIC_DIR / safe
-        # Defense-in-depth: ensure the resolved path is strictly inside STATIC_DIR,
-        # never an escape up the tree (path traversal / path-injection guard).
         try:
             resolved = (STATIC_DIR / safe).resolve()
         except OSError:
             raise NotFound(f"static asset not found: {name}") from None
-        if resolved != (STATIC_DIR.resolve() / safe) or not resolved.is_file():
+        # Defense-in-depth: ensure the resolved path is strictly inside STATIC_DIR,
+        # never an escape up the tree (path traversal / path-injection guard).
+        if not resolved.is_file() or resolved.parent != STATIC_DIR.resolve():
             raise NotFound(f"static asset not found: {name}")
-        if not path.exists():
-            raise NotFound(f"static asset not found: {name}")
-        suffix = path.suffix.lower()
+        suffix = resolved.suffix.lower()
         content_type = {
             ".html": "text/html; charset=utf-8",
             ".css": "text/css; charset=utf-8",
