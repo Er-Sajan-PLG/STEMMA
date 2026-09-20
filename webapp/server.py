@@ -77,17 +77,22 @@ class _Handler(BaseHTTPRequestHandler):
     @staticmethod
     def _read_asset(name: str) -> tuple[bytes, str]:
         safe = Path(name).name
-        path = STATIC_DIR / safe
-        if not path.exists():
+        try:
+            resolved = (STATIC_DIR / safe).resolve()
+        except OSError:
+            raise NotFound(f"static asset not found: {name}") from None
+        # Defense-in-depth: ensure the resolved path is strictly inside STATIC_DIR,
+        # never an escape up the tree (path traversal / path-injection guard).
+        if not resolved.is_file() or resolved.parent != STATIC_DIR.resolve():
             raise NotFound(f"static asset not found: {name}")
-        suffix = path.suffix.lower()
+        suffix = resolved.suffix.lower()
         content_type = {
             ".html": "text/html; charset=utf-8",
             ".css": "text/css; charset=utf-8",
             ".js": "application/javascript; charset=utf-8",
             ".json": "application/json; charset=utf-8",
         }.get(suffix, "application/octet-stream")
-        return path.read_bytes(), content_type
+        return resolved.read_bytes(), content_type
 
     def do_POST(self) -> None:  # noqa: N802
         try:
@@ -133,6 +138,12 @@ class _Handler(BaseHTTPRequestHandler):
 
         if path == "/api/config":
             return 200, wf.read_llm_config(mask=True)
+        if path == "/api/models":
+            provider = self._query_value(query, "provider") or wf.read_llm_config().get("provider", "antigravity")
+            free_only = self._query_value(query, "free_only") != "false"
+            import providers
+            models = providers.fetch_provider_models(provider, free_only=free_only)
+            return 200, {"models": models}
         if path == "/api/documents":
             return 200, {"documents": wf.list_documents()}
         if path == "/api/candidates":

@@ -1,70 +1,220 @@
 # AGENTS.md — STEMMA
 
-Operating instructions for humans and AI agents working inside this
-repository. This file governs this repository; `docs/GOVERNANCE.md` is the
-authority it defers to.
+**Operating instructions for humans and AI agents working inside this repository.**
 
-## North star
+---
 
-> STEMMA is an open, structured, reusable STEM knowledge foundation.
-> Curriculum is external. Products are external. Learning experiences are
-> external. AI agents are consumers and drafters — never authorities.
+## What STEMMA Is
 
-Read `docs/VISION.md` first. The repo must remain understandable and useful
-with zero knowledge of any other project.
+> **STEMMA is an open, structured, reusable STEM knowledge foundation.**
+> Curriculum is external. Products are external. Learning experiences are external.
+> AI agents are consumers. STEM-TUITION (LearningHub) is one consumer — never a controller.
 
-## Ground rules
+STEMMA exists so that anyone — educators, developers, researchers, AI systems, other products — can build on top of a high-quality, reusable STEM knowledge base.
 
-1. Canonical knowledge lives only in `content/`, `connections/`, `sources/`.
-   Everything under `exports/` and `reports/` is derived and regenerable.
-2. No curriculum, grade, course, country, or product appears in canonical
-   data. No private-ecosystem references anywhere (machine-checked:
-   `tests/repo/test_independence.py`).
-3. AI-drafted content stays `status: draft` / `proposed` until a named human
-   reviews it (`docs/CURATION-PROTOCOL.md`). AI agents never fill review
-   decisions.
-4. Stable IDs are never reused or silently reassigned. Connection triples are
-   immutable: corrections are supersessions (`assertion.status: superseded` +
-   `lifecycle.replaced_by` + a NEW connection id), never in-place edits.
-5. Relationships are objects in `connections/` only — entities carry no
-   relationship data (ADR-0028).
-6. `claim_signature` is derived — never hand-write it into canonical YAML.
-7. Every provenance agent id must exist in `schema/agent-registry.yaml`;
-   register new agents in the same PR that first uses them.
-8. Do not expand scope silently. Classify work NOW / ROADMAP / OUT OF SCOPE
-   (`docs/GOVERNANCE.md`, `docs/ROADMAP.md`) and state a short plan.
-9. Foundational decisions (schemas, relation semantics, identity, contracts,
-   licensing, standards adoption) require an ADR — and several require
-   explicit human approval (`docs/GOVERNANCE.md` §4). Flag, don't decide.
-10. No secrets in code or docs. Leave a decision trail (`docs/decisions/`).
+---
 
-## Verification
+## Canonical Truth Lives In
+
+| Location | Purpose | Authority |
+|----------|---------|-----------|
+| `content/**/*.md` | Entity definitions (Markdown + YAML frontmatter) | **SOURCE OF TRUTH** |
+| `connections/*.yaml` | First-class qualified assertions (relationships with provenance, evidence, context) | **SOURCE OF TRUTH** |
+| `sources/*.yaml` | Canonical source citations | **SOURCE OF TRUTH** |
+| `schema/concept.schema.json` | Entity JSON Schema | Contract |
+| `schema/connection.schema.json` | Connection JSON Schema | Contract |
+| `schema/relation-registry.yaml` | Authoritative relation vocabulary | Contract |
+| `schema/extension-registry.yaml` | Governed extension dimensions | Contract |
+
+---
+
+## Products Must NOT
+
+- ❌ Import STEMMA internal modules (`scripts/`, `schema/` internals)
+- ❌ Read Markdown files directly — use the export
+- ❌ Add curriculum/grade/course fields to canonical content
+- ❌ Dictate lesson sequence, pedagogy, UI in canonical layer
+- ❌ Couple STEMMA to their database, auth, analytics, or product experience
+- ❌ Treat AI-drafted content as authoritative without human review
+
+---
+
+## Schema Changes Require
+
+1. **ADR** in `docs/decisions/` for any foundational change
+2. **Schema version bump** (`schema_version` in export)
+3. **Migration path** for existing content
+4. **Validator update** to enforce new rules
+5. **Export version bump** (`export_version`) if shape changes
+6. **Consumer notification** (adapters may need updates)
+
+---
+
+## Relationship Changes Require
+
+1. **Entry in `relation-registry.yaml`** with semantics, domain/range, inverse, transitivity
+2. **Validator support** for new relation
+3. **Migration** of existing connections if semantics change
+4. **Documentation** in specification (§5)
+
+---
+
+## Validation Is Performed By
 
 ```bash
-python3 scripts/validate.py        # gate: exit 0 = valid; regenerates exports/knowledge.json
-python3 scripts/verify_all.py      # the full chain (what CI runs)
+python3 scripts/validate.py
 ```
 
-The chain includes the cross-object gates: registry coherence, vocabulary
-conformance, cycle detection, duplicate-claim signatures, deterministic
-exports, README status-truth, export-contract conformance, agent-registry
-resolution, `external_ids` formats, git-history identity and triple
-immutability, ecosystem independence, and docs consistency. Derived
-artifacts must be regenerated and committed fresh (CI fails on drift).
+**Exit codes**: 0 = valid (export regenerated), 1 = errors, 2 = missing deps
 
-Review work: `python3 scripts/dependency_review_campaign.py` regenerates
-human review worksheets under `reports/dependency-review-campaign/`; a human
-fills `decision:` in a `batch-NN.yaml` and applies it with
-`python3 scripts/apply_review_decisions.py <sheet> --reviewer human:<id>`.
+**Validator enforces**:
+- Syntax (YAML, no duplicate keys)
+- Schema conformance (JSON Schema)
+- ID format & uniqueness
+- Required fields
+- Enum whitelists (type, status, relations)
+- Dangling reference detection
+- Provenance presence
+- Filename ↔ ID slug consistency
+- Lifecycle rules (reviewed→reviewer, deprecated→deprecated_by)
+- Semantic type rules (applies_to source = law)
+- Structural cycle detection
+- Inverse relationship consistency (INFO)
+- Extension registry membership
+- Entity-Connection consistency (WARNING)
 
-Explorer (a consumer): `npm --prefix explorer run verify` asserts the graph
-is projected from `connections[]` with per-edge trust annotation; `npm
---prefix explorer run dev` syncs its own copy of the export first.
+---
 
-## Starting work
+## Exports Are Generated By
 
-1. Read `docs/README.md`, then the specification for the area you touch.
-2. Read the relevant schema and one existing canonical object before editing.
-3. State the classification and a short plan before changing anything.
-4. Run the chain after changes; finish with a summary and flag any human
-   decisions required.
+```bash
+# Primary export + subsets
+python3 scripts/validate.py
+python3 scripts/export_subsets.py
+```
+
+**Primary**: `exports/knowledge.json` (contract `export_version: 0.2`)
+**Subsets**: `exports/knowledge.domain-*.json`, `knowledge.type-*.json`, `knowledge.ai-rag.json`, etc.
+
+**Exports are DERIVED** — regenerable from canonical content, never hand-edited.
+
+---
+
+## Adapters Must
+
+1. **Validate export contract version** before any lookup
+2. **Index entities by ID** for O(1) access
+3. **Resolve relationships** (throw on dangling, never silently skip)
+4. **Map canonical → consumer model** (consumer owns the mapping)
+5. **Handle ID namespace** (`lhs:` ↔ `stemma:` compatibility)
+
+**Example**: `LearningHub/apps/shell/src/lib/lhs-adapter.ts`
+
+---
+
+## Agents Should Consult
+
+| Skill | Purpose |
+|-------|---------|
+| `.agents/skills/canonical-knowledge-designer.md` | Model entities, design relationships |
+| `.agents/skills/canonical-content-validator.md` | Run/debug validation |
+| `.agents/skills/canonical-export-designer.md` | Design exports, subsets, adapters |
+| `.agents/skills/canonical-content-author.md` | Add/modify canonical content |
+| `.agents/skills/stemma-architecture-reviewer.md` | Review architectural changes |
+
+---
+
+## Quick Start
+
+```bash
+# 1. Read governance
+cat docs/NORTHSTAR.md
+cat docs/GOVERNANCE.md
+cat docs/STEMMA-SPECIFICATION.md
+
+# 2. Validate current state
+python3 scripts/validate.py
+
+# 3. Explore content
+ls content/physics/mechanics/
+cat content/physics/mechanics/force.md
+
+# 4. Check export
+jq '.entities[0]' exports/knowledge.json
+
+# 5. Run tests
+python3 tests/curation/test_curation.py
+python3 tests/phase-b/test_phase_b.py
+python3 tests/metadata/test_adaptive_extensions.py
+python3 tests/curation/test_generality.py
+python3 tests/metadata/test_metadata_semantics.py
+```
+
+---
+
+## Classification Before Work
+
+Every significant piece of work must be classified:
+
+| Class | Meaning | Action |
+|-------|---------|--------|
+| **NOW** | Required by current milestone | Implement |
+| **SEAM** | Small interface/contract for known future | Implement if inexpensive |
+| **LATER** | Architecture-described, not required now | Document only |
+| **OUT** | Not relevant | Do not implement |
+
+**Deferred unless human activates**:
+- Full MVP activation (`ACTIVATE LEARNINGHUBSTEM MVP`)
+- STEM-GAME, STEM Lab, JARVIS integration
+- Microservices, cloud, auth, payments, analytics
+- Vector/graph databases, recommendation engines
+- Shared platform services
+
+---
+
+## Definition of Done (Canonical Entity)
+
+- [ ] Stable ID (`lhs:<domain>.<slug>`)
+- [ ] Valid schema
+- [ ] Required metadata complete
+- [ ] Provenance (source and/or reviewer)
+- [ ] Valid relationships (whitelisted, no dangling targets)
+- [ ] Appropriate review status
+- [ ] Human review for `human_reviewed`/`canonical`
+- [ ] **No curriculum dependency, no product dependency**
+- [ ] Validation passes (`python3 scripts/validate.py` exit 0)
+
+---
+
+## Enforcement Direction
+
+```
+Prose rules → Schemas → Validation → Tests → CI enforcement
+```
+
+**Do not build generalized policy engines** — implement only what is justified NOW.
+
+---
+
+## Session Protocol
+
+1. Read `AGENTS.md`, `docs/NORTHSTAR.md`, `docs/GOVERNANCE.md`
+2. Classify work: NOW / SEAM / LATER / OUT
+3. State short plan before changing anything
+4. Run `python3 scripts/validate.py`
+5. Finish with summary and flag human decisions
+
+---
+
+## If a Rule Must Be Violated
+
+**Do not violate silently** — record the exception in an ADR and get human approval first.
+
+---
+
+## License
+
+- **Content** (`content/`, `connections/`, `sources/`, `docs/`): CC BY 4.0 (pending human approval)
+- **Code** (`scripts/`, `schema/`, `tests/`): MIT (pending human approval)
+
+See `docs/decisions/0001-license.md`

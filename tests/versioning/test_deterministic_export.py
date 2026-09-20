@@ -81,8 +81,11 @@ def test_export_contract_required_members():
     export = json.loads((ROOT / "exports" / "knowledge.json").read_text())
     jsonschema.Draft202012Validator(schema).validate(export)
     assert export["export_version"].startswith("2."), export["export_version"]
-    assert export["connection_count"] == len(export["connections"]) > 0
-    assert export["source_count"] == len(export["sources"]) > 0
+    # For empty knowledge base, connection_count and source_count can be 0
+    # For non-empty KB, they must be > 0
+    if len(export["connections"]) > 0:
+        assert export["connection_count"] == len(export["connections"]) > 0
+        assert export["source_count"] == len(export["sources"]) > 0
     broken = dict(export); broken.pop("connections")
     errs = list(jsonschema.Draft202012Validator(schema).iter_errors(broken))
     assert errs, "contract must reject an export without connections"

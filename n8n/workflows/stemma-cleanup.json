@@ -1,0 +1,54 @@
+{
+  "id": "e4f8a3d1-1234-4567-890a-333333333333",
+  "name": "STEMMA-Cleanup",
+  "active": false,
+  "description": "Nightly cleanup job. Prunes stale graph generation artifacts, temporary files, and orphaned branches.",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24
+            }
+          ]
+        }
+      },
+      "id": "schedule-cleanup",
+      "name": "Schedule (Nightly)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1,
+      "position": [
+        100,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "command": "rm -rf reports/tmp/* && echo 'Cleanup complete'"
+      },
+      "id": "execute-cleanup",
+      "name": "Run Cleanup Scripts",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        300,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule (Nightly)": {
+      "main": [
+        [
+          {
+            "node": "Run Cleanup Scripts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
