@@ -45,6 +45,12 @@ jobs:
             exit 0
           fi
 
+          # Allow GitHub merge refs (PR merge previews)
+          if echo "$BRANCH" | grep -qE "^[0-9]+/merge$"; then
+            echo "✓ GitHub merge ref: $BRANCH"
+            exit 0
+          fi
+
           # Allow arena branches
           if echo "$BRANCH" | grep -qE "^arena/"; then
             echo "✓ Arena branch: $BRANCH"
