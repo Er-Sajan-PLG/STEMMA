@@ -78,6 +78,14 @@ class _Handler(BaseHTTPRequestHandler):
     def _read_asset(name: str) -> tuple[bytes, str]:
         safe = Path(name).name
         path = STATIC_DIR / safe
+        # Defense-in-depth: ensure the resolved path is strictly inside STATIC_DIR,
+        # never an escape up the tree (path traversal / path-injection guard).
+        try:
+            resolved = (STATIC_DIR / safe).resolve()
+        except OSError:
+            raise NotFound(f"static asset not found: {name}") from None
+        if resolved != (STATIC_DIR.resolve() / safe) or not resolved.is_file():
+            raise NotFound(f"static asset not found: {name}")
         if not path.exists():
             raise NotFound(f"static asset not found: {name}")
         suffix = path.suffix.lower()
@@ -87,7 +95,7 @@ class _Handler(BaseHTTPRequestHandler):
             ".js": "application/javascript; charset=utf-8",
             ".json": "application/json; charset=utf-8",
         }.get(suffix, "application/octet-stream")
-        return path.read_bytes(), content_type
+        return resolved.read_bytes(), content_type
 
     def do_POST(self) -> None:  # noqa: N802
         try:

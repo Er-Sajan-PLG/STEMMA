@@ -256,7 +256,7 @@ def fetch_provider_models(provider: str, api_key: str = "", free_only: bool = Tr
                 for m in raw_models:
                     m_id = m.get("id", "")
                     pricing = m.get("pricing", {})
-                    is_free = ":free" in m_id or (float(pricing.get("prompt", 1)) == 0 and float(pricing.get("completion", 1)) == 0)
+                    is_free = m_id.endswith(":free") or (float(pricing.get("prompt", 1)) == 0 and float(pricing.get("completion", 1)) == 0)
                     if free_only and not is_free:
                         continue
                     models.append({

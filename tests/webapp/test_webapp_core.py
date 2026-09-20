@@ -358,7 +358,8 @@ def test_provider_login_openai_harness(tmp_path):
     finally:
         server.shutdown()
     assert result["ok"] is True
-    assert "accounts.google.com" in result["url"]
+    from urllib.parse import urlparse
+    assert urlparse(result["url"]).hostname == "accounts.google.com"
     assert "Sign in to Google AI Pro" in result["message"]
     print("PASS: OpenAI-compatible harness sign-in URL flow")
 
