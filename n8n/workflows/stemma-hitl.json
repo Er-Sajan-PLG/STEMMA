@@ -1,0 +1,76 @@
+{
+  "id": "e4f8a3d1-1234-4567-890a-222222222222",
+  "name": "STEMMA-HITL",
+  "active": false,
+  "description": "Human-in-the-Loop (HITL) execution control. Pauses sensitive or destructive AI agent actions (like mass-deleting entities or committing large PRs) pending manual approval.",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "stemma-hitl",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "webhook-hitl",
+      "name": "Webhook (HITL Request)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        100,
+        300
+      ],
+      "webhookId": "stemma-hitl-webhook"
+    },
+    {
+      "parameters": {
+        "text": "Waiting for manual human approval to proceed with execution."
+      },
+      "id": "wait-node",
+      "name": "Wait for Approval",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1,
+      "position": [
+        300,
+        300
+      ],
+      "webhookId": "stemma-hitl-resume"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { approved: true, timestamp: new Date().toISOString() } }];"
+      },
+      "id": "approve-result",
+      "name": "Format Approval",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        500,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook (HITL Request)": {
+      "main": [
+        [
+          {
+            "node": "Wait for Approval",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait for Approval": {
+      "main": [
+        [
+          {
+            "node": "Format Approval",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

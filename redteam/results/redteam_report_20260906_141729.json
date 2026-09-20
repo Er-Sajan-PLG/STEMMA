@@ -1,0 +1,215 @@
+{
+  "timestamp": "2026-09-06T08:32:29.288046+00:00",
+  "summary": {
+    "total_tests": 45,
+    "passed": 29,
+    "failed": 16
+  },
+  "results": {
+    "hubble_tension": {
+      "paper": "hubble_tension",
+      "tests": {
+        "source_registration": false,
+        "hubble_entities_found": false,
+        "cmb_entities_found": false,
+        "contradiction_relations_exist": false,
+        "uncertainty_represented": false,
+        "multiple_stances_captured": false
+      },
+      "failures": [
+        "Source registration failed",
+        "No Hubble constant entities found in canonical",
+        "No CMB entities found",
+        "No contradiction relations found in canonical",
+        "Hubble constant quantity entity not found",
+        "Only one stance type found for H0 evidence"
+      ],
+      "corrections": [
+        "Fix register_source.py for academic-paper type",
+        "Add Hubble constant as quantity entity with uncertainty",
+        "Add CMB as concept/entity",
+        "Ensure contradicts/inconsistent_with relations are used",
+        "Create Hubble constant as quantity with value \u00b1 uncertainty",
+        "Ensure contradicts/qualifies/weakly_supports stances are used"
+      ]
+    },
+    "gibbs_free_energy": {
+      "paper": "gibbs_free_energy",
+      "tests": {
+        "gibbs_entities_found": true,
+        "chemical_potential_entities_found": true,
+        "activity_entities_found": true,
+        "equation_entities_exist": true,
+        "atp_entities_exist": false,
+        "standard_state_entities_exist": false,
+        "contradictory_claims_handled": false
+      },
+      "failures": [
+        "No standard state entities found",
+        "No contradictory evidence found for ATP \u0394G claims"
+      ],
+      "corrections": [
+        "Add standard state entity with cross-disciplinary variants (pH, pMg, I)",
+        "Add contradicts/qualifies evidence for ATP \u0394G\u00b0 vs \u0394G\u00b0' claims"
+      ]
+    },
+    "atomic_evolution": {
+      "paper": "atomic_evolution",
+      "tests": {
+        "atom_entities_found": true,
+        "supersession_relations_exist": false,
+        "competing_models_represented": false,
+        "contradictory_evidence_captured": false,
+        "qm_interpretations_exist": false,
+        "historical_contradictions_exist": false
+      },
+      "failures": [
+        "Insufficient atomic model lineage (need Dalton\u2192Thomson\u2192Rutherford\u2192Bohr\u2192QM\u2192QFT)",
+        "No supersession relationships found",
+        "No competing model relationships found",
+        "No contradictory evidence stance found",
+        "No QM interpretation entities found",
+        "Key historical contradictions (parity, CP violation) not represented"
+      ],
+      "corrections": [
+        "Add complete atomic model lineage with supersedes/superseded_by",
+        "Add supersedes/superseded_by relations for historical models",
+        "Add competes_with/inconsistent_with for historical competing models",
+        "Add contradicts stance for key historical contradictions (e.g., electron in nucleus)",
+        "Add QM interpretations as entities with competes_with relations",
+        "Add parity violation, CP violation as entities with contradicts evidence"
+      ]
+    },
+    "equation_fidelity": {
+      "paper": "equation_fidelity",
+      "tests": {
+        "equation_entities_exist": true,
+        "key_equations_found": 0,
+        "key_equations_list": []
+      },
+      "failures": [
+        "Only 0/9 key equations found in canonical"
+      ],
+      "corrections": [
+        "Add missing fundamental equations as equation entities with proper LaTeX"
+      ]
+    },
+    "cross_disciplinary_notation": {
+      "paper": "cross_disciplinary_notation",
+      "tests": {
+        "symbol_conflicts_found": 11,
+        "symbol_conflicts": {
+          "A": [
+            "lhs:math.area",
+            "lhs:math.matrix",
+            "lhs:phys.amplitude"
+          ],
+          "a\u2099": [
+            "lhs:math.arithmetic-sequence",
+            "lhs:math.geometric-sequence",
+            "lhs:math.sequence"
+          ],
+          "f(x)": [
+            "lhs:math.exponential-function",
+            "lhs:math.function"
+          ],
+          "V": [
+            "lhs:math.volume",
+            "lhs:phys.voltage"
+          ],
+          "C": [
+            "lhs:phys.capacitor",
+            "lhs:phys.heat-capacity"
+          ],
+          "E": [
+            "lhs:phys.electric-field",
+            "lhs:phys.energy"
+          ],
+          "F": [
+            "lhs:phys.force",
+            "lhs:phys.magnetic-force"
+          ],
+          "g": [
+            "lhs:phys.free-fall",
+            "lhs:phys.gravitational-acceleration"
+          ],
+          "P": [
+            "lhs:phys.power",
+            "lhs:phys.pressure"
+          ],
+          "v": [
+            "lhs:phys.speed",
+            "lhs:phys.velocity",
+            "lhs:phys.wave-speed"
+          ],
+          "W": [
+            "lhs:phys.weight",
+            "lhs:phys.work"
+          ]
+        },
+        "cross_domain_name_conflicts": 0,
+        "cross_domain_conflicts": {}
+      },
+      "failures": [
+        "Symbol conflicts found: ['A', 'a\u2099', 'f(x)', 'V', 'C', 'E', 'F', 'g', 'P', 'v', 'W']"
+      ],
+      "corrections": [
+        "Add symbol disambiguation via context/domain or use symbol_set extension"
+      ]
+    },
+    "retraction_propagation": {
+      "paper": "retraction_propagation",
+      "tests": {
+        "retracted_sources_tracked": true,
+        "retraction_script_works": true,
+        "retraction_proposes_actions": true
+      },
+      "failures": [],
+      "corrections": []
+    },
+    "source_trust": {
+      "paper": "source_trust",
+      "tests": {
+        "source_trust_runs": true,
+        "dimension_institutional_authority": true,
+        "dimension_peer_review_status": true,
+        "dimension_methodological_strength": true,
+        "dimension_recency": true,
+        "dimension_consensus_alignment": true,
+        "dimension_reproducibility": true,
+        "dimension_independence": true,
+        "dimension_domain_relevance": true
+      },
+      "failures": [],
+      "corrections": []
+    },
+    "evidence_ledger": {
+      "paper": "evidence_ledger",
+      "tests": {
+        "ledger_chain_valid": true,
+        "lineage_query_works": true
+      },
+      "failures": [],
+      "corrections": []
+    },
+    "drift_detection": {
+      "paper": "drift_detection",
+      "tests": {
+        "drift_detection_runs": true,
+        "drift_identifies_affected": true
+      },
+      "failures": [],
+      "corrections": []
+    },
+    "entity_resolution": {
+      "paper": "entity_resolution",
+      "tests": {
+        "entity_resolution_runs": true,
+        "finds_symbol_conflicts": true,
+        "finds_name_similarity": true
+      },
+      "failures": [],
+      "corrections": []
+    }
+  }
+}

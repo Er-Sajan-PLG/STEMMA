@@ -65,6 +65,9 @@ Google AI Pro / Antigravity session rather than inventing a separate paid key.
 | `gemini_api` | Official Gemini Developer API | Yes (`AIza…`) | Separate entitlement; not a substitute for Antigravity. |
 | `vertex_ai` | Official Vertex AI on your own GCP project | ADC or Vertex key | Separate entitlement. |
 | `openai_compatible` | Any OpenAI-compatible endpoint | Yes | Community bridge/tunnel only. NOT an Antigravity entitlement path. |
+| `openrouter` | OpenRouter API (Free/Paid Models) | Yes | Auto-fetches free models. Managed via `.env` or config. |
+| `nvidia` | NVIDIA NIM (Free Models) | Yes | Auto-fetches free models. Managed via `.env` or config. |
+| `opencode` | OpenCode Free Coder | Yes | Auto-fetches free models. Managed via `.env` or config. |
 
 `google` and `openai` remain accepted **aliases** in config files; they are
 canonicalized to `gemini_api` and `openai_compatible` on save so persistence

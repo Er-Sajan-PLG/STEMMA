@@ -1,0 +1,9 @@
+exports:
+  knowledge-json:
+    path: exports/knowledge.json
+    expected:
+      sha256: 23d0b1b48f7f5f97419d20c4afaf2f26102f6b8003c04143d979867b9e4d316d
+    contract:
+      export_version: '0.1'
+      schema_version: '0.2'
+      last_validated: ''

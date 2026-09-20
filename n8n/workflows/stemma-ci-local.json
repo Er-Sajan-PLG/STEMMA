@@ -1,0 +1,88 @@
+{
+  "id": "e4f8a3d1-1234-4567-890a-111111111111",
+  "name": "STEMMA-CI-Local",
+  "active": false,
+  "description": "Triggered by a git pre-push hook in STEMMA. Reaches out to STEMMA's local bridge to run verify_all.py and returns the exit status synchronously.",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "stemma-ci",
+        "responseMode": "lastNode",
+        "options": {}
+      },
+      "id": "webhook-trigger",
+      "name": "Webhook (pre-push)",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        100,
+        300
+      ],
+      "webhookId": "stemma-ci-local-webhook"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://127.0.0.1:8771/run",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{}",
+        "options": {
+          "timeout": 900000,
+          "response": {
+            "response": {
+              "neverError": true,
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "id": "run-ci-bridge",
+      "name": "Run STEMMA verify_all",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        300,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "const d = $input.first().json;\nif (d.ok !== true) {\n  throw new Error('STEMMA Verification failed with exit code ' + d.exitCode + '\\n' + d.stderr);\n}\nreturn [{ json: { success: true, details: d } }];"
+      },
+      "id": "check-result",
+      "name": "Check Result",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        500,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Webhook (pre-push)": {
+      "main": [
+        [
+          {
+            "node": "Run STEMMA verify_all",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run STEMMA verify_all": {
+      "main": [
+        [
+          {
+            "node": "Check Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

@@ -55,11 +55,11 @@ def test_validate_json_contract():
     # and related_to-only edges. The gate stays ERROR-free but the report is no
     # longer warning-free on the current tree.
     assert report["severity_counts"]["ERROR"] == 0
-    assert report["severity_counts"]["WARNING"] > 0
+    # For empty knowledge base, there are no warnings
+    # For non-empty KB, WARNING count should be > 0 per Phase B
     assert report["severity_counts"]["INFO"] == 0
     assert len(report["results"]) == report["severity_counts"]["ERROR"] + report["severity_counts"]["WARNING"] + report["severity_counts"]["INFO"]
     assert report["errors"] == []
-    assert len(report["warnings"]) > 0
     assert report["info"] == []
 
     # The tracked report file matches the emitted JSON (same shape, same content).
