@@ -1,6 +1,6 @@
 # STEMMA Integrated Knowledge Graph Architecture v2 — Constitutional Foundation + Semantic Acquisition + Federated Trust + Scale-Ready
 
-Status: Proposed (awaiting ratification)
+Status: **Ratified** as [ADR-0044](0044-integrated-foundation-v2.md) (2026-09-21) — this proposal is preserved as the decision's full-length rationale; the normative text is ADR-0044 + [docs/ARCHITECTURE-V2.md](../ARCHITECTURE-V2.md). Moved from `docs/PROPOSAL-INTEGRATED-ARCHITECTURE-V2.md` on 2026-09-22.
 Author: Arena Agent (on behalf of Principal Architect Sajan)
 Date: 2026-09-21
 Baseline: arena/01a0c072-stemma@fea770a — 1 entity metre via HITL, semantic acquisition pipeline implemented (16 stages, evidence first-class, independent verification, explicit conflict P=10 vs P=12), 8 domains 97 subdomains template-registry v2.0.0, embedding-registry 11 models, consumer-registry 4 consumers, llm-registry v1.0.0 5 roles 13 models, semantic-claim schema, strong CI 10 jobs ALL GREEN, explorer clean small nodes thin lines manual legend centered zoom.

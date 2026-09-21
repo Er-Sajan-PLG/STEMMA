@@ -14,7 +14,7 @@ Ideal order history: b958a5c empty → 51fc1b0 architecture v2 clean → 493b32b
 - Archive old ADRs 0001-0039 to archive/old-design/docs/decisions/
 - Write ADR-0044 clean constitutional spec L1-L8 refined
 - Update docs/decisions/README.md retitle LearningHubSTEM to STEMMA Foundation index ADRs 0023-0044
-- Fix AGENTS.md dead refs NORTHSTAR.md STEMMA-SPECIFICATION.md force.md
+- Fix AGENTS.md dead Quick Start refs (retired docs)
 - Fix ingest.py candidates conform to source.schema.json, remove hand-written report prose stale counts
 
 Exit: ADR-0044 committed, README indexed, requirements.txt present, AGENTS.md clean, gate green.
@@ -43,7 +43,7 @@ Exit: Validator handles extended basis, tests pass.
 - Remove learning_objectives instructional_sequencing from concept.schema.json properties entirely
 - Allow real_world_applications common_misconceptions ONLY when evidenced as ValueClaim with evidence[] and source not free-form strings
 - Extend test_generality.py to reject pedagogical keys but allow evidenced knowledge claims
-- Record SOTA-REVIEW §6.5 softer alternative as partially adopted via extension-registry.yaml
+- Record the archived SOTA review's §6.5 softer alternative as partially adopted via extension-registry.yaml
 
 Exit: Schema updated, test_generality rejects pedagogical keys but allows evidenced claims.
 
@@ -66,7 +66,7 @@ Exit: Schemas updated, validator handles delegated authority, tests pass.
 
 ## R2 — Contract Update (Days) — Phase 2 — ADR-0050
 
-- export_version 2.1.0→2.2.0 in schema/export.schema.json and schema/VERSION.yaml add authority field and value-slot support
+- export_version 2.2.0→2.2.0 in schema/export.schema.json and schema/VERSION.yaml add authority field and value-slot support
 - Update adapters/python/ to handle value-slot and delegated authority
 - Update explorer/ to render value-slot claims and authority filter clean small nodes thin lines manual legend centered zoom 8 domains
 - Update docs/CONSUMERS.md with new contract surface
@@ -151,11 +151,11 @@ All STEM at once without HITL, hosting without auth, curriculum, ontology, datab
 - Even LLM requires HITL: human explicitly edits markdown before canonical
 - Embeddings — YES needed: For RAG and consumer export, embedding model generates vectors, deterministic same content_hash + model → same embeddings, local free All-MiniLM 384 fast 80MB 5x faster + BGE Large SOTA 1024 1.3GB best for RAG MTEB top + frontier API OpenAI text-embedding-3-large 3072 best quality MTEB 64.6 + NVIDIA nv-embed-v1 SOTA 4096 free via NIM, model selector like DeepSeek harness
 - RAG — YES needed: STEMMA is knowledge foundation, RAG is how consumers use it, without RAG static JSON, with RAG queryable knowledge with citations, flow question → embedding → vector search top_k → context definitions + connections + sources → LLM frontier selector → answer with citations, API /v2/rag/search GET + /v2/rag/query POST, webapp RAG playground
-- Consumer export — YES needed: file (knowledge.json deterministic content-hash v2.1.0, embeddings.jsonl, vector_store/ FAISS, consumers/<consumer>/knowledge.<consumer>.json filtered), API (adapter v0.2.0 endpoints /v2/entities, /v2/embeddings, /v2/rag/search, /v2/rag/query POST, /v2/export?consumer=..., /openapi.yaml OpenAPI 3.0.3), SDK (Python Stemma.from_file + StemmaRAG), for LearningHub (canonical physics/chem/bio/math, OpenAI embeddings, GPT-4o RAG), PROFESSOR-J (reviewed all 8 domains mediocre, BGE Large offline SOTA, FAISS, DeepSeek R1 free RAG), general, explorer
+- Consumer export — YES needed: file (knowledge.json deterministic content-hash v2.2.0, embeddings.jsonl, vector_store/ FAISS, consumers/<consumer>/knowledge.<consumer>.json filtered), API (adapter v0.2.0 endpoints /v2/entities, /v2/embeddings, /v2/rag/search, /v2/rag/query POST, /v2/export?consumer=..., /openapi.yaml OpenAPI 3.0.3), SDK (Python Stemma.from_file + StemmaRAG), for LearningHub (canonical physics/chem/bio/math, OpenAI embeddings, GPT-4o RAG), PROFESSOR-J (reviewed all 8 domains mediocre, BGE Large offline SOTA, FAISS, DeepSeek R1 free RAG), general, explorer
 
 ## Whose Job Is Embedding and RAG? CONSUMER's Job, Not STEMMA's — STEMMA Provides Reference Implementation
 
-STEMMA's job — knowledge foundation pure deterministic HITL versioned content-hash NO embeddings/RAG in canonical: content/<domain>/**/*.md, connections/*.yaml, sources/*.yaml, schema/, scripts/validate.py NEVER checks embeddings, physics_core_profile_check.py, physics_governing_check.py, hitl_check.py, evolvable_template.py, status_truth.py, verify_all.py — provides knowledge foundation + deterministic versioned exports knowledge.json v2.1.0 content-hash + openapi.yaml + SDK for consumers — pure deterministic HITL versioned NO embeddings/RAG in canonical — whole STEMMA is here
+STEMMA's job — knowledge foundation pure deterministic HITL versioned content-hash NO embeddings/RAG in canonical: content/<domain>/**/*.md, connections/*.yaml, sources/*.yaml, schema/, scripts/validate.py NEVER checks embeddings, physics_core_profile_check.py, physics_governing_check.py, hitl_check.py, evolvable_template.py, status_truth.py, verify_all.py — provides knowledge foundation + deterministic versioned exports knowledge.json v2.2.0 content-hash + openapi.yaml + SDK for consumers — pure deterministic HITL versioned NO embeddings/RAG in canonical — whole STEMMA is here
 
 CONSUMER's job — build embedding and RAG out of STEMMA as connection layer NOT containing whole STEMMA: LearningHub, PROFESSOR-J, general, explorer, STEMMA-RAG — data/knowledge.json copied from STEMMA exports/knowledge.json, data/embeddings.jsonl generated externally via embed.py out of STEMMA, data/vector_store/ FAISS built externally out of STEMMA, rag.py retrieval + generation logic out of STEMMA, or via API calls to STEMMA API /v2/entities /v2/stats content_hash /v2/search etc., or via SDK Stemma.from_file() — generate vectors DERIVED from STEMMA definitions via embedding model local free All-MiniLM/BGE Large + frontier OpenAI Large/NVIDIA NV-Embed model selector like DeepSeek harness, build vector store FAISS/Chroma/Qdrant/Pinecone, serve RAG queries with retrieval + generation + citations — does NOT contain whole STEMMA, just connection layer, whole STEMMA remains in STEMMA repo
 

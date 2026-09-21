@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: STEMMA API — Comprehensive All-STEM Knowledge Foundation with RAG and Embeddings
-  version: 2.1.0
+  version: 2.2.0
   description: |
     STEMMA API for consumers like LearningHub, PROFESSOR-J, and general consumers.
     Provides entities, connections, search, embeddings, RAG query, and export for specific consumers.

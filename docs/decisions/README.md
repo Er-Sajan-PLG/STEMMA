@@ -8,7 +8,7 @@
 | 0041 | [minimal-entity-profile](0041-minimal-entity-profile.md) | Minimal entity profile, no pedagogy | PROPOSED |
 | 0042 | [minimal-relation-set-physics](0042-minimal-relation-set-physics.md) | Minimal 7 relations, no related_to | PROPOSED |
 | 0043 | [mandatory-source-and-history](0043-mandatory-source-and-history.md) | Mandatory dual source verification + history | PROPOSED |
-| 0044 | [integrated-foundation-v2](0044-integrated-foundation-v2.md) | Integrated Foundation v2 — Constitutional L1-L8 refined + semantic acquisition 16 stages + delegated authority v2 audited + scale-ready | Decided — supersedes previous integrated proposal, amends ADR-0011 0013 0014 0020 0026, rebased onto ideal order architecture → plan → work |
+| 0044 | [integrated-foundation-v2](0044-integrated-foundation-v2.md) | Integrated Foundation v2 — Constitutional L1-L8 refined + semantic acquisition 16 stages + delegated authority v2 audited + scale-ready | Decided — supersedes previous integrated proposal (ratified proposal preserved at [0044-proposal-integrated-architecture-v2](0044-proposal-integrated-architecture-v2.md)), amends ADR-0011 0013 0014 0020 0026, rebased onto ideal order architecture → plan → work |
 | 0045 | [value-slot](0045-value-slot.md) | Value-Slot on Connection Kind — target XOR value amount lowerBound upperBound unit QUDT/UCUM/SI | Decided — Phase 1a |
 | 0046 | [warrant-axis-correction-labels](0046-warrant-axis-correction-labels.md) | Warrant Axis + Correction Labels — confidence_basis definitional axiomatic model_based + correction_class | Decided — Phase 1b |
 | 0047 | [l7-refinement](0047-l7-refinement.md) | L7 Refinement Not Blanket Purge — allow evidenced real_world_applications common_misconceptions as ValueClaims | Decided — Phase 1c |

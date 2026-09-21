@@ -61,6 +61,26 @@ All early work from start included as implementation of new architecture, not pr
 | Migrations | [MIGRATIONS.md](MIGRATIONS.md) |
 | Curation protocol | [CURATION-PROTOCOL.md](CURATION-PROTOCOL.md) |
 
+## Supplementary docs
+
+| Subject | Document |
+|---|---|
+| Deprecated architecture pointer | [ARCHITECTURE.md](ARCHITECTURE.md) |
+| Physics governing laws | [PHYSICS-GOVERNING-LAWS.md](PHYSICS-GOVERNING-LAWS.md) |
+| Physics minimal design v2 | [PHYSICS-MINIMAL-DESIGN-V2.md](PHYSICS-MINIMAL-DESIGN-V2.md) |
+| Security/integrity/provenance | [SECURITY-INTEGRITY-PROVENANCE.md](SECURITY-INTEGRITY-PROVENANCE.md) |
+| Ingestion & review webapp | [WEBAPP.md](WEBAPP.md) |
+| Contributing | [CONTRIBUTING.md](CONTRIBUTING.md) |
+| Glossary | [GLOSSARY.md](GLOSSARY.md) |
+
+Old-design v1.0 acquisition docs (KNOWLEDGE-ACQUISITION, CANONICAL-ADMISSION,
+EVIDENCE-MODEL, PROVENANCE, SOURCE-POLICY, INGESTION, SOURCES, SOTA-REVIEW,
+DEEP-DIVE-RECOMMENDATIONS, AUDIT-INGESTION-BASELINE, ACQUISITION-OPERATIONS,
+STEMMA-CONSUMER-SEAM) were retired 2026-09-22 — byte-identical copies live in
+`archive/old-design/docs/`. Current equivalents: PIPELINES.md +
+SEMANTIC-ACQUISITION-PIPELINE.md (acquisition), METADATA-SPECIFICATION.md
+(provenance semantics), connection.schema.json (evidence).
+
 ## Ground rule — architecture v2 ideal order
 
 **Architecture v2 ideal order:** b958a5c empty → 51fc1b0 architecture v2 clean constitutional foundation single part L1-L8 refined → 493b32b implementation plan v2 Phases 0-8 → 27576f3 foundation reset fundamentals standard SI definitions clean 3D viewer integrating early work → 3bcfd4a ingestion pipeline evolvable templates model selector integrating early work → e692b25 comprehensive all-STEM template registry integrating early work → dbc229f embeddings RAG separation consumer export guideline integrating early work → 7297c6c strong CI explorer semantic pipeline final integrating early work → 0df87ff fix status truth.
@@ -107,7 +127,7 @@ All early work from start included as implementation of new architecture, not pr
 - **decisions/0047-l7-refinement.md** — L7 refined not blanket purge allow evidenced real_world_applications common_misconceptions as ValueClaims
 - **decisions/0048-new-relations.md** — equivalent_to misconception_of
 - **decisions/0049-delegated-authority-v2.md** — delegated authority v2 audited federation audit_frequency sample_audit_rate 10%/5% versioning revocation
-- **decisions/0050-contract-update-2.2.0.md** — contract 2.2.0 value-slot + delegated authority export_version 2.1.0→2.2.0
+- **decisions/0050-contract-update-2.2.0.md** — contract 2.2.0 value-slot + delegated authority export_version 2.2.0→2.2.0
 - **decisions/0051-governance-hygiene.md** — lhs sweep fix AGENTS.md dead refs un-stub test_independence
 - **decisions/0052-content-acceptance-test.md** — content as acceptance test before IRI gate 3-5 entities 2-3 connections both authority tiers work integrating early work
 - **ROADMAP.md** — Phases 0-8 ideal order R0 foundation prerequisites, R1a value-slot ADR-0045, R1b warrant axis correction labels ADR-0046, R1c L7 refinement ADR-0047, R1d new relations ADR-0048, R1e delegated authority v2 ADR-0049, R2 contract update 2.2.0 ADR-0050, R3 governance hygiene ADR-0051, R4 content acceptance test before IRI gate ADR-0052 work integrating early work, R5 org/IRI gate, R6 projection, R7 views routing, R8 scale readiness

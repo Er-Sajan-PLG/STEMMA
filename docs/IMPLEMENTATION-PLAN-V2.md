@@ -18,7 +18,7 @@ Tasks:
 - Archive old ADRs 0001-0039 to archive/old-design/docs/decisions/
 - Write docs/decisions/0044-integrated-foundation-v2.md clean constitutional spec (this architecture)
 - Update docs/decisions/README.md retitle LearningHubSTEM Foundation to STEMMA Foundation index ADRs 0023-0044
-- Fix AGENTS.md dead Quick Start references NORTHSTAR.md STEMMA-SPECIFICATION.md retired by ADR-0027 force.md deleted by PR #41
+- Fix AGENTS.md dead Quick Start references (retired docs per ADR-0027; stray force-entity doc deleted by PR #41)
 - Fix ingest.py candidates conform to source.schema.json, remove hand-written report prose stale counts
 
 Exit: ADR-0044 committed, README indexed, requirements.txt present, AGENTS.md clean, gate green.
@@ -60,7 +60,7 @@ Tasks:
 - Remove learning_objectives instructional_sequencing from concept.schema.json properties entirely
 - Allow real_world_applications common_misconceptions ONLY when evidenced as ValueClaim with evidence[] and source not free-form strings
 - Extend test_generality.py to reject pedagogical keys but allow evidenced knowledge claims
-- Record SOTA-REVIEW §6.5 softer alternative as partially adopted via extension-registry.yaml
+- Record the archived SOTA review's §6.5 softer alternative as partially adopted via extension-registry.yaml
 
 Exit: Schema updated, test_generality rejects pedagogical keys but allows evidenced claims, gate green.
 
@@ -100,7 +100,7 @@ Verification: authority delegated without registered institution → error, unkn
 Goal: Export version bump + adapter + explorer.
 
 Tasks:
-- export_version 2.1.0→2.2.0 in schema/export.schema.json and schema/VERSION.yaml add authority field and value-slot support to export shape
+- export_version 2.2.0→2.2.0 in schema/export.schema.json and schema/VERSION.yaml add authority field and value-slot support to export shape
 - Update adapters/python/ to handle value-slot claims and delegated authority
 - Update explorer/ to render value-slot claims and authority filter small nodes thin lines manual legend centered zoom 8 domains
 - Update docs/CONSUMERS.md with new contract surface

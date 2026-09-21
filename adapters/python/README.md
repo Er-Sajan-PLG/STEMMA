@@ -14,8 +14,10 @@ producer repository's validator stack.
 
 ## Status
 
-`0.1.0` is an in-repo first-party adapter release. Promotion to adapter
-`1.0` and any PyPI publication remain human-gated decisions.
+`0.2.0` is an in-repo first-party adapter release: SDK, CLI, and local JSON
+API with embeddings, RAG, and consumer export (`/v2/*` endpoints) against the
+2.2.0 export contract. Promotion to adapter `1.0` and any PyPI publication
+remain human-gated decisions.
 
 ## Install
 
