@@ -123,6 +123,27 @@
       },
       "description": "Classic experiments or demonstrations that establish this concept."
     },
+    "subdomain": {
+      "type": ["string", "null"],
+      "default": null,
+      "description": "Subdomain within domain, e.g. mechanics, per vocabularies/subdomains.yaml (ADR-0034). Optional but required for physics-core v2."
+    },
+    "source_refs": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "string",
+        "pattern": "^stemma:src\\.[a-z0-9][a-z0-9-]*$"
+      },
+      "description": "Canonical source records that support this entity definition — dual verification with embedded provenance (ADR-0043). At least 1 required for physics-core."
+    },
+    "governed_by": {
+      "type": ["array", "null"],
+      "items": {
+        "type": "string",
+        "pattern": "^stemma:phys\\.[a-z0-9][a-z0-9-]*$"
+      },
+      "description": "Governing laws that govern this entity — deterministic placement without LLM reasoning. Every physics entity must have at least one (see PHYSICS-GOVERNING-LAWS.md and physics-governing-registry.yaml). At least 1 required for physics-core v2."
+    },
     "provenance": {
       "type": "object",
       "required": [
@@ -150,6 +171,26 @@
             "null"
           ],
           "default": null
+        },
+        "writer": {
+          "type": ["string", "null"],
+          "default": null,
+          "description": "Agent id who wrote this entity file, e.g. human:curator.001 — for audit trail and double verification (ADR-0043)."
+        },
+        "original_author": {
+          "type": ["string", "null"],
+          "default": null,
+          "description": "Who originally stated the science (distinct from writer) — e.g., Halliday et al (ADR-0043)."
+        },
+        "link": {
+          "type": ["string", "null"],
+          "default": null,
+          "description": "URL or DOI to source for triple-check verification (ADR-0043)."
+        },
+        "retrieved_at": {
+          "type": ["string", "null"],
+          "default": null,
+          "description": "ISO date when source link was accessed (ADR-0043)."
         },
         "reviewer": {
           "type": [

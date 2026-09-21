@@ -1,152 +1,169 @@
-# CONSUMERS — Comprehensive All-STEM, Mediocre Coverage, Embeddings, RAG, Export Mechanism
+# RAG — Retrieval-Augmented Generation for STEMMA — Comprehensive All-STEM, LearningHub, PROFESSOR-J
 
-**Status:** Authoritative, comprehensive all-STEM mediocre (not minimal physics). 1 entity now (metre) via PDF primary ingestion with HITL, will grow to mediocre across 8 domains: physics, chemistry, biology, earth-science, astronomy, computer-science, engineering, mathematics. Old 74 entities archived.
+**Status:** Authoritative, v1.0.0, comprehensive all-STEM mediocre coverage with RAG system for consumers like LearningHub, PROFESSOR-J. Old minimal physics had no RAG — now YES RAG system needed in STEMMA.
 
-## Consumer Registry — NEW v1.0.0
+## Do we need RAG system here in STEMMA? YES.
 
-Defined in `schema/consumer-registry.yaml` — 4 consumers:
+**Answer:** Yes, we need RAG system in STEMMA. STEMMA is knowledge foundation (concepts, quantities, laws, models, relationships as version-controlled, machine-readable, human-reviewable data). RAG is how consumers like LearningHub, PROFESSOR-J use it. Without RAG, STEMMA is just static JSON export. With RAG, it's queryable knowledge with citations, grounded answers, retrieval + generation.
 
-### LearningHub
-- **Label:** LearningHub — curriculum-agnostic learning platform that consumes STEMMA as knowledge foundation
-- **Domains:** physics, chemistry, biology, mathematics — canonical only (physics: mechanics, measurement-units, electricity-magnetism, thermal; chemistry: general, organic, inorganic; biology: cell-biology, genetics; math: algebra, calculus, statistics)
-- **Review policy:** canonical
-- **Entity types:** concept, quantity, unit, law, principle, theorem, equation, process, structure
-- **Export formats:** knowledge.json, embeddings.jsonl, openapi
-- **Embedding model:** openai/text-embedding-3-large (frontier, 3072 dim, best quality MTEB 64.6) fallback BGE Large SOTA 1024 — YES embedding model needed for student RAG queries
-- **API access:** enabled, endpoints /v2/stats, /v2/entities, /v2/search, /v2/rag/query, /v2/embeddings, rate_limit 1000/hour, auth api_key
-- **RAG:** enabled, top_k 5, model GPT-4o — YES RAG system needed, without RAG static JSON, with RAG queryable knowledge with citations for students
-- **Example:** "What is Newton's second law?" → embedding → vector search top 5 → context with definitions + sources → GPT-4o → answer with citations
+- **Without RAG:** Consumer gets knowledge.json (1 entity now, will be 400-800 mediocre all-domain) and must manually search via keyword or build own RAG. LearningHub students can't ask "What is Newton's second law?" and get answer with citations. PROFESSOR-J AI professor can't answer STEM questions.
+- **With RAG:** Consumer queries via /v2/rag/query or via SDK StemmaRAG, gets answer grounded in STEMMA entities with citations (source_refs + links), retrieval precision, faithfulness, citation coverage.
 
-### PROFESSOR-J
-- **Label:** PROFESSOR-J — AI professor that answers STEM questions using STEMMA RAG
-- **Domains:** all 8 domains mediocre coverage — physics, chemistry, biology, earth-science, astronomy, computer-science, engineering, mathematics — all subdomains
-- **Review policy:** reviewed (human_reviewed + canonical)
-- **Entity types:** all (concept, quantity, unit, constant, law, principle, theorem, equation, process, structure, algorithm, material)
-- **Export formats:** knowledge.json, knowledge.jsonl, embeddings.jsonl, vector_store, openapi
-- **Embedding model:** BAAI/bge-large-en-v1.5 (local SOTA 1024 dim, offline capable, best for RAG MTEB top) fallback All-MiniLM-L6-v2 fast 384 dim — YES embedding model needed, offline SOTA for AI professor
-- **API access:** enabled, endpoints /v2/stats, /v2/entities, /v2/connections, /v2/search, /v2/neighbors, /v2/prerequisites, /v2/rag/query, /v2/rag/search, /v2/embeddings, /v2/export, rate_limit 10000/hour, auth api_key
-- **RAG:** enabled, top_k 10, model DeepSeek R1 free (reasoning 671B) fallback Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro — YES RAG system needed, AI professor needs retrieval + generation with citations
-- **Example:** "Explain photosynthesis and its relation to cellular respiration" → embedding BGE Large → vector search top 10 across biology → context → DeepSeek R1 → answer with citations source_refs + links
+## RAG Architecture — comprehensive, for LearningHub, PROFESSOR-J
 
-### STEMMA Explorer (Reference 3D Graph)
-- **Label:** Reference 3D graph explorer — visualizes knowledge graph
-- **Domains:** all
-- **Review policy:** all
-- **Export formats:** knowledge.json
-- **Needs:** clean 3D small nodes 0.32-0.5 thin lines 0.15 legend hidden manual only zoom centered tight 32-65 centroid, domain filter for 8 domains
+### Components
 
-### General Consumer
-- **Label:** Any app that wants STEMMA via adapter SDK, CLI, or local JSON API
-- **Domains:** all
-- **Review policy:** all
-- **Export formats:** knowledge.json, knowledge.jsonl, openapi
-- **Embedding model:** All-MiniLM-L6-v2 fast local 384 dim — YES embedding model for quick RAG
-- **API access:** /v2/stats, /v2/entities, /v2/search, rate_limit 100/hour, auth none
+1. **Ingestion:** PDF → deterministic extraction via template-registry v2.0.0 (regex + exact constants for all 8 domains) → entity markdown preview → human explicitly edits markdown (HITL) → stage → validate (including hitl_check) → canonical → knowledge.json deterministic content-hash
 
-## Export Mechanisms — YES needed, 3 ways
+2. **Embedding:** Entity → chunking (entity strategy, definition + name + domain + subdomain + symbol + unit, max_tokens 512, overlap 50) → embedding via embedding-registry model (local free All-MiniLM 384 fast, BGE Large SOTA 1024 best for RAG, frontier API OpenAI text-embedding-3-large 3072 best quality, NVIDIA NV-Embed SOTA 4096 free via NIM) → embeddings.jsonl + vector_store/ FAISS (meta.json + vectors.npy + ids.json) versioned via content_hash + model id, deterministic same content + model → same embeddings
 
-### 1. File-based exports (deterministic, versioned, content-hash, no wall clock)
-- `exports/knowledge.json` — main export v2.1.0 deterministic content-hash sha256, no wall clock, 1 entity now, will grow to mediocre all-domain
-- `exports/knowledge.all.json, canonical.json, reviewed.json, trusted.json` — review-aware
-- `exports/embeddings.jsonl` — NEW: embeddings per entity with model id, dimensions, vector, content_hash, content — deterministic same content_hash + model → same embeddings, generated via `python3 scripts/embed.py --model BAAI/bge-large-en-v1.5`
-- `exports/vector_store/` — NEW: FAISS/Chroma/Qdrant local vector store — meta.json + vectors.npy + ids.json, versioned via content_hash + model id, for RAG, generated via embed.py
-- `exports/consumers/<consumer>/knowledge.<consumer>.json` — NEW: consumer-specific filtered exports — e.g., LearningHub canonical physics/chem/bio/math, PROFESSOR-J reviewed all 8 domains, generated via `python3 scripts/export_consumers.py --consumer learninghub --format json`
-- `exports/openapi.yaml` — OpenAPI schema from schema/api.yaml
+3. **Vector store:** FAISS (default flat index cosine metric local deterministic) path exports/vector_store/, alternatives Chroma exports/chroma/, Qdrant local, Pinecone cloud — meta.json with model, dimensions, content_hash, entity_count, created_at deterministic no wall clock, version 1.0.0, type faiss, index_type flat, metric cosine — versioned via content_hash of knowledge.json + embedding model id
 
-### 2. REST API (via adapter Python server + webapp server) — NEW with embeddings + RAG + consumer export
-- **Base URL:** /v2 for adapter (PYTHONPATH=adapters/python python3 -m stemma_adapter serve exports/knowledge.json --port 8080), /api for webapp (python3 webapp/server.py --port 8081)
-- **OpenAPI:** schema/api.yaml v2.1.0 — OpenAPI 3.0.3
-- **Endpoints:**
-  - `/v2/stats` — stats entity_count, connection_count, source_count, content_hash, versions, domains
-  - `/v2/entities?domain=physics&subdomain=mechanics&type=quantity&status=canonical&limit=100` — list entities with filters for 8 domains
-  - `/v2/entities/{id}` — get entity e.g., stemma:phys.metre
-  - `/v2/connections?source=...&target=...&relation=...` — list connections
-  - `/v2/search?q=force&domain=physics&limit=10` — search
-  - `/v2/neighbors/{id}` — neighbors
-  - `/v2/prerequisites/{id}?policy=canonical` — prereq closure
-  - `/v2/relations`, `/v2/relations/{name}`, `/v2/vocabularies` — registries
-  - `/v2/embeddings?model=BAAI/bge-large-en-v1.5&id=stemma:phys.metre&domain=physics&limit=100` — NEW: embeddings with model selector like DeepSeek harness (local + frontier models: local free BGE All-MiniLM + frontier OpenAI text-embedding-3-large Cohere Gemini NVIDIA), returns model, dimensions, vector_preview, content_hash
-  - `/v2/rag/search?q=What is Newton's second law?&top_k=5&model=BAAI/bge-large-en-v1.5&domain=physics` — NEW: vector search for RAG, embedding query → cosine similarity over FAISS → top_k entities with scores + content
-  - `POST /v2/rag/query` — NEW: full RAG query — body {question, top_k, model, embedding_model, domain, consumer} — e.g., {question: "What is Newton's second law?", top_k: 5, model: "deepseek/deepseek-r1:free", embedding_model: "BAAI/bge-large-en-v1.5", domain: "physics", consumer: "learninghub"} → returns {question, answer, citations [{entity_id, source_ref, link}], retrieved_entities [{entity, score, content}], model_used, embedding_model_used, content_hash}
-  - `/v2/export?consumer=learninghub&format=json&review_policy=canonical` — NEW: export for specific consumer filtered by domains/review_policy/entity_types, returns preview + hint for full file at exports/consumers/<consumer>/knowledge.<consumer>.json
-  - `/openapi.yaml` or `/v2/openapi.yaml` — OpenAPI schema
-- **Auth:** none for local, api_key for LearningHub/PROFESSOR-J, bearer for frontier models via OpenRouter (DeepSeek, Claude, GPT-4o, Gemini, Llama)
-- **Example curl:**
+4. **Retriever:** Query → embedding via same embedding model → vector search cosine similarity over FAISS (or fake deterministic hash-based if torch not installed for demo) → top_k entities with scores + content (definition + domain + sources) — e.g., query "What is Newton's second law?" → retrieves force, mass, acceleration, Newton's second law, etc.
+
+5. **Generator:** Retrieved entities → build context with definitions + connections + sources + source_refs + links → LLM prompt with context + question → call LLM with model selector like DeepSeek harness (local + frontier models: DeepSeek R1 free 671B reasoning, DeepSeek V3 free 671B, Claude 3.5 Sonnet frontier, Claude 3 Opus reasoning, GPT-4o frontier multimodal, o1 reasoning frontier, Gemini 2.5 Pro frontier, Gemini 2.0 Flash free, Llama 3.3 70B free, custom via OpenRouter/NVIDIA NIM/OpenAI-compatible) → answer with citations (entity_id + source_ref + link)
+
+6. **API:** /v2/rag/search GET (vector search) + /v2/rag/query POST (full RAG) via adapter server v0.2.0 and webapp server — for LearningHub, PROFESSOR-J
+
+7. **Webapp RAG playground:** Embedding model selector like DeepSeek harness (local + frontier models) with search, categories Frontier/Free/Local/SOTA/Fast, model cards FREE/FRONTIER/LOCAL badges, custom input) + LLM model selector like DeepSeek harness (local + frontier models: DeepSeek R1 free, Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro, Llama 3.3, custom) + domain filter (8 domains) + consumer selector (LearningHub, PROFESSOR-J, general) + top_k + question input + answer display with citations + retrieved entities with scores
+
+### Flow
+
+```
+User question ("What is Newton's second law?") 
+→ embedding via embedding model (e.g., BAAI/bge-large-en-v1.5 1024 dim SOTA local, or OpenAI text-embedding-3-large 3072 dim frontier)
+→ vector search top_k (e.g., 5) cosine similarity over FAISS vector_store/ (vectors.npy + ids.json, meta.json content_hash versioned)
+→ retrieved entities: [stemma:phys.force score 0.85, stemma:phys.mass score 0.82, stemma:phys.newtons-second-law score 0.90, etc.] with content (definition + domain + subdomain + type + symbol + unit + provenance source + link + source_refs)
+→ build context: "STEMMA Knowledge Foundation — comprehensive all-STEM, mediocre coverage, with citations\n1. Force (stemma:phys.force) — Domain: physics/mechanics Type: quantity\n   Definition: Force is...\n   Source: HRW 12th Ch5 p112 Link: https://... Writer: human:curator.001\n   Source refs: nistsi, halliday\n   Score: 0.85\n..."
+→ LLM prompt: "You are STEMMA AI professor. Answer question based on context with citations. Context: {context}\nQuestion: {question}\nProvide answer with citations (entity_id + source_ref + link). Must be grounded in context."
+→ call LLM model selector like DeepSeek harness (local + frontier models: DeepSeek R1 free via OpenRouter, or Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro, Llama 3.3, custom) — in demo, fake deterministic answer if no API key
+→ answer: "Based on STEMMA knowledge foundation...\nNewton's second law states F=ma... [citations: stemma:phys.force source_ref halliday link ...]\nCitations: - stemma:phys.force source_ref halliday link ..."
+→ return {question, answer, citations [{entity_id, source_ref, link}], retrieved_entities [{entity, score, content}], model_used, embedding_model_used, content_hash, top_k, domain, consumer}
+```
+
+### Evaluation
+
+- **Retrieval precision:** top_k relevant entities — does vector search retrieve relevant entities for query? Measured via score threshold, e.g., top 5 should include Newton's second law for query "Newton second law"
+- **Answer faithfulness:** answer grounded in retrieved entities, not hallucinated — LLM must use only context, with citations, no outside knowledge
+- **Citation coverage:** every claim has source_ref + link — e.g., "Force is defined as..." must have citation to halliday source_ref + link https://...
+
+### Versioning — deterministic, content-hash, no wall clock
+
+- **Vector store versioned via content_hash of knowledge.json + embedding model id** — same knowledge.json content_hash + model id → same embeddings + same FAISS index, deterministic, no wall clock
+- **Embeddings versioned via content_hash** — content_hash = sha256(text + model_id + knowledge.json content_hash)[:16]
+- **RAG answer versioned via content_hash + model_used + embedding_model_used** — deterministic same question + same knowledge + same models → same retrieved + same context (but LLM generation may be non-deterministic unless temperature 0)
+
+## API — /v2/rag/search GET + /v2/rag/query POST
+
+Defined in `schema/api.yaml` OpenAPI 3.0.3 and implemented in `adapters/python/stemma_adapter/server.py` v0.2.0 and `webapp/server.py`:
+
+### GET /v2/rag/search?q=...&top_k=...&model=...&domain=...
+
+- **Query:** q (required) e.g., "What is Newton's second law?", top_k (default 5), model (embedding model ID e.g., BAAI/bge-large-en-v1.5), domain (filter e.g., physics)
+- **Response:** {query, top_k, model, results: [{entity, score, content, entity_id}]}
+- **Example:** `curl "http://localhost:8080/v2/rag/search?q=Newton%20second%20law&top_k=5&model=BAAI/bge-large-en-v1.5&domain=physics"`
+- **Implementation:** Calls rag.vector_search (cosine similarity) if embeddings exist, else falls back to text search via adapter search
+
+### POST /v2/rag/query
+
+- **Body:** {question (required), top_k (default 5), model (LLM model ID e.g., deepseek/deepseek-r1:free), embedding_model (e.g., BAAI/bge-large-en-v1.5), domain, consumer (learninghub, professor-j, general)}
+- **Response:** {question, answer, citations [{entity_id, source_ref, link}], retrieved_entities [{entity, score, content}], model_used, embedding_model_used, content_hash, top_k, domain, consumer}
+- **Example:**
   ```bash
-  curl http://localhost:8080/v2/stats
-  curl "http://localhost:8080/v2/search?q=force&domain=physics"
-  curl "http://localhost:8080/v2/embeddings?model=BAAI/bge-large-en-v1.5&limit=5"
-  curl "http://localhost:8080/v2/rag/search?q=Newton%20second%20law&top_k=5"
-  curl -X POST http://localhost:8080/v2/rag/query -H "Content-Type: application/json" -d '{"question":"What is Newton second law?","top_k":5,"model":"deepseek/deepseek-r1:free","consumer":"learninghub"}'
-  curl "http://localhost:8080/v2/export?consumer=learninghub&format=json"
+  curl -X POST http://localhost:8080/v2/rag/query -H "Content-Type: application/json" -d '{
+    "question": "What is Newton second law?",
+    "top_k": 5,
+    "model": "deepseek/deepseek-r1:free",
+    "embedding_model": "BAAI/bge-large-en-v1.5",
+    "domain": "physics",
+    "consumer": "learninghub"
+  }'
   ```
+- **Implementation:** Calls rag.rag_query — vector_search + build_context + call_llm (tries webapp providers, else fake deterministic demo if no API key)
 
-### 3. SDKs
-- **Python:** adapters/python/ — pip install ./adapters/python — SDK, CLI, local JSON API server v0.2.0 now with embeddings + RAG
-  ```python
-  from stemma_adapter import Stemma
-  stemma = Stemma.from_file("exports/knowledge.json")
-  print(stemma.stats)
-  print(stemma.search("force", domain="physics"))
-  # RAG
-  import sys
-  sys.path.insert(0, "scripts")
-  import rag
-  results = rag.vector_search("What is Newton's second law?", top_k=5)
-  answer = rag.rag_query("What is Newton's second law?", top_k=5, model="deepseek/deepseek-r1:free", consumer="learninghub")
-  print(answer['answer'])
-  ```
-- **CLI:**
-  ```bash
-  stemma-adapter validate exports/knowledge.json
-  stemma-adapter stats exports/knowledge.json
-  stemma-adapter search exports/knowledge.json force --domain physics --limit 5
-  stemma-adapter serve exports/knowledge.json --port 8080
-  python3 scripts/embed.py --model BAAI/bge-large-en-v1.5 --output exports/embeddings.jsonl
-  python3 scripts/rag.py --question "What is Newton's second law?" --top-k 5 --model deepseek/deepseek-r1:free --consumer learninghub
-  python3 scripts/export_consumers.py --consumer learninghub --format json
-  python3 scripts/export_consumers.py --all
-  ```
-- **Future:** TypeScript adapter adapters/typescript/
+## SDK — Python
 
-## Embeddings — YES needed
+```python
+import sys
+sys.path.insert(0, "scripts")
+import rag
 
-**Do we need embedding model for embedding? YES.**
+# Vector search
+results = rag.vector_search("What is Newton's second law?", top_k=5, model_id="BAAI/bge-large-en-v1.5", domain="physics")
+for res in results:
+    print(f"{res['entity_id']} score={res['score']:.4f} {res['entity'].get('name')}")
 
-Embedding model generates vectors for entities for RAG and consumer export. Without embeddings, STEMMA is static JSON, can't do semantic search. With embeddings, LearningHub students can query "Newton's law" and get relevant entities via vector similarity, PROFESSOR-J can answer questions offline.
+# Full RAG query
+answer = rag.rag_query(
+    "What is Newton's second law?",
+    top_k=5,
+    model_id="deepseek/deepseek-r1:free",
+    embedding_model="BAAI/bge-large-en-v1.5",
+    domain="physics",
+    consumer="learninghub"
+)
+print(answer['answer'])
+print(answer['citations'])
+```
 
-- **Models:** 12 models in schema/embedding-registry.yaml v1.0.0 — local free (All-MiniLM-L6-v2 384 dim fast 80MB 5x faster, All-MPNet-Base-V2 768 dim 420MB high quality, BGE Large SOTA 1024 dim 1.3GB best for RAG MTEB top, E5 Large V2 1024 dim 1.3GB retrieval-optimized, BGE Small 384 dim 133MB fast) + frontier API (OpenAI text-embedding-3-large 3072 dim best quality MTEB 64.6 $0.00013/1k, text-embedding-3-small 1536 dim fast frontier $0.00002/1k, Ada 002 legacy 1536, Cohere embed-v3 1024, Gemini text-embedding-004 768 free tier, NVIDIA nv-embed-v1 SOTA 4096 free via NIM MTEB top)
-- **Model selector like DeepSeek harness:** Search bar, category tabs All/Frontier/Free/Local/SOTA, model cards with FREE/FRONTIER/LOCAL badges, dimensions, description, custom model input any frontier or your own fine-tuned via OpenRouter/NVIDIA NIM/OpenAI-compatible
-- **Deterministic:** Same knowledge.json content_hash + model id → same embeddings, content_hash versioned, batch_size 32, normalize true, chunking entity strategy max_tokens 512 overlap 50
-- **Storage:** exports/embeddings.jsonl (entity_id, model, dimensions, vector, content, content_hash) + exports/vector_store/ (FAISS meta.json + vectors.npy + ids.json) — derived artifacts regenerable, versioned via content_hash + model id
-- **Consumer-specific:** LearningHub prefers OpenAI text-embedding-3-large 3072 for high quality, PROFESSOR-J prefers BGE Large SOTA 1024 offline, general prefers All-MiniLM fast local
-- **Generation:** `python3 scripts/embed.py --model BAAI/bge-large-en-v1.5 --output exports/embeddings.jsonl --vector-store exports/vector_store/` — tries sentence-transformers if installed, else fake deterministic hash-based for demo
+Future: `from stemma_adapter.rag import StemmaRAG; rag = StemmaRAG.from_files("exports/knowledge.json", "exports/vector_store/"); answer = rag.query("What is Newton's second law?", top_k=5, model="deepseek/deepseek-r1:free")`
 
-## RAG System — YES needed in STEMMA
+## CLI
 
-**Do we need RAG system here in STEMMA? YES.**
+```bash
+# List embedding and LLM models
+python3 scripts/rag.py --list-models
 
-STEMMA is knowledge foundation, RAG is how consumers like LearningHub, PROFESSOR-J use it. Without RAG, STEMMA is just static JSON. With RAG, it's queryable knowledge with citations, grounded answers.
+# Vector search
+python3 scripts/rag.py --search "force" --top-k 5 --embedding-model BAAI/bge-large-en-v1.5 --domain physics
 
-- **Components:** Ingestion PDF → deterministic extraction via template-registry v2.0.0 → entity markdown → embedding via embedding-registry → vector_store FAISS/Chroma/Qdrant local path exports/vector_store/ versioned with content_hash → retriever similarity search over entity definitions + connections → generator LLM with model selector like DeepSeek harness (local + frontier models: DeepSeek R1 free 671B reasoning, DeepSeek V3 free 671B, Claude 3.5 Sonnet frontier, Claude 3 Opus reasoning, GPT-4o frontier multimodal, o1 reasoning frontier, Gemini 2.5 Pro frontier, Gemini 2.0 Flash free, Llama 3.3 70B free, custom via OpenRouter/NVIDIA NIM) → answer with citations (source_refs + link)
-- **Flow:** User question → embedding via embedding model → vector search top_k cosine similarity → build context with definitions + connections + sources + source_refs + links → LLM prompt with context + question → answer with citations
-- **Evaluation:** Retrieval precision top_k relevant, answer faithfulness grounded in retrieved entities, citation coverage every claim has source_ref
-- **Versioning:** Vector store versioned via content_hash of knowledge.json + embedding model id, deterministic same knowledge.json + model → same embeddings + same FAISS index, no wall clock
-- **API:** /v2/rag/search GET + /v2/rag/query POST via adapter server v0.2.0 and webapp server, webapp RAG playground with embedding model selector like DeepSeek harness (local + frontier models) + LLM model selector + domain filter + consumer selector + citations display
-- **Consumer-specific:** LearningHub top_k 5 GPT-4o, PROFESSOR-J top_k 10 DeepSeek R1 free fallback Claude 3.5 Sonnet/GPT-4o/Gemini 2.5 Pro
-- **Example:** `python3 scripts/rag.py --question "What is Newton's second law?" --top-k 5 --model deepseek/deepseek-r1:free --consumer learninghub` → retrieves metre, force, mass, time, etc. → builds context → calls DeepSeek R1 via OpenRouter → answer with citations
+# Full RAG query
+python3 scripts/rag.py --question "What is Newton's second law?" --top-k 5 --model deepseek/deepseek-r1:free --embedding-model BAAI/bge-large-en-v1.5 --domain physics --consumer learninghub
 
-## Why comprehensive all-STEM mediocre, not minimal physics?
+# With consumer-specific model
+python3 scripts/rag.py --question "Explain photosynthesis" --top-k 10 --model deepseek/deepseek-r1:free --consumer professor-j
+```
 
-User direction change: from minimal physics to mediocre all domain, add remaining domains, build comprehensive template that can extract from pdf and embed the data.
+## Consumer-specific RAG config
 
-- **Minimal physics** was v0.1 beginning with 70 entities physics only — proved review bottleneck, 224 entities unreviewable before, but now with HITL + deterministic scales + evolvable templates we can scale
-- **Mediocre all-domain** is better foundation: 8 domains × mediocre coverage (e.g., 50-100 entities each = 400-800 total) with deterministic templates that scale, embeddings, RAG, consumer export — more useful for LearningHub, PROFESSOR-J than minimal physics
-- **Remaining domains added:** Previously only physics, chemistry, biology, mathematics with few subdomains — now comprehensive: physics 12 subdomains, chemistry 11, biology 14, earth-science 10, astronomy 8, computer-science 15, engineering 13, mathematics 14 — total 97 subdomains, covers all STEM
-- **Comprehensive template v2.0.0:** 12 entity types (concept, quantity, unit, constant, law, principle, theorem, equation, process, structure, algorithm, material) with templates, regex extraction_rules for all domains (Length, Mass, Time, Area, Volume, Element, Mole, Cell, DNA, Photosynthesis, Algorithm, Sorting, Machine Learning, Derivative, Integral, Theorem, Earthquake, Black Hole, Stress, etc.), standard_definition_sources (SI Brochure, NIST, IUPAC Gold Book, CRC Handbook, HRW, Campbell Biology, CLRS, Atkins, Carroll Astrophysics), llm_fallback prompt for when PDF missing exact, embedding config with 8 models
-- **Evolvable:** Add new domain like medicine, economics via `python3 scripts/evolvable_template.py --evolve --new-domain medicine` without code change
+Defined in `schema/consumer-registry.yaml` v1.0.0:
 
-## All good for PR? Yes — but we need to update docs and implement embeddings/RAG/export first (done in this change)
+- **LearningHub:** top_k 5, model GPT-4o (frontier multimodal), embedding_model OpenAI text-embedding-3-large 3072, domains physics/chem/bio/math canonical, rate limit 1000/hour api_key, example "What is Newton's second law?"
+- **PROFESSOR-J:** top_k 10, model DeepSeek R1 free 671B reasoning fallback Claude 3.5 Sonnet/GPT-4o/Gemini 2.5 Pro, embedding_model BGE Large SOTA 1024 offline, domains all 8 mediocre reviewed, rate limit 10000/hour api_key, example "Explain photosynthesis and its relation to cellular respiration"
+- **General:** top_k 5, no specific LLM, embedding_model All-MiniLM fast local
+- **Explorer:** no RAG (3D graph)
+
+## Why RAG needed for LearningHub, PROFESSOR-J?
+
+- **LearningHub:** Learning platform needs to answer student questions with citations from STEMMA. Without RAG, students get static JSON. With RAG, they ask natural language, get grounded answer with citations (source_refs + links), retrieval precision high with OpenAI Large embeddings, generation quality high with GPT-4o.
+- **PROFESSOR-J:** AI professor needs to answer STEM questions across 8 domains mediocre coverage, offline capable (BGE Large SOTA local, FAISS local), reasoning (DeepSeek R1 free 671B), citations for trust. RAG provides retrieval + generation + citations.
+
+## Webapp RAG playground — NEW
+
+In webapp UI (http://localhost:8081), new section RAG Playground:
+
+- Embedding model selector like DeepSeek harness (local + frontier models): search bar, category tabs All/Frontier/Free/Local/SOTA/Fast, model cards with badges, custom input
+- LLM model selector like DeepSeek harness (local + frontier models): DeepSeek R1 free, Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro, Llama 3.3, custom
+- Domain filter: 8 domains dropdown (physics, chemistry, biology, earth-science, astronomy, computer-science, engineering, mathematics) + all
+- Consumer selector: LearningHub, PROFESSOR-J, general
+- Top K slider: 1-20
+- Question input textarea
+- Search button (vector search) + Query button (full RAG)
+- Results: retrieved entities with scores + content + domain + type + source + link, answer with citations, model_used, embedding_model_used, content_hash
+
+Implemented in webapp/static/app.js + index.html + style.css — new RAG section with model selectors.
+
+## Related docs
+
+- `schema/embedding-registry.yaml` — embedding models
+- `schema/consumer-registry.yaml` — consumer RAG config
+- `schema/api.yaml` — /v2/rag/search and /v2/rag/query endpoints
+- `scripts/embed.py` — generates embeddings for RAG
+- `scripts/rag.py` — RAG system
+- `docs/EMBEDDINGS.md` — embeddings
+- `docs/CONSUMERS.md` — consumer-specific RAG
+- `adapters/python/stemma_adapter/server.py` v0.2.0 — RAG endpoints
+- `webapp/server.py` — RAG endpoints + RAG playground
 
 
 ## Explicit Separation — Canonical vs Derived vs Consumer (NEW 2026-09-21 — Answers: Does STEMMA itself need embeddings/RAG?)

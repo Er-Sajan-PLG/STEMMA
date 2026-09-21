@@ -1,96 +1,112 @@
-# STEMMA — Roadmap
+# ROADMAP (COMPREHENSIVE ALL-STEM, MEDIOCRE COVERAGE, HITL, EVOLVABLE, FRONTIER, EMBEDDINGS, RAG, CONSUMER EXPORT)
 
-**Status:** Authoritative forward plan (baseline 3.0.0). Rebuilt from the
-current architecture and measured repo state; historical plans are retired.
-Each phase requires explicit activation in governance (a phase listed here is
-*planned*, not authorized by existing).
+**Status:** Comprehensive all-STEM mediocre, not minimal physics. Old minimal physics roadmap archived. Now 1 entity (metre) via PDF primary ingestion with HITL, will grow to mediocre 400-800 across 8 domains with embeddings, RAG, consumer export for LearningHub, PROFESSOR-J. Old 74 entities archived to archive/beginning-74-entities/.
 
-**Evidence for "done" claims:** `docs/IMPLEMENTATION-STATUS.md`.
+## R1 — Comprehensive All-STEM Mediocre v0.1 NOW (Beginning Clean, HITL, Evolvable, Frontier, Embeddings, RAG, Consumer Export)
 
----
+- 1 entity now (metre) via PDF primary ingestion with HITL, deterministic scales, evolvable templates v2.0.0, model selector like DeepSeek harness (local + frontier models), embeddings, RAG, consumer export. Old 74 entities archived. Target: grow via primary PDF ingestion to 400-800 entities mediocre across 8 domains (physics 12 subdomains, chemistry 11, biology 14, earth-science 10, astronomy 8, computer-science 15, engineering 13, mathematics 14) with HITL, deterministic templates from schema/template-registry.yaml v2.0.0 regex + exact SI constants, LLM fallback only when PDF missing exact definition (frontier models DeepSeek R1, Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro, Llama 3.3, custom)
+- 0 connections now, target 500+, 8 relations only (mathematically_requires, derived_from, appears_in_law, applies_to, generalizes, special_case_of, part_of, approximates), mandatory evidence source_ref+locator+description
+- 3 sources now (nistsi, halliday, etc.), target 20+, dual verification with url/doi/isbn + writer human:*
+- Dual verification + governed_by + history + exact SI + HITL + evolvable templates v2.0.0 + frontier selector + embeddings + RAG + consumer export
+- Checks: validate.py + physics_core_profile_check.py + physics_governing_check.py + hitl_check.py + evolvable_template.py + embed.py + rag.py + export_consumers.py + status_truth.py --write + verify_all.py green — all deterministic, no LLM for placement, HITL enforced, scales, embeddings deterministic content_hash + model id, RAG with citations
 
-## R1 — Review activation (the core value)
+Exit: 400-800 entities mediocre across 8 domains via PDF primary ingestion with HITL, deterministic scales, evolvable templates v2.0.0, model selector like DeepSeek harness (local + frontier models) with search, categories Frontier/Reasoning/Free/Custom, 25 frontier models, custom input), 500+ connections canonical with evidence, explorer clean 3D small nodes 0.32-0.5 thin lines 0.15 legend hidden manual only zoom centered tight 32-65 centroid with domain filter for 8 domains, adapter v0.2.0 with embeddings + RAG + consumer export + OpenAPI (endpoints /v2/entities, /v2/embeddings, /v2/rag/search, /v2/rag/query POST, /v2/export?consumer=..., /openapi.yaml), embeddings generated via embed.py with model selector like DeepSeek harness (local + frontier models: local free BGE All-MiniLM + frontier OpenAI text-embedding-3-large Cohere Gemini NVIDIA), vector_store/ FAISS deterministic content_hash versioned, RAG via rag.py with vector search + LLM frontier selector + citations, consumer-specific exports via export_consumers.py for LearningHub (canonical physics/chem/bio/math, OpenAI Large 3072, GPT-4o RAG) and PROFESSOR-J (reviewed all 8 domains mediocre, BGE Large offline SOTA 1024, FAISS, DeepSeek R1 free RAG), webapp with PDF primary + deterministic draft + AI draft frontier + markdown preview + HITL + RAG playground with embedding model selector + LLM model selector + citations, all verification green including hitl_check + embed + rag + export_consumers, content-hash deterministic, versioned exports v2.1.0 + embeddings.jsonl + vector_store/ + consumers/<consumer>/ + openapi.yaml.
 
-*The architecture exists to make human-governed knowledge possible; review is
-the product.*
+## R2 — Math Layer + Governing Laws Expansion + Evolvable Domains + Embeddings SOTA + RAG Evaluation
 
-- Review the 604 unreviewed assertions via the dependency campaign cadence.
-- First entity reviews (224 drafts → reviewed/canonical for seed domains).
-- Reviewer identity policy (ORCID-backed recommended) — human gate.
-- Grow source records to cover the citations actually used by evidence.
+- Decide ADR-0024 with adjustments, dimensional checks
+- Expand governing registry to 23 laws as entities with historical timeline via HITL
+- Evolve template-registry.yaml v2.0.0 to more subdomains via python3 scripts/evolvable_template.py --evolve --new-domain medicine without code change — scales to 1000s PDFs, any domain
+- Deterministic draft (no LLM) primary, LLM fallback only when PDF missing exact definition — frontier models via OpenRouter/NVIDIA NIM
+- Embeddings: add more models, evaluate retrieval precision for LearningHub, PROFESSOR-J queries, optimize chunking
+- RAG: evaluate retrieval precision + answer faithfulness + citation coverage, add re-ranking, add multi-hop via prerequisites
+- Consumer export: add more consumers, add TypeScript adapter, add webhooks
 
-**Exit:** reviewed fraction > 50% of active assertions; ≥ 1 domain fully
-reviewed.
+## R3 — Other Domains LATER (Evolvable) + Production API + Hosted RAG
 
-## R2 — Math & semantics layer (the subject-matter gap)
+- Medicine, economics, etc. via evolvable template-registry.yaml v2.0.0 — no code change, just YAML
+- Production API hosting at https://api.stemma.example.com/v2 with auth api_key, rate limiting, OpenAPI
+- Hosted RAG with vector store Qdrant/Pinecone cloud, with LearningHub, PROFESSOR-J production
+- No legacy, this is comprehensive all-STEM mediocre with HITL, deterministic scales, evolvable, frontier, embeddings, RAG, consumer export
 
-- Decide ADR-0024 (LaTeX equations, symbol→quantity bindings, ISQ dimensions
-  on quantities, unit entities) — **human gate G-C**.
-- Backfill quantities/laws; retire display-string fields to derived status.
-- Dimensional-consistency checks as gate rules.
+## Explicit Separation — Canonical vs Derived vs Consumer (NEW 2026-09-21)
 
-**Exit:** machine-checkable equations on all `quantity`/`law` entities.
+**User question:** Does STEMMA itself need embeddings/RAG? NO — canonical layer NO embeddings/RAG, only Markdown+YAML. Is STEMMA alone useless if we can't use it? YES — static JSON alone not queryable. Is building RAG pipeline inevitable? YES — as derived + consumer layer, inevitable for usability, but cleanly separated from canonical, optional for canonical validity.
 
-## R3 — Schema & identity hardening (completing the foundation)
+- Canonical: content/, connections/, sources/, schema/ — NO embeddings, vectors, RAG — validate.py NEVER checks embeddings — previously "Not on roadmap: embeddings, database as source of truth" meant canonical, not derived
+- Derived: exports/knowledge.json content-hash, embeddings.jsonl, vector_store/ FAISS meta.json + vectors.npy + ids.json versioned via content_hash + model id, consumers/<consumer>/knowledge.<consumer>.json — YES embeddings here but as derived, regenerable via embed.py, deterministic same content_hash + model id → same embeddings, verify_all.py INFO not FAIL
+- Consumer + RAG: scripts/embed.py, rag.py, export_consumers.py, adapters/python/ v0.2.0 with /v2/embeddings, /v2/rag/search, POST /v2/rag/query, /v2/export, /openapi.yaml, webapp RAG playground — YES RAG here but as consumer mechanism, inevitable for usability, without RAG static JSON useless, with RAG queryable knowledge with citations for LearningHub, PROFESSOR-J
 
-- Resolve the public IRI / schema `$id` base decision — **human gate
-  (ADR-0029 open item)**.
-- Formalize alias/deprecation discovery tooling for consumers (e.g.
-  `resolve(id)` across aliases).
-- Statement-rank-style preferred/normal/deprecated claim semantics if
-  competing-claim cases emerge (Wikidata pattern).
+Invariants: Canonical never contains embeddings/vectors/RAG, embeddings live only in exports/ as derived regenerable versioned deterministic, RAG lives only in scripts/adapters/webapp as consumer mechanism, gate validate.py never checks embeddings, verify_all.py checks embeddings existence as INFO not FAIL, previously "Not on roadmap: embeddings" meant canonical not derived — now embeddings ARE in derived + consumer which IS on roadmap.
 
-## R4 — Interoperability projections
+## Not on roadmap — for canonical only
 
-- JSON-LD 1.1 context + graph projection; SKOS mapping for
-  hierarchical/associative relations.
-- SHACL shapes for the RDF projection (validate-with-standard-tools story).
-- Optional nanopublication-style signed bundles for canonical releases.
 
-## R5 — Developer & consumer ecosystem
+All STEM at once without HITL, hosting without auth, curriculum, ontology, database as source of truth, bypassing hitl_check, LLM without human edit — but embeddings, RAG, consumer export ARE on roadmap now.
 
-- **Shipped:** first-party read-only Python adapter (`adapters/python/`) with
-  SDK, CLI, and local JSON API.
-- Adapter `1.0` promotion and any PyPI publication remain explicit human
-  release decisions.
-- `docs/CONSUMERS.md` expansion with adapter examples in > 1 language.
-- CLI packaging of the gate (`pipx`-able) so consumers validate without
-  cloning the repo.
-- Example curriculum-mapping consumer (owned outside canonical data) as a
-  reference for the mapping pattern.
+## Scaling + Frontier + Embeddings + RAG + Consumer Export
 
-## R6 — Publication & release discipline
+- Deterministic scales: template-registry.yaml v2.0.0 regex + exact SI constants + authoritative sources for all 8 domains, scales to 1000s PDFs, any domain, no cost
+- Evolvable: add new domain without code change via --evolve
+- LLM only when PDF missing exact definition: frontier DeepSeek R1/V3 free, Claude 3.5 Sonnet/Opus, GPT-4o/o1, Gemini 2.5 Pro/2.0 Flash free, Llama 3.3 70B free, Qwen, Nemotron via OpenRouter/NVIDIA NIM, selector like DeepSeek harness
+- Even LLM requires HITL: human explicitly edits markdown before canonical
+- Embeddings — YES needed: For RAG and consumer export, embedding model generates vectors, deterministic same content_hash + model → same embeddings, local free All-MiniLM 384 fast 80MB 5x faster + BGE Large SOTA 1024 1.3GB best for RAG MTEB top + frontier API OpenAI text-embedding-3-large 3072 best quality MTEB 64.6 + NVIDIA nv-embed-v1 SOTA 4096 free via NIM, model selector like DeepSeek harness (local + frontier models) with search + categories + custom input, stored in embeddings.jsonl + vector_store/ FAISS
+- RAG — YES needed: STEMMA is knowledge foundation, RAG is how consumers use it, without RAG static JSON, with RAG queryable knowledge with citations, flow question → embedding → vector search top_k → context definitions + connections + sources → LLM frontier selector → answer with citations, API /v2/rag/search GET + /v2/rag/query POST, webapp RAG playground
+- Consumer export — YES needed: file (knowledge.json deterministic content-hash v2.1.0, embeddings.jsonl, vector_store/ FAISS, consumers/<consumer>/knowledge.<consumer>.json filtered), API (adapter v0.2.0 endpoints /v2/entities, /v2/embeddings, /v2/rag/search, /v2/rag/query POST, /v2/export?consumer=..., /openapi.yaml OpenAPI 3.0.3), SDK (Python Stemma.from_file + StemmaRAG), for LearningHub (canonical physics/chem/bio/math, OpenAI embeddings, GPT-4o RAG), PROFESSOR-J (reviewed all 8 domains mediocre, BGE Large offline SOTA, FAISS, DeepSeek R1 free RAG), general, explorer
 
-- Signed git tags + GitHub releases per content snapshot; changelog from
-  conventional commits.
-- Published artifacts + integrity manifest (hashes over exports).
-- Content-release cadence policy (independent of contract versions).
 
-## R7 — Production hardening
+## Can Embedding and RAG Be Out of STEMMA? YES — As Connection Layer, Not Containing Whole STEMMA
 
-- Scale review tooling (bulk review UX, diff-based review queues).
-- Corpus growth program (domain-by-domain, review-first).
-- Observability of corpus health (drift, staleness, coverage dashboards from
-  existing reports).
+**User question:** "Can i actually have embedding and RAG out of STEMMA!? How do they connect then?? Embedding and RAG doesn't contain the whole STEMMA right!? its just a connection layer!?"
 
-## R8 — Advanced capabilities (gated, ordered by need)
+**Answer: YES — embedding and RAG can be out of STEMMA, they're just connection layer, not containing whole STEMMA, they connect via exports/knowledge.json + API + SDK + content_hash.**
 
-- Multilingual content model (identity is already language-independent).
-- Inference layer activation (derived claims from registry rules, clearly
-  marked `inferred`).
-- Retrieval/RAG support artifacts (derived, versioned, never canonical).
+- Whole STEMMA: content/, connections/, sources/, schema/ — NO embeddings, NO RAG — pure knowledge
+- Embedding: NOT whole STEMMA — vectors DERIVED from definitions, e.g., metre chunk → All-MiniLM 384 dim or BGE Large 1024 SOTA or OpenAI Large 3072 → vector [0.12, -0.34, ...] — semantic fingerprint for similarity search, stored in exports/embeddings.jsonl as {entity_id, model, dimensions, vector, content, content_hash} — regenerable, deterministic, NOT whole STEMMA
+- Vector store: NOT whole STEMMA — FAISS index of vectors + ids.json + meta.json — just index for fast cosine similarity, NOT whole STEMMA, just connection layer
+- RAG: NOT whole STEMMA — retrieval logic (embedding query → cosine similarity → top_k) + generation logic (context definitions + connections + sources → LLM → answer with citations) — grounded in STEMMA but doesn't contain whole STEMMA, only references entity IDs as context
 
----
+**How connect? 3 ways:**
+1. File-based: STEMMA exports knowledge.json v2.1.0 content-hash — external RAG copies file, runs own embed.py externally, connection via content_hash, does NOT contain whole STEMMA
+2. API-based: STEMMA API /v2/entities, /v2/stats content_hash, /v2/search, /v2/embeddings, /v2/rag/search, POST /v2/rag/query, /v2/export, /openapi.yaml — external RAG calls API to get entities, generates embeddings externally, builds FAISS externally, serves RAG with citations — connection via API + content_hash, does NOT contain whole STEMMA
+3. SDK-based: STEMMA SDK adapters/python/ Stemma.from_file("exports/knowledge.json") — external RAG uses SDK to load STEMMA, builds own embeddings/RAG out of STEMMA — connection via SDK + content_hash, does NOT contain whole STEMMA
 
-## Explicitly not on the roadmap
+**Current:** Optional derived layer inside STEMMA for convenience — scripts/embed.py, rag.py, export_consumers.py, exports/embeddings.jsonl, vector_store/, adapters/python/ v0.2.0, webapp RAG playground — inside but as derived + consumer, not canonical, INFO not FAIL in verify_all.py — convenient for demo
 
-Hosting/APIs/auth/payments, product features, curriculum authoring, a
-general-purpose ontology, canonical embeddings, any database as source of
-truth. These are permanent boundaries (VISION non-goals), not deferred work.
+**Can be out:** YES, move to separate repo STEMMA-RAG or to LearningHub/PROFESSOR-J, keep STEMMA core pure with only content/, connections/, sources/, schema/, validate.py — STEMMA exports knowledge.json + API schema, external RAG consumes via file/API/SDK + content_hash — cleaner separation, STEMMA remains pure knowledge foundation, embedding/RAG are external consumers, connection layer, not containing whole STEMMA
 
-## Sequencing rationale
+**Recommendation:** Keep canonical pure (NO embeddings/RAG, validate.py NEVER checks), keep derived optional inside for convenience (exports/knowledge.json, embeddings.jsonl, vector_store/, INFO not FAIL), but for production LearningHub, PROFESSOR-J have embedding and RAG out of STEMMA as separate service that consumes STEMMA via file/API/SDK + content_hash, generates embeddings externally, builds vector store externally, serves RAG with citations — embedding/RAG doesn't contain whole STEMMA, just connection layer, whole STEMMA remains in STEMMA repo
 
-R1 precedes everything: unreviewed content weakens every downstream promise.
-R2 is the largest scientific-value gap. R3 must land before R4/R6 (stable
-IRIs make projections and releases durable). R5 can proceed in parallel from
-R3. R7/R8 follow real demand, not speculation.
+
+## Whose Job Is To Build Embedding and RAG? CONSUMER's Job, Not STEMMA's Job — STEMMA Provides Reference Implementation (NEW 2026-09-21)
+
+**User question:** "whose job is to build embedding and RAG!? STEMMA or CONSUMER!?"
+
+**Answer: CONSUMER's job, not STEMMA's job — STEMMA provides reference implementation as optional derived + consumer layer for convenience and demo, but production embedding and RAG is consumer's job (LearningHub, PROFESSOR-J, general, explorer, STEMMA-RAG).**
+
+- **STEMMA's job — knowledge foundation, pure, deterministic, HITL, versioned, content-hash, NO embeddings/RAG in canonical:** content/<domain>/**/*.md (Markdown+YAML with exact definitions, dual verification, governed_by, history), connections/*.yaml (8 relations, evidence), sources/*.yaml (url/doi/isbn + writer human:*), schema/ (JSON Schemas, relation-registry, template-registry v2.0.0 comprehensive all-STEM 8 domains 97 subdomains 12 entity types, embedding-registry v1.0.0 12 models, consumer-registry v1.0.0 4 consumers, api.yaml OpenAPI 3.0.3, governing-registry, VERSION.yaml), scripts/validate.py (NEVER checks embeddings, only canonical), physics_core_profile_check.py, physics_governing_check.py, hitl_check.py, evolvable_template.py, status_truth.py, verify_all.py (canonical checks as FAIL, embeddings/RAG/consumer export checks as INFO not FAIL) — provides knowledge foundation + deterministic versioned exports knowledge.json v2.1.0 content-hash + openapi.yaml + SDK for consumers — pure, deterministic, HITL, versioned, NO embeddings/RAG in canonical — whole STEMMA is here
+- **Why NOT embedding/RAG in canonical STEMMA's job:** Embeddings are model-specific (All-MiniLM 384 vs BGE Large 1024 vs OpenAI Large 3072 vs NVIDIA NV-Embed 4096 give different vectors), non-deterministic, not time-invariant, would pollute canonical with floats, make content/ non-human-reviewable, would require STEMMA to choose one embedding model, one vector store, one LLM, one top_k for all consumers — impossible, because consumers have different needs (LearningHub prefers OpenAI Large 3072 high quality for student queries, PROFESSOR-J prefers BGE Large SOTA 1024 offline capable for AI professor, general prefers All-MiniLM fast local) — therefore embedding and RAG cannot be one-size-fits-all in STEMMA, must be consumer's job
+- **CONSUMER's job — build embedding and RAG out of STEMMA as connection layer, NOT containing whole STEMMA:** LearningHub, PROFESSOR-J, general, explorer, STEMMA-RAG — in LearningHub repo or PROFESSOR-J repo or separate STEMMA-RAG repo — data/knowledge.json copied from STEMMA exports/knowledge.json, data/embeddings.jsonl generated externally via embed.py out of STEMMA, data/vector_store/ FAISS built externally out of STEMMA, rag.py retrieval + generation logic out of STEMMA, or via API calls to STEMMA API /v2/entities, /v2/stats content_hash, /v2/search, etc., or via SDK Stemma.from_file() or from_api() — generate vectors DERIVED from STEMMA definitions via embedding model (local free All-MiniLM/BGE Large + frontier OpenAI Large/NVIDIA NV-Embed, model selector like DeepSeek harness (local + frontier models)), build vector store FAISS/Chroma/Qdrant/Pinecone, serve RAG queries with retrieval + generation + citations — e.g., LearningHub: preferred_model OpenAI Large 3072 fallback BGE Large, RAG top_k 5 model GPT-4o, endpoints /v2/stats /v2/entities /v2/search /v2/rag/query /v2/embeddings, rate limit 1000/hour api_key, example "What is Newton's second law?" → embedding OpenAI Large → vector search top 5 → context definitions + sources → GPT-4o → answer with citations; PROFESSOR-J: preferred_model BGE Large SOTA 1024 offline fallback All-MiniLM, RAG top_k 10 model DeepSeek R1 free fallback Claude 3.5 Sonnet/GPT-4o/Gemini 2.5 Pro, all endpoints, rate limit 10000/hour, example "Explain photosynthesis and its relation to cellular respiration" → embedding BGE Large → vector search top 10 across biology → context → DeepSeek R1 free → answer with citations — why consumer's job: embedding model choice is consumer-specific, RAG top_k and LLM model choice is consumer-specific, vector store type is consumer-specific (FAISS local vs Chroma vs Qdrant vs Pinecone cloud), domain filter is consumer-specific (LearningHub canonical physics/chem/bio/math vs PROFESSOR-J reviewed all 8 domains mediocre), review_policy is consumer-specific (LearningHub canonical vs PROFESSOR-J reviewed vs general all), rate limiting and auth are consumer-specific — therefore embedding and RAG must be consumer's job, not STEMMA's job, to fit each consumer's needs — does NOT contain whole STEMMA, just connection layer, whole STEMMA remains in STEMMA repo
+- **STEMMA provides reference implementation as optional derived + consumer layer for convenience and demo, but production embedding/RAG is consumer's job:** Currently inside STEMMA for convenience and demo (optional, INFO not FAIL): scripts/embed.py (local free + frontier, model selector like DeepSeek harness (local + frontier models), tries sentence-transformers if installed else fake deterministic hash-based for demo), scripts/rag.py (vector search + context + LLM generation with model selector like DeepSeek harness (local + frontier models) + citations, consumer-specific), scripts/export_consumers.py, exports/embeddings.jsonl (1 embeddings now deterministic fake for demo), exports/vector_store/ FAISS meta.json + vectors.json + ids.json versioned via content_hash + model id, exports/consumers/<consumer>/knowledge.<consumer>.json filtered, adapters/python/ v0.2.0 with /v2/embeddings, /v2/rag/search, POST /v2/rag/query, /v2/export, /openapi.yaml, webapp RAG playground with embedding model selector like DeepSeek harness (local + frontier models) + LLM selector + domain filter + consumer selector + Search + Query buttons + citations + consumer export buttons, examples/external-rag/ with README.md + embed.py + rag.py that are OUT OF STEMMA, connection layer, NOT whole STEMMA, proving embedding and RAG can be out of STEMMA, connecting via file/API/SDK + content_hash — why inside for now: convenient for demo, for LearningHub, PROFESSOR-J to see how embedding/RAG connects via file/API/SDK + content_hash, for testing retrieval precision + faithfulness + citation coverage, for webapp RAG playground, for verify_all.py INFO checks — but production embedding/RAG is consumer's job, not STEMMA's job — can be out: YES, move to separate repo STEMMA-RAG or to LearningHub/PROFESSOR-J repos, keep STEMMA core pure with only content/, connections/, sources/, schema/, validate.py, export_review_aware.py, graph_analysis.py, status_truth.py, verify_all.py (canonical checks as FAIL, embeddings/RAG/consumer export checks as INFO) — then STEMMA exports knowledge.json + API schema + SDK, external RAG in LearningHub/PROFESSOR-J consumes via file/API/SDK + content_hash + deterministic regeneration — cleaner separation, STEMMA remains pure knowledge foundation, embedding/RAG are external consumers, connection layer, not containing whole STEMMA — example in examples/external-rag/ proves it works out of STEMMA
+
+**Recommendation:**
+- STEMMA's job: Provide knowledge foundation — content/, connections/, sources/, schema/, knowledge.json v2.1.0 deterministic content-hash, openapi.yaml, SDK, validation gate — pure, deterministic, HITL, versioned, NO embeddings/RAG in canonical, NO vectors in content/
+- CONSUMER's job: Build embedding and RAG out of STEMMA as connection layer — generate embeddings via embedding-registry models, build vector store FAISS/Chroma/Qdrant/Pinecone, serve RAG queries with retrieval + generation + citations, choose embedding model, top_k, LLM model, domain filter, review_policy, rate limiting, auth per consumer needs — LearningHub, PROFESSOR-J, general, explorer, STEMMA-RAG — does NOT contain whole STEMMA, just connection layer, whole STEMMA remains in STEMMA repo
+- STEMMA provides reference implementation: scripts/embed.py, rag.py, export_consumers.py, exports/embeddings.jsonl, vector_store/, adapters/python/ v0.2.0, webapp RAG playground, examples/external-rag/ — optional, INFO not FAIL, for convenience, demo, testing, but production embedding/RAG is consumer's job
+
+**Therefore:** Embedding and RAG is CONSUMER's job, not STEMMA's job — STEMMA provides knowledge foundation + reference implementation as optional derived + consumer layer for convenience and demo, but production embedding and RAG is consumer's job (LearningHub, PROFESSOR-J, general, explorer, STEMMA-RAG) as connection layer out of STEMMA, not containing whole STEMMA, connecting via exports/knowledge.json + API + SDK + content_hash, with model selector like DeepSeek harness (local + frontier models) for both embedding and LLM.
+
+
+## Guideline — How to Build Embedder and RAG That Imports From STEMMA Consistently (NEW 2026-09-21 — v1.0.0)
+
+See **[GUIDELINE-EMBEDDER-RAG.md](GUIDELINE-EMBEDDER-RAG.md)** — authoritative 81KB guideline for consumers to build consistent embedder + RAG architecture that imports from STEMMA via file/API/SDK + content_hash.
+
+**What it covers:**
+- Direction we are going: comprehensive all-STEM mediocre (8 domains 97 subdomains 12 entity types 400-800 target) + clean separation Layer1 Canonical (NO embeddings/RAG, whole STEMMA), Layer2 Derived (YES embeddings as derived regenerable deterministic content-hash), Layer3 Consumer+RAG (YES RAG as consumer mechanism, can be out of STEMMA)
+- New change already implemented (2026-09-21): template-registry v2.0.0 8 domains, embedding-registry v1.0.0 12 models local free + frontier with model selector like DeepSeek harness, consumer-registry v1.0.0 4 consumers LearningHub OpenAI Large 3072 GPT-4o top_k5 PROFESSOR-J BGE Large 1024 offline DeepSeek R1 free top_k10, API schema v2.1.0 OpenAPI 3.0.3, embed.py rag.py export_consumers.py adapter v0.2.0 /v2/embeddings /v2/rag/search POST /v2/rag/query /v2/export /openapi.yaml webapp RAG playground, examples/external-rag/ out-of-STEMMA proving embedding/RAG can be out as connection layer NOT whole STEMMA via file/API/SDK + content_hash
+- Future plans: R1 NOW 400-800 + embeddings + RAG + consumer export + guideline + sample, R2 Math Layer + Governing Laws + Embeddings SOTA (BGE-M3, GTE, Jina, E5-Mistral, re-ranking, ColBERT, HyDE) + RAG Evaluation (retrieval precision, faithfulness, citation coverage, re-ranking, multi-hop, HyDE, self-RAG, evaluation dataset) + Consistent Architecture (TypeScript adapter, Python package stemma-rag, consistent import via file/API/SDK + content_hash, model selector, deterministic versioning, context building with citations, API, webapp playground, evaluation metrics) + Production API hosting, R3 Other Domains LATER + Production RAG + Hosted Vector Store Qdrant/Pinecone + Consistent Architecture Across All Consumers via guideline
+- Embedder best practices: model selector like DeepSeek harness 12 models, chunking entity strategy 512 tokens deterministic, content-hash sha256(text+model_id+knowledge content_hash)[:16] versioned batch 32 normalize, vector store FAISS flat cosine meta.json v1.0.0, storage embeddings.jsonl + vector_store/
+- RAG best practices: retriever vector search cosine FAISS top_k 5 LearningHub 10 PROFESSOR-J domain filter, context building definitions+connections+sources+source_refs+links+scores with citations, generator LLM model selector like DeepSeek harness 25 models DeepSeek R1 free Claude 3.5 Sonnet GPT-4o Gemini 2.5 Pro Llama 3.3 custom citation enforcement, full flow question->embedding->vector search->context->LLM->answer with citations, API /v2/rag/search GET POST /v2/rag/query, webapp RAG playground
+- Sample in derived: inside STEMMA scripts/embed.py rag.py exports/embeddings.jsonl vector_store/ meta.json deterministic + out-of-STEMMA examples/external-rag/embed.py rag.py data/embeddings.jsonl data/vector_store/ out-of-STEMMA connection layer NOT whole STEMMA
+
+
