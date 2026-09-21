@@ -167,13 +167,15 @@ def test_gemini_config_roundtrip(tmp_path: pathlib.Path):
 
 def test_provider_registry_contract():
     import providers
-    # Four distinct entitlement paths, Antigravity is official/local.
-    assert set(providers.PROVIDER_IDS) == {"antigravity", "gemini_api", "vertex_ai", "openai_compatible", "openrouter", "nvidia", "opencode"}
+    # 'deterministic' is the built-in offline provider; the rest are distinct
+    # entitlement paths, Antigravity is official/local.
+    assert set(providers.PROVIDER_IDS) == {"deterministic", "antigravity", "gemini_api", "vertex_ai", "openai_compatible", "openrouter", "nvidia", "opencode"}
     # Aliases never leak into persistence.
     assert providers.canonical_provider("google") == "gemini_api"
     assert providers.canonical_provider("openai") == "openai_compatible"
-    # Antigravity does not require an API key; Gemini API does.
+    # Antigravity and deterministic do not require an API key; Gemini API does.
     assert providers.spec("antigravity").needs_api_key is False
+    assert providers.spec("deterministic").needs_api_key is False
     assert providers.spec("gemini_api").needs_api_key is True
     print("PASS: provider registry contract")
 

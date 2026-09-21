@@ -51,7 +51,8 @@ security:
 	@echo "No secrets OK"
 
 docs:
-	@for f in AGENTS.md README.md VERSION docs/README.md docs/VISION.md docs/ARCHITECTURE.md docs/EMBEDDINGS.md docs/RAG.md docs/API.md docs/GUIDELINE-EMBEDDER-RAG.md; do if [ ! -f "$$f" ]; then echo "FAIL: Missing $$f"; exit 1; fi; done
+	@python3 tests/repo/test_docs_consistency.py
+	@python3 tests/repo/test_independence.py
 	@echo "Docs OK"
 
 deterministic:
