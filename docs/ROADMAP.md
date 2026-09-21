@@ -81,6 +81,22 @@ Exit: Export contract bumped, adapter round-trips, explorer renders, gate green.
 
 Exit: No stale references, independence test live, namespace clean.
 
+## RS0 — Specification Recovery Pilot (Before R4) — ✅ DONE 2026-09-22 — Protocol v3.1
+
+Specification Recovery Protocol v3.1 (pilot edition) executed on the CORE-GATE-EXPORT
+vertical slice ahead of R4. Evidence → as-built → requirements → specification chain
+recovered; implementation treated as evidence, not authority.
+
+- Charter `../spec/PILOT_CHARTER.md`, slice recorded as ADR-STEMMA-SPEC-001 (`../spec/DECISIONS/`)
+- 37 classified evidence records; 22 requirements (full §8.6 schema) **ALL PROPOSED** — owner approval pending (SOLE_OWNER Sajan; agent had no approval power)
+- 2 interfaces (export knowledge.json 2.2.0; verify_all CLI), 6 UNRES, 2 CONFLICT (1 OPEN: vector-store `meta.json` type label), assumptions, two-tier gap analysis
+- Machine-readable canonical set `../spec/machine-readable/` + minimum validator (9/9 checks, fails closed)
+- Baseline `../spec/BASELINE.md`, maturity **L2 slice-scoped** — L3 blocked on owner approval, L4 blocked per §9.1 (no VERIFIED pre-APPROVED)
+- Mandatory process review: `../SPECIFICATION_PROCESS_REVIEW.md`
+
+Exit: baseline artifacts complete and validated; approval + verification queue handed to owner.
+R5 (human org/IRI decision) precedes R4 per queue; recovery does not reorder the roadmap.
+
 ## R4 — Content as Acceptance Test Before IRI Gate (Hours to Days) — Phase 4 — ADR-0052 — Work Integrating Early Work
 
 Goal: Prove full L8 chain both authority tiers, corpus has real content, engine built, integrating all early work from start as implementation of architecture.

@@ -56,6 +56,22 @@ test (ADR-0052).
   [docs/ARCHITECTURE-V2.md](docs/ARCHITECTURE-V2.md) (producer/consumer
   separation, connection via file/API/SDK + `content_hash`).
 
+## Specification (recovered, pilot)
+
+`spec/` holds an **evidence-backed, reviewable specification** recovered under the
+Specification Recovery Protocol v3.1 (pilot edition) over the CORE–GATE–EXPORT
+vertical slice (2026-09-22, ahead of the R4 content acceptance test):
+
+- **22 requirements** (full schema, evidence-traced) — **all PROPOSED**; none are
+  normative until the owner approves them. The recovery agent had no approval power.
+- **2 interface contracts** (`exports/knowledge.json` 2.2.0; `verify_all.py` CLI),
+  37 classified evidence records, 6 open questions, 2 conflict records,
+  two-tier gap analysis, machine-readable registries + a minimum validator
+  (`python3 spec/machine-readable/validate_recovery.py`, 9/9 checks).
+- Baseline `spec/BASELINE.md` — maturity **L2 (slice-scoped only)**; approval and
+  verification are the owner's next steps. Entry points: `spec/REQUIREMENTS.md`,
+  `spec/OPEN_QUESTIONS.md`; process review: `SPECIFICATION_PROCESS_REVIEW.md`.
+
 ## Status
 
 <!-- status-truth:start -->
