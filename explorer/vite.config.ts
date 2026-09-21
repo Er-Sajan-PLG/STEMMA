@@ -1,6 +1,4 @@
 import { defineConfig } from 'vite';
-import { resolve } from 'path';
-
 export default defineConfig({
   root: '.',
   publicDir: 'public',
@@ -8,10 +6,16 @@ export default defineConfig({
     host: '0.0.0.0',
     port: 5174,
     allowedHosts: true,
-    open: false
+    open: false,
+    hmr: { overlay: false }
   },
   build: {
     outDir: 'dist',
-    sourcemap: true
+    sourcemap: false,
+    minify: true,
+    target: 'es2020'
+  },
+  optimizeDeps: {
+    include: ['three', '3d-force-graph']
   }
 });

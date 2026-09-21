@@ -3,71 +3,46 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#05020f" />
-    <meta name="description" content="stemma — a vivid, animated 3D map of the STEM universe. Search concepts, feel the connections, and explore the relationships between physics, chemistry, biology, math, and more." />
-    <title>stemma · 3D STEM Knowledge Graph</title>
-    <!-- Google Fonts: Outfit & Inter -->
+    <meta name="theme-color" content="#080a12" />
+    <meta name="description" content="STEMMA — clean minimal 3D knowledge graph, comprehensive all-STEM mediocre 8 domains 97 subdomains 12 entity types 400-800 target, small nodes thin lines, manual legend, centered zoom, embeddings + RAG." />
+    <title>STEMMA · Comprehensive All-STEM 3D Graph</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- KaTeX for rendering equations -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.css" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.10/dist/katex.min.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/src/styles/explorer.css" />
   </head>
   <body>
     <div id="app">
-      <!-- Toolbar Header -->
       <div id="toolbar"></div>
-
-      <!-- Two-Pane Main Layout -->
       <main class="main-layout">
-        <!-- Left 3D Canvas / Graph Pane -->
-        <section class="graph-container" aria-label="stemma 3D Knowledge Map">
+        <section class="graph-container" aria-label="STEMMA 3D Graph">
           <div id="graphCanvas"></div>
           <div id="accessibleList" style="display:none;width:100%;height:100%;"></div>
-
-          <!-- Floating HUD Controls Over Canvas -->
           <div class="hud-top-left" id="hudStats">
             <span class="hud-dot"></span>
-            <span id="hudConceptCount">112 Concepts</span>
+            <span id="hudConceptCount">Concepts</span>
             <span class="hud-divider">•</span>
-            <span id="hudEdgeCount">240 Edges</span>
+            <span id="hudEdgeCount">Relations</span>
           </div>
-
           <div class="hud-bottom-left" id="hudCameraControls">
             <button class="hud-btn" id="btnZoomIn" title="Zoom In">+</button>
             <button class="hud-btn" id="btnZoomOut" title="Zoom Out">−</button>
-            <button class="hud-btn" id="btnRecenter" title="Recenter View">🎯</button>
-            <button class="hud-btn" id="btnRotate" title="Toggle Auto-Rotation">🔄</button>
+            <button class="hud-btn" id="btnRecenter" title="Recenter">◎</button>
           </div>
-
-          <!-- Domain Legend Bar Floating Bottom Center -->
           <div class="hud-bottom-center" id="hudDomainLegend"></div>
-
-          <!-- Relationship + Cluster Legend (floating bottom right) -->
           <div id="graphLegend"></div>
-
-          <!-- Loading & Error Overlays -->
-          <div id="loadingOverlay" class="overlay-state" style="display:none;">
+          <div id="loadingOverlay" class="overlay-state">
             <div class="spinner"></div>
-            <div class="loading-copy">Igniting the stem-verse…</div>
-            <div class="loading-sub">spinning concepts into a 3D constellation</div>
+            <div class="loading-copy">Loading STEMMA comprehensive graph…</div>
+            <div class="loading-sub">8 domains · 97 subdomains · 12 entity types · 400-800 target · clean small nodes thin lines · manual legend · centered zoom · embeddings + RAG</div>
           </div>
-
           <div id="errorOverlay" class="overlay-state" style="display:none;">
-            <div style="font-size:2.5rem;">🧪💥</div>
-            <div id="errorTitle" style="font-weight:700;font-size:1.15rem;color:#ff8fa3;font-family:'Outfit',sans-serif;">Lab glitch detected</div>
-            <div id="errorMessage" style="font-size:0.9rem;color:#d1d5db;max-width:420px;text-align:center;line-height:1.5;"></div>
-            <button id="retryBtn" class="action-btn" style="margin-top:12px;">Re-ignite</button>
+            <div class="loading-copy" id="errorMessage">Failed to load</div>
           </div>
         </section>
-
-        <!-- Right Concept Inspector Pane -->
-        <aside id="inspector" class="inspector-container" aria-label="stemma Concept Inspector"></aside>
+        <aside class="inspector-container" id="inspector"></aside>
       </main>
     </div>
-
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

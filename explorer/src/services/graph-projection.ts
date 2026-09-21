@@ -58,33 +58,83 @@ export interface GraphProjection {
 }
 
 // Map a physics entity slug to a topic cluster.
-// This is a display-layer grouping (knowledge-curriculum-agnostic is irrelevant here;
-// it simply organizes the 3D scene so related concepts sit near each other).
+// This is a display-layer grouping — clean minimal, beginning with 70+ entities
 const PHYSICS_TOPIC_KEYWORDS: Record<string, string[]> = {
   'mechanics': ['force', 'mass', 'acceleration', 'displacement', 'distance', 'speed', 'time', 'momentum', 'impulse', 'inertia',
     'friction', 'newton', 'work', 'kinetic', 'potential', 'gravitation', 'weight', 'free-fall', 'projectile',
-    'gravitational', 'mechanical', 'conservation', 'efficiency', 'equations-of-motion', 'velocity', 'power', 'energy', 'scalar', 'vector'],
+    'gravitational', 'mechanical', 'conservation', 'efficiency', 'equations-of-motion', 'velocity', 'power', 'energy', 'scalar', 'vector',
+    'length', 'area', 'volume', 'density', 'pressure', 'torque', 'angular-momentum', 'frequency'],
   'waves-optics': ['wave', 'sound', 'light', 'amplitude', 'frequency', 'wavelength', 'wave-speed', 'reflect', 'refract',
     'lens', 'mirror', 'ray', 'electromagnetic-spectrum'],
   'electricity-magnetism': ['current', 'voltage', 'resistance', 'electric', 'ohm', 'coulomb', 'magnet', 'magnetic',
-    'electromagnetic-induction', 'electromagnetism', 'motor', 'generator', 'flux', 'heating-effect'],
-  'thermal': ['heat', 'temperature', 'thermal', 'specific-heat', 'change-of-state'],
+    'electromagnetic-induction', 'electromagnetism', 'motor', 'generator', 'flux', 'heating-effect', 'charge', 'field'],
+  'thermal': ['heat', 'temperature', 'thermal', 'specific-heat', 'change-of-state', 'amount-substance', 'ideal-gas'],
   'atomic-nuclear': ['atomic', 'radioactiv', 'nuclear', 'fission', 'fusion'],
-  'energy-and-environment': ['energy-sources', 'our-environment', 'buoyancy', 'density', 'pressure'],
-  'measurement': ['unit', 'measurement', 'physical-quantity'],
+  'energy-and-environment': ['energy-sources', 'our-environment', 'buoyancy'],
+  'measurement': ['unit', 'measurement', 'physical-quantity', 'metre', 'kilogram', 'second', 'ampere', 'kelvin', 'mole', 'candela'],
 };
+
+// Fundamental quantities — must be prominent, larger, always visible
+const FUNDAMENTAL_QUANTITIES = new Set([
+  'stemma:phys.length',
+  'stemma:phys.mass',
+  'stemma:phys.time',
+  'stemma:phys.electric-current',
+  'stemma:phys.thermodynamic-temperature',
+  'stemma:phys.amount-substance',
+  'stemma:phys.luminous-intensity',
+  'stemma:phys.area',
+  'stemma:phys.volume',
+  'stemma:phys.speed',
+  'stemma:phys.velocity',
+  'stemma:phys.acceleration',
+  'stemma:phys.force',
+  'stemma:phys.energy',
+  'stemma:phys.charge',
+]);
+
+const DERIVED_QUANTITIES = new Set([
+  'stemma:phys.weight',
+  'stemma:phys.density',
+  'stemma:phys.pressure',
+  'stemma:phys.power',
+  'stemma:phys.momentum',
+  'stemma:phys.angular-momentum',
+  'stemma:phys.torque',
+  'stemma:phys.impulse',
+  'stemma:phys.frequency',
+  'stemma:phys.voltage',
+  'stemma:phys.resistance',
+  'stemma:phys.electric-field',
+  'stemma:phys.magnetic-field',
+  'stemma:phys.heat',
+]);
 
 // Map the entity-id namespace prefix (the part before the dot) to its domain.
 // STEMMA (`stemma:` namespace) ids are stemma:<ns>.<slug> where ns is a short code (phys/bio/chem/earth/...).
+// Comprehensive all-STEM 8 domains: physics, chemistry, biology, earth-science, astronomy, computer-science, engineering, mathematics
 const NS_TO_DOMAIN: Record<string, string> = {
   phys: 'physics',
+  physics: 'physics',
   chem: 'chemistry',
+  chemistry: 'chemistry',
   bio: 'biology',
-  earth: 'earth-space',
+  biology: 'biology',
+  earth: 'earth-science',
+  'earth-science': 'earth-science',
+  'earth-space': 'earth-space',
+  astro: 'astronomy',
+  astronomy: 'astronomy',
+  cs: 'computer-science',
+  'computer-science': 'computer-science',
+  comp: 'computer-science',
   eng: 'engineering',
+  engineering: 'engineering',
   math: 'mathematics',
+  mathematics: 'mathematics',
   practice: 'scientific-practice',
   epist: 'scientific-practice',
+  'scientific-practice': 'scientific-practice',
 };
 
 // Map a math entity slug to a math sub-topic cluster (mirrors STEMMA math subdomains).
@@ -131,7 +181,10 @@ const CLUSTER_LABELS: Record<string, string> = {
   measurement: 'Measurement',
   chemistry: 'Chemistry',
   biology: 'Biology',
+  'earth-science': 'Earth Science',
   'earth-space': 'Earth & Space',
+  astronomy: 'Astronomy',
+  'computer-science': 'Computer Science',
   'scientific-practice': 'Scientific Practice',
   engineering: 'Engineering',
   mathematics: 'Mathematics',
@@ -148,8 +201,9 @@ const CLUSTER_LABELS: Record<string, string> = {
 // visual "core", the rest orbit as satellites. Anchor = place the cluster's
 // centroid here and pin a soft force toward it so connected clusters sit near
 // their domain, while cross-domain edges bridge the gaps.
+// Comprehensive all-STEM 8 domains: physics, chemistry, biology, earth-science, astronomy, computer-science, engineering, mathematics
 const CLUSTER_POSITIONS: Record<string, [number, number, number]> = {
-  mechanics: [0, 0, 18],                 // central core
+  mechanics: [0, 0, 18],
   'measurement': [16, 10, 10],
   'waves-optics': [-18, 12, -4],
   'electricity-magnetism': [14, -12, 6],
@@ -158,6 +212,9 @@ const CLUSTER_POSITIONS: Record<string, [number, number, number]> = {
   'energy-and-environment': [-8, -6, 24],
   chemistry: [30, 14, -14],
   biology: [-30, 16, 10],
+  'earth-science': [6, 30, -18],
+  astronomy: [18, 32, -10],
+  'computer-science': [32, -10, -16],
   'earth-space': [6, 30, -18],
   'scientific-practice': [-26, -24, -6],
   engineering: [30, -22, 6],
@@ -217,6 +274,9 @@ const DOMAIN_COLOR: Record<string, string> = {
   physics: '#38bdf8',
   chemistry: '#34d399',
   biology: '#f472b6',
+  'earth-science': '#fbbf24',
+  astronomy: '#f97316',
+  'computer-science': '#60a5fa',
   'earth-space': '#fbbf24',
   'scientific-practice': '#a78bfa',
   engineering: '#22d3ee',
@@ -281,14 +341,23 @@ export function projectKnowledgeGraph(
     // Seed each node near its cluster anchor with slight jitter so nodes within
     // a cluster spread out but the cluster stays recognizable.
     const anchor = clusterMap.get(cluster)!;
-    const jitter = () => (Math.random() - 0.5) * 7;
+    const jitter = () => (Math.random() - 0.5) * 6;
+    // Boost fundamental quantities — make them larger and more visible
+    const isFundamental = FUNDAMENTAL_QUANTITIES.has(entity.id);
+    const isDerived = DERIVED_QUANTITIES.has(entity.id);
+    const baseVal = isFundamental ? 4.8 : isDerived ? 3.2 : 1.2;
+    const val = isFundamental
+      ? Math.max(4.2, Math.min(6.5, baseVal + degree * 0.25))
+      : isDerived
+      ? Math.max(2.5, Math.min(4.2, baseVal + degree * 0.18))
+      : Math.max(1.2, Math.min(3.0, baseVal + degree * 0.12));
     return {
       id: entity.id,
       name: entity.name,
       domain: entity.domain,
       type: entity.type,
       status: entity.status,
-      val: Math.max(3, Math.min(12, 3 + degree * 0.8)),
+      val,
       color: domainTheme.color,
       entity,
       cluster,

@@ -1,0 +1,30 @@
+id: stemma:conn.000141
+type: connection
+source: stemma:phys.area
+relation: appears_in_law
+target: stemma:phys.dimensional-analysis
+assertion:
+  status: active
+  type: asserted
+  review:
+    status: unreviewed
+  confidence: 1.0
+  confidence_basis: expert_review
+context:
+  domain: physics
+  subdomain: mechanics
+evidence:
+- type: textbook
+  stance: supports
+  source_ref: stemma:src.nist-si-brochure-9th
+  locator: Ch 1
+  description: "Area appears in stemma:phys.dimensional-analysis \u2014 agreed definition"
+provenance:
+  asserted_by:
+    type: human
+    id: human:curator.001
+  generated_by:
+    type: human
+    id: human:curator.001
+  method:
+    type: manual

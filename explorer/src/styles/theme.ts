@@ -33,6 +33,30 @@ export const GRAPH_THEME = {
       glowColor: 'rgba(255, 77, 157, 0.72)',
       icon: '🧬'
     },
+    'earth-science': {
+      color: '#ffb020',
+      name: 'Earth Science',
+      badgeBg: 'rgba(255, 176, 32, 0.12)',
+      badgeBorder: 'rgba(255, 176, 32, 0.45)',
+      glowColor: 'rgba(255, 176, 32, 0.72)',
+      icon: '🌍'
+    },
+    astronomy: {
+      color: '#f97316',
+      name: 'Astronomy',
+      badgeBg: 'rgba(249, 115, 22, 0.12)',
+      badgeBorder: 'rgba(249, 115, 22, 0.45)',
+      glowColor: 'rgba(249, 115, 22, 0.72)',
+      icon: '🔭'
+    },
+    'computer-science': {
+      color: '#60a5fa',
+      name: 'Computer Science',
+      badgeBg: 'rgba(96, 165, 250, 0.12)',
+      badgeBorder: 'rgba(96, 165, 250, 0.45)',
+      glowColor: 'rgba(96, 165, 250, 0.72)',
+      icon: '💻'
+    },
     'earth-space': {
       color: '#ffb020',
       name: 'Earth & Space',
@@ -68,14 +92,15 @@ export const GRAPH_THEME = {
   } as Record<string, DomainTheme>,
 
   edges: {
-    logically_requires: { color: '#00e5ff', opacity: 0.85, directional: true, particleSpeed: 0.008, width: 2.4 },
-    mathematically_requires: { color: '#3dffb0', opacity: 0.85, directional: true, particleSpeed: 0.009, width: 2.4 },
-    part_of: { color: '#c084fc', opacity: 0.6, directional: true, particleSpeed: 0.004, width: 1.6 },
-    special_case_of: { color: '#ff4d9d', opacity: 0.6, directional: true, particleSpeed: 0.004, width: 1.6 },
-    applies_to: { color: '#ffb020', opacity: 0.7, directional: true, particleSpeed: 0.005, width: 1.9 },
-    appears_in_law: { color: '#ffb020', opacity: 0.5, directional: false, particleSpeed: 0, width: 1.3 },
-    related_to: { color: '#8b93b8', opacity: 0.4, directional: false, particleSpeed: 0, width: 1.1 },
-    default: { color: '#a9b3d9', opacity: 0.34, directional: false, particleSpeed: 0, width: 1.0 }
+    logically_requires: { color: '#00e5ff', opacity: 0.55, directional: true, particleSpeed: 0, width: 0.6 },
+    mathematically_requires: { color: '#3dffb0', opacity: 0.55, directional: true, particleSpeed: 0, width: 0.6 },
+    part_of: { color: '#c084fc', opacity: 0.4, directional: true, particleSpeed: 0, width: 0.4 },
+    special_case_of: { color: '#ff4d9d', opacity: 0.4, directional: true, particleSpeed: 0, width: 0.4 },
+    applies_to: { color: '#ffb020', opacity: 0.45, directional: true, particleSpeed: 0, width: 0.5 },
+    appears_in_law: { color: '#a8b0c8', opacity: 0.32, directional: false, particleSpeed: 0, width: 0.32 },
+    related_to: { color: '#7a82a0', opacity: 0.25, directional: false, particleSpeed: 0, width: 0.28 },
+    derived_from: { color: '#7dd3ff', opacity: 0.42, directional: true, particleSpeed: 0, width: 0.48 },
+    default: { color: '#8a93b8', opacity: 0.22, directional: false, particleSpeed: 0, width: 0.32 }
   },
 
   canvas: {
@@ -101,10 +126,10 @@ export interface TrustStyle {
 }
 
 export const ASSERTION_TRUST: Record<string, TrustStyle> = {
-  canonical: { label: 'Canonical assertion (human-reviewed)', short: 'Canonical', widthScale: 1.35, opacity: 0.95 },
-  reviewed: { label: 'Human-reviewed assertion', short: 'Reviewed', widthScale: 1.0, opacity: 0.7 },
-  unreviewed: { label: 'Unreviewed / machine-migrated assertion', short: 'Unreviewed', widthScale: 0.6, opacity: 0.3 },
-  unknown: { label: 'Trust unknown', short: 'Unknown', widthScale: 0.6, opacity: 0.3 }
+  canonical: { label: 'Canonical assertion (human-reviewed)', short: 'Canonical', widthScale: 1.0, opacity: 0.55 },
+  reviewed: { label: 'Human-reviewed assertion', short: 'Reviewed', widthScale: 0.9, opacity: 0.4 },
+  unreviewed: { label: 'Unreviewed / machine-migrated assertion', short: 'Unreviewed', widthScale: 0.65, opacity: 0.18 },
+  unknown: { label: 'Trust unknown', short: 'Unknown', widthScale: 0.6, opacity: 0.16 }
 };
 
 export function getTrustStyle(status: string | undefined): TrustStyle {

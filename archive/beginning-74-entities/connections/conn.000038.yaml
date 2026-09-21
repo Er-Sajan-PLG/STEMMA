@@ -1,0 +1,30 @@
+id: stemma:conn.000038
+type: connection
+source: stemma:phys.work-energy-theorem
+relation: mathematically_requires
+target: stemma:phys.kinetic-energy
+assertion:
+  status: active
+  type: asserted
+  review:
+    status: unreviewed
+  confidence: 1.0
+  confidence_basis: expert_review
+context:
+  domain: physics
+  subdomain: mechanics
+evidence:
+- type: textbook
+  stance: supports
+  source_ref: stemma:src.halliday-resnick-walker-12th
+  locator: Ch reference
+  description: stemma:phys.work-energy-theorem mathematically requires stemma:phys.kinetic-energy
+provenance:
+  asserted_by:
+    type: human
+    id: human:curator.001
+  generated_by:
+    type: human
+    id: human:curator.001
+  method:
+    type: manual

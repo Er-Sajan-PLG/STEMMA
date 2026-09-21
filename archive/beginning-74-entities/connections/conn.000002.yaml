@@ -1,0 +1,35 @@
+id: stemma:conn.000002
+type: connection
+source: stemma:phys.newtons-second-law
+relation: mathematically_requires
+target: stemma:phys.force
+assertion:
+  status: active
+  type: asserted
+  review:
+    status: unreviewed
+  confidence: 1.0
+  confidence_basis: expert_review
+context:
+  domain: physics
+  subdomain: mechanics
+  regime:
+    - classical
+evidence:
+  - type: textbook
+    stance: supports
+    source_ref: stemma:src.halliday-resnick-walker-12th
+    locator: Ch 5, p115
+    locator_struct:
+      page: "115"
+      section: "5-2"
+    description: Force is subject of second law, law defines force via mass and acceleration
+provenance:
+  asserted_by:
+    type: human
+    id: human:curator.001
+  generated_by:
+    type: human
+    id: human:curator.001
+  method:
+    type: manual

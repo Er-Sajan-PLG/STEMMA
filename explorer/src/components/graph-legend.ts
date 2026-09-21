@@ -75,8 +75,8 @@ export class GraphLegend {
 
     this.container.innerHTML = `
       <div class="graph-legend">
-        <button class="legend-toggle" id="legendToggle">◧ Legend</button>
-        <div class="legend-body">
+        <button class="legend-toggle" id="legendToggle">◨ Legend</button>
+        <div class="legend-body" style="display:none;">
           ${edgeHtml}
           <div class="legend-divider"></div>
           ${trustHtml}
@@ -86,14 +86,16 @@ export class GraphLegend {
       </div>
     `;
 
-    // toggle
+    // Manual only — starts hidden, no auto-popup on render
     const btn = this.container.querySelector('#legendToggle') as HTMLElement;
     const body = this.container.querySelector('.legend-body') as HTMLElement;
-    if (btn) {
+    if (btn && body) {
+      body.style.display = 'none';
+      btn.textContent = '◨ Legend';
       btn.addEventListener('click', () => {
-        const collapsed = body.style.display === 'none';
-        body.style.display = collapsed ? 'flex' : 'none';
-        btn.textContent = collapsed ? '◧ Hide Legend' : '◨ Legend';
+        const isHidden = body.style.display === 'none';
+        body.style.display = isHidden ? 'flex' : 'none';
+        btn.textContent = isHidden ? '◧ Hide Legend' : '◨ Legend';
       });
     }
 
