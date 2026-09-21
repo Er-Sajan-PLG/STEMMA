@@ -67,20 +67,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - name: Check required docs exist
-        run: |
-          for f in AGENTS.md README.md VERSION docs/README.md docs/VISION.md docs/ARCHITECTURE.md docs/DOMAIN-MODEL.md docs/SCHEMA-SPECIFICATION.md docs/METADATA-SPECIFICATION.md docs/RELATIONSHIP-SPECIFICATION.md docs/PIPELINES.md docs/GOVERNANCE.md docs/TESTING.md docs/ROADMAP.md docs/MIGRATIONS.md docs/CURATION-PROTOCOL.md docs/CONSUMERS.md docs/EMBEDDINGS.md docs/RAG.md docs/API.md docs/GUIDELINE-EMBEDDER-RAG.md docs/IMPLEMENTATION-STATUS.md; do if [ ! -f "$f" ]; then echo "FAIL: Missing $f"; exit 1; fi; echo "OK: $f"; done
       - name: Check guideline exists and comprehensive
         run: |
           test -f docs/GUIDELINE-EMBEDDER-RAG.md
           grep -q "Embedder" docs/GUIDELINE-EMBEDDER-RAG.md
           grep -q "content_hash" docs/GUIDELINE-EMBEDDER-RAG.md
           echo "Guideline OK"
-      - name: Docs consistency + independence invariants (ADR-0029, ADR-0027/0051)
+      - name: Documentation contract gate (single canonical command; covers required docs, ADR-0029/0027 invariants, links, recovery registries)
         run: |
           pip install -r requirements.txt -q
-          python3 tests/repo/test_docs_consistency.py
-          python3 tests/repo/test_independence.py
+          python3 -m pip install -q pyyaml
+          python3 scripts/docs.py sync
+          git diff --exit-code
+          python3 scripts/docs.py check
 
   explorer-build:
     name: Explorer Build

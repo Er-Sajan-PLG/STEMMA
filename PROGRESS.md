@@ -38,6 +38,14 @@
   - [x] Specification v0.1.0-pilot + 2 interface contracts + verification design (all UNVERIFIED per §9.1)
   - [x] Two-tier gap analysis + machine-readable registries + minimum validator (9/9 PASS, fail-closed)
   - [x] Baseline BASELINE-STEMMA-2026-09-22-PILOT-CORE-GATE-EXPORT — maturity L2; process review at root
+- [x] **Documentation synchronization & enforcement system, 2026-09-22** (scoped to this repo):
+  - [x] Phase-1 audit: 220-artifact taxonomy census with per-artifact disposition (`docs/meta/doc-taxonomy.yaml`, census generated at `docs/meta/documentation-coverage.md`)
+  - [x] Machine-readable docs contract: ownership kinds CANONICAL/DERIVED/GENERATED/REFERENCE/INDEX + sources + depends_on (`docs/docs-contract.yaml`)
+  - [x] Engine `scripts/docs.py`: `impact` (direct + transitive + unmapped-conservative), `sync` (idempotent), `validate` (contract integrity + broken links + generated drift), `check` (CI-equivalent), `coverage`
+  - [x] Integrated existing gates as declared checks (docs-consistency 12, independence, recovery validator) — no replacement, single canonical command
+  - [x] CI verify-docs now runs sync → `git diff --exit-code` → check (deleted duplicated shell "required docs" list)
+  - [x] Found + fixed: 4 real broken links in CONTRIBUTING.md, `status_truth.py --write` non-idempotency bug (+4 blank lines per run)
+  - [x] Engine self-tests (14) in `tests/repo/test_docs_engine.py` — suite now 147
 
 ## 🔄 In Progress (R4 — Content Acceptance Test, ADR-0052)
 
