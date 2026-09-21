@@ -244,7 +244,7 @@ jobs:
           echo "Branch OK: $branch"
 
   check-conventional-commits:
-    name: Conventional Commits
+    name: Conventional Commits (commitlint)
     runs-on: ubuntu-latest
     if: github.event_name == 'pull_request'
     steps:
