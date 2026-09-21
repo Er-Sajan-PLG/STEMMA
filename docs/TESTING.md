@@ -18,6 +18,7 @@ python3 scripts/export_consumers.py --consumer learninghub --format json  # OK 0
 python3 scripts/status_truth.py --write  # OK README status block written from live counts 1 entities, 0 connections, 3 sources
 python3 scripts/verify_all.py  # OK all verify steps pass — beginning clean, 1 entities (metre via HITL, old 74 archived), 0 connections, HITL enforced, PDF primary deterministic scales, evolvable templates v2.0.0, model selector like DeepSeek harness (local + frontier models), embeddings, RAG, consumer export
 python3 spec/machine-readable/validate_recovery.py  # OK RECOVERY VALIDATOR PASS — 9/9 checks: ID syntax, registered domains, duplicates, reference integrity, legal lifecycles, approval metadata, verification-on-approved, verified⇒approved, traceability (New 2026-09-22 spec recovery pilot)
+python3 scripts/docs.py check  # OK DOCUMENTATION CONTRACT PASS — 14-category census + contract integrity + links + ADR-0029/0027 invariants + recovery registries, CI-equivalent (New 2026-09-22 documentation sync system; see docs/DOCUMENTATION-SYSTEM.md)
 ```
 
 ## Tests — layered

@@ -1,4 +1,4 @@
-.PHONY: help verify validate strong-verify quick-verify explorer-build webapp-test embed-test rag-test consumer-test security docs deterministic no-wall-clock id-immutability all ci-local install-hooks clean
+.PHONY: help verify validate strong-verify quick-verify explorer-build webapp-test embed-test rag-test consumer-test security docs docs-sync docs-impact docs-coverage deterministic no-wall-clock id-immutability all ci-local install-hooks clean
 
 help:
 	@echo "STEMMA Strong CI — Nothing Bad Gets Pushed/Merged"
@@ -51,7 +51,16 @@ security:
 	@echo "No secrets OK"
 
 docs:
-	@python3 tests/repo/test_docs_consistency.py
+	@python3 scripts/docs.py check
+
+docs-sync:
+	@python3 scripts/docs.py sync
+
+docs-impact:
+	@python3 scripts/docs.py impact
+
+docs-coverage:
+	@python3 scripts/docs.py coverage --write
 	@python3 tests/repo/test_independence.py
 	@echo "Docs OK"
 

@@ -58,6 +58,7 @@ All early work from start included as implementation of new architecture, not pr
 | Specification recovery program (pilot charter, roles/authority, domain registry) | [../spec/PILOT_CHARTER.md](../spec/PILOT_CHARTER.md) |
 | Recovered specification baseline (L2, 22 PROPOSED requirements, 2 interfaces, validator) | [../spec/BASELINE.md](../spec/BASELINE.md) |
 | Recovery process review (mandatory, root) | [../SPECIFICATION_PROCESS_REVIEW.md](../SPECIFICATION_PROCESS_REVIEW.md) |
+| Documentation sync & enforcement system (contract, impact, census) | [DOCUMENTATION-SYSTEM.md](DOCUMENTATION-SYSTEM.md) |
 | Ingestion Primary PDF primary HITL | [INGESTION-PRIMARY.md](INGESTION-PRIMARY.md) |
 | Agent deterministic protocol HITL | [AGENT.md](AGENT.md) |
 | Reset and HITL Guide beginning clean | [RESET-AND-HITL-GUIDE.md](RESET-AND-HITL-GUIDE.md) |
