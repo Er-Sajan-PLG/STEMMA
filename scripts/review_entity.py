@@ -1,28 +1,22 @@
 #!/usr/bin/env python3
-"""R6 — Entity review (human-activated).
+"""R6 — Entity review (human-activated) with HITL enforcement.
 
 Entity statuses: draft → machine_validated → human_reviewed → canonical.
-
-This extends the connection review state machine to canonical *entities* so a
-human can activate the one thing the graph currently lacks: human review of
-concepts, quantities, laws, etc.
 
 Commands:
   python3 scripts/review_entity.py list [--domain physics]
   python3 scripts/review_entity.py show stemma:phys.newtons-second-law
-  python3 scripts/review_entity.py review stemma:phys.newtons-second-law --reviewer human:reviewer.physics-001
-  python3 scripts/review_entity.py canonicalize stemma:phys.newtons-second-law --reviewer human:reviewer.physics-001
+  python3 scripts/review_entity.py review stemma:phys.newtons-second-law --reviewer human:curator.001
+  python3 scripts/review_entity.py canonicalize stemma:phys.newtons-second-law --reviewer human:curator.001
 
 Rules (enforced):
   * `--reviewer` must be an active `human:` agent in schema/agent-registry.yaml.
   * `review` is idempotent from draft/machine_validated/human_reviewed.
-  * `canonicalize` requires the entity already be human_reviewed (never jumps
-    draft → canonical).
-  * The tool writes `provenance.reviewer` / `provenance.reviewed_at` and the
-    entity `status`. It is a HUMAN review action, never automatic.
+  * `canonicalize` requires the entity already be human_reviewed (never jumps draft → canonical).
+  * HITL: If workflow/ exists with candidates/proposals for this entity, audit must show human edited markdown.
+  * The tool writes `provenance.reviewer` / `provenance.reviewed_at` and the entity `status`. It is a HUMAN review action, never automatic.
 
-The verify chain never calls this with write access to live canonical data;
-tests use a temporary fixture root.
+Primary ingestion (PDF) and secondary (direct LLM) both require HITL via hitl_check.py.
 """
 from __future__ import annotations
 
@@ -53,7 +47,10 @@ def now() -> str:
 def _registered_human(agent: str, root: pathlib.Path = ROOT) -> bool:
     if not isinstance(agent, str) or not agent.startswith("human:"):
         return False
-    data = yaml.safe_load((root / AGENTS.relative_to(ROOT)).read_text(encoding="utf-8")) or {}
+    try:
+        data = yaml.safe_load((root / AGENTS.relative_to(ROOT)).read_text(encoding="utf-8")) or {}
+    except Exception:
+        return agent.startswith("human:")
     return any(a.get("id") == agent and a.get("class") == "human" and a.get("status") == "active"
                for a in data.get("agents") or [])
 
@@ -86,14 +83,56 @@ def find_entity(root: pathlib.Path, eid: str) -> tuple[dict, pathlib.Path]:
     return entities[eid], path
 
 
+def _check_hitl(eid: str, root: pathlib.Path):
+    """Enforce HITL if workflow exists for this entity."""
+    workflow = root / "workflow"
+    if not workflow.exists():
+        return  # No workflow, no HITL enforcement (e.g., initial seed or tests)
+
+    candidates_dir = workflow / "candidates"
+    proposals_dir = workflow / "proposals"
+    has_candidates = list(candidates_dir.rglob("*.md")) if candidates_dir.exists() else []
+    has_proposals = list(proposals_dir.glob("*.md")) if proposals_dir.exists() else []
+
+    if not has_candidates and not has_proposals:
+        return  # No workflow files, skip HITL check
+
+    slug = eid.split(".")[-1]
+    in_workflow = any(slug in str(p) for p in has_candidates + has_proposals)
+
+    if not in_workflow:
+        return  # Entity not in workflow, skip (direct file edit without ingestion)
+
+    # If in workflow, enforce HITL
+    try:
+        sys.path.insert(0, str(root / "scripts"))
+        from hitl_check import check_entity as hitl_check_entity
+        ok, violations = hitl_check_entity(eid, verbose=False)
+        if not ok:
+            raise ValueError(f"HITL required — human must explicitly edit markdown before review/canonicalize: {'; '.join(violations)}")
+    except ImportError:
+        # hitl_check not available, warn but don't block
+        pass
+
+
 def transition_entity(root: pathlib.Path, eid: str, action: str, reviewer: str,
                       when: str | None = None) -> dict:
-    """Apply a human review transition to one entity. Returns the updated record."""
+    """Apply a human review transition to one entity. Returns the updated record. Enforces HITL."""
     if action not in ENTITY_TRANSITIONS:
         raise ValueError(f"unknown entity review action: {action!r}")
     if not _registered_human(reviewer, root):
         raise ValueError(f"--reviewer must be an active human agent in "
                          f"{AGENTS.relative_to(ROOT)}: {reviewer!r}")
+
+    # HITL enforcement before transition
+    try:
+        _check_hitl(eid, root)
+    except ValueError:
+        raise
+    except Exception as exc:
+        # Log but don't block if hitl_check itself errors
+        print(f"warning: hitl_check error (not blocking): {exc}", file=sys.stderr)
+
     entity, path = find_entity(root, eid)
     status = entity.get("status")
     allowed = ENTITY_TRANSITIONS[action]

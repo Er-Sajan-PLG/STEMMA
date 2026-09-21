@@ -144,6 +144,17 @@ class _Handler(BaseHTTPRequestHandler):
             import providers
             models = providers.fetch_provider_models(provider, free_only=free_only)
             return 200, {"models": models}
+        if path == "/api/models/embedding":
+            # Embedding models — model selector like DeepSeek harness (local + frontier models) for embeddings
+            try:
+                import yaml
+                emb_path = ROOT / "schema/embedding-registry.yaml"
+                if emb_path.exists():
+                    data = yaml.safe_load(emb_path.read_text(encoding="utf-8"))
+                    return 200, {"models": data.get("models", []), "default": data.get("default_model")}
+            except Exception as e:
+                pass
+            return 200, {"models": [], "default": "sentence-transformers/all-MiniLM-L6-v2"}
         if path == "/api/documents":
             return 200, {"documents": wf.list_documents()}
         if path == "/api/candidates":
@@ -153,6 +164,130 @@ class _Handler(BaseHTTPRequestHandler):
             return 200, {"proposals": wf.list_proposals()}
         if path == "/api/audit":
             return 200, {"events": wf.read_audit()}
+        # NEW — RAG search (GET)
+        if path == "/api/rag/search":
+            q = self._query_value(query, "q")
+            if not q:
+                raise WebappError("missing q")
+            top_k = int(self._query_value(query, "top_k") or self._query_value(query, "limit") or "5")
+            model = self._query_value(query, "model")
+            domain = self._query_value(query, "domain")
+            try:
+                import sys
+                sys.path.insert(0, str(ROOT / "scripts"))
+                import rag as rag_module
+                results = rag_module.vector_search(q, top_k=top_k, model_id=model, domain=domain)
+                return 200, {"query": q, "top_k": top_k, "results": results}
+            except Exception as e:
+                return 200, {"query": q, "error": str(e), "hint": "run python3 scripts/embed.py first", "results": []}
+        # NEW — Embeddings
+        if path == "/api/embeddings":
+            model_id = self._query_value(query, "model") or "sentence-transformers/all-MiniLM-L6-v2"
+            emb_path = ROOT / "exports/embeddings.jsonl"
+            if not emb_path.exists():
+                return 200, {"model": model_id, "error": "embeddings not generated, run python3 scripts/embed.py", "count": 0, "embeddings": []}
+            results=[]
+            limit = int(self._query_value(query, "limit") or "20")
+            with open(emb_path, 'r', encoding='utf-8') as f:
+                for line in f:
+                    try:
+                        emb=json.loads(line)
+                    except:
+                        continue
+                    if emb.get('model') != model_id:
+                        continue
+                    results.append({k: v for k,v in emb.items() if k != 'vector'})
+                    if len(results)>=limit:
+                        break
+            return 200, {"model": model_id, "count": len(results), "embeddings": results}
+        # NEW — Export for consumer
+        if path == "/api/export":
+            consumer = self._query_value(query, "consumer") or "general"
+            fmt = self._query_value(query, "format") or "json"
+            try:
+                import sys
+                sys.path.insert(0, str(ROOT / "scripts"))
+                import export_consumers
+                # For GET, just return preview via filtering
+                export_path = ROOT / "exports/knowledge.json"
+                import json as js
+                data = js.loads(export_path.read_text(encoding='utf-8'))
+                # Simple filter by consumer
+                import yaml
+                reg_path = ROOT / "schema/consumer-registry.yaml"
+                if reg_path.exists():
+                    reg = yaml.safe_load(reg_path.read_text(encoding='utf-8'))
+                    cfg = reg.get('consumers',{}).get(consumer,{})
+                    domains = cfg.get('domains',[])
+                    ents = data.get('entities',[])
+                    if domains and domains != 'all':
+                        ents = [e for e in ents if e.get('domain') in domains]
+                    return 200, {"consumer": consumer, "format": fmt, "entity_count": len(ents), "entities": ents[:20], "config": cfg}
+                return 200, {"consumer": consumer, "entities": data.get('entities',[])[:20]}
+            except Exception as e:
+                return 200, {"consumer": consumer, "error": str(e)}
+        # NEW — Semantic Acquisition Pipeline GET endpoints
+        if path == "/api/semantic/claims":
+            doc_id = self._query_value(query, "doc_id")
+            if not doc_id:
+                raise WebappError("doc_id required")
+            try:
+                wf = self.workflow
+                candidates_dir = wf.root / f"candidates/{doc_id}"
+                possible = [
+                    candidates_dir / "semantic_claims.json",
+                    candidates_dir / "semantic_claims_verified.json",
+                    candidates_dir / "semantic_claims_resolved.json"
+                ]
+                for pf in possible:
+                    if pf.exists():
+                        import json as js
+                        data = js.loads(pf.read_text())
+                        return 200, data
+                return 200, {"doc_id": doc_id, "claims": [], "message": "no semantic claims yet, run /api/semantic/extract"}
+            except Exception as e:
+                return 200, {"error": str(e), "claims": []}
+
+        if path == "/api/semantic/proposals/list":
+            try:
+                proposals_dir = ROOT / "proposals"
+                import json as js, yaml
+                proposals=[]
+                for f in list(proposals_dir.glob("*.yaml"))[:20] + list(proposals_dir.glob("*.json"))[:20]:
+                    try:
+                        if f.suffix==".yaml":
+                            data=yaml.safe_load(f.read_text())
+                        else:
+                            data=js.loads(f.read_text())
+                        proposals.append({"proposal_id": data.get("proposal_id"), "claim": data.get("claim"), "evidence": {"text_span": data.get("evidence",{}).get("text_span","")[:100]}, "verification": data.get("verification",{}).get("status")})
+                    except:
+                        continue
+                return 200, {"proposals": proposals, "count": len(proposals)}
+            except Exception as e:
+                return 200, {"error": str(e), "proposals": []}
+
+        if path == "/api/semantic/registries":
+            try:
+                import yaml
+                result={}
+                for name in ["template-registry", "embedding-registry", "consumer-registry", "llm-registry"]:
+                    rp = ROOT / f"schema/{name}.yaml"
+                    if rp.exists():
+                        data=yaml.safe_load(rp.read_text())
+                        result[name] = {"version": data.get("version"), "count": len(data.get("domains",{}) or data.get("models",{}) or data.get("consumers",{}) or data.get("roles",{}))}
+                return 200, result
+            except Exception as e:
+                return 200, {"error": str(e)}
+
+        # NEW — OpenAPI
+        if path == "/api/openapi" or path == "/openapi.yaml":
+            try:
+                import yaml
+                api_path = ROOT / "schema/api.yaml"
+                if api_path.exists():
+                    return 200, yaml.safe_load(api_path.read_text(encoding='utf-8'))
+            except Exception as e:
+                return 200, {"error": str(e)}
         if path.endswith("/text") and path.startswith("/api/documents/"):
             doc_id = self._id_from_path(path, "/api/documents/", suffix="/text")
             doc = wf.get_document(doc_id)
@@ -218,6 +353,84 @@ class _Handler(BaseHTTPRequestHandler):
             doc_id = self._id_from_path(path, "/api/documents/", suffix="/generate")
             body = self._read_json_body()
             return 200, wf.generate_candidates(doc_id, target_kinds=body.get("target_kinds"))
+        if path.endswith("/deterministic-draft"):
+            doc_id = self._id_from_path(path, "/api/documents/", suffix="/deterministic-draft")
+            # Deterministic draft — no LLM, uses evolvable templates, scales
+            try:
+                import sys
+                sys.path.insert(0, str(ROOT / "scripts"))
+                from evolvable_template import deterministic_extract, build_markdown, load_registry
+                registry = load_registry()
+                text_path = wf.root / f"extraction/{doc_id}.txt"
+                if not text_path.exists():
+                    raise Exception(f"Extraction not found for {doc_id}, run Extract first")
+                text = text_path.read_text(encoding="utf-8")
+                entities = deterministic_extract(text, registry)
+                # Build candidates deterministically
+                import uuid, json
+                from datetime import datetime, timezone
+                now = datetime.now(timezone.utc).isoformat()
+                candidates_dir = wf.root / f"candidates/{doc_id}"
+                candidates_dir.mkdir(parents=True, exist_ok=True)
+                candidates=[]
+                for ent in entities:
+                    md = build_markdown(ent, registry)
+                    md_path = candidates_dir / f"{ent['slug']}.md"
+                    md_path.write_text(md, encoding="utf-8")
+                    candidates.append({
+                        "id": f"cand-{ent['slug']}-001",
+                        "doc_id": doc_id,
+                        "kind": "entity",
+                        "proposal": {
+                            "id": ent["id"],
+                            "type": ent["type"],
+                            "name": ent["name"],
+                            "domain": ent["domain"],
+                            "subdomain": ent["subdomain"],
+                            "status": "draft",
+                            "definition": ent["pdf_definition"] if ent.get("has_exact") else f"{ent['name']} defined per SI Brochure with exact constants",
+                            "symbol": ent.get("symbol",""),
+                            "unit": ent.get("unit",""),
+                            "governed_by": ent.get("governed_by",[]),
+                            "provenance": {
+                                "ai_drafted": False,
+                                "writer": "human:curator.001",
+                                "source_kind": "standards-or-specification",
+                                "source": f"Deterministic from {doc_id} + SI Brochure constants",
+                                "link": "https://www.bipm.org/en/publications/si-brochure",
+                                "original_author": "BIPM & Halliday, Resnick, Walker",
+                                "retrieved_at": now[:10]
+                            },
+                            "source_refs": ent.get("source_refs",[]),
+                            "external_ids": {"wd": "Q0"}
+                        },
+                        "findings": [],
+                        "markdown_path": f"candidates/{doc_id}/{ent['slug']}.md",
+                        "human_edited": False,
+                        "created_at": now,
+                        "updated_at": now
+                    })
+                # Write candidates json
+                cand_json_path = wf.root / f"candidates/{doc_id}.json"
+                # Merge with existing if any
+                existing = {}
+                if cand_json_path.exists():
+                    try:
+                        existing = json.loads(cand_json_path.read_text())
+                    except:
+                        existing = {}
+                existing_cands = existing.get("candidates", [])
+                # Deduplicate by id
+                existing_ids = {c["proposal"]["id"] for c in existing_cands}
+                for c in candidates:
+                    if c["proposal"]["id"] not in existing_ids:
+                        existing_cands.append(c)
+                out = {"doc_id": doc_id, "generated_at": now, "candidates": existing_cands or candidates}
+                cand_json_path.write_text(json.dumps(out, indent=2), encoding="utf-8")
+                wf.log("candidates_generated", doc_id=doc_id, detail={"count": len(out["candidates"]), "deterministic": True, "markdown_previews": [c["markdown_path"] for c in out["candidates"]]})
+                return 200, out
+            except Exception as e:
+                raise Exception(f"Deterministic draft failed: {e}")
         if path.endswith("/stage"):
             candidate_id = self._id_from_path(path, "/api/candidates/", suffix="/stage")
             body = self._read_json_body()
@@ -225,6 +438,156 @@ class _Handler(BaseHTTPRequestHandler):
             if not reviewer:
                 raise WebappError("reviewer is required to stage a proposal")
             return 201, wf.stage_candidate(candidate_id, reviewer=reviewer, note=str(body.get("note") or ""))
+        # NEW — RAG query POST
+        if path == "/api/rag/query":
+            body = self._read_json_body()
+            question = body.get("question") or body.get("q")
+            if not question:
+                raise WebappError("missing question")
+            top_k = int(body.get("top_k") or 5)
+            model_id = body.get("model") or "deepseek/deepseek-r1:free"
+            embedding_model = body.get("embedding_model")
+            domain = body.get("domain")
+            consumer = body.get("consumer") or "general"
+            try:
+                import sys
+                sys.path.insert(0, str(ROOT / "scripts"))
+                import rag as rag_module
+                result = rag_module.rag_query(question, top_k=top_k, model_id=model_id, embedding_model=embedding_model, domain=domain, consumer=consumer)
+                return 200, result
+            except Exception as e:
+                return 200, {"question": question, "answer": f"RAG failed: {e} — run python3 scripts/embed.py first", "error": str(e), "citations": [], "retrieved_entities": []}
+
+        # NEW — Semantic Acquisition Pipeline endpoints
+        if path == "/api/semantic/extract":
+            body = self._read_json_body()
+            doc_id = body.get("doc_id")
+            text = body.get("text")
+            source_id = body.get("source_id") or "stemma:src.test"
+            model_id = body.get("model") or "deterministic"
+            provider = body.get("provider") or "deterministic"
+            try:
+                import sys
+                sys.path.insert(0, str(ROOT / "scripts"))
+                import semantic_extract
+                if doc_id:
+                    # Load from workflow
+                    wf = self.workflow
+                    meta_path = wf.root / "meta" / f"{doc_id}.json"
+                    if not meta_path.exists():
+                        raise NotFound(f"document not found: {doc_id}")
+                    meta = json.loads(meta_path.read_text())
+                    extraction = meta.get("extraction", {})
+                    text_path = extraction.get("text_path")
+                    if text_path:
+                        full_text = (wf.root / text_path).read_text(encoding="utf-8")
+                    else:
+                        full_text = (wf.root / "documents" / f"{doc_id}.txt").read_text(encoding="utf-8")
+                    claims = semantic_extract.semantic_extract(full_text, source_id=source_id, model_id=model_id, provider=provider)
+                    # Save to candidates
+                    import uuid
+                    from datetime import datetime, timezone
+                    candidates_dir = wf.root / f"candidates/{doc_id}"
+                    candidates_dir.mkdir(parents=True, exist_ok=True)
+                    out_path = candidates_dir / "semantic_claims.json"
+                    out_data = {
+                        "document_id": doc_id,
+                        "source_id": source_id,
+                        "extraction": {"model_provider": provider, "model_id": model_id, "created_at": datetime.now(timezone.utc).isoformat()},
+                        "claims": claims,
+                        "count": len(claims)
+                    }
+                    out_path.write_text(json.dumps(out_data, indent=2), encoding="utf-8")
+                    return 200, out_data
+                elif text:
+                    claims = semantic_extract.semantic_extract(text, source_id=source_id, model_id=model_id, provider=provider)
+                    return 200, {"source_id": source_id, "claims": claims, "count": len(claims)}
+                else:
+                    raise WebappError("doc_id or text required")
+            except Exception as e:
+                return 200, {"error": str(e), "claims": [], "hint": "run pdf_ingest_primary.py --check-registries first"}
+
+        if path == "/api/semantic/verify":
+            body = self._read_json_body()
+            claims_file = body.get("claims_file")
+            verifier_model = body.get("verifier_model") or "anthropic/claude-3-haiku"
+            provider = body.get("provider") or "openrouter"
+            try:
+                import sys
+                sys.path.insert(0, str(ROOT / "scripts"))
+                import verify_claim
+                if claims_file:
+                    p = Path(claims_file)
+                    if not p.is_absolute():
+                        p = ROOT / p
+                    data = json.loads(p.read_text())
+                    result = verify_claim.verify_claims(data, verifier_model_id=verifier_model, verifier_provider=provider)
+                    return 200, result
+                else:
+                    raise WebappError("claims_file required")
+            except Exception as e:
+                return 200, {"error": str(e)}
+
+        if path == "/api/semantic/conflicts":
+            body = self._read_json_body()
+            claims_file = body.get("claims_file")
+            try:
+                import sys
+                sys.path.insert(0, str(ROOT / "scripts"))
+                import conflict_analysis
+                if claims_file:
+                    p = Path(claims_file)
+                    if not p.is_absolute():
+                        p = ROOT / p
+                    data = json.loads(p.read_text())
+                    result = conflict_analysis.analyze_conflicts(data)
+                    return 200, result
+                else:
+                    raise WebappError("claims_file required")
+            except Exception as e:
+                return 200, {"error": str(e)}
+
+        if path == "/api/semantic/proposals":
+            body = self._read_json_body()
+            doc_id = body.get("doc_id") or "test-doc"
+            claims_file = body.get("claims_file")
+            try:
+                import sys
+                sys.path.insert(0, str(ROOT / "scripts"))
+                import proposal_generate
+                if claims_file:
+                    p = Path(claims_file)
+                    if not p.is_absolute():
+                        p = ROOT / p
+                    data = json.loads(p.read_text())
+                    proposals = proposal_generate.generate_proposals(data, doc_id=doc_id)
+                    written = proposal_generate.write_proposals(proposals, doc_id)
+                    return 200, {"doc_id": doc_id, "proposals": proposals[:5], "count": len(proposals), "written": written}
+                else:
+                    raise WebappError("claims_file required")
+            except Exception as e:
+                return 200, {"error": str(e)}
+
+        if path == "/api/semantic/resolve":
+            body = self._read_json_body()
+            claims_file = body.get("claims_file")
+            threshold = float(body.get("threshold") or 0.85)
+            try:
+                import sys
+                sys.path.insert(0, str(ROOT / "scripts"))
+                import entity_resolution
+                if claims_file:
+                    p = Path(claims_file)
+                    if not p.is_absolute():
+                        p = ROOT / p
+                    data = json.loads(p.read_text())
+                    resolved = entity_resolution.resolve_claim_entities(data, threshold=threshold)
+                    return 200, {"claims": resolved[:5], "count": len(resolved)}
+                else:
+                    raise WebappError("claims_file required")
+            except Exception as e:
+                return 200, {"error": str(e)}
+
         raise NotFound(f"unknown route: {path}")
 
     def _dispatch_patch(self) -> tuple[int, Any]:
@@ -236,7 +599,10 @@ class _Handler(BaseHTTPRequestHandler):
             proposal = body.get("proposal")
             if not isinstance(proposal, dict):
                 raise WebappError("proposal object is required")
-            return 200, self.workflow.update_candidate(candidate_id, proposal=proposal)
+            # HITL: support explicit markdown edit
+            edited_markdown = body.get("edited_markdown")
+            human_edited = bool(body.get("human_edited") or edited_markdown)
+            return 200, self.workflow.update_candidate(candidate_id, proposal=proposal, edited_markdown=edited_markdown, human_edited=human_edited)
         raise NotFound(f"unknown route: {path}")
 
     def _dispatch_delete(self) -> tuple[int, Any]:

@@ -61,7 +61,7 @@ ALIASES = {
 
 # Canonical provider ids. ``aliases`` above are accepted by save_llm_config but
 # are canonicalized before persistence so a future reader never has to guess.
-PROVIDER_IDS = ("antigravity", "gemini_api", "vertex_ai", "openai_compatible", "openrouter", "nvidia", "opencode")
+PROVIDER_IDS = ("deterministic", "antigravity", "gemini_api", "vertex_ai", "openai_compatible", "openrouter", "nvidia", "opencode")
 
 
 class ProviderError(ValueError):
@@ -88,6 +88,20 @@ class ProviderSpec:
 
 
 SPECS: dict[str, ProviderSpec] = {
+    "deterministic": ProviderSpec(
+        id="deterministic",
+        label="Deterministic (no LLM) — scales, evolvable templates",
+        needs_base_url=False,
+        needs_api_key=False,
+        needs_model=False,
+        defaults={"base_url": "", "model": "", "transport": ""},
+        hint=(
+            "No LLM needed. Uses schema/template-registry.yaml with regex rules + exact SI constants (c, h, ΔνCs, e, k, N_A, K_cd). "
+            "Scales to any domain (physics, chemistry, biology, math), any number of PDFs, no cost, no hallucination. "
+            "Evolvable templates — add new domain via python3 scripts/evolvable_template.py --evolve. "
+            "LLM fallback only when PDF missing exact SI definition — then you can choose frontier model."
+        ),
+    ),
     "antigravity": ProviderSpec(
         id="antigravity",
         label="Antigravity (official local agent: SDK then CLI)",
@@ -193,6 +207,8 @@ def availability(provider: str | None, config: dict[str, Any] | None = None) -> 
     """Describe whether a provider can be used without making a network call."""
     cid = canonical_provider(provider)
     cfg = config or {}
+    if cid == "deterministic":
+        return {"ok": True, "mechanism": "deterministic", "message": "Deterministic (no LLM) — scales, uses evolvable templates from schema/template-registry.yaml with exact SI constants. No model needed, no cost, no hallucination."}
     if cid == "antigravity":
         if _sdk_importable():
             return {"ok": True, "mechanism": "antigravity-sdk", "message": "Antigravity SDK installed."}
@@ -618,6 +634,10 @@ def probe(config: dict[str, Any]) -> dict[str, Any]:
 
 def chat(config: dict[str, Any], prompt: str) -> dict[str, Any]:
     cid = canonical_provider(config.get("provider") or "")
+    if cid == "deterministic":
+        # Deterministic (no LLM) — should use deterministic-draft endpoint, not chat
+        # But if called, return empty candidates to indicate use deterministic path
+        raise ProviderError("Deterministic (no LLM) selected — use Deterministic Draft button (no LLM, scales) which uses schema/template-registry.yaml regex + exact SI constants. No model needed. For LLM fallback when PDF missing exact SI, choose frontier model (DeepSeek R1, Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro) or custom model in Settings.")
     if cid == "antigravity":
         return _antigravity_chat(config, prompt)
     if cid == "gemini_api":
@@ -626,11 +646,19 @@ def chat(config: dict[str, Any], prompt: str) -> dict[str, Any]:
         return _vertex_chat(config, prompt)
     if cid == "openai_compatible":
         return _openai_chat(config, prompt)
+    if cid == "openrouter":
+        return _openai_chat(config, prompt)
+    if cid == "nvidia":
+        return _openai_chat(config, prompt)
+    if cid == "opencode":
+        return _openai_chat(config, prompt)
     raise ProviderNotConfigured(f"unknown provider: {config.get('provider')}")
 
 
 def list_models(config: dict[str, Any]) -> dict[str, Any]:
     cid = canonical_provider(config.get("provider") or "")
+    if cid == "deterministic":
+        return {"ok": True, "provider": cid, "count": 0, "models": [], "mechanism": "deterministic", "message": "Deterministic (no LLM) — no models needed, uses evolvable templates. Scales without model."}
     if cid == "antigravity":
         if _agy_which():
             try:
@@ -661,28 +689,75 @@ def list_models(config: dict[str, Any]) -> dict[str, Any]:
         models = _http_models(config, "openai_compatible",
                               headers={"Authorization": f"Bearer {config.get('api_key', '')}"})
         return {"ok": True, "provider": cid, "count": len(models), "models": models}
+    if cid == "openrouter":
+        # Try live fetch, fallback to frontier catalog
+        try:
+            live = fetch_provider_models("openrouter", api_key=config.get("api_key",""), free_only=False)
+            ids = [m["id"] for m in live]
+            return {"ok": True, "provider": cid, "count": len(ids), "models": ids, "message": f"Loaded {len(ids)} from OpenRouter"}
+        except Exception:
+            return {"ok": True, "provider": cid, "count": len(FREE_MODEL_CATALOG.get("openrouter",[])), "models": FREE_MODEL_CATALOG.get("openrouter",[]), "message": "OpenRouter catalog fallback"}
+    if cid == "nvidia":
+        try:
+            live = fetch_provider_models("nvidia", api_key=config.get("api_key",""), free_only=False)
+            ids = [m["id"] for m in live]
+            return {"ok": True, "provider": cid, "count": len(ids), "models": ids, "message": f"Loaded {len(ids)} from NVIDIA NIM"}
+        except Exception:
+            return {"ok": True, "provider": cid, "count": len(FREE_MODEL_CATALOG.get("nvidia",[])), "models": FREE_MODEL_CATALOG.get("nvidia",[]), "message": "NVIDIA NIM catalog fallback"}
+    if cid == "opencode":
+        return {"ok": True, "provider": cid, "count": 2, "models": ["opencode-zen", "opencode/free-coder"], "message": "OpenCode catalog"}
     raise ProviderNotConfigured(f"unknown provider: {config.get('provider')}")
 
 
 #: Curated known-free models per provider, used as a deterministic fallback catalog
 #: when a live /models listing is unavailable or the provider has no listing
 #: endpoint. Read-only; never fetched from a network by this module.
+#: Includes frontier models like DeepSeek R1, Claude, GPT-4o, Gemini 2.5 Pro — like DeepSeek harness
 FREE_MODEL_CATALOG: dict[str, list[str]] = {
+    "deterministic": [],
     "openai_compatible": [
         "meta-llama/llama-3.3-70b-instruct:free",
         "deepseek/deepseek-r1:free",
+        "deepseek/deepseek-v3:free",
         "google/gemini-2.0-flash-exp:free",
         "nvidia/nemotron-3.5-lightning:free",
         "qwen/qwen-2.5-72b-instruct:free",
+        "anthropic/claude-3.5-sonnet",
+        "openai/gpt-4o",
+        "google/gemini-2.5-pro",
+    ],
+    "openrouter": [
+        "deepseek/deepseek-r1:free",
+        "deepseek/deepseek-v3:free",
+        "deepseek/deepseek-r1",
+        "deepseek/deepseek-v3",
+        "anthropic/claude-3.5-sonnet",
+        "anthropic/claude-3-opus",
+        "openai/gpt-4o",
+        "openai/gpt-4o-mini",
+        "openai/o1",
+        "google/gemini-2.5-pro",
+        "google/gemini-2.0-flash-exp:free",
+        "meta-llama/llama-3.3-70b-instruct:free",
+        "meta-llama/llama-3.1-405b-instruct",
+        "qwen/qwen-2.5-72b-instruct:free",
+    ],
+    "nvidia": [
+        "meta/llama-3.3-70b-instruct",
+        "deepseek-ai/deepseek-r1",
+        "nvidia/llama-3.1-nemotron-70b-instruct",
+        "meta/llama-3.1-405b-instruct",
     ],
     "gemini_api": [
         "gemini-2.5-flash",
         "gemini-2.5-pro",
         "gemini-2.5-flash-lite",
         "gemini-2.0-flash",
+        "gemini-2.0-flash-exp",
     ],
     "vertex_ai": [],
     "antigravity": _antigravity_unknown_models(),
+    "opencode": ["opencode-zen", "opencode/free-coder"],
 }
 
 

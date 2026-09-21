@@ -1,0 +1,37 @@
+id: stemma:conn.000001
+type: connection
+source: stemma:phys.<source-slug>
+relation: mathematically_requires  # only from minimal set: mathematically_requires, derived_from, appears_in_law, applies_to, generalizes, special_case_of, part_of, approximates
+target: stemma:phys.<target-slug>
+
+assertion:
+  status: active
+  type: asserted
+  review:
+    status: unreviewed
+  confidence: 1.0
+  confidence_basis: expert_review
+
+context:
+  domain: physics
+  subdomain: mechanics
+  regime: [classical]
+  assumptions: [non-relativistic]
+
+evidence:  # MANDATORY >=1 for physics-core v2
+  - type: textbook
+    stance: supports
+    source_ref: stemma:src.halliday-resnick-walker-12th  # must resolve to sources/
+    locator: "Ch 5, Eq 5-1, p112"
+    locator_struct:
+      page: "112"
+      section: "5-2"
+      equation: "5-1"
+    description: "Why this source supports the claim"
+
+provenance:
+  asserted_by: {type: human, id: human:curator.001}
+  generated_by: {type: human, id: human:curator.001}
+  method: {type: manual}
+  writer: human:curator.001
+  link: "https://..."

@@ -1,98 +1,70 @@
-# Curation Protocol
+# CURATION-PROTOCOL (BEGINNING, NO LEGACY, HITL, EVOLVABLE, FRONTIER)
 
-**Status:** Authoritative review protocol (human review workflow).
+**Status:** Beginning clean, 1 entity (metre) via PDF primary ingestion with HITL, deterministic scales, evolvable templates, model selector like DeepSeek harness (local + frontier models). Old 74 entities archived.
 
-## 1. Status definitions
+## Evidence mandatory for physics-core + HITL
 
-| State | Meaning |
-|-------|---------|
-| `proposed` | Candidate assertion, unreviewed; may be LLM or migration-generated |
-| `asserted` | Directly authored assertion awaiting review (migration legacy uses proposed, not asserted) |
-| `reviewed` | Human has reviewed and accepted as scientifically sound; not yet canonical |
-| `canonical` | Human-reviewed and endorsed as established knowledge; trusted export includes it |
-| `rejected` | Human has reviewed and rejected; remains auditable, never deleted |
-| `deprecated` | Superseded by newer assertion; retained with `deprecated_by` |
-| `inferred` | `assertion.type == inferred` with `inference.rule`/`path`; review independent of type |
+Every connection must have >=1 evidence with:
+- type, stance, source_ref (must resolve to sources/), locator (page), description
 
-> A schema-valid connection is not necessarily a scientifically accepted assertion. Schema correctness ≠ semantic acceptance.
+Every entity must have:
+- source_kind, source, writer human:*, original_author, link bipm.org, retrieved_at
+- source_refs >=1 resolving to sources/ with url/doi/isbn
+- governed_by >=1 law from registry, deterministic placement, no LLM
+- Standard scientific definition with exact SI (see below)
 
-## 2. Transitions (authoritative — see `scripts/curation_state.py`)
+History:
+- Draft: optional
+- Law/model/equation human_reviewed/canonical: historical mandatory with stated_by, year, where, timeline[]
 
+HITL (Human In The Loop) before canonical — mandatory for both primary PDF and secondary direct LLM:
+- AI shows markdown preview in webapp (textarea + rendered + checklist)
+- Human explicitly edits markdown file for easy verification (plain text diffable)
+- Audit trail workflow/audit/audit.jsonl must contain candidate_edited by human:* after AI draft
+- Writer must be human:*, not llm:*
+- hitl_check.py verifies before canonical — fails if no human edit
+- Even LLM fallback requires HITL
+
+No legacy, this is beginning clean with HITL.
+
+## Standard Scientific Definition (Added 2026-09-21, Updated 2026-09-21 with evolvable + frontier)
+
+Every entity must have standard agreed definition, not general, with exact SI constants and reference:
+
+- For units: exact SI Brochure 9th ed. 2019 redefinition with fixed constants (e.g., metre = light path 1/299,792,458 s, kilogram = h fixed 6.62607015e-34 J·s, second = ΔνCs fixed 9,192,631,770 Hz, ampere = e fixed 1.602176634e-19 C, kelvin = k fixed 1.380649e-23 J/K, mole = N_A fixed 6.02214076e23, candela = K_cd fixed 683 lm/W)
+  - Example metre (user specified exactly): "The metre (symbol: m) is the base unit of length in the International System of Units (SI). It is scientifically defined as the length of the path travelled by light in a vacuum during a time interval of 1/299,792,458 of a second. Exact: c=299,792,458 m/s."
+  - Must include "Exact:" with value and agreed status per BIPM 2019
+
+- For quantities: dimension + SI unit + governing law + exact formula + agreed per SI/HRW (e.g., length dimension L unit metre governed_by si-definitions, force F=ma = kg·m/s², area L² = m × m exact 1 m² = 1 m × 1 m)
+
+- For laws: exact equation with constants (G=6.67430e-11, ε₀=8.8541878128e-12, μ₀=4πe-7, R=8.314462618) and regime, historical timeline
+
+- Reference mandatory — triple verification:
+  - provenance.source includes SI Brochure citation with page and exact value: "BIPM SI Brochure 9th ed. (2019) §2.3.1, p130: The metre is defined via c=299,792,458 m/s. Exact c=299,792,458 m/s."
+  - link https://www.bipm.org/en/publications/si-brochure — mandatory
+  - source_refs [stemma:src.nist-si-brochure-9th, stemma:src.halliday-resnick-walker-12th] — each must have canonical file in sources/ with url/doi/isbn, >=1 mandatory
+  - writer human:curator.001 — must be human:* for HITL, not llm:*
+  - original_author BIPM/HRW, retrieved_at, source_kind standards-or-specification
+  - external_ids wd: Q... + qudt — mandatory wd
+
+- Explorer shows ✓ Scientifically agreed badge and references section for triple-check
+
+## Deterministic Scales, Evolvable Templates, LLM Fallback Only When Needed
+
+- **Deterministic (no LLM) scales:** Uses schema/template-registry.yaml with regex rules (e.g., `Length:\s*(.+)`) + exact SI constants c,h,ΔνCs,e,k,N_A,K_cd — no model, no cost, no hallucination, scales to 1000s PDFs, any domain (physics, chemistry, biology, math)
+- **Evolvable:** Add new domain via `python3 scripts/evolvable_template.py --evolve --new-domain chemistry --new-subdomain organic` without code change — templates in YAML with placeholders {definition}, {symbol}, etc.
+- **LLM fallback only when PDF missing exact SI:** If PDF text says "Length is distance" without "Exact: c=...", then LLM fetches standard definition from SI Brochure/NIST authoritative source using frontier model (DeepSeek R1 free, Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro, Llama 3.3 70B free) or custom model via OpenRouter/NVIDIA NIM/OpenAI-compatible, selector like DeepSeek harness (search, categories Frontier/Reasoning/Free/Custom, 25 models, custom input)
+- **Even LLM requires HITL:** LLM output → markdown preview → human explicitly edits markdown → audit logs candidate_edited by human → stage → validate (including hitl_check) → canonical — no entity without human edit
+
+## Verification
+
+```bash
+python3 scripts/validate.py  # schema, identity, refs, 1 entity now
+python3 scripts/physics_core_profile_check.py  # mandatory fields, no forbidden, 0 violations
+python3 scripts/physics_governing_check.py  # governed_by in registry, subdomain matches, 0 violations
+python3 scripts/hitl_check.py --check-workflow  # HITL audit trail, writer human:*, markdown explicit
+python3 scripts/evolvable_template.py --pdf-extract workflow/extraction/hrw-ch1-measurement.txt  # deterministic extraction, scales
+python3 scripts/verify_all.py  # full chain with HITL — green
 ```
-proposed ──accept──→ reviewed ──canonicalize──→ canonical
-   │                    │
-   ├──reject──→ rejected ├──reject──→ rejected
-   └──defer──→ proposed └──defer──→ reviewed
 
-asserted ──review──→ reviewed / canonical / rejected (see state machine)
-inferred ──review──→ reviewed / canonical (requires inference metadata)
-rejected ──reopen──→ proposed (explicit reopen, never direct to canonical)
-```
-
-Forbidden: `rejected → canonical` without reopen; `proposed → canonical` without `reviewed` intermediate; `inferred` without `inference` block.
-
-## 3. Evidence standards by family
-
-| Family | Minimum evidence for canonical |
-|--------|-------------------------------|
-| **structural/hierarchical** (`is_a`, `part_of`, `generalizes`) | Authoritative conceptual source (textbook/standard) or definition |
-| **dependency** (`mathematically_requires`, `logically_requires`, `requires`) | Explicit derivation, definition, or prerequisite documentation; equation where applicable |
-| **causal** (`causes`, `contributes_to`, `influences`) | Experimental literature or strong theoretical derivation; textbook alone insufficient for strong `causes` |
-| **explanatory** (`explains`, `accounts_for`) | Source showing explanatory relation |
-| **model** (`approximates`, `idealizes`, `extends`, `supersedes`) | Scope/regime/applicability conditions required (`context.regime`, `assumptions`) when regime-dependent |
-| **analogy** (`analogous_to`) | Explicit mapping or structural correspondence; `analogous_to` ≠ `equivalent_to` ≠ `isomorphic_to` |
-| **measurement** (`measures`, `expressed_in`, `has_unit`) | Standard definition or unit specification |
-| **cross_domain** (`bridges`, `shared_mechanism_with`) | Mechanism or pathway citation; scope-aware (domain OR subdomain differs) |
-| **associative/derivation** (`related_to`, `derived_from`, `appears_in_law`, `applies_to`) | Source citation for `related_to` may be general; `derived_from` requires derivation source |
-
-Where evidence is absent but relation is axiomatic/definition-like (e.g., `part_of` for nucleus→cell), document why absence is acceptable in `evidence: [{type: other, description: "axiomatic structural definition"}]`.
-
-## 4. Review gate (D17)
-
-Before marking canonical, all must hold:
-- Reviewer identified (`provenance.reviewed_by` human)
-- Relation semantics valid (registry domain/range)
-- Source/target valid
-- Context valid where required (model regime)
-- Evidence adequate per family (above)
-- Provenance adequate (asserted_by preserved, origin preserved)
-- No unresolved contradiction (integrity anomalies)
-- Origin preserved (`migrated` remains migrated)
-- Review history recorded (previous state preserved)
-
-## 5. Confidence policy (D9)
-
-- `confidence` optional for reviewed/canonical
-- If set, `confidence_basis` required (`expert_review`, `experimental`, `theoretical`, `derived`)
-- Confidence does not increase automatically on canonicalization
-- Do not use confidence as proxy for review status
-
-## 6. Provenance & origin (D7, D11, D12)
-
-- `origin` derived from `provenance.method` + `asserted_by.type`: `migrated` | `human-authored` | `llm-authored` | `derived`
-- Migrated: `origin=migrated` persists even after `review.status=canonical`; `asserted_by` remains `unknown:legacy-relationship` (not rewritten to human)
-- LLM-assisted: `asserted_by: {type: llm}` must remain traceable; canonical requires human `reviewed_by`
-- Every canonicalization records `review_history` (previous state → new state, reviewer, date, reason) — see `provenance.review_history`
-
-## 7. Contradiction/dispute (D10)
-
-Conflicting reviewed assertions (`A causes B` vs `A contradicts B`) are not silently deleted. Keep both with `review.status`, add dispute note, or mark one `rejected` with reason; preserve audit trail.
-
-## 8. Exports (D13)
-
-- `all`: all active
-- `reviewed`: `reviewed` + `canonical`
-- `canonical`: `canonical` only
-- `trusted` (default educational): `reviewed`/`canonical` excluding `llm-authored` unreviewed (see `scripts/graph_policy.py`)
-- `exports/knowledge.json` remains backward compatible (all active); filtered exports via policy module
-
-## 9. Pilot
-
-First batch 10–20 high-value assertions prioritized by centrality, prerequisite importance, domain coverage; quality over quota.
-
-## 10. Principles
-
-- Preserve uncertainty: `related_to` preferable to false precision
-- Never fabricate confidence/evidence/reviewer
-- Derived never becomes canonical without independent review
-- Rejected remains auditable
+All must pass before PR.

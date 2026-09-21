@@ -3,82 +3,148 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>STEMMA Ingestion &amp; Review</title>
+  <title>STEMMA — PDF Primary Ingestion with HITL + Frontier Models</title>
   <link rel="stylesheet" href="/static/style.css" />
 </head>
 <body>
   <header class="topbar">
     <div>
-      <h1>STEMMA Ingestion &amp; Review</h1>
-      <p class="subtitle">Human-in-the-loop proposal engineering. Nothing here writes to canonical knowledge.</p>
+      <h1>STEMMA Ingestion — PDF Primary + HITL + Evolvable Templates</h1>
+      <p class="subtitle">Deterministic scales (no LLM needed) → LLM fallback only when PDF missing exact SI → Model selector like DeepSeek harness (local + frontier models) like DeepSeek harness → Human explicitly edits markdown → canonical. No entity without HITL.</p>
     </div>
-    <button id="settings-toggle" class="btn ghost">LLM Draft settings</button>
+    <button id="settings-toggle" class="btn ghost">⚙️ Model Settings — Frontier + Custom</button>
   </header>
 
   <section class="lane">
-    <span class="lane-step">1. Upload</span><span class="arrow">→</span>
-    <span class="lane-step">2. Extract</span><span class="arrow">→</span>
-    <span class="lane-step">3. Draft</span><span class="arrow">→</span>
-    <span class="lane-step">4. Review</span><span class="arrow">→</span>
-    <span class="lane-step">5. Stage proposal</span><span class="arrow">→</span>
-    <span class="lane-step locked">Canonical (human gate only)</span>
+    <span class="lane-step primary">1. Upload PDF (SI Brochure, HRW, custom) — PRIMARY</span><span class="arrow">→</span>
+    <span class="lane-step">2. Extract deterministic (no LLM)</span><span class="arrow">→</span>
+    <span class="lane-step">3. Deterministic draft (no LLM) OR AI draft with frontier model</span><span class="arrow">→</span>
+    <span class="lane-step hitl">4. HITL: Human edits markdown explicitly</span><span class="arrow">→</span>
+    <span class="lane-step">5. Stage → Validate (hitl_check)</span><span class="arrow">→</span>
+    <span class="lane-step locked">6. Canonical (human gate)</span>
   </section>
 
-  <section id="settings" class="card hidden">
-    <h2>LLM Draft provider</h2>
-    <p>Used only to <em>propose</em> candidates. The API key never leaves this repo's git-ignored <code>workflow/config/llm.json</code>.</p>
-    <form id="settings-form">
-      <label>Provider
-        <select id="cfg-provider">
-          <option value="antigravity">Antigravity (official local agent: SDK then CLI)</option>
-          <option value="gemini_api">Gemini API (separate key entitlement)</option>
-          <option value="vertex_ai">Vertex AI (separate GCP entitlement)</option>
-          <option value="openai_compatible">OpenAI-compatible (custom bridge/tunnel)</option>
-        </select>
-      </label>
-      <label>Base URL <input id="cfg-base" placeholder="https://generativelanguage.googleapis.com/v1beta or http://127.0.0.1:6012/v1" /></label>
-      <label>Model
-        <input id="cfg-model" list="cfg-model-list" placeholder="gemini-3-pro / gemini-3-pro-preview / gemini-3.1-pro-high" />
-        <datalist id="cfg-model-list"></datalist>
-      </label>
-      <label>API key <input id="cfg-key" type="password" placeholder="AIza… (Gemini/Vertex) or harness key; leave blank for Antigravity" /></label>
-      <div id="cfg-vertex-fields" class="hidden">
-        <label>GCP project <input id="cfg-project" placeholder="my-gcp-project" /></label>
-        <label>Location <input id="cfg-location" placeholder="us-central1" /></label>
+  <!-- Model Settings — standard like DeepSeek harness inference window -->
+  <section id="settings" class="card hidden model-settings">
+    <h2>🤖 Model Settings — Frontier + Custom (like DeepSeek harness)</h2>
+    <p class="hint">Deterministic templates work without any model (scales). LLM only when PDF missing exact SI definition — then you can choose frontier model or custom. API key stays in git-ignored <code>workflow/config/llm.json</code>. Antigravity = official local agent (SDK then CLI) uses local Google AI Pro session, no Gemini API key.</p>
+    
+    <div class="settings-grid">
+      <div class="settings-left">
+        <form id="settings-form">
+          <label>Provider
+            <select id="cfg-provider">
+              <option value="deterministic">Deterministic (no LLM) — scales, no model needed — RECOMMENDED</option>
+              <option value="antigravity">Antigravity (official local agent: SDK then CLI) — uses local session</option>
+              <option value="gemini_api">Gemini API (separate key)</option>
+              <option value="vertex_ai">Vertex AI (GCP)</option>
+              <option value="openai_compatible">OpenAI-compatible (custom bridge/tunnel)</option>
+              <option value="openrouter">OpenRouter (Frontier models: DeepSeek, Claude, GPT, Gemini, Llama)</option>
+              <option value="nvidia">NVIDIA NIM (Free: Llama 3.3, DeepSeek R1, Nemotron)</option>
+            </select>
+          </label>
+          <label>Base URL <input id="cfg-base" placeholder="https://generativelanguage.googleapis.com/v1beta or http://127.0.0.1:6012/v1 or https://openrouter.ai/api/v1" /></label>
+          
+          <!-- Model selection window like DeepSeek harness -->
+          <div class="model-selector-window">
+            <div class="model-selector-header">
+              <h3>Model Selection — Frontier + Custom</h3>
+              <div class="model-search-box">
+                <input id="model-search" type="text" placeholder="🔍 Search models: deepseek, claude, gemini, gpt, llama, frontier, reasoning..." />
+              </div>
+              <div class="model-category-tabs">
+                <button type="button" class="tab active" data-category="all">All</button>
+                <button type="button" class="tab" data-category="frontier">🚀 Frontier</button>
+                <button type="button" class="tab" data-category="reasoning">🧠 Reasoning</button>
+                <button type="button" class="tab" data-category="free">🆓 Free</button>
+                <button type="button" class="tab" data-category="custom">⚙️ Custom</button>
+              </div>
+            </div>
+            <div id="model-list" class="model-list">
+              <!-- Models populated by JS -->
+              <p class="hint">Loading models... Click Load models or search</p>
+            </div>
+            <div class="custom-model-input">
+              <label>Custom Model (any model string, frontier or your own):
+                <input id="cfg-model" list="cfg-model-list" placeholder="deepseek/deepseek-r1:free, claude-3.5-sonnet, gemini-2.5-pro, gpt-4o, meta-llama/llama-3.3-70b-instruct:free, or your custom model id" />
+                <datalist id="cfg-model-list"></datalist>
+              </label>
+              <p class="hint">You can type any model id — frontier (DeepSeek R1, Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro) or custom (your fine-tuned model). The system will use it if provider supports it. For deterministic (no LLM), leave empty.</p>
+            </div>
+          </div>
+
+          <label>API key <input id="cfg-key" type="password" placeholder="AIza… (Gemini/Vertex) or sk-... (OpenRouter/OpenAI) or leave blank for Antigravity/Deterministic" /></label>
+          <div id="cfg-vertex-fields" class="hidden">
+            <label>GCP project <input id="cfg-project" placeholder="my-gcp-project" /></label>
+            <label>Location <input id="cfg-location" placeholder="us-central1" /></label>
+          </div>
+          <div id="cfg-antigravity-fields" class="hidden">
+            <label>Transport
+              <select id="cfg-transport">
+                <option value="auto">auto (SDK then CLI)</option>
+                <option value="sdk">Antigravity SDK</option>
+                <option value="cli">Antigravity CLI (agy)</option>
+              </select>
+            </label>
+            <label>Effort <input id="cfg-effort" placeholder="low / medium / high" /></label>
+            <label>Agent <input id="cfg-agent" placeholder="optional agent slug (see `agy agents`)" /></label>
+          </div>
+          <div class="row-actions">
+            <button class="btn" type="submit">Save Settings</button>
+            <button class="btn" type="button" id="cfg-login">Sign in to Google AI Pro / harness</button>
+            <button class="btn primary" type="button" id="cfg-models">🔄 Load models (frontier + free)</button>
+            <button class="btn primary" type="button" id="cfg-test">Test provider</button>
+          </div>
+          <span id="cfg-status" class="status"></span>
+          <p id="cfg-hint" class="hint"></p>
+        </form>
       </div>
-      <div id="cfg-antigravity-fields" class="hidden">
-        <label>Transport
-          <select id="cfg-transport">
-            <option value="auto">auto (SDK then CLI)</option>
-            <option value="sdk">Antigravity SDK</option>
-            <option value="cli">Antigravity CLI (agy)</option>
-          </select>
-        </label>
-        <label>Effort <input id="cfg-effort" placeholder="low / medium / high" /></label>
-        <label>Agent <input id="cfg-agent" placeholder="optional agent slug (see `agy agents`)" /></label>
+      <div class="settings-right">
+        <div class="info-box">
+          <h4>📈 Can it scale? Yes — deterministic + evolvable templates</h4>
+          <ul>
+            <li><b>Deterministic (no LLM):</b> Uses <code>schema/template-registry.yaml</code> with regex rules + exact SI constants from SI Brochure — scales to any number of entities, any domain (physics, chemistry, biology, math), no model cost</li>
+            <li><b>Evolvable:</b> Add new domain via <code>python3 scripts/evolvable_template.py --evolve --new-domain chemistry --new-subdomain organic</code> — registry evolves without code change</li>
+            <li><b>LLM fallback only when needed:</b> If PDF text doesn't contain exact SI definition (e.g., "Exact: c=299,792,458 m/s"), then LLM fetches from authoritative source (SI Brochure, NIST) — but still requires HITL human edit before canonical</li>
+            <li><b>Frontier + Custom:</b> Choose any frontier model (DeepSeek R1, Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro, Llama 3.3) or your custom fine-tuned model via OpenRouter / NVIDIA NIM / OpenAI-compatible</li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <h4>🔍 Model Selection — like DeepSeek harness</h4>
+          <ul>
+            <li><b>Frontier:</b> DeepSeek R1, DeepSeek V3, Claude 3.5 Sonnet, Claude 3 Opus, GPT-4o, Gemini 2.5 Pro, Llama 3.3 70B</li>
+            <li><b>Reasoning:</b> Models with reasoning (DeepSeek R1, o1, Gemini 2.0 Flash Thinking)</li>
+            <li><b>Free:</b> OpenRouter free tier, NVIDIA NIM free, Gemini free tier</li>
+            <li><b>Custom:</b> Type any model id — your fine-tuned, local, or frontier — system will use it</li>
+          </ul>
+        </div>
       </div>
-      <div class="row-actions">
-        <button class="btn" type="submit">Save</button>
-        <button class="btn" type="button" id="cfg-login">Sign in to Google AI Pro / harness</button>
-        <button class="btn" type="button" id="cfg-models">Load models</button>
-        <button class="btn primary" type="button" id="cfg-test">Test provider</button>
-      </div>
-      <span id="cfg-status" class="status"></span>
-      <p id="cfg-hint" class="hint"></p>
-    </form>
+    </div>
   </section>
 
   <main class="grid">
-    <section class="card">
-      <h2>Upload a document</h2>
-      <p class="hint">Any file is kept. PDF/image/text are extracted automatically where tooling is available; others show as <em>unsupported</em>.</p>
-      <label id="drop" class="drop" for="file-input">Drop a file here or click to choose. All types accepted.</label>
-      <input id="file-input" type="file" hidden />
+    <section class="card primary-card">
+      <h2>1. Upload PDF — PRIMARY feeder (deterministic, scales)</h2>
+      <p class="hint">Upload SI Brochure 9th ed., HRW textbook chapters, or any custom PDF. Deterministic templates work without LLM — scales to any domain. LLM only when PDF missing exact SI.</p>
+      <label id="drop" class="drop" for="file-input">Drop PDF here or click to choose. PDF primary, any file accepted. Deterministic works without model.</label>
+      <input id="file-input" type="file" hidden accept=".pdf,.txt,.md" />
       <p id="upload-status" class="status"></p>
+      <div class="hint-box">
+        <b>Fundamental books to ingest (deterministic, no LLM needed):</b>
+        <ul>
+          <li><b>SI Brochure 9th ed.</b> — BIPM 2019: exact definitions for metre (c=299,792,458), kilogram (h=6.62607015e-34), second (ΔνCs=9,192,631,770), etc.</li>
+          <li><b>HRW 12th ed.</b> — Ch1 Measurement (length/mass/time/area/volume), Ch2-5 Mechanics — deterministic regex extracts</li>
+          <li><b>Custom PDFs</b> — if PDF lacks exact SI, LLM fallback fetches from SI Brochure/NIST, you choose frontier model (DeepSeek R1, Claude, GPT-4o, Gemini) or custom</li>
+        </ul>
+      </div>
+      <div class="row-actions" style="margin-top:0.8rem">
+        <button class="btn sm" id="deterministic-draft-btn">⚡ Deterministic Draft (no LLM, scales)</button>
+        <button class="btn sm primary" id="ai-draft-btn">🤖 AI Draft with Frontier Model (when needed)</button>
+      </div>
     </section>
 
     <section class="card">
-      <h2>Documents</h2>
+      <h2>Documents — PDF extraction status (deterministic)</h2>
       <div id="docs" class="list"></div>
     </section>
   </main>
@@ -86,20 +152,306 @@
   <section id="document-panel" class="card hidden">
     <h2 id="doc-title">Document</h2>
     <div id="doc-meta" class="meta-grid"></div>
-    <h3>Extracted text</h3>
+    <h3>Extracted text (deterministic, no LLM — poppler/tesseract)</h3>
     <pre id="doc-text" class="textpre"></pre>
-    <h3>Candidates for review</h3>
+    <h3>2. Draft → Markdown Preview (deterministic scales, LLM only when PDF missing exact)</h3>
+    <p class="hint">Deterministic templates use <code>schema/template-registry.yaml</code> regex + exact SI constants — scales to any domain. If PDF lacks exact SI (e.g., no "Exact: c=299,792,458"), LLM fallback fetches from SI Brochure/NIST using frontier model you choose (DeepSeek R1, Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro) or custom. Both require HITL.</p>
     <div id="candidates" class="list"></div>
   </section>
 
   <section class="card">
-    <h2>Staged proposals <span class="hint">destination: content/ | connections/ | sources/ — NOT written by this app</span></h2>
+    <h2>Staged proposals — markdown after human edit <span class="hint">destination: content/ | connections/ — NOT written by this app, only after HITL + validation</span></h2>
     <div id="proposals" class="list"></div>
   </section>
 
   <section class="card">
-    <h2>Audit trail</h2>
+    <h2>HITL Audit trail — human explicitly edits markdown (scales, evolvable)</h2>
+    <p class="hint">Every human edit logged here. hitl_check.py verifies human edited before canonical. Verification easy because markdown plain text. Templates evolvable via <code>schema/template-registry.yaml</code> v2.0.0 — add 8 domains physics, chemistry, biology, earth-science, astronomy, computer-science, engineering, mathematics without code change.</p>
     <div id="audit" class="list monospace"></div>
+  </section>
+
+  <!-- NEW — RAG Playground with embedding model selector like DeepSeek harness (local + frontier models) + LLM model selector -->
+  <section class="card rag-playground">
+    <h2>🔍 RAG Playground — Embeddings + Vector Search + LLM Generation with Citations (for LearningHub, PROFESSOR-J)</h2>
+    <p class="hint">YES we need embedding model and RAG system in STEMMA — STEMMA is knowledge foundation, RAG is how consumers like LearningHub, PROFESSOR-J use it. Without RAG static JSON, with RAG queryable knowledge with citations. Flow: question → embedding via embedding model → vector search top_k → context definitions + connections + sources → LLM frontier selector → answer with citations.</p>
+    
+    <div class="rag-grid">
+      <div class="rag-left">
+        <h3>Embedding Model — like DeepSeek harness selector (local free + frontier API)</h3>
+        <div class="model-selector-window small">
+          <div class="model-search-box">
+            <input id="rag-embedding-search" type="text" placeholder="🔍 Search embedding models: bge, all-minilm, openai, nvidia, cohere..." />
+          </div>
+          <div class="model-category-tabs">
+            <button type="button" class="tab active" data-category="all" data-target="embedding">All</button>
+            <button type="button" class="tab" data-category="frontier" data-target="embedding">🚀 Frontier</button>
+            <button type="button" class="tab" data-category="free" data-target="embedding">🆓 Free</button>
+            <button type="button" class="tab" data-category="local" data-target="embedding">💻 Local</button>
+            <button type="button" class="tab" data-category="sota" data-target="embedding">⭐ SOTA</button>
+          </div>
+          <div id="embedding-model-list" class="model-list">
+            <p class="hint">Loading embedding models... All-MiniLM 384 fast, BGE Large SOTA 1024, OpenAI Large 3072, NVIDIA NV-Embed 4096</p>
+          </div>
+          <label>Selected Embedding Model:
+            <input id="rag-embedding-model" placeholder="sentence-transformers/all-MiniLM-L6-v2 or BAAI/bge-large-en-v1.5 or openai/text-embedding-3-large or nvidia/nv-embed-v1" />
+          </label>
+        </div>
+
+        <h3>LLM Model — Frontier selector like DeepSeek harness (for generation)</h3>
+        <div class="model-selector-window small">
+          <div class="model-search-box">
+            <input id="rag-llm-search" type="text" placeholder="🔍 Search LLM models: deepseek, claude, gpt, gemini, llama..." />
+          </div>
+          <div class="model-category-tabs">
+            <button type="button" class="tab active" data-category="all" data-target="llm">All</button>
+            <button type="button" class="tab" data-category="frontier" data-target="llm">🚀 Frontier</button>
+            <button type="button" class="tab" data-category="reasoning" data-target="llm">🧠 Reasoning</button>
+            <button type="button" class="tab" data-category="free" data-target="llm">🆓 Free</button>
+          </div>
+          <div id="rag-llm-model-list" class="model-list">
+            <p class="hint">Loading LLM models... DeepSeek R1 free, Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro, Llama 3.3 free</p>
+          </div>
+          <label>Selected LLM Model:
+            <input id="rag-llm-model" placeholder="deepseek/deepseek-r1:free or anthropic/claude-3.5-sonnet or openai/gpt-4o or google/gemini-2.5-pro" />
+          </label>
+        </div>
+
+        <div class="rag-controls">
+          <label>Domain Filter (8 domains):
+            <select id="rag-domain">
+              <option value="">All domains (8)</option>
+              <option value="physics">Physics (12 subdomains)</option>
+              <option value="chemistry">Chemistry (11)</option>
+              <option value="biology">Biology (14)</option>
+              <option value="earth-science">Earth Science (10)</option>
+              <option value="astronomy">Astronomy (8)</option>
+              <option value="computer-science">Computer Science (15)</option>
+              <option value="engineering">Engineering (13)</option>
+              <option value="mathematics">Mathematics (14)</option>
+            </select>
+          </label>
+          <label>Consumer:
+            <select id="rag-consumer">
+              <option value="general">General (all domains, All-MiniLM fast)</option>
+              <option value="learninghub">LearningHub (canonical physics/chem/bio/math, OpenAI Large 3072, GPT-4o)</option>
+              <option value="professor-j">PROFESSOR-J (reviewed all 8 mediocre, BGE Large SOTA 1024 offline, DeepSeek R1 free)</option>
+            </select>
+          </label>
+          <label>Top K:
+            <input id="rag-topk" type="number" min="1" max="20" value="5" />
+          </label>
+        </div>
+      </div>
+      <div class="rag-right">
+        <h3>Question (for LearningHub, PROFESSOR-J)</h3>
+        <textarea id="rag-question" rows="4" placeholder="What is Newton's second law? or Explain photosynthesis and its relation to cellular respiration"></textarea>
+        <div class="row-actions">
+          <button class="btn sm" id="rag-search-btn">🔍 Vector Search (no LLM)</button>
+          <button class="btn sm primary" id="rag-query-btn">🤖 RAG Query (retrieval + LLM with citations)</button>
+          <button class="btn sm" id="rag-embed-btn">📊 Generate Embeddings (embed.py)</button>
+        </div>
+        <div id="rag-status" class="status"></div>
+        <h4>Retrieved Entities (vector search scores)</h4>
+        <div id="rag-retrieved" class="list"></div>
+        <h4>Answer with Citations (RAG)</h4>
+        <pre id="rag-answer" class="textpre"></pre>
+        <h4>Citations</h4>
+        <div id="rag-citations" class="list monospace"></div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <h4>📚 How RAG works — YES needed in STEMMA</h4>
+      <ol>
+        <li><b>Ingestion:</b> PDF → deterministic extraction via template-registry v2.0.0 (8 domains, 12 entity types, regex + exact constants) → entity markdown → human edits (HITL) → canonical → knowledge.json deterministic content-hash</li>
+        <li><b>Embedding:</b> Entity → chunking entity strategy max_tokens 512 → embedding via embedding model (local free All-MiniLM 384 fast, BGE Large SOTA 1024 best for RAG, frontier OpenAI Large 3072 best quality, NVIDIA NV-Embed SOTA 4096 free) → embeddings.jsonl + vector_store/ FAISS meta.json + vectors.npy + ids.json versioned via content_hash + model id</li>
+        <li><b>Vector store:</b> FAISS flat cosine local deterministic, path exports/vector_store/, alternatives Chroma, Qdrant, Pinecone</li>
+        <li><b>Retriever:</b> Question → embedding via same model → vector search cosine similarity top_k → retrieved entities with scores + content</li>
+        <li><b>Generator:</b> Retrieved → build context definitions + connections + sources + source_refs + links → LLM prompt context + question → call LLM frontier selector (DeepSeek R1 free, Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro, Llama 3.3, custom via OpenRouter) → answer with citations</li>
+        <li><b>API:</b> /v2/rag/search GET + /v2/rag/query POST via adapter v0.2.0 and webapp, for LearningHub, PROFESSOR-J</li>
+      </ol>
+      <p><b>Without RAG static JSON, with RAG queryable knowledge with citations — YES needed for LearningHub, PROFESSOR-J.</b></p>
+    </div>
+  </section>
+
+  <section class="card semantic-pipeline-card">
+    <h2>🧠 AI-Assisted Semantic Acquisition Pipeline — Accepted Proposal Implementation</h2>
+    <p class="hint">Use AI early for semantic understanding. Trust AI late only through independent verification and explicit canonicalization. SOURCE → Deterministic acquisition → Evidence-preserving extraction → AI-assisted semantic extraction → Structured candidate claims → Independent verification → Conflict analysis → Human review → Explicit canonicalization → STEMMA canonical. LLM is extractor/interpreter, not authority.</p>
+
+    <div class="info-box">
+      <h4>📜 Architecture Principle — 16 Stages</h4>
+      <ol>
+        <li><b>Source Discovery</b> — find books, papers, STEM sources (8 domains)</li>
+        <li><b>License / Eligibility Gate</b> — check license, eligibility</li>
+        <li><b>Acquisition + Hash</b> — URL/file handling, content hashing sha256, file integrity (deterministic)</li>
+        <li><b>Manifest</b> — document identification, metadata</li>
+        <li><b>Document Parsing / OCR</b> — PDF parsing poppler pdftotext + tesseract OCR, page identification, character offsets (deterministic)</li>
+        <li><b>Evidence Windows</b> — paragraph segmentation, evidence windows with page, section, text_span, char offsets, surrounding context 3 sentences before/after (deterministic)</li>
+        <li><b>Semantic AI Extraction</b> — AI-assisted semantic extraction via model selector like DeepSeek harness (local + frontier), extraction role deepseek-r1 free, claude-3.5-sonnet, gpt-4o, gemini-2.5-pro, llama-3.3 free, custom — converts prose into candidate structured claims subject relation object conditions quantitative with evidence link</li>
+        <li><b>Normalization</b> — unit syntax validation, identifier validation, datatype validation (deterministic)</li>
+        <li><b>Entity Resolution</b> — map to existing STEMMA entities where identity can be established, candidate entity if uncertain rather than silently canonical (deterministic + embedding similarity)</li>
+        <li><b>Deterministic Validation</b> — does cited text actually contain claimed value? is unit valid? is numerical valid? does entity exist? does relation conform to schema relation-registry.yaml? does equation parse? dimensional constraints? (deterministic)</li>
+        <li><b>Independent Verification</b> — Verifier Model B separate from Extractor Model A, e.g., extractor deepseek-r1 free → verifier claude-3-haiku, evidence comparison, source corroboration (AI + deterministic)</li>
+        <li><b>Conflict Analysis</b> — explicit conflict detection P=10 vs P=12, do not force average, do not allow LLM to arbitrarily choose, represent competing claims, uncertainty, conditions, measurement context, source quality, unresolved (deterministic)</li>
+        <li><b>Proposal Generation</b> — proposals/proposal-*.yaml with evidence first-class source_id document_hash page section text_span char_offsets surrounding_context + extraction model model_version pipeline_version prompt_version + verification status pending — NOT canonical STEMMA knowledge</li>
+        <li><b>Human Review</b> — final authority, HITL mandatory human:curator.001 explicitly edits markdown, audit trail workflow/audit/audit.jsonl candidate_edited by human:*</li>
+        <li><b>Explicit Canonicalization</b> — review_entity.py accept + canonicalize with human reviewer</li>
+        <li><b>Deterministic Exports / Indexes</b> — exports/knowledge.json v2.1.0 deterministic content_hash sha256 no wall-clock byte-identical, embeddings.jsonl + vector_store/ FAISS meta.json content_hash versioned, consumers/</li>
+      </ol>
+      <p><b>LLM is extractor/interpreter, not authority. Embeddings are NOT replacement for semantic extraction.</b></p>
+    </div>
+
+    <div class="grid" style="grid-template-columns: 1fr 1fr; gap:1rem">
+      <div class="semantic-left">
+        <h3>📄 Source Text for Semantic Extraction</h3>
+        <textarea id="semantic-text" rows="6" placeholder="The resistance of a conductor is directly proportional to its length and inversely proportional to its cross-sectional area, provided temperature remains constant.">The resistance of a conductor is directly proportional to its length and inversely proportional to its cross-sectional area, provided temperature remains constant.</textarea>
+        <div class="row-actions">
+          <label>Source ID: <input id="semantic-source-id" value="stemma:src.halliday-resnick-walker-12th" /></label>
+          <label>Model (extraction role): 
+            <select id="semantic-model">
+              <option value="deterministic">Deterministic (no LLM, scales, regex) — RECOMMENDED for SI</option>
+              <option value="deepseek/deepseek-r1:free">DeepSeek R1 Free (Reasoning 671B) — default for extraction</option>
+              <option value="anthropic/claude-3.5-sonnet">Claude 3.5 Sonnet (Frontier)</option>
+              <option value="openai/gpt-4o">GPT-4o (Frontier Multimodal)</option>
+              <option value="google/gemini-2.5-pro">Gemini 2.5 Pro (1M context)</option>
+              <option value="meta-llama/llama-3.3-70b-instruct:free">Llama 3.3 70B Free</option>
+            </select>
+          </label>
+          <label>Provider:
+            <select id="semantic-provider">
+              <option value="deterministic">Deterministic (no LLM)</option>
+              <option value="openrouter">OpenRouter (Frontier: DeepSeek, Claude, GPT, Gemini, Llama)</option>
+              <option value="antigravity">Antigravity (official local agent)</option>
+              <option value="openai">OpenAI</option>
+              <option value="nvidia">NVIDIA NIM (Free)</option>
+            </select>
+          </label>
+        </div>
+        <div class="row-actions" style="margin-top:0.8rem">
+          <button class="btn sm primary" id="semantic-extract-btn">🧠 Semantic Extract (claims + evidence)</button>
+          <button class="btn sm" id="semantic-demo-conflict-btn">⚠️ Demo Conflict P=10 vs P=12</button>
+        </div>
+        <div id="semantic-status" class="status"></div>
+
+        <h4>Evidence Windows (first-class, char offsets, surrounding context)</h4>
+        <div id="semantic-evidence" class="list monospace"></div>
+
+        <h4>Model Roles (document_vision, extraction, reasoning, verification, embedding)</h4>
+        <div id="semantic-roles" class="list"></div>
+        <button class="btn sm" id="semantic-registries-btn">📋 Check Registries (8 domains, 12 models, 4 consumers, 5 roles)</button>
+        <div id="semantic-registries" class="list"></div>
+      </div>
+
+      <div class="semantic-right">
+        <h3>🔍 Semantic Claims (subject relation object conditions quantitative + evidence)</h3>
+        <div id="semantic-claims" class="list"></div>
+
+        <h4>🔗 Entity Resolution (map to existing STEMMA, candidate if uncertain)</h4>
+        <div class="row-actions">
+          <button class="btn sm" id="semantic-resolve-btn">🔗 Entity Resolution (threshold 0.85)</button>
+          <label>Threshold: <input id="semantic-threshold" type="number" min="0" max="1" step="0.05" value="0.85" /></label>
+        </div>
+        <div id="semantic-resolved" class="list"></div>
+
+        <h4>✅ Independent Verification (deterministic + Verifier Model B separate from Extractor Model A)</h4>
+        <div class="row-actions">
+          <label>Verifier Model:
+            <select id="semantic-verifier-model">
+              <option value="anthropic/claude-3-haiku">Claude 3 Haiku (Verification Fast) — default</option>
+              <option value="anthropic/claude-3.5-sonnet">Claude 3.5 Sonnet</option>
+              <option value="openai/gpt-4o">GPT-4o</option>
+              <option value="deepseek/deepseek-r1:free">DeepSeek R1 Free</option>
+            </select>
+          </label>
+          <button class="btn sm" id="semantic-verify-btn">✅ Independent Verification</button>
+        </div>
+        <div id="semantic-verification" class="list"></div>
+
+        <h4>⚠️ Conflict Analysis (explicit, do not force average P=11, do not allow LLM arbitrarily choose)</h4>
+        <button class="btn sm" id="semantic-conflict-btn">⚠️ Conflict Analysis (P=10 vs P=12)</button>
+        <div id="semantic-conflicts" class="list"></div>
+
+        <h4>📝 Proposal Generation (evidence first-class, NOT canonical)</h4>
+        <button class="btn sm primary" id="semantic-proposal-btn">📝 Generate Proposals (evidence first-class)</button>
+        <div id="semantic-proposals" class="list"></div>
+
+        <h4>👤 Human Review — Final Authority (HITL)</h4>
+        <p class="hint">Proposals go to proposals/ and workflow/proposals/ — NOT canonical content/. Human must explicitly edit markdown, audit logs candidate_edited by human:curator.001, then review_entity.py accept + canonicalize.</p>
+        <div id="semantic-human-review" class="list"></div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <h4>🧪 Vertical Slice Corpus — 6 PDFs for Mediocre All-Domain</h4>
+      <ul>
+        <li><b>SI Brochure 9th ed.</b> — BIPM 2019: exact definitions for metre (c=299,792,458), kilogram (h=6.62607015e-34), second (ΔνCs=9,192,631,770) — deterministic scales, no LLM</li>
+        <li><b>HRW 12th Ch1-5</b> — Mechanics, measurement-units, deterministic regex extracts</li>
+        <li><b>Campbell Biology Ch8 Photosynthesis</b> — semantic claim extraction with conditions temperature constant, light, etc.</li>
+        <li><b>Atkins Physical Chemistry Ch1 Ideal Gas</b> — conditions temperature constant, model ideal_gas, quantitative P=10 vs P=12 conflict deliberately for conflict detection</li>
+        <li><b>CLRS Ch2 Sorting</b> — entity identification algorithm, relationship extraction</li>
+        <li><b>Carroll Ostlie Astrophysics</b> — conflicting source for same property to test conflict detection</li>
+      </ul>
+      <p><b>Demonstrates:</b> source → deterministic evidence extraction → LLM semantic extraction → structured proposal → deterministic validation → independent verification → conflict detection → human review → canonical STEMMA record. Tests must prove each transition. Do not consider feature implemented merely because LLM produced plausible YAML.</p>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>📦 Consumer Export — LearningHub, PROFESSOR-J, General, Explorer (file, API, SDK)</h2>
+    <p class="hint">Export mechanism via file (knowledge.json deterministic content-hash v2.1.0, embeddings.jsonl, vector_store/ FAISS, consumers/<consumer>/knowledge.<consumer>.json filtered), API (adapter v0.2.0 endpoints /v2/entities, /v2/embeddings, /v2/rag/search, /v2/rag/query POST, /v2/export?consumer=..., /openapi.yaml OpenAPI 3.0.3), SDK (Python Stemma.from_file + StemmaRAG), for LearningHub (canonical physics/chem/bio/math, OpenAI embeddings, GPT-4o RAG), PROFESSOR-J (reviewed all 8 domains mediocre, BGE Large offline SOTA, FAISS, DeepSeek R1 free RAG), general, explorer.</p>
+    <div class="grid" style="grid-template-columns: 1fr 1fr; gap:1rem">
+      <div>
+        <h3>File-based exports</h3>
+        <ul>
+          <li><code>exports/knowledge.json</code> — main deterministic content-hash v2.1.0, 1 entity now, will grow to 400-800 mediocre all-domain</li>
+          <li><code>exports/embeddings.jsonl</code> — embeddings per entity with model id, dimensions, vector, content_hash</li>
+          <li><code>exports/vector_store/</code> — FAISS meta.json + vectors.npy + ids.json versioned via content_hash + model id</li>
+          <li><code>exports/consumers/learninghub/knowledge.learninghub.json</code> — LearningHub canonical physics/chem/bio/math filtered</li>
+          <li><code>exports/consumers/professor-j/knowledge.professor-j.json</code> — PROFESSOR-J reviewed all 8 domains mediocre filtered</li>
+          <li><code>schema/api.yaml</code> — OpenAPI 3.0.3 schema</li>
+        </ul>
+        <button class="btn sm" id="export-learninghub-btn">📦 Export LearningHub</button>
+        <button class="btn sm" id="export-professorj-btn">📦 Export PROFESSOR-J</button>
+      </div>
+      <div>
+        <h3>API endpoints (adapter v0.2.0 + webapp)</h3>
+        <ul>
+          <li><code>/v2/stats</code> — stats</li>
+          <li><code>/v2/entities?domain=physics&limit=5</code> — list entities with 8 domains filter</li>
+          <li><code>/v2/embeddings?model=BAAI/bge-large-en-v1.5&limit=5</code> — embeddings with model selector like DeepSeek harness (local + frontier models)</li>
+          <li><code>/v2/rag/search?q=Newton&top_k=5</code> — vector search</li>
+          <li><code>POST /v2/rag/query</code> — full RAG with question + top_k + model + embedding_model + domain + consumer → answer with citations</li>
+          <li><code>/v2/export?consumer=learninghub&format=json</code> — consumer-specific export</li>
+          <li><code>/openapi.yaml</code> — OpenAPI schema</li>
+        </ul>
+        <button class="btn sm" id="openapi-btn">📄 Open OpenAPI schema</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>How scaling works + LLM when necessary + frontier model selection</h2>
+    <div class="grid" style="grid-template-columns: 1fr 1fr; gap:1rem">
+      <div>
+        <h3>📈 Scaling — deterministic, evolvable templates</h3>
+        <ol>
+          <li><b>Registry-driven:</b> <code>schema/template-registry.yaml</code> defines domains (physics, chemistry, biology, math), subdomains, entity types, extraction regex rules — add new domain without code: <code>python3 scripts/evolvable_template.py --evolve --new-domain chemistry</code></li>
+          <li><b>Deterministic extraction:</b> Regex patterns like <code>Length:\s*(.+)</code> extract entities from PDF text — no LLM, scales to 1000s of PDFs</li>
+          <li><b>Exact SI fallback:</b> If PDF has exact (e.g., "Exact: c=299,792,458"), use it. If not, fallback to constants in registry (c, h, ΔνCs, e, k, N_A, K_cd) — still deterministic, no LLM</li>
+          <li><b>Evolvable:</b> Templates have placeholders <code>{definition}</code>, <code>{symbol}</code>, etc. — evolve by editing YAML, not code</li>
+        </ol>
+      </div>
+      <div>
+        <h3>🤖 LLM only when PDF missing exact SI + model selector like DeepSeek harness (local + frontier models)</h3>
+        <ol>
+          <li><b>When needed:</b> If PDF text doesn't contain exact SI definition with fixed constants (e.g., textbook says "Length is distance" without "Exact: c=..."), then LLM fallback fetches standard definition from SI Brochure/NIST</li>
+          <li><b>Frontier models:</b> In Settings, choose any frontier: DeepSeek R1 (reasoning), DeepSeek V3, Claude 3.5 Sonnet, Claude 3 Opus, GPT-4o, Gemini 2.5 Pro, Llama 3.3 70B — via OpenRouter, NVIDIA NIM, or custom endpoint</li>
+          <li><b>Custom model:</b> Type any model id in Custom Model input — your fine-tuned, local Llama, or frontier — system uses it if provider supports</li>
+          <li><b>Model selector like DeepSeek harness:</b> Search bar, category tabs (Frontier, Reasoning, Free, Custom), model cards with provider, free badge, capabilities — standard inference window</li>
+          <li><b>Even LLM requires HITL:</b> LLM output → markdown preview → human explicitly edits → audit logs candidate_edited by human → stage → validate (including hitl_check) → canonical</li>
+        </ol>
+      </div>
+    </div>
+    <p><b>Deterministic (no LLM) is primary, scales, recommended. LLM fallback only when PDF lacks exact SI — you choose frontier or custom model via standard selector.</b></p>
   </section>
 
   <template id="candidate-template">
@@ -107,11 +459,17 @@
       <div class="candidate-head">
         <strong data-kind></strong>
         <span class="badge" data-status></span>
+        <span class="badge hitl-badge" title="HITL required before canonical">HITL REQUIRED</span>
+        <span class="badge" data-scaling></span>
       </div>
       <div class="candidate-body" data-body></div>
+      <div class="markdown-preview" data-markdown-preview></div>
+      <textarea class="markdown-editor" data-markdown-editor rows="20" placeholder="Markdown preview — human explicitly edits this file for verification (deterministic or LLM fallback, both need HITL)"></textarea>
+      <div class="verification-checklist" data-checklist></div>
       <div class="candidate-actions">
-        <button class="btn sm" data-edit>Edit</button>
-        <button class="btn sm primary" data-stage>Stage for human review</button>
+        <button class="btn sm" data-edit>Load markdown for edit</button>
+        <button class="btn sm primary" data-save>Save human edit (HITL)</button>
+        <button class="btn sm primary" data-stage>Stage for human review (after human edit)</button>
         <button class="btn sm danger" data-delete>Delete</button>
       </div>
     </article>

@@ -375,10 +375,24 @@ class Workflow:
         (self.candidates / f"{doc_id}.json").write_text(
             json.dumps(out, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
         )
+        # Write markdown preview files per candidate for HITL explicit edit
+        doc_dir = self.candidates / doc_id
+        doc_dir.mkdir(parents=True, exist_ok=True)
+        for cand in candidates:
+            slug = self._proposal_slug(cand["proposal"])
+            md_path = doc_dir / f"{slug}.md"
+            md_text = self._proposal_to_markdown(cand["proposal"])
+            md_path.write_text(md_text, encoding="utf-8")
+            cand["markdown_path"] = str(md_path.relative_to(self.root))
+            cand["human_edited"] = False
+        # Rewrite json with markdown paths
+        (self.candidates / f"{doc_id}.json").write_text(
+            json.dumps(out, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
+        )
         record["status"] = "generated"
         record["updated_at"] = now_iso()
         self._write_meta(record)
-        self.log("candidates_generated", doc_id=doc_id, detail={"count": len(candidates)})
+        self.log("candidates_generated", doc_id=doc_id, detail={"count": len(candidates), "markdown_previews": [c.get("markdown_path") for c in candidates]})
         return out
 
     def list_candidates(self, doc_id: str | None = None) -> list[dict]:
@@ -389,7 +403,7 @@ class Workflow:
             out.extend(self._read_json(path).get("candidates", []))
         return out
 
-    def update_candidate(self, candidate_id: str, *, proposal: dict) -> dict:
+    def update_candidate(self, candidate_id: str, *, proposal: dict, edited_markdown: str | None = None, human_edited: bool = False) -> dict:
         for path in self.candidates.glob("*.json"):
             data = self._read_json(path)
             for candidate in data["candidates"]:
@@ -397,11 +411,71 @@ class Workflow:
                     candidate["proposal"] = proposal
                     candidate["findings"] = self.validate_candidate(candidate["kind"], proposal)
                     candidate["updated_at"] = now_iso()
+                    # HITL: store edited markdown as separate file for verification
+                    if edited_markdown or human_edited:
+                        doc_dir = self.candidates / data.get("doc_id", "unknown")
+                        doc_dir.mkdir(parents=True, exist_ok=True)
+                        slug = self._proposal_slug(proposal)
+                        md_path = doc_dir / f"{slug}.md"
+                        md_path.write_text(edited_markdown or self._proposal_to_markdown(proposal), encoding="utf-8")
+                        candidate["markdown_path"] = str(md_path.relative_to(self.root))
+                        candidate["human_edited"] = True
+                        candidate["human_edited_at"] = now_iso()
                     path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-                    self.log("candidate_edited", doc_id=data.get("doc_id", ""),
-                             detail={"candidate_id": candidate_id})
+                    # Audit: log human edit for HITL enforcement
+                    detail = {"candidate_id": candidate_id, "human_edited": human_edited}
+                    if human_edited:
+                        detail["writer"] = "human:curator.001"
+                        detail["markdown_path"] = candidate.get("markdown_path", "")
+                    self.log("candidate_edited", doc_id=data.get("doc_id", ""), detail=detail)
                     return candidate
         raise NotFound(f"candidate not found: {candidate_id}")
+
+    def _proposal_to_markdown(self, proposal: dict) -> str:
+        """Convert proposal JSON to markdown file per template for human explicit edit."""
+        lines = []
+        lines.append("---")
+        lines.append(f"id: {proposal.get('id','')}")
+        lines.append(f"type: {proposal.get('type','')}")
+        lines.append(f"name: {proposal.get('name','')}")
+        lines.append(f"domain: {proposal.get('domain','physics')}")
+        lines.append(f"subdomain: {proposal.get('subdomain','')}")
+        lines.append(f"status: draft")
+        if proposal.get("definition"):
+            # Escape for yaml
+            def_escaped = json.dumps(proposal.get("definition"))
+            lines.append(f"definition: {def_escaped}")
+        if proposal.get("symbol"):
+            lines.append(f"symbol: {proposal.get('symbol')}")
+        if proposal.get("unit"):
+            lines.append(f"unit: {proposal.get('unit')}")
+        if proposal.get("governed_by"):
+            lines.append(f"governed_by: {json.dumps(proposal.get('governed_by'))}")
+        if proposal.get("source_refs"):
+            lines.append(f"source_refs: {json.dumps(proposal.get('source_refs'))}")
+        prov = proposal.get("provenance") or {}
+        if prov:
+            lines.append("provenance:")
+            lines.append(f"  writer: {prov.get('writer','human:curator.001')}")
+            lines.append(f"  source_kind: {prov.get('source_kind','')}")
+            lines.append(f"  source: {json.dumps(prov.get('source',''))}")
+            lines.append(f"  link: {prov.get('link','')}")
+            lines.append(f"  original_author: {prov.get('original_author','')}")
+            lines.append(f"  retrieved_at: {prov.get('retrieved_at','')}")
+        if proposal.get("external_ids"):
+            lines.append(f"external_ids:")
+            for k,v in proposal.get("external_ids").items():
+                lines.append(f"  {k}: {v}")
+        if proposal.get("historical"):
+            lines.append("historical:")
+            hist = proposal.get("historical")
+            if isinstance(hist, dict):
+                for k,v in hist.items():
+                    lines.append(f"  {k}: {json.dumps(v) if not isinstance(v,str) else v}")
+        lines.append("---")
+        lines.append("")
+        lines.append(proposal.get("definition",""))
+        return "\n".join(lines)
 
     def delete_candidate(self, candidate_id: str) -> None:
         for path in self.candidates.glob("*.json"):
