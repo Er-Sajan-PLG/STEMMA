@@ -48,7 +48,7 @@ Document → detect_kind() → extract() → Extraction(kind, text, pages, is_sc
 ### 4. Source Candidate Creation
 ```python
 build_source_candidate(ext) → {
-    "id": "lhs:src.ingest-<hash>",
+    "id": "stemma:src.ingest-<hash>",
     "type": "source",
     "title": filename,
     "kind": "ingested-document",

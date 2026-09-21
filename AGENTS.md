@@ -8,7 +8,7 @@
 
 > **STEMMA is an open, structured, reusable STEM knowledge foundation.**
 > Curriculum is external. Products are external. Learning experiences are external.
-> AI agents are consumers. STEM-TUITION (LearningHub) is one consumer — never a controller.
+> AI agents are consumers. LearningHub is one consumer — never a controller.
 
 STEMMA exists so that anyone — educators, developers, researchers, AI systems, other products — can build on top of a high-quality, reusable STEM knowledge base.
 
@@ -106,9 +106,8 @@ python3 scripts/export_subsets.py
 2. **Index entities by ID** for O(1) access
 3. **Resolve relationships** (throw on dangling, never silently skip)
 4. **Map canonical → consumer model** (consumer owns the mapping)
-5. **Handle ID namespace** (`lhs:` ↔ `stemma:` compatibility)
-
-**Example**: `LearningHub/apps/shell/src/lib/lhs-adapter.ts`
+5. **Use the `stemma:` ID namespace** — the retired prefix is never emitted
+   (ADR-0027); throw on unknown namespaces instead of silently translating
 
 ---
 
@@ -175,24 +174,23 @@ python3 scripts/export_subsets.py
 
 ```bash
 # 1. Read governance
-cat docs/NORTHSTAR.md
+cat docs/ARCHITECTURE-V2.md
 cat docs/GOVERNANCE.md
-cat docs/STEMMA-SPECIFICATION.md
 
 # 2. Validate current state
 python3 scripts/validate.py
 
 # 3. Explore content
-ls content/physics/mechanics/
-cat content/physics/mechanics/force.md
+ls content/physics/measurement-units/
+cat content/physics/measurement-units/metre.md
 
 # 4. Check export
 jq '.entities[0]' exports/knowledge.json
 
 # 5. Run tests
-python3 tests/curation/test_curation.py
-python3 tests/phase-b/test_phase_b.py
-python3 tests/metadata/test_adaptive_extensions.py
+python3 -m pytest tests/ -q
+python3 tests/repo/test_docs_consistency.py
+python3 tests/repo/test_independence.py
 python3 tests/curation/test_generality.py
 python3 tests/metadata/test_metadata_semantics.py
 ```
@@ -211,8 +209,6 @@ Every significant piece of work must be classified:
 | **OUT** | Not relevant | Do not implement |
 
 **Deferred unless human activates**:
-- Full MVP activation (`ACTIVATE LEARNINGHUBSTEM MVP`)
-- STEM-GAME, STEM Lab, JARVIS integration
 - Microservices, cloud, auth, payments, analytics
 - Vector/graph databases, recommendation engines
 - Shared platform services
@@ -221,7 +217,7 @@ Every significant piece of work must be classified:
 
 ## Definition of Done (Canonical Entity)
 
-- [ ] Stable ID (`lhs:<domain>.<slug>`)
+- [ ] Stable ID (`stemma:<domain>.<slug>`)
 - [ ] Valid schema
 - [ ] Required metadata complete
 - [ ] Provenance (source and/or reviewer)
@@ -245,7 +241,7 @@ Prose rules → Schemas → Validation → Tests → CI enforcement
 
 ## Session Protocol
 
-1. Read `AGENTS.md`, `docs/NORTHSTAR.md`, `docs/GOVERNANCE.md`
+1. Read `AGENTS.md`, `docs/ARCHITECTURE-V2.md`, `docs/GOVERNANCE.md`
 2. Classify work: NOW / SEAM / LATER / OUT
 3. State short plan before changing anything
 4. Run `python3 scripts/validate.py`

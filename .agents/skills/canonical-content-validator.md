@@ -29,9 +29,9 @@
 - Extensions keys registered in `schema/extension-registry.yaml`
 
 ### Stage 3: ID & Identity
-- ID format: `^lhs:[a-z][a-z0-9-]*\.[a-z0-9][a-z0-9-]*$`
+- ID format: `^stemma:[a-z][a-z0-9-]*\.[a-z0-9][a-z0-9-]*$`
 - ID uniqueness across all entities
-- Filename matches ID slug (`lhs:phys.force` → `force.md`)
+- Filename matches ID slug (`stemma:phys.force` → `force.md`)
 - Aliases are valid IDs, not equal to own ID
 
 ### Stage 4: Semantic Constraints
@@ -120,7 +120,7 @@ cat reports/validation-report.json
 
 | Error | Fix |
 |-------|-----|
-| "invalid stable ID format" | Check ID matches `lhs:<domain>.<slug>` pattern |
+| "invalid stable ID format" | Check ID matches `stemma:<domain>.<slug>` pattern |
 | "filename does not match id slug" | Rename file to match ID slug |
 | "dangling relationship target" | Add missing entity or fix target ID |
 | "applies_to requires law source" | Change source to law type or use different relationship |
