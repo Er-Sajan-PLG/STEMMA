@@ -1,0 +1,46 @@
+# Canonical open-question records — mirrors spec/OPEN_QUESTIONS.md
+open_questions:
+  - id: UNRES-STEMMA-CORE-001
+    question: "IRI base for entity/conn URIs unresolved (stemma:* vs domain-bound http/https)."
+    status: OPEN
+    blocking: true
+    blocking_impact: "R5 organizational decision; ADR-0002 schema contract external stability"
+    proposed_resolution: "R5: owner decides with organizational input"
+    authority_required: SOLE_OWNER
+    related: [ADR-0002, ADR-0027, EVID-STEMMA-CORE-002]
+  - id: UNRES-STEMMA-HITL-001
+    question: "HITL audit trail (workflow/) is git-ignored — review evidence not repository-portable; provenance relies on local state + declared metadata."
+    status: OPEN
+    blocking: true
+    blocking_impact: "Trust claim non-verifiable on fresh clone — affects REQ-STEMMA-HITL-001 verification"
+    proposed_resolution: "Owner decides: commit workflow/ (with redaction rules), or accept local-state provenance."
+    authority_required: SOLE_OWNER
+    related: [EVID-STEMMA-HITL-002, REQ-STEMMA-HITL-001, ADR-0043]
+  - id: UNRES-STEMMA-EXP-001
+    question: "Consumer learninghub export has 0 entities — behavior is structurally correct given all-draft corpus, but intended behavior is only CLAIMed."
+    status: OPEN
+    blocking: false
+    proposed_resolution: "Owner confirms emptiness as expected behavior with review-policy contract; add assertion test thereafter."
+    authority_required: SOLE_OWNER
+    related: [EVID-STEMMA-EXP-006, EVID-STEMMA-CORE-004, REQ-STEMMA-EXP-004]
+  - id: UNRES-STEMMA-INTEG-001
+    question: "Consumer convergence: which consumers remain concrete/strawman vs implemented-integrations; LearningHub semantic-web/RDF import unresolved (ADR-0044)."
+    status: OPEN
+    blocking: false
+    proposed_resolution: "Post-pilot: owner designates integration owners outside recovery scope."
+    authority_required: SOLE_OWNER
+    related: [EVID-STEMMA-INTEG-001, EVID-STEMMA-INTEG-002, ADR-0044]
+  - id: UNRES-STEMMA-RAG-001
+    question: "Fake/hash-fallback embedding determinism accepted? Environment lacks model downloads; derived-layer semantics for real vectors undefined at pilot scope."
+    status: OPEN
+    blocking: false
+    proposed_resolution: "Second pilot scope on derived layer; not blocking foundation slice."
+    authority_required: SOLE_OWNER
+    related: [EVID-STEMMA-EXP-003, CONFLICT-STEMMA-EXP-001]
+  - id: UNRES-STEMMA-OPS-001
+    question: "Does any rights/licensing review exist for book*-textbook source bodies (excerpt scale, attribution, licence)?"
+    status: OPEN
+    blocking: false
+    proposed_resolution: "Owner supplies rights documentation or marks acceptable-risk; license-compliance then an XC amendment."
+    authority_required: SOLE_OWNER
+    related: [EVID-STEMMA-CORE-005, XC-6]
