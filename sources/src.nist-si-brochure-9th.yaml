@@ -1,0 +1,13 @@
+id: stemma:src.nist-si-brochure-9th
+type: standard
+citation: BIPM (2019). The International System of Units (SI), 9th edition. Bureau International des Poids et Mesures.
+title: The International System of Units (SI) Brochure, 9th edition
+authors:
+  - BIPM
+year: 2019
+publisher: BIPM
+url: https://www.bipm.org/en/publications/si-brochure
+language: en
+source_role: primary
+writer: human:curator.001
+retrieved_at: "2026-09-21"

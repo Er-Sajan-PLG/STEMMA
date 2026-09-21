@@ -48,6 +48,8 @@ block drifts from canonical content (audit F2: status honesty is a gate):
 
 
 
+
+
 Canonicality is a *reviewed* property, not a folder: consumers should filter
 by review status (`docs/CONSUMERS.md`). Architecture baseline **3.0.0**
 (ADR-0029). Now comprehensive all-STEM mediocre with 8 domains, embeddings, RAG, consumer export.

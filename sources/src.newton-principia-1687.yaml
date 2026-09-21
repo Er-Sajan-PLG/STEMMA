@@ -1,0 +1,13 @@
+id: stemma:src.newton-principia-1687
+type: other
+citation: Newton, I. (1687). Philosophiæ Naturalis Principia Mathematica. London.
+title: Philosophiæ Naturalis Principia Mathematica
+authors:
+  - Isaac Newton
+year: 1687
+publisher: Royal Society
+url: https://cudl.lib.cam.ac.uk/view/PR-ADV-B-00039-00001-00008/1
+language: la
+source_role: primary
+writer: human:curator.001
+retrieved_at: "2026-09-21"
