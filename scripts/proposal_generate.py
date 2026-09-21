@@ -201,7 +201,8 @@ def check_evidence():
         print(f"No proposals dir {proposals_dir} — no proposals yet, OK for CI")
         return 0
 
-    proposals = list(proposals_dir.glob("*.yaml")) + list(proposals_dir.glob("*.json"))
+    # Only check actual proposal files (*.proposal.yaml), not reports that share the dir
+    proposals = list(proposals_dir.glob("*.proposal.yaml"))
     if not proposals:
         print(f"No proposals in {proposals_dir} — OK for CI")
         return 0
@@ -213,6 +214,12 @@ def check_evidence():
                 data = yaml.safe_load(p.read_text())
             else:
                 data = json.loads(p.read_text())
+
+            # Skip test-fixture proposals (path starts with tests/)
+            source = data.get("source", {})
+            orig = source.get("original_path", "")
+            if orig.startswith("tests/"):
+                continue
 
             evidence = data.get("evidence", {})
             # Check required evidence fields
