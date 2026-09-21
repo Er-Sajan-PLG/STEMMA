@@ -1,0 +1,25 @@
+# Canonical authority model — mirrors spec/ROLES_AND_AUTHORITY.md
+repository: Er-Sajan-PLG/STEMMA
+baseline_commit: fb66dd9
+pilot_scope: CORE-GATE-EXPORT
+specification_owner: Sajan
+specification_authority: Sajan
+architecture_authority: Sajan
+security_authority: Sajan
+cross_repository_interface_owner:
+  stemma_side: Sajan
+  learninghub: UNASSIGNED   # UNRES-STEMMA-INTEG-001
+  professor-j: UNASSIGNED   # UNRES-STEMMA-INTEG-001
+baseline_approver: Sajan
+provisional_authority: Arena agent (executor; no approval power)
+authority_mode: SOLE_OWNER
+authority_unknown: false
+approval_process: DRAFT -> PROPOSED -> owner review -> APPROVED | REJECTED | DEFERRED
+conflict_escalation_path: executor records CONFLICT with required authority level; owner or external authority resolves
+sole_owner_limitation: >
+  Independence is absent; approval rests on sole-owner authority. Mitigations:
+  machine gates, evidence classification, this artifact set. Recorded per protocol section 4.1.
+executor_non_actions:
+  - no requirement status set above PROPOSED
+  - no CONFLICT resolved, no UNRES closed
+  - baseline approval left PENDING

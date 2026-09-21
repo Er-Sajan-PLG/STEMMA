@@ -1,0 +1,114 @@
+# Canonical verification mapping — mirrors spec/VERIFICATION.md
+# All UNVERIFIED: PROPOSED requirements cannot be VERIFIED under section-9.1; executor has run none.
+verification_set_note: "Verification methods below are classified bindings-to-come after approval; pre-approval runs were EVIDENCE (EVID-STEMMA-GATE-002) not VERIFICATION."
+verification_records:
+  - requirement: REQ-STEMMA-CORE-001
+    method: INSPECTION
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-CORE-001, EVID-STEMMA-GATE-003]
+    procedure: "Inspect validate.py canonical path set; confirm export reads only canonical."
+  - requirement: REQ-STEMMA-CORE-002
+    method: STATIC_ANALYSIS
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-CORE-003]
+    procedure: "check_id_immutability on git history; schema pattern tests."
+  - requirement: REQ-STEMMA-CORE-003
+    method: STATIC_ANALYSIS
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-SEC-002]
+    procedure: "CI no-embeddings grep over content/."
+  - requirement: REQ-STEMMA-CORE-004
+    method: UNIT_TEST
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-GATE-001]
+    procedure: "test_generality canonical whitelist + phrase rejection."
+  - requirement: REQ-STEMMA-SCH-001
+    method: UNIT_TEST
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-GATE-003]
+    procedure: "verify_all schema validation step."
+  - requirement: REQ-STEMMA-SCH-002
+    method: UNIT_TEST
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-OPS-004]
+    procedure: "test_no_version_literals_in_exporters + docs-consistency VERSION keys."
+  - requirement: REQ-STEMMA-SCH-003
+    method: UNIT_TEST
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-SCH-003]
+    procedure: "test_registry_coherence + export registry comparison."
+  - requirement: REQ-STEMMA-GATE-001
+    method: INTEGRATION_TEST
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-GATE-002]
+    procedure: "Positive full gate; negative run with forced failure asserting exit non-zero."
+  - requirement: REQ-STEMMA-GATE-002
+    method: UNIT_TEST
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-GATE-006]
+    procedure: "status_truth --check on tampered README."
+  - requirement: REQ-STEMMA-GATE-003
+    method: INSPECTION
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-GATE-005, EVID-STEMMA-GATE-009]
+    procedure: "CI workflow inspection: test-suite job present; all-green needs it."
+  - requirement: REQ-STEMMA-GATE-004
+    method: UNIT_TEST
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-GATE-007]
+    procedure: "test_docs_consistency duplicate-doc and index assertion."
+  - requirement: REQ-STEMMA-GATE-005
+    method: UNIT_TEST
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-GATE-008]
+    procedure: "test_independence forbidden-reference assertion."
+  - requirement: REQ-STEMMA-EXP-001
+    method: UNIT_TEST
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-EXP-002, EVID-STEMMA-EXP-005]
+    procedure: "Double-run gate hash comparison; no-wall-clock job."
+  - requirement: REQ-STEMMA-EXP-002
+    method: UNIT_TEST
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-SCH-001, EVID-STEMMA-EXP-001]
+    procedure: "export.schema.json validation; export_version equality with VERSION.yaml."
+  - requirement: REQ-STEMMA-EXP-003
+    method: INTEGRATION_TEST
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-GATE-005]
+    procedure: "CI freshness git-diff step."
+  - requirement: REQ-STEMMA-EXP-004
+    method: INTEGRATION_TEST
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-EXP-006, EVID-STEMMA-EXP-007]
+    procedure: "Review-aware consumer export on mixed corpus (blocked on non-trivial corpus)."
+  - requirement: REQ-STEMMA-HITL-001
+    method: INTEGRATION_TEST
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-HITL-001, EVID-STEMMA-HITL-002]
+    procedure: "hitl_check --check-workflow audit; portability caveat UNRES-STEMMA-HITL-001."
+  - requirement: REQ-STEMMA-HITL-002
+    method: INTEGRATION_TEST
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-HITL-001]
+    procedure: "Negative fixture: candidate without human edit -> hitl_check FAIL."
+  - requirement: REQ-STEMMA-SEC-001
+    method: STATIC_ANALYSIS
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-SEC-001]
+    procedure: "gitleaks + no-secrets grep (CI + local)."
+  - requirement: REQ-STEMMA-SEC-002
+    method: INSPECTION
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-SEC-001]
+    procedure: "webapp key-handling review (second pilot dependency)."
+  - requirement: REQ-STEMMA-OPS-001
+    method: MEASUREMENT
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-GATE-004]
+    procedure: "Fresh venv, pip install -r requirements.txt, full gate timing+exit."
+  - requirement: REQ-STEMMA-OPS-002
+    method: INSPECTION
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-OPS-004]
+    procedure: "Trend: underlying prose-owned values removed or machine-linked per release."

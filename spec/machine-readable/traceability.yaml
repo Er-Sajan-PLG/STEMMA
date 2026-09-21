@@ -1,0 +1,90 @@
+# Canonical traceability matrix — read sideways: evidence -> requirement -> implementation -> (verification pending).
+traces:
+  - requirement: REQ-STEMMA-CORE-001
+    evidence: [EVID-STEMMA-CORE-001, EVID-STEMMA-GATE-003]
+    implementations: [scripts/validate.py]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-CORE-002
+    evidence: [EVID-STEMMA-CORE-003]
+    implementations: [schema/concept.schema.json, scripts/check_id_immutability.py]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-CORE-003
+    evidence: [EVID-STEMMA-SEC-002]
+    implementations: [.github/workflows/ci.yml]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-CORE-004
+    evidence: [EVID-STEMMA-GATE-001]
+    implementations: [tests/curation/test_generality.py]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-SCH-001
+    evidence: [EVID-STEMMA-GATE-003]
+    implementations: [scripts/validate.py, schema/concept.schema.json, schema/connection.schema.json, schema/source.schema.json]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-SCH-002
+    evidence: [EVID-STEMMA-SCH-001, EVID-STEMMA-OPS-004]
+    implementations: [schema/VERSION.yaml, tests/versioning/test_deterministic_export.py]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-SCH-003
+    evidence: [EVID-STEMMA-SCH-003, EVID-STEMMA-SCH-004]
+    implementations: [schema/relation-registry.yaml, tests/registry/test_registry_coherence.py]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-GATE-001
+    evidence: [EVID-STEMMA-GATE-002, EVID-STEMMA-GATE-010]
+    implementations: [scripts/verify_all.py]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-GATE-002
+    evidence: [EVID-STEMMA-GATE-006]
+    implementations: [scripts/status_truth.py]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-GATE-003
+    evidence: [EVID-STEMMA-GATE-005, EVID-STEMMA-GATE-009]
+    implementations: [.github/workflows/ci.yml]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-GATE-004
+    evidence: [EVID-STEMMA-GATE-007]
+    implementations: [tests/repo/test_docs_consistency.py]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-GATE-005
+    evidence: [EVID-STEMMA-GATE-008]
+    implementations: [tests/repo/test_independence.py]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-EXP-001
+    evidence: [EVID-STEMMA-EXP-002, EVID-STEMMA-EXP-005]
+    implementations: [scripts/validate.py, scripts/export_review_aware.py]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-EXP-002
+    evidence: [EVID-STEMMA-EXP-001, EVID-STEMMA-SCH-001]
+    implementations: [scripts/validate.py, schema/export.schema.json]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-EXP-003
+    evidence: [EVID-STEMMA-GATE-005]
+    implementations: [.github/workflows/ci.yml]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-EXP-004
+    evidence: [EVID-STEMMA-EXP-006, EVID-STEMMA-EXP-007]
+    implementations: [scripts/export_consumers.py, schema/consumer-registry.yaml]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-HITL-001
+    evidence: [EVID-STEMMA-HITL-001, EVID-STEMMA-HITL-002, EVID-STEMMA-CORE-004]
+    implementations: [scripts/hitl_check.py, scripts/review.py]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-HITL-002
+    evidence: [EVID-STEMMA-HITL-001]
+    implementations: [scripts/hitl_check.py]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-SEC-001
+    evidence: [EVID-STEMMA-SEC-001]
+    implementations: [.github/workflows/ci.yml, .gitleaks.toml]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-SEC-002
+    evidence: [EVID-STEMMA-SEC-001]
+    implementations: [webapp/providers.py]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-OPS-001
+    evidence: [EVID-STEMMA-GATE-004]
+    implementations: [requirements.txt]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-OPS-002
+    evidence: [EVID-STEMMA-OPS-004]
+    implementations: [scripts/status_truth.py, schema/VERSION.yaml]
+    verification: UNVERIFIED
