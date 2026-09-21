@@ -1,0 +1,61 @@
+name: Branching Strategy
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+
+jobs:
+  branching-strategy:
+    name: Branching Strategy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Enforce branching strategy
+        run: |
+          BRANCH="${GITHUB_REF_NAME}"
+
+          # Allow main branch
+          if [ "$BRANCH" = "main" ]; then
+            echo "✓ Push to main (post-merge state)"
+            exit 0
+          fi
+
+          # Allow feature branches
+          if echo "$BRANCH" | grep -qE "^(feat|fix|chore|docs|style|refactor|perf|test|build|ci|revert)/"; then
+            echo "✓ Feature branch: $BRANCH"
+            exit 0
+          fi
+
+          # Allow dependabot
+          if echo "$BRANCH" | grep -qE "^dependabot/"; then
+            echo "✓ Dependabot branch: $BRANCH"
+            exit 0
+          fi
+
+          # Allow release-please
+          if echo "$BRANCH" | grep -qE "^release-please"; then
+            echo "✓ Release branch: $BRANCH"
+            exit 0
+          fi
+
+          # Allow GitHub merge refs (PR merge previews)
+          if echo "$BRANCH" | grep -qE "^[0-9]+/merge$"; then
+            echo "✓ GitHub merge ref: $BRANCH"
+            exit 0
+          fi
+
+          # Allow arena branches
+          if echo "$BRANCH" | grep -qE "^arena/"; then
+            echo "✓ Arena branch: $BRANCH"
+            exit 0
+          fi
+
+          echo "✗ Branch name does not match required pattern: $BRANCH"
+          echo "Allowed: feat/*, fix/*, chore/*, docs/*, style/*, refactor/*, perf/*, test/*, build/*, ci/*, revert/*, dependabot/*, release-please*, arena/*"
+          exit 1
