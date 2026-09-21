@@ -1,26 +1,59 @@
-# Pre-commit hooks for STEMMA
 repos:
   - repo: local
     hooks:
       - id: validate-canonical
-        name: Validate Canonical Knowledge
+        name: Validate Canonical Knowledge (Authoritative)
         entry: python3 scripts/validate.py
         language: system
         files: ^(content|connections|sources|schema)/
         pass_filenames: false
         always_run: true
 
-      - id: check-version-bump
-        name: Check Version Bump
-        entry: bash -c 'if git diff --name-only | grep -qE "^schema/.*\.json$|^schema/VERSION\.yaml$"; then echo "⚠️  Schema changed — check schema/VERSION.yaml bump"; fi'
+      - id: verify-all
+        name: Verify All (Authoritative Chain)
+        entry: python3 scripts/verify_all.py
         language: system
         pass_filenames: false
         always_run: true
 
-      - id: regenerate-exports
-        name: Regenerate Exports
-        entry: python3 scripts/validate.py
+      - id: no-secrets
+        name: No Secrets in Canonical
+        entry: bash -c 'if grep -R -i "api_key\s*=\|secret.*=\|password\s*=" content/ connections/ sources/ --include="*.md" --include="*.yaml" 2>/dev/null | grep -v "example" | grep -v "provenance" | head -n 5; then echo "FAIL: secret in canonical"; exit 1; fi; echo "No secrets OK"'
         language: system
-        files: ^(content|connections|sources)/
+        pass_filenames: false
+        always_run: true
+
+      - id: no-embeddings-in-canonical
+        name: No Embeddings in Canonical (Derived Only)
+        entry: bash -c 'if find content/ -name "*.md" -exec grep -l "\"vector\":" {} \; 2>/dev/null | head -n 1 | grep .; then echo "FAIL: embeddings in canonical"; exit 1; fi; echo "No embeddings OK"'
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: check-required-docs
+        name: Check Required Docs + Guideline
+        entry: bash -c 'for f in AGENTS.md README.md VERSION docs/README.md docs/VISION.md docs/ARCHITECTURE.md docs/EMBEDDINGS.md docs/RAG.md docs/API.md docs/GUIDELINE-EMBEDDER-RAG.md; do if [ ! -f "$f" ]; then echo "FAIL: Missing $f"; exit 1; fi; done; echo "Docs OK"'
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: check-template-registry
+        name: Check Template Registry v2.0.0 8 Domains
+        entry: bash -c 'grep -q "version: .2.0.0." schema/template-registry.yaml && grep -q "computer-science:" schema/template-registry.yaml && echo "Template registry OK"'
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: check-explorer-clean
+        name: Check Explorer Clean Viewer
+        entry: bash -c 'grep -q "SphereGeometry(0.45" explorer/src/components/graph-view.ts && grep -q "display:none" explorer/src/components/graph-legend.ts && echo "Explorer clean OK"'
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: check-exports-fresh
+        name: Check Exports Fresh and Deterministic
+        entry: bash -c 'git diff --exit-code -- exports reports >/dev/null 2>&1 || (echo "FAIL: exports not fresh"; exit 1); echo "Exports fresh OK"'
+        language: system
         pass_filenames: false
         always_run: true
