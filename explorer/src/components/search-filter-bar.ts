@@ -39,16 +39,19 @@ export class SearchFilterBar {
             <button id="searchClear" class="search-clear">✕</button>
           </div>
 
-          <!-- Domain Dropdown -->
+          <!-- Domain Dropdown — comprehensive all-STEM 8 domains -->
           <select id="domainSelect" class="select-control">
-            <option value="all">🌐 All Domains</option>
+            <option value="all">🌐 All Domains (8 domains, 97 subdomains, 400-800 target)</option>
             <option value="physics">⚡ Physics</option>
             <option value="chemistry">🧪 Chemistry</option>
             <option value="biology">🧬 Biology</option>
-            <option value="earth-space">🪐 Earth & Space</option>
-            <option value="scientific-practice">📐 Practices</option>
+            <option value="earth-science">🌍 Earth Science</option>
+            <option value="astronomy">🔭 Astronomy</option>
+            <option value="computer-science">💻 Computer Science</option>
             <option value="engineering">⚙️ Engineering</option>
             <option value="mathematics">∑ Mathematics</option>
+            <option value="earth-space">🪐 Earth & Space (legacy)</option>
+            <option value="scientific-practice">📐 Practices (legacy)</option>
           </select>
 
           <!-- Relationship Filter -->

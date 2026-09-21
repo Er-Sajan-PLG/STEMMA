@@ -1,0 +1,32 @@
+id: stemma:conn.000021
+type: connection
+source: stemma:phys.acceleration
+relation: mathematically_requires
+target: stemma:phys.time
+assertion:
+  status: active
+  type: asserted
+  review:
+    status: unreviewed
+  confidence: 1.0
+  confidence_basis: expert_review
+context:
+  domain: physics
+  subdomain: mechanics
+  regime:
+    - classical
+evidence:
+  - type: textbook
+    stance: supports
+    source_ref: stemma:src.halliday-resnick-walker-12th
+    locator: "HRW Ch4"
+    description: "Acceleration requires time"
+provenance:
+  asserted_by:
+    type: human
+    id: human:curator.001
+  generated_by:
+    type: human
+    id: human:curator.001
+  method:
+    type: manual

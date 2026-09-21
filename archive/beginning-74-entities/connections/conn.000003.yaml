@@ -1,0 +1,34 @@
+id: stemma:conn.000003
+type: connection
+source: stemma:phys.newtons-second-law
+relation: mathematically_requires
+target: stemma:phys.length
+assertion:
+  status: active
+  type: asserted
+  review:
+    status: unreviewed
+  confidence: 1.0
+  confidence_basis: expert_review
+context:
+  domain: physics
+  subdomain: mechanics
+  regime:
+    - classical
+  assumptions:
+    - non-relativistic
+evidence:
+  - type: textbook
+    stance: supports
+    source_ref: stemma:src.halliday-resnick-walker-12th
+    locator: "Ch 4, p65"
+    description: "Velocity requires length, second law requires velocity via acceleration"
+provenance:
+  asserted_by:
+    type: human
+    id: human:curator.001
+  generated_by:
+    type: human
+    id: human:curator.001
+  method:
+    type: manual

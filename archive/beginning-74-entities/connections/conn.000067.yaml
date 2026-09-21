@@ -1,0 +1,30 @@
+id: stemma:conn.000067
+type: connection
+source: stemma:phys.impulse-momentum-theorem
+relation: derived_from
+target: stemma:phys.conservation-momentum
+assertion:
+  status: active
+  type: asserted
+  review:
+    status: unreviewed
+  confidence: 1.0
+  confidence_basis: expert_review
+context:
+  domain: physics
+  subdomain: mechanics
+evidence:
+- type: textbook
+  stance: supports
+  source_ref: stemma:src.newton-principia-1687
+  locator: Ch reference
+  description: Impulse-Momentum Theorem governed by stemma:phys.conservation-momentum
+provenance:
+  asserted_by:
+    type: human
+    id: human:curator.001
+  generated_by:
+    type: human
+    id: human:curator.001
+  method:
+    type: manual

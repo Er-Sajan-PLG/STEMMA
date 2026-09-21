@@ -30,6 +30,8 @@
     "language": { "type": ["string", "null"] },
     "source_role": { "type": ["string", "null"], "enum": ["primary", "secondary", "aggregator", "retrieval", null] },
     "accessed_at": { "type": ["string", "null"] },
+    "retrieved_at": { "type": ["string", "null"], "description": "When source was accessed — for dual verification (ADR-0043)" },
+    "writer": { "type": ["string", "null"], "description": "Agent id who created this source record — audit trail (ADR-0043)" },
     "license": { "type": ["string", "null"] },
     "locator_authority": { "type": ["string", "null"] },
     "rights": {

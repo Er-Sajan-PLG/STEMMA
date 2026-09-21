@@ -1,15 +1,24 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://stemma.example/schema/connection.schema.json",
-  "title": "STEMMA connection (first-class assertion)",
-  "description": "Schema for one canonical connection — first-class qualified assertion (v0.2). See ADR-011. Urgent metadata (v0.2 audit) added as optional.",
+  "title": "STEMMA connection (first-class assertion) — Architecture v2",
+  "description": "Schema for one canonical connection — first-class qualified assertion with value-slot XOR target/value, warrant axis definitional axiomatic model_based, correction labels, delegated authority v2 audited federation. See ADR-0044, ADR-0045, ADR-0046, ADR-0047, ADR-0048, ADR-0049. Architecture v2 ideal order.",
   "type": "object",
-  "required": ["id", "type", "source", "relation", "target", "assertion", "provenance"],
+  "required": ["id", "type", "source", "relation", "assertion", "provenance"],
+  "allOf": [
+    {
+      "oneOf": [
+        {"required": ["target"], "not": {"required": ["value"]}},
+        {"required": ["value"], "not": {"required": ["target"]}}
+      ],
+      "description": "Value-slot XOR target/value per ADR-0045 — either relational (target) or valued (value) claim, not both, not neither"
+    }
+  ],
   "properties": {
     "id": {
       "type": "string",
       "pattern": "^stemma:conn\\.[0-9]{6}$",
-      "description": "Sequential opaque connection ID (stemma:conn.000001), immutable, never reused."
+      "description": "Sequential opaque connection ID (stemma:conn.000001), immutable, never reused per L5."
     },
     "type": { "const": "connection" },
     "source": {
@@ -19,25 +28,50 @@
     },
     "relation": {
       "type": "string",
-      "description": "Relation name; validated against relation-registry.yaml (authoritative)."
+      "description": "Relation name; validated against relation-registry.yaml authoritative per ADR-0048 includes equivalent_to misconception_of."
     },
     "target": {
       "type": "string",
       "pattern": "^stemma:[a-z][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*$",
-      "description": "Target entity ID."
+      "description": "Target entity ID — absent when value present XOR per ADR-0045."
+    },
+    "value": {
+      "type": "object",
+      "description": "Value-slot per ADR-0045 — structured value for measurements, prevalence, typed literals — Wikibase QuantityValue aligned asymmetric bounds explicit unit IRIs dimensionless sentinel 1 interim allowlist QUDT/UCUM/SI symbols",
+      "required": ["amount"],
+      "properties": {
+        "amount": {
+          "type": "string",
+          "description": "Decimal string Wikibase-aligned e.g., 42.0"
+        },
+        "lowerBound": {
+          "type": ["string", "null"],
+          "description": "Optional lower bound asymmetric"
+        },
+        "upperBound": {
+          "type": ["string", "null"],
+          "description": "Optional upper bound asymmetric"
+        },
+        "unit": {
+          "type": "string",
+          "description": "Unit IRI per ADR-0024 or 1 dimensionless interim allowlist QUDT/UCUM/SI symbols m kg s A K mol cd documented as interim"
+        }
+      },
+      "additionalProperties": false
     },
     "assertion": {
       "type": "object",
       "required": ["status", "type", "review"],
       "properties": {
         "status": { "enum": ["active", "deprecated", "superseded"] },
-        "type": { "enum": ["asserted", "inferred", "proposed"] },
+        "type": { "enum": ["asserted", "inferred", "proposed"], "description": "Surgical per ADR-0046 — do NOT expand to derived disputed hypothesized warrant belongs on confidence_basis" },
         "polarity": { "enum": ["positive", "negative"], "default": "positive", "description": "M2: affirmed vs negated claim (default positive). Rejected != negated." },
         "review": {
           "type": "object",
           "required": ["status"],
           "properties": {
-            "status": { "enum": ["unreviewed", "reviewed", "canonical", "rejected"] }
+            "status": { "enum": ["unreviewed", "reviewed", "canonical", "rejected"] },
+            "authority": { "enum": ["internal", "delegated"], "description": "Per ADR-0049 delegated authority v2 — internal STEMMA-reviewed vs delegated institution-verified" }
           },
           "additionalProperties": false
         },
@@ -49,7 +83,8 @@
         },
         "confidence_basis": {
           "type": ["string", "null"],
-          "enum": ["expert_review", "experimental", "theoretical", "derived", null]
+          "enum": ["expert_review", "experimental", "theoretical", "derived", "definitional", "axiomatic", "model_based", null],
+          "description": "Warrant axis per ADR-0046 — how justified, extended with definitional axiomatic model_based, pairs with confidence"
         }
       },
       "additionalProperties": false
@@ -60,8 +95,8 @@
         {"type": "null"}
       ]
     },
-    "created_at": { "type": ["string", "null"], "description": "ISO8601 creation time (M3 repository lifecycle)" },
-    "updated_at": { "type": ["string", "null"], "description": "ISO8601 last modification time" },
+    "created_at": { "type": ["string", "null"], "description": "ISO8601 creation time (M3 repository lifecycle) — not in canonical export only workflow audit per L5 content_hash" },
+    "updated_at": { "type": ["string", "null"], "description": "ISO8601 last modification time — not in canonical export only workflow audit" },
     "validity": {
       "anyOf": [
         {"type": "object", "properties": {"valid_from": { "type": ["string", "null"] }, "valid_until": { "type": ["string", "null"] }}, "additionalProperties": false},
@@ -95,7 +130,7 @@
             },
             "additionalProperties": false
           },
-          "description": "M12: extensible qualifiers (conditions, scope, system, boundary, temperature, pressure, etc.)"
+          "description": "M12: extensible qualifiers (conditions, scope, system, boundary, temperature, pressure, etc.) per ADR-0044"
         }
       },
       "additionalProperties": true
@@ -124,7 +159,8 @@
           "description": { "type": "string" }
         },
         "additionalProperties": false
-      }
+      },
+      "description": "Required for canonical per L1 claim sole bearer truth must carry evidence per ADR-0044 gate enforces validate.py:658"
     },
     "provenance": {
       "type": "object",
@@ -155,7 +191,20 @@
             "required": ["type", "id"],
             "properties": {
               "type": { "enum": ["human", "llm"] },
-              "id": { "type": "string" }
+              "id": { "type": "string" },
+              "authority": { "enum": ["internal", "delegated"], "description": "Per ADR-0049 delegated authority v2 internal vs delegated" },
+              "delegated_provenance": {
+                "type": ["object", "null"],
+                "properties": {
+                  "institution_id": { "type": "string" },
+                  "review_standard_url": { "type": "string" },
+                  "review_standard_version": { "type": "string" },
+                  "audit_date": { "type": "string" },
+                  "sample_audit_rate": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+                },
+                "additionalProperties": false,
+                "description": "Per ADR-0049 delegated authority v2 audited federation"
+              }
             },
             "additionalProperties": false
           }
@@ -180,7 +229,24 @@
               "to": { "type": "string" },
               "reviewer": { "type": "string" },
               "at": { "type": "string" },
-              "reason": { "type": "string" }
+              "reason": { "type": "string" },
+              "authority": { "enum": ["internal", "delegated"], "description": "Per ADR-0049 delegated authority v2" },
+              "correction_class": {
+                "type": ["string", "null"],
+                "enum": ["factual_error", "category_error", "relationship_error", "provenance_error", "incompleteness", "hallucination", "format_error", "dangling_ref", null],
+                "description": "Per ADR-0046 correction labels why corrected attaches to review decisions not whole claims per L3"
+              },
+              "delegated_provenance": {
+                "type": ["object", "null"],
+                "properties": {
+                  "institution_id": { "type": "string" },
+                  "review_standard_url": { "type": "string" },
+                  "review_standard_version": { "type": "string" },
+                  "audit_date": { "type": "string" },
+                  "sample_audit_rate": { "type": "number" }
+                },
+                "additionalProperties": false
+              }
             },
             "additionalProperties": false
           }

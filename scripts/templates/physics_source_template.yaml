@@ -1,0 +1,16 @@
+id: stemma:src.<slug>
+type: textbook  # textbook | academic-paper | standard | institutional | other
+citation: "<Full citation>"
+title: "<Title>"
+authors:
+  - "<Author 1>"
+year: 2021
+publisher: "<Publisher>"
+edition: "12th"
+isbn: "978-..."
+url: "https://..."  # must have url OR doi OR isbn for verifiability
+doi: null
+language: en
+source_role: primary
+writer: human:curator.001  # who created this record
+retrieved_at: "2026-09-21"

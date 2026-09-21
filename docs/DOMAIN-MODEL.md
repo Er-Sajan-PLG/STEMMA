@@ -1,133 +1,94 @@
-# STEMMA — Domain Model
+# STEMMA — Domain Model (BEGINNING, NO LEGACY)
 
-**Status:** Authoritative (baseline 3.0.0).
-**Related:** `docs/SCHEMA-SPECIFICATION.md` (field-level contracts),
-`docs/RELATIONSHIP-SPECIFICATION.md` (assertion semantics),
-`docs/METADATA-SPECIFICATION.md` (provenance/lifecycle).
+**Status:** Authoritative, beginning. No legacy. Physics core only.
 
----
+## 1. Object kinds (Beginning)
 
-## 1. Object kinds
-
-The canonical layer has exactly three object kinds:
-
-| Kind | Identity | Lives in | Represents |
+| Kind | Identity | Lives in | Count Now |
 |---|---|---|---|
-| **Entity** | `stemma:<domain>.<slug>` | `content/**.md` | A node: something knowable (concept, quantity, law, …). |
-| **Connection** | `stemma:conn.NNNNNN` | `connections/*.yaml` | An edge: one asserted relationship between two entities. |
-| **Source** | `stemma:src.<slug>` | `sources/*.yaml` | A citable origin (paper, textbook, standard, dataset). |
+| Entity | `stemma:phys.<slug>` | `content/physics/**/*.md` | 17 |
+| Connection | `stemma:conn.NNNNNN` | `connections/*.yaml` | 27 |
+| Source | `stemma:src.<slug>` | `sources/*.yaml` | 3 |
 
-Everything else in the system is either metadata *on* these objects or derived
-*from* them.
+No legacy, this is beginning.
 
-## 2. Entity types
+## 2. Entity types (Minimal)
 
-Nine types are defined (ADR-0004, extended by ADR-0021). Type is immutable: a
-different type is a different entity (new ID).
-
-| Type | Represents | Does not represent |
+| Type | Represents | Example |
 |---|---|---|
-| `concept` | A general idea or category (e.g. Force). | A measurement, a law statement, a belief. |
-| `quantity` | A measurable property (Mass, Acceleration). | The unit (that is `unit`), a specific measurement. |
-| `unit` | A measurement standard (kilogram, m/s²). | The quantity itself. |
-| `law` | A general proposition holding under stated conditions (Newton's Second Law). | A formula string (`equation`), a concept. |
-| `equation` | A mathematical relation between quantities (F = m·a). | The law's prose statement, the quantities. |
-| `misconception` | A common false belief learners hold. | The correct concept; pedagogy. |
-| `phenomenon` | An observable occurrence (diffusion, seasons). | Its explanation (that is a `law`/`model` + relations). |
-| `model` | An idealized representation (ideal gas, Bohr model). | The phenomenon it models. |
-| `experiment` | A canonical experimental setup or observation. | A specific historical event (that is `historical` metadata). |
+| quantity | measurable property | mass, force, velocity |
+| unit | measurement standard | kilogram, newton |
+| law | governing proposition | newtons-second-law, conservation-energy |
+| concept | general idea | inertia, field |
+| model | idealized representation | point-mass |
+| phenomenon | observable | free-fall |
 
-Current corpus distribution is tracked live by `scripts/status_truth.py` and
-published in the README status block.
+## 3. Physics Minimal Profile v2 (Mandatory)
 
-## 3. Identity model
+Required: `id, type, name, domain, subdomain, status, definition, provenance, source_refs, governed_by`
 
-- **Grammar:** `stemma:<domain>.<slug>`; domains are short ASCII codes
-  (`phys`, `chem`, `math`, `bio`, `earth`, `eng`, `practice`); slugs are
-  lowercase `[a-z0-9-]`.
-- **Immutability:** an ID never changes meaning. Reassignment is detected from
-  git history (`check_id_immutability.py`); renaming an entity changes `name`,
-  never `id`.
-- **Lifecycle events and their identity handling:**
+- `subdomain`: mechanics | measurement-units | electricity-magnetism | thermal-physics — decided by governing law, not LLM
+- `governed_by`: array of law ids from `physics-governing-registry.yaml` — every entity must have >=1, deterministic placement
+- `source_refs`: array of `stemma:src.xxx` >=1 — canonical records, dual verification
+- `provenance`: must have `source_kind, source, writer, original_author, link, retrieved_at` — embedded verification
+- `historical`: optional draft, mandatory for law/model/equation when human_reviewed/canonical — timeline for progression
 
-| Event | Rule |
-|---|---|
-| renamed | `name` changes; ID unchanged. |
-| split | New IDs for the parts; original becomes `deprecated` with `deprecated_by` (or documented ambiguity). |
-| merged | Survivor keeps its ID; the other is `deprecated` → survivor. |
-| replaced | New ID; old `deprecated` → new; new lists old in `aliases`. |
-| deprecated | `status: deprecated`; ID reserved forever, never reused. |
+Forbidden for physics: `learning_objectives, real_world_applications, key_experiments, common_misconceptions`
 
-- **Namespace history:** the pre-refoundation prefix was migrated to
-  `stemma:` in a single governed bulk migration that changed no
-  identity-defining field (ADR-0027; details and the guard's alias rule are
-  recorded in `docs/MIGRATIONS.md`).
+## 4. Governing Laws — What Goes Where
 
-## 4. Assertion model (the heart of the domain)
+See `PHYSICS-GOVERNING-LAWS.md` + `physics-governing-registry.yaml`.
 
-A **connection** is a reified statement — the claim plus everything known
-*about* the claim:
+- `mechanics` governed by Newton + conservation → dimensions M,L,T → quantities: mass, force, velocity...
+- `measurement-units` governed by SI definitions + dimensional analysis → only type=unit
+- Every entity's subdomain must match subdomain of its governing law(s) — checked by `physics_governing_check.py`
 
-```
-stemma:conn.000377
-  source      → stemma:phys.newtons-second-law     (entity)
-  relation    → mathematically_requires            (registry entry)
-  target      → stemma:phys.force                  (entity)
-  assertion   → status, type, review, confidence, polarity
-  context     → domain, subdomain, regime, scale, assumptions, qualifiers
-  evidence[]  → typed citations with stance (supports/refutes)
-  provenance  → asserted_by, generated_by, method, reviewed_by[], review_history[]
-  lifecycle   → supersession pointers (replaced_by)
-```
+## 5. Assertion model
 
-Semantics (identity of a claim, immutability, supersession, duplicate
-detection) are specified in `docs/RELATIONSHIP-SPECIFICATION.md`.
+Connection is reified statement with mandatory evidence:
+- `source --relation--> target` (only 7 relations: mathematically_requires, derived_from, appears_in_law, applies_to, generalizes, special_case_of, part_of, approximates)
+- `evidence[]` >=1 with `source_ref, locator, description` — no empty evidence
+- `governed_by` via connection or entity frontmatter
 
-## 5. Provenance and epistemics (summary)
+## 6. No legacy
 
-- **Origin** (`provenance`): who/what produced the record, by what method,
-  with what machine assistance. Agents resolve in the agent registry.
-  `unknown:*` agents are honest attribution for unrecoverable origin —
-  allowed on migrated records only.
-- **Review** (`assertion.review` + `review_history`): the human authority
-  track. States: `unreviewed → reviewed → canonical` (and `rejected`).
-  Transitions are forward-only with named reviewer and reason; a state machine
-  (`scripts/curation_state.py`) is the only writer.
-- **Confidence** (`assertion.confidence` + `confidence_basis`): optional
-  uncertainty annotation; never set without its basis.
-- **Historical attribution** (`historical`): who first *stated the science*
-  and when — distinct from record provenance; truth-conservative when origins
-  are contested or independent.
+Old corpus 224/654 archived. Old 74 entities archived to archive/beginning-74-entities/. This is beginning clean: 1 entity (metre) via PDF primary ingestion with HITL, deterministic scales, evolvable templates, model selector like DeepSeek harness (local + frontier models). Workflow has 2 PDFs, 7 candidates, 3 HITL edits. Will grow via primary PDF ingestion.
 
-## 6. Lifecycle states
 
-Entities: `draft → machine_validated → human_reviewed → canonical`,
-plus terminal `deprecated`/`superseded` (forward-only; a released entity is
-never edited in place — it is replaced).
+## Standard Scientific Definition (Added 2026-09-21)
 
-Connections: `proposed/asserted → reviewed → canonical`, or `rejected`
-(auditable, never deleted); retirement requires supersession or deprecation.
+Every entity must have standard agreed definition, not general:
+- For units: exact SI Brochure 9th ed. 2019 redefinition with fixed constants (e.g., metre = light path 1/299792458 s, kilogram = h fixed 6.62607015e-34 J·s)
+- For quantities: dimension + SI unit + governing law + exact formula (e.g., force F=ma = kg·m/s²)
+- For laws: exact equation with constants (G, ε₀, μ₀, R) and regime
+- Reference mandatory: provenance.source includes SI Brochure citation, link https://www.bipm.org/en/publications/si-brochure, source_refs [nist-si-brochure-9th, halliday-resnick-walker-12th], writer, original_author BIPM/HRW, external_ids wd/qudt
+- Example: metre definition must be: 'The metre (symbol: m) is base unit of length in SI. Defined as length of path travelled by light in vacuum during 1/299,792,458 s. Exact c=299,792,458 m/s.'
+- Explorer shows ✓ Scientifically agreed badge and references section for triple-check
 
-See `docs/CURATION-PROTOCOL.md` for the review workflow and evidence standards
-per relation family.
 
-## 7. Domain invariants
+## Comprehensive All-STEM Domains — 8 domains, 97 subdomains, mediocre coverage (not minimal physics)
 
-1. No curriculum, grade, course, country, or product semantics in canonical
-   data (tested: `tests/curation/test_generality.py`).
-2. No relationship data on entities — connections only (tested: validator +
-   export contract v2.0).
-3. Every reference resolves (entities, sources, successors, agents,
-   registry entries) — no dangling pointers anywhere.
-4. Review is human: no `unknown:` reviewer, no auto-canonicalization, no
-   review transitions without a named human agent.
-5. Unknown is `null`, never fabricated (timestamps, confidence, regime).
-6. Derived data is marked derived and regenerable byte-for-byte.
+Previously minimal physics only (mechanics, measurement-units) — now comprehensive all-STEM mediocre:
 
-## 8. Out of the domain model (consumer responsibilities)
+- **physics** (12 subdomains): mechanics, measurement-units, electricity-magnetism, thermal-physics, waves-optics, atomic-nuclear, quantum, relativity, fluid-mechanics, thermodynamics, optics, condensed-matter — textbooks HRW 12th, University Physics, Feynman Lectures — authoritative SI Brochure 9th ed. + NIST
+- **chemistry** (11): general, organic, inorganic, physical, analytical, biochemistry, polymer, electrochemistry, quantum-chemistry, materials-chemistry, environmental-chemistry — textbooks Atkins, Clayden, Housecroft, Skoog — authoritative IUPAC Gold Book + CRC Handbook
+- **biology** (14): general, molecular, cell-biology, genetics, evolution, ecology, physiology, microbiology, neuroscience, anatomy, botany, zoology, immunology, developmental — textbooks Campbell, Molecular Biology of the Cell, Lehninger — authoritative NCBI + IUPAC + Nature
+- **earth-science** (10): geology, meteorology, oceanography, environmental, geography, climatology, seismology, hydrology, atmospheric, mineralogy — textbooks Press & Siever, Essentials of Meteorology — authoritative USGS + NASA + NOAA
+- **astronomy** (8): astrophysics, cosmology, planetary, stellar, galactic, observational, astrobiology, celestial-mechanics — textbooks Carroll & Ostlie — authoritative NASA + IAU + ESA
+- **computer-science** (15): algorithms, data-structures, programming-languages, software-engineering, artificial-intelligence, machine-learning, databases, networks, cybersecurity, operating-systems, theory, computer-architecture, graphics, compilers, distributed-systems — textbooks CLRS, SICP, Patterson & Hennessy, Tanenbaum, Goodfellow Deep Learning — authoritative ACM + IEEE + arXiv
+- **engineering** (13): mechanical, electrical, civil, chemical, aerospace, biomedical, industrial, environmental, materials, software, nuclear, automotive, robotics — textbooks Shigley, Nilsson/Riedel, Hibbeler, Incropera — authoritative IEEE + ASME + ASCE + Handbooks
+- **mathematics** (14): algebra, geometry, calculus, statistics, probability, number-theory, discrete, linear-algebra, differential-equations, topology, analysis, logic, combinatorics, optimization — textbooks Stewart, Dummit & Foote, Rudin, Strang — authoritative MathWorld + NIST DLMF + arXiv
 
-Curriculum mapping and sequencing, pedagogical ordering, assessment,
-presentation, localization *strategy* (multilingual identity is defined —
-ADR-0009 — but content localization is a consumer concern), analytics, and
-any product behavior. STEMMA's export gives consumers stable IDs and explicit
-structure to build these on.
+Total 97 subdomains, mediocre coverage 50-100 entities per domain = 400-800 total entities, with deterministic templates v2.0.0 that scale, embeddings, RAG, consumer export for LearningHub, PROFESSOR-J.
+
+## Entity Types — 12 types comprehensive, not 3
+
+- concept (generic, any domain), quantity (with symbol + unit), unit (with exact SI), constant (with exact value), law (with equation + history), principle, theorem, equation, process (photosynthesis, mitosis, compilation), structure (DNA, atom, crystal, data structure), algorithm (quicksort, Dijkstra, backprop), material (graphene, steel, polymer)
+
+Each with template in template-registry.yaml v2.0.0, requires [definition] or [definition, symbol, unit, governed_by] etc., evolvable without code change.
+
+## Embeddings + RAG + Consumer Export — NEW
+
+- **Embedding:** YES needed — model generates vectors for entities for RAG and consumer export, 12 models local free + frontier API, deterministic content_hash + model id → same embeddings, stored in exports/embeddings.jsonl + vector_store/ FAISS, for LearningHub (OpenAI text-embedding-3-large 3072), PROFESSOR-J (BGE Large SOTA 1024 offline), general (All-MiniLM fast)
+- **RAG:** YES needed — STEMMA is knowledge foundation, RAG is how consumers use it, flow question → embedding → vector search top_k → context definitions + connections + sources → LLM model selector like DeepSeek harness (local + frontier models: DeepSeek R1 free, Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro, Llama 3.3, custom) → answer with citations, API /v2/rag/search GET + /v2/rag/query POST, webapp RAG playground
+- **Consumer export:** YES needed — file (knowledge.json deterministic content-hash v2.1.0, embeddings.jsonl, vector_store/, consumers/<consumer>/knowledge.<consumer>.json filtered), API (adapter v0.2.0 endpoints /v2/entities, /v2/embeddings, /v2/rag/search, /v2/rag/query POST, /v2/export?consumer=..., /openapi.yaml), SDK (Python Stemma.from_file + StemmaRAG)

@@ -1,0 +1,129 @@
+batch: 2
+campaign: R6 entity review
+reviewer: human:reviewer.physics-001
+seed_pass: false
+items:
+- id: stemma:phys.work
+  name: Work
+  domain: physics
+  type: quantity
+  status: draft
+  definition: Work is the energy transferred to or from an object via a force acting over a displacement.
+  score: 0.019245
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.force
+  name: Force
+  domain: physics
+  type: quantity
+  status: draft
+  definition: Force is an interaction that, when unopposed, changes the motion of an object, defined as the rate
+    of change of momentum.
+  score: 0.017985
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.kinetic-energy
+  name: Kinetic Energy
+  domain: physics
+  type: quantity
+  status: draft
+  definition: Kinetic energy is the energy possessed by an object due to its motion, equal to half mass times velocity
+    squared.
+  score: 0.013699
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.power
+  name: Power
+  domain: physics
+  type: quantity
+  status: draft
+  definition: Power is the rate at which work is done or energy is transferred.
+  score: 0.013699
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.conservation-energy
+  name: Conservation of Energy
+  domain: physics
+  type: law
+  status: draft
+  definition: The total energy of an isolated system remains constant; energy cannot be created or destroyed, only
+    transformed or transferred.
+  score: 0.012824
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.acceleration
+  name: Acceleration
+  domain: physics
+  type: quantity
+  status: draft
+  definition: Acceleration is the rate of change of velocity with respect to time.
+  score: 0.012505
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.momentum
+  name: Momentum
+  domain: physics
+  type: quantity
+  status: draft
+  definition: Momentum is the product of an object's mass and velocity, a measure of its motion.
+  score: 0.012505
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.joule
+  name: joule
+  domain: physics
+  type: unit
+  status: draft
+  definition: The joule is the SI derived unit of energy, work, and heat, defined as newton metre.
+  score: 0.011699
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.kilogram
+  name: kilogram
+  domain: physics
+  type: unit
+  status: draft
+  definition: The kilogram is the SI base unit of mass, defined by fixing the Planck constant to 6.62607015×10^-34
+    J·s.
+  score: 0.010505
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.metre
+  name: metre
+  domain: physics
+  type: unit
+  status: draft
+  definition: The metre is the SI base unit of length, defined by fixing the speed of light in vacuum.
+  score: 0.010505
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.newton
+  name: newton
+  domain: physics
+  type: unit
+  status: draft
+  definition: The newton is the SI derived unit of force, defined as kilogram metre per second squared.
+  score: 0.010505
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.second
+  name: second
+  domain: physics
+  type: unit
+  status: draft
+  definition: The second is the SI base unit of time, defined by fixing the cesium-133 hyperfine transition frequency.
+  score: 0.010505
+  decision: null
+  reviewer: null
+  evidence_notes: null

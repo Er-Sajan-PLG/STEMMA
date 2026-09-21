@@ -1,4 +1,4 @@
-# STEMMA — single authoritative version source (ADR-0022; ADR-0027/0028 refoundation)
+# STEMMA — single authoritative version source (ADR-0022; ADR-0027/0028 refoundation; ADR-0050 contract update 2.2.0)
 #
 # Every producer of derived artifacts (scripts/validate.py, export_review_aware.py,
 # graph_analysis.py) MUST read its version constants from this file. Version literals
@@ -16,12 +16,14 @@
 #                    relation_registry_version + vocabularies sidecar so consumers
 #                    can introspect relation semantics from the export alone.
 #                    Old 2.0.x readers ignore the new members.
+#                    v2.2.0 (ADR-0050): ADDITIVE value-slot XOR target/value per ADR-0045 + authority field internal|delegated per ADR-0049 delegated authority v2 + warrant axis definitional axiomatic model_based per ADR-0046 + correction_class per ADR-0046. Old 2.1.x readers ignore new members but should upgrade to handle value-slot and authority.
 # relation_registry_version — '1.0.0' version of schema/relation-registry.yaml.
 #                    Major bump from 0.3: reserved duplicate relations removed
 #                    (broader_than/narrower_than duplicated generalizes/
 #                    special_case_of; contains duplicated has_part; is_a duplicated
 #                    special_case_of for taxonomic use). No adopted relation changed.
+#                    v1.0.0 includes equivalent_to and misconception_of per ADR-0048.
 
-schema_version: '1.1.0'
-export_version: '2.1.0'
+schema_version: '1.2.0'
+export_version: '2.2.0'
 relation_registry_version: '1.0.0'

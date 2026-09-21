@@ -1,0 +1,30 @@
+id: stemma:conn.000119
+type: connection
+source: stemma:phys.magnetic-field
+relation: appears_in_law
+target: stemma:phys.gauss-law-magnetic
+assertion:
+  status: active
+  type: asserted
+  review:
+    status: unreviewed
+  confidence: 1.0
+  confidence_basis: expert_review
+context:
+  domain: physics
+  subdomain: electricity-magnetism
+evidence:
+- type: textbook
+  stance: supports
+  source_ref: stemma:src.halliday-resnick-walker-12th
+  locator: Ch reference
+  description: Magnetic Field governed by stemma:phys.gauss-law-magnetic
+provenance:
+  asserted_by:
+    type: human
+    id: human:curator.001
+  generated_by:
+    type: human
+    id: human:curator.001
+  method:
+    type: manual

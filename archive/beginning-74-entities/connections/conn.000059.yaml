@@ -1,0 +1,30 @@
+id: stemma:conn.000059
+type: connection
+source: stemma:phys.torque
+relation: appears_in_law
+target: stemma:phys.conservation-angular-momentum
+assertion:
+  status: active
+  type: asserted
+  review:
+    status: unreviewed
+  confidence: 1.0
+  confidence_basis: expert_review
+context:
+  domain: physics
+  subdomain: mechanics
+evidence:
+- type: textbook
+  stance: supports
+  source_ref: stemma:src.halliday-resnick-walker-12th
+  locator: Ch reference
+  description: Torque governed by stemma:phys.conservation-angular-momentum
+provenance:
+  asserted_by:
+    type: human
+    id: human:curator.001
+  generated_by:
+    type: human
+    id: human:curator.001
+  method:
+    type: manual

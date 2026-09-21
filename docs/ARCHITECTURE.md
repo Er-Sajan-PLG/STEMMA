@@ -1,138 +1,58 @@
-# STEMMA — System Architecture
+# STEMMA — System Architecture — DEPRECATED, See ARCHITECTURE-V2.md
 
-**Status:** Authoritative (baseline 3.0.0, ADR-0029).
-**Related:** `docs/VISION.md` (why), `docs/SCHEMA-SPECIFICATION.md`,
-`docs/RELATIONSHIP-SPECIFICATION.md`, `docs/METADATA-SPECIFICATION.md`,
-`docs/PIPELINES.md` (how data flows), `docs/TESTING.md` (how it is enforced).
+Status: Deprecated — authoritative is docs/ARCHITECTURE-V2.md clean constitutional foundation single part L1-L8 refined.
 
----
+This file previously described comprehensive all-STEM mediocre coverage with HITL, PDF primary, evolvable templates v2.0.0, model selector like DeepSeek harness, embeddings, RAG, consumer export. Old 74 entities archived to archive/beginning-74-entities/. Now 1 entity (metre) via PDF primary ingestion with HITL, will grow to mediocre 400-800 across 8 domains.
 
-## 1. The system in one picture
+New architecture v2 is in docs/ARCHITECTURE-V2.md — constitutional foundation clean single part L1-L8 refined, data model value-slot XOR target/value interim allowlist QUDT/UCUM/SI, semantic primitives, delegated authority v2 audited federation audit_frequency sample_audit_rate 10%/5% versioning revocation, scale 10^2–10^6 sharded YAML+LFS now content-addressed design later, 16-stage semantic acquisition pipeline evidence first-class AI output must be proposal independent verification deterministic+Verifier Model B conflict analysis explicit P=10 vs P=12 human review final authority, embedding and RAG producer vs consumer separation deterministic derived embeddings reference implementation export mechanism LearningHub PROFESSOR-J via OpenAPI file/API/SDK content_hash, standards alignment pluggable BFO schema.org SKOS QUDT Wikidata JSON-LD SHACL PROV-O Wikidata anchors, consumption contract deterministic export content-hash consumer views explorer clean small nodes thin lines manual legend centered zoom 8 domains.
+
+Implementation plan is in docs/IMPLEMENTATION-PLAN-V2.md Phases 0-8 ideal order architecture → plan → work integrating early work.
+
+Decisions are in docs/decisions/README.md 0040-0052 beginning no legacy.
+
+Roadmap is in docs/ROADMAP.md Phases 0-8 ideal order.
+
+Implementation status is in docs/IMPLEMENTATION-STATUS.md architecture v2 ideal order current counts 1 entity metre via HITL 0 connections 3 sources checks all green.
+
+For new engineers, start with docs/ARCHITECTURE-V2.md then docs/IMPLEMENTATION-PLAN-V2.md then docs/decisions/README.md then docs/README.md reading order.
+
+This file kept for historical reference but authoritative is ARCHITECTURE-V2.md.
+
+## Old content preserved below for reference — see ARCHITECTURE-V2.md for authoritative
+
+Previous content was comprehensive all-STEM mediocre coverage with HITL, PDF primary, evolvable templates v2.0.0, model selector like DeepSeek harness (local + frontier models), embeddings, RAG, consumer export for LearningHub, PROFESSOR-J. Old 74 entities archived to archive/beginning-74-entities/. Will grow to mediocre coverage across 8 domains: physics, chemistry, biology, earth-science, astronomy, computer-science, engineering, mathematics.
+
+System layers previously:
 
 ```
-                        ┌─────────────────────────────────────────────────┐
-                        │  CANONICAL LAYER (source of truth, in git)      │
-                        │                                                 │
-                        │  content/**.md        entities (MD + YAML)      │
-                        │  connections/*.yaml   first-class assertions    │
-                        │  sources/*.yaml       citation records          │
-                        └───────────────┬─────────────────────────────────┘
-                                        │
-                        ┌───────────────▼─────────────────────────────────┐
-                        │  GATE (deterministic, zero-trust)               │
-                        │  scripts/validate.py                             │
-                        │  · schema conformance (JSON Schema 2020-12)     │
-                        │  · identity, references, registry coherence     │
-                        │  · epistemic rules (review, confidence, cycles) │
-                        │  · duplicate-claim detection (claim signatures) │
-                        │  · export validated against its own contract    │
-                        └───────────────┬─────────────────────────────────┘
-                                        │  (only if the gate passes)
-                        ┌───────────────▼─────────────────────────────────┐
-                        │  DERIVED LAYER (regenerable, never authoritative)│
-                        │  exports/knowledge.json          the contract    │
-                        │  exports/knowledge.{policy}.json review views    │
-                        │  exports/knowledge.extended.json inverses+closure│
-                        │  reports/*                       operational     │
-                        └───────────────┬─────────────────────────────────┘
-                                        │
-              ┌─────────────────────────┼──────────────────────────┐
-              ▼                         ▼                          ▼
-      first-party tools         external consumers          future derived
-      explorer/ (graph viz,     curricula, apps, AI          indexes, embeddings,
-      reads ONLY the export)    systems (via the export)     RDF/JSON-LD projections
+CANONICAL LAYER (source of truth, in git, only after HITL)
+  content/<domain>/**/*.md (1 entity now metre via HITL, will grow to mediocre all-domain)
+  connections/*.yaml (0 now, will grow, 8 relations only, mandatory evidence)
+  sources/*.yaml (3 canonical records)
+
+INGESTION LAYER (PRIMARY — PDF, deterministic scales, evolvable, git-ignored workflow/)
+  workflow/documents/<doc_id>/ (PDF uploads)
+  workflow/extraction/<doc_id>.txt (deterministic poppler/tesseract)
+  workflow/candidates/<doc_id>/<slug>.md (markdown preview deterministic templates v2.0.0 regex + exact constants OR AI draft frontier model)
+  workflow/proposals/<slug>.md (human-approved markdown after explicit edit)
+  workflow/audit/audit.jsonl (HITL audit)
+  workflow/meta/<doc_id>.json
+
+GATE (deterministic, no LLM, includes HITL)
+  scripts/validate.py, physics_core_profile_check.py, physics_governing_check.py, hitl_check.py, evolvable_template.py, pdf_ingest_primary.py, embed.py, rag.py, export_consumers.py
+
+DERIVED LAYER (regenerable, deterministic, content-hash, no wall clock)
+  exports/knowledge.json v2.1.0 deterministic content-hash
+  exports/embeddings.jsonl, vector_store/ FAISS, consumers/<consumer>/knowledge.<consumer>.json, openapi.yaml, reports/
+
+CONSUMERS + EXPORT MECHANISM + RAG
+  explorer/ clean 3D small nodes thin lines legend manual zoom centered domain filter 8 domains
+  adapters/python/ v0.2.0 embeddings + RAG + consumer export
+  webapp/ ingestion & review UI + RAG playground PDF primary deterministic draft + AI draft frontier model selector
+  LearningHub, PROFESSOR-J
+
+EMBEDDING + RAG LAYER
+  embedding-registry.yaml 12 models, consumer-registry.yaml 4 consumers, api.yaml OpenAPI 3.0.3
 ```
 
-Dependency direction is always **downward**: consumers depend on the export;
-the export depends on canonical data; nothing depends upward. The canonical
-layer depends on nothing.
-
-## 2. Components
-
-| Component | Path | Role | Layer |
-|---|---|---|---|
-| Entity corpus | `content/<domain>/<subdomain>/<slug>.md` | Canonical knowledge nodes; YAML frontmatter + prose. | canonical |
-| Assertion corpus | `connections/conn.NNNNNN.yaml` | Canonical relationship assertions (one object per claim). | canonical |
-| Source records | `sources/src.<slug>.yaml` | Canonical citation records referenced by evidence. | canonical |
-| Schemas | `schema/*.schema.json` | Machine contracts for each canonical object kind + the export. | contract |
-| Registries | `schema/relation-registry.yaml`, `schema/agent-registry.yaml`, `schema/extension-registry.yaml`, `schema/vocabularies/` | Governed controlled vocabularies. | contract |
-| Version source | `schema/VERSION.yaml` | Single source for schema/export/registry versions. | contract |
-| Gate | `scripts/validate.py` | Validation + deterministic export generation. | gate |
-| History guards | `scripts/check_id_immutability.py` | Identity & assertion-triple immutability from git history. | gate |
-| Review state machine | `scripts/review.py`, `scripts/curation_state.py`, `scripts/apply_review_decisions.py` | Human review workflow for assertions. | workflow |
-| Ingestion | `scripts/ingest.py`, `scripts/ingest_to_proposals.py`, `scripts/curation_pipeline.py` | Document → review-ready proposal (never canonical directly). | workflow |
-| Analysis | `scripts/graph_analysis.py`, `scripts/epistemic_summary.py`, `scripts/integrity_anomalies.py`, `scripts/curation_status.py`, `scripts/dependency_review_campaign.py` | Derived reporting on corpus state. | derived |
-| Explorer | `explorer/` | First-party 3-D graph visualizer; a *consumer* that reads only the published export. | consumer |
-| Python adapter | `adapters/python/` | First-party read-only consumer adapter: Python SDK, CLI, and local JSON API over the export. | consumer |
-| Test suite | `tests/` | Layered invariant tests (see `docs/TESTING.md`). | gate |
-| CI | `.github/workflows/ci.yml` | Runs the full verification chain + freshness + security scans. | gate |
-
-## 3. Layer invariants (what the architecture guarantees)
-
-1. **Canonicality is a location, not an opinion.** Only
-   `content/`+`connections/`+`sources/` are canonical; anything regenerable is
-   derived; a derived artifact can never become authoritative.
-2. **No unvalidated state.** The export is written only after every check
-   passes — including validation *of the export against its own contract*.
-3. **No silent identity churn.** IDs are immutable (guard: git-history
-   identity reconstruction); assertion triples are immutable (correction =
-   supersession + new ID).
-4. **No duplicate claims.** Two active assertions with the same claim
-   signature fail the gate.
-5. **No hidden authority.** Every agent in provenance resolves in the agent
-   registry; review status transitions are recorded with reviewer and reason.
-6. **No curriculum coupling.** The generality invariant is tested; scoping
-   metadata (grade/course/country/product) is structurally absent.
-7. **No ecosystem coupling.** The repository-independence invariant is tested:
-   canonical data, schemas, code, and core docs contain no reference to any
-   private project ecosystem.
-8. **Determinism.** Derived artifacts carry a content hash, never a wall
-   clock; regeneration is byte-identical (tested; CI enforces freshness via
-   `git diff --exit-code`).
-
-## 4. Boundaries and dependency rules
-
-- **Entity ↔ connection boundary.** Entities carry *no* relationship data.
-   All relationships live in `connections/` as first-class objects (ADR-0020,
-   executed fully in contract v2.0 / ADR-0028). This is the single-relationship-
-   source invariant; the explorer and export enforce it structurally.
-- **Data ↔ metadata boundary.** Knowledge fields (definition, equation
-  display forms) are distinct from provenance/review metadata; metadata never
-  edits silently (see `docs/METADATA-SPECIFICATION.md`).
-- **Gate ↔ consumer boundary.** The validator never writes into consumer
-   trees (the explorer syncs its own copy). The gate's only output channel is
-   `exports/` and `reports/`.
-- **Canonical ↔ derived boundary.** Derived generators may read canonical
-   data; they never write it.
-
-## 5. Extension mechanisms
-
-| Mechanism | Purpose | Governance |
-|---|---|---|
-| `schema/extension-registry.yaml` | Additive metadata dimensions on entities/connections/sources | Registered with purpose + owner; validated by the gate |
-| `schema/relation-registry.yaml` `reserved` status | Pre-defined relations not yet in canonical use | Require an ADR before first canonical use |
-| `schema/agent-registry.yaml` | New provenance agents (human/process/llm) | Same PR as first use |
-| External-ID schemes (`external_ids`) | Cross-reference Wikidata, DOI, ORCID, QUDT, UCUM… | Known schemes format-checked; unknown schemes allowed |
-| Export views (`exports/knowledge.<policy>.json`) | Review-policy filtered views of the same assertions | Policy semantics in `scripts/graph_policy.py` |
-
-Anything not extendable through these mechanisms requires an ADR, because it
-changes the contract surface.
-
-## 6. What is deliberately NOT in the architecture
-
-- No database, service, API gateway, or cloud dependency — the contract is a
-  validated file.
-- No RDF/OWL stack in the canonical layer. The assertion model is
-  *forward-compatible* with RDF-star-style reification and maps to SKOS/Biolink
-  patterns in derived projections (`docs/STANDARDS.md` records the decisions).
-- No embeddings or model outputs in canonical data — always derived,
-  model-versioned, and outside the contract.
-- No schema sprawl: one envelope schema per object kind; type semantics live
-  in the domain model and registry, not in per-type schemas.
-
-## 7. Architectural decisions
-
-Foundational decisions are recorded as ADRs in `docs/decisions/` and are the
-authority for everything described here. The current baseline is fixed by
-ADR-0027 (ecosystem decoupling + `stemma:` namespace), ADR-0028 (contract v2.0:
-connections-only relationship truth), and ADR-0029 (refoundation baseline).
+Now authoritative is docs/ARCHITECTURE-V2.md.

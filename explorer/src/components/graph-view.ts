@@ -10,14 +10,14 @@ export interface GraphViewOptions {
   onClusterSelect?: (clusterId: string | null) => void;
 }
 
-// Shape per entity type: quantity=sphere, law=octahedron, equation=box,
-// concept=icosahedron, unit=m-small sphere.
+// Clean minimal shapes — small, low-poly for crisp scaling
+// quantity=sphere, law=octahedron, equation=box, concept=icosahedron, unit=tiny sphere
 const NODE_GEOMETRY_BY_TYPE: Record<string, (() => THREE.BufferGeometry) | undefined> = {
-  law: () => new THREE.OctahedronGeometry(1, 0),
-  equation: () => new THREE.BoxGeometry(1, 1, 1),
-  quantity: () => new THREE.SphereGeometry(1, 24, 24),
-  concept: () => new THREE.IcosahedronGeometry(1, 1),
-  unit: () => new THREE.SphereGeometry(1, 20, 20),
+  law: () => new THREE.OctahedronGeometry(0.5, 0),
+  equation: () => new THREE.BoxGeometry(0.6, 0.6, 0.6),
+  quantity: () => new THREE.SphereGeometry(0.45, 16, 16),
+  concept: () => new THREE.IcosahedronGeometry(0.5, 0),
+  unit: () => new THREE.SphereGeometry(0.32, 12, 12),
 };
 const _geomCache = new Map<string, THREE.BufferGeometry>();
 function geometryFor(type: string): THREE.BufferGeometry {
@@ -28,83 +28,75 @@ function geometryFor(type: string): THREE.BufferGeometry {
   return _geomCache.get(type || '')!;
 }
 
-// A persistent, always-visible sprite label so users can orient in 3D without
-// hovering. Hubs (high degree) get larger labels.
+// Minimal label — tiny, clean, no glow, scales well
 function makeLabelSprite(node: GraphNode): THREE.Sprite {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d')!;
-  const fontSize = 42;
-  canvas.width = 700;
-  canvas.height = 180;
-  ctx.font = `${fontSize}px Inter, sans-serif`;
+  const fontSize = 20;
+  canvas.width = 400;
+  canvas.height = 80;
+  ctx.font = `500 ${fontSize}px Inter, sans-serif`;
   ctx.textBaseline = 'middle';
   ctx.textAlign = 'center';
   const label = `${node.name}`;
-  // faint pill background
-  const w = ctx.measureText(label).width + 60;
-  const h = 90;
-  ctx.fillStyle = 'rgba(5, 2, 15, 0.65)';
+  const w = ctx.measureText(label).width + 24;
+  const h = 28;
+  ctx.fillStyle = 'rgba(12, 10, 24, 0.72)';
   ctx.beginPath();
-  ctx.roundRect((canvas.width - w) / 2, (canvas.height - h) / 2, w, h, 40);
+  ctx.roundRect((canvas.width - w) / 2, (canvas.height - h) / 2, w, h, 10);
   ctx.fill();
-  ctx.fillStyle = '#ffffff';
-  ctx.shadowColor = node.color;
-  ctx.shadowBlur = 22;
+  ctx.fillStyle = 'rgba(255,255,255,0.9)';
   ctx.fillText(label, canvas.width / 2, canvas.height / 2);
   const texture = new THREE.CanvasTexture(canvas);
-  const material = new THREE.SpriteMaterial({ map: texture, transparent: true, depthWrite: false });
+  const material = new THREE.SpriteMaterial({ map: texture, transparent: true, depthWrite: false, opacity: 0.75 });
   const sprite = new THREE.Sprite(material);
-  sprite.scale.set(9, 2.3, 1);
-  sprite.position.y = 1.6;
+  // much smaller
+  sprite.scale.set(2.8, 0.56, 1);
+  sprite.position.y = 0.9;
   return sprite;
 }
 
-// Halo sprite used for selection/hover glow.
+// Minimal halo — subtle, small, no additive bloom
 function makeGlowSprite(color: string, radius: number): THREE.Sprite {
   const canvas = document.createElement('canvas');
-  canvas.width = 256;
-  canvas.height = 256;
+  canvas.width = 128;
+  canvas.height = 128;
   const ctx = canvas.getContext('2d')!;
-  const grad = ctx.createRadialGradient(128, 128, 4, 128, 128, 128);
-  grad.addColorStop(0, color);
-  grad.addColorStop(0.28, `${color}aa`);
-  grad.addColorStop(0.62, `${color}44`);
+  const grad = ctx.createRadialGradient(64, 64, 2, 64, 64, 64);
+  grad.addColorStop(0, `${color}88`);
+  grad.addColorStop(0.5, `${color}22`);
   grad.addColorStop(1, 'rgba(0,0,0,0)');
   ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, 256, 256);
+  ctx.fillRect(0, 0, 128, 128);
   const texture = new THREE.CanvasTexture(canvas);
   const material = new THREE.SpriteMaterial({
     map: texture,
     transparent: true,
     depthWrite: false,
-    blending: THREE.AdditiveBlending,
-    opacity: 0.85,
+    opacity: 0.35,
   });
   const sprite = new THREE.Sprite(material);
   sprite.scale.set(radius, radius, 1);
   return sprite;
 }
 
-// A camera-facing ring that marks the selected / hovered node.
+// Minimal ring — thin, clean
 function makeRingSprite(color: string, radius: number): THREE.Sprite {
   const canvas = document.createElement('canvas');
-  canvas.width = 256;
-  canvas.height = 256;
+  canvas.width = 128;
+  canvas.height = 128;
   const ctx = canvas.getContext('2d')!;
-  ctx.strokeStyle = color;
-  ctx.lineWidth = 10;
-  ctx.shadowColor = color;
-  ctx.shadowBlur = 22;
+  ctx.strokeStyle = 'rgba(255,255,255,0.85)';
+  ctx.lineWidth = 2.5;
   ctx.beginPath();
-  ctx.arc(128, 128, 108, 0, Math.PI * 2);
+  ctx.arc(64, 64, 52, 0, Math.PI * 2);
   ctx.stroke();
   const texture = new THREE.CanvasTexture(canvas);
   const material = new THREE.SpriteMaterial({
     map: texture,
     transparent: true,
     depthWrite: false,
-    blending: THREE.AdditiveBlending,
-    opacity: 0.95,
+    opacity: 0.6,
   });
   const sprite = new THREE.Sprite(material);
   sprite.scale.set(radius, radius, 1);
@@ -180,7 +172,7 @@ export class GraphView {
         const activeId = this.selectedNodeId || this.hoveredNodeId;
         if (activeId) {
           const isConnected = endpointId(link.source) === activeId || endpointId(link.target) === activeId;
-          return isConnected ? link.color : 'rgba(58, 55, 87, 0.2)';
+          return isConnected ? link.color : 'rgba(70, 68, 90, 0.12)';
         }
         return link.color;
       })
@@ -188,7 +180,7 @@ export class GraphView {
         const activeId = this.selectedNodeId || this.hoveredNodeId;
         if (activeId) {
           const isConnected = endpointId(link.source) === activeId || endpointId(link.target) === activeId;
-          return isConnected ? link.width * 1.6 : 0.6;
+          return isConnected ? link.width * 1.2 : 0.15;
         }
         return link.width;
       })
@@ -196,16 +188,15 @@ export class GraphView {
         const activeId = this.selectedNodeId || this.hoveredNodeId;
         if (activeId) {
           const isConnected = endpointId(link.source) === activeId || endpointId(link.target) === activeId;
-          return isConnected ? 1 : 0.06;
+          return isConnected ? 0.9 : 0.04;
         }
-        // E1.6: opacity carries assertion trust — unreviewed claims read as faint edges.
-        return link.trustOpacity ?? 0.55;
+        return link.trustOpacity ?? 0.28;
       })
-      .linkDirectionalParticles((link: any) => link.directional ? 2 : 0)
-      .linkDirectionalParticleSpeed((link: any) => link.particleSpeed || 0.006)
-      .linkDirectionalParticleWidth(2.8)
-      .linkDirectionalArrowLength((link: any) => link.directional ? 4 : 0)
-      .linkDirectionalArrowRelPos(0.9)
+      .linkDirectionalParticles((link: any) => 0)
+      .linkDirectionalParticleSpeed(0)
+      .linkDirectionalParticleWidth(0)
+      .linkDirectionalArrowLength((link: any) => link.directional ? 1.8 : 0)
+      .linkDirectionalArrowRelPos(0.92)
       .linkCurvature('curvature')
       .onNodeHover((node: any) => this.animateHover(node ? node.id : null))
       .onNodeClick((node: any) => {
@@ -217,35 +208,36 @@ export class GraphView {
       });
 
     if (this.graph.d3Force) {
-      this.graph.d3Force('charge').strength(-90);
-      this.graph.d3Force('link').distance(60);
+      this.graph.d3Force('charge').strength(-32);
+      this.graph.d3Force('link').distance(28);
     }
   }
 
   private renderNode(node: GraphNode): THREE.Object3D {
     const geo = geometryFor(node.type);
-    const baseScale = node.val / 6.5;
+    // smaller baseScale — clean, not cartoonish
+    const baseScale = node.val / 10;
     const mat = new THREE.MeshStandardMaterial({
       color: node.color,
       emissive: node.color,
-      emissiveIntensity: this.selectedNodeId === node.id ? 0.85 : 0.22,
-      roughness: 0.28,
-      metalness: 0.55,
+      emissiveIntensity: this.selectedNodeId === node.id ? 0.28 : 0.06,
+      roughness: 0.78,
+      metalness: 0.12,
     });
     const mesh = new THREE.Mesh(geo, mat);
     mesh.scale.set(baseScale, baseScale, baseScale);
 
-    // persistent sprite label
+    // minimal label
     const sprite = makeLabelSprite(node);
     const group = new THREE.Group();
     group.add(mesh);
     group.add(sprite);
 
-    // Selection + hover bloom
+    // Subtle selection — small halo
     const isSelected = this.selectedNodeId === node.id;
     const isHovered = this.hoveredNodeId === node.id;
-    const halo = makeGlowSprite(node.color, baseScale * 3.1);
-    const ring = makeRingSprite('#ffffff', baseScale * 2.5);
+    const halo = makeGlowSprite(node.color, baseScale * 1.8);
+    const ring = makeRingSprite('#ffffff', baseScale * 1.5);
     halo.visible = isSelected || isHovered;
     ring.visible = isSelected;
     group.add(halo);
@@ -260,7 +252,7 @@ export class GraphView {
       ring,
     };
     this.nodeObjMap.set(node.id, group);
-    this.scaleAnimTargets.set(node.id, isHovered ? 1.28 : isSelected ? 1.12 : 1);
+    this.scaleAnimTargets.set(node.id, isHovered ? 1.12 : isSelected ? 1.06 : 1);
     return group;
   }
 
@@ -270,7 +262,7 @@ export class GraphView {
     for (const [id, obj] of this.nodeObjMap) {
       const isHover = id === this.hoveredNodeId;
       const isSelected = id === this.selectedNodeId;
-      this.scaleAnimTargets.set(id, isHover ? 1.28 : isSelected ? 1.12 : 1);
+      this.scaleAnimTargets.set(id, isHover ? 1.12 : isSelected ? 1.06 : 1);
       const halo = obj.userData?.halo as THREE.Sprite | undefined;
       const ring = obj.userData?.ring as THREE.Sprite | undefined;
       if (halo) halo.visible = isHover || isSelected;
@@ -296,23 +288,20 @@ export class GraphView {
         user.mesh.scale.set(next, next, next);
         if (Math.abs(next - desired) > 0.002) done = false;
 
-        // emissive pop on hover / selection
         const isHover = this.hoveredNodeId === user.nodeId;
         const isSelected = this.selectedNodeId === user.nodeId;
         if (user.material) {
-          const targetGlow = isHover ? 1.05 : isSelected ? 0.9 : 0.22;
+          const targetGlow = isHover ? 0.32 : isSelected ? 0.28 : 0.06;
           const curGlow = user.material.emissiveIntensity;
           user.material.emissiveIntensity = curGlow + (targetGlow - curGlow) * 0.16;
         }
 
         if (user.halo) {
-          const pulse = 1 + Math.sin(now / 420) * 0.12;
-          const h = base * 3.1 * pulse;
+          const h = base * 1.8;
           user.halo.scale.set(h, h, 1);
         }
         if (user.ring) {
-          const pulse = 1 + Math.sin(now / 320) * 0.08;
-          const r = base * 2.5 * pulse;
+          const r = base * 1.5;
           user.ring.scale.set(r, r, 1);
         }
       }
@@ -365,26 +354,83 @@ export class GraphView {
   }
 
   public focusOnNode(node: GraphNode): void {
-    const distance = 70;
-    const nodes = this.graph.graphData().nodes;
+    const graphData = this.graph.graphData();
+    const nodes = graphData.nodes;
+    const links = graphData.links;
     const graphNode = nodes.find((n: any) => n.id === node.id);
     if (!graphNode) return;
-    const x = graphNode.x || 0, y = graphNode.y || 0, z = graphNode.z || 0;
-    const distRatio = 1 + distance / (Math.hypot(x, y, z) || 1);
+
+    // Collect immediate neighbors to include relations in view
+    const neighborIds = new Set<string>();
+    neighborIds.add(node.id);
+    for (const l of links) {
+      const s = endpointId(l.source);
+      const t = endpointId(l.target);
+      if (s === node.id) neighborIds.add(t);
+      if (t === node.id) neighborIds.add(s);
+    }
+    const relatedNodes = nodes.filter((n: any) => neighborIds.has(n.id));
+
+    // Compute centroid of node + neighbors
+    let cx = 0, cy = 0, cz = 0;
+    for (const n of relatedNodes) {
+      cx += n.x || 0;
+      cy += n.y || 0;
+      cz += n.z || 0;
+    }
+    cx /= relatedNodes.length || 1;
+    cy /= relatedNodes.length || 1;
+    cz /= relatedNodes.length || 1;
+
+    // Compute spread (max distance from centroid)
+    let maxDist = 0;
+    for (const n of relatedNodes) {
+      const dx = (n.x || 0) - cx;
+      const dy = (n.y || 0) - cy;
+      const dz = (n.z || 0) - cz;
+      const d = Math.hypot(dx, dy, dz);
+      if (d > maxDist) maxDist = d;
+    }
+
+    // Clean distance: tight but not clipping — 35-60 based on spread, not 70+ that flies off-screen
+    const baseDistance = 32;
+    const distance = Math.min(65, Math.max(baseDistance, maxDist * 2.2 + 18));
+
+    // Keep current camera direction, just move to distance from centroid — avoids zooming through origin
+    const camPos = this.graph.cameraPosition();
+    let dirX = (camPos?.x || 0) - cx;
+    let dirY = (camPos?.y || 0) - cy;
+    let dirZ = (camPos?.z || 0) - cz;
+    let dirLen = Math.hypot(dirX, dirY, dirZ) || 1;
+    if (dirLen < 0.001) {
+      // fallback: slightly above
+      dirX = 0; dirY = 12; dirZ = distance;
+      dirLen = Math.hypot(dirX, dirY, dirZ);
+    }
+    dirX /= dirLen; dirY /= dirLen; dirZ /= dirLen;
+
+    const newCam = {
+      x: cx + dirX * distance,
+      y: cy + dirY * distance,
+      z: cz + dirZ * distance
+    };
+
     this.graph.cameraPosition(
-      { x: x * distRatio, y: y * distRatio, z: z * distRatio },
-      { x, y, z },
-      1400
+      newCam,
+      { x: cx, y: cy, z: cz },
+      800
     );
   }
 
   public focusOnCluster(clusterId: string): void {
     const anchor = this.clusterAnchors.get(clusterId);
     if (!anchor) return;
+    // Minimal clean zoom — 45 distance, centered, not 2x that flies off
+    const dist = 42;
     this.graph.cameraPosition(
-      { x: anchor.x * 2, y: anchor.y * 2, z: anchor.z * 2 },
+      { x: anchor.x, y: anchor.y + 8, z: anchor.z + dist },
       { x: anchor.x, y: anchor.y, z: anchor.z },
-      1600
+      900
     );
   }
 

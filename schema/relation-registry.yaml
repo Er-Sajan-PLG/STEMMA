@@ -794,4 +794,19 @@ relations:
     - unit
     - phenomenon
     - model
-    status: reserved
+    status: adopted
+  misconception_of:
+    family: explanatory
+    symmetric: false
+    transitive: false
+    domain:
+    - misconception
+    range:
+    - concept
+    - quantity
+    - law
+    - equation
+    - unit
+    - phenomenon
+    - model
+    status: adopted

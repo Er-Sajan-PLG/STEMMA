@@ -1,0 +1,17 @@
+id: stemma:src.halliday-resnick-walker-12th
+type: textbook
+citation: Halliday, D., Resnick, R., & Walker, J. (2021). Fundamentals of Physics (12th ed.). Wiley.
+title: Fundamentals of Physics
+authors:
+  - David Halliday
+  - Robert Resnick
+  - Jearl Walker
+year: 2021
+publisher: Wiley
+edition: 12th
+isbn: "978-1119801128"
+url: "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119801128"
+language: en
+source_role: primary
+writer: human:curator.001
+retrieved_at: "2026-09-21"

@@ -1,165 +1,81 @@
-# STEMMA — Schema Specification
+# STEMMA — Schema Specification (BEGINNING, NO LEGACY, v1.2.0, HITL, EVOLVABLE, FRONTIER)
 
-**Status:** Authoritative for `schema_version` 1.1.0 (ADR-0027/0028/0031).
-**Contracts:** `schema/concept.schema.json`, `schema/connection.schema.json`,
-`schema/source.schema.json`, `schema/export.schema.json` (JSON Schema
-draft 2020-12). This document explains the model; the schemas plus
-`scripts/validate.py` are the enforcement.
+**Status:** Authoritative for schema_version 1.2.0, beginning clean. No legacy. 1 entity (metre) via PDF primary ingestion with HITL, deterministic scales, evolvable templates, model selector like DeepSeek harness (local + frontier models). Old 74 entities archived.
 
----
+## 1. Design rules (Beginning, HITL, Evolvable)
 
-## 1. Design rules
+- One envelope per object kind, minimal, evolvable via template-registry.yaml
+- No legacy, no pedagogical fields
+- Every physics entity must have governed_by + source_refs + writer human:* + link + exact SI + HITL audit
+- Versioned as unit in VERSION.yaml single source, no literals, deterministic content-hash
+- PDF primary ingestion, deterministic scales, LLM fallback only when PDF missing exact SI, even LLM requires HITL
 
-1. **One envelope schema per object kind.** Entity types share one envelope;
-   type-specific semantics live in the domain model and relation registry, not
-   in per-type schemas. This keeps the schema surface small and evolution
-   cheap.
-2. **Strict where identity or integrity is at stake** (id patterns, required
-   fields, `additionalProperties: false` on metadata objects), **open where
-   growth is expected** (`extensions`, `external_ids` unknown schemes).
-3. **Optional means optional with a null contract**: absent or `null`, never a
-   placeholder or fabricated value.
-4. **Versioned as a unit.** `schema_version` covers all four schemas and lives
-   in one place (`schema/VERSION.yaml`); version literals in code are
-   forbidden.
-5. **Breaking vs additive.** Adding an optional property or enum value is
-   additive. Changing/removing a field, narrowing a type, or changing ID
-   grammar is breaking: major bump + ADR + `docs/MIGRATIONS.md` entry
-   describing what old data does.
+## 2. Identity
 
-## 2. Identity and file grammar
-
-| Object | ID pattern | File rule | Example |
+| Object | ID pattern | File rule | After HITL |
 |---|---|---|---|
-| Entity | `^stemma:[a-z][a-z0-9-]*\.[a-z0-9][a-z0-9-]*$` | `content/<domain>/<subdomain>/<slug>.md`; filename = final ID segment; id-prefix → domain/directory mapping = `schema/id-domain-map.yaml` (ADR-0034) | `stemma:phys.force` → `content/physics/mechanics/force.md` |
-| Connection | `^stemma:conn\.[0-9]{6}$` | `connections/<id-minus-namespace>.yaml` (colon-free) | `stemma:conn.000001` → `connections/conn.000001.yaml` |
-| Source | `^stemma:src\.[a-z0-9][a-z0-9-]*$` | `sources/<id-minus-namespace>.yaml` | `stemma:src.cavendish-1798` → `sources/src.cavendish-1798.yaml` |
+| Entity | `^stemma:phys\.[a-z0-9-]+$` | `content/physics/<subdomain>/<slug>.md` only after HITL + human review | workflow/candidates/<doc_id>/<slug>.md (AI draft) → human edit → workflow/proposals/<slug>.md → content/ |
+| Connection | `^stemma:conn\.[0-9]{6}$` | `connections/conn.NNNNNN.yaml` only after HITL + evidence | workflow/candidates/ → proposals → connections/ |
+| Source | `^stemma:src\.[a-z0-9-]+$` | `sources/src.<slug>.yaml` with url/doi/isbn | Canonical |
 
-Rules enforced by the gate:
+## 3. Entity envelope v1.2.0 (Minimal, Dual Verification, HITL, Exact SI)
 
-- IDs globally unique; never reused; filename↔ID consistency checked.
-- Entity YAML frontmatter is parsed **strictly** — duplicate YAML keys are a
-  hard error (silent last-wins is a data hazard).
-- The retired pre-refoundation namespace may never reappear in canonical
-  files (migration-completeness guard; see `docs/MIGRATIONS.md`).
-- Connection IDs are sequential and opaque; they encode no semantics.
+Required: `id, type, name, domain, subdomain, status, definition (standard exact SI), provenance (writer human:*), source_refs>=1, governed_by>=1`
 
-## 3. Entity envelope (concept.schema.json)
+- `subdomain`: mechanics | measurement-units | electricity-magnetism | thermal-physics — decided by governing law from physics-governing-registry.yaml, deterministic, no LLM
+- `governed_by`: law ids from physics-governing-registry.yaml — mandatory >=1, each in registry, subdomain must match law's subdomain, no self-governance
+- `source_refs`: canonical source ids >=1 — dual verification, each must resolve to sources/*.yaml with url/doi/isbn
+- `provenance`: must have ai_drafted (bool), source_kind (textbook | standards-or-specification), source (full citation with page + Exact: value), writer human:* (must be human:* for HITL, not llm:*), original_author BIPM/HRW, link https://www.bipm.org/en/publications/si-brochure (mandatory), retrieved_at ISO date, reviewer/reviewed_at after human review
+- `historical`: optional draft, mandatory law/model/equation when human_reviewed/canonical with stated_by, year, where, timeline[]
+- `symbol`, `unit`: mandatory for unit/quantity
+- `definition`: STANDARD scientific definition with exact SI, not general — must include "Exact:" + fixed constant + agreed per SI Brochure 9th ed. 2019 + reference (see below)
 
-Required: `id`, `type`, `name`, `domain`, `status`, `definition`, `provenance`.
+Forbidden: learning_objectives, real_world_applications, key_experiments, common_misconceptions, related_to (only 8 relations allowed)
 
-| Field | Type | Purpose |
-|---|---|---|
-| `id` / `type` / `name` / `domain` / `status` | — | Identity and lifecycle (see DOMAIN-MODEL §2–3, §6). |
-| `definition` | string | Curriculum-agnostic definition. The core knowledge payload. |
-| `aliases` | id[] | Historical IDs this entity is also known by (valid IDs, ≠ own id). |
-| `deprecated_by` | id | Successor when deprecated/superseded; must resolve. |
-| `examples` | string[] | Illustrative instances of the concept (knowledge, not pedagogy). |
-| `equation` / `symbol` / `unit` | string \| null | **Display forms** of the mathematical layer (ADR-0010). Machine truth for mathematics is ADR-0024 (proposed, human-gated). |
-| `common_misconceptions` | string[] | False beliefs commonly held about the concept (knowledge-layer). |
-| `learning_objectives` | string[] | What one should be able to explain/calculate — intrinsic to the concept, not a curriculum's sequencing. |
-| `real_world_applications` | string[] | Phenomena/technologies the concept explains. |
-| `key_experiments` | string[] | Canonical experiments establishing the concept. |
-| `provenance` | object | Record origin (see METADATA-SPECIFICATION). |
-| `external_ids` | map | Cross-references (Wikidata, DOI, QUDT, UCUM, ORCID…); known schemes format-checked. |
-| `extensions` | map | Governed additive dimensions (extension registry). |
-| `version` / `updated_at` | int / ISO-8601 \| null | Object revision bookkeeping; identity never encodes version. |
-| `rights` | object \| null | Per-object licensing override records. |
-| `historical` | object | Scientific first-attribution (who + when), truth-conservative. |
+HITL: No entity becomes canonical without human explicitly editing markdown file — workflow/audit/audit.jsonl must contain candidate_edited by human:* after AI draft, writer must be human:*, markdown file explicit edit, hitl_check.py enforces
 
-**Explicitly absent:** any relationship array (ADR-0028), and any scoping
-field (grade, curriculum, course, country, product) — structurally excluded
-and tested.
+## 4. Connection envelope
 
-Minimal valid entity:
+Required: id, type, source, relation, target, assertion, provenance, evidence>=1
 
-```markdown
----
-id: stemma:phys.example
-type: concept
-name: Example Concept
-domain: physics
-status: draft
-definition: >-
-  A curriculum-agnostic definition.
-provenance:
-  ai_drafted: true
----
+- relation only from minimal set (8): mathematically_requires, derived_from, appears_in_law, applies_to, generalizes, special_case_of, part_of, approximates — no related_to
+- evidence mandatory >=1 with type, stance, source_ref (must resolve), locator (page), description (why source supports claim)
+- provenance asserted_by human:*, generated_by human:*, method manual
 
-## Notes
+## 5. Source envelope
 
-Optional prose body.
-```
+Required: id, type, citation + url/doi/isbn for verifiability (at least one) + writer human:*, retrieved_at, title, authors[], year
 
-## 4. Connection envelope (connection.schema.json)
+- Dual verification: embedded provenance (writer, link) + canonical source record + external URL triple-check
 
-Required: `id`, `type: connection`, `source`, `relation`, `target`,
-`assertion`, `provenance`.
+## 6. Export contract + Template Registry
 
-| Block | Contents | Notes |
-|---|---|---|
-| `source` / `relation` / `target` | The claim triple | Immutable for the life of the ID (guard-enforced from git history). |
-| `assertion` | `status` (active/superseded/…), `type` (proposed/asserted/inferred), `review.status`, `confidence` (+`confidence_basis`), `polarity` | Epistemic state of the claim. |
-| `context` | `domain`, `subdomain`, `regime[]`, `scale`, `assumptions[]`, `qualifiers[]` | Applicability of the claim; vocabularies in `schema/vocabularies/`. |
-| `evidence[]` | typed citation (`source_ref` → `sources/`, locator, description) + `stance` | What supports/refutes the claim. |
-| `provenance` | `asserted_by`, `generated_by`, `method`, `reviewed_by[]`, `review_history[]` | Full agent-anchored origin + review trail. |
-| `inference` | rule/path when `assertion.type: inferred` | Mutually exclusive with asserted provenance (ADR-0014). |
-| `lifecycle` | `replaced_by` | Supersession pointer to the correcting connection. |
-| `created_at` / `updated_at` | ISO-8601 \| null | `null` when genuinely unknown — never file mtime. |
-| `validity` / `rights` / `extensions` | optional | Scoped semantics; see METADATA-SPECIFICATION. |
+- v2.1.0, deterministic, content-hash sha256, no wall clock, no version literals, byte-identical regeneration ADR-0022, single source schema/VERSION.yaml
+- template-registry v1.0.0 NEW: schema/template-registry.yaml — evolvable, domain-agnostic, regex rules, exact SI constants c=299,792,458 m/s, h=6.62607015e-34, ΔνCs=9,192,631,770 Hz, e, k, N_A, K_cd, domains physics/chemistry/biology/math, LLM fallback only when PDF missing exact SI, even LLM requires HITL
 
-Semantics (claim identity/signatures, duplicate rules, supersession) are in
-`docs/RELATIONSHIP-SPECIFICATION.md`.
+## 7. No legacy + Scaling + Frontier
 
-## 5. Source envelope (source.schema.json)
+Old schemas 1.0.0/1.1.0 archived. Old 74 entities archived to archive/beginning-74-entities/. This is beginning v1.2.0 clean, 1 entity via HITL.
 
-Required: `id`, `type` (`textbook` | `academic-paper` | `standard` |
-`institutional` | `other`), `citation`.
+- **Deterministic scales:** No LLM needed, uses template-registry.yaml regex + exact SI constants, scales to 1000s PDFs, any domain, no cost, no hallucination
+- **Evolvable:** Add new domain via `python3 scripts/evolvable_template.py --evolve --new-domain chemistry` without code change
+- **LLM only when PDF missing exact SI:** Frontier models DeepSeek R1/V3 free, Claude 3.5 Sonnet/Opus, GPT-4o/o1, Gemini 2.5 Pro/2.0 Flash free, Llama 3.3 70B free, Qwen, Nemotron via OpenRouter/NVIDIA NIM, selector like DeepSeek harness (search, categories Frontier/Reasoning/Free/Custom, 25 models, custom model input)
+- **Even LLM requires HITL:** Human explicitly edits markdown before canonical — audit trail + writer human:* + markdown explicit — hitl_check.py
 
-Optional bibliographic fields (`title`, `authors`, `year`, `doi`, `url`,
-`isbn`, `journal`, `volume`, `edition`, `language`, `source_role`,
-`accessed_at`, `license`, `locator_authority`, `rights`, `extensions`).
-Unknown metadata is `null`, never guessed. Sources are *records*, not a
-bibliography project: they exist so evidence has something to point at.
+## 8. Standard Scientific Definition (Added 2026-09-21, Updated with evolvable + frontier)
 
-## 6. Export contract (export.schema.json)
+Every entity must have standard agreed definition, not general, with exact SI constants and reference:
 
-`exports/knowledge.json` is the consumer contract (v2.1.0, ADR-0032):
+- For units: exact SI Brochure 9th ed. 2019 redefinition with fixed constants (e.g., metre = light path 1/299,792,458 s, kilogram = h fixed 6.62607015e-34 J·s, second = ΔνCs fixed 9,192,631,770 Hz)
+  - Example metre (user specified exactly): "The metre (symbol: m) is the base unit of length in the International System of Units (SI). It is scientifically defined as the length of the path travelled by light in a vacuum during a time interval of 1/299,792,458 of a second. Exact: c=299,792,458 m/s."
+  - Must include "Exact:" with value and agreed status per BIPM 2019
 
-- Required members: `export_version`, `schema_version`, `content_hash`,
-  `entity_count`, `connection_count`, `source_count`, `entities[]`,
-  `connections[]`, `sources[]`.
-- Optional semantic sidecar: `relation_registry_version`
-  (`schema/VERSION.yaml`), `relation_registry` (relation name →
-  family/inverse/transitive/symmetric/domain/range/status), and
-  `vocabularies` (`domains`/`subdomains`/`regimes`/`scales`). A present
-  `relation_registry` is authoritative: consumers must fail closed on a
-  connection relation that is not declared.
-- `entities[]` carry **no** relationship data; the graph is `connections[]`
-  only.
-- `connections[]` carry the derived `claim_signature`.
-- Deterministic: content-hash stamped, no wall clock; byte-identical
-  regeneration is CI-enforced.
-- The producer validates the payload against the contract **before writing** —
-  a violating export cannot ship.
+- For quantities: dimension + SI unit + governing law + exact formula (e.g., length dimension L unit metre governed_by si-definitions, force F=ma = kg·m/s², area L² = m × m exact 1 m² = 1 m × 1 m)
 
-Review-policy views (`knowledge.{all,reviewed,canonical,trusted,proposed,rejected}.json`)
-and the derived-graph view (`knowledge.extended.json`) inherit versions from
-`schema/VERSION.yaml`.
+- For laws: exact equation with constants (G=6.67430e-11, ε₀=8.8541878128e-12, μ₀=4πe-7, R=8.314462618) and regime, historical timeline
 
-## 7. Evolution and compatibility
+- Reference mandatory — triple verification: provenance.source includes SI Brochure citation with page and exact value, link https://www.bipm.org/en/publications/si-brochure, source_refs [nist-si-brochure-9th, halliday-resnick-walker-12th], writer human:*, original_author BIPM/HRW, external_ids wd/qudt
 
-- Additive change → patch/minor bump; no migration needed.
-- Breaking change → major bump + ADR + MIGRATIONS entry naming the rewrite (if
-  any) and consumer impact.
-- Compatibility promise to consumers is expressed through `export_version`
-  only: consumers pin the contract, not the content. Content growth is never a
-  breaking change.
-- Every landed migration is listed in `docs/MIGRATIONS.md` (append-only).
+- Explorer shows ✓ Scientifically agreed badge and references section for triple-check
 
-## 8. Open items requiring human decision
-
-| Item | Status |
-|---|---|
-| Public IRI base for schema `$id`s (currently the reserved `stemma.example` placeholder) and for published IDs | **Unresolved — human decision** (blocker: domain/organization ownership; recorded in ADR-0029) |
-| Math layer (machine-parseable equations, dimensions, unit entities) | Proposed in ADR-0024, awaiting human gate |
+- Deterministic fallback: If PDF has exact, use it. If PDF lacks exact SI, LLM fallback fetches from SI Brochure/NIST using frontier model you choose, but still requires HITL human edit before canonical

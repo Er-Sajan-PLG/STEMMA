@@ -1,0 +1,753 @@
+# Template Registry — COMPREHENSIVE ALL-STEM, evolvable, domain-agnostic, scales beyond physics
+# v2.0.0 — Mediocre all-domain coverage, not minimal physics
+# Each template defines how to generate entity markdown from extracted text
+# Evolvable: new domains/types can be added without code change
+# Supports standard definition fallback: if PDF doesn't have exact SI, use LLM or authoritative source
+# Also supports embeddings and RAG
+
+version: '2.0.0'
+
+# All STEM domains — comprehensive, not just physics
+# Science: physics, chemistry, biology, earth-science, astronomy
+# Technology: computer-science
+# Engineering: engineering
+# Mathematics: mathematics
+domains:
+  physics:
+    label: Physics
+    subdomains: [mechanics, measurement-units, electricity-magnetism, thermal-physics, waves-optics, atomic-nuclear, quantum, relativity, fluid-mechanics, thermodynamics, optics, condensed-matter]
+    governing_registry: schema/physics-governing-registry.yaml
+    textbooks: [HRW 12th, University Physics, Feynman Lectures]
+    authoritative_source: SI Brochure 9th ed. + NIST
+  chemistry:
+    label: Chemistry
+    subdomains: [general, organic, inorganic, physical, analytical, biochemistry, polymer, electrochemistry, quantum-chemistry, materials-chemistry, environmental-chemistry]
+    governing_registry: null
+    textbooks: [Atkins Physical Chemistry, Clayden Organic, Housecroft Inorganic, Skoog Analytical]
+    authoritative_source: IUPAC Gold Book + CRC Handbook
+  biology:
+    label: Biology
+    subdomains: [general, molecular, cell-biology, genetics, evolution, ecology, physiology, microbiology, neuroscience, anatomy, botany, zoology, immunology, developmental]
+    governing_registry: null
+    textbooks: [Campbell Biology, Molecular Biology of the Cell, Lehninger Biochemistry]
+    authoritative_source: NCBI + IUPAC + Nature
+  earth-science:
+    label: Earth Science
+    subdomains: [geology, meteorology, oceanography, environmental, geography, climatology, seismology, hydrology, atmospheric, mineralogy]
+    governing_registry: null
+    textbooks: [Press & Siever, Essentials of Meteorology, Oceanography]
+    authoritative_source: USGS + NASA + NOAA
+  astronomy:
+    label: Astronomy
+    subdomains: [astrophysics, cosmology, planetary, stellar, galactic, observational, astrobiology, celestial-mechanics]
+    governing_registry: null
+    textbooks: [Carroll & Ostlie, Astrophysics, Fundamental Astronomy]
+    authoritative_source: NASA + IAU + ESA
+  computer-science:
+    label: Computer Science
+    subdomains: [algorithms, data-structures, programming-languages, software-engineering, artificial-intelligence, machine-learning, databases, networks, cybersecurity, operating-systems, theory, computer-architecture, graphics, compilers, distributed-systems]
+    governing_registry: null
+    textbooks: [CLRS, SICP, Patterson & Hennessy, Tanenbaum, Goodfellow Deep Learning]
+    authoritative_source: ACM + IEEE + arXiv
+  engineering:
+    label: Engineering
+    subdomains: [mechanical, electrical, civil, chemical, aerospace, biomedical, industrial, environmental, materials, software, nuclear, automotive, robotics]
+    governing_registry: null
+    textbooks: [Shigley Mechanical, Nilsson/Riedel Electric, Hibbeler Structural, Incropera Heat Transfer]
+    authoritative_source: IEEE + ASME + ASCE + Engineering Handbooks
+  mathematics:
+    label: Mathematics
+    subdomains: [algebra, geometry, calculus, statistics, probability, number-theory, discrete, linear-algebra, differential-equations, topology, analysis, logic, combinatorics, optimization]
+    governing_registry: null
+    textbooks: [Stewart Calculus, Dummit & Foote Algebra, Rudin Analysis, Strang Linear Algebra]
+    authoritative_source: MathWorld + NIST DLMF + arXiv
+
+# Entity types — comprehensive, covers all STEM, evolvable
+entity_types:
+  concept:
+    label: Concept
+    requires: [definition]
+    description: Generic concept applicable to any domain — fundamental building block
+    template: |
+      ---
+      id: stemma:{domain}.{slug}
+      type: concept
+      name: {name}
+      domain: {domain}
+      subdomain: {subdomain}
+      status: draft
+      definition: "{definition}"
+      provenance:
+        ai_drafted: {ai_drafted}
+        writer: {writer}
+        source_kind: {source_kind}
+        source: "{source}"
+        link: "{link}"
+        original_author: "{original_author}"
+        retrieved_at: "{retrieved_at}"
+      source_refs: {source_refs}
+      external_ids:
+        wd: {wd}
+      ---
+      
+      {definition}
+  quantity:
+    label: Quantity
+    requires: [definition, symbol, unit, governed_by]
+    description: Physical quantity with symbol and unit
+    template: |
+      ---
+      id: stemma:{domain}.{slug}
+      type: quantity
+      name: {name}
+      domain: {domain}
+      subdomain: {subdomain}
+      status: draft
+      definition: "{definition}"
+      symbol: "{symbol}"
+      unit: "{unit}"
+      governed_by: {governed_by}
+      provenance:
+        ai_drafted: {ai_drafted}
+        writer: {writer}
+        source_kind: {source_kind}
+        source: "{source}"
+        link: "{link}"
+        original_author: "{original_author}"
+        retrieved_at: "{retrieved_at}"
+      source_refs: {source_refs}
+      external_ids:
+        wd: {wd}
+      ---
+      
+      {definition}
+  unit:
+    label: Unit
+    requires: [definition, symbol, exact_value, governed_by]
+    description: Unit with exact SI definition
+    template: |
+      ---
+      id: stemma:{domain}.{slug}
+      type: unit
+      name: {name}
+      domain: {domain}
+      subdomain: {subdomain}
+      status: draft
+      definition: "{definition}"
+      symbol: "{symbol}"
+      governed_by: {governed_by}
+      provenance:
+        ai_drafted: {ai_drafted}
+        writer: {writer}
+        source_kind: {source_kind}
+        source: "{source}"
+        link: "{link}"
+        original_author: "{original_author}"
+        retrieved_at: "{retrieved_at}"
+      source_refs: {source_refs}
+      external_ids:
+        wd: {wd}
+      historical:
+        stated_by: "{historical_by}"
+        year: {historical_year}
+        where: "{historical_where}"
+        timeline:
+          - year: {historical_year}
+            by: "{historical_by}"
+            event: "{historical_event}"
+      ---
+      
+      {definition}
+  constant:
+    label: Constant
+    requires: [definition, symbol, value, governed_by]
+    description: Fundamental constant with exact value
+    template: |
+      ---
+      id: stemma:{domain}.{slug}
+      type: constant
+      name: {name}
+      domain: {domain}
+      subdomain: {subdomain}
+      status: draft
+      definition: "{definition}"
+      symbol: "{symbol}"
+      governed_by: {governed_by}
+      provenance:
+        ai_drafted: {ai_drafted}
+        writer: {writer}
+        source_kind: {source_kind}
+        source: "{source}"
+        link: "{link}"
+        original_author: "{original_author}"
+        retrieved_at: "{retrieved_at}"
+      source_refs: {source_refs}
+      external_ids:
+        wd: {wd}
+      ---
+      
+      {definition}
+  law:
+    label: Law
+    requires: [definition, equation, governed_by, historical]
+    description: Scientific law with equation and history
+    template: |
+      ---
+      id: stemma:{domain}.{slug}
+      type: law
+      name: {name}
+      domain: {domain}
+      subdomain: {subdomain}
+      status: draft
+      definition: "{definition}"
+      governed_by: {governed_by}
+      provenance:
+        ai_drafted: {ai_drafted}
+        writer: {writer}
+        source_kind: {source_kind}
+        source: "{source}"
+        link: "{link}"
+        original_author: "{original_author}"
+        retrieved_at: "{retrieved_at}"
+      source_refs: {source_refs}
+      external_ids:
+        wd: {wd}
+      historical:
+        stated_by: "{historical_by}"
+        year: {historical_year}
+        where: "{historical_where}"
+        timeline:
+          - year: {historical_year}
+            by: "{historical_by}"
+            event: "{historical_event}"
+      ---
+      
+      {definition}
+  principle:
+    label: Principle
+    requires: [definition, governed_by]
+    description: Principle like Pauli exclusion, uncertainty
+    template: |
+      ---
+      id: stemma:{domain}.{slug}
+      type: principle
+      name: {name}
+      domain: {domain}
+      subdomain: {subdomain}
+      status: draft
+      definition: "{definition}"
+      governed_by: {governed_by}
+      provenance:
+        ai_drafted: {ai_drafted}
+        writer: {writer}
+        source_kind: {source_kind}
+        source: "{source}"
+        link: "{link}"
+        original_author: "{original_author}"
+        retrieved_at: "{retrieved_at}"
+      source_refs: {source_refs}
+      external_ids:
+        wd: {wd}
+      ---
+      
+      {definition}
+  theorem:
+    label: Theorem
+    requires: [definition, governed_by]
+    description: Mathematical theorem
+    template: |
+      ---
+      id: stemma:{domain}.{slug}
+      type: theorem
+      name: {name}
+      domain: {domain}
+      subdomain: {subdomain}
+      status: draft
+      definition: "{definition}"
+      governed_by: {governed_by}
+      provenance:
+        ai_drafted: {ai_drafted}
+        writer: {writer}
+        source_kind: {source_kind}
+        source: "{source}"
+        link: "{link}"
+        original_author: "{original_author}"
+        retrieved_at: "{retrieved_at}"
+      source_refs: {source_refs}
+      external_ids:
+        wd: {wd}
+      ---
+      
+      {definition}
+  equation:
+    label: Equation
+    requires: [definition, equation, governed_by]
+    description: Equation like Schrödinger, Maxwell
+    template: |
+      ---
+      id: stemma:{domain}.{slug}
+      type: equation
+      name: {name}
+      domain: {domain}
+      subdomain: {subdomain}
+      status: draft
+      definition: "{definition}"
+      governed_by: {governed_by}
+      provenance:
+        ai_drafted: {ai_drafted}
+        writer: {writer}
+        source_kind: {source_kind}
+        source: "{source}"
+        link: "{link}"
+        original_author: "{original_author}"
+        retrieved_at: "{retrieved_at}"
+      source_refs: {source_refs}
+      external_ids:
+        wd: {wd}
+      ---
+      
+      {definition}
+  process:
+    label: Process
+    requires: [definition]
+    description: Process like photosynthesis, mitosis, compilation
+    template: |
+      ---
+      id: stemma:{domain}.{slug}
+      type: process
+      name: {name}
+      domain: {domain}
+      subdomain: {subdomain}
+      status: draft
+      definition: "{definition}"
+      provenance:
+        ai_drafted: {ai_drafted}
+        writer: {writer}
+        source_kind: {source_kind}
+        source: "{source}"
+        link: "{link}"
+        original_author: "{original_author}"
+        retrieved_at: "{retrieved_at}"
+      source_refs: {source_refs}
+      external_ids:
+        wd: {wd}
+      ---
+      
+      {definition}
+  structure:
+    label: Structure
+    requires: [definition]
+    description: Structure like DNA, atom, crystal, data structure
+    template: |
+      ---
+      id: stemma:{domain}.{slug}
+      type: structure
+      name: {name}
+      domain: {domain}
+      subdomain: {subdomain}
+      status: draft
+      definition: "{definition}"
+      provenance:
+        ai_drafted: {ai_drafted}
+        writer: {writer}
+        source_kind: {source_kind}
+        source: "{source}"
+        link: "{link}"
+        original_author: "{original_author}"
+        retrieved_at: "{retrieved_at}"
+      source_refs: {source_refs}
+      external_ids:
+        wd: {wd}
+      ---
+      
+      {definition}
+  algorithm:
+    label: Algorithm
+    requires: [definition]
+    description: Algorithm like quicksort, Dijkstra, backprop
+    template: |
+      ---
+      id: stemma:{domain}.{slug}
+      type: algorithm
+      name: {name}
+      domain: {domain}
+      subdomain: {subdomain}
+      status: draft
+      definition: "{definition}"
+      provenance:
+        ai_drafted: {ai_drafted}
+        writer: {writer}
+        source_kind: {source_kind}
+        source: "{source}"
+        link: "{link}"
+        original_author: "{original_author}"
+        retrieved_at: "{retrieved_at}"
+      source_refs: {source_refs}
+      external_ids:
+        wd: {wd}
+      ---
+      
+      {definition}
+  material:
+    label: Material
+    requires: [definition]
+    description: Material like graphene, steel, polymer
+    template: |
+      ---
+      id: stemma:{domain}.{slug}
+      type: material
+      name: {name}
+      domain: {domain}
+      subdomain: {subdomain}
+      status: draft
+      definition: "{definition}"
+      provenance:
+        ai_drafted: {ai_drafted}
+        writer: {writer}
+        source_kind: {source_kind}
+        source: "{source}"
+        link: "{link}"
+        original_author: "{original_author}"
+        retrieved_at: "{retrieved_at}"
+      source_refs: {source_refs}
+      external_ids:
+        wd: {wd}
+      ---
+      
+      {definition}
+
+# Standard definition sources — authoritative, for fallback when PDF doesn't have exact
+standard_definition_sources:
+  si_brochure:
+    label: SI Brochure 9th ed. (BIPM 2019)
+    url: https://www.bipm.org/en/publications/si-brochure
+    provides_exact: true
+    constants:
+      c: "299,792,458 m/s"
+      h: "6.62607015e-34 J·s"
+      ΔνCs: "9,192,631,770 Hz"
+      e: "1.602176634e-19 C"
+      k: "1.380649e-23 J/K"
+      N_A: "6.02214076e23 mol⁻¹"
+      K_cd: "683 lm/W"
+  nist:
+    label: NIST SI
+    url: https://www.nist.gov/pml/owm/si-units
+    provides_exact: true
+  iupac:
+    label: IUPAC Gold Book
+    url: https://goldbook.iupac.org/
+    provides_exact: true
+  crc:
+    label: CRC Handbook of Chemistry and Physics
+    url: https://hbcp.chemnetbase.com/
+    provides_exact: true
+  hrw:
+    label: Halliday Resnick Walker 12th ed.
+    url: https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511
+    provides_exact: false
+  campbell:
+    label: Campbell Biology 12th ed.
+    url: https://www.pearson.com/se/North-America-college/biology/campbell-biology.html
+    provides_exact: false
+  clrs:
+    label: CLRS Introduction to Algorithms 4th ed.
+    url: https://mitpress.mit.edu/9780262046305/introduction-to-algorithms/
+    provides_exact: false
+  atkins:
+    label: Atkins Physical Chemistry
+    url: https://global.oup.com/academic/product/atkins-physical-chemistry-9780198769866
+    provides_exact: false
+  carroll:
+    label: Carroll & Ostlie Astrophysics
+    url: https://www.cambridge.org/highereducation/books/an-introduction-to-modern-astrophysics/7A9C2A90B0D3B0B0C1D2E3F4G5H6I7J8
+    provides_exact: false
+
+# Deterministic extraction rules — regex patterns to extract entities from text without LLM
+# Evolvable: add new patterns without code change, comprehensive for all STEM
+# Each rule can be domain-specific or generic
+extraction_rules:
+  # Physics quantities — deterministic, exact SI
+  - pattern: "Length:\\s*(.+)"
+    type: quantity
+    slug: length
+    name: Length
+    domain: physics
+    subdomain: mechanics
+    symbol: l
+    unit: metre (m)
+    governed_by: ["stemma:phys.si-definitions", "stemma:phys.newtons-second-law"]
+    requires_llm_for_definition: false
+    standard_definition_fallback: si_brochure
+  - pattern: "Mass:\\s*(.+)"
+    type: quantity
+    slug: mass
+    name: Mass
+    domain: physics
+    subdomain: mechanics
+    symbol: m
+    unit: kilogram (kg)
+    governed_by: ["stemma:phys.newtons-second-law", "stemma:phys.si-definitions"]
+    requires_llm_for_definition: false
+    standard_definition_fallback: si_brochure
+  - pattern: "Time:\\s*(.+)"
+    type: quantity
+    slug: time
+    name: Time
+    domain: physics
+    subdomain: mechanics
+    symbol: t
+    unit: second (s)
+    governed_by: ["stemma:phys.si-definitions", "stemma:phys.newtons-second-law"]
+    requires_llm_for_definition: false
+    standard_definition_fallback: si_brochure
+  - pattern: "Area:\\s*(.+)"
+    type: quantity
+    slug: area
+    name: Area
+    domain: physics
+    subdomain: mechanics
+    symbol: A
+    unit: square metre (m²)
+    governed_by: ["stemma:phys.si-definitions", "stemma:phys.dimensional-analysis"]
+    requires_llm_for_definition: false
+    standard_definition_fallback: hrw
+  - pattern: "Volume:\\s*(.+)"
+    type: quantity
+    slug: volume
+    name: Volume
+    domain: physics
+    subdomain: mechanics
+    symbol: V
+    unit: cubic metre (m³)
+    governed_by: ["stemma:phys.si-definitions", "stemma:phys.dimensional-analysis"]
+    requires_llm_for_definition: false
+    standard_definition_fallback: hrw
+  # Generic quantity patterns for all domains
+  - pattern: "(?:Definition of\\s+)?(\\w+)\\s+is defined as\\s+(.+?)(?:\\.\\n|$)"
+    type: concept
+    generic: true
+    domain: physics
+    subdomain: general
+    requires_llm_for_definition: false
+    standard_definition_fallback: hrw
+  # Chemistry
+  - pattern: "Element:\\s*(.+)"
+    type: concept
+    slug: chemical-element
+    name: Chemical Element
+    domain: chemistry
+    subdomain: general
+    governed_by: []
+    requires_llm_for_definition: false
+    standard_definition_fallback: iupac
+  - pattern: "Mole:\\s*(.+)"
+    type: quantity
+    slug: mole
+    name: Mole
+    domain: chemistry
+    subdomain: general
+    symbol: n
+    unit: mole (mol)
+    governed_by: ["stemma:chem.avogadro-law"]
+    requires_llm_for_definition: false
+    standard_definition_fallback: si_brochure
+  # Biology
+  - pattern: "Cell:\\s*(.+)"
+    type: structure
+    slug: cell
+    name: Cell
+    domain: biology
+    subdomain: cell-biology
+    governed_by: []
+    requires_llm_for_definition: false
+    standard_definition_fallback: campbell
+  - pattern: "DNA:\\s*(.+)"
+    type: structure
+    slug: dna
+    name: DNA
+    domain: biology
+    subdomain: molecular
+    governed_by: []
+    requires_llm_for_definition: false
+    standard_definition_fallback: campbell
+  - pattern: "Photosynthesis:\\s*(.+)"
+    type: process
+    slug: photosynthesis
+    name: Photosynthesis
+    domain: biology
+    subdomain: physiology
+    governed_by: []
+    requires_llm_for_definition: false
+    standard_definition_fallback: campbell
+  # Computer Science
+  - pattern: "Algorithm:\\s*(.+)"
+    type: algorithm
+    slug: algorithm
+    name: Algorithm
+    domain: computer-science
+    subdomain: algorithms
+    governed_by: []
+    requires_llm_for_definition: false
+    standard_definition_fallback: clrs
+  - pattern: "Sorting:\\s*(.+)"
+    type: algorithm
+    slug: sorting
+    name: Sorting
+    domain: computer-science
+    subdomain: algorithms
+    governed_by: []
+    requires_llm_for_definition: false
+    standard_definition_fallback: clrs
+  - pattern: "Machine Learning:\\s*(.+)"
+    type: concept
+    slug: machine-learning
+    name: Machine Learning
+    domain: computer-science
+    subdomain: machine-learning
+    governed_by: []
+    requires_llm_for_definition: false
+    standard_definition_fallback: clrs
+  # Mathematics
+  - pattern: "Derivative:\\s*(.+)"
+    type: concept
+    slug: derivative
+    name: Derivative
+    domain: mathematics
+    subdomain: calculus
+    governed_by: []
+    requires_llm_for_definition: false
+    standard_definition_fallback: hrw
+  - pattern: "Integral:\\s*(.+)"
+    type: concept
+    slug: integral
+    name: Integral
+    domain: mathematics
+    subdomain: calculus
+    governed_by: []
+    requires_llm_for_definition: false
+    standard_definition_fallback: hrw
+  - pattern: "Theorem:\\s*(.+)"
+    type: theorem
+    slug: generic-theorem
+    name: Theorem
+    domain: mathematics
+    subdomain: general
+    governed_by: []
+    requires_llm_for_definition: true
+    standard_definition_fallback: null
+  # Earth Science
+  - pattern: "Earthquake:\\s*(.+)"
+    type: process
+    slug: earthquake
+    name: Earthquake
+    domain: earth-science
+    subdomain: seismology
+    governed_by: []
+    requires_llm_for_definition: false
+    standard_definition_fallback: null
+  # Astronomy
+  - pattern: "Black Hole:\\s*(.+)"
+    type: concept
+    slug: black-hole
+    name: Black Hole
+    domain: astronomy
+    subdomain: astrophysics
+    governed_by: []
+    requires_llm_for_definition: false
+    standard_definition_fallback: carroll
+  # Engineering
+  - pattern: "Stress:\\s*(.+)"
+    type: quantity
+    slug: stress
+    name: Stress
+    domain: engineering
+    subdomain: mechanical
+    symbol: σ
+    unit: pascal (Pa)
+    governed_by: []
+    requires_llm_for_definition: false
+    standard_definition_fallback: null
+
+# When PDF doesn't have standard definition, use LLM to fetch from authoritative source
+# LLM fallback is optional, only when deterministic fails
+llm_fallback:
+  enabled: true
+  when: "PDF text doesn't contain exact definition with fixed constants or authoritative source"
+  prompt_template: |
+    You are STEMMA standard definition fetcher — comprehensive all-STEM.
+    The PDF extracted text does NOT contain exact definition for {slug}.
+    Fetch standard scientific definition from authoritative source {fallback_source}.
+    Must include exact value if applicable and agreed status.
+    Example metre: "The metre (symbol: m) is base unit of length in SI. Defined as length of path travelled by light in vacuum during 1/299,792,458 s. Exact c=299,792,458 m/s. Agreed per BIPM SI Brochure 9th ed. 2019."
+    Example chemical element: "Chemical element is species of atoms that have same number of protons in atomic nuclei. Defined per IUPAC Gold Book. Exact: atomic number Z. Agreed per IUPAC."
+    Example algorithm: "Algorithm is finite sequence of rigorous instructions, typically used to solve class of specific problems. Defined per CLRS Introduction to Algorithms. Agreed per ACM."
+    Entity: {name} ({slug}), type {type}, domain {domain}, subdomain {subdomain}
+    PDF context: {pdf_context}
+    Output: JSON with definition field containing standard definition with source reference.
+  requires_hitl: true  # Even LLM fallback requires human edit before canonical
+
+# Embedding configuration — for RAG and consumer export
+embedding:
+  enabled: true
+  models:
+    - id: sentence-transformers/all-MiniLM-L6-v2
+      name: All-MiniLM-L6-v2 (Local, Free, 384 dim)
+      provider: local
+      dimensions: 384
+      free: true
+      description: Fast local embedding, 384 dimensions, good for mediocre all-domain
+    - id: sentence-transformers/all-mpnet-base-v2
+      name: All-MPNet-Base-V2 (Local, 768 dim)
+      provider: local
+      dimensions: 768
+      free: true
+      description: High quality local, 768 dim
+    - id: BAAI/bge-large-en-v1.5
+      name: BGE Large (Local, 1024 dim, SOTA)
+      provider: local
+      dimensions: 1024
+      free: true
+      description: SOTA local embedding, 1024 dim, best for RAG
+    - id: intfloat/e5-large-v2
+      name: E5 Large V2 (Local, 1024 dim)
+      provider: local
+      dimensions: 1024
+      free: true
+      description: E5 large, 1024 dim, good for retrieval
+    - id: openai/text-embedding-3-large
+      name: OpenAI Text Embedding 3 Large (Frontier, 3072 dim)
+      provider: openai
+      dimensions: 3072
+      free: false
+      description: Frontier OpenAI embedding, 3072 dim, best quality
+    - id: openai/text-embedding-3-small
+      name: OpenAI Text Embedding 3 Small (Frontier, 1536 dim)
+      provider: openai
+      dimensions: 1536
+      free: false
+      description: Fast frontier, 1536 dim
+    - id: cohere/embed-english-v3.0
+      name: Cohere Embed v3 (Frontier, 1024 dim)
+      provider: cohere
+      dimensions: 1024
+      free: false
+      description: Cohere frontier embedding
+    - id: google/text-embedding-004
+      name: Gemini Text Embedding 004 (Frontier, 768 dim)
+      provider: google
+      dimensions: 768
+      free: true
+      description: Google embedding, free tier
+  default_model: sentence-transformers/all-MiniLM-L6-v2
+  chunking:
+    strategy: entity
+    max_tokens: 512
+    overlap: 50
+  vector_store:
+    type: faiss
+    path: exports/vector_store/
+    index_type: flat
+  versioning:
+    content_hash: true
+    deterministic: true

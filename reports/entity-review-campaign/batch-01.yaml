@@ -1,0 +1,57 @@
+batch: 1
+campaign: R6 entity review
+reviewer: human:reviewer.physics-001
+seed_pass: true
+items:
+- id: stemma:phys.time
+  name: Time
+  domain: physics
+  type: quantity
+  status: draft
+  definition: Time is a measure of the duration of events and the intervals between them.
+  score: 0.031498
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.length
+  name: Length
+  domain: physics
+  type: quantity
+  status: draft
+  definition: Length is a measure of spatial distance between two points.
+  score: 0.028391
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.velocity
+  name: Velocity
+  domain: physics
+  type: quantity
+  status: draft
+  definition: Velocity is the rate of change of position with respect to time, a vector quantity.
+  score: 0.028132
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.mass
+  name: Mass
+  domain: physics
+  type: quantity
+  status: draft
+  definition: Mass is a measure of the amount of matter in an object and its resistance to acceleration, quantified
+    as the ratio of net force to acceleration in an inertial frame.
+  score: 0.021092
+  decision: null
+  reviewer: null
+  evidence_notes: null
+- id: stemma:phys.newtons-second-law
+  name: Newton's Second Law
+  domain: physics
+  type: law
+  status: draft
+  definition: The net force acting on an object equals the rate of change of its momentum; for constant mass, net
+    force equals mass times acceleration.
+  score: 0.019824
+  decision: null
+  reviewer: null
+  evidence_notes: null

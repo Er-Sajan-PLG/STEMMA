@@ -1,0 +1,190 @@
+# Embedding Registry — for RAG and consumer export
+# Version: 1.0.0
+# Defines embedding models for STEMMA knowledge graph
+
+version: '1.0.0'
+
+# Embedding models — comprehensive, local + local and frontier models with model selector like DeepSeek harness (local + frontier models)
+# Supports both local (free, offline) and API (frontier) models
+models:
+  # Local models — free, offline, deterministic, no API key, good for mediocre all-domain
+  - id: sentence-transformers/all-MiniLM-L6-v2
+    name: All-MiniLM-L6-v2
+    provider: local
+    category: [free, fast, local]
+    dimensions: 384
+    max_tokens: 256
+    free: true
+    local: true
+    description: Fast local embedding, 384 dim, 80MB, good for mediocre all-domain, 5x faster than MPNet
+    use_case: default for quick RAG
+    license: Apache-2.0
+  - id: sentence-transformers/all-mpnet-base-v2
+    name: All-MPNet-Base-V2
+    provider: local
+    category: [free, quality, local]
+    dimensions: 768
+    max_tokens: 384
+    free: true
+    local: true
+    description: High quality local, 768 dim, 420MB, best quality/speed for local
+    use_case: high quality local RAG
+    license: Apache-2.0
+  - id: BAAI/bge-large-en-v1.5
+    name: BGE Large EN v1.5 (SOTA)
+    provider: local
+    category: [free, sota, local, frontier]
+    dimensions: 1024
+    max_tokens: 512
+    free: true
+    local: true
+    description: SOTA local embedding, 1024 dim, 1.3GB, best for RAG, MTEB top
+    use_case: SOTA local RAG, best for STEM retrieval
+    license: MIT
+  - id: intfloat/e5-large-v2
+    name: E5 Large V2
+    provider: local
+    category: [free, sota, local]
+    dimensions: 1024
+    max_tokens: 512
+    free: true
+    local: true
+    description: E5 large, 1024 dim, 1.3GB, good for retrieval, query prefix
+    use_case: retrieval-optimized
+    license: MIT
+  - id: BAAI/bge-small-en-v1.5
+    name: BGE Small (Fast)
+    provider: local
+    category: [free, fast, local]
+    dimensions: 384
+    max_tokens: 512
+    free: true
+    local: true
+    description: Small fast, 384 dim, 133MB, good for quick
+    use_case: fast local
+    license: MIT
+
+  # Frontier API models — via OpenRouter, OpenAI, Cohere, Google, NVIDIA
+  - id: openai/text-embedding-3-large
+    name: OpenAI Text Embedding 3 Large (Frontier)
+    provider: openai
+    category: [frontier, quality, api]
+    dimensions: 3072
+    max_tokens: 8191
+    free: false
+    local: false
+    description: Frontier OpenAI embedding, 3072 dim, best quality, MTEB 64.6
+    use_case: frontier quality, for LearningHub/PROFESSOR-J production
+    api: openai
+    cost: $0.00013/1k tokens
+  - id: openai/text-embedding-3-small
+    name: OpenAI Text Embedding 3 Small (Frontier Fast)
+    provider: openai
+    category: [frontier, fast, api]
+    dimensions: 1536
+    max_tokens: 8191
+    free: false
+    local: false
+    description: Fast frontier, 1536 dim, good quality, cheap
+    use_case: fast frontier
+    api: openai
+    cost: $0.00002/1k tokens
+  - id: openai/text-embedding-ada-002
+    name: OpenAI Ada 002 (Legacy)
+    provider: openai
+    category: [api, legacy]
+    dimensions: 1536
+    max_tokens: 8191
+    free: false
+    local: false
+    description: Legacy OpenAI embedding, still used
+    use_case: legacy compatibility
+    api: openai
+  - id: cohere/embed-english-v3.0
+    name: Cohere Embed English v3.0 (Frontier)
+    provider: cohere
+    category: [frontier, api]
+    dimensions: 1024
+    max_tokens: 512
+    free: false
+    local: false
+    description: Cohere frontier embedding, 1024 dim, good for RAG
+    use_case: Cohere RAG
+    api: cohere
+  - id: google/text-embedding-004
+    name: Gemini Text Embedding 004 (Frontier Free Tier)
+    provider: google
+    category: [frontier, free, api]
+    dimensions: 768
+    max_tokens: 2048
+    free: true
+    local: false
+    description: Google embedding, 768 dim, free tier, good for free frontier
+    use_case: free frontier
+    api: google
+  - id: nvidia/nv-embed-v1
+    name: NVIDIA NV-Embed V1 (Frontier, 4096 dim, SOTA)
+    provider: nvidia
+    category: [frontier, sota, api]
+    dimensions: 4096
+    max_tokens: 512
+    free: true
+    local: false
+    description: NVIDIA SOTA embedding, 4096 dim, MTEB top, free via NIM
+    use_case: SOTA frontier via NVIDIA NIM free
+    api: nvidia
+
+default_model: sentence-transformers/all-MiniLM-L6-v2
+fallback_model: BAAI/bge-small-en-v1.5
+
+# Chunking strategy for entities
+chunking:
+  strategy: entity
+  max_tokens: 512
+  overlap: 50
+  separators: ["\n\n", "\n", ". ", " "]
+  # Each entity is one chunk (definition + name + domain), plus connections as context
+
+# Vector store configuration
+vector_store:
+  type: faiss
+  path: exports/vector_store/
+  index_type: flat
+  metric: cosine
+  # Alternatives: chroma, qdrant, pinecone (for cloud)
+  alternatives:
+    - type: chroma
+      path: exports/chroma/
+    - type: qdrant
+      path: local
+    - type: faiss
+      path: exports/vector_store/
+
+# Embedding generation policy
+policy:
+  deterministic: true
+  content_hash: true
+  versioned: true
+  # Embeddings are derived artifacts, not canonical, regenerable from knowledge.json
+  # But content_hash ensures deterministic same embeddings for same content + model
+  recompute_on: [knowledge.json content_hash change, model change]
+  batch_size: 32
+  normalize: true
+
+# Consumer-specific embedding needs
+consumers:
+  learninghub:
+    preferred_model: openai/text-embedding-3-large
+    fallback: BAAI/bge-large-en-v1.5
+    dimensions: 3072
+    description: LearningHub needs high quality for student queries
+  professor-j:
+    preferred_model: BAAI/bge-large-en-v1.5
+    fallback: sentence-transformers/all-MiniLM-L6-v2
+    dimensions: 1024
+    description: PROFESSOR-J needs SOTA local, offline capable
+  general:
+    preferred_model: sentence-transformers/all-MiniLM-L6-v2
+    fallback: BAAI/bge-small-en-v1.5
+    dimensions: 384
+    description: General consumer, fast local

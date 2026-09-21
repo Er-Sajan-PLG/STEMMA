@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://stemma.example/schema/export.schema.json",
-  "title": "STEMMA export contract v2.1 (exports/knowledge.json)",
-  "description": "Consumer contract for the derived export. v2.0 (ADR-0028): the generated inline entities[].relationships projection is REMOVED — the relationship graph is connections[] only. IDs are stemma:-namespaced (ADR-0027). v2.1 (ADR-0032): additive optional relation_registry + vocabularies sidecar. Enforced by scripts/validate.py before the export is written.",
+  "title": "STEMMA export contract v2.2 (exports/knowledge.json) — Architecture v2",
+  "description": "Consumer contract for the derived export. v2.0 (ADR-0028): the generated inline entities[].relationships projection is REMOVED — the relationship graph is connections[] only. IDs are stemma:-namespaced (ADR-0027). v2.1 (ADR-0032): additive optional relation_registry + vocabularies sidecar. v2.2 (ADR-0050): additive value-slot XOR target/value per ADR-0045 + authority field internal|delegated per ADR-0049 delegated authority v2 + warrant axis definitional axiomatic model_based per ADR-0046 + correction_class per ADR-0046. Enforced by scripts/validate.py before the export is written.",
   "type": "object",
   "required": [
     "export_version",
@@ -113,19 +113,44 @@
           "type",
           "source",
           "relation",
-          "target",
           "assertion",
           "provenance"
+        ],
+        "allOf": [
+          {
+            "oneOf": [
+              {"required": ["target"], "not": {"required": ["value"]}},
+              {"required": ["value"], "not": {"required": ["target"]}}
+            ],
+            "description": "Value-slot XOR target/value per ADR-0045 — either relational (target) or valued (value) claim"
+          }
         ],
         "properties": {
           "id": {
             "type": "string",
             "pattern": "^stemma:conn\\.[0-9]{6}$"
           },
+          "target": {
+            "type": "string",
+            "pattern": "^stemma:[a-z][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*$",
+            "description": "Target entity ID — absent when value present XOR per ADR-0045"
+          },
+          "value": {
+            "type": "object",
+            "description": "Value-slot per ADR-0045 — structured value amount + bounds + unit",
+            "required": ["amount"],
+            "properties": {
+              "amount": {"type": "string"},
+              "lowerBound": {"type": ["string", "null"]},
+              "upperBound": {"type": ["string", "null"]},
+              "unit": {"type": "string"}
+            },
+            "additionalProperties": false
+          },
           "claim_signature": {
             "type": "string",
             "pattern": "^sha256:[0-9a-f]{64}$",
-            "description": "DERIVED identity of the asserted proposition: sha256(source|relation|target|polarity|sorted qualifiers) (ADR-0026, plan v2 E4.3). Two active connections sharing a signature are a duplicate-claim gate failure. Never stored in canonical YAML."
+            "description": "DERIVED identity of the asserted proposition: sha256(source|relation|target|value_canonical|polarity|sorted qualifiers) per ADR-0045 — covers value-slot. Two active connections sharing a signature are duplicate-claim gate failure. Never stored in canonical YAML."
           },
           "assertion": {
             "type": "object",
@@ -139,11 +164,52 @@
                 "type": "object",
                 "required": [
                   "status"
-                ]
+                ],
+                "properties": {
+                  "status": {"type": "string"},
+                  "authority": {"type": "string", "enum": ["internal", "delegated"], "description": "Per ADR-0049 delegated authority v2"}
+                },
+                "additionalProperties": true
+              },
+              "confidence_basis": {
+                "type": ["string", "null"],
+                "enum": ["expert_review", "experimental", "theoretical", "derived", "definitional", "axiomatic", "model_based", null],
+                "description": "Warrant axis per ADR-0046"
               }
-            }
+            },
+            "additionalProperties": true
+          },
+          "provenance": {
+            "type": "object",
+            "properties": {
+              "reviewed_by": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "authority": {"type": "string", "enum": ["internal", "delegated"]},
+                    "delegated_provenance": {"type": ["object", "null"]}
+                  },
+                  "additionalProperties": true
+                }
+              },
+              "review_history": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "authority": {"type": "string", "enum": ["internal", "delegated"]},
+                    "correction_class": {"type": ["string", "null"], "enum": ["factual_error", "category_error", "relationship_error", "provenance_error", "incompleteness", "hallucination", "format_error", "dangling_ref", null]},
+                    "delegated_provenance": {"type": ["object", "null"]}
+                  },
+                  "additionalProperties": true
+                }
+              }
+            },
+            "additionalProperties": true
           }
-        }
+        },
+        "additionalProperties": true
       }
     },
     "sources": {

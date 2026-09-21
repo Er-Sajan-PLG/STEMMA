@@ -1,0 +1,32 @@
+{
+  "export_version": "2.1.0",
+  "schema_version": "1.2.0",
+  "content_hash": "sha256:2c007fc6e235b0ac73a823cec3f9002b2ef62219c9bf89e1ff7a70b91975b764",
+  "consumer": "learninghub",
+  "consumer_label": "LearningHub",
+  "review_policy": "canonical",
+  "entity_count": 0,
+  "connection_count": 0,
+  "source_count": 0,
+  "entities": [],
+  "connections": [],
+  "sources": [],
+  "embedding_model": "openai/text-embedding-3-large",
+  "api_access": {
+    "enabled": true,
+    "endpoints": [
+      "/v2/stats",
+      "/v2/entities",
+      "/v2/search",
+      "/v2/rag/query",
+      "/v2/embeddings"
+    ],
+    "rate_limit": "1000/hour",
+    "auth": "api_key"
+  },
+  "rag": {
+    "enabled": true,
+    "top_k": 5,
+    "model": "openai/gpt-4o"
+  }
+}

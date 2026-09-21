@@ -659,7 +659,7 @@
     function saveHubApiKey() {
       const key = document.getElementById('hubApiKey').value;
       if (key) {
-        localStorage.setItem('stemma_llm_api_key', key);
+        sessionStorage.setItem('stemma_llm_api_key', key);
         document.getElementById('llmApiKey').value = key;
       }
     }
@@ -765,11 +765,21 @@
       const fileInput = document.getElementById('fileInput');
       const label = document.getElementById('fileDropLabel');
       if (fileInput.files.length > 0) {
-        label.innerHTML = `
-          <svg class="mx-auto h-8 w-8 text-blue-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-          <p class="text-sm font-bold text-blue-600">${fileInput.files[0].name}</p>
-          <p class="text-xs text-slate-400 mt-1">${(fileInput.files[0].size / 1024).toFixed(1)} KB</p>
-        `;
+        // XSS guard: never insert raw filename as HTML. Use textContent for names.
+        label.textContent = '';
+        const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        svg.setAttribute('class', 'mx-auto h-8 w-8 text-blue-500 mb-2');
+        svg.setAttribute('fill', 'none');
+        svg.setAttribute('stroke', 'currentColor');
+        svg.setAttribute('viewBox', '0 0 24 24');
+        svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
+        const nameP = document.createElement('p');
+        nameP.className = 'text-sm font-bold text-blue-600';
+        nameP.textContent = fileInput.files[0].name;
+        const sizeP = document.createElement('p');
+        sizeP.className = 'text-xs text-slate-400 mt-1';
+        sizeP.textContent = (fileInput.files[0].size / 1024).toFixed(1) + ' KB';
+        label.append(svg, nameP, sizeP);
       }
     }
 
@@ -806,11 +816,11 @@
 
     function saveApiKey() {
       const key = document.getElementById('llmApiKey').value;
-      if (key) localStorage.setItem('stemma_llm_api_key', key);
+      if (key) sessionStorage.setItem('stemma_llm_api_key', key);
     }
 
     function loadSavedKey() {
-      const saved = localStorage.getItem('stemma_llm_api_key');
+      const saved = sessionStorage.getItem('stemma_llm_api_key');
       if (saved) document.getElementById('llmApiKey').value = saved;
       fetchModelsForProvider();
     }
@@ -1070,15 +1080,21 @@
       const isAdmin = (role === 'founder' || role === 'admin' || reviewer.toLowerCase() === 'sajan');
 
       const banner = document.getElementById('selfReviewBanner');
+      // XSS guard: use textContent instead of innerHTML for user-supplied values.
+      const escape = (s) => {
+        const d = document.createElement('div');
+        d.textContent = s;
+        return d.innerHTML;
+      };
       if (isSelf && isAdmin) {
         banner.className = 'p-3.5 rounded-xl border bg-emerald-50 border-emerald-200 text-emerald-900 text-xs';
-        banner.innerHTML = `<strong>Founder/Admin Review Mode:</strong> Submitter is <code>${submitter}</code>. You are acting as <code>${role}</code> (${reviewer}), so self-review is permitted.`;
+        banner.innerHTML = `<strong>Founder/Admin Review Mode:</strong> Submitter is <code>${escape(submitter)}</code>. You are acting as <code>${escape(role)}</code> (${escape(reviewer)}), so self-review is permitted.`;
       } else if (isSelf && !isAdmin) {
         banner.className = 'p-3.5 rounded-xl border bg-rose-50 border-rose-200 text-rose-900 text-xs';
-        banner.innerHTML = `<strong>Self-Review Locked:</strong> Submitter is <code>${submitter}</code>. Standard contributors cannot self-review their proposals. Switch role to Admin/Founder to review.`;
+        banner.innerHTML = `<strong>Self-Review Locked:</strong> Submitter is <code>${escape(submitter)}</code>. Standard contributors cannot self-review their proposals. Switch role to Admin/Founder to review.`;
       } else {
         banner.className = 'p-3.5 rounded-xl border bg-blue-50 border-blue-200 text-blue-900 text-xs';
-        banner.innerHTML = `<strong>Peer Review Mode:</strong> Submitter is <code>${submitter}</code>. Reviewer is <code>${reviewer}</code> (${role}).`;
+        banner.innerHTML = `<strong>Peer Review Mode:</strong> Submitter is <code>${escape(submitter)}</code>. Reviewer is <code>${escape(reviewer)}</code> (${escape(role)}).`;
       }
     }
 

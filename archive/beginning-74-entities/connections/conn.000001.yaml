@@ -1,0 +1,47 @@
+id: stemma:conn.000001
+type: connection
+source: stemma:phys.newtons-second-law
+relation: mathematically_requires
+target: stemma:phys.mass
+assertion:
+  status: active
+  type: asserted
+  review:
+    status: unreviewed
+  confidence: 1.0
+  confidence_basis: expert_review
+context:
+  domain: physics
+  subdomain: mechanics
+  regime:
+    - classical
+  assumptions:
+    - non-relativistic
+    - inertial-reference-frame
+    - constant-mass
+evidence:
+  - type: textbook
+    stance: supports
+    source_ref: stemma:src.halliday-resnick-walker-12th
+    locator: Ch 5, Eq 5-1, p112
+    locator_struct:
+      page: "112"
+      section: "5-2"
+      equation: "5-1"
+    description: HRW defines net force as mass times acceleration, proving second law mathematically requires mass
+  - type: other
+    stance: supports
+    source_ref: stemma:src.newton-principia-1687
+    locator: Lex II
+    description: Principia Lex II states mutationem motus proportionalem esse vi motrici impressae, requiring mass concept
+provenance:
+  asserted_by:
+    type: human
+    id: human:curator.001
+  generated_by:
+    type: human
+    id: human:curator.001
+  method:
+    type: manual
+  reviewed_by: []
+  review_history: []

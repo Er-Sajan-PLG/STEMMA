@@ -1,0 +1,279 @@
+# LLM Registry — Model Roles for AI-Assisted Semantic Acquisition Pipeline
+# Version: 1.0.0
+# Defines model roles for STEMMA ingestion: document_vision, extraction, reasoning, verification, embedding
+# Model-agnostic: interface level, adapter provides Gemini, Claude, GPT, Qwen, local, future models
+# Model selector like DeepSeek harness: search bar, category tabs All/Frontier/Reasoning/Free/Custom/Local/SOTA/Fast, model cards FREE/FRONTIER/REASONING badges, custom input
+
+version: '1.0.0'
+
+# Model roles — explicit, each evaluated against task it performs
+roles:
+  document_vision:
+    label: Document Vision
+    description: Extracts figures, tables, equations, scanned layouts from PDFs via vision models
+    tasks:
+      - figures
+      - tables
+      - equations
+      - scanned layouts
+      - OCR
+      - layout analysis
+    required_capabilities: [vision, ocr]
+    evaluation: figure/table/equation extraction precision
+
+  extraction:
+    label: Semantic Extraction
+    description: Converts source prose into candidate structured claims with subject relation object conditions
+    tasks:
+      - semantic claims
+      - entities
+      - relationships
+      - conditions
+      - quantitative data
+      - cross-sentence relationships
+    required_capabilities: [reasoning, context]
+    evaluation: claim extraction precision + recall + evidence linking
+
+  reasoning:
+    label: Reasoning
+    description: Multi-sentence interpretation, contextual analysis, conflict investigation
+    tasks:
+      - multi-sentence interpretation
+      - contextual analysis
+      - conflict investigation
+      - condition scope
+      - context-dependent meaning
+    required_capabilities: [reasoning, long-context]
+    evaluation: multi-hop reasoning + condition preservation
+
+  verification:
+    label: Independent Verification
+    description: Independent claim verification, evidence comparison, separate from extractor
+    tasks:
+      - independent claim verification
+      - evidence comparison
+      - source corroboration
+    required_capabilities: [reasoning, verification]
+    evaluation: verification accuracy — does cited text actually contain claimed value?
+
+  embedding:
+    label: Embedding
+    description: Semantic retrieval, similarity, entity candidate matching — NOT replacement for semantic extraction
+    tasks:
+      - semantic retrieval
+      - similarity
+      - entity candidate matching
+      - retrieval augmentation
+    required_capabilities: [embedding]
+    evaluation: retrieval precision + MTEB
+
+# Models — comprehensive, local + frontier, with role mapping
+# Supports both local (free, offline, deterministic) and API (frontier) models
+# Model selector like DeepSeek harness: search, categories All/Frontier/Reasoning/Free/Custom/Local/SOTA/Fast, badges FREE/FRONTIER/REASONING/LOCAL/SOTA, custom input
+
+models:
+  # Extraction role — frontier reasoning models best for semantic extraction
+  - id: deepseek/deepseek-r1:free
+    name: DeepSeek R1 Free (Reasoning 671B)
+    provider: openrouter
+    role: [extraction, reasoning, verification]
+    category: [free, reasoning, frontier, sota]
+    context_length: 128000
+    free: true
+    local: false
+    description: Frontier reasoning model 671B, best for semantic extraction, conditions, cross-sentence, free via OpenRouter
+    use_case: default for semantic extraction + reasoning + verification — PROFESSOR-J prefers
+    cost: free
+    license: MIT
+
+  - id: anthropic/claude-3.5-sonnet
+    name: Claude 3.5 Sonnet (Frontier)
+    provider: openrouter
+    role: [extraction, reasoning, verification]
+    category: [frontier, reasoning, quality]
+    context_length: 200000
+    free: false
+    local: false
+    description: Frontier Claude 3.5 Sonnet, best for nuanced scientific prose, conditions, context-dependent meaning
+    use_case: high quality extraction + verification fallback
+    cost: $3/1M input
+    license: proprietary
+
+  - id: openai/gpt-4o
+    name: GPT-4o (Frontier Multimodal)
+    provider: openai
+    role: [extraction, reasoning, verification, document_vision]
+    category: [frontier, multimodal, quality]
+    context_length: 128000
+    free: false
+    local: false
+    description: Frontier GPT-4o multimodal, vision + reasoning, good for figures tables equations
+    use_case: multimodal extraction + LearningHub RAG
+    cost: $5/1M input
+    license: proprietary
+
+  - id: google/gemini-2.5-pro
+    name: Gemini 2.5 Pro (Frontier)
+    provider: openrouter
+    role: [extraction, reasoning, verification, document_vision]
+    category: [frontier, reasoning, multimodal]
+    context_length: 1000000
+    free: false
+    local: false
+    description: Frontier Gemini 2.5 Pro 1M context, best for long documents, cross-paragraph relationships
+    use_case: long document semantic extraction
+    cost: $1.25/1M input
+    license: proprietary
+
+  - id: meta-llama/llama-3.3-70b-instruct:free
+    name: Llama 3.3 70B Instruct Free
+    provider: openrouter
+    role: [extraction, reasoning]
+    category: [free, reasoning, open]
+    context_length: 128000
+    free: true
+    local: false
+    description: Open Llama 3.3 70B free via OpenRouter, good for extraction, open weights
+    use_case: free open extraction
+    cost: free
+    license: Llama 3.3
+
+  - id: qwen/qwen-2.5-72b-instruct
+    name: Qwen 2.5 72B Instruct
+    provider: openrouter
+    role: [extraction, reasoning, verification]
+    category: [frontier, reasoning, open]
+    context_length: 128000
+    free: false
+    local: false
+    description: Qwen 2.5 72B, strong reasoning, good for scientific extraction
+    use_case: alternative frontier
+    cost: $0.35/1M input
+    license: Qwen
+
+  # Document vision role — vision models for figures tables equations
+  - id: openai/gpt-4o-mini
+    name: GPT-4o Mini (Vision Fast)
+    provider: openai
+    role: [document_vision, extraction]
+    category: [frontier, vision, fast]
+    context_length: 128000
+    free: false
+    local: false
+    description: Fast vision model for figures tables equations
+    use_case: document vision fast
+    cost: $0.15/1M input
+
+  - id: google/gemini-2.0-flash
+    name: Gemini 2.0 Flash (Vision)
+    provider: openrouter
+    role: [document_vision, extraction]
+    category: [frontier, vision, fast]
+    context_length: 1000000
+    free: false
+    local: false
+    description: Gemini 2.0 Flash vision, fast, 1M context
+    use_case: vision fast
+
+  # Reasoning role — reasoning models for multi-sentence, conflict investigation
+  - id: deepseek/deepseek-r1-distill-llama-70b:free
+    name: DeepSeek R1 Distill Llama 70B Free
+    provider: openrouter
+    role: [reasoning, verification]
+    category: [free, reasoning]
+    context_length: 128000
+    free: true
+    local: false
+    description: Distilled reasoning model free, good for verification
+    use_case: reasoning verification free
+
+  - id: openai/o1-mini
+    name: o1 Mini (Reasoning)
+    provider: openai
+    role: [reasoning, verification]
+    category: [frontier, reasoning]
+    context_length: 128000
+    free: false
+    local: false
+    description: o1 mini reasoning model for multi-sentence interpretation
+    use_case: reasoning
+
+  # Verification role — separate model from extractor for independent verification
+  - id: anthropic/claude-3-haiku
+    name: Claude 3 Haiku (Verification Fast)
+    provider: openrouter
+    role: [verification]
+    category: [frontier, fast, verification]
+    context_length: 200000
+    free: false
+    local: false
+    description: Fast verification model, separate from extractor
+    use_case: independent verification
+
+  # Local models — free, offline, deterministic, no API key, for offline verification
+  - id: local/llama-3.2-3b
+    name: Llama 3.2 3B Local (Offline)
+    provider: local
+    role: [extraction, verification]
+    category: [free, local, fast, offline]
+    context_length: 8192
+    free: true
+    local: true
+    description: Small local model 3B offline, no API key, for offline verification
+    use_case: offline verification
+    license: Llama 3.2
+
+# Default models per role — model selector like DeepSeek harness
+defaults:
+  document_vision: openai/gpt-4o
+  extraction: deepseek/deepseek-r1:free
+  reasoning: deepseek/deepseek-r1:free
+  verification: anthropic/claude-3-haiku
+  embedding: sentence-transformers/all-MiniLM-L6-v2
+
+# Model selector configuration — like DeepSeek harness inference window
+model_selector:
+  search_placeholder: "🔍 Search models: deepseek, claude, gemini, gpt, llama, frontier, reasoning, vision, free..."
+  categories:
+    - id: all
+      label: All
+      description: All models
+    - id: frontier
+      label: 🚀 Frontier
+      description: Frontier models DeepSeek R1, Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro
+    - id: reasoning
+      label: 🧠 Reasoning
+      description: Reasoning models DeepSeek R1, o1, Gemini 2.0 Flash Thinking
+    - id: vision
+      label: 👁️ Vision
+      description: Vision models for figures tables equations
+    - id: free
+      label: 🆓 Free
+      description: Free tier OpenRouter, NVIDIA NIM, Gemini free, local
+    - id: custom
+      label: ⚙️ Custom
+      description: Type any model id — your fine-tuned, local, or frontier
+    - id: local
+      label: 💻 Local
+      description: Local models offline no API key
+    - id: sota
+      label: 🏆 SOTA
+      description: State-of-the-art MTEB top
+
+# Provenance — model identity and version must remain part of provenance
+provenance:
+  required_fields:
+    - model_provider
+    - model_id
+    - model_version
+    - prompt_version
+    - pipeline_version
+    - extraction_config
+    - source_hash
+    - document_version
+    - schema_version
+  storage:
+    - workflow/audit/audit.jsonl (git-ignored, wall-clock allowed, for reproducibility)
+    - proposals/proposal-*.yaml (evidence first-class)
+  not_in_canonical:
+    - timestamp wall-clock not in canonical export, only content_hash deterministic

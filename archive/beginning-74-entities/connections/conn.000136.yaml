@@ -1,0 +1,30 @@
+id: stemma:conn.000136
+type: connection
+source: stemma:phys.second-law-thermodynamics
+relation: derived_from
+target: stemma:phys.first-law-thermodynamics
+assertion:
+  status: active
+  type: asserted
+  review:
+    status: unreviewed
+  confidence: 1.0
+  confidence_basis: expert_review
+context:
+  domain: physics
+  subdomain: thermal-physics
+evidence:
+- type: textbook
+  stance: supports
+  source_ref: stemma:src.halliday-resnick-walker-12th
+  locator: Ch reference
+  description: Second Law of Thermodynamics governed by stemma:phys.first-law-thermodynamics
+provenance:
+  asserted_by:
+    type: human
+    id: human:curator.001
+  generated_by:
+    type: human
+    id: human:curator.001
+  method:
+    type: manual
