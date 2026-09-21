@@ -1,0 +1,45 @@
+{
+  "total_connections": 0,
+  "canonical_objects": 0,
+  "canonical_assertions": 0,
+  "reviewed_only": 0,
+  "reviewed": 0,
+  "canonical": 0,
+  "total_reviewed_including_canonical": 0,
+  "unreviewed": 0,
+  "proposed": 0,
+  "inferred": 0,
+  "rejected": 0,
+  "deprecated": 0,
+  "migrated": 0,
+  "human_authored": 0,
+  "llm_authored": 0,
+  "by_relation": {},
+  "by_family": {},
+  "by_domain": {},
+  "by_review": {},
+  "by_origin": {},
+  "review_semantics": "reviewed-only (review.status==reviewed) vs canonical (review.status==canonical, terminal); canonical implies reviewed; total_reviewed_including_canonical = reviewed-only + canonical",
+  "top_reviewed": [],
+  "remaining_high_priority": [],
+  "evidence_gaps_count": 0,
+  "provenance_gaps_count": 0,
+  "evidence_gaps_sample": [],
+  "provenance_gaps_sample": [],
+  "entity_count": 1,
+  "entity_reviewed_count": 0,
+  "entity_canonical_count": 0,
+  "entity_status": {
+    "draft": 1
+  },
+  "entity_type": {
+    "unit": 1
+  },
+  "entity_review_coverage_by_domain": {
+    "physics": {
+      "total": 1,
+      "human_reviewed": 0,
+      "canonical": 0
+    }
+  }
+}

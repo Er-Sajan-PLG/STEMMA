@@ -1,0 +1,163 @@
+{
+  "total_claims": 2,
+  "unique_properties": 1,
+  "conflicts": [
+    {
+      "key": {
+        "subject": "ionic_conductivity",
+        "relation": "has_value",
+        "object": "material_x"
+      },
+      "status": "conflict",
+      "competing_claims": [
+        {
+          "source_id": "stemma:src.paper-a",
+          "value": 10,
+          "unit": "mS/cm",
+          "conditions": {
+            "temperature": {
+              "value": 25,
+              "unit": "\u00b0C"
+            }
+          },
+          "source_quality": "unknown",
+          "claim_id": "claim.000001"
+        },
+        {
+          "source_id": "stemma:src.paper-b",
+          "value": 12,
+          "unit": "mS/cm",
+          "conditions": {
+            "temperature": {
+              "value": 25,
+              "unit": "\u00b0C"
+            }
+          },
+          "source_quality": "unknown",
+          "claim_id": "claim.000002"
+        }
+      ],
+      "values": [
+        10,
+        12
+      ],
+      "units": [
+        "mS/cm",
+        "mS/cm"
+      ],
+      "message": "CONFLICT: ionic_conductivity has_value material_x has competing values [10, 12] from different sources \u2014 do not force average, investigation/review required",
+      "resolution": null,
+      "claims": [
+        {
+          "claim_id": "claim.000001",
+          "source": {
+            "document_id": "doc-a",
+            "document_hash": "sha256:aaa",
+            "source_id": "stemma:src.paper-a"
+          },
+          "claim": {
+            "subject": "ionic_conductivity",
+            "relation": "has_value",
+            "object": "material_x",
+            "conditions": {
+              "temperature": {
+                "value": 25,
+                "unit": "\u00b0C"
+              }
+            },
+            "quantitative": {
+              "value": 10,
+              "unit": "mS/cm"
+            }
+          },
+          "evidence": {
+            "source_id": "stemma:src.paper-a",
+            "document_hash": "sha256:aaa",
+            "page": 1,
+            "text_span": "Material X has ionic conductivity 10 mS/cm at 25\u00b0C",
+            "surrounding_context": "Material X was measured at 25\u00b0C and showed 10 mS/cm"
+          },
+          "extraction": {
+            "model_provider": "openrouter",
+            "model_id": "deepseek/deepseek-r1:free",
+            "pipeline_version": "1.0.0",
+            "prompt_version": "v1"
+          }
+        },
+        {
+          "claim_id": "claim.000002",
+          "source": {
+            "document_id": "doc-b",
+            "document_hash": "sha256:bbb",
+            "source_id": "stemma:src.paper-b"
+          },
+          "claim": {
+            "subject": "ionic_conductivity",
+            "relation": "has_value",
+            "object": "material_x",
+            "conditions": {
+              "temperature": {
+                "value": 25,
+                "unit": "\u00b0C"
+              }
+            },
+            "quantitative": {
+              "value": 12,
+              "unit": "mS/cm"
+            }
+          },
+          "evidence": {
+            "source_id": "stemma:src.paper-b",
+            "document_hash": "sha256:bbb",
+            "page": 2,
+            "text_span": "Material X exhibits ionic conductivity of 12 mS/cm at 25\u00b0C",
+            "surrounding_context": "In contrast to previous work, Material X showed 12 mS/cm at 25\u00b0C"
+          },
+          "extraction": {
+            "model_provider": "openrouter",
+            "model_id": "deepseek/deepseek-r1:free",
+            "pipeline_version": "1.0.0",
+            "prompt_version": "v1"
+          }
+        }
+      ]
+    }
+  ],
+  "no_conflicts": [],
+  "conflict_count": 1,
+  "no_conflict_count": 0,
+  "all_competing_claims": [
+    {
+      "source_id": "stemma:src.paper-a",
+      "value": 10,
+      "unit": "mS/cm",
+      "conditions": {
+        "temperature": {
+          "value": 25,
+          "unit": "\u00b0C"
+        }
+      },
+      "source_quality": "unknown",
+      "claim_id": "claim.000001"
+    },
+    {
+      "source_id": "stemma:src.paper-b",
+      "value": 12,
+      "unit": "mS/cm",
+      "conditions": {
+        "temperature": {
+          "value": 25,
+          "unit": "\u00b0C"
+        }
+      },
+      "source_quality": "unknown",
+      "claim_id": "claim.000002"
+    }
+  ],
+  "summary": {
+    "total": 2,
+    "conflicts": 1,
+    "no_conflicts": 0,
+    "requires_human_review": true
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "advisory": true,
+  "total_related_to": 0,
+  "related_to_only_count": 0,
+  "already_specific_count": 0,
+  "dependency_pair_count": 0,
+  "measurement_candidate_count": 0,
+  "related_to_only": [],
+  "dependency_pairs": [],
+  "already_specific": [],
+  "measurement_candidates": [],
+  "by_suggested": {},
+  "note": "Advisory only. Never bulk-relabel; humans author/supersede through review."
+}

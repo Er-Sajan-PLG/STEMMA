@@ -1,0 +1,394 @@
+# Physics Governing Registry — machine-readable governing laws (ADR-0040/0043 + PHYSICS-GOVERNING-LAWS.md)
+# This is the deterministic verification tool — no LLM reasoning. Same result any time.
+# Every physics entity must be governed by at least one law listed here.
+# Each law listed here must have a corresponding entity file in content/physics/ with type=law and historical timeline.
+
+version: '1.0.0'
+governing_laws:
+  # Universal conservation
+  - id: stemma:phys.conservation-energy
+    name: Conservation of Energy
+    subdomain: mechanics
+    family: conservation
+    governs_quantities:
+      - energy
+      - kinetic-energy
+      - potential-energy
+      - work
+      - heat
+      - internal-energy
+    governs_concepts:
+      - energy
+      - system
+    dimensions: {M: 1, L: 2, T: -2}
+    equation: "E_total = const (isolated)"
+    regime: [all]
+
+  - id: stemma:phys.conservation-momentum
+    name: Conservation of Momentum
+    subdomain: mechanics
+    family: conservation
+    governs_quantities:
+      - momentum
+      - impulse
+      - force
+    dimensions: {M: 1, L: 1, T: -1}
+    equation: "Σ p = const"
+    regime: [isolated]
+
+  - id: stemma:phys.conservation-angular-momentum
+    name: Conservation of Angular Momentum
+    subdomain: mechanics
+    family: conservation
+    governs_quantities:
+      - angular-momentum
+      - torque
+    dimensions: {M: 1, L: 2, T: -1}
+    equation: "Σ L = const"
+    regime: [isolated]
+
+  - id: stemma:phys.conservation-charge
+    name: Conservation of Charge
+    subdomain: electricity-magnetism
+    family: conservation
+    governs_quantities:
+      - charge
+      - current
+    dimensions: {I: 1, T: 1}
+    equation: "Σ Q = const"
+    regime: [all]
+
+  # Mechanics
+  - id: stemma:phys.newtons-first-law
+    name: Newton's First Law
+    subdomain: mechanics
+    family: mechanics
+    governs_quantities:
+      - force
+      - mass
+      - inertia
+      - acceleration
+      - velocity
+    governs_concepts:
+      - inertia
+      - reference-frame
+    dimensions: {M: 1, L: 1, T: -2}
+    equation: "F_net = 0 → a = 0"
+    regime: [classical, inertial]
+
+  - id: stemma:phys.newtons-second-law
+    name: Newton's Second Law
+    subdomain: mechanics
+    family: mechanics
+    governs_quantities:
+      - force
+      - mass
+      - acceleration
+      - momentum
+      - velocity
+      - length
+      - time
+    governs_concepts:
+      - inertia
+      - system
+    dimensions: {M: 1, L: 1, T: -2}
+    equation: "F_net = m*a = dp/dt"
+    regime: [classical, non-relativistic, inertial]
+
+  - id: stemma:phys.newtons-third-law
+    name: Newton's Third Law
+    subdomain: mechanics
+    family: mechanics
+    governs_quantities:
+      - force
+    dimensions: {M: 1, L: 1, T: -2}
+    equation: "F_AB = -F_BA"
+    regime: [classical]
+
+  - id: stemma:phys.newtons-law-gravitation
+    name: Newton's Law of Gravitation
+    subdomain: mechanics
+    family: gravitation
+    governs_quantities:
+      - gravitational-force
+      - mass
+      - length
+    dimensions: {M: 1, L: 1, T: -2}
+    equation: "F = G*m1*m2/r^2"
+    regime: [classical, weak-field]
+
+  - id: stemma:phys.work-energy-theorem
+    name: Work-Energy Theorem
+    subdomain: mechanics
+    family: mechanics
+    governs_quantities:
+      - work
+      - kinetic-energy
+      - energy
+      - force
+      - length
+    dimensions: {M: 1, L: 2, T: -2}
+    equation: "W = ΔK"
+    regime: [classical]
+
+  - id: stemma:phys.impulse-momentum-theorem
+    name: Impulse-Momentum Theorem
+    subdomain: mechanics
+    family: mechanics
+    governs_quantities:
+      - impulse
+      - momentum
+      - force
+      - time
+    dimensions: {M: 1, L: 1, T: -1}
+    equation: "J = Δp"
+    regime: [classical]
+
+  # Electromagnetism
+  - id: stemma:phys.coulombs-law
+    name: Coulomb's Law
+    subdomain: electricity-magnetism
+    family: electromagnetism
+    governs_quantities:
+      - charge
+      - electric-force
+      - length
+    dimensions: {M: 1, L: 1, T: -2}
+    equation: "F = k*q1*q2/r^2"
+    regime: [electrostatic]
+
+  - id: stemma:phys.gauss-law-electric
+    name: Gauss's Law Electric
+    subdomain: electricity-magnetism
+    family: electromagnetism
+    governs_quantities:
+      - electric-field
+      - charge
+      - electric-flux
+    dimensions: {M: 1, L: 1, T: -3, I: -1}
+    equation: "∮E·dA = Q/ε0"
+    regime: [classical]
+
+  - id: stemma:phys.gauss-law-magnetic
+    name: Gauss's Law Magnetic
+    subdomain: electricity-magnetism
+    family: electromagnetism
+    governs_quantities:
+      - magnetic-field
+      - magnetic-flux
+    dimensions: {M: 1, T: -2, I: -1}
+    equation: "∮B·dA = 0"
+    regime: [classical]
+
+  - id: stemma:phys.faraday-law
+    name: Faraday's Law
+    subdomain: electricity-magnetism
+    family: electromagnetism
+    governs_quantities:
+      - electric-field
+      - magnetic-field
+      - time
+    dimensions: {M: 1, L: 1, T: -3, I: -1}
+    equation: "∮E·dl = -dΦ_B/dt"
+    regime: [classical]
+
+  - id: stemma:phys.ampere-maxwell-law
+    name: Ampere-Maxwell Law
+    subdomain: electricity-magnetism
+    family: electromagnetism
+    governs_quantities:
+      - magnetic-field
+      - current
+      - electric-field
+    dimensions: {M: 1, T: -2, I: -1}
+    equation: "∮B·dl = μ0(I + ε0 dΦ_E/dt)"
+    regime: [classical]
+
+  - id: stemma:phys.lorentz-force-law
+    name: Lorentz Force Law
+    subdomain: electricity-magnetism
+    family: electromagnetism
+    governs_quantities:
+      - force
+      - charge
+      - electric-field
+      - magnetic-field
+      - velocity
+    dimensions: {M: 1, L: 1, T: -2}
+    equation: "F = q(E + v×B)"
+    regime: [classical]
+
+  - id: stemma:phys.ohms-law
+    name: Ohm's Law
+    subdomain: electricity-magnetism
+    family: electromagnetism
+    governs_quantities:
+      - voltage
+      - current
+      - resistance
+    dimensions: {M: 1, L: 2, T: -3, I: -1}
+    equation: "V = I*R"
+    regime: [linear]
+
+  # Thermodynamics
+  - id: stemma:phys.zeroth-law-thermodynamics
+    name: Zeroth Law of Thermodynamics
+    subdomain: thermal-physics
+    family: thermodynamics
+    governs_quantities:
+      - temperature
+    dimensions: {Θ: 1}
+    equation: "If A~B and B~C then A~C"
+    regime: [equilibrium]
+
+  - id: stemma:phys.first-law-thermodynamics
+    name: First Law of Thermodynamics
+    subdomain: thermal-physics
+    family: thermodynamics
+    governs_quantities:
+      - internal-energy
+      - heat
+      - work
+      - energy
+    dimensions: {M: 1, L: 2, T: -2}
+    equation: "ΔU = Q - W"
+    regime: [all]
+
+  - id: stemma:phys.second-law-thermodynamics
+    name: Second Law of Thermodynamics
+    subdomain: thermal-physics
+    family: thermodynamics
+    governs_quantities:
+      - entropy
+      - heat
+      - temperature
+    dimensions: {M: 1, L: 2, T: -2, Θ: -1}
+    equation: "ΔS ≥ 0 isolated"
+    regime: [all]
+
+  - id: stemma:phys.ideal-gas-law
+    name: Ideal Gas Law
+    subdomain: thermal-physics
+    family: thermodynamics
+    governs_quantities:
+      - pressure
+      - volume
+      - temperature
+      - amount-substance
+    dimensions: {M: 1, L: -1, T: -2}
+    equation: "PV = nRT"
+    regime: [ideal-gas, classical]
+
+  # Measurement
+  - id: stemma:phys.si-definitions
+    name: SI Base Definitions
+    subdomain: measurement-units
+    family: measurement
+    governs_quantities:
+      - length
+      - mass
+      - time
+      - electric-current
+      - thermodynamic-temperature
+      - amount-substance
+      - luminous-intensity
+    dimensions: {}
+    equation: "7 base units defined by constants"
+    regime: [all]
+
+  - id: stemma:phys.dimensional-analysis
+    name: Dimensional Homogeneity Principle
+    subdomain: measurement-units
+    family: measurement
+    governs_quantities: []
+    governs_concepts:
+      - dimensional-analysis
+    dimensions: {}
+    equation: "Both sides of equation must have same dimensions"
+    regime: [all]
+
+# Subdomain mapping — deterministic what goes where
+subdomain_governance:
+  mechanics:
+    governing_laws:
+      - stemma:phys.newtons-first-law
+      - stemma:phys.newtons-second-law
+      - stemma:phys.newtons-third-law
+      - stemma:phys.newtons-law-gravitation
+      - stemma:phys.work-energy-theorem
+      - stemma:phys.impulse-momentum-theorem
+      - stemma:phys.conservation-energy
+      - stemma:phys.conservation-momentum
+      - stemma:phys.conservation-angular-momentum
+    allowed_dimensions:
+      - {M: 1}
+      - {L: 1}
+      - {T: 1}
+      - {L: 1, T: -1}
+      - {L: 1, T: -2}
+      - {M: 1, L: 1, T: -2}
+      - {M: 1, L: 2, T: -2}
+      - {M: 1, L: 1, T: -1}
+    allowed_quantities:
+      - mass
+      - length
+      - time
+      - velocity
+      - acceleration
+      - force
+      - momentum
+      - angular-momentum
+      - energy
+      - kinetic-energy
+      - potential-energy
+      - work
+      - power
+      - impulse
+      - torque
+      - pressure
+      - density
+      - frequency
+
+  electricity-magnetism:
+    governing_laws:
+      - stemma:phys.coulombs-law
+      - stemma:phys.gauss-law-electric
+      - stemma:phys.gauss-law-magnetic
+      - stemma:phys.faraday-law
+      - stemma:phys.ampere-maxwell-law
+      - stemma:phys.lorentz-force-law
+      - stemma:phys.ohms-law
+      - stemma:phys.conservation-charge
+    allowed_dimensions_must_include: I
+    allowed_quantities:
+      - charge
+      - current
+      - voltage
+      - resistance
+      - capacitance
+      - electric-field
+      - magnetic-field
+      - electric-flux
+      - magnetic-flux
+
+  thermal-physics:
+    governing_laws:
+      - stemma:phys.zeroth-law-thermodynamics
+      - stemma:phys.first-law-thermodynamics
+      - stemma:phys.second-law-thermodynamics
+      - stemma:phys.ideal-gas-law
+    allowed_dimensions_must_include_any: [Θ, N]
+    allowed_quantities:
+      - temperature
+      - heat
+      - internal-energy
+      - entropy
+      - pressure
+      - volume
+      - amount-substance
+
+  measurement-units:
+    governing_laws:
+      - stemma:phys.si-definitions
+      - stemma:phys.dimensional-analysis
+    allowed_types: [unit]

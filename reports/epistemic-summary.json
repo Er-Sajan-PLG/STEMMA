@@ -1,0 +1,39 @@
+{
+  "total_connection_records": 27,
+  "canonical_object_records": 27,
+  "canonical_scientific_assertions": 0,
+  "asserted": 27,
+  "inferred": 0,
+  "proposed": 0,
+  "reviewed_only": 0,
+  "reviewed": 0,
+  "canonical": 0,
+  "unreviewed": 27,
+  "total_reviewed_including_canonical": 0,
+  "active": 27,
+  "deprecated": 0,
+  "rejected": 0,
+  "migrated": 0,
+  "manually_authored": 27,
+  "llm_authored": 0,
+  "human_reviewed": 0,
+  "with_confidence": 27,
+  "without_confidence": 0,
+  "by_assertion_type": {
+    "asserted": 27
+  },
+  "by_review": {
+    "unreviewed": 27
+  },
+  "by_status": {
+    "active": 27
+  },
+  "by_origin": {
+    "human-authored": 27
+  },
+  "by_method": {
+    "manual": 27
+  },
+  "review_semantics": "reviewed-only (review.status==reviewed) vs canonical (review.status==canonical, terminal reviewed state); canonical implies reviewed; total_reviewed_including_canonical = reviewed-only + canonical",
+  "note": "canonical object (file exists) != canonical scientific assertion (review.status==canonical). All 397 are canonical objects; 15 are canonical assertions."
+}

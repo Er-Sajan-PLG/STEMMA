@@ -1042,113 +1042,72 @@
       "cosmological"
     ]
   },
-  "source": "content/ + connections/ + sources/ (canonical)",
+  "source": "content/ + connections/ (canonical) + derived",
   "entity_count": 1,
   "connection_count": 0,
-  "source_count": 3,
-  "entities": [
-    {
-      "id": "stemma:phys.metre",
-      "type": "unit",
-      "name": "Metre",
-      "domain": "physics",
-      "subdomain": "measurement-units",
-      "status": "draft",
-      "definition": "The metre (symbol: m) is the base unit of length in the International System of Units (SI). It is scientifically defined as the length of the path travelled by light in a vacuum during a time interval of 1/299,792,458 of a second. Exact: c=299,792,458 m/s. Agreed per BIPM SI Brochure 9th ed. 2019 redefinition, fixing c exact.",
-      "symbol": "m",
-      "unit": "metre (m)",
-      "governed_by": [
-        "stemma:phys.si-definitions",
-        "stemma:phys.dimensional-analysis"
-      ],
-      "provenance": {
-        "ai_drafted": false,
-        "writer": "human:curator.001",
-        "source_kind": "standards-or-specification",
-        "source": "BIPM SI Brochure 9th ed. (2019) §2.3.1, p130-132: The metre, symbol m, is the SI unit of length. It is defined by taking the fixed numerical value of the speed of light in vacuum c to be 299792458 when expressed in m s-1. Exact: c=299,792,458 m/s. Agreed internationally.",
-        "link": "https://www.bipm.org/en/publications/si-brochure",
-        "original_author": "BIPM",
-        "retrieved_at": "2026-09-21"
-      },
-      "source_refs": [
-        "stemma:src.nist-si-brochure-9th"
-      ],
-      "external_ids": {
-        "wd": "Q11573",
-        "qudt": "unit-M"
-      },
-      "historical": {
-        "stated_by": "BIPM",
-        "year": 2019,
-        "where": "SI Brochure 9th ed.",
-        "timeline": [
+  "explicit": {
+    "count": 0,
+    "note": "canonical source-of-truth"
+  },
+  "derived": {
+    "inverse_edges": {
+      "count": 0,
+      "edges": []
+    },
+    "transitive_closure": {
+      "count": 0,
+      "edges": []
+    },
+    "centrality": {
+      "top_20": [
+        [
+          "stemma:phys.metre",
           {
-            "year": 1983,
-            "by": "BIPM",
-            "event": "Metre defined via c=299,792,458 m/s"
-          },
-          {
-            "year": 2019,
-            "by": "BIPM",
-            "event": "SI redefinition with fixed constants, c exact"
+            "degree": 0,
+            "in_degree": 0,
+            "out_degree": 0,
+            "pagerank": 0.15
           }
         ]
+      ],
+      "all": {
+        "stemma:phys.metre": {
+          "degree": 0,
+          "in_degree": 0,
+          "out_degree": 0,
+          "pagerank": 0.15
+        }
       }
-    }
-  ],
-  "connections": [],
-  "sources": [
-    {
-      "id": "stemma:src.halliday-resnick-walker-12th",
-      "type": "textbook",
-      "citation": "Halliday, D., Resnick, R., & Walker, J. (2021). Fundamentals of Physics (12th ed.). Wiley.",
-      "title": "Fundamentals of Physics",
-      "authors": [
-        "David Halliday",
-        "Robert Resnick",
-        "Jearl Walker"
-      ],
-      "year": 2021,
-      "publisher": "Wiley",
-      "edition": "12th",
-      "isbn": "978-1119801128",
-      "url": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119801128",
-      "language": "en",
-      "source_role": "primary",
-      "writer": "human:curator.001",
-      "retrieved_at": "2026-09-21"
     },
-    {
-      "id": "stemma:src.newton-principia-1687",
-      "type": "other",
-      "citation": "Newton, I. (1687). Philosophiæ Naturalis Principia Mathematica. London.",
-      "title": "Philosophiæ Naturalis Principia Mathematica",
-      "authors": [
-        "Isaac Newton"
+    "components": {
+      "count": 1,
+      "largest": 1,
+      "isolated": [
+        "stemma:phys.metre"
       ],
-      "year": 1687,
-      "publisher": "Royal Society",
-      "url": "https://cudl.lib.cam.ac.uk/view/PR-ADV-B-00039-00001-00008/1",
-      "language": "la",
-      "source_role": "primary",
-      "writer": "human:curator.001",
-      "retrieved_at": "2026-09-21"
+      "sizes": [
+        1
+      ]
     },
-    {
-      "id": "stemma:src.nist-si-brochure-9th",
-      "type": "standard",
-      "citation": "BIPM (2019). The International System of Units (SI), 9th edition. Bureau International des Poids et Mesures.",
-      "title": "The International System of Units (SI) Brochure, 9th edition",
-      "authors": [
-        "BIPM"
-      ],
-      "year": 2019,
-      "publisher": "BIPM",
-      "url": "https://www.bipm.org/en/publications/si-brochure",
-      "language": "en",
-      "source_role": "primary",
-      "writer": "human:curator.001",
-      "retrieved_at": "2026-09-21"
+    "prerequisite_chains": {
+      "count": 0,
+      "sample": []
+    },
+    "cross_domain_pathways": {
+      "count": 0,
+      "pathways": []
+    },
+    "analogy_clusters": {
+      "count": 0,
+      "pairs": []
+    },
+    "approximation_chains": {
+      "count": 0,
+      "chains": []
     }
-  ]
+  },
+  "policy": {
+    "note": "Derived views respect review-aware policy; canonical remains all. Trusted = reviewed/canonical only."
+  },
+  "determinism": "stable sorting, 5-iteration PageRank, BFS deterministic"
 }

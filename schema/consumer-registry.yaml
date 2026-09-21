@@ -1,0 +1,149 @@
+# Consumer Registry — defines how STEMMA exports to consumers like LearningHub, PROFESSOR-J, etc.
+# Version: 1.0.0
+# Each consumer has different needs: domains, review status, embedding model, export format, API access
+
+version: '1.0.0'
+
+# Consumer definitions
+consumers:
+  learninghub:
+    label: LearningHub
+    description: LearningHub — curriculum-agnostic learning platform that consumes STEMMA as knowledge foundation. Needs physics, chemistry, biology, mathematics canonical entities, high-quality embeddings for student RAG, REST API.
+    contact: learninghub@example.com
+    domains: [physics, chemistry, biology, mathematics]
+    subdomains: [mechanics, measurement-units, electricity-magnetism, thermal-physics, general, organic, inorganic, cell-biology, genetics, algebra, calculus, statistics]
+    review_policy: canonical
+    entity_types: [concept, quantity, unit, law, principle, theorem, equation, process, structure]
+    export_formats: [knowledge.json, embeddings.jsonl, openapi]
+    embedding_model: openai/text-embedding-3-large
+    embedding_fallback: BAAI/bge-large-en-v1.5
+    api_access:
+      enabled: true
+      endpoints: [/v2/stats, /v2/entities, /v2/search, /v2/rag/query, /v2/embeddings]
+      rate_limit: 1000/hour
+      auth: api_key
+    rag:
+      enabled: true
+      top_k: 5
+      model: openai/gpt-4o
+    example_query: "What is Newton's second law?"
+
+  professor-j:
+    label: PROFESSOR-J
+    description: PROFESSOR-J — AI professor that answers STEM questions using STEMMA RAG. Needs all domains mediocre coverage, offline-capable embeddings, local vector store, frontier LLM.
+    contact: professor-j@example.com
+    domains: [physics, chemistry, biology, earth-science, astronomy, computer-science, engineering, mathematics]
+    subdomains: all
+    review_policy: reviewed
+    entity_types: all
+    export_formats: [knowledge.json, knowledge.jsonl, embeddings.jsonl, vector_store, openapi]
+    embedding_model: BAAI/bge-large-en-v1.5
+    embedding_fallback: sentence-transformers/all-MiniLM-L6-v2
+    api_access:
+      enabled: true
+      endpoints: [/v2/stats, /v2/entities, /v2/connections, /v2/search, /v2/neighbors, /v2/prerequisites, /v2/rag/query, /v2/rag/search, /v2/embeddings, /v2/export]
+      rate_limit: 10000/hour
+      auth: api_key
+    rag:
+      enabled: true
+      top_k: 10
+      model: deepseek/deepseek-r1:free
+      fallback_models: [anthropic/claude-3.5-sonnet, openai/gpt-4o, google/gemini-2.5-pro]
+    example_query: "Explain photosynthesis and its relation to cellular respiration"
+
+  stemma-explorer:
+    label: STEMMA Explorer (Reference 3D Graph)
+    description: Reference 3D graph explorer — visualizes knowledge graph, needs all entities, connections, small nodes thin lines, manual legend, centered zoom
+    domains: all
+    review_policy: all
+    entity_types: all
+    export_formats: [knowledge.json]
+    embedding_model: null
+    api_access:
+      enabled: false
+    rag:
+      enabled: false
+
+  general:
+    label: General Consumer
+    description: General consumer — any app that wants STEMMA via adapter SDK, CLI, or local JSON API
+    domains: all
+    review_policy: all
+    entity_types: all
+    export_formats: [knowledge.json, knowledge.jsonl, openapi]
+    embedding_model: sentence-transformers/all-MiniLM-L6-v2
+    api_access:
+      enabled: true
+      endpoints: [/v2/stats, /v2/entities, /v2/search]
+      rate_limit: 100/hour
+      auth: none
+    rag:
+      enabled: false
+
+# Export mechanisms
+export_mechanisms:
+  file:
+    description: File-based exports in exports/ — deterministic, versioned, content-hash
+    formats:
+      - knowledge.json (main export, deterministic, content-hash sha256, no wall clock)
+      - knowledge.all.json, knowledge.canonical.json, knowledge.reviewed.json etc (review-aware)
+      - embeddings.jsonl (embeddings per entity, with content_hash, model id, vector)
+      - vector_store/ (FAISS index + metadata, for RAG)
+      - openapi.yaml (OpenAPI schema for API)
+    versioned: true
+    deterministic: true
+    content_hash: true
+
+  api:
+    description: REST API via adapter Python server (adapters/python/stemma_adapter/server.py) or webapp server
+    base_url: /api or /v2
+    openapi: schema/api.yaml
+    endpoints:
+      - /v2/stats (stats)
+      - /v2/entities (list entities with domain/type/status filter)
+      - /v2/entities/{id} (get entity)
+      - /v2/connections (list connections)
+      - /v2/search?q=... (search)
+      - /v2/neighbors/{id} (neighbors)
+      - /v2/prerequisites/{id} (prereq closure)
+      - /v2/relations (relation registry)
+      - /v2/embeddings (embeddings, with model param)
+      - /v2/rag/query (RAG query: question + top_k + model)
+      - /v2/rag/search (vector search)
+      - /v2/export (export for consumer, with consumer param)
+    auth:
+      - none (local)
+      - api_key (for LearningHub, PROFESSOR-J)
+      - bearer (for frontier models via OpenRouter)
+
+  sdk:
+    description: SDKs for consumers
+    python: adapters/python/ (pip install ./adapters/python)
+    typescript: adapters/typescript/ (future)
+    example: |
+      from stemma_adapter import Stemma
+      stemma = Stemma.from_file("exports/knowledge.json")
+      print(stemma.search("force", domain="physics"))
+      # RAG
+      from stemma_adapter.rag import StemmaRAG
+      rag = StemmaRAG.from_files("exports/knowledge.json", "exports/vector_store/")
+      answer = rag.query("What is Newton's second law?", top_k=5, model="deepseek/deepseek-r1:free")
+
+# RAG system architecture
+rag:
+  description: RAG system for STEMMA — retrieval-augmented generation using embeddings + LLM
+  components:
+    - ingestion: PDF → deterministic extraction via template-registry → entity markdown → embedding via embedding-registry
+    - vector_store: FAISS/Chroma/Qdrant local, path exports/vector_store/, versioned with content_hash
+    - retriever: similarity search over entity definitions + connections as context
+    - generator: LLM with model selector like DeepSeek harness (local + frontier models) (DeepSeek R1, Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro, Llama 3.3, custom)
+    - api: /v2/rag/query and /v2/rag/search
+  flow: |
+    User question → embedding via embedding model → vector search top_k entities → build context with definitions + connections + sources → LLM prompt with context + question → answer with citations (source_refs + link)
+  evaluation:
+    - retrieval precision: top_k relevant entities
+    - answer faithfulness: answer grounded in retrieved entities, with citations
+    - citation coverage: every claim has source_ref
+  versioning:
+    - vector store versioned via content_hash of knowledge.json + embedding model id
+    - deterministic: same knowledge.json + model → same embeddings + same FAISS index

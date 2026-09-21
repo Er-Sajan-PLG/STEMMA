@@ -1,0 +1,18 @@
+{
+  "anomalies": [
+    {
+      "level": "INFO",
+      "type": "isolated_entities",
+      "message": "1 entities have no connections",
+      "ids": [
+        "stemma:phys.metre"
+      ]
+    }
+  ],
+  "counts": {
+    "ERROR": 0,
+    "WARNING": 0,
+    "INFO": 1
+  },
+  "total": 1
+}

@@ -1,0 +1,331 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://stemma.example.com/schema/semantic-claim.schema.json",
+  "title": "Semantic Claim — AI-Assisted Semantic Acquisition Pipeline",
+  "description": "Structured candidate claim extracted from source prose via AI-assisted semantic extraction, with evidence first-class, conditions, quantitative info, provenance. This is NOT canonical STEMMA knowledge — it is a proposal that must go through deterministic validation, independent verification, conflict analysis, human review, explicit canonicalization.",
+  "type": "object",
+  "required": ["claim_id", "source", "claim", "evidence", "extraction"],
+  "properties": {
+    "claim_id": {
+      "type": "string",
+      "description": "Unique claim id, e.g., claim.000001",
+      "pattern": "^claim\\.[0-9]{6}$"
+    },
+    "source": {
+      "type": "object",
+      "description": "Source document that claim was extracted from",
+      "required": ["document_id", "document_hash", "source_id"],
+      "properties": {
+        "document_id": {
+          "type": "string",
+          "description": "Document id from workflow/documents/<doc_id>/"
+        },
+        "document_hash": {
+          "type": "string",
+          "description": "SHA256 hash of source document",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "source_id": {
+          "type": "string",
+          "description": "Source id from sources/*.yaml, e.g., stemma:src.halliday-resnick-walker-12th",
+          "pattern": "^stemma:src\\.[a-z0-9-]+$"
+        }
+      }
+    },
+    "claim": {
+      "type": "object",
+      "description": "Structured scientific claim",
+      "required": ["subject", "relation", "object"],
+      "properties": {
+        "subject": {
+          "type": "string",
+          "description": "Subject entity id or candidate entity string, e.g., stemma:phys.electrical-resistance or candidate:electrical_resistance"
+        },
+        "relation": {
+          "type": "string",
+          "description": "Relation must come from relation-registry.yaml, not invented by LLM",
+          "enum": [
+            "logically_requires",
+            "mathematically_requires",
+            "part_of",
+            "special_case_of",
+            "applies_to",
+            "appears_in_law",
+            "related_to",
+            "derived_from",
+            "causes",
+            "depends_on",
+            "proportional_to",
+            "inversely_proportional_to",
+            "composed_of",
+            "measured_by",
+            "has_unit",
+            "increases_with",
+            "decreases_with",
+            "requires",
+            "produces",
+            "transforms_into"
+          ]
+        },
+        "object": {
+          "type": "string",
+          "description": "Object entity id or candidate entity string or value"
+        },
+        "conditions": {
+          "type": "object",
+          "description": "Conditions that radically change meaning, e.g., temperature constant, model ideal_gas",
+          "additionalProperties": {
+            "type": ["string", "object"],
+            "properties": {
+              "value": {
+                "type": ["string", "number"]
+              },
+              "unit": {
+                "type": "string"
+              }
+            }
+          },
+          "examples": [
+            {
+              "temperature": "constant",
+              "model": "ideal_gas"
+            },
+            {
+              "temperature": {
+                "value": 25,
+                "unit": "°C"
+              }
+            }
+          ]
+        },
+        "quantitative": {
+          "type": "object",
+          "description": "Quantitative information: numerical values, ranges, units, dimensions, equations, experimental conditions, uncertainty, significant figures, comparisons, thresholds, ratios, mathematical relationships",
+          "properties": {
+            "value": {
+              "type": ["number", "string"]
+            },
+            "unit": {
+              "type": "string"
+            },
+            "range": {
+              "type": "object",
+              "properties": {
+                "min": {"type": "number"},
+                "max": {"type": "number"}
+              }
+            },
+            "uncertainty": {
+              "type": "object",
+              "properties": {
+                "value": {"type": "number"},
+                "type": {"type": "string", "enum": ["absolute", "relative", "standard_deviation"]}
+              }
+            },
+            "significant_figures": {
+              "type": "integer"
+            },
+            "equation": {
+              "type": "string"
+            },
+            "experimental_conditions": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "description": "Evidence must be first-class — precise provenance to answer Why does STEMMA contain this?",
+      "required": ["source_id", "document_hash", "text_span"],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "description": "Source id"
+        },
+        "document_hash": {
+          "type": "string",
+          "description": "Document hash sha256",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "page": {
+          "type": ["integer", "string"],
+          "description": "Page number"
+        },
+        "section": {
+          "type": "string",
+          "description": "Section identifier"
+        },
+        "text_span": {
+          "type": "string",
+          "description": "Exact source evidence text span"
+        },
+        "char_offsets": {
+          "type": "object",
+          "description": "Character offsets",
+          "properties": {
+            "start": {"type": "integer"},
+            "end": {"type": "integer"}
+          }
+        },
+        "page_coordinates": {
+          "type": "object",
+          "description": "Page coordinates where possible",
+          "properties": {
+            "x": {"type": "number"},
+            "y": {"type": "number"},
+            "width": {"type": "number"},
+            "height": {"type": "number"}
+          }
+        },
+        "figure_id": {
+          "type": "string",
+          "description": "Figure/table/equation identifiers"
+        },
+        "surrounding_context": {
+          "type": "string",
+          "description": "Surrounding context 3 sentences before/after for verification"
+        },
+        "source_version": {
+          "type": "string"
+        }
+      }
+    },
+    "extraction": {
+      "type": "object",
+      "description": "Extraction provenance — model identity and version must remain part of provenance",
+      "required": ["model_provider", "model_id", "pipeline_version", "prompt_version"],
+      "properties": {
+        "model_provider": {
+          "type": "string",
+          "description": "Model provider: openrouter, openai, anthropic, google, nvidia, local, deterministic"
+        },
+        "model_id": {
+          "type": "string",
+          "description": "Model identifier, e.g., deepseek/deepseek-r1:free, claude-3.5-sonnet, sentence-transformers/all-MiniLM-L6-v2"
+        },
+        "model_version": {
+          "type": "string",
+          "description": "Model version"
+        },
+        "pipeline_version": {
+          "type": "string",
+          "description": "Pipeline version from schema/VERSION.yaml + template-registry version"
+        },
+        "prompt_version": {
+          "type": "string",
+          "description": "Prompt version from providers.py"
+        },
+        "extraction_config": {
+          "type": "object",
+          "description": "Extraction configuration: max_tokens, top_k, domain filter, evidence window size",
+          "properties": {
+            "max_tokens": {"type": "integer"},
+            "top_k": {"type": "integer"},
+            "domain_filter": {"type": "string"},
+            "evidence_window_size": {"type": "integer"}
+          }
+        },
+        "confidence": {
+          "type": "number",
+          "description": "Confidence/uncertainty metadata from model",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "extraction_output": {
+          "type": "string",
+          "description": "Raw extraction output from LLM"
+        }
+      }
+    },
+    "verification": {
+      "type": "object",
+      "description": "Independent verification — deterministic + independent model + source corroboration",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["pending", "supported", "unsupported", "uncertain", "conflict"],
+          "description": "Verification status"
+        },
+        "deterministic_checks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "check": {"type": "string"},
+              "result": {"type": "string", "enum": ["pass", "fail"]},
+              "detail": {"type": "string"}
+            }
+          }
+        },
+        "independent_model": {
+          "type": "object",
+          "properties": {
+            "verifier_model_id": {"type": "string"},
+            "verifier_model_provider": {"type": "string"},
+            "result": {"type": "string", "enum": ["supported", "unsupported", "uncertain"]},
+            "evidence_comparison": {"type": "string"}
+          }
+        },
+        "source_corroboration": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source_id": {"type": "string"},
+              "value": {"type": ["string", "number"]},
+              "agreement": {"type": "string", "enum": ["agree", "disagree", "unrelated"]}
+            }
+          }
+        }
+      }
+    },
+    "conflict": {
+      "type": "object",
+      "description": "Conflict detection must be explicit — do not force average, do not allow LLM to arbitrarily choose",
+      "properties": {
+        "status": {
+          "type": "string",
+          "enum": ["no_conflict", "conflict", "unresolved", "resolved"]
+        },
+        "competing_claims": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source_id": {"type": "string"},
+              "value": {"type": ["string", "number"]},
+              "unit": {"type": "string"},
+              "conditions": {"type": "object"},
+              "source_quality": {"type": "string"}
+            }
+          }
+        },
+        "resolution": {
+          "type": "string",
+          "description": "How conflict was resolved, if resolved, via human review"
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "description": "Provenance — model and pipeline provenance preserved",
+      "properties": {
+        "created_at": {
+          "type": "string",
+          "description": "Creation timestamp in workflow audit, not in canonical export"
+        },
+        "created_by": {
+          "type": "string"
+        },
+        "content_hash": {
+          "type": "string",
+          "description": "Content hash for reproducibility",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        }
+      }
+    }
+  }
+}
