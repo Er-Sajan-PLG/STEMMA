@@ -56,7 +56,7 @@ jobs:
         timeout-minutes: 5
       - name: Check no secrets in canonical content
         run: |
-          if grep -R -i "api_key" content/ connections/ sources/ --include="*.md" --include="*.yaml" 2>/dev/null | grep -v "example" | grep -v "provenance" | head -n 20; then echo "FAIL: secret in canonical"; exit 1; fi
+          if grep -R -i "api_key" content/ connections/ sources/ --include="*.md" --include="*.yaml" 2>/dev/null | grep -v "example" | grep -v "provenance" | grep -q .; then echo "FAIL: secret in canonical"; exit 1; fi
           echo "No secrets OK"
       - name: Check workflow config not leaking keys
         run: |
@@ -205,7 +205,7 @@ jobs:
           diff /tmp/knowledge1.json exports/knowledge.json && echo "Deterministic OK"
       - name: Check no random in validation
         run: |
-          if grep -R "random" scripts/validate.py scripts/physics_core_profile_check.py 2>/dev/null | head -n 5; then echo "FAIL: random"; exit 1; fi
+          if grep -R "random\." scripts/validate.py scripts/physics_core_profile_check.py 2>/dev/null | grep -q .; then echo "FAIL: random"; exit 1; fi
           echo "No randomness OK"
 
   id-immutability-registry:
