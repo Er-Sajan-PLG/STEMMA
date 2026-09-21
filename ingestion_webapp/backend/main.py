@@ -5,6 +5,7 @@ Upload PDFs, extract evidence, create proposals for human review.
 from __future__ import annotations
 
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -42,6 +43,21 @@ EXPORT_DIR = ROOT / "exports"
 UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 PROPOSALS_DIR.mkdir(parents=True, exist_ok=True)
 PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
+
+# Security: proposal IDs must be strict filenames — only `[a-zA-Z0-9_-]`.
+# Prevents path traversal via the URL route param (e.g. `../../../etc/passwd`).
+_PROPOSAL_ID_RE = re.compile(r"^[a-zA-Z0-9_-]+$")
+
+
+def _safe_proposal_path(proposal_id: str) -> Path:
+    """Resolve a proposal ID to a strict path inside PROPOSALS_DIR.
+
+    Raises HTTPException(400) if the ID contains anything other than
+    `[a-zA-Z0-9_-]` — no dots, slashes, or traversal sequences allowed.
+    """
+    if not _PROPOSAL_ID_RE.match(proposal_id):
+        raise HTTPException(400, f"Invalid proposal ID: {proposal_id!r}")
+    return (PROPOSALS_DIR / proposal_id).with_suffix(".proposal.yaml")
 
 # Models
 class UploadResponse(BaseModel):
@@ -376,7 +392,7 @@ async def create_proposal(file_id: str, request: ProposalRequest):
         }
 
         # Save proposal
-        proposal_path = PROPOSALS_DIR / f"{proposal_id}.proposal.yaml"
+        proposal_path = _safe_proposal_path(proposal_id)
         import yaml
         proposal_path.write_text(yaml.safe_dump(dossier, sort_keys=False, allow_unicode=True))
 
@@ -428,7 +444,7 @@ async def list_proposals(status: Optional[str] = None):
 @app.get("/api/proposals/{proposal_id}")
 async def get_proposal(proposal_id: str):
     """Get full proposal details."""
-    path = PROPOSALS_DIR / f"{proposal_id}.proposal.yaml"
+    path = _safe_proposal_path(proposal_id)
     if not path.exists():
         raise HTTPException(404, "Proposal not found")
     import yaml
@@ -451,7 +467,7 @@ def check_review_permission(submitter: Optional[str], reviewer: str, reviewer_ro
 @app.post("/api/proposals/{proposal_id}/review", response_model=ProposalResponse)
 async def review_proposal(proposal_id: str, action: ReviewAction):
     """Human review action on a proposal."""
-    path = PROPOSALS_DIR / f"{proposal_id}.proposal.yaml"
+    path = _safe_proposal_path(proposal_id)
     if not path.exists():
         raise HTTPException(404, "Proposal not found")
     
@@ -506,7 +522,7 @@ async def review_proposal(proposal_id: str, action: ReviewAction):
 @app.post("/api/proposals/{proposal_id}/update", response_model=ProposalResponse)
 async def update_proposal_artifact(proposal_id: str, request: ArtifactUpdateRequest):
     """Update proposal artifact fields and re-verify quality gates."""
-    path = PROPOSALS_DIR / f"{proposal_id}.proposal.yaml"
+    path = _safe_proposal_path(proposal_id)
     if not path.exists():
         raise HTTPException(404, "Proposal not found")
 
@@ -566,7 +582,7 @@ async def canonicalize_proposal(
     reason: Optional[str] = Form(default=None)
 ):
     """Canonicalize a proposal - move to canonical content."""
-    path = PROPOSALS_DIR / f"{proposal_id}.proposal.yaml"
+    path = _safe_proposal_path(proposal_id)
     if not path.exists():
         raise HTTPException(404, "Proposal not found")
     
@@ -661,7 +677,7 @@ async def delete_file(file_id: str):
     
     # Delete proposal if exists
     if "proposal_id" in job:
-        proposal_path = PROPOSALS_DIR / f"{job['proposal_id']}.proposal.yaml"
+        proposal_path = _safe_proposal_path(job['proposal_id'])
         proposal_path.unlink(missing_ok=True)
     
     del jobs[file_id]

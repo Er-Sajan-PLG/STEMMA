@@ -76,13 +76,14 @@ class _Handler(BaseHTTPRequestHandler):
 
     @staticmethod
     def _read_asset(name: str) -> tuple[bytes, str]:
+        # lgtm[py/path-injection]
+        # `Path(name).name` strips all directory components — traversal impossible.
+        # Defense-in-depth: resolved path must live strictly inside STATIC_DIR.
         safe = Path(name).name
         try:
             resolved = (STATIC_DIR / safe).resolve()
         except OSError:
             raise NotFound(f"static asset not found: {name}") from None
-        # Defense-in-depth: ensure the resolved path is strictly inside STATIC_DIR,
-        # never an escape up the tree (path traversal / path-injection guard).
         if not resolved.is_file() or resolved.parent != STATIC_DIR.resolve():
             raise NotFound(f"static asset not found: {name}")
         suffix = resolved.suffix.lower()
