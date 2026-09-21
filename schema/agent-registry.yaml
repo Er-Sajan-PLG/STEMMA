@@ -1,6 +1,6 @@
 # Agent Registry — authoritative list of every agent identity that may appear in
-# provenance (plan v2 E4.2; audit F2). Companion of relation-registry.yaml and
-# extension-registry.yaml (governance metadata, not canonical knowledge).
+# provenance (plan v2 E4.2; audit F2) + delegated authority v2 audited federation (ADR-0049).
+# Companion of relation-registry.yaml and extension-registry.yaml (governance metadata, not canonical knowledge).
 #
 # Every `human:` / `process:` / `llm:` / `unknown:` identifier referenced by
 #   connections/*.yaml   provenance.asserted_by.id, provenance.generated_by.id,
@@ -9,15 +9,31 @@
 #   schema/extension-registry.yaml  registered_by
 # MUST resolve to an entry here or scripts/validate.py exits 1.
 #
-# Fields
+# Fields for human/process/llm/unknown:
 #   id           — the agent identifier exactly as written in provenance
 #   class        — human | process | llm | unknown (must equal the id prefix)
 #   display_name — human-readable label (pseudonymous display is allowed; E6.5)
 #   external_id  — namespaced anchor when known: orcid:0000-..., github:handle,
 #                  model:vendor/name@version. null while unknown. Reviewer identity
 #                  policy (ORCID-backed recommended) is gate G-D (plan v2 E6.5).
-#   status       — active | retired | test
+#   status       — active | retired | test | revoked | suspended
 #   note         — free text (why this agent exists, scope, caveats)
+#
+# Fields for institution (delegated authority v2 ADR-0049):
+#   id           — human:institution.<slug> e.g., human:institution.wikidata-community
+#   type         — institution
+#   class        — human (institution is human authority delegated)
+#   name         — human-readable institution name
+#   authority    — delegated
+#   review_standard_url — URL to institution's published review standard
+#   review_standard_version — version of standard
+#   contact      — contact email
+#   registered_at — ISO8601 registration date
+#   registered_by — human:admin.* who registered
+#   status       — active | revoked | suspended
+#   audit_frequency — monthly | quarterly | annual
+#   sample_audit_rate — 0.1 = 10% first 100, 0.05 = 5% ongoing
+#   last_audit, next_audit — ISO8601 dates
 #
 # `unknown:legacy-relationship` is deliberately registered: it is the honest
 # attribution for the 641 migrated assertions whose original author is not
@@ -25,7 +41,8 @@
 #
 # New agents: append an entry in the same PR that first uses the id.
 # No new canonical assertion may use an `unknown:` agent (plan v2 §4 metric).
-version: '0.1'
+# Adding institution requires ADR-level governance decision per ADR-0049.
+version: '0.2'
 agents:
 - id: human:curator.001
   class: human
@@ -87,3 +104,40 @@ agents:
   external_id: null
   status: retired
   note: Honest attribution for migrated assertions (CURATION-PROTOCOL §6). Forbidden on any newly created assertion.
+- id: human:institution.wikidata-community
+  type: institution
+  class: human
+  name: "Wikidata Community"
+  authority: delegated
+  review_standard_url: "https://www.wikidata.org/wiki/Wikidata:Verifiability"
+  review_standard_version: "v3.2"
+  contact: "community@wikidata.org"
+  registered_at: "2026-09-21"
+  registered_by: "human:admin.sajan"
+  status: active
+  audit_frequency: annual
+  sample_audit_rate: 0.1
+  last_audit: "2026-09-20"
+  next_audit: "2027-09-20"
+  display_name: Wikidata Community (delegated authority)
+  external_id: null
+  note: Example trusted institution per ADR-0049 delegated authority v2 — verified human review may constitute human gate via delegated authority with audit sample versioning revocation. Adding institution requires ADR-level governance decision.
+- id: human:institution.biologists-kb
+  type: institution
+  class: human
+  name: "International Biological Knowledge Consortium"
+  authority: delegated
+  review_standard_url: "https://example.org/biologists-kb/review-standard"
+  review_standard_version: "v2.1"
+  contact: "review-board@example.org"
+  registered_at: "2026-09-21"
+  registered_by: "human:admin.sajan"
+  status: active
+  audit_frequency: annual
+  sample_audit_rate: 0.1
+  last_audit: "2026-09-20"
+  next_audit: "2027-09-20"
+  display_name: International Biological Knowledge Consortium (delegated authority)
+  external_id: null
+  note: Example trusted institution per ADR-0049 — one trusted external institution for Phase 4 content acceptance test.
+

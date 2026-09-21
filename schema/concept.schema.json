@@ -63,7 +63,7 @@
     },
     "definition": {
       "type": "string",
-      "description": "Curriculum-agnostic definition"
+      "description": "Scientific definition exactly as meter example with reference — claim with warrant definitional + evidence per L1, not mere orientation, must show agreed status and source reference per ADR-0044"
     },
     "examples": {
       "type": "array",
@@ -95,27 +95,7 @@
       "default": null,
       "description": "SI unit of the quantity (optional)"
     },
-    "common_misconceptions": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "description": "Common false beliefs learners hold; knowledge-layer, not pedagogy (optional)"
-    },
-    "learning_objectives": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "description": "What the learner should understand, calculate, predict, or explain. Knowledge-layer: intrinsic to the concept, not pedagogy."
-    },
-    "real_world_applications": {
-      "type": "array",
-      "items": {
-        "type": "string"
-      },
-      "description": "Real-world phenomena and technologies this concept explains or enables."
-    },
+
     "key_experiments": {
       "type": "array",
       "items": {

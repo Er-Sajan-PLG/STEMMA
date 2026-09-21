@@ -48,7 +48,7 @@ def test_validate_json_contract():
     assert report["ok"] is True
     assert report["conforms"] is True
     assert report["schema_version"] == "1.2.0"
-    assert report["export_version"] == "2.1.0"
+    assert report["export_version"] == "2.2.0"
     assert report["relation_registry_version"] == "1.0.0"
     assert report["content_hash"].startswith("sha256:")
     # Phase B (R2/R4) added advisory validator WARNINGs for active empty-evidence

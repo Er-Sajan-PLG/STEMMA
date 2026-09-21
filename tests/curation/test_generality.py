@@ -26,8 +26,10 @@ ROOT = pathlib.Path(__file__).resolve().parents[2]
 # --- Fields that whose very presence asserts applicability-dependency ---
 # (structured metadata, not prose). The plan's invariant: fail atomically if a canonical
 # entity carries a frontmatter key that declares a grade/curriculum/country/product scope.
+# Per ADR-0047 L7 refinement: learning_objectives instructional_sequencing removed entirely,
+# real_world_applications common_misconceptions allowed ONLY when evidenced as ValueClaims not as entity frontmatter.
 SCOPING_FIELDS = re.compile(
-    r"^(grade|curriculum|syllabus|level|course_level|countr[ay]_scope|school_system|board|exam_scope)$",
+    r"^(grade|curriculum|syllabus|level|course_level|countr[ay]_scope|school_system|board|exam_scope|learning_objectives|instructional_sequencing|real_world_applications|common_misconceptions)$",
     re.I,
 )
 

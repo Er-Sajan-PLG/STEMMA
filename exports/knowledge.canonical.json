@@ -1,5 +1,5 @@
 {
-  "export_version": "2.1.0",
+  "export_version": "2.2.0",
   "schema_version": "1.2.0",
   "content_hash": "sha256:2c007fc6e235b0ac73a823cec3f9002b2ef62219c9bf89e1ff7a70b91975b764",
   "kernel_version": "3.0.0",
@@ -946,7 +946,25 @@
         "phenomenon",
         "model"
       ],
-      "status": "reserved"
+      "status": "adopted"
+    },
+    "misconception_of": {
+      "family": "explanatory",
+      "symmetric": false,
+      "transitive": false,
+      "domain": [
+        "misconception"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "unit",
+        "phenomenon",
+        "model"
+      ],
+      "status": "adopted"
     }
   },
   "vocabularies": {

@@ -3,7 +3,7 @@
   "valid": true,
   "ok": true,
   "schema_version": "1.2.0",
-  "export_version": "2.1.0",
+  "export_version": "2.2.0",
   "relation_registry_version": "1.0.0",
   "kernel_version": "3.0.0",
   "content_hash": "sha256:2c007fc6e235b0ac73a823cec3f9002b2ef62219c9bf89e1ff7a70b91975b764",

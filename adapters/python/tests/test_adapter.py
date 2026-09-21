@@ -217,8 +217,8 @@ def synthetic_export() -> dict[str, Any]:
         ),
     ]
     return {
-        "export_version": "2.1.0",
-        "schema_version": "1.1.0",
+        "export_version": "2.2.0",
+        "schema_version": "1.2.0",
         "content_hash": "sha256:" + ("0" * 64),
         "kernel_version": "3.0.0",
         "relation_registry_version": "1.0.0",
@@ -421,7 +421,7 @@ def test_rejected_visibility() -> None:
 def test_relation_introspection() -> None:
     export = synthetic_export()
     client = Stemma.from_dict(export)
-    assert client.stats["export_version"] == "2.1.0"
+    assert client.stats["export_version"] == "2.2.0"
     assert client.stats["relation_registry_version"] == "1.0.0"
 
     registry = client.relations()
