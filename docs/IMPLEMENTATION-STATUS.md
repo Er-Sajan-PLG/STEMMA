@@ -161,6 +161,7 @@ Phase 8 Scale Readiness Days benchmark git performance at 10^4 entities design c
 - 7297c6c strong CI explorer semantic pipeline final integrating early work
 - 0df87ff fix status truth 1 entity 3 sources
 - Now new docs new ADRs 0045-0052 roadmaps updated to architecture v2 ideal order
+- 2026-09-22 specification recovery pilot (protocol v3.1): CORE-GATE-EXPORT slice baseline at spec/ — 22 requirements PROPOSED awaiting owner approval, maturity L2, validator 9/9 — process review at repo root (pre-R4 work)
 
 Verification: make quick-verify PASS — 1 entity metre via HITL, 0 connections, 3 sources, embeddings deterministic content_hash sha256:2c007fc6..., RAG vector search metre 0.2874 citations, semantic pipeline evidence first-class conflict demo P=10 vs P=12, explorer clean small nodes thin lines manual legend centered zoom 8 domains, webapp HITL PDF primary model selector DeepSeek harness, strong CI 10 jobs all-green.
 
@@ -177,6 +178,7 @@ python3 scripts/rag.py --search "metre" --top-k 2  # OK vector search
 python3 scripts/status_truth.py --write  # OK README status block
 python3 scripts/verify_all.py  # OK all verify steps pass — architecture v2 ideal order
 python3 scripts/verify_strong.py --quick  # ALL STRONG CHECKS GREEN
+python3 spec/machine-readable/validate_recovery.py  # OK RECOVERY VALIDATOR PASS 9/9 (spec recovery pilot 2026-09-22)
 ```
 
 All good, ready for PR — but PR not created per instruction, now architecture v2 ideal order with new docs new ADRs roadmaps etc.

@@ -6,6 +6,7 @@ Architecture: docs/ARCHITECTURE-V2.md clean constitutional foundation single par
 Implementation Plan: docs/IMPLEMENTATION-PLAN-V2.md Phases 0-8 ideal order architecture → plan → work integrating early work
 Decisions: docs/decisions/README.md 0040-0052
 Roadmap: docs/ROADMAP.md Phases 0-8 ideal order
+Specification recovery (pilot): ../spec/BASELINE.md CORE-GATE-EXPORT slice recovered 2026-09-22 per protocol v3.1 — maturity L2 slice-scoped, 22 requirements PROPOSED awaiting owner approval, process review at ../SPECIFICATION_PROCESS_REVIEW.md
 
 Ideal order history: b958a5c empty → 51fc1b0 architecture v2 clean → 493b32b implementation plan v2 → 27576f3 foundation reset fundamentals clean 3D → 3bcfd4a ingestion pipeline evolvable templates model selector → e692b25 comprehensive all-STEM template registry → dbc229f embeddings RAG separation consumer export guideline → 7297c6c strong CI explorer semantic pipeline final → 0df87ff fix status truth.
 
@@ -16,7 +17,7 @@ All early work from start included as implementation of new architecture, not pr
 1. **[ARCHITECTURE-V2.md](ARCHITECTURE-V2.md)** — authoritative clean single part constitutional foundation L1-L8 refined, data model value-slot XOR, semantic primitives, delegated authority v2 audited, scale 10^2–10^6, 16-stage semantic acquisition pipeline, embedding and RAG producer vs consumer separation, standards alignment pluggable, consumption
 2. **[IMPLEMENTATION-PLAN-V2.md](IMPLEMENTATION-PLAN-V2.md)** — Phases 0-8 ideal order architecture → plan → work integrating early work, verification plan, cost model, what-is-not, consequences, human decisions
 3. **[decisions/README.md](decisions/README.md)** — ADRs 0040-0052 beginning no legacy, old 0001-0039 archived to archive/old-design/
-4. **[VISION.md](VISION.md)** — what STEMMA is, knowledge foundation not curriculum not product, 8 domains mediocre 400-800 target, embeddings RAG consumer export via file/API/SDK content_hash
+4. **[VISION.md](VISION.md)** — what STEMMA is, knowledge foundation not curriculum not product, 8 domains mediocre 400-800 target, embeddings RAG consumer export via file/API/SDK content_hash. Note: the SDK ships `Stemma`/`load_export`; `StemmaRAG` is specified but not yet implemented (SPECIFIED_AND_MISSING — see ../spec/SPECIFICATION_GAP_ANALYSIS.md)
 5. **[DOMAIN-MODEL.md](DOMAIN-MODEL.md)** — entities, connections, sources with governed_by, 8 domains physics/chemistry/biology/earth-science/astronomy/computer-science/engineering/mathematics, 97 subdomains, 12 entity types
 6. **[SCHEMA-SPECIFICATION.md](SCHEMA-SPECIFICATION.md)** — JSON Schemas, relation-registry, template-registry v2.0.0, embedding-registry v1.0.0, consumer-registry v1.0.0, llm-registry v1.0.0, api.yaml OpenAPI 3.0.3
 7. **[PIPELINES.md](PIPELINES.md)** — 16 stages DOCUMENT→OBSERVATION→EVIDENCE WINDOWS→CANDIDATE→ENTITY RESOLUTION threshold 0.85→CLAIM→NORMALIZATION→DETERMINISTIC VALIDATION→INDEPENDENT VERIFICATION Verifier Model B→CONFLICT ANALYSIS explicit P=10 vs P=12→PROPOSAL→REVIEW→CANONICAL→DERIVED EXPORT→CONSUMER never PDF→LLM→canonical
@@ -54,6 +55,9 @@ All early work from start included as implementation of new architecture, not pr
 | RAG YES needed retrieval+generation+citations | [RAG.md](RAG.md) |
 | API export mechanism YES file/API/SDK content_hash | [API.md](API.md) |
 | Semantic Acquisition Pipeline 16 stages evidence first-class | [SEMANTIC-ACQUISITION-PIPELINE.md](SEMANTIC-ACQUISITION-PIPELINE.md) |
+| Specification recovery program (pilot charter, roles/authority, domain registry) | [../spec/PILOT_CHARTER.md](../spec/PILOT_CHARTER.md) |
+| Recovered specification baseline (L2, 22 PROPOSED requirements, 2 interfaces, validator) | [../spec/BASELINE.md](../spec/BASELINE.md) |
+| Recovery process review (mandatory, root) | [../SPECIFICATION_PROCESS_REVIEW.md](../SPECIFICATION_PROCESS_REVIEW.md) |
 | Ingestion Primary PDF primary HITL | [INGESTION-PRIMARY.md](INGESTION-PRIMARY.md) |
 | Agent deterministic protocol HITL | [AGENT.md](AGENT.md) |
 | Reset and HITL Guide beginning clean | [RESET-AND-HITL-GUIDE.md](RESET-AND-HITL-GUIDE.md) |

@@ -19,6 +19,13 @@
 - Markdown explicit: AI shows data in markdown preview (textarea + rendered + checklist), human explicitly edits markdown file for easy verification (plain text diffable)
 - Deterministic, content-hash stamped, no wall clock, versioned exports v2.2.0, single source VERSION.yaml
 
+## Specification Governance — Recovery Pilot (NEW 2026-09-22)
+
+- A recovered specification baseline exists at `spec/` (recovery protocol v3.1, pilot CORE-GATE-EXPORT): evidence register, 22 requirements, 2 interface contracts, conflicts, open questions, machine-readable registries, minimum validator.
+- Authority model: `spec/ROLES_AND_AUTHORITY.md` — SOLE_OWNER = repository owner (Sajan); recovery agent = provisional executor with no approval power. Approval workflow: DRAFT → PROPOSED → owner review → APPROVED / REJECTED / DEFERRED. Only APPROVED requirements count for conformance; a requirement must be APPROVED before it can be VERIFIED.
+- All recovered requirements are currently PROPOSED (review material, not normative). Baseline approval PENDING: `spec/BASELINE.md` (maturity L2, slice-scoped).
+- Non-response is not approval; self-approval is forbidden and machine-detectable (validator check on approval metadata).
+
 ## Scope
 
 NOW: physics core measurement-units + mechanics beginning clean, 1 entity metre via HITL, 7 candidates (length,mass,time,second,kilogram,area) ready for human edit, governed by Newton + conservation + SI + dimensional-analysis, minimal v2 with HITL + evolvable templates + frontier selector, deterministic scales

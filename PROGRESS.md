@@ -9,6 +9,8 @@
 - **Architecture:** v2 (ADR-0044), contract **export_version 2.2.0** (ADR-0050), schema 1.2.0
 - **Gate:** `verify_all.py` ✅ green · full `pytest tests/` ✅ green (16 stale old-design
   tests archived 2026-09-22) · `test_docs_consistency` + `test_independence` live (un-stubbed per ADR-0051)
+- **Specification:** recovered pilot baseline (protocol v3.1) at `spec/` — maturity **L2**
+  slice-scoped; 22 requirements **PROPOSED** awaiting owner approval; nothing self-approved
 - **CI:** validate + freshness + docs-consistency + independence + pytest suite + explorer + webapp + embeddings/RAG + determinism
 
 ## ✅ Done
@@ -29,6 +31,13 @@
   - [x] Doc count drift fixed: 11 embedding models, export 2.2.0, `export_version: 2.2.0` in CONSUMERS.md
 - [x] Webapp consolidation (ADR-0036): stdlib `webapp/` is the only ingestion UI;
   free-model catalog contract restored (all entries `:free`)
+- [x] **Specification recovery pilot (protocol v3.1), 2026-09-22 (pre-R4):**
+  - [x] Pilot charter + slice ADR (`spec/PILOT_CHARTER.md`, ADR-STEMMA-SPEC-001)
+  - [x] 37 classified evidence records; as-built; external constraints; assumptions
+  - [x] 22 requirements (full §8.6 schema) all PROPOSED — none self-approved
+  - [x] Specification v0.1.0-pilot + 2 interface contracts + verification design (all UNVERIFIED per §9.1)
+  - [x] Two-tier gap analysis + machine-readable registries + minimum validator (9/9 PASS, fail-closed)
+  - [x] Baseline BASELINE-STEMMA-2026-09-22-PILOT-CORE-GATE-EXPORT — maturity L2; process review at root
 
 ## 🔄 In Progress (R4 — Content Acceptance Test, ADR-0052)
 

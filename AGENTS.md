@@ -28,6 +28,27 @@ STEMMA exists so that anyone — educators, developers, researchers, AI systems,
 
 ---
 
+## Specification Recovery Artifacts (`spec/`)
+
+A recovered, evidence-backed specification (recovery protocol v3.1, pilot
+CORE-GATE-EXPORT, 2026-09-22) lives in `spec/`. Operating rules for agents:
+
+- `spec/REQUIREMENTS.md` and `spec/machine-readable/requirements.yaml` are the
+  canonical requirement records. Every requirement is **PROPOSED** until the
+  sole owner (the repository owner) marks it APPROVED — PROPOSED text is review
+  material, **never** normative.
+- Do not edit `spec/` records as if they were normative; do not approve, verify,
+  resolve conflicts, or close open questions on the owner's behalf.
+- `spec/EVIDENCE_REGISTER.md` classifies FACT vs CLAIM vs INFERENCE — cite it
+  instead of re-asserting; never elevate INFERENCE to FACT.
+- Change registries? Run `python3 spec/machine-readable/validate_recovery.py`
+  (9 reference/lifecycle checks; must pass).
+- Recovery-layer decisions live in `spec/DECISIONS/` (ADR-STEMMA-*); product
+  decisions remain in `docs/decisions/` (ADR-0040+). Both layers are immutable
+  once recorded.
+
+---
+
 ## Products Must NOT
 
 - ❌ Import STEMMA internal modules (`scripts/`, `schema/` internals)

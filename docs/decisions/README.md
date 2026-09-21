@@ -2,6 +2,8 @@
 
 **Status:** Beginning, no legacy. Old ADRs 0001-0039 archived to archive/old-design/docs/decisions/. New foundation ADR-0044 v2 is normative core decided — see docs/ARCHITECTURE-V2.md authoritative clean single part and docs/IMPLEMENTATION-PLAN-V2.md Phases 0-8 ideal order architecture → plan → work integrating early work.
 
+**Two decision layers (2026-09-22):** this directory holds the *product* decision history (ADR-0040+). The specification-recovery pilot added a second layer: recovery-layer decisions (ADR-STEMMA-*, e.g. ADR-STEMMA-SPEC-001 slice selection) live at [../../spec/DECISIONS/](../../spec/DECISIONS/README.md), scoped to the recovery program and recorded under the pilot's provisional authority — they do not supersede or renumber the product ADRs below.
+
 | # | Record | Subject | Status |
 |---|---|---|---|
 | 0040 | [physics-first-strategy](0040-physics-first-strategy.md) | Physics-first minimal strategy | PROPOSED |
