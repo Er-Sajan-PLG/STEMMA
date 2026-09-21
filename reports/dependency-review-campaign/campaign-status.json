@@ -1,14 +1,9 @@
 {
-  "total": 27,
+  "total": 0,
   "reviewed": 0,
-  "pending": 27,
+  "pending": 0,
   "percent_reviewed": 0.0,
-  "batches": 1,
+  "batches": 0,
   "batch_size": 40,
-  "by_domain": {
-    "physics": {
-      "total": 27,
-      "reviewed": 0
-    }
-  }
+  "by_domain": {}
 }
