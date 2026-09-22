@@ -98,6 +98,12 @@ agents:
   external_id: null
   status: active
   note: scripts/dependency_review_campaign.py generates worksheets only; it never writes review status. scripts/apply_review_decisions.py records the HUMAN reviewer, never this process, as reviewer.
+- id: llm:coding-agent.001
+  class: llm
+  display_name: "LLM authoring agent (session executor)"
+  external_id: null
+  status: active
+  note: "Writes entity/connection DRAFTS under explicit owner instruction (ai_drafted: true). Never canonical authority — every artifact requires the human review pass before canonical (HITL; ADR-0043 double verification)."
 - id: unknown:legacy-relationship
   class: unknown
   display_name: Unrecoverable legacy author (pre-connection inline relationships)

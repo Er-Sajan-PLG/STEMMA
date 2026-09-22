@@ -1,0 +1,43 @@
+id: stemma:conn.000157
+type: connection
+source: stemma:phys.force
+relation: mathematically_requires
+target: stemma:phys.mass
+assertion:
+  status: active
+  type: asserted
+  review:
+    status: unreviewed
+  confidence: 1.0
+  confidence_basis: expert_review
+context:
+  domain: physics
+  subdomain: mechanics
+  regime:
+    - classical
+  assumptions:
+    - non-relativistic
+    - inertial-reference-frame
+    - constant-mass
+evidence:
+  - type: textbook
+    stance: supports
+    source_ref: stemma:src.halliday-resnick-walker-12th
+    locator: Ch 5, Newton's second law, net force = mass x acceleration
+    description: Newton's second law quantifies force via mass.
+  - type: other
+    stance: supports
+    source_ref: stemma:src.newton-principia-1687
+    locator: Lex II
+    description: Principia Lex II ties impressed force to change of motion (quantity of matter).
+provenance:
+  asserted_by:
+    type: llm
+    id: llm:coding-agent.001
+  generated_by:
+    type: llm
+    id: llm:coding-agent.001
+  method:
+    type: manual
+  reviewed_by: []
+  review_history: []

@@ -56,14 +56,22 @@
 
 ## 🔄 In Progress (R4 — Content Acceptance Test, ADR-0052)
 
-Prove the full L8 chain end-to-end with both authority tiers:
+Prove the full L8 chain end-to-end with both authority tiers — mechanical side DONE 2026-09-22, owner review pass is the only open item:
 
-- [ ] Register one trusted external institution in `agent-registry.yaml` (delegated authority path)
-- [ ] Seed `phys.force` entity + one relational connection with non-empty `evidence[]`
-- [ ] Seed one value-claim connection (value-slot XOR, ADR-0045)
-- [ ] One human review pass to canonical via `scripts/review.py` (internal tier)
-- [ ] One delegated-authority import with sample audit
-- [ ] Exit: 3–5 entities, 2–3 connections, `verify_all.py` green, `git diff --exit-code -- exports reports` clean
+- [x] Trusted external institution per ADR-0049 already registered (`human:institution.wikidata-community` + `human:institution.biologists-kb`) — delegated path present in registry
+- [x] Entities seeded (status: draft, `ai_drafted: true`, writer `llm:coding-agent.001` — new honest LLM agent registered): `phys.force` + fundamental quantities `phys.length`/`phys.mass`/`phys.time` (definitions + references SI Brochure/HRW/Principia) + core governing laws `phys.newtons-second-law` + `phys.conservation-energy` (physics-governing check threshold at 5 entities required them; corpus = 7 entities, ADR's "3-5" is a planning estimate — flag for owner at exit)
+- [x] SI Brochure source record present; force cites Halliday+Principia sources (both record files existed)
+- [x] Relational connection seeded: `conn.000157` force mathematically_requires mass (evidence[] non-empty, 2 sources)
+- [x] Value-claim connection seeded (value-slot XOR, ADR-0045): `conn.000156` metre derived_from fixed c=299792458 m/s — ALSO the delegated-authority import: asserted_by `human:institution.wikidata-community`, `delegated_provenance` block with `audit_date` + `sample_audit_rate` (sample audit per ADR-0049)
+- [ ] **OWNER: human review pass to canonical (internal tier)** — entities via `scripts/review_entity.py review|canonicalize --reviewer human:curator.001`; connections via `scripts/review.py` (accept → canonicalize chain). Exact commands in the session handoff; after pass, executor finishes: verify_all + exports-diff + closure.
+- [x] Machine exit preconditions: `verify_all.py` exit 0, corpus validates, exports/reports regenerated; git diff ships in the same commit
+
+Engine hardening made while seeding (R4's purpose — exercise proves gaps):
+- Value-slot connections were **never exercised since the reset** → dormant KeyError/bugs across consumers: `validate.py` connection + cycle checks, `graph_analysis.py`, `check_id_immutability.py` (parse + live-coverage), `relation_triage.py`, `integrity_anomalies.py`, `export_subsets.py`. All now treat value-claims uniformly: complete in themselves, not entity→entity edges; graph math edge-view only where applicable.
+- Registry coherence + ADR-0042 physics-core discipline: reserved measurement relations (`has_unit`, `expressed_in`, `quantifies`, `measures`, `corresponds_to`) must NOT be used canonically; adopted-aftermath: length↔metre and the value-claim initially fell back to `related_to` — rejected by the physics-core profile checker → final mapping: length/metre via connection REMOVED (covered by entity evidence + unit fields), value-claim uses adopted `derived_from`. **Follow-up (owner, governance): micro-ADR to adopt the reserved measurement family when content needs it.**
+- Stale corpus-scale pins fixed (same class as the taxonomy 220 pin): connection immutability `>600` requirement → scale-free; phase-b transitive-closure positiveness → corpus-derived expectation.
+- 2 architectural tests taught the XOR form (claim signature sign-the-value; live-connection completeness).
+
 
 ## 📋 Backlog
 

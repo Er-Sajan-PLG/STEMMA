@@ -552,7 +552,13 @@ def validate_connection(conn: dict, entities: dict, sources: dict, errors: list)
     tgt = conn.get("target")
     if not isinstance(src, str) or src not in entities:
         errors.append(f"{here} source does not resolve to a canonical entity: {src!r}")
-    if not isinstance(tgt, str) or tgt not in entities:
+    # Value-slot connections (measurement/prevalence, ADR-0045; ARCH-V2 3.2)
+    # carry `value` INSTEAD of `target` (XOR); the target-existence check only
+    # applies to relational connections.
+    if conn.get("value") is not None:
+        if tgt is not None:
+            errors.append(f"{here} target must be omitted when value is present (target XOR value; ARCH-V2 3.2)")
+    elif not isinstance(tgt, str) or tgt not in entities:
         errors.append(f"{here} target does not resolve to a canonical entity: {tgt!r}")
 
     rel = conn.get("relation")
@@ -912,7 +918,8 @@ def check_relationship_cycles(connections: dict, registry: dict, errors: list) -
         if conn.get("assertion", {}).get("status") != "active":
             continue
         if rel in transitive:
-            by_relation.setdefault(rel, {}).setdefault(conn["source"], set()).add(conn["target"])
+            if conn.get("target"):  # value-slot claims (ADR-0045) are not entity->entity edges
+                by_relation.setdefault(rel, {}).setdefault(conn["source"], set()).add(conn["target"])
 
     for rel in sorted(by_relation):
         graph = by_relation[rel]

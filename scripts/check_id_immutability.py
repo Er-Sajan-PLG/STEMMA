@@ -147,9 +147,13 @@ def parse_connection(text: str) -> dict:
     Kept deliberately dependency-free (this guard must run in a bare CI checkout):
     top-level `id/source/relation/target`, plus `assertion.status` and
     `lifecycle.replaced_by` from their two-space-indented blocks.
+
+    Value-slot claims (ADR-0045) carry a top-level `value:` block instead of
+    `target:` — the block presence is recorded as out["value"]="present".
     """
     out: dict[str, str] = {}
     block: str | None = None
+    seen_blocks: set[str] = set()
     for line in text.splitlines():
         stripped = line.strip()
         if not stripped or stripped.startswith("#") or stripped.startswith("---"):
@@ -160,12 +164,15 @@ def parse_connection(text: str) -> dict:
             key = key.strip()
             if val.strip() == "":
                 block = key  # start of a nested block (assertion:/lifecycle:/...)
+                seen_blocks.add(key)
                 continue
             block = key
             out[key] = val.strip().strip("\"'")
         elif indent == 2 and block in ("assertion", "lifecycle"):
             key, _, val = stripped.partition(":")
             out[f"{block}.{key.strip()}"] = val.strip().strip("\"'")
+    if "value" in seen_blocks:
+        out.setdefault("value", "present")
     return out
 
 

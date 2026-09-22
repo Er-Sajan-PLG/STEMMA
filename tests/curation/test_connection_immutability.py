@@ -116,9 +116,9 @@ def test_live_connections_cover_every_connection_file():
     if len(files) == 0:
         print("SKIP: test_live_connections_cover_every_connection_file (empty knowledge base)")
         return
-    assert len(live) == len(files) > 600, f"{len(live)} parsed vs {len(files)} files"
+    assert len(live) == len(files) >= 1, f"{len(live)} parsed vs {len(files)} files (scale pin removed: >600 belonged to the archived 641-connection corpus)"
     assert all(cid.startswith("stemma:conn.") for cid in live), list(live)[:3]
-    assert all(c["source"] and c["relation"] and c["target"] for c in live.values())
+    assert all(c["source"] and c["relation"] and (c.get("target") or c.get("value")) for c in live.values()), "relational conn needs target; valued conn (ADR-0045) needs value"
     print(f"PASS: {len(live)} live connections parsed with complete triples")
 
 
