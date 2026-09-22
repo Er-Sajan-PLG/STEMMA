@@ -15,6 +15,11 @@
 
 ## ✅ Done
 
+- **Docs-system guard incidents recorded as successful enforcement** (owner direction, 2026-09-22):
+  contract-registry caught the unregistered research brief; independence invariant caught a
+  prompt-carried forbidden name; both repaired via registered roots. Recorded in
+  docs/DOCUMENTATION-SYSTEM.md "Verified enforcement incidents".
+
 - [x] Refoundation: architecture v2 + ADR-0040–0052 + strong CI (PR #47)
 - [x] Old corpus archived (`archive/beginning-74-entities/`), old design archived (`archive/old-design/`)
 - [x] **Governance hygiene sprint (ADR-0051 / R0 / R3), 2026-09-22:**
@@ -62,9 +67,12 @@ Prove the full L8 chain end-to-end with both authority tiers:
 
 ## 📋 Backlog
 
-- [x] **R5 — Organization/IRI gate: DECIDED 2026-09-22 (ADR-0053, owner).** Publisher =
-      individual Sajan; domain = w3id.org (owner files slug PR no later than R6); canonical
-      stays `stemma:` URN, HTTP mapping via R6 projection ADR. UNRES-STEMMA-CORE-001 closed.
+- [x] **R5 — Organization/IRI gate: identity SETTLED, PID base DEFERRED 2026-09-22
+      (ADR-0053 + Amendment 0001, owner).** Binding: publisher = individual Sajan; canonical
+      keeps immutable `stemma:` URNs. Under review after slow research
+      (docs/PERSISTENT-IDENTIFIER-BRIEF.md) and deferred to R6 projection publication:
+      PID domain/resolution choice. UNRES-STEMMA-CORE-001 partially resolved/open.
+      Non-actions: slug NOT claimed; no ID changes; no resolution infra.
 - [ ] R6 — Projection publication (knowledge.jsonld, SKOS, SHACL, signed release bundle)
 - [ ] R7 — Consumer views + routing (calibration from real review data, ≥200 labeled decisions)
 - [ ] R8 — Scale readiness (10^4-entity git benchmark; content-addressed store ADR)

@@ -2,11 +2,15 @@
 open_questions:
   - id: UNRES-STEMMA-CORE-001
     question: "IRI base for entity/conn URIs unresolved (stemma:* vs domain-bound http/https)."
-    status: CLOSED
+    status: OPEN
     blocking: false
-    closed: 2026-09-22
-    closed_by: "Sajan (SOLE_OWNER)"
-    resolution: "ADR-0053: publisher = individual Sajan; domain = w3id.org (slug claimed by owner PR, no later than R6); canonical stays stemma: URN, HTTP mapping ADR at R6 (staged)."
+    disposition: "PARTIALLY RESOLVED (ADR-0053 + Amendment 0001, 2026-09-22): canonical
+      stemma: URN identity and publisher (individual Sajan) reaffirmed binding; published-PID
+     /resolution base (w3id.org proposed) UNDER REVIEW after owner-directed slow research
+      (docs/PERSISTENT-IDENTIFIER-BRIEF.md) and DEFERRED to the R6 projection-publication
+      stage — reversible pre-publication. Non-actions: no slug claim, no ID changes, no
+      resolution infra. Status trail: OPEN -> CLOSED (quick ruling) -> OPEN/DEFERRED (amended)."
+    proposed_resolution: "At R6: owner reaffirms/amends/supersedes ADR-0053(b)."
     authority_required: SOLE_OWNER
     related: [ADR-0002, ADR-0027, EVID-STEMMA-CORE-002]
   - id: UNRES-STEMMA-HITL-001

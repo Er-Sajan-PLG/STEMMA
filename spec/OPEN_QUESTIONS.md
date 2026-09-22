@@ -7,13 +7,15 @@ authoritative external source. Machine copy: `spec/machine-readable/` conflicts
 
 ---
 
-## UNRES-STEMMA-CORE-001 — Organization / IRI base for published IRIs — **CLOSED 2026-09-22 (owner decision)**
+## UNRES-STEMMA-CORE-001 — Organization / IRI base for published IRIs — **PARTIALLY RESOLVED / OPEN (deferred to R6)**
 
 - **Question:** Which owning organization, domain, and IRI base will STEMMA use for published IRIs?
-- **Resolution (by Sajan, recorded ADR-0053):** (a) publisher of record = individual Sajan (formal org later via new ADR if adopted); (b) domain = w3id.org (slug to be claimed by owner's w3id PR, e.g. `https://w3id.org/stemma/`); (c) IRI form = staged — canonical stays `stemma:` URN (immutable); HTTP mapping defined by the R6 projection ADR as DERIVED projections.
-- **Closed:** 2026-09-22 · **Closed by:** SOLE_OWNER · **Record:** docs/decisions/0053-organization-domain-iri-base.md
-- **Former status:** blocking for publication scope (never blocked R4).
-- **Follow-through:** w3id slug PR (external owner action, no later than R6); HTTP mapping file spec lands in the R6 projection ADR.
+- **Resolved portion (binding, by Sajan):** publisher of record = individual Sajan; canonical identity = immutable `stemma:` URN identifiers (machine-enforced; resolution never enters canonical files). (ADR-0053 + Amendment 0001, 2026-09-22)
+- **OPEN portion:** published-PID domain and resolution architecture (w3id.org was proposed, then deliberately re-evaluated via slow research: docs/PERSISTENT-IDENTIFIER-BRIEF.md). **Deferred to the R6 projection-publication stage**, per Amendment 0001 — the research establishes this is safely deferrable while pre-publication (nothing embeds resolvable stemma URIs yet).
+- **Status trail:** OPEN → CLOSED (ADR-0053, quick ruling 2026-09-22) → RE-OPENED/DEFERRED (Amendment 0001, same date, owner-directed slow research).
+- **Blocking?** NO — non-blocking until R6; never blocked R4. At R6 the owner rules reaffirm/amend/supersede ADR-0053(b).
+- **Explicit non-actions:** w3id slug NOT claimed; no canonical identifier changes; no resolution infrastructure. Optional slug claim remains a separate, non-blocking owner consideration.
+- **Owner / Authority required:** Sajan / HUMAN_DECISION.
 - **Status:** OPEN · **Next action:** owner decision, then ADR recording the IRI base.
 
 ## UNRES-STEMMA-HITL-001 — HITL audit evidence is not repository-resident

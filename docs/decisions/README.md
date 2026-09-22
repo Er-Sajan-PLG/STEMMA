@@ -19,7 +19,7 @@
 | 0050 | [contract-update-2.2.0](0050-contract-update-2.2.0.md) | Contract Update 2.2.0 — Value-Slot + Delegated Authority — export_version 2.1.0→2.2.0 authority field | Decided — Phase 2 |
 | 0051 | [governance-hygiene](0051-governance-hygiene.md) | Governance Hygiene — lhs sweep, fix AGENTS.md dead refs, un-stub test_independence | Decided — Phase 3 |
 | 0052 | [content-acceptance-test](0052-content-acceptance-test.md) | Content as Acceptance Test Before IRI Gate — proof engine works 3-5 entities 2-3 connections both authority tiers | Decided — Phase 4 |
-| 0053 | [organization-domain-iri-base](0053-organization-domain-iri-base.md) | Organization/Domain/IRI Base — publisher individual Sajan, w3id.org domain, canonical stays stemma: URN with HTTP projection mapping at R6 | Decided — Phase 5 (owner decision 2026-09-22) |
+| 0053 | [organization-domain-iri-base](0053-organization-domain-iri-base.md) | Organization/Domain/IRI Base — publisher individual Sajan reaffirmed; canonical stays immutable stemma: URN reaffirmed; w3id/resolution base UNDER REVIEW, deferred to R6 (Amendment 0001) | Decided — Phase 5; amended 2026-09-22 |
 
 No legacy, this is beginning. Old ADRs 0001-0039 archived to archive/old-design/docs/decisions/. New foundation ADR-0044 v2 is normative core decided — see docs/ARCHITECTURE-V2.md authoritative clean single part and docs/IMPLEMENTATION-PLAN-V2.md Phases 0-8 ideal order architecture → plan → work integrating early work as implementation.
 
