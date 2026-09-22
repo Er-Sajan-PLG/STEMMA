@@ -83,6 +83,13 @@ artifacts:
   # ---- machine data referenced by docs (REFERENCE) ----
   - {path: schema/VERSION.yaml, cat: A5, tier: 0, kind: CANONICAL, sources: [docs/VERSIONING.md]}
   - {path: .github/workflows/ci.yml, cat: A8, tier: 1, kind: CANONICAL, sources: [scripts/, tests/]}
+  - {path: .env.example, cat: A6, tier: 1, kind: CANONICAL, sources: [webapp/providers.py, webapp/core.py, scripts/embed.py]}
+  - {path: webapp/README.md, cat: A4, tier: 1, kind: CANONICAL, sources: [webapp/]}
+  - {path: adapters/README.md, cat: A4, tier: 1, kind: CANONICAL, sources: [adapters/, schema/api.yaml]}
+  - {path: explorer/README.md, cat: A4, tier: 1, kind: CANONICAL, sources: [explorer/]}
+  - {path: .github/PULL_REQUEST_TEMPLATE.md, cat: A11, tier: 1, kind: CANONICAL, sources: [scripts/verify_all.py, scripts/docs.py]}
+  - {path: .github/ISSUE_TEMPLATE/bug_report.md, cat: A11, tier: 1, kind: CANONICAL, sources: []}
+  - {path: .github/ISSUE_TEMPLATE/feature_request.md, cat: A11, tier: 1, kind: CANONICAL, sources: []}
 generators:
   readme-status-block:
     write: "python3 scripts/status_truth.py --write"
@@ -98,3 +105,23 @@ checks:
   - {id: docs-consistency, subject: "index parity, retired links, INGESTION-PRIMARY contract, contract pins, VERSION keys, consumer registry(+lint), archived-path lint", run: "python3 tests/repo/test_docs_consistency.py"}
   - {id: independence, subject: "retired namespaces + ecosystem independence (ADR-0027/0051) across tracked files", run: "python3 tests/repo/test_independence.py"}
   - {id: recovery-registries, subject: "spec machine-readable registries (9 checks)", run: "python3 spec/machine-readable/validate_recovery.py"}
+
+# ---- Tier enforcement (Phase 8): missing taxonomy artifacts at strict tiers fail validation
+enforcement:
+  strict_tiers: [0, 1]
+
+# ---- Mechanical invariants (Phase 5B additions; declarative where possible)
+invariants:
+  api_surface:
+    spec: schema/api.yaml
+    must_appear_in: [docs/API.md, adapters/README.md]
+    note: "every OpenAPI path must be mentioned in the API reference doc + adapter README"
+  env_surface:
+    scan_files: [webapp/core.py, webapp/providers.py, scripts/embed.py]
+    must_appear_in: [.env.example, docs/WEBAPP.md]
+    capture:
+      - 'os\.environ\.get\(["'']?([A-Z][A-Z0-9_]+)'
+      - 'ENV_KEYS\.get\(["'']?([A-Z][A-Z0-9_]+)'
+      - '_ENV\s*=\s*"([A-Z][A-Z0-9_]+)"'
+      - '([A-Z][A-Z0-9_]{3,}_API_KEY)'
+      - '\$\{?([A-Z][A-Z0-9_]+)\}?'

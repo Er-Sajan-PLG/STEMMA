@@ -335,12 +335,76 @@ def _validate_links(contract: dict, root: Path, problems: list[str]) -> None:
                     problems.append(f"{f.relative_to(root)}: broken link {target}")
 
 
+def _validate_api_surface(contract: dict, root: Path, problems: list[str]) -> None:
+    """§5: every OpenAPI path must be mentioned in the declared docs
+    (undocumented-public-interface detection)."""
+    inv = (contract.get("invariants") or {}).get("api_surface")
+    if not inv:
+        return
+    spec_path = root / inv["spec"]
+    if not spec_path.exists():
+        problems.append(f"api_surface: spec {inv['spec']} missing")
+        return
+    import yaml as _yaml  # local import keeps stdlib-only path for --help
+    paths = ((_yaml.safe_load(spec_path.read_text(encoding="utf-8")) or {}).get("paths")) or {}
+    for doc_rel in inv.get("must_appear_in", []):
+        doc = root / doc_rel
+        if not doc.exists():
+            problems.append(f"api_surface: required doc {doc_rel} missing")
+            continue
+        text = doc.read_text(encoding="utf-8")
+        for p in sorted(paths):
+            if p not in text:
+                problems.append(f"api_surface: endpoint {p} not documented in {doc_rel}")
+
+
+def _validate_env_surface(contract: dict, root: Path, problems: list[str]) -> None:
+    """§6: env vars referenced by declared code must appear in .env.example
+    (machine anchor) and every declared doc (§6 configuration documentation)."""
+    inv = (contract.get("invariants") or {}).get("env_surface")
+    if not inv:
+        return
+    found: set[str] = set()
+    for rel in inv.get("scan_files", []):
+        f = root / rel
+        if not f.exists():
+            problems.append(f"env_surface: scan file {rel} missing")
+            continue
+        text = f.read_text(encoding="utf-8")
+        for pat in inv.get("capture", []):
+            for var in re.findall(pat, text):
+                # drop constant NAMES defined in the file (e.g. WORKFLOW_ENV = "STEMMA_WORKFLOW_DIR")
+                if re.search(rf"^{re.escape(var)}\s*=", text, re.MULTILINE):
+                    continue
+                found.add(var)
+    for doc_rel in inv.get("must_appear_in", []):
+        doc = root / doc_rel
+        if not doc.exists():
+            problems.append(f"env_surface: required anchor {doc_rel} missing")
+            continue
+        text = doc.read_text(encoding="utf-8")
+        for var in sorted(found):
+            if var not in text:
+                problems.append(f"env_surface: {var} used in code but not documented in {doc_rel}")
+
+
+def _validate_tier_strict(contract: dict, taxonomy: dict, problems: list[str]) -> None:
+    """Phase 8: Tier-0/1 (declared strict) taxonomy artifacts must not be missing."""
+    strict = set((contract.get("enforcement") or {}).get("strict_tiers", [0, 1]))
+    for a in taxonomy.get("artifacts", []):
+        if a["status"] == "missing" and a.get("tier") in strict:
+            problems.append(f"tier-strict: taxonomy #{a['id']} ({a['name']}) is Tier {a['tier']} and missing")
+
+
 def validate(root: Path = ROOT) -> list[str]:
     contract = load_contract(root)
     taxonomy = load_taxonomy(root)
     problems: list[str] = []
     _validate_contract_vs_disk(contract, taxonomy, root, problems)
     _validate_links(contract, root, problems)
+    _validate_api_surface(contract, root, problems)
+    _validate_env_surface(contract, root, problems)
+    _validate_tier_strict(contract, taxonomy, problems)
     # generated-doc drift (non-mutating): regenerate in memory, compare
     rendered = render_coverage(contract, taxonomy)
     cur = (root / COVERAGE_PATH).read_text(encoding="utf-8") if (root / COVERAGE_PATH).exists() else None

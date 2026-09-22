@@ -71,7 +71,7 @@ artifacts:
   - {id: 51, cat: A3, tier: 3, name: "Threat model", status: partial, path: docs/SECURITY-INTEGRITY-PROVENANCE.md, note: "bypass/integrity threats enumerated informally"}
   - {id: 52, cat: A3, tier: 3, name: "Concurrency design", status: na, note: "single-process stdlib tooling"}
   - {id: 53, cat: A3, tier: 3, name: "Error handling strategy", status: partial, path: spec/INTERFACES/IFACE-STEMMA-GATE-001-verification-chain-cli.md, note: "fail-closed exit codes contract"}
-  - {id: 54, cat: A3, tier: 3, name: "Logging & observability design", status: partial, path: workflow/audit, note: "HITL audit trail (git-ignored; UNRES-STEMMA-HITL-001)"}
+  - {id: 54, cat: A3, tier: 3, name: "Logging & observability design", status: partial, note: "HITL audit trail under workflow/audit (git-ignored runtime state; portability gap UNRES-STEMMA-HITL-001)"}
   - {id: 55, cat: A3, tier: 3, name: "Caching strategy", status: na, note: "content_hash equivalence is the cache signal; no cache infra"}
   - {id: 56, cat: A3, tier: 3, name: "Scaling strategy", status: present, path: docs/ARCHITECTURE-V2.md, note: "10^2-10^6 scale section"}
   - {id: 57, cat: A3, tier: 3, name: "Disaster recovery plan", status: na, note: "git history + regenerable exports"}
@@ -79,7 +79,7 @@ artifacts:
   - {id: 59, cat: A3, tier: 3, name: "Performance budget", status: na, note: "no latency commitments; determinism prioritized"}
   - {id: 60, cat: A3, tier: 4, name: "Design review notes", status: partial, path: docs/decisions/, note: "rationale embedded in ADRs"}
   - {id: 61, cat: A4, tier: 0, name: "README (root)", status: present, path: README.md}
-  - {id: 62, cat: A4, tier: 1, name: "README (per module)", status: missing, note: "no webapp/explorer adapters module READMEs; candidates for Tier1"}
+  - {id: 62, cat: A4, tier: 1, name: "README (per module)", status: present, path: webapp/README.md, note: "webapp/README.md, adapters/README.md, explorer/README.md (added 2026-09-22)"}
   - {id: 63, cat: A4, tier: 0, name: "Inline code comments", status: present, note: "decision-point comments in scripts"}
   - {id: 64, cat: A4, tier: 0, name: "Docstrings", status: present, note: "module docstrings on gate scripts"}
   - {id: 65, cat: A4, tier: 2, name: "Type/interface annotations", status: partial, note: "sparse type hints in scripts"}
@@ -109,7 +109,7 @@ artifacts:
   - {id: 89, cat: A5, tier: 2, name: "CLI API documentation", status: present, path: spec/INTERFACES/IFACE-STEMMA-GATE-001-verification-chain-cli.md}
   - {id: 90, cat: A5, tier: 3, name: "Plugin/extension API", status: partial, path: schema/extension-registry.yaml, note: "governed extension dimensions"}
   - {id: 91, cat: A6, tier: 2, name: "Configuration reference", status: partial, path: docs/WEBAPP.md, note: "webapp/settings documented; script flags in --help"}
-  - {id: 92, cat: A6, tier: 2, name: "Environment variables", status: partial, note: "provider API keys read from env at runtime only, never committed (webapp model selector); no .env file is part of the contract"}
+  - {id: 92, cat: A6, tier: 2, name: "Environment variables", status: present, path: .env.example, note: "root .env (git-ignored) parsed by webapp/providers.py; vars documented in docs/WEBAPP.md; env-coverage invariant in docs contract"}
   - {id: 93, cat: A6, tier: 3, name: "Feature flags / toggles", status: na, note: "no feature flags"}
   - {id: 94, cat: A6, tier: 2, name: "Config file format", status: partial, path: schema/, note: "YAML registries with schema-notes"}
   - {id: 95, cat: A6, tier: 3, name: "Secrets management", status: present, path: docs/SECURITY-INTEGRITY-PROVENANCE.md, note: "no-secrets invariant in CI + keys-via-env pattern"}
@@ -159,7 +159,7 @@ artifacts:
   - {id: 139, cat: A9, tier: 3, name: "Auth & authorization design", status: na, note: "no auth decisions; read-only public data"}
   - {id: 140, cat: A9, tier: 3, name: "Vulnerability management", status: partial, note: "gitleaks + dependabot in CI"}
   - {id: 141, cat: A9, tier: 3, name: "Penetration test reports", status: na}
-  - {id: 142, cat: A9, tier: 3, name: "Security audit trail", status: partial, path: workflow/audit, note: "portability gap UNRES-STEMMA-HITL-001"}
+  - {id: 142, cat: A9, tier: 3, name: "Security audit trail", status: partial, note: "HITL audit trail under workflow/audit (git-ignored; portability gap UNRES-STEMMA-HITL-001)"}
   - {id: 143, cat: A9, tier: 3, name: "Incident response plan", status: na}
   - {id: 144, cat: A9, tier: 3, name: "Data classification", status: present, note: "canonical = public knowledge by constitution"}
   - {id: 145, cat: A9, tier: 3, name: "Encryption documentation", status: na}
@@ -195,9 +195,9 @@ artifacts:
   - {id: 175, cat: A11, tier: 2, name: "Code review guidelines", status: partial, path: docs/CURATION-PROTOCOL.md, note: "content review protocol exists; code-review protocol implicit"}
   - {id: 176, cat: A11, tier: 1, name: "Git workflow / branching", status: partial, path: .github/workflows/ci.yml, note: "check-branching job enforces; prose minimal"}
   - {id: 177, cat: A11, tier: 2, name: "Commit message convention", status: partial, note: "conventional prefixes observed (docs:/fix:/test:/webapp:)"}
-  - {id: 178, cat: A11, tier: 1, name: "PR / MR template", status: missing, note: "Tier1 candidate"}
-  - {id: 179, cat: A11, tier: 1, name: "Issue templates", status: missing, note: "Tier1 candidate"}
-  - {id: 180, cat: A11, tier: 1, name: "Module/package README", status: missing, note: "webapp/, adapters/, explorer/ lack module READMEs"}
+  - {id: 178, cat: A11, tier: 1, name: "PR / MR template", status: present, path: .github/PULL_REQUEST_TEMPLATE.md, note: "added 2026-09-22"}
+  - {id: 179, cat: A11, tier: 1, name: "Issue templates", status: present, path: .github/ISSUE_TEMPLATE, note: "bug_report + feature_request (added 2026-09-22)"}
+  - {id: 180, cat: A11, tier: 1, name: "Module/package README", status: present, path: adapters/README.md, note: "all three runtime modules covered (added 2026-09-22)"}
   - {id: 181, cat: A11, tier: 2, name: "Makefile / task runner ref", status: present, path: Makefile}
   - {id: 182, cat: A11, tier: 3, name: "IDE / tooling setup", status: na}
   - {id: 183, cat: A11, tier: 3, name: "Debugging guide", status: partial, path: docs/TESTING.md, note: "gate failure sections"}

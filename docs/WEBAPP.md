@@ -129,6 +129,23 @@ staged.
 `workflow/` is git-ignored. `content/`, `connections/`, `sources/` are never
 written by this app.
 
+## Environment variables (§6 — contract-enforced)
+
+Root `.env` (git-ignored; see [../.env.example](../.env.example)) is parsed
+line-wise by `webapp/providers.py`; `STEMMA_WORKFLOW_DIR` is read from the
+process environment by `webapp/core.py`:
+
+| Variable | Read by | Purpose |
+|---|---|---|
+| `OPENROUTER_API_KEY` | webapp/providers.py | OpenRouter provider calls (model selector free/frontier models) |
+| `NVIDIA_NIM_API_KEY` | webapp/providers.py | NVIDIA NIM provider calls |
+| `OPENCODE_API_KEY` | webapp/providers.py | OpenCode provider calls |
+| `OPENAI_API_KEY` | scripts/embed.py (CLI) | Frontier OpenAI embedding model runs (or `--api-key`) |
+| `STEMMA_WORKFLOW_DIR` | webapp/core.py | Override the HITL workflow directory (default `./workflow`) |
+
+All are optional: local deterministic fake embeddings and the deterministic
+ingestion path work with no keys. Never commit `.env` or real values.
+
 ## Boundaries
 
 - This is a **consumer/drafter tool**, not a canonicality decision maker.
