@@ -8,6 +8,10 @@ status: draft
 definition: "Mass is the SI base physical quantity measuring a body's inertia and its quantity of matter (SI dimension M; base quantity; scalar). Its SI unit, the kilogram, is defined by taking the fixed numerical value of the Planck constant h to be exactly 6.62607015e-34 when expressed in J s = kg m2 s-1, with the metre and second as separately defined (SI 2019 redefinition). Agreed per BIPM SI Brochure 9th ed. (2019) §2.3.1."
 symbol: "M"
 unit: "kilogram (kg)"
+dimension_examples:
+  - "inertial mass"
+  - "gravitational mass"
+  - "rest mass"
 quantity_kind: base
 tensor_character: scalar
 governed_by:
@@ -28,6 +32,7 @@ external_ids:
 historical:
   stated_by: "BIPM"
   year: 2019
-  where: "SI Brochure 9th ed."---
+  where: "SI Brochure 9th ed."
+---
 
 Mass is the SI base physical quantity measuring a body's inertia and its quantity of matter (SI dimension M; base quantity; scalar). Its SI unit, the kilogram, is defined by taking the fixed numerical value of the Planck constant h to be exactly 6.62607015e-34 when expressed in J s = kg m2 s-1, with the metre and second as separately defined (SI 2019 redefinition). Agreed per BIPM SI Brochure 9th ed. (2019) §2.3.1.

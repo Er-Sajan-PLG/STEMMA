@@ -11,7 +11,8 @@
     "domain",
     "status",
     "definition",
-    "provenance"
+    "provenance",
+    "dimension_examples"
   ],
   "properties": {
     "id": {
@@ -342,6 +343,16 @@
         "tensor"
       ],
       "description": "Tensorial character of a quantity entity: scalar/vector/tensor. REQUIRED when type=quantity (owner directive 2026-09-22)."
+    },
+    "dimension_examples": {
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      },
+      "description": "Quantity names sharing this entity's SI dimension class (for unit entities: quantities expressible in this unit). REQUIRED non-empty when type=quantity|unit; explicit null for types where the notion does not apply (law etc.). Owner directive 2026-09-22."
     }
   },
   "additionalProperties": false

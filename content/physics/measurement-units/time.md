@@ -8,6 +8,11 @@ status: draft
 definition: "Time is the SI base physical quantity of duration and temporal sequence (SI dimension T; base quantity; scalar). Its SI unit, the second, is defined by taking the fixed numerical value of the caesium frequency ΔνCs — the unperturbed ground-state hyperfine transition frequency of the caesium-133 atom — to be exactly 9,192,631,770 hertz (Hz = s-1): one second is the duration of 9,192,631,770 periods of the radiation corresponding to that transition. Exact per BIPM SI Brochure 9th ed. (2019) §2.3.1."
 symbol: "T"
 unit: "second (s)"
+dimension_examples:
+  - "duration"
+  - "period"
+  - "half-life"
+  - "age"
 quantity_kind: base
 tensor_character: scalar
 governed_by:
@@ -28,6 +33,7 @@ external_ids:
 historical:
   stated_by: "BIPM"
   year: 2019
-  where: "SI Brochure 9th ed."---
+  where: "SI Brochure 9th ed."
+---
 
 Time is the SI base physical quantity of duration and temporal sequence (SI dimension T; base quantity; scalar). Its SI unit, the second, is defined by taking the fixed numerical value of the caesium frequency ΔνCs — the unperturbed ground-state hyperfine transition frequency of the caesium-133 atom — to be exactly 9,192,631,770 hertz (Hz = s-1): one second is the duration of 9,192,631,770 periods of the radiation corresponding to that transition. Exact per BIPM SI Brochure 9th ed. (2019) §2.3.1.

@@ -29,6 +29,7 @@ Required: `id, type, name, domain, subdomain, status, definition (standard exact
 - `historical`: optional draft, mandatory law/model/equation when human_reviewed/canonical with stated_by, year, where, timeline[]
 - `symbol`, `unit`: mandatory for unit/quantity
 - `quantity_kind` (base|derived), `tensor_character` (scalar|vector|tensor): mandatory when type=quantity (owner directive 2026-09-22) — semantic firmness: what the quantity IS, machine-verifiable
+- `dimension_examples`: mandatory on ALL entity files (owner directive 2026-09-22) — non-empty list for quantity/unit (SI dimension-class members / quantities expressible in the unit), explicit `null` for types where the notion does not apply (law etc.)
 - `definition`: STANDARD scientific definition with exact SI, not general — must include "Exact:" + fixed constant + agreed per SI Brochure 9th ed. 2019 + reference (see below)
 
 Forbidden: learning_objectives, real_world_applications, key_experiments, common_misconceptions, related_to (only 8 relations allowed)
