@@ -5,9 +5,11 @@ name: Length
 domain: physics
 subdomain: measurement-units
 status: draft
-definition: "Length is the fundamental physical quantity of spatial extent — the measure of one-dimensional distance between points. It is one of the seven base quantities of the SI (dimension L); its SI base unit is the metre (m). Agreed per BIPM SI Brochure 9th ed. (2019), base quantities table."
+definition: "Length is the SI base physical quantity of spatial extent — the measure of one-dimensional distance between two points in space (SI dimension L; base quantity; scalar). The metre is the unit in which length is expressed: 1 m = the length of the path travelled by light in vacuum during 1/299,792,458 of a second (c fixed exact). Quantities of this dimension — width, height, displacement magnitude, wavelength — are all lengths. Agreed per BIPM SI Brochure 9th ed. (2019), base quantities table; §2.3.1."
 symbol: "L"
 unit: "metre (m)"
+quantity_kind: base
+tensor_character: scalar
 governed_by:
   - stemma:phys.si-definitions
   - stemma:phys.dimensional-analysis
@@ -26,7 +28,6 @@ external_ids:
 historical:
   stated_by: "BIPM"
   year: 2019
-  where: "SI Brochure 9th ed."
----
+  where: "SI Brochure 9th ed."---
 
-Length is the fundamental physical quantity of spatial extent — the measure of one-dimensional distance between points. It is one of the seven base quantities of the SI (dimension L); its SI base unit is the metre (m). Agreed per BIPM SI Brochure 9th ed. (2019), base quantities table.
+Length is the SI base physical quantity of spatial extent — the measure of one-dimensional distance between two points in space (SI dimension L; base quantity; scalar). The metre is the unit in which length is expressed: 1 m = the length of the path travelled by light in vacuum during 1/299,792,458 of a second (c fixed exact). Quantities of this dimension — width, height, displacement magnitude, wavelength — are all lengths. Agreed per BIPM SI Brochure 9th ed. (2019), base quantities table; §2.3.1.

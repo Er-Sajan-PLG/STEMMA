@@ -28,6 +28,7 @@ Required: `id, type, name, domain, subdomain, status, definition (standard exact
 - `provenance`: must have ai_drafted (bool), source_kind (textbook | standards-or-specification), source (full citation with page + Exact: value), writer human:* (must be human:* for HITL, not llm:*), original_author BIPM/HRW, link https://www.bipm.org/en/publications/si-brochure (mandatory), retrieved_at ISO date, reviewer/reviewed_at after human review
 - `historical`: optional draft, mandatory law/model/equation when human_reviewed/canonical with stated_by, year, where, timeline[]
 - `symbol`, `unit`: mandatory for unit/quantity
+- `quantity_kind` (base|derived), `tensor_character` (scalar|vector|tensor): mandatory when type=quantity (owner directive 2026-09-22) — semantic firmness: what the quantity IS, machine-verifiable
 - `definition`: STANDARD scientific definition with exact SI, not general — must include "Exact:" + fixed constant + agreed per SI Brochure 9th ed. 2019 + reference (see below)
 
 Forbidden: learning_objectives, real_world_applications, key_experiments, common_misconceptions, related_to (only 8 relations allowed)

@@ -1,7 +1,7 @@
 {
   "export_version": "2.2.0",
   "schema_version": "1.2.0",
-  "content_hash": "sha256:1c0f0a9cbfd18dd44848a66fc895d40a7a81d923f5918a1887c0bcb7331f0360",
+  "content_hash": "sha256:b8cb2591144afb99d5a44ba3b3579afd15de0adf94b4c00420106116ac00d477",
   "kernel_version": "3.0.0",
   "relation_registry_version": "1.0.0",
   "relation_registry": {
@@ -1072,7 +1072,7 @@
       "domain": "physics",
       "subdomain": "mechanics",
       "status": "draft",
-      "definition": "Conservation of energy: in an isolated system the total energy is constant; energy transforms between forms (kinetic, potential, thermal, ...) but is neither created nor destroyed. Historical line: Mayer (1842), Joule (1840s), Helmholtz (1847); standard statement per Halliday, Resnick, Walker 12th ed., Ch 8.",
+      "definition": "Conservation of energy: for an isolated system the total energy — summed over all forms (kinetic, potential, thermal, chemical, nuclear, ...) — remains constant in time; energy transforms between forms but is neither created nor destroyed. Historical line: Mayer (1842), Joule (1843), Helmholtz (1847, 'Über die Erhaltung der Kraft'); standard statement per Halliday, Resnick, Walker 12th ed., Ch 8.",
       "symbol": "E_total = const",
       "governed_by": [
         "stemma:phys.newtons-second-law",
@@ -1123,7 +1123,9 @@
       "domain": "physics",
       "subdomain": "mechanics",
       "status": "draft",
-      "definition": "Force is the derived physical quantity of interaction: an influence capable of changing the state of motion of a body, Newton second law net force equals rate of change of momentum (for constant mass F = m a). SI derived unit the newton, N = kg m s-2. Reference: Halliday, Resnick, Walker 12th ed. Ch 5; Newton, Principia (1687), Lex II.",
+      "definition": "Force is the derived physical quantity of mechanical interaction: the net force on a body equals the time rate of change of its linear momentum, F = dp/dt (Newton, Principia Lex II); for constant mass this reduces to F = m a. Force is a vector quantity — it has magnitude and direction and adds by vector addition (net force = vector sum). SI derived unit: the newton, N = kg m s-2. Reference: Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5; Newton, Principia (1687), Lex II.",
+      "quantity_kind": "derived",
+      "tensor_character": "vector",
       "symbol": "F",
       "unit": "newton (N = kg m s-2)",
       "governed_by": [
@@ -1159,9 +1161,11 @@
       "domain": "physics",
       "subdomain": "measurement-units",
       "status": "draft",
-      "definition": "Length is the fundamental physical quantity of spatial extent — the measure of one-dimensional distance between points. It is one of the seven base quantities of the SI (dimension L); its SI base unit is the metre (m). Agreed per BIPM SI Brochure 9th ed. (2019), base quantities table.",
+      "definition": "Length is the SI base physical quantity of spatial extent — the measure of one-dimensional distance between two points in space (SI dimension L; base quantity; scalar). The metre is the unit in which length is expressed: 1 m = the length of the path travelled by light in vacuum during 1/299,792,458 of a second (c fixed exact). Quantities of this dimension — width, height, displacement magnitude, wavelength — are all lengths. Agreed per BIPM SI Brochure 9th ed. (2019), base quantities table; §2.3.1.",
       "symbol": "L",
       "unit": "metre (m)",
+      "quantity_kind": "base",
+      "tensor_character": "scalar",
       "governed_by": [
         "stemma:phys.si-definitions",
         "stemma:phys.dimensional-analysis"
@@ -1194,9 +1198,11 @@
       "domain": "physics",
       "subdomain": "measurement-units",
       "status": "draft",
-      "definition": "Mass is the fundamental physical quantity measuring inertia and amount of substance of a body. It is one of the seven base quantities of the SI (dimension M); its SI base unit is the kilogram (kg), defined by taking the fixed numerical exact value of the Planck constant h = 6.62607015e-34 J s. Agreed per BIPM SI Brochure 9th ed. (2019).",
+      "definition": "Mass is the SI base physical quantity measuring a body's inertia and its quantity of matter (SI dimension M; base quantity; scalar). Its SI unit, the kilogram, is defined by taking the fixed numerical value of the Planck constant h to be exactly 6.62607015e-34 when expressed in J s = kg m2 s-1, with the metre and second as separately defined (SI 2019 redefinition). Agreed per BIPM SI Brochure 9th ed. (2019) §2.3.1.",
       "symbol": "M",
       "unit": "kilogram (kg)",
+      "quantity_kind": "base",
+      "tensor_character": "scalar",
       "governed_by": [
         "stemma:phys.si-definitions",
         "stemma:phys.dimensional-analysis"
@@ -1277,7 +1283,7 @@
       "domain": "physics",
       "subdomain": "mechanics",
       "status": "draft",
-      "definition": "Newton's second law of motion: the net external force on a body equals the time rate of change of its momentum (for constant mass, F_net = m a). Anchored in Newton, Principia (1687), Lex II; standard modern formulation per Halliday, Resnick, Walker 12th ed., Ch 5.",
+      "definition": "Newton's second law of motion: the net external force on a system equals the time rate of change of its total linear momentum, ΣF = dp/dt; for constant mass this reduces to F = m a. Valid in classical (non-relativistic) mechanics in inertial reference frames. Stated by Isaac Newton as Lex II in Philosophiae Naturalis Principia Mathematica (1687); standard modern formulation per Halliday, Resnick, Walker 12th ed., Ch 5.",
       "symbol": "F_net = m a",
       "governed_by": [
         "stemma:phys.conservation-momentum",
@@ -1329,9 +1335,11 @@
       "domain": "physics",
       "subdomain": "measurement-units",
       "status": "draft",
-      "definition": "Time is the fundamental physical quantity of duration and temporal sequence. It is one of the seven base quantities of the SI (dimension T); its SI base unit is the second (s), defined by taking the fixed numerical value of the caesium-133 hyperfine transition frequency ΔνCs = 9,192,631,770 Hz. Agreed per BIPM SI Brochure 9th ed. (2019).",
+      "definition": "Time is the SI base physical quantity of duration and temporal sequence (SI dimension T; base quantity; scalar). Its SI unit, the second, is defined by taking the fixed numerical value of the caesium frequency ΔνCs — the unperturbed ground-state hyperfine transition frequency of the caesium-133 atom — to be exactly 9,192,631,770 hertz (Hz = s-1): one second is the duration of 9,192,631,770 periods of the radiation corresponding to that transition. Exact per BIPM SI Brochure 9th ed. (2019) §2.3.1.",
       "symbol": "T",
       "unit": "second (s)",
+      "quantity_kind": "base",
+      "tensor_character": "scalar",
       "governed_by": [
         "stemma:phys.si-definitions",
         "stemma:phys.dimensional-analysis"

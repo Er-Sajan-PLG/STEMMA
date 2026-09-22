@@ -5,7 +5,9 @@ name: Force
 domain: physics
 subdomain: mechanics
 status: draft
-definition: "Force is the derived physical quantity of interaction: an influence capable of changing the state of motion of a body, Newton second law net force equals rate of change of momentum (for constant mass F = m a). SI derived unit the newton, N = kg m s-2. Reference: Halliday, Resnick, Walker 12th ed. Ch 5; Newton, Principia (1687), Lex II."
+definition: "Force is the derived physical quantity of mechanical interaction: the net force on a body equals the time rate of change of its linear momentum, F = dp/dt (Newton, Principia Lex II); for constant mass this reduces to F = m a. Force is a vector quantity — it has magnitude and direction and adds by vector addition (net force = vector sum). SI derived unit: the newton, N = kg m s-2. Reference: Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5; Newton, Principia (1687), Lex II."
+quantity_kind: derived
+tensor_character: vector
 symbol: "F"
 unit: "newton (N = kg m s-2)"
 governed_by:
@@ -27,7 +29,6 @@ external_ids:
 historical:
   stated_by: "Halliday, Resnick, Walker"
   year: 1687
-  where: "Principia, Lex II"
----
+  where: "Principia, Lex II"---
 
-Force is the derived physical quantity of interaction: an influence capable of changing the state of motion of a body, Newton second law net force equals rate of change of momentum (for constant mass F = m a). SI derived unit the newton, N = kg m s-2. Reference: Halliday, Resnick, Walker 12th ed. Ch 5; Newton, Principia (1687), Lex II.
+Force is the derived physical quantity of mechanical interaction: the net force on a body equals the time rate of change of its linear momentum, F = dp/dt (Newton, Principia Lex II); for constant mass this reduces to F = m a. Force is a vector quantity — it has magnitude and direction and adds by vector addition (net force = vector sum). SI derived unit: the newton, N = kg m s-2. Reference: Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5; Newton, Principia (1687), Lex II.

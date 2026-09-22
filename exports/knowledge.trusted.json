@@ -1,7 +1,7 @@
 {
   "export_version": "2.2.0",
   "schema_version": "1.2.0",
-  "content_hash": "sha256:1c0f0a9cbfd18dd44848a66fc895d40a7a81d923f5918a1887c0bcb7331f0360",
+  "content_hash": "sha256:b8cb2591144afb99d5a44ba3b3579afd15de0adf94b4c00420106116ac00d477",
   "kernel_version": "3.0.0",
   "relation_registry_version": "1.0.0",
   "relation_registry": {

@@ -5,7 +5,7 @@ name: Newton's Second Law
 domain: physics
 subdomain: mechanics
 status: draft
-definition: "Newton's second law of motion: the net external force on a body equals the time rate of change of its momentum (for constant mass, F_net = m a). Anchored in Newton, Principia (1687), Lex II; standard modern formulation per Halliday, Resnick, Walker 12th ed., Ch 5."
+definition: "Newton's second law of motion: the net external force on a system equals the time rate of change of its total linear momentum, ΣF = dp/dt; for constant mass this reduces to F = m a. Valid in classical (non-relativistic) mechanics in inertial reference frames. Stated by Isaac Newton as Lex II in Philosophiae Naturalis Principia Mathematica (1687); standard modern formulation per Halliday, Resnick, Walker 12th ed., Ch 5."
 symbol: "F_net = m a"
 governed_by:
   - stemma:phys.conservation-momentum
@@ -36,7 +36,6 @@ historical:
       event: "dsp/dt form standardized in classical mechanics texts"
     - year: 2019
       by: "SI 2019"
-      event: "F = m a expressed with exact SI definitions (N = kg m s-2)"
----
+      event: "F = m a expressed with exact SI definitions (N = kg m s-2)"---
 
-Newton's second law of motion: the net external force on a body equals the time rate of change of its momentum (for constant mass, F_net = m a). Anchored in Newton, Principia (1687), Lex II; standard modern formulation per Halliday, Resnick, Walker 12th ed., Ch 5.
+Newton's second law of motion: the net external force on a system equals the time rate of change of its total linear momentum, ΣF = dp/dt; for constant mass this reduces to F = m a. Valid in classical (non-relativistic) mechanics in inertial reference frames. Stated by Isaac Newton as Lex II in Philosophiae Naturalis Principia Mathematica (1687); standard modern formulation per Halliday, Resnick, Walker 12th ed., Ch 5.
