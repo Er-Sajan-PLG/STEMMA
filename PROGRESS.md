@@ -54,16 +54,17 @@
   - [x] **Completion pass (same day):** Tier-1 artifacts created (`webapp/README.md`, `adapters/README.md`, `explorer/README.md`, PR template, 2 issue templates, `.env.example` + `.env` git-ignored); new mechanical invariants: `api_surface` (12 endpoints ↔ docs), `env_surface` (env vars ↔ `.env.example`/WEBAPP.md), tier-strict enforcement `[0,1]`; hooks wiring (pre-commit: impact+validate; pre-push: sync+diff+check); AGENTS.md docs mandate; +9 engine/integration tests → suite now 156
   - [x] Invariants caught real gaps on first run: `/v2/stats` undocumented in adapter README, 4 provider env vars undocumented (docs/WEBAPP.md section added), `OPENAI_API_KEY` missing from `.env.example`
 
-## 🔄 In Progress (R4 — Content Acceptance Test, ADR-0052)
+## ✅ DONE (R4 — Content Acceptance Test, ADR-0052, closed 2026-09-22)
 
-Prove the full L8 chain end-to-end with both authority tiers — mechanical side DONE 2026-09-22, owner review pass is the only open item:
+Prove the full L8 chain end-to-end with both authority tiers — mechanical side DONE + OWNER review pass PERFORMED 2026-09-22 (`human:curator.001`):
 
 - [x] Trusted external institution per ADR-0049 already registered (`human:institution.wikidata-community` + `human:institution.biologists-kb`) — delegated path present in registry
 - [x] Entities seeded (status: draft, `ai_drafted: true`, writer `llm:coding-agent.001` — new honest LLM agent registered): `phys.force` + fundamental quantities `phys.length`/`phys.mass`/`phys.time` (definitions + references SI Brochure/HRW/Principia) + core governing laws `phys.newtons-second-law` + `phys.conservation-energy` (physics-governing check threshold at 5 entities required them; corpus = 7 entities, ADR's "3-5" is a planning estimate — flag for owner at exit)
 - [x] SI Brochure source record present; force cites Halliday+Principia sources (both record files existed)
 - [x] Relational connection seeded: `conn.000157` force mathematically_requires mass (evidence[] non-empty, 2 sources)
 - [x] Value-claim connection seeded (value-slot XOR, ADR-0045): `conn.000156` metre derived_from fixed c=299792458 m/s — ALSO the delegated-authority import: asserted_by `human:institution.wikidata-community`, `delegated_provenance` block with `audit_date` + `sample_audit_rate` (sample audit per ADR-0049)
-- [ ] **OWNER: human review pass to canonical (internal tier)** — entities via `scripts/review_entity.py review|canonicalize --reviewer human:curator.001`; connections via `scripts/review.py` (accept → canonicalize chain). Exact commands in the session handoff; after pass, executor finishes: verify_all + exports-diff + closure.
+- [x] **OWNER human review pass** — all 7 entities `review`→ human_reviewed + both connections `accept`→reviewed by `human:curator.001` (owner-approved 2026-09-22). Definitions were owner-directed to the 'metre bar' (exact constant/equation doing the defining, spelled-out operational meaning, clause-level references); firm properties added to base schema: `quantity_kind` (base|derived) + `tensor_character` (scalar|vector|tensor) for quantities + `same_dimensional_quantities` on ALL entities (non-empty for quantity/unit, explicit null elsewhere) — later fields via extension mechanism (owner).
+- [ ] **FOLLOW-UP (owner, one word): canonicalize pass** — `scripts/review_entity.py canonicalize <id> --reviewer human:curator.001` (7) + `scripts/review.py canonicalize stemma:conn.00015{6,7} --reviewer human:curator.001` (2). Held back deliberately: review ≠ canon; owner's explicit canon word required.
 - [x] Machine exit preconditions: `verify_all.py` exit 0, corpus validates, exports/reports regenerated; git diff ships in the same commit
 
 Engine hardening made while seeding (R4's purpose — exercise proves gaps):
@@ -71,6 +72,7 @@ Engine hardening made while seeding (R4's purpose — exercise proves gaps):
 - Registry coherence + ADR-0042 physics-core discipline: reserved measurement relations (`has_unit`, `expressed_in`, `quantifies`, `measures`, `corresponds_to`) must NOT be used canonically; adopted-aftermath: length↔metre and the value-claim initially fell back to `related_to` — rejected by the physics-core profile checker → final mapping: length/metre via connection REMOVED (covered by entity evidence + unit fields), value-claim uses adopted `derived_from`. **Follow-up (owner, governance): micro-ADR to adopt the reserved measurement family when content needs it.**
 - Stale corpus-scale pins fixed (same class as the taxonomy 220 pin): connection immutability `>600` requirement → scale-free; phase-b transitive-closure positiveness → corpus-derived expectation.
 - 2 architectural tests taught the XOR form (claim signature sign-the-value; live-connection completeness).
+- During owner review pass: review.py still expected old-era full-id connection filenames → modernized to colon-free form (convention pinned by validate.py); curation_status.py hit the value-slot gap class once the reviewed list touched conn.000156 → hardened like its six siblings.
 
 
 ## 📋 Backlog

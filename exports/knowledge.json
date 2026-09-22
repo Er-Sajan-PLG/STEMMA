@@ -1,7 +1,7 @@
 {
   "export_version": "2.2.0",
   "schema_version": "1.2.0",
-  "content_hash": "sha256:4d6858e742ae894c623c340a6c7a4dc2f3a3ded095eaa1b41956344ff67a93f0",
+  "content_hash": "sha256:375bad172a9c4710902b8cfff79f5d849be5c959af1b612fbeb3b736f9b07ad3",
   "kernel_version": "3.0.0",
   "relation_registry_version": "1.0.0",
   "relation_registry": {
@@ -1071,7 +1071,7 @@
       "name": "Conservation of Energy",
       "domain": "physics",
       "subdomain": "mechanics",
-      "status": "draft",
+      "status": "human_reviewed",
       "definition": "Conservation of energy: for an isolated system the total energy — summed over all forms (kinetic, potential, thermal, chemical, nuclear, ...) — remains constant in time; energy transforms between forms but is neither created nor destroyed. Historical line: Mayer (1842), Joule (1843), Helmholtz (1847, 'Über die Erhaltung der Kraft'); standard statement per Halliday, Resnick, Walker 12th ed., Ch 8.",
       "symbol": "E_total = const",
       "same_dimensional_quantities": null,
@@ -1086,7 +1086,9 @@
         "source": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 8 (potential energy and conservation of energy in isolated systems).",
         "link": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511",
         "original_author": "Mayer, Joule, Helmholtz",
-        "retrieved_at": "2026-09-22"
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-22T12:15:00.946759+00:00"
       },
       "source_refs": [
         "stemma:src.halliday-resnick-walker-12th"
@@ -1123,7 +1125,7 @@
       "name": "Force",
       "domain": "physics",
       "subdomain": "mechanics",
-      "status": "draft",
+      "status": "human_reviewed",
       "definition": "Force is the derived physical quantity of mechanical interaction: the net force on a body equals the time rate of change of its linear momentum, F = dp/dt (Newton, Principia Lex II); for constant mass this reduces to F = m a. Force is a vector quantity — it has magnitude and direction and adds by vector addition (net force = vector sum). SI derived unit: the newton, N = kg m s-2. Reference: Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5; Newton, Principia (1687), Lex II.",
       "quantity_kind": "derived",
       "tensor_character": "vector",
@@ -1149,7 +1151,9 @@
         "source": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5: net force ΣF = m a; Principia (1687), Lex II: mutationem motus proportionalem esse vi motrici impressae.",
         "link": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511",
         "original_author": "Halliday, Resnick, Walker",
-        "retrieved_at": "2026-09-22"
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-22T12:15:00.595338+00:00"
       },
       "source_refs": [
         "stemma:src.halliday-resnick-walker-12th",
@@ -1170,7 +1174,7 @@
       "name": "Length",
       "domain": "physics",
       "subdomain": "measurement-units",
-      "status": "draft",
+      "status": "human_reviewed",
       "definition": "Length is the SI base physical quantity of spatial extent — the measure of one-dimensional distance between two points in space. The metre is the unit in which length is expressed: 1 m = the length of the path travelled by light in vacuum during 1/299,792,458 of a second (c fixed exact). Agreed per BIPM SI Brochure 9th ed. (2019), base quantities table; §2.3.1.",
       "symbol": "L",
       "unit": "metre (m)",
@@ -1195,7 +1199,9 @@
         "source": "BIPM SI Brochure 9th ed. (2019): among the seven SI base quantities, length with base unit metre; metre defined by fixed numerical value of c in vacuum (2.3.1).",
         "link": "https://www.bipm.org/en/publications/si-brochure",
         "original_author": "BIPM",
-        "retrieved_at": "2026-09-22"
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-22T12:15:00.666222+00:00"
       },
       "source_refs": [
         "stemma:src.nist-si-brochure-9th"
@@ -1215,7 +1221,7 @@
       "name": "Mass",
       "domain": "physics",
       "subdomain": "measurement-units",
-      "status": "draft",
+      "status": "human_reviewed",
       "definition": "Mass is the SI base physical quantity measuring a body's inertia and its quantity of matter. Its SI unit, the kilogram, is defined by taking the fixed numerical value of the Planck constant h to be exactly 6.62607015e-34 when expressed in J s = kg m2 s-1, with the metre and second as separately defined (SI 2019 redefinition). Agreed per BIPM SI Brochure 9th ed. (2019) §2.3.1.",
       "symbol": "M",
       "unit": "kilogram (kg)",
@@ -1237,7 +1243,9 @@
         "source": "BIPM SI Brochure 9th ed. (2019): mass among the seven SI base quantities; kilogram defined by fixed h = 6.62607015e-34 kg m2 s-1 (2.3.1).",
         "link": "https://www.bipm.org/en/publications/si-brochure",
         "original_author": "BIPM",
-        "retrieved_at": "2026-09-22"
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-22T12:15:00.736515+00:00"
       },
       "source_refs": [
         "stemma:src.nist-si-brochure-9th"
@@ -1257,7 +1265,7 @@
       "name": "Metre",
       "domain": "physics",
       "subdomain": "measurement-units",
-      "status": "draft",
+      "status": "human_reviewed",
       "definition": "The metre (symbol: m) is the base unit of length in the International System of Units (SI). It is scientifically defined as the length of the path travelled by light in a vacuum during a time interval of 1/299,792,458 of a second. Exact: c=299,792,458 m/s. Agreed per BIPM SI Brochure 9th ed. 2019 redefinition, fixing c exact.",
       "symbol": "m",
       "unit": "metre (m)",
@@ -1280,7 +1288,9 @@
         "source": "BIPM SI Brochure 9th ed. (2019) §2.3.1, p130-132: The metre, symbol m, is the SI unit of length. It is defined by taking the fixed numerical value of the speed of light in vacuum c to be 299792458 when expressed in m s-1. Exact: c=299,792,458 m/s. Agreed internationally.",
         "link": "https://www.bipm.org/en/publications/si-brochure",
         "original_author": "BIPM",
-        "retrieved_at": "2026-09-21"
+        "retrieved_at": "2026-09-21",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-22T12:15:00.523470+00:00"
       },
       "source_refs": [
         "stemma:src.nist-si-brochure-9th"
@@ -1313,7 +1323,7 @@
       "name": "Newton's Second Law",
       "domain": "physics",
       "subdomain": "mechanics",
-      "status": "draft",
+      "status": "human_reviewed",
       "definition": "Newton's second law of motion: the net external force on a system equals the time rate of change of its total linear momentum, ΣF = dp/dt; for constant mass this reduces to F = m a. Valid in classical (non-relativistic) mechanics in inertial reference frames. Stated by Isaac Newton as Lex II in Philosophiae Naturalis Principia Mathematica (1687); standard modern formulation per Halliday, Resnick, Walker 12th ed., Ch 5.",
       "symbol": "F_net = m a",
       "same_dimensional_quantities": null,
@@ -1328,7 +1338,9 @@
         "source": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5 (Newton second law, force and momentum); Principia (1687), Lex II.",
         "link": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511",
         "original_author": "Isaac Newton",
-        "retrieved_at": "2026-09-22"
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-22T12:15:00.876305+00:00"
       },
       "source_refs": [
         "stemma:src.halliday-resnick-walker-12th",
@@ -1366,7 +1378,7 @@
       "name": "Time",
       "domain": "physics",
       "subdomain": "measurement-units",
-      "status": "draft",
+      "status": "human_reviewed",
       "definition": "Time is the SI base physical quantity of duration and temporal sequence. Its SI unit, the second, is defined by taking the fixed numerical value of the caesium frequency ΔνCs — the unperturbed ground-state hyperfine transition frequency of the caesium-133 atom — to be exactly 9,192,631,770 hertz (Hz = s-1): one second is the duration of 9,192,631,770 periods of the radiation corresponding to that transition. Exact per BIPM SI Brochure 9th ed. (2019) §2.3.1.",
       "symbol": "T",
       "unit": "second (s)",
@@ -1389,7 +1401,9 @@
         "source": "BIPM SI Brochure 9th ed. (2019): time among the seven SI base quantities; second defined by fixed ΔνCs = 9,192,631,770 Hz (2.3.1).",
         "link": "https://www.bipm.org/en/publications/si-brochure",
         "original_author": "BIPM",
-        "retrieved_at": "2026-09-22"
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-22T12:15:00.806261+00:00"
       },
       "source_refs": [
         "stemma:src.nist-si-brochure-9th"
@@ -1420,7 +1434,7 @@
         "status": "active",
         "type": "asserted",
         "review": {
-          "status": "unreviewed"
+          "status": "reviewed"
         },
         "confidence": 1.0,
         "confidence_basis": "definitional"
@@ -1471,9 +1485,28 @@
               "audit_date": "2026-09-22",
               "sample_audit_rate": 0.1
             }
+          },
+          {
+            "type": "human",
+            "id": "human:curator.001"
           }
         ],
-        "review_history": []
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:16:10.348782+00:00",
+            "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:18:15.323738+00:00",
+            "reason": "transition to reviewed"
+          }
+        ]
       },
       "claim_signature": "sha256:c84cf0ce9006ca6776f8864b5b653a85a6d8d27b480ef477386071d332f3ab00"
     },
@@ -1487,7 +1520,7 @@
         "status": "active",
         "type": "asserted",
         "review": {
-          "status": "unreviewed"
+          "status": "reviewed"
         },
         "confidence": 1.0,
         "confidence_basis": "expert_review"
@@ -1532,8 +1565,28 @@
         "method": {
           "type": "manual"
         },
-        "reviewed_by": [],
-        "review_history": []
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:curator.001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:16:10.390451+00:00",
+            "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:18:15.366572+00:00",
+            "reason": "transition to reviewed"
+          }
+        ]
       },
       "claim_signature": "sha256:5ef7c09f3a7927a4522a322893f6bd70a865899b90dd4abacd884d8d5f29887b"
     }
