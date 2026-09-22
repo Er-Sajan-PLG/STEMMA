@@ -95,7 +95,7 @@ recovered; implementation treated as evidence, not authority.
 - Mandatory process review: `../SPECIFICATION_PROCESS_REVIEW.md`
 
 Exit: baseline artifacts complete and validated; approval + verification queue handed to owner.
-R5 DECIDED 2026-09-22 (ADR-0053, owner) — closed UNRES-STEMMA-CORE-001; R4 proceeds unchanged.
+R5 partially settled 2026-09-22 (ADR-0053 + Amendment 0001, owner) — identity binding; PID/resolution base deferred to R6; UNRES-STEMMA-CORE-001 partially resolved/open; R4 proceeds unchanged.
 
 ## R4 — Content as Acceptance Test Before IRI Gate (Hours to Days) — Phase 4 — ADR-0052 — Work Integrating Early Work
 
@@ -124,14 +124,17 @@ Tasks:
 
 Exit: Full L8 chain proven end-to-end both authority tiers corpus has 3-5 entities 2-3 connections real content engine built.
 
-## R5 — Organization/IRI Gate — ✅ DECIDED 2026-09-22 — ADR-0053
+## R5 — Organization/IRI Gate — ◐ PARTIAL 2026-09-22 — ADR-0053 + Amendment 0001
 
-Owner decision recorded in 0053-organization-domain-iri-base.md:
-(a) publisher of record = individual Sajan (formal org later via new ADR);
-(b) publication domain = w3id.org (owner files slug PR, no later than R6);
-(c) IRI form = staged — canonical stays `stemma:` URN (immutable), HTTP
-mapping defined by the R6 projection ADR as DERIVED projections only.
-Nothing canonical changes; R4 proceeds unchanged.
+Owner rulings in 0053-organization-domain-iri-base.md (Amendment 0001, after
+slow-research evaluation docs/PERSISTENT-IDENTIFIER-BRIEF.md):
+- SETTLED (binding): publisher of record = individual Sajan; canonical keeps
+  immutable `stemma:` URN identifiers; resolution never enters canonical files.
+- OPEN / DEFERRED to R6 projection publication: published-PID domain and
+  resolution architecture (w3id.org is a candidate, not a decision). Research
+  established this is safely deferrable pre-publication.
+- Non-actions: slug NOT claimed; no ID changes; no resolution infrastructure.
+R4 proceeds unchanged (never depended on the gate).
 
 ## R6 — Projection Publication (Roadmap R4 After Phase 5) Days
 

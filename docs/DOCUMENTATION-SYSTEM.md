@@ -124,6 +124,28 @@ git-ignored runtime state.
 Agents: see the "Documentation Contract" section in [../AGENTS.md](../AGENTS.md) —
 a task is not complete while the contract is violated.
 
+## Verified enforcement incidents (production proof)
+
+These are recorded as **successful architectural enforcement**, per owner
+direction (2026-09-22) — the guards fired, blocked, pointed at a repair, and
+the repair happened through the proper registered roots. Not failures.
+
+1. **Contract registry caught an unregistered research doc** (same commit
+   session, ci `docs check`): `docs/PERSISTENT-IDENTIFIER-BRIEF.md` was new
+   prose that had not yet been registered — reported as *contract orphan* and
+   *README inventory gap*. Fixed via the registered roots: taxonomy row 221,
+   contract artifact entry, README inventory row — then check/mutation gates
+   re-passed. (Related growth-tolerance fix: the census-count unit test was
+   pinned at exactly 220 rows and was relaxed to the actual invariant:
+   unique ids, valid statuses, never shrink — commit `aaed0d7`.)
+
+2. **Independence invariant (ADR-0027/0051) caught a forbidden ecosystem
+   reference introduced by a user prompt**: the same brief initially carried
+   a retired-namespace name that had been pasted in from the request text
+   itself. `docs check` flagged both occurrences before commit; the source
+   was scrubbed to contract-clean consumer wording; gate re-passed. This is
+   the intended fail-closed behavior for prompt-carried contamination.
+
 ## Known limitations (honest)
 
 - Markdown **anchor** targets are not verified (file-existence only) — heading

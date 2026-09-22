@@ -12,6 +12,13 @@ Related: ADR-0053 (recorded provisional answers; under review, see §0.3) · ADR
 
 0.3 **Record-keeping note (transparency).** ADR-0053 recorded the owner's quick answers on 2026-09-22 (publisher = individual Sajan; domain = w3id.org; canonical keeps `stemma:` URN with HTTP projection at R6). The owner has now re-opened (b) and (c) for slow research. Nothing in the canonical layer depends on those answers — no IRIs have been published, no w3id PR has been filed. The correct end-state record after the owner reads this brief is one of: **reaffirm** ADR-0053, **amend** it, or **supersede** it with a new ADR — all three are first-class in this repo's ADR protocol. ADR-0053 will not be quietly rewritten.
 
+**Disposition (2026-09-22, owner):** path chosen = **AMEND** — ADR-0053
+Amendment 0001 records canonical identity + publisher as reaffirmed/binding
+and the w3id/resolution choice as under review, deferred to the R6
+projection-publication stage. No slug claimed; no identifiers changed; no
+resolution infrastructure implemented. Optional slug claim remains a
+separate non-blocking owner consideration.
+
 ---
 
 # Phase 1 — Explain the problem

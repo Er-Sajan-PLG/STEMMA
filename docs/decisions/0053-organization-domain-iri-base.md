@@ -1,7 +1,7 @@
 # ADR-0053: Organization / Domain / IRI Base (R5)
 
-Status: Decided
-Date: 2026-09-22
+Status: Decided — amended 2026-09-22 (Amendment 0001: (a) publisher + canonical identity architecture REAFFIRMED and binding; (b) w3id/resolution choice UNDER REVIEW, deferred to R6 — see amendment below)
+Date: 2026-09-22 (original ruling); Amended: 2026-09-22 (Amendment 0001)
 Decided by: Sajan (sole owner — recorded as written instruction from the authority human; this ADR documents the owner's decision, it does not create it)
 Baseline: ADR-0044
 Related: docs/ARCHITECTURE-V2.md Part 10 Phase 5 (Organization/IRI Gate), docs/ROADMAP.md R5, spec/OPEN_QUESTIONS.md UNRES-STEMMA-CORE-001 (closed by this ADR), ADR-0027 (namespace decision, archived old-design)
@@ -28,3 +28,43 @@ ARCHITECTURE-V2 assumes canonical IDs never change and that the semantic-web sur
 - UNRES-STEMMA-CORE-001 is CLOSED (decided).
 - Risk recorded: w3id slug squatting before the owner files the namespace PR — mitigated by filing early; if lost, redirect under an alternate slug via new small ADR.
 - Authority note: sub-decisions (a)–(c) were made by the sole owner in direct instruction (2026-09-22); the executor's role was presentation of options with evidence and mechanical recording.
+
+
+---
+
+## Amendment 0001 — 2026-09-22 (owner ruling, recorded)
+
+**Context.** After this ADR was filed, the owner ordered a slow-research
+evaluation before final commitment: docs/PERSISTENT-IDENTIFIER-BRIEF.md
+(Phases 1-10, current-source research, no decision recorded in the brief).
+
+**Ruling (Sajan, 2026-09-22), recorded mechanically by the executor:**
+
+1. **REAFFIRMED — valid and binding.**
+   - (a) Publisher of record: individual Sajan (a formal org later = new ADR).
+   - The canonical identity architecture: immutable `stemma:` URN identifiers,
+     machine-enforced by schema patterns and the curation id-immutability rule;
+     canonical Markdown/YAML carries no host, domain, or resolver knowledge;
+     resolution is exclusively a derived projection-layer concern.
+
+2. **UNDER REVIEW / DEFERRED — not binding.** Sub-decision (b) (w3id.org as
+   the resolution base) and the associated projection-mapping choice are NOT
+   decided. Per the brief (Phase 8): this choice is reversible while the
+   repository is pre-publication — no resolvable stemma URI exists yet, so
+   the published-string stickiness locked on nothing. Decision stage: **R6
+   projection publication**, the repository-defined stage where a resolvable
+   base first becomes actually required. At R6 the owner rules: reaffirm,
+   re-amend, or supersede this ADR.
+
+3. **Explicitly not executed.** No w3id slug was registered or claimed; no
+   canonical identifiers were changed; no resolution infrastructure was or
+   will be implemented absent this decision. The optional w3id slug claim
+   remains a separate, non-blocking consideration for the owner.
+
+4. UNRES-STEMMA-CORE-001 is updated accordingly: canonical-identity portion
+   resolved; published-PID/resolution portion open (non-blocking until R6).
+
+**Historical note.** The Decision text above this divider is the unchanged
+record of the 2026-09-22 ruling; it is historical, not silently rewritten.
+The related research brief cross-references this amendment (its §0.3
+disposition note).
