@@ -6,7 +6,7 @@
   "export_version": "2.2.0",
   "relation_registry_version": "1.0.0",
   "kernel_version": "3.0.0",
-  "content_hash": "sha256:b8cb2591144afb99d5a44ba3b3579afd15de0adf94b4c00420106116ac00d477",
+  "content_hash": "sha256:6a1718820e575642a2be6c0de8b4a98dc4f0f0709bc847cd4dfa2c523da8cfe5",
   "severity_counts": {
     "ERROR": 0,
     "WARNING": 0,

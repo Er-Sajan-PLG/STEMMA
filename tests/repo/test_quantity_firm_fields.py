@@ -41,6 +41,28 @@ class TestQuantityFirmFieldsRule(unittest.TestCase):
         self.assertTrue([e for e in errs if "quantity_kind" in e], errs)
         self.assertTrue([e for e in errs if "tensor_character" in e], errs)
 
+    def test_dimension_examples_required_present(self):
+        e = _ent(quantity_kind="base", tensor_character="scalar")
+        errs: list = []
+        val.validate_entity(e, errs)
+        self.assertTrue([x for x in errs if "dimension_examples" in x], errs)
+        errs.clear()
+        e["dimension_examples"] = ["foo"]
+        val.validate_entity(e, errs)
+        self.assertFalse([x for x in errs if "dimension_examples" in x], errs)
+
+    def test_dimension_examples_empty_rejected_for_quantity(self):
+        e = _ent(quantity_kind="base", tensor_character="scalar", dimension_examples=[])
+        errs: list = []
+        val.validate_entity(e, errs)
+        self.assertTrue([x for x in errs if "non-empty dimension_examples" in x], errs)
+
+    def test_law_null_dimension_examples_ok(self):
+        e = _ent(type="law", dimension_examples=None)
+        errs: list = []
+        val.validate_entity(e, errs)
+        self.assertFalse([x for x in errs if "dimension_examples" in x], errs)
+
     def test_non_quantity_unaffected(self):
         e = _ent(type="law")
         errs: list = []
@@ -55,12 +77,32 @@ CLASS = {
     "time": ("base", "scalar"),
 }
 
+DIM_EX = {
+    "force": "weight",
+    "length": "wavelength",
+    "mass": "inertial mass",
+    "time": "half-life",
+}
+
 
 class TestCorpusQuantityClassification(unittest.TestCase):
     """Spot physics assertions the firm fields exist to lock in."""
 
     def _fm(self, path):
         return yaml.safe_load(pathlib.Path(ROOT / path).read_text().split("---")[1])
+
+    def test_seed_dimension_examples(self):
+        for name, probe in DIM_EX.items():
+            loc = (f"content/physics/mechanics/{name}.md" if name == "force"
+                   else f"content/physics/measurement-units/{name}.md")
+            d = self._fm(loc)
+            self.assertIn(probe, d["dimension_examples"], f"{name}")
+
+    def test_laws_carry_explicit_null(self):
+        for name in ("newtons-second-law", "conservation-energy"):
+            d = self._fm(f"content/physics/mechanics/{name}.md")
+            self.assertIn("dimension_examples", d, name)
+            self.assertIsNone(d["dimension_examples"], name)
 
     def test_seed_classifications(self):
         for name, (kind, tensor) in CLASS.items():

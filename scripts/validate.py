@@ -489,6 +489,15 @@ def validate_entity(entity: dict, errors: list, filename_slug: str | None = None
         if entity.get("tensor_character") not in ("scalar", "vector", "tensor"):
             errors.append(f"{here} quantity requires tensor_character: scalar|vector|tensor")
 
+    # dimension_examples (owner directive 2026-09-22): dimension-class members
+    # for quantity/unit entities (non-empty list); explicit null elsewhere.
+    if "dimension_examples" not in entity:
+        errors.append(f"{here} missing dimension_examples (explicit null allowed for non-quantity/unit types)")
+    elif entity.get("type") in ("quantity", "unit"):
+        ex = entity.get("dimension_examples")
+        if not isinstance(ex, list) or not len(ex):
+            errors.append(f"{here} {entity.get('type')} requires non-empty dimension_examples list")
+
     # Provenance shape
     prov = entity.get("provenance")
     if isinstance(prov, dict) and not isinstance(prov.get("ai_drafted"), bool):
