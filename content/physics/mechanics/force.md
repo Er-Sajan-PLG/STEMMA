@@ -10,7 +10,7 @@ quantity_kind: derived
 tensor_character: vector
 symbol: "F"
 unit: "newton (N = kg m s-2)"
-dimension_examples:
+same_dimensional_quantities:
   - "weight"
   - "tension"
   - "friction"
