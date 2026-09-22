@@ -32,10 +32,13 @@ class TestModelLayer(unittest.TestCase):
             self.assertIn(art["kind"], self.contract["kinds"])
             self.assertIn(art["cat"], self.contract["categories"])
 
-    def test_taxonomy_has_220_unique_ids_valid_statuses(self):
+    def test_taxonomy_unique_ids_valid_statuses_never_shrinks(self):
+        # Guard census integrity: unique ids + valid statuses; the census is
+        # expected to grow (new docs register new rows) but never to silently
+        # drop below the baseline captured at introduction of this test.
         ids = [a["id"] for a in self.taxonomy["artifacts"]]
-        self.assertEqual(len(ids), 220)
-        self.assertEqual(len(set(ids)), 220)
+        self.assertGreaterEqual(len(ids), 220)
+        self.assertEqual(len(set(ids)), len(ids))
         for a in self.taxonomy["artifacts"]:
             self.assertIn(a["status"], docs.STATUSES)
 
