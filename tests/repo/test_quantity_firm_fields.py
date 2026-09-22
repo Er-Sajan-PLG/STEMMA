@@ -41,27 +41,27 @@ class TestQuantityFirmFieldsRule(unittest.TestCase):
         self.assertTrue([e for e in errs if "quantity_kind" in e], errs)
         self.assertTrue([e for e in errs if "tensor_character" in e], errs)
 
-    def test_dimension_examples_required_present(self):
+    def test_same_dimensional_quantities_required_present(self):
         e = _ent(quantity_kind="base", tensor_character="scalar")
         errs: list = []
         val.validate_entity(e, errs)
-        self.assertTrue([x for x in errs if "dimension_examples" in x], errs)
+        self.assertTrue([x for x in errs if "same_dimensional_quantities" in x], errs)
         errs.clear()
-        e["dimension_examples"] = ["foo"]
+        e["same_dimensional_quantities"] = ["foo"]
         val.validate_entity(e, errs)
-        self.assertFalse([x for x in errs if "dimension_examples" in x], errs)
+        self.assertFalse([x for x in errs if "same_dimensional_quantities" in x], errs)
 
-    def test_dimension_examples_empty_rejected_for_quantity(self):
-        e = _ent(quantity_kind="base", tensor_character="scalar", dimension_examples=[])
+    def test_same_dimensional_quantities_empty_rejected_for_quantity(self):
+        e = _ent(quantity_kind="base", tensor_character="scalar", same_dimensional_quantities=[])
         errs: list = []
         val.validate_entity(e, errs)
-        self.assertTrue([x for x in errs if "non-empty dimension_examples" in x], errs)
+        self.assertTrue([x for x in errs if "non-empty same_dimensional_quantities" in x], errs)
 
-    def test_law_null_dimension_examples_ok(self):
-        e = _ent(type="law", dimension_examples=None)
+    def test_law_null_same_dimensional_quantities_ok(self):
+        e = _ent(type="law", same_dimensional_quantities=None)
         errs: list = []
         val.validate_entity(e, errs)
-        self.assertFalse([x for x in errs if "dimension_examples" in x], errs)
+        self.assertFalse([x for x in errs if "same_dimensional_quantities" in x], errs)
 
     def test_non_quantity_unaffected(self):
         e = _ent(type="law")
@@ -91,18 +91,18 @@ class TestCorpusQuantityClassification(unittest.TestCase):
     def _fm(self, path):
         return yaml.safe_load(pathlib.Path(ROOT / path).read_text().split("---")[1])
 
-    def test_seed_dimension_examples(self):
+    def test_seed_same_dimensional_quantities(self):
         for name, probe in DIM_EX.items():
             loc = (f"content/physics/mechanics/{name}.md" if name == "force"
                    else f"content/physics/measurement-units/{name}.md")
             d = self._fm(loc)
-            self.assertIn(probe, d["dimension_examples"], f"{name}")
+            self.assertIn(probe, d["same_dimensional_quantities"], f"{name}")
 
     def test_laws_carry_explicit_null(self):
         for name in ("newtons-second-law", "conservation-energy"):
             d = self._fm(f"content/physics/mechanics/{name}.md")
-            self.assertIn("dimension_examples", d, name)
-            self.assertIsNone(d["dimension_examples"], name)
+            self.assertIn("same_dimensional_quantities", d, name)
+            self.assertIsNone(d["same_dimensional_quantities"], name)
 
     def test_seed_classifications(self):
         for name, (kind, tensor) in CLASS.items():

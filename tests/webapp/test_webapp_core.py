@@ -84,7 +84,7 @@ def test_validation_and_staging(tmp_path: pathlib.Path):
     good = {"id": "stemma:phys.test-newton", "type": "concept", "name": "Newton's law",
             "domain": "physics", "status": "draft",
             "definition": "A proposed definition.",
-            "dimension_examples": None,
+            "same_dimensional_quantities": None,
             "provenance": {"ai_drafted": False, "source": "stemma:src.webapp-x"}}
     candidate = {"id": "cand-test", "doc_id": doc["id"], "kind": "entity",
                  "proposal": good, "findings": []}

@@ -12,7 +12,7 @@
     "status",
     "definition",
     "provenance",
-    "dimension_examples"
+    "same_dimensional_quantities"
   ],
   "properties": {
     "id": {
@@ -344,7 +344,7 @@
       ],
       "description": "Tensorial character of a quantity entity: scalar/vector/tensor. REQUIRED when type=quantity (owner directive 2026-09-22)."
     },
-    "dimension_examples": {
+    "same_dimensional_quantities": {
       "type": [
         "array",
         "null"

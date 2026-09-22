@@ -5,10 +5,10 @@ name: Length
 domain: physics
 subdomain: measurement-units
 status: draft
-definition: "Length is the SI base physical quantity of spatial extent — the measure of one-dimensional distance between two points in space (SI dimension L; base quantity; scalar). The metre is the unit in which length is expressed: 1 m = the length of the path travelled by light in vacuum during 1/299,792,458 of a second (c fixed exact). Quantities of this dimension — width, height, displacement magnitude, wavelength — are all lengths. Agreed per BIPM SI Brochure 9th ed. (2019), base quantities table; §2.3.1."
+definition: "Length is the SI base physical quantity of spatial extent — the measure of one-dimensional distance between two points in space. The metre is the unit in which length is expressed: 1 m = the length of the path travelled by light in vacuum during 1/299,792,458 of a second (c fixed exact). Agreed per BIPM SI Brochure 9th ed. (2019), base quantities table; §2.3.1."
 symbol: "L"
 unit: "metre (m)"
-dimension_examples:
+same_dimensional_quantities:
   - "width"
   - "height"
   - "displacement magnitude"
@@ -38,4 +38,4 @@ historical:
   where: "SI Brochure 9th ed."
 ---
 
-Length is the SI base physical quantity of spatial extent — the measure of one-dimensional distance between two points in space (SI dimension L; base quantity; scalar). The metre is the unit in which length is expressed: 1 m = the length of the path travelled by light in vacuum during 1/299,792,458 of a second (c fixed exact). Quantities of this dimension — width, height, displacement magnitude, wavelength — are all lengths. Agreed per BIPM SI Brochure 9th ed. (2019), base quantities table; §2.3.1.
+Length is the SI base physical quantity of spatial extent — the measure of one-dimensional distance between two points in space. The metre is the unit in which length is expressed: 1 m = the length of the path travelled by light in vacuum during 1/299,792,458 of a second (c fixed exact). Agreed per BIPM SI Brochure 9th ed. (2019), base quantities table; §2.3.1.

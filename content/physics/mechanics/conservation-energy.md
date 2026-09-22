@@ -7,7 +7,7 @@ subdomain: mechanics
 status: draft
 definition: "Conservation of energy: for an isolated system the total energy — summed over all forms (kinetic, potential, thermal, chemical, nuclear, ...) — remains constant in time; energy transforms between forms but is neither created nor destroyed. Historical line: Mayer (1842), Joule (1843), Helmholtz (1847, 'Über die Erhaltung der Kraft'); standard statement per Halliday, Resnick, Walker 12th ed., Ch 8."
 symbol: "E_total = const"
-dimension_examples: null
+same_dimensional_quantities: null
 governed_by:
   - stemma:phys.newtons-second-law
   - stemma:phys.dimensional-analysis

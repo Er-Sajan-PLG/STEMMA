@@ -5,10 +5,10 @@ name: Time
 domain: physics
 subdomain: measurement-units
 status: draft
-definition: "Time is the SI base physical quantity of duration and temporal sequence (SI dimension T; base quantity; scalar). Its SI unit, the second, is defined by taking the fixed numerical value of the caesium frequency ΔνCs — the unperturbed ground-state hyperfine transition frequency of the caesium-133 atom — to be exactly 9,192,631,770 hertz (Hz = s-1): one second is the duration of 9,192,631,770 periods of the radiation corresponding to that transition. Exact per BIPM SI Brochure 9th ed. (2019) §2.3.1."
+definition: "Time is the SI base physical quantity of duration and temporal sequence. Its SI unit, the second, is defined by taking the fixed numerical value of the caesium frequency ΔνCs — the unperturbed ground-state hyperfine transition frequency of the caesium-133 atom — to be exactly 9,192,631,770 hertz (Hz = s-1): one second is the duration of 9,192,631,770 periods of the radiation corresponding to that transition. Exact per BIPM SI Brochure 9th ed. (2019) §2.3.1."
 symbol: "T"
 unit: "second (s)"
-dimension_examples:
+same_dimensional_quantities:
   - "duration"
   - "period"
   - "half-life"
@@ -36,4 +36,4 @@ historical:
   where: "SI Brochure 9th ed."
 ---
 
-Time is the SI base physical quantity of duration and temporal sequence (SI dimension T; base quantity; scalar). Its SI unit, the second, is defined by taking the fixed numerical value of the caesium frequency ΔνCs — the unperturbed ground-state hyperfine transition frequency of the caesium-133 atom — to be exactly 9,192,631,770 hertz (Hz = s-1): one second is the duration of 9,192,631,770 periods of the radiation corresponding to that transition. Exact per BIPM SI Brochure 9th ed. (2019) §2.3.1.
+Time is the SI base physical quantity of duration and temporal sequence. Its SI unit, the second, is defined by taking the fixed numerical value of the caesium frequency ΔνCs — the unperturbed ground-state hyperfine transition frequency of the caesium-133 atom — to be exactly 9,192,631,770 hertz (Hz = s-1): one second is the duration of 9,192,631,770 periods of the radiation corresponding to that transition. Exact per BIPM SI Brochure 9th ed. (2019) §2.3.1.

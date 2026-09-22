@@ -5,10 +5,10 @@ name: Mass
 domain: physics
 subdomain: measurement-units
 status: draft
-definition: "Mass is the SI base physical quantity measuring a body's inertia and its quantity of matter (SI dimension M; base quantity; scalar). Its SI unit, the kilogram, is defined by taking the fixed numerical value of the Planck constant h to be exactly 6.62607015e-34 when expressed in J s = kg m2 s-1, with the metre and second as separately defined (SI 2019 redefinition). Agreed per BIPM SI Brochure 9th ed. (2019) §2.3.1."
+definition: "Mass is the SI base physical quantity measuring a body's inertia and its quantity of matter. Its SI unit, the kilogram, is defined by taking the fixed numerical value of the Planck constant h to be exactly 6.62607015e-34 when expressed in J s = kg m2 s-1, with the metre and second as separately defined (SI 2019 redefinition). Agreed per BIPM SI Brochure 9th ed. (2019) §2.3.1."
 symbol: "M"
 unit: "kilogram (kg)"
-dimension_examples:
+same_dimensional_quantities:
   - "inertial mass"
   - "gravitational mass"
   - "rest mass"
@@ -35,4 +35,4 @@ historical:
   where: "SI Brochure 9th ed."
 ---
 
-Mass is the SI base physical quantity measuring a body's inertia and its quantity of matter (SI dimension M; base quantity; scalar). Its SI unit, the kilogram, is defined by taking the fixed numerical value of the Planck constant h to be exactly 6.62607015e-34 when expressed in J s = kg m2 s-1, with the metre and second as separately defined (SI 2019 redefinition). Agreed per BIPM SI Brochure 9th ed. (2019) §2.3.1.
+Mass is the SI base physical quantity measuring a body's inertia and its quantity of matter. Its SI unit, the kilogram, is defined by taking the fixed numerical value of the Planck constant h to be exactly 6.62607015e-34 when expressed in J s = kg m2 s-1, with the metre and second as separately defined (SI 2019 redefinition). Agreed per BIPM SI Brochure 9th ed. (2019) §2.3.1.

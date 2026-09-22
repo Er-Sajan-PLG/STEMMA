@@ -8,7 +8,7 @@ status: draft
 definition: "The metre (symbol: m) is the base unit of length in the International System of Units (SI). It is scientifically defined as the length of the path travelled by light in a vacuum during a time interval of 1/299,792,458 of a second. Exact: c=299,792,458 m/s. Agreed per BIPM SI Brochure 9th ed. 2019 redefinition, fixing c exact."
 symbol: "m"
 unit: "metre (m)"
-dimension_examples:
+same_dimensional_quantities:
   - "distance"
   - "width"
   - "height"
