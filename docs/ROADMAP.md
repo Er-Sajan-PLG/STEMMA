@@ -97,7 +97,7 @@ recovered; implementation treated as evidence, not authority.
 Exit: baseline artifacts complete and validated; approval + verification queue handed to owner.
 R5 partially settled 2026-09-22 (ADR-0053 + Amendment 0001, owner) — identity binding; PID/resolution base deferred to R6; UNRES-STEMMA-CORE-001 partially resolved/open; R4 proceeds unchanged.
 
-## R4 — Content as Acceptance Test Before IRI Gate (Hours to Days) — Phase 4 — ADR-0052 — Work Integrating Early Work
+## R4 — Content as Acceptance Test Before IRI Gate (Hours to Days) — Phase 4 — ADR-0052 — ✅ DONE 2026-09-22 (mechanical + owner review pass; canonicalize = owner follow-up) — Work Integrating Early Work
 
 **Status 2026-09-22:** mechanical side complete (all seeds + delegated import + machine gates green: validate, verify_all, pytest 161); the remaining item is the OWNER human review pass to canonical (ADR-0052 step f) — see PROGRESS.md for the tracked state and exact handoff commands.
 

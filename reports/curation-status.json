@@ -2,11 +2,11 @@
   "total_connections": 2,
   "canonical_objects": 2,
   "canonical_assertions": 0,
-  "reviewed_only": 0,
-  "reviewed": 0,
+  "reviewed_only": 2,
+  "reviewed": 2,
   "canonical": 0,
-  "total_reviewed_including_canonical": 0,
-  "unreviewed": 2,
+  "total_reviewed_including_canonical": 2,
+  "unreviewed": 0,
   "proposed": 0,
   "inferred": 0,
   "rejected": 0,
@@ -26,26 +26,37 @@
     "physics": 2
   },
   "by_review": {
-    "unreviewed": 2
+    "reviewed": 2
   },
   "by_origin": {
     "human-authored": 1,
     "llm-authored": 1
   },
   "review_semantics": "reviewed-only (review.status==reviewed) vs canonical (review.status==canonical, terminal); canonical implies reviewed; total_reviewed_including_canonical = reviewed-only + canonical",
-  "top_reviewed": [],
+  "top_reviewed": [
+    {
+      "id": "stemma:conn.000156",
+      "relation": "derived_from",
+      "source": "stemma:phys.metre",
+      "target": "value:{'amount': '299792458', 'lowerBound': None, 'upperBound': None, 'unit': 'qudt:unit-MeterPerSecond'}"
+    },
+    {
+      "id": "stemma:conn.000157",
+      "relation": "mathematically_requires",
+      "source": "stemma:phys.force",
+      "target": "stemma:phys.mass"
+    }
+  ],
   "remaining_high_priority": [],
   "evidence_gaps_count": 0,
-  "provenance_gaps_count": 1,
+  "provenance_gaps_count": 0,
   "evidence_gaps_sample": [],
-  "provenance_gaps_sample": [
-    "stemma:conn.000157"
-  ],
+  "provenance_gaps_sample": [],
   "entity_count": 7,
-  "entity_reviewed_count": 0,
+  "entity_reviewed_count": 7,
   "entity_canonical_count": 0,
   "entity_status": {
-    "draft": 7
+    "human_reviewed": 7
   },
   "entity_type": {
     "quantity": 4,
@@ -55,7 +66,7 @@
   "entity_review_coverage_by_domain": {
     "physics": {
       "total": 7,
-      "human_reviewed": 0,
+      "human_reviewed": 7,
       "canonical": 0
     }
   }

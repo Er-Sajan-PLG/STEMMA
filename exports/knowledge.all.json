@@ -1,7 +1,7 @@
 {
   "export_version": "2.2.0",
   "schema_version": "1.2.0",
-  "content_hash": "sha256:4d6858e742ae894c623c340a6c7a4dc2f3a3ded095eaa1b41956344ff67a93f0",
+  "content_hash": "sha256:375bad172a9c4710902b8cfff79f5d849be5c959af1b612fbeb3b736f9b07ad3",
   "kernel_version": "3.0.0",
   "relation_registry_version": "1.0.0",
   "relation_registry": {
@@ -1078,7 +1078,7 @@
         "status": "active",
         "type": "asserted",
         "review": {
-          "status": "unreviewed"
+          "status": "reviewed"
         },
         "confidence": 1.0,
         "confidence_basis": "definitional"
@@ -1129,9 +1129,28 @@
               "audit_date": "2026-09-22",
               "sample_audit_rate": 0.1
             }
+          },
+          {
+            "type": "human",
+            "id": "human:curator.001"
           }
         ],
-        "review_history": []
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:16:10.348782+00:00",
+            "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:18:15.323738+00:00",
+            "reason": "transition to reviewed"
+          }
+        ]
       },
       "claim_signature": "sha256:c84cf0ce9006ca6776f8864b5b653a85a6d8d27b480ef477386071d332f3ab00"
     },
@@ -1145,7 +1164,7 @@
         "status": "active",
         "type": "asserted",
         "review": {
-          "status": "unreviewed"
+          "status": "reviewed"
         },
         "confidence": 1.0,
         "confidence_basis": "expert_review"
@@ -1190,8 +1209,28 @@
         "method": {
           "type": "manual"
         },
-        "reviewed_by": [],
-        "review_history": []
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:curator.001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:16:10.390451+00:00",
+            "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:18:15.366572+00:00",
+            "reason": "transition to reviewed"
+          }
+        ]
       },
       "claim_signature": "sha256:5ef7c09f3a7927a4522a322893f6bd70a865899b90dd4abacd884d8d5f29887b"
     }

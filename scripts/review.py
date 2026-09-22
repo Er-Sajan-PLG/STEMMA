@@ -27,7 +27,11 @@ def load_conn(cid):
     # Accept with or without prefix
     if not cid.startswith("stemma:conn."):
         cid = f"stemma:conn.{cid}"
-    p = CONNECTIONS / f"{cid}.yaml"
+    # Current convention (pinned by validate.py): filename is the colon-free
+    # form of the id — stemma:conn.000156 -> conn.000156.yaml
+    p = CONNECTIONS / f"{cid.split(':', 1)[1]}.yaml"
+    if not p.exists():  # legacy full-id filename fallback
+        p = CONNECTIONS / f"{cid}.yaml"
     if not p.exists():
         print(f"not found: {cid}", file=sys.stderr)
         sys.exit(1)
