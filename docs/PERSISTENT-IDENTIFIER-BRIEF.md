@@ -75,7 +75,7 @@ Harshly true framing (interpretation): a persistent identifier is a **social con
 
 - **A researcher** citing `stemma:phys.metre` in a PDF: with URN-only, the citation is an inert string; with a dereferenceable IRI, readers (and indexing crawlers) land on STEMMA's record. Citations become actionable.
 - **LearningHub** consuming `exports/knowledge.jsonld`: works equally with URNs (parsing) — but its *link-out* feature ("open this concept") only works web-natively if the ID is an HTTP IRI.
-- **PROFESSOR-J / JARVIS** running RAG w/ citations (IC-DERIVED-CONSUMER-001): same story — internal resolution is trivial with URNs; *external* presentation/citation benefits from IRIs.
+- **Consumer agent runtimes** running RAG with citations (IC-DERIVED-CONSUMER-001): same story — internal resolution is trivial with URNs; *external* presentation/citation benefits from IRIs.
 - **Another knowledge graph** (e.g., a university QA pipeline) doing entity linking: auto-dereference pipelines (common in Linked Data tooling) will *discover* your SKOS mappings only through HTTP IRIs. URN graphs get found via manual import only.
 - **A future STEMMA API**: an API is itself the resolution backend. Dereferenceable IRIs make the API's URLs *be* the entity identifiers (one string, two uses) instead of maintaining a lookup table.
 
@@ -176,7 +176,7 @@ Given the existing design (canonical Markdown/YAML; `stemma:` IDs; everything el
 
 ## 6.2 External consumer behavior
 
-- LearningHub/PROFESSOR-J/JARVIS consume exports; entity strings in their databases are sticky *forever* regardless of resolution — that's why the immutability rule sits in the canonical layer, not in the resolver.
+- First-party consumers (e.g., LearningHub) and other consumer pipelines consume exports; entity strings in their databases are sticky *forever* regardless of resolution — that's why the immutability rule sits in the canonical layer, not in the resolver.
 - A university linking an entity: with HTTP IRIs + stable resolver, their links keep working through STEMMA's host chaos as long as *STEMMA or a mirror* maintains the target map; with URN-only, their data is safe but inert, and a revival of STEMMA on a new host is invisible to them.
 - A research paper citing a million entities (Phase 7, scenario 8): with DOI-per-release they also have a *citable snapshot*; with entity IRIs they have clickable references; with URNs they have textual names only.
 
