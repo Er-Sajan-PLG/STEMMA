@@ -1,7 +1,7 @@
 {
   "export_version": "2.2.0",
   "schema_version": "1.2.0",
-  "content_hash": "sha256:2c007fc6e235b0ac73a823cec3f9002b2ef62219c9bf89e1ff7a70b91975b764",
+  "content_hash": "sha256:1c0f0a9cbfd18dd44848a66fc895d40a7a81d923f5918a1887c0bcb7331f0360",
   "kernel_version": "3.0.0",
   "relation_registry_version": "1.0.0",
   "relation_registry": {
@@ -1061,16 +1061,27 @@
     ]
   },
   "source": "content/ + connections/ (canonical) + derived",
-  "entity_count": 1,
-  "connection_count": 0,
+  "entity_count": 7,
+  "connection_count": 2,
   "explicit": {
-    "count": 0,
+    "count": 2,
     "note": "canonical source-of-truth"
   },
   "derived": {
     "inverse_edges": {
-      "count": 0,
-      "edges": []
+      "count": 1,
+      "edges": [
+        {
+          "source": "stemma:phys.mass",
+          "relation": "mathematically_required_by",
+          "target": "stemma:phys.force",
+          "derived": true,
+          "derivation": {
+            "method": "inverse",
+            "source_connection": "stemma:conn.000157"
+          }
+        }
+      ]
     },
     "transitive_closure": {
       "count": 0,
@@ -1079,37 +1090,146 @@
     "centrality": {
       "top_20": [
         [
+          "stemma:phys.mass",
+          {
+            "degree": 1,
+            "in_degree": 1,
+            "out_degree": 0,
+            "pagerank": 0.039643
+          }
+        ],
+        [
+          "stemma:phys.conservation-energy",
+          {
+            "degree": 0,
+            "in_degree": 0,
+            "out_degree": 0,
+            "pagerank": 0.021429
+          }
+        ],
+        [
+          "stemma:phys.force",
+          {
+            "degree": 1,
+            "in_degree": 0,
+            "out_degree": 1,
+            "pagerank": 0.021429
+          }
+        ],
+        [
+          "stemma:phys.length",
+          {
+            "degree": 0,
+            "in_degree": 0,
+            "out_degree": 0,
+            "pagerank": 0.021429
+          }
+        ],
+        [
           "stemma:phys.metre",
           {
             "degree": 0,
             "in_degree": 0,
             "out_degree": 0,
-            "pagerank": 0.15
+            "pagerank": 0.021429
+          }
+        ],
+        [
+          "stemma:phys.newtons-second-law",
+          {
+            "degree": 0,
+            "in_degree": 0,
+            "out_degree": 0,
+            "pagerank": 0.021429
+          }
+        ],
+        [
+          "stemma:phys.time",
+          {
+            "degree": 0,
+            "in_degree": 0,
+            "out_degree": 0,
+            "pagerank": 0.021429
           }
         ]
       ],
       "all": {
+        "stemma:phys.conservation-energy": {
+          "degree": 0,
+          "in_degree": 0,
+          "out_degree": 0,
+          "pagerank": 0.021429
+        },
+        "stemma:phys.force": {
+          "degree": 1,
+          "in_degree": 0,
+          "out_degree": 1,
+          "pagerank": 0.021429
+        },
+        "stemma:phys.length": {
+          "degree": 0,
+          "in_degree": 0,
+          "out_degree": 0,
+          "pagerank": 0.021429
+        },
+        "stemma:phys.mass": {
+          "degree": 1,
+          "in_degree": 1,
+          "out_degree": 0,
+          "pagerank": 0.039643
+        },
         "stemma:phys.metre": {
           "degree": 0,
           "in_degree": 0,
           "out_degree": 0,
-          "pagerank": 0.15
+          "pagerank": 0.021429
+        },
+        "stemma:phys.newtons-second-law": {
+          "degree": 0,
+          "in_degree": 0,
+          "out_degree": 0,
+          "pagerank": 0.021429
+        },
+        "stemma:phys.time": {
+          "degree": 0,
+          "in_degree": 0,
+          "out_degree": 0,
+          "pagerank": 0.021429
         }
       }
     },
     "components": {
-      "count": 1,
-      "largest": 1,
+      "count": 6,
+      "largest": 2,
       "isolated": [
-        "stemma:phys.metre"
+        "stemma:phys.conservation-energy",
+        "stemma:phys.length",
+        "stemma:phys.metre",
+        "stemma:phys.newtons-second-law",
+        "stemma:phys.time"
       ],
       "sizes": [
+        2,
+        1,
+        1,
+        1,
+        1,
         1
       ]
     },
     "prerequisite_chains": {
-      "count": 0,
-      "sample": []
+      "count": 1,
+      "sample": [
+        {
+          "from": "stemma:phys.force",
+          "to": "stemma:phys.mass",
+          "path": [
+            "stemma:phys.force",
+            "stemma:phys.mass"
+          ],
+          "length": 1
+        }
+      ]
     },
     "cross_domain_pathways": {
       "count": 0,

@@ -24,7 +24,8 @@ def main(argv=None):
     # ERROR: duplicate claims with different metadata (same source, relation, target, multiple IDs)
     by_triple = defaultdict(list)
     for c in conns:
-        by_triple[(c["source"], c["relation"], c["target"])].append(c["id"])
+        tgt = c.get("target") if c.get("target") is not None else f"VALUE:{(c.get('value') or {}).get('amount')}"
+        by_triple[(c["source"], c["relation"], tgt)].append(c["id"])
     for triple, ids in by_triple.items():
         if len(ids) > 1:
             anomalies.append({"level": "ERROR", "type": "duplicate_claim", "message": f"Triple {triple} has {len(ids)} canonical connections: {ids}", "ids": ids})
@@ -32,6 +33,8 @@ def main(argv=None):
     # ERROR: contradictory relations (same pair has causes and contradicts, or requires and contradicts)
     by_pair = defaultdict(list)
     for c in conns:
+        if not c.get("target"):  # value-slot claims are not entity->entity edges
+            continue
         by_pair[(c["source"], c["target"])].append(c)
         by_pair[(c["target"], c["source"])].append(c)  # symmetric check
     for (a, b), lst in by_pair.items():
@@ -65,7 +68,8 @@ def main(argv=None):
     connected = set()
     for c in conns:
         connected.add(c["source"])
-        connected.add(c["target"])
+        if c.get("target"):
+            connected.add(c["target"])
     isolated = entities - connected
     if isolated:
         anomalies.append({"level": "INFO", "type": "isolated_entities", "message": f"{len(isolated)} entities have no connections", "ids": sorted(list(isolated))[:10]})
@@ -75,7 +79,8 @@ def main(argv=None):
         if len(ids) > 1:
             reviews = set()
             for c in conns:
-                if (c["source"], c["relation"], c["target"]) == triple:
+                tgt = c.get("target") if c.get("target") is not None else f"VALUE:{(c.get('value') or {}).get('amount')}"
+                if (c["source"], c["relation"], tgt) == triple:
                     reviews.add(c.get("assertion", {}).get("review", {}).get("status"))
             if len(reviews) > 1:
                 anomalies.append({"level": "WARNING", "type": "conflicting_review", "message": f"Triple {triple} has conflicting reviews {reviews}"})

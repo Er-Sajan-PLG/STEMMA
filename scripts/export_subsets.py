@@ -32,7 +32,7 @@ def filter_by_domain(base: dict, domain: str) -> dict:
     entity_ids = {e["id"] for e in entities}
     connections = [
         c for c in base.get("connections", [])
-        if c["source"] in entity_ids and c["target"] in entity_ids
+        if c["source"] in entity_ids and (c.get("target") is None or c.get("target") in entity_ids)
     ]
     return {
         "export_version": base["export_version"],
@@ -52,7 +52,7 @@ def filter_by_type(base: dict, entity_type: str) -> dict:
     entity_ids = {e["id"] for e in entities}
     connections = [
         c for c in base.get("connections", [])
-        if c["source"] in entity_ids and c["target"] in entity_ids
+        if c["source"] in entity_ids and (c.get("target") is None or c.get("target") in entity_ids)
     ]
     return {
         "export_version": base["export_version"],
@@ -72,7 +72,7 @@ def filter_by_status(base: dict, status: str) -> dict:
     entity_ids = {e["id"] for e in entities}
     connections = [
         c for c in base.get("connections", [])
-        if c["source"] in entity_ids and c["target"] in entity_ids
+        if c["source"] in entity_ids and (c.get("target") is None or c.get("target") in entity_ids)
     ]
     return {
         "export_version": base["export_version"],
@@ -108,7 +108,8 @@ def filter_connections_only(base: dict) -> dict:
     entity_ids = set()
     for c in base.get("connections", []):
         entity_ids.add(c["source"])
-        entity_ids.add(c["target"])
+        if c.get("target"):
+            entity_ids.add(c["target"])
     entities = [e for e in base["entities"] if e["id"] in entity_ids]
     return {
         "export_version": base["export_version"],
@@ -130,7 +131,8 @@ def filter_ai_rag(base: dict) -> dict:
     for c in base.get("connections", []):
         adj.setdefault(c["source"], []).append({
             "relation": c["relation"],
-            "target": c["target"],
+            "target": c.get("target"),
+            "value": c.get("value"),
             "confidence": c.get("assertion", {}).get("confidence"),
             "context": c.get("context", {}),
         })
@@ -171,7 +173,7 @@ def filter_educational(base: dict) -> dict:
     entity_ids = {e["id"] for e in entities}
     connections = [
         c for c in base.get("connections", [])
-        if c["source"] in entity_ids and c["target"] in entity_ids
+        if c["source"] in entity_ids and (c.get("target") is None or c.get("target") in entity_ids)
         and c.get("assertion", {}).get("review", {}).get("status") in ("canonical", "reviewed")
     ]
     return {

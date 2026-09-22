@@ -1,7 +1,7 @@
 {
   "export_version": "2.2.0",
   "schema_version": "1.2.0",
-  "content_hash": "sha256:2c007fc6e235b0ac73a823cec3f9002b2ef62219c9bf89e1ff7a70b91975b764",
+  "content_hash": "sha256:1c0f0a9cbfd18dd44848a66fc895d40a7a81d923f5918a1887c0bcb7331f0360",
   "kernel_version": "3.0.0",
   "relation_registry_version": "1.0.0",
   "relation_registry": {
@@ -1061,6 +1061,139 @@
     ]
   },
   "policy": "all",
-  "count": 0,
-  "connections": []
+  "count": 2,
+  "connections": [
+    {
+      "id": "stemma:conn.000156",
+      "type": "connection",
+      "source": "stemma:phys.metre",
+      "relation": "derived_from",
+      "value": {
+        "amount": "299792458",
+        "lowerBound": null,
+        "upperBound": null,
+        "unit": "qudt:unit-MeterPerSecond"
+      },
+      "assertion": {
+        "status": "active",
+        "type": "asserted",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": 1.0,
+        "confidence_basis": "definitional"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "measurement-units",
+        "assumptions": [
+          "exact-defined-constant",
+          "speed-of-light-in-vacuum-fixed",
+          "role-unit-definition-fixed-constant (derived_from = the 2019 metre derives from the fixed c constant; dedicated value-claim relation reserved pending governance adoption)"
+        ]
+      },
+      "evidence": [
+        {
+          "type": "standard",
+          "stance": "supports",
+          "source_ref": "stemma:src.nist-si-brochure-9th",
+          "locator": "SI Brochure 9th ed. (2019) 2.3.1, p130-132: metre defined by taking fixed numerical value of c = 299792458 m s-1",
+          "locator_struct": {
+            "page": "130",
+            "section": "2.3.1"
+          },
+          "description": "2019 SI definition of the metre fixes the exact numerical value of the speed of light in vacuum."
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "human",
+          "id": "human:institution.wikidata-community"
+        },
+        "generated_by": {
+          "type": "llm",
+          "id": "llm:coding-agent.001"
+        },
+        "method": {
+          "type": "manual"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:institution.wikidata-community",
+            "authority": "delegated",
+            "delegated_provenance": {
+              "institution_id": "human:institution.wikidata-community",
+              "review_standard_url": "https://www.wikidata.org/wiki/Wikidata:Verifiability",
+              "review_standard_version": "v3.2",
+              "audit_date": "2026-09-22",
+              "sample_audit_rate": 0.1
+            }
+          }
+        ],
+        "review_history": []
+      },
+      "claim_signature": "sha256:c84cf0ce9006ca6776f8864b5b653a85a6d8d27b480ef477386071d332f3ab00"
+    },
+    {
+      "id": "stemma:conn.000157",
+      "type": "connection",
+      "source": "stemma:phys.force",
+      "relation": "mathematically_requires",
+      "target": "stemma:phys.mass",
+      "assertion": {
+        "status": "active",
+        "type": "asserted",
+        "review": {
+          "status": "unreviewed"
+        },
+        "confidence": 1.0,
+        "confidence_basis": "expert_review"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "assumptions": [
+          "non-relativistic",
+          "inertial-reference-frame",
+          "constant-mass"
+        ]
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "stance": "supports",
+          "source_ref": "stemma:src.halliday-resnick-walker-12th",
+          "locator": "Ch 5, Newton's second law, net force = mass x acceleration",
+          "description": "Newton's second law quantifies force via mass."
+        },
+        {
+          "type": "other",
+          "stance": "supports",
+          "source_ref": "stemma:src.newton-principia-1687",
+          "locator": "Lex II",
+          "description": "Principia Lex II ties impressed force to change of motion (quantity of matter)."
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "llm",
+          "id": "llm:coding-agent.001"
+        },
+        "generated_by": {
+          "type": "llm",
+          "id": "llm:coding-agent.001"
+        },
+        "method": {
+          "type": "manual"
+        },
+        "reviewed_by": [],
+        "review_history": []
+      },
+      "claim_signature": "sha256:5ef7c09f3a7927a4522a322893f6bd70a865899b90dd4abacd884d8d5f29887b"
+    }
+  ]
 }

@@ -1,0 +1,25 @@
+batch: 1
+campaign: E6.1 dependency-edge review
+reviewer: human:reviewer.physics-001
+instructions: Set decision to accept|canonical|reject|defer per item. canonical requires evidence (list of {type,
+  description, source_ref?, locator?}). reject requires reason.
+items:
+- id: stemma:conn.000157
+  claim: Force mathematically_requires Mass
+  source: stemma:phys.force
+  relation: mathematically_requires
+  target: stemma:phys.mass
+  source_definition: 'Force is the derived physical quantity of interaction: an influence capable of changing the
+    state of motion of a body, Newton second law net force equals rate of change of momentum (for constant mass
+    F = m a). SI derived unit the newton, N = kg m s-2. Reference: Halliday, Resnick, Walker 12th ed. Ch'
+  target_definition: Mass is the fundamental physical quantity measuring inertia and amount of substance of a body.
+    It is one of the seven base quantities of the SI (dimension M); its SI base unit is the kilogram (kg), defined
+    by taking the fixed numerical exact value of the Planck constant h = 6.62607015e-34 J s. Agree
+  source_equation: null
+  prechecks:
+    domain_range: ok
+    text_support: name 'Mass'
+    has_evidence: true
+  decision: null
+  reason: null
+  evidence: null

@@ -44,12 +44,33 @@ def test_transitive_not_in_canonical():
     # Derived transitive closure is present and positive, and is reported separately —
     # it is never folded into the canonical (explicit) count.
     tc = d["derived"]["transitive_closure"]
-    assert isinstance(tc["count"], int)
-    # For non-empty knowledge base, transitive closure should be > 0
-    if canonical_files > 0:
-        assert tc["count"] > 0, "Transitive closure should be positive for non-empty KB"
-    print("PASS: transitive not in canonical")
-
+    # Closure must be positive only when the canonical corpus actually contains a
+    # chain of >=2 edges under a single transitive relation (large-corpus eras); a
+    # small valid corpus (e.g. R4 seed: 3 edges, no transitive chains) derives none.
+    # The expectation is computed from the corpus, not pinned to a fixed scale.
+    registry = yaml.safe_load((ROOT / "schema" / "relation-registry.yaml").read_text()).get("relations", {})
+    trans_rel = {k for k, v in registry.items() if isinstance(v, dict) and v.get("transitive")}
+    canon = [yaml.safe_load(p.read_text()) for p in (ROOT / "connections").glob("*.yaml")]
+    def _expect_positive():
+        # An indirect closure edge exists iff some u -> v -> w chain exists under
+        # one transitive relation with w not already a direct neighbor of u.
+        adj = {}
+        for c in canon:
+            rel = c.get("relation"); tgt = c.get("target")
+            if rel in trans_rel and tgt:
+                adj.setdefault(rel, {}).setdefault(c["source"], set()).add(tgt)
+        for m in adj.values():
+            for u, directs in m.items():
+                for v in directs:
+                    for w in m.get(v, ()):
+                        if w not in directs:
+                            return True
+        return False
+    if _expect_positive():
+        assert tc["count"] > 0, "Transitive closure should be positive when canonical chains exist"
+    else:
+        assert tc["count"] >= 0
+    print("PASS transitive closure presence")
 
 def test_derived_marked():
     d = json.loads((ROOT / "exports" / "knowledge.extended.json").read_text())

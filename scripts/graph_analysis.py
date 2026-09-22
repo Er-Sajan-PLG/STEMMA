@@ -59,11 +59,16 @@ def load_connections(policy="all"):
 def main():
     registry = load_registry()
     entities = load_entities()
-    conns = [yaml.safe_load(p.read_text()) for p in sorted(CONNECTIONS.glob("*.yaml"))]
+    conns_all = [yaml.safe_load(p.read_text()) for p in sorted(CONNECTIONS.glob("*.yaml"))]
+    # Entity-to-entity edge view: value-slot claims (ADR-0045) carry no target
+    # and therefore are not graph edges; they still count toward totals below.
+    conns = [c for c in conns_all if c.get("target")]
 
     # C2 Inverse edges (derived, not canonical)
     inverse_edges = []
     for c in conns:
+        if not c.get("target"):  # value-slot claims (ADR-0045) have no entity target
+            continue
         meta = registry.get(c["relation"], {})
         inv = meta.get("inverse")
         if inv:
@@ -86,7 +91,7 @@ def main():
     # Group by relation
     by_rel = defaultdict(list)
     for c in conns:
-        if c["relation"] in transitive_rels:
+        if c["relation"] in transitive_rels and c.get("target"):
             by_rel[c["relation"]].append(c)
 
     for rel, edges in by_rel.items():
@@ -145,7 +150,7 @@ def main():
 
     # C5 Centrality: degree, in-degree, out-degree, simple PageRank (5 iterations)
     nodes = sorted(entities.keys())
-    indeg = collections.Counter(c["target"] for c in conns)
+    indeg = collections.Counter(c["target"] for c in conns if c.get("target"))
     outdeg = collections.Counter(c["source"] for c in conns)
     degree = {n: indeg.get(n, 0) + outdeg.get(n, 0) for n in nodes}
     # PageRank simplified
@@ -234,8 +239,8 @@ def main():
         "vocabularies": load_vocabularies(),
         "source": "content/ + connections/ (canonical) + derived",
         "entity_count": len(entities),
-        "connection_count": len(conns),
-        "explicit": {"count": len(conns), "note": "canonical source-of-truth"},
+        "connection_count": len(conns_all),
+        "explicit": {"count": len(conns_all), "note": "canonical source-of-truth"},
         "derived": {
             "inverse_edges": {"count": len(inverse_edges), "edges": inverse_edges[:100]},  # cap for size
             "transitive_closure": {"count": len(derived_transitive), "edges": derived_transitive[:100]},
@@ -251,7 +256,7 @@ def main():
     }
     EXPORT_EXT.parent.mkdir(parents=True, exist_ok=True)
     EXPORT_EXT.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"OK: extended export {len(conns)} explicit, {len(inverse_edges)} inverse, {len(derived_transitive)} transitive, {len(components)} components")
+    print(f"OK: extended export {len(conns_all)} explicit, {len(inverse_edges)} inverse, {len(derived_transitive)} transitive, {len(components)} components")
     return 0
 
 
