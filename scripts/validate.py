@@ -480,6 +480,15 @@ def validate_entity(entity: dict, errors: list, filename_slug: str | None = None
     if entity.get("status") not in STATUSES:
         errors.append(f"{here} unknown status: {entity.get('status')!r}")
 
+    # Type-conditional firmness fields (owner directive 2026-09-22): quantity
+    # entities MUST declare SI classification (base|derived) and tensorial
+    # character (scalar|vector|tensor) so consumers can prove what the entity IS.
+    if entity.get("type") == "quantity":
+        if entity.get("quantity_kind") not in ("base", "derived"):
+            errors.append(f"{here} quantity requires quantity_kind: base|derived")
+        if entity.get("tensor_character") not in ("scalar", "vector", "tensor"):
+            errors.append(f"{here} quantity requires tensor_character: scalar|vector|tensor")
+
     # Provenance shape
     prov = entity.get("provenance")
     if isinstance(prov, dict) and not isinstance(prov.get("ai_drafted"), bool):

@@ -9,12 +9,12 @@ items:
   source: stemma:phys.force
   relation: mathematically_requires
   target: stemma:phys.mass
-  source_definition: 'Force is the derived physical quantity of interaction: an influence capable of changing the
-    state of motion of a body, Newton second law net force equals rate of change of momentum (for constant mass
-    F = m a). SI derived unit the newton, N = kg m s-2. Reference: Halliday, Resnick, Walker 12th ed. Ch'
-  target_definition: Mass is the fundamental physical quantity measuring inertia and amount of substance of a body.
-    It is one of the seven base quantities of the SI (dimension M); its SI base unit is the kilogram (kg), defined
-    by taking the fixed numerical exact value of the Planck constant h = 6.62607015e-34 J s. Agree
+  source_definition: 'Force is the derived physical quantity of mechanical interaction: the net force on a body
+    equals the time rate of change of its linear momentum, F = dp/dt (Newton, Principia Lex II); for constant mass
+    this reduces to F = m a. Force is a vector quantity — it has magnitude and direction and adds by ve'
+  target_definition: Mass is the SI base physical quantity measuring a body's inertia and its quantity of matter
+    (SI dimension M; base quantity; scalar). Its SI unit, the kilogram, is defined by taking the fixed numerical
+    value of the Planck constant h to be exactly 6.62607015e-34 when expressed in J s = kg m2 s-1, with
   source_equation: null
   prechecks:
     domain_range: ok

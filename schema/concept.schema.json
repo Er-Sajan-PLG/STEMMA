@@ -31,7 +31,7 @@
         "model",
         "experiment"
       ],
-      "description": "Entity type. v0.3 (ADR-0021): adds phenomenon, model, experiment — types the relation registry already referenced in domain/range (audit F3/R20). Additive; type changes on existing entities remain forbidden."
+      "description": "Entity type. v0.3 (ADR-0021): adds phenomenon, model, experiment \u2014 types the relation registry already referenced in domain/range (audit F3/R20). Additive; type changes on existing entities remain forbidden."
     },
     "name": {
       "type": "string"
@@ -63,7 +63,7 @@
     },
     "definition": {
       "type": "string",
-      "description": "Scientific definition exactly as meter example with reference — claim with warrant definitional + evidence per L1, not mere orientation, must show agreed status and source reference per ADR-0044"
+      "description": "Scientific definition exactly as meter example with reference \u2014 claim with warrant definitional + evidence per L1, not mere orientation, must show agreed status and source reference per ADR-0044"
     },
     "examples": {
       "type": "array",
@@ -95,7 +95,6 @@
       "default": null,
       "description": "SI unit of the quantity (optional)"
     },
-
     "key_experiments": {
       "type": "array",
       "items": {
@@ -104,25 +103,34 @@
       "description": "Classic experiments or demonstrations that establish this concept."
     },
     "subdomain": {
-      "type": ["string", "null"],
+      "type": [
+        "string",
+        "null"
+      ],
       "default": null,
       "description": "Subdomain within domain, e.g. mechanics, per vocabularies/subdomains.yaml (ADR-0034). Optional but required for physics-core v2."
     },
     "source_refs": {
-      "type": ["array", "null"],
+      "type": [
+        "array",
+        "null"
+      ],
       "items": {
         "type": "string",
         "pattern": "^stemma:src\\.[a-z0-9][a-z0-9-]*$"
       },
-      "description": "Canonical source records that support this entity definition — dual verification with embedded provenance (ADR-0043). At least 1 required for physics-core."
+      "description": "Canonical source records that support this entity definition \u2014 dual verification with embedded provenance (ADR-0043). At least 1 required for physics-core."
     },
     "governed_by": {
-      "type": ["array", "null"],
+      "type": [
+        "array",
+        "null"
+      ],
       "items": {
         "type": "string",
         "pattern": "^stemma:phys\\.[a-z0-9][a-z0-9-]*$"
       },
-      "description": "Governing laws that govern this entity — deterministic placement without LLM reasoning. Every physics entity must have at least one (see PHYSICS-GOVERNING-LAWS.md and physics-governing-registry.yaml). At least 1 required for physics-core v2."
+      "description": "Governing laws that govern this entity \u2014 deterministic placement without LLM reasoning. Every physics entity must have at least one (see PHYSICS-GOVERNING-LAWS.md and physics-governing-registry.yaml). At least 1 required for physics-core v2."
     },
     "provenance": {
       "type": "object",
@@ -153,22 +161,34 @@
           "default": null
         },
         "writer": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "default": null,
-          "description": "Agent id who wrote this entity file, e.g. human:curator.001 — for audit trail and double verification (ADR-0043)."
+          "description": "Agent id who wrote this entity file, e.g. human:curator.001 \u2014 for audit trail and double verification (ADR-0043)."
         },
         "original_author": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "default": null,
-          "description": "Who originally stated the science (distinct from writer) — e.g., Halliday et al (ADR-0043)."
+          "description": "Who originally stated the science (distinct from writer) \u2014 e.g., Halliday et al (ADR-0043)."
         },
         "link": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "default": null,
           "description": "URL or DOI to source for triple-check verification (ADR-0043)."
         },
         "retrieved_at": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "default": null,
           "description": "ISO date when source link was accessed (ADR-0043)."
         },
@@ -225,7 +245,7 @@
           }
         ]
       },
-      "description": "ADR-0016 (implemented by ADR-0021): namespaced external anchor identifiers, e.g. external_ids: {wd: Q11402, qudt: unit-MeterPerSecondSquared}. Multi-valued per scheme. STEMMA stays independently authoritative — external IDs link and anchor, never import content."
+      "description": "ADR-0016 (implemented by ADR-0021): namespaced external anchor identifiers, e.g. external_ids: {wd: Q11402, qudt: unit-MeterPerSecondSquared}. Multi-valued per scheme. STEMMA stays independently authoritative \u2014 external IDs link and anchor, never import content."
     },
     "rights": {
       "type": [
@@ -299,6 +319,29 @@
       },
       "additionalProperties": false,
       "description": "Historical scientific attribution (ADR-0018): who first stated this claim and when. Distinct from provenance (record source)."
+    },
+    "quantity_kind": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "base",
+        "derived"
+      ],
+      "description": "SI classification of a quantity entity: base (of the seven SI base quantities) or derived (combination of base quantities). REQUIRED when type=quantity (owner directive 2026-09-22)."
+    },
+    "tensor_character": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "scalar",
+        "vector",
+        "tensor"
+      ],
+      "description": "Tensorial character of a quantity entity: scalar/vector/tensor. REQUIRED when type=quantity (owner directive 2026-09-22)."
     }
   },
   "additionalProperties": false
