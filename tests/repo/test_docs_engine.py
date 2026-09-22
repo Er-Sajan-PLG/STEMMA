@@ -133,5 +133,85 @@ class TestValidatePositiveAndNegative(unittest.TestCase):
             shutil.rmtree(tmp)
 
 
+class TestPhase5BInvariants(unittest.TestCase):
+    """api_surface / env_surface / tier-strict — positive on real repo, negative on fixtures."""
+
+    def test_api_surface_real_repo(self):
+        problems: list[str] = []
+        docs._validate_api_surface(docs.load_contract(), ROOT, problems)
+        self.assertEqual(problems, [])
+
+    def test_env_surface_real_repo(self):
+        problems: list[str] = []
+        docs._validate_env_surface(docs.load_contract(), ROOT, problems)
+        self.assertEqual(problems, [])
+
+    def test_api_surface_negative(self):
+        with tempfile.TemporaryDirectory() as d:
+            tmp = Path(d)
+            (tmp / "schema").mkdir()
+            (tmp / "schema" / "api.yaml").write_text("paths:\n  /v2/new-endpoint:\n    get: {}\n", encoding="utf-8")
+            (tmp / "docs").mkdir()
+            (tmp / "docs" / "API.md").write_text("# API\n", encoding="utf-8")
+            contract = {"invariants": {"api_surface": {"spec": "schema/api.yaml", "must_appear_in": ["docs/API.md"]}}}
+            problems: list[str] = []
+            docs._validate_api_surface(contract, tmp, problems)
+            self.assertTrue(any("/v2/new-endpoint" in p for p in problems), problems)
+
+    def test_env_surface_negative(self):
+        with tempfile.TemporaryDirectory() as d:
+            tmp = Path(d)
+            (tmp / "webapp").mkdir()
+            (tmp / "webapp" / "x.py").write_text('import os\nk = os.environ.get("SOME_NEW_VAR")\n', encoding="utf-8")
+            (tmp / ".env.example").write_text("OTHER=\n", encoding="utf-8")
+            contract = {"invariants": {"env_surface": {
+                "scan_files": ["webapp/x.py"], "must_appear_in": [".env.example"],
+                "capture": ['os\\.environ\\.get\\(["\']?([A-Z][A-Z0-9_]+)']}}}
+            problems: list[str] = []
+            docs._validate_env_surface(contract, tmp, problems)
+            self.assertTrue(any("SOME_NEW_VAR" in p for p in problems), problems)
+
+    def test_tier_strict_negative(self):
+        contract = {"enforcement": {"strict_tiers": [0, 1]}}
+        taxonomy = {"artifacts": [{"id": 999, "cat": "A11", "tier": 1, "name": "PR template", "status": "missing"}]}
+        problems: list[str] = []
+        docs._validate_tier_strict(contract, taxonomy, problems)
+        self.assertEqual(len(problems), 1)
+
+    def test_tier_strict_allows_higher_tiers(self):
+        contract = {"enforcement": {"strict_tiers": [0, 1]}}
+        taxonomy = {"artifacts": [{"id": 998, "cat": "A14", "tier": 4, "name": "Style guide", "status": "missing"}]}
+        problems: list[str] = []
+        docs._validate_tier_strict(contract, taxonomy, problems)
+        self.assertEqual(problems, [])
+
+
+class TestCrossPhaseIntegration(unittest.TestCase):
+    def test_non_local_impact(self):
+        hits = docs.direct_impact(["adapters/python/stemma_adapter/__init__.py"], docs.load_contract())
+        self.assertIn("adapters/README.md", hits)      # near doc
+        self.assertIn("docs/API.md", hits)             # §5 — distant doc, same graph
+
+    def test_ci_equivalence(self):
+        ci = (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+        self.assertIn("python3 scripts/docs.py sync", ci)
+        self.assertIn("python3 scripts/docs.py check", ci)
+
+    def test_broken_dependency_edge_detected(self):
+        contract = {"artifacts": [
+            {"path": "a.md", "cat": "A1", "tier": 0, "kind": "CANONICAL", "sources": [], "depends_on": ["b.md"]},
+            {"path": "b.md", "cat": "A1", "tier": 0, "kind": "CANONICAL", "sources": []},
+        ], "kinds": ["CANONICAL"], "categories": {"A1": "g"}}
+        import tempfile as _tf, shutil as _sh
+        tmp = Path(_tf.mkdtemp(), )
+        try:
+            (tmp / "a.md").write_text("a", encoding="utf-8")
+            problems: list[str] = []
+            docs._validate_contract_vs_disk(contract, {"artifacts": []}, tmp, problems)
+            self.assertTrue(any("b.md" in p for p in problems), problems)
+        finally:
+            _sh.rmtree(tmp)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -98,6 +98,32 @@ ids, deterministic + idempotent coverage rendering, sync idempotency on the real
 repo, impact detection (incl. transitive + unmapped conservative behavior),
 broken-link and missing-file negative detection on temp fixtures.
 
+## Structural invariants enforced (Phase 5B)
+
+Beyond contract integrity + links + generated freshness, `validate` mechanically enforces:
+
+| Invariant | Declared in contract | Rule |
+|---|---|---|
+| `api_surface` | `invariants.api_surface` | every OpenAPI path in `schema/api.yaml` must appear in `docs/API.md` and `adapters/README.md` (§5 undocumented public interface) |
+| `env_surface` | `invariants.env_surface` | env vars captured by declared regexes in declared source files must appear in `.env.example` and `docs/WEBAPP.md` (§6 undocumented config) |
+| `tier_strict` | `enforcement.strict_tiers: [0, 1]` | a taxonomy artifact at Tier 0/1 with status `missing` fails validation (Tier 2+ missing = reported, not failed — progressive enforcement per Phase 8) |
+
+The first run of these invariants found real gaps (since fixed): `/v2/stats` missing
+from `adapters/README.md`; four provider env vars undocumented anywhere;
+`OPENAI_API_KEY` absent from `.env.example`; two taxonomy rows pointing at
+git-ignored runtime state.
+
+## Workflow integration (Phase 6)
+
+| Mode | Command | Where | Enforced? |
+|---|---|---|---|
+| Fast local | `docs impact` (advisory) + `docs validate` | `make install-hooks` pre-commit | yes (install opt-in; CI remains backstop) |
+| Full validation | `docs sync && git diff --exit-code && docs check` | pre-push hook + CI `verify-docs` | yes (CI unconditional) |
+| Full regeneration | `docs sync` | on demand | idempotent |
+
+Agents: see the "Documentation Contract" section in [../AGENTS.md](../AGENTS.md) —
+a task is not complete while the contract is violated.
+
 ## Known limitations (honest)
 
 - Markdown **anchor** targets are not verified (file-existence only) — heading

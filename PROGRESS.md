@@ -46,6 +46,8 @@
   - [x] CI verify-docs now runs sync → `git diff --exit-code` → check (deleted duplicated shell "required docs" list)
   - [x] Found + fixed: 4 real broken links in CONTRIBUTING.md, `status_truth.py --write` non-idempotency bug (+4 blank lines per run)
   - [x] Engine self-tests (14) in `tests/repo/test_docs_engine.py` — suite now 147
+  - [x] **Completion pass (same day):** Tier-1 artifacts created (`webapp/README.md`, `adapters/README.md`, `explorer/README.md`, PR template, 2 issue templates, `.env.example` + `.env` git-ignored); new mechanical invariants: `api_surface` (12 endpoints ↔ docs), `env_surface` (env vars ↔ `.env.example`/WEBAPP.md), tier-strict enforcement `[0,1]`; hooks wiring (pre-commit: impact+validate; pre-push: sync+diff+check); AGENTS.md docs mandate; +9 engine/integration tests → suite now 156
+  - [x] Invariants caught real gaps on first run: `/v2/stats` undocumented in adapter README, 4 provider env vars undocumented (docs/WEBAPP.md section added), `OPENAI_API_KEY` missing from `.env.example`
 
 ## 🔄 In Progress (R4 — Content Acceptance Test, ADR-0052)
 

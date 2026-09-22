@@ -13,26 +13,26 @@ generated from `docs/meta/doc-taxonomy.yaml` joined with `docs/docs-contract.yam
 | A1 Project & Governance | 15 | 13 | 9 | 4 | 0 | 2 |
 | A2 Requirements & Specifications | 20 | 15 | 5 | 10 | 0 | 5 |
 | A3 Architecture & Design | 25 | 17 | 7 | 10 | 0 | 8 |
-| A4 Source Code Documentation | 14 | 10 | 3 | 6 | 1 | 4 |
+| A4 Source Code Documentation | 14 | 10 | 4 | 6 | 0 | 4 |
 | A5 API Documentation | 16 | 10 | 8 | 2 | 0 | 6 |
-| A6 Configuration Documentation | 7 | 4 | 1 | 3 | 0 | 3 |
+| A6 Configuration Documentation | 7 | 4 | 2 | 2 | 0 | 3 |
 | A7 Testing Documentation | 17 | 10 | 4 | 5 | 1 | 7 |
 | A8 Operations, DevOps & SRE | 23 | 6 | 1 | 5 | 0 | 17 |
 | A9 Security Documentation | 14 | 7 | 1 | 5 | 1 | 7 |
 | A10 User-Facing Documentation | 19 | 11 | 7 | 4 | 0 | 8 |
-| A11 Developer & Contributor Documentation | 20 | 16 | 6 | 7 | 3 | 4 |
+| A11 Developer & Contributor Documentation | 20 | 16 | 9 | 7 | 0 | 4 |
 | A12 Compliance, Legal & Audit | 12 | 4 | 1 | 3 | 0 | 8 |
 | A13 Analytics, Metrics & Reporting | 7 | 1 | 0 | 1 | 0 | 6 |
 | A14 Meta-Documentation | 11 | 10 | 8 | 0 | 2 | 1 |
-| **All** | **220** | **134** | **61** | **65** | **8** | **86** |
+| **All** | **220** | **134** | **66** | **64** | **4** | **86** |
 
 ## Summary by tier (applicable artifacts only)
 
 | Tier | Applicable | Present | Partial | Missing |
 |---|---|---|---|---|
 | Tier 0 | 6 | 5 | 1 | 0 |
-| Tier 1 | 12 | 6 | 2 | 4 |
-| Tier 2 | 50 | 31 | 18 | 1 |
+| Tier 1 | 12 | 10 | 2 | 0 |
+| Tier 2 | 50 | 32 | 17 | 1 |
 | Tier 3 | 54 | 13 | 40 | 1 |
 | Tier 4 | 12 | 6 | 4 | 2 |
 
@@ -105,7 +105,7 @@ generated from `docs/meta/doc-taxonomy.yaml` joined with `docs/docs-contract.yam
 | 51 | Threat model | partial | docs/SECURITY-INTEGRITY-PROVENANCE.md — bypass/integrity threats enumerated informally |
 | 52 | Concurrency design | na | single-process stdlib tooling |
 | 53 | Error handling strategy | partial | spec/INTERFACES/IFACE-STEMMA-GATE-001-verification-chain-cli.md — fail-closed exit codes contract |
-| 54 | Logging & observability design | partial | workflow/audit — HITL audit trail (git-ignored; UNRES-STEMMA-HITL-001) |
+| 54 | Logging & observability design | partial | HITL audit trail under workflow/audit (git-ignored runtime state; portability gap UNRES-STEMMA-HITL-001) |
 | 55 | Caching strategy | na | content_hash equivalence is the cache signal; no cache infra |
 | 56 | Scaling strategy | present | docs/ARCHITECTURE-V2.md — 10^2-10^6 scale section |
 | 57 | Disaster recovery plan | na | git history + regenerable exports |
@@ -118,7 +118,7 @@ generated from `docs/meta/doc-taxonomy.yaml` joined with `docs/docs-contract.yam
 | # | Artifact | Status | Path / note |
 |---|---|---|---|
 | 61 | README (root) | present | README.md |
-| 62 | README (per module) | missing | no webapp/explorer adapters module READMEs; candidates for Tier1 |
+| 62 | README (per module) | present | webapp/README.md — webapp/README.md, adapters/README.md, explorer/README.md (added 2026-09-22) |
 | 63 | Inline code comments | present | decision-point comments in scripts |
 | 64 | Docstrings | present | module docstrings on gate scripts |
 | 65 | Type/interface annotations | partial | sparse type hints in scripts |
@@ -158,7 +158,7 @@ generated from `docs/meta/doc-taxonomy.yaml` joined with `docs/docs-contract.yam
 | # | Artifact | Status | Path / note |
 |---|---|---|---|
 | 91 | Configuration reference | partial | docs/WEBAPP.md — webapp/settings documented; script flags in --help |
-| 92 | Environment variables | partial | provider API keys read from env at runtime only, never committed (webapp model selector); no .env file is part of the contract |
+| 92 | Environment variables | present | .env.example — root .env (git-ignored) parsed by webapp/providers.py; vars documented in docs/WEBAPP.md; env-coverage invariant in docs contract |
 | 93 | Feature flags / toggles | na | no feature flags |
 | 94 | Config file format | partial | schema/ — YAML registries with schema-notes |
 | 95 | Secrets management | present | docs/SECURITY-INTEGRITY-PROVENANCE.md — no-secrets invariant in CI + keys-via-env pattern |
@@ -223,7 +223,7 @@ generated from `docs/meta/doc-taxonomy.yaml` joined with `docs/docs-contract.yam
 | 139 | Auth & authorization design | na | no auth decisions; read-only public data |
 | 140 | Vulnerability management | partial | gitleaks + dependabot in CI |
 | 141 | Penetration test reports | na | — |
-| 142 | Security audit trail | partial | workflow/audit — portability gap UNRES-STEMMA-HITL-001 |
+| 142 | Security audit trail | partial | HITL audit trail under workflow/audit (git-ignored; portability gap UNRES-STEMMA-HITL-001) |
 | 143 | Incident response plan | na | — |
 | 144 | Data classification | present | canonical = public knowledge by constitution |
 | 145 | Encryption documentation | na | — |
@@ -269,9 +269,9 @@ generated from `docs/meta/doc-taxonomy.yaml` joined with `docs/docs-contract.yam
 | 175 | Code review guidelines | partial | docs/CURATION-PROTOCOL.md — content review protocol exists; code-review protocol implicit |
 | 176 | Git workflow / branching | partial | .github/workflows/ci.yml — check-branching job enforces; prose minimal |
 | 177 | Commit message convention | partial | conventional prefixes observed (docs:/fix:/test:/webapp:) |
-| 178 | PR / MR template | missing | Tier1 candidate |
-| 179 | Issue templates | missing | Tier1 candidate |
-| 180 | Module/package README | missing | webapp/, adapters/, explorer/ lack module READMEs |
+| 178 | PR / MR template | present | .github/PULL_REQUEST_TEMPLATE.md — added 2026-09-22 |
+| 179 | Issue templates | present | .github/ISSUE_TEMPLATE — bug_report + feature_request (added 2026-09-22) |
+| 180 | Module/package README | present | adapters/README.md — all three runtime modules covered (added 2026-09-22) |
 | 181 | Makefile / task runner ref | present | Makefile |
 | 182 | IDE / tooling setup | na | — |
 | 183 | Debugging guide | partial | docs/TESTING.md — gate failure sections |

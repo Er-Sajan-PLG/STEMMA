@@ -49,6 +49,25 @@ CORE-GATE-EXPORT, 2026-09-22) lives in `spec/`. Operating rules for agents:
 
 ---
 
+## Documentation Contract (agent must not finish while violated)
+
+Agents modifying this repository must close the documentation loop before
+considering a task complete:
+
+```
+modify repo → python3 scripts/docs.py impact   (what docs are affected?)
+            → python3 scripts/docs.py sync      (regenerate GENERATED docs)
+            → review the sync diff (never discard generated changes silently)
+            → python3 scripts/docs.py check     (local CI-equivalent gate)
+```
+
+If `sync` produced changes, include them in the same change set. If `check`
+fails, fix the cause — do not work around the gate. The contract lives in
+`docs/docs-contract.yaml`; new docs must be classified there (see
+`docs/DOCUMENTATION-SYSTEM.md` "Adding a new obligation").
+
+---
+
 ## Products Must NOT
 
 - ❌ Import STEMMA internal modules (`scripts/`, `schema/` internals)
