@@ -5,7 +5,7 @@ Date: 2026-09-21
 Baseline: b958a5c empty corpus
 Architecture: docs/ARCHITECTURE-V2.md
 Implementation Plan: docs/IMPLEMENTATION-PLAN-V2.md
-Decisions: docs/decisions/README.md 0040-0052
+Decisions: docs/decisions/README.md 0040-0053
 Roadmap: docs/ROADMAP.md
 
 Ideal order history: b958a5c empty → 51fc1b0 architecture v2 clean → 493b32b implementation plan v2 → 27576f3 foundation reset fundamentals clean 3D → 3bcfd4a ingestion pipeline evolvable templates model selector → e692b25 comprehensive all-STEM template registry → dbc229f embeddings RAG separation consumer export guideline → 7297c6c strong CI explorer semantic pipeline final → 0df87ff fix status truth.

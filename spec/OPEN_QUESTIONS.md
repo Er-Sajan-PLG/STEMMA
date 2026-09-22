@@ -7,15 +7,13 @@ authoritative external source. Machine copy: `spec/machine-readable/` conflicts
 
 ---
 
-## UNRES-STEMMA-CORE-001 — Organization / IRI base for published IRIs
+## UNRES-STEMMA-CORE-001 — Organization / IRI base for published IRIs — **CLOSED 2026-09-22 (owner decision)**
 
 - **Question:** Which owning organization, domain, and IRI base will STEMMA use for published IRIs?
-- **Why unresolved:** ROADMAP R5 marks it an explicit HUMAN DECISION; everything touching published IRIs waits on it.
-- **Evidence:** EVID-STEMMA-CORE-005; `docs/ROADMAP.md` (R5).
-- **Known facts:** Stable `stemma:` IDs exist and are namespace-clean (EVID-STEMMA-CORE-003); they are not published IRIs yet.
-- **Impact:** Blocks IRI publication, org-level trust claims, R6 projection publication.
-- **Blocking?** YES for IRI/publication scope; NO for the R4 content acceptance test.
-- **Owner / Authority required:** Sajan / HUMAN_DECISION.
+- **Resolution (by Sajan, recorded ADR-0053):** (a) publisher of record = individual Sajan (formal org later via new ADR if adopted); (b) domain = w3id.org (slug to be claimed by owner's w3id PR, e.g. `https://w3id.org/stemma/`); (c) IRI form = staged — canonical stays `stemma:` URN (immutable); HTTP mapping defined by the R6 projection ADR as DERIVED projections.
+- **Closed:** 2026-09-22 · **Closed by:** SOLE_OWNER · **Record:** docs/decisions/0053-organization-domain-iri-base.md
+- **Former status:** blocking for publication scope (never blocked R4).
+- **Follow-through:** w3id slug PR (external owner action, no later than R6); HTTP mapping file spec lands in the R6 projection ADR.
 - **Status:** OPEN · **Next action:** owner decision, then ADR recording the IRI base.
 
 ## UNRES-STEMMA-HITL-001 — HITL audit evidence is not repository-resident

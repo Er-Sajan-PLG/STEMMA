@@ -64,6 +64,10 @@ Content entry point: `spec/REQUIREMENTS.md`.
 - **Evidence-first discipline caught two documentation-class defects** the repo's own gates had not (CONFLICT-STEMMA-EXP-001 metadata kind-mismatch; UNRES-STEMMA-HITL-001 non-portable audit trail).
 - **Cost driver:** full §8.6 schema per requirement is heavy for 22 records but pays off in validator strictness — recommend keeping for pilot, evaluating schema slimming only in owner review.
 
+(Update 2026-09-22, after this review: Recommendation 1 partially exercised — owner decided
+R5/UNRES-STEMMA-CORE-001 via ADR-0053 (w3id.org domain, staged URN->HTTP mapping at R6,
+publisher = individual Sajan). Remaining recommendations unchanged.)
+
 ## 6. Recommendations to the SOLE_OWNER (next actions, in order)
 
 1. Review spec/REQUIREMENTS.md → approve/reject/defer (blocks L3, L4, all verification).
