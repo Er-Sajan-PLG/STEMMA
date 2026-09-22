@@ -548,7 +548,7 @@ Phase 3 Governance Hygiene Hours lhs sweep across all tracked files EXCEPT ADR d
 
 Phase 4 Content as Acceptance Test Before IRI Gate Hours to Days proof engine works register one trusted external institution in agent-registry.yaml exercises delegated authority v2 path with audit seed one source record conforming to source.schema.json SI Brochure 9th ed seed two entities metre with scientific definition exactly as meter example with reference fundamental quantities visible and phys.force with definition and reference conforming to updated concept.schema.json restores file AGENTS.md Quick Start references seed one relational connection with non-empty evidence[] pointing to source record seed one value-claim connection measurement or misconception prevalence exercising value-slot one human review pass to canonical via scripts/review.py internal authority one delegated-authority import exercising institution path with sample audit python3 scripts/verify_all.py + git diff --exit-code -- exports reports exit full L8 chain proven end-to-end both authority tiers corpus has 3-5 entities 2-3 connections real content engine is built.
 
-Phase 5 Organization/IRI Gate Roadmap R3 Human decision owning organization domain IRI base everything touching published IRIs waits for this.
+Phase 5 Organization/IRI Gate Roadmap R3 — DECIDED 2026-09-22 (ADR-0053, owner): individual Sajan publisher of record, w3id.org domain, canonical keeps stemma: URN, HTTP mapping via R6 projection ADR.
 
 Phase 6 Projection Publication Roadmap R4 After Phase 5 Days exports/knowledge.jsonld+SKOS mapping+context file+SHACL shapes learn-from+signed release bundle+integrity manifest pluggable BFO schema.org exit.
 

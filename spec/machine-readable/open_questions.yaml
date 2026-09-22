@@ -2,10 +2,11 @@
 open_questions:
   - id: UNRES-STEMMA-CORE-001
     question: "IRI base for entity/conn URIs unresolved (stemma:* vs domain-bound http/https)."
-    status: OPEN
-    blocking: true
-    blocking_impact: "R5 organizational decision; ADR-0002 schema contract external stability"
-    proposed_resolution: "R5: owner decides with organizational input"
+    status: CLOSED
+    blocking: false
+    closed: 2026-09-22
+    closed_by: "Sajan (SOLE_OWNER)"
+    resolution: "ADR-0053: publisher = individual Sajan; domain = w3id.org (slug claimed by owner PR, no later than R6); canonical stays stemma: URN, HTTP mapping ADR at R6 (staged)."
     authority_required: SOLE_OWNER
     related: [ADR-0002, ADR-0027, EVID-STEMMA-CORE-002]
   - id: UNRES-STEMMA-HITL-001

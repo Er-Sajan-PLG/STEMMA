@@ -4,7 +4,7 @@ Status: Authoritative
 Baseline: b958a5c empty corpus
 Architecture: docs/ARCHITECTURE-V2.md
 Implementation Plan: docs/IMPLEMENTATION-PLAN-V2.md
-Decisions: docs/decisions/README.md 0040-0052
+Decisions: docs/decisions/README.md 0040-0053
 
 Ideal order history: b958a5c empty → 51fc1b0 architecture v2 clean → 493b32b implementation plan v2 → 27576f3 foundation reset fundamentals clean 3D → 3bcfd4a ingestion pipeline evolvable templates model selector → e692b25 comprehensive all-STEM template registry → dbc229f embeddings RAG separation consumer export guideline → 7297c6c strong CI explorer semantic pipeline final → 0df87ff fix status truth.
 
@@ -95,7 +95,7 @@ recovered; implementation treated as evidence, not authority.
 - Mandatory process review: `../SPECIFICATION_PROCESS_REVIEW.md`
 
 Exit: baseline artifacts complete and validated; approval + verification queue handed to owner.
-R5 (human org/IRI decision) precedes R4 per queue; recovery does not reorder the roadmap.
+R5 DECIDED 2026-09-22 (ADR-0053, owner) — closed UNRES-STEMMA-CORE-001; R4 proceeds unchanged.
 
 ## R4 — Content as Acceptance Test Before IRI Gate (Hours to Days) — Phase 4 — ADR-0052 — Work Integrating Early Work
 
@@ -124,9 +124,14 @@ Tasks:
 
 Exit: Full L8 chain proven end-to-end both authority tiers corpus has 3-5 entities 2-3 connections real content engine built.
 
-## R5 — Organization/IRI Gate (Roadmap R3) Human decision
+## R5 — Organization/IRI Gate — ✅ DECIDED 2026-09-22 — ADR-0053
 
-Human decision on owning organization domain IRI base everything touching published IRIs waits for this.
+Owner decision recorded in 0053-organization-domain-iri-base.md:
+(a) publisher of record = individual Sajan (formal org later via new ADR);
+(b) publication domain = w3id.org (owner files slug PR, no later than R6);
+(c) IRI form = staged — canonical stays `stemma:` URN (immutable), HTTP
+mapping defined by the R6 projection ADR as DERIVED projections only.
+Nothing canonical changes; R4 proceeds unchanged.
 
 ## R6 — Projection Publication (Roadmap R4 After Phase 5) Days
 

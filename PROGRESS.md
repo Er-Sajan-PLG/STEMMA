@@ -62,8 +62,9 @@ Prove the full L8 chain end-to-end with both authority tiers:
 
 ## 📋 Backlog
 
-- [ ] **R5 — Organization/IRI gate (HUMAN DECISION):** owning organization, domain, IRI base.
-      Everything touching published IRIs waits on this. Decide before R4 content grows further.
+- [x] **R5 — Organization/IRI gate: DECIDED 2026-09-22 (ADR-0053, owner).** Publisher =
+      individual Sajan; domain = w3id.org (owner files slug PR no later than R6); canonical
+      stays `stemma:` URN, HTTP mapping via R6 projection ADR. UNRES-STEMMA-CORE-001 closed.
 - [ ] R6 — Projection publication (knowledge.jsonld, SKOS, SHACL, signed release bundle)
 - [ ] R7 — Consumer views + routing (calibration from real review data, ≥200 labeled decisions)
 - [ ] R8 — Scale readiness (10^4-entity git benchmark; content-addressed store ADR)
