@@ -238,3 +238,4 @@ artifacts:
   - {id: 218, cat: A14, tier: 4, name: "Documentation analytics", status: na}
   - {id: 219, cat: A14, tier: 4, name: "Content audit log", status: present, path: PROGRESS.md, note: "dated verified-state blocks"}
   - {id: 220, cat: A14, tier: 2, name: "Documentation toolchain", status: present, path: docs/DOCUMENTATION-SYSTEM.md}
+  - {id: 221, cat: A14, tier: 3, name: "Decision research brief (persistent identifiers)", status: present, path: docs/PERSISTENT-IDENTIFIER-BRIEF.md, note: "owner-directed slow research; informs ADR-0053 reaffirm/amend/supersede; records NO decision"}

@@ -23,8 +23,8 @@ generated from `docs/meta/doc-taxonomy.yaml` joined with `docs/docs-contract.yam
 | A11 Developer & Contributor Documentation | 20 | 16 | 9 | 7 | 0 | 4 |
 | A12 Compliance, Legal & Audit | 12 | 4 | 1 | 3 | 0 | 8 |
 | A13 Analytics, Metrics & Reporting | 7 | 1 | 0 | 1 | 0 | 6 |
-| A14 Meta-Documentation | 11 | 10 | 8 | 0 | 2 | 1 |
-| **All** | **220** | **134** | **66** | **64** | **4** | **86** |
+| A14 Meta-Documentation | 12 | 11 | 9 | 0 | 2 | 1 |
+| **All** | **221** | **135** | **67** | **64** | **4** | **86** |
 
 ## Summary by tier (applicable artifacts only)
 
@@ -33,7 +33,7 @@ generated from `docs/meta/doc-taxonomy.yaml` joined with `docs/docs-contract.yam
 | Tier 0 | 6 | 5 | 1 | 0 |
 | Tier 1 | 12 | 10 | 2 | 0 |
 | Tier 2 | 50 | 32 | 17 | 1 |
-| Tier 3 | 54 | 13 | 40 | 1 |
+| Tier 3 | 55 | 14 | 40 | 1 |
 | Tier 4 | 12 | 6 | 4 | 2 |
 
 ## Artifact detail
@@ -327,6 +327,7 @@ generated from `docs/meta/doc-taxonomy.yaml` joined with `docs/docs-contract.yam
 | 218 | Documentation analytics | na | — |
 | 219 | Content audit log | present | PROGRESS.md — dated verified-state blocks |
 | 220 | Documentation toolchain | present | docs/DOCUMENTATION-SYSTEM.md |
+| 221 | Decision research brief (persistent identifiers) | present | docs/PERSISTENT-IDENTIFIER-BRIEF.md — owner-directed slow research; informs ADR-0053 reaffirm/amend/supersede; records NO decision |
 
 ## Reading guide
 
