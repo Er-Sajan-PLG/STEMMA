@@ -4,7 +4,7 @@ type: quantity
 name: Length
 domain: physics
 subdomain: measurement-units
-status: human_reviewed
+status: canonical
 definition: 'Length is the SI base physical quantity of spatial extent — the measure
   of one-dimensional distance between two points in space. The metre is the unit in
   which length is expressed: 1 m = the length of the path travelled by light in vacuum
@@ -34,7 +34,7 @@ provenance:
   original_author: BIPM
   retrieved_at: '2026-09-22'
   reviewer: human:curator.001
-  reviewed_at: '2026-09-22T12:15:00.666222+00:00'
+  reviewed_at: '2026-09-23T04:35:19.964859+00:00'
 source_refs:
 - stemma:src.nist-si-brochure-9th
 external_ids:

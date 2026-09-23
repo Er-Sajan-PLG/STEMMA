@@ -4,7 +4,7 @@ type: quantity
 name: Mass
 domain: physics
 subdomain: measurement-units
-status: human_reviewed
+status: canonical
 definition: Mass is the SI base physical quantity measuring a body's inertia and its
   quantity of matter. Its SI unit, the kilogram, is defined by taking the fixed numerical
   value of the Planck constant h to be exactly 6.62607015e-34 when expressed in J
@@ -31,7 +31,7 @@ provenance:
   original_author: BIPM
   retrieved_at: '2026-09-22'
   reviewer: human:curator.001
-  reviewed_at: '2026-09-22T12:15:00.736515+00:00'
+  reviewed_at: '2026-09-23T04:35:20.044882+00:00'
 source_refs:
 - stemma:src.nist-si-brochure-9th
 external_ids:
