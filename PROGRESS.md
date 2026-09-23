@@ -54,6 +54,15 @@
   - [x] **Completion pass (same day):** Tier-1 artifacts created (`webapp/README.md`, `adapters/README.md`, `explorer/README.md`, PR template, 2 issue templates, `.env.example` + `.env` git-ignored); new mechanical invariants: `api_surface` (12 endpoints ↔ docs), `env_surface` (env vars ↔ `.env.example`/WEBAPP.md), tier-strict enforcement `[0,1]`; hooks wiring (pre-commit: impact+validate; pre-push: sync+diff+check); AGENTS.md docs mandate; +9 engine/integration tests → suite now 156
   - [x] Invariants caught real gaps on first run: `/v2/stats` undocumented in adapter README, 4 provider env vars undocumented (docs/WEBAPP.md section added), `OPENAI_API_KEY` missing from `.env.example`
 
+## 🔄 In Progress (R6 — Projection Publication, ADR-0007)
+
+Increment 1 landed 2026-09-23 — projection mechanics; **PID-agnostic per the R5 Amendment**: entities project as `stemma:`-scheme opaque URIs (the scheme the amendment binds), no external identifier base claimed; the PID/resolution decision stays gated to the publication step and will be re-validated against then-current data (identifier infrastructure drifts — the purl.org lesson from the R5 brief).
+
+- [x] `scripts/export_jsonld.py` — canonical-tier → `exports/knowledge.jsonld` first-class document: inline `@context` (SKOS/QUDT/DCTerms + stemma vocabulary), entities dual-typed (qudt:Unit/qudt:Quantity for the firm types), status/review provenance projected, graph assertions from connections (relational object vs value-slot `stemma:value`), Wikidata external ids as real IRIs (`wikidata.org/entity/…`). Canonical-only payload, derived from source files independent of consumer subsets.
+- [x] `scripts/validate_jsonld.py` — structural gate: context prefixes, canonical-only (entities + assertions cross-checked against content/ and connections/), firm fields present on quantities/units, object-XOR-value on assertions, no draft leakage.
+- [x] Determinism: `export_jsonld.py --check` byte-identical; +6 pinned tests (tests/versioning/test_jsonld_determinism.py); both wired as fail-steps in verify_all.py.
+- [ ] Increment 2 (next): SHACL shapes against the stemma vocabulary + release-bundle signing + publication gate (owner: ID base decision, fresh 2026 data re-check per Amendment 0001).
+
 ## ✅ DONE (R4 — Content Acceptance Test, ADR-0052, closed 2026-09-22)
 
 Prove the full L8 chain end-to-end with both authority tiers — mechanical side DONE + OWNER review pass PERFORMED 2026-09-22 (`human:curator.001`):
@@ -64,7 +73,7 @@ Prove the full L8 chain end-to-end with both authority tiers — mechanical side
 - [x] Relational connection seeded: `conn.000157` force mathematically_requires mass (evidence[] non-empty, 2 sources)
 - [x] Value-claim connection seeded (value-slot XOR, ADR-0045): `conn.000156` metre derived_from fixed c=299792458 m/s — ALSO the delegated-authority import: asserted_by `human:institution.wikidata-community`, `delegated_provenance` block with `audit_date` + `sample_audit_rate` (sample audit per ADR-0049)
 - [x] **OWNER human review pass** — all 7 entities `review`→ human_reviewed + both connections `accept`→reviewed by `human:curator.001` (owner-approved 2026-09-22). Definitions were owner-directed to the 'metre bar' (exact constant/equation doing the defining, spelled-out operational meaning, clause-level references); firm properties added to base schema: `quantity_kind` (base|derived) + `tensor_character` (scalar|vector|tensor) for quantities + `same_dimensional_quantities` on ALL entities (non-empty for quantity/unit, explicit null elsewhere) — later fields via extension mechanism (owner).
-- [ ] **FOLLOW-UP (owner, one word): canonicalize pass** — `scripts/review_entity.py canonicalize <id> --reviewer human:curator.001` (7) + `scripts/review.py canonicalize stemma:conn.00015{6,7} --reviewer human:curator.001` (2). Held back deliberately: review ≠ canon; owner's explicit canon word required.
+- [x] **FOLLOW-UP: canonicalize pass — performed 2026-09-23** (owner "continue"). All 7 entities + both connections now `canonical` (human:curator.001). Full L8 chain exercised end-to-end at corpus level: proposal → ai_drafted → human_reviewed → canonical — including the value-slot connection through the canon transition.
 - [x] Machine exit preconditions: `verify_all.py` exit 0, corpus validates, exports/reports regenerated; git diff ships in the same commit
 
 Engine hardening made while seeding (R4's purpose — exercise proves gaps):
