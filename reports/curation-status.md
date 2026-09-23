@@ -1,8 +1,8 @@
 # Curation Status — v0.2
 
 - Total connections: 2 (canonical objects)
-- Canonical assertions (`review.status==canonical`): 0
-- Reviewed-only: 2, Canonical: 0, Unreviewed: 0 (total reviewed inc. canonical: 2)
+- Canonical assertions (`review.status==canonical`): 2
+- Reviewed-only: 0, Canonical: 2, Unreviewed: 0 (total reviewed inc. canonical: 2)
 - Proposed: 0, Inferred: 0
 - Migrated: 0, Human-authored: 1, LLM: 1
 - Rejected: 0, Deprecated: 0
@@ -18,7 +18,7 @@
 {'physics': 2}
 
 ## By review
-{'reviewed': 2}
+{'canonical': 2}
 
 ## By origin
 {'human-authored': 1, 'llm-authored': 1}
@@ -37,9 +37,9 @@ none
 ## Entity review coverage
 - Entities: 7
 - Human-reviewed/canonical entities: 7 (100.0%)
-- Canonical entities: 0
-- By status: {'human_reviewed': 7}
-- By domain: {"physics": {"canonical": 0, "human_reviewed": 7, "total": 7}}
+- Canonical entities: 7
+- By status: {'canonical': 7}
+- By domain: {"physics": {"canonical": 7, "human_reviewed": 7, "total": 7}}
 
 ## Note
 Schema correctness != semantic acceptance. Canonical objects (397) include 382 proposed/unreviewed.

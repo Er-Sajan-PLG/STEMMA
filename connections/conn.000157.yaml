@@ -7,7 +7,7 @@ assertion:
   status: active
   type: asserted
   review:
-    status: reviewed
+    status: canonical
   confidence: 1.0
   confidence_basis: expert_review
 context:
@@ -54,3 +54,8 @@ provenance:
     reviewer: human:curator.001
     at: '2026-09-22T12:18:15.366572+00:00'
     reason: transition to reviewed
+  - from: reviewed
+    to: canonical
+    reviewer: human:curator.001
+    at: '2026-09-23T04:35:35.389605+00:00'
+    reason: pilot canonicalization

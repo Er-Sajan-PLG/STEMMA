@@ -4,7 +4,7 @@ type: quantity
 name: Time
 domain: physics
 subdomain: measurement-units
-status: human_reviewed
+status: canonical
 definition: 'Time is the SI base physical quantity of duration and temporal sequence.
   Its SI unit, the second, is defined by taking the fixed numerical value of the caesium
   frequency ΔνCs — the unperturbed ground-state hyperfine transition frequency of
@@ -33,7 +33,7 @@ provenance:
   original_author: BIPM
   retrieved_at: '2026-09-22'
   reviewer: human:curator.001
-  reviewed_at: '2026-09-22T12:15:00.806261+00:00'
+  reviewed_at: '2026-09-23T04:35:20.127988+00:00'
 source_refs:
 - stemma:src.nist-si-brochure-9th
 external_ids:

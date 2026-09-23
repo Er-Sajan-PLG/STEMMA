@@ -4,7 +4,7 @@ type: unit
 name: Metre
 domain: physics
 subdomain: measurement-units
-status: human_reviewed
+status: canonical
 definition: 'The metre (symbol: m) is the base unit of length in the International
   System of Units (SI). It is scientifically defined as the length of the path travelled
   by light in a vacuum during a time interval of 1/299,792,458 of a second. Exact:
@@ -34,7 +34,7 @@ provenance:
   original_author: BIPM
   retrieved_at: '2026-09-21'
   reviewer: human:curator.001
-  reviewed_at: '2026-09-22T12:15:00.523470+00:00'
+  reviewed_at: '2026-09-23T04:35:19.817235+00:00'
 source_refs:
 - stemma:src.nist-si-brochure-9th
 external_ids:

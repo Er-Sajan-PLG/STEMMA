@@ -1,7 +1,7 @@
 {
   "export_version": "2.2.0",
   "schema_version": "1.2.0",
-  "content_hash": "sha256:375bad172a9c4710902b8cfff79f5d849be5c959af1b612fbeb3b736f9b07ad3",
+  "content_hash": "sha256:d79c733dfa4a863cc37137d250e21878c95332759dfd74e7ecad81fe5b027afe",
   "kernel_version": "3.0.0",
   "relation_registry_version": "1.0.0",
   "relation_registry": {
@@ -1078,7 +1078,7 @@
         "status": "active",
         "type": "asserted",
         "review": {
-          "status": "reviewed"
+          "status": "canonical"
         },
         "confidence": 1.0,
         "confidence_basis": "definitional"
@@ -1149,6 +1149,13 @@
             "reviewer": "human:curator.001",
             "at": "2026-09-22T12:18:15.323738+00:00",
             "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-23T04:35:35.329049+00:00",
+            "reason": "pilot canonicalization"
           }
         ]
       },
@@ -1164,7 +1171,7 @@
         "status": "active",
         "type": "asserted",
         "review": {
-          "status": "reviewed"
+          "status": "canonical"
         },
         "confidence": 1.0,
         "confidence_basis": "expert_review"
@@ -1229,6 +1236,13 @@
             "reviewer": "human:curator.001",
             "at": "2026-09-22T12:18:15.366572+00:00",
             "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-23T04:35:35.389605+00:00",
+            "reason": "pilot canonicalization"
           }
         ]
       },

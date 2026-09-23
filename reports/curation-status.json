@@ -1,10 +1,10 @@
 {
   "total_connections": 2,
   "canonical_objects": 2,
-  "canonical_assertions": 0,
-  "reviewed_only": 2,
-  "reviewed": 2,
-  "canonical": 0,
+  "canonical_assertions": 2,
+  "reviewed_only": 0,
+  "reviewed": 0,
+  "canonical": 2,
   "total_reviewed_including_canonical": 2,
   "unreviewed": 0,
   "proposed": 0,
@@ -26,7 +26,7 @@
     "physics": 2
   },
   "by_review": {
-    "reviewed": 2
+    "canonical": 2
   },
   "by_origin": {
     "human-authored": 1,
@@ -54,9 +54,9 @@
   "provenance_gaps_sample": [],
   "entity_count": 7,
   "entity_reviewed_count": 7,
-  "entity_canonical_count": 0,
+  "entity_canonical_count": 7,
   "entity_status": {
-    "human_reviewed": 7
+    "canonical": 7
   },
   "entity_type": {
     "quantity": 4,
@@ -67,7 +67,7 @@
     "physics": {
       "total": 7,
       "human_reviewed": 7,
-      "canonical": 0
+      "canonical": 7
     }
   }
 }
