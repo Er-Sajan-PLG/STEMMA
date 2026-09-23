@@ -80,7 +80,7 @@ vertical slice (2026-09-22, ahead of the R4 content acceptance test):
 Machine-checkable live counts — `scripts/status_truth.py` (CI) fails if this
 block drifts from canonical content (audit F2: status honesty is a gate):
 
-- Entities: **7** — human-reviewed/canonical: **7**, draft: **0**
+- Entities: **9** — human-reviewed/canonical: **7**, draft: **2**
 - Connections (first-class assertions): **2** — review-canonical: **2** (100.0%), unreviewed: **0**
 - Canonical source records: **3**
 <!-- status-truth:end -->

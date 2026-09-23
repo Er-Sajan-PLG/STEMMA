@@ -29,7 +29,16 @@ def parse_shapes(text: str) -> dict:
     for block in blocks:
         cls = re.search(r"sh:targetClass ([a-zA-Z:]+[A-Za-z0-9]+)", block).group(1)
         props = []
-        for prop in re.findall(r"sh:property \[ (.*?) \]", block):
+        # strip sh:xone groups first — their paths are logical (XOR), not
+        # per-property min/max constraints
+        xone = re.search(r"sh:xone \((.*?)\)", block, re.S)
+        xone_paths = []
+        if xone:
+            xone_paths = re.findall(r"sh:path ([a-zA-Z:]+[A-Za-z0-9]+)", xone.group(1))
+            block_wo = block[:xone.start()] + block[xone.end():]
+        else:
+            block_wo = block
+        for prop in re.findall(r"sh:property \[ (.*?) \]", block_wo):
             entry = {"path": re.search(r"sh:path ([a-zA-Z:]+[A-Za-z0-9]+)", prop).group(1)}
             for k in ("minCount", "maxCount"):
                 m = re.search(rf"sh:{k} (\d+)", prop)
@@ -39,6 +48,8 @@ def parse_shapes(text: str) -> dict:
             if m:
                 entry["datatype"] = m.group(1)
             props.append(entry)
+        if xone_paths:
+            props.append({"xone": xone_paths})
         shapes.setdefault(cls, []).extend(props)
     return shapes
 
@@ -61,6 +72,13 @@ def main() -> int:
             if cls not in expanded:
                 continue
             for req in shapes.get(cls, []):
+                if "xone" in req:
+                    present = [xp for xp in req["xone"] if node.get(path_key(xp)) is not None]
+                    if len(present) != 1:
+                        errors.append(
+                            f"{node.get('@id')}: sh:xone violated — exactly one of "
+                            f"{req['xone']}, present: {present}")
+                    continue
                 key = path_key(req["path"])
                 values = node.get(key)
                 count = 0 if values is None else (len(values) if isinstance(values, list) else 1)
@@ -76,7 +94,9 @@ def main() -> int:
         for e in errors[:25]:
             print(f"  - {e}")
         return 1
-    print(f"OK: knowledge.jsonld conforms to stemma-shapes.ttl ({sum(len(v) for v in shapes.values())} property constraints)")
+    n_prop = sum(1 for v in shapes.values() for r in v if "xone" not in r)
+    n_xone = sum(len(r["xone"]) for v in shapes.values() for r in v if "xone" in r)
+    print(f"OK: knowledge.jsonld conforms to stemma-shapes.ttl ({n_prop} property constraints, {n_xone} XOR paths)")
     return 0
 
 
