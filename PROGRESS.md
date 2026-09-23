@@ -56,12 +56,13 @@
 
 ## 🔄 In Progress (R6 — Projection Publication, ADR-0007)
 
-Increment 1 landed 2026-09-23 — projection mechanics; **PID-agnostic per the R5 Amendment**: entities project as `stemma:`-scheme opaque URIs (the scheme the amendment binds), no external identifier base claimed; the PID/resolution decision stays gated to the publication step and will be re-validated against then-current data (identifier infrastructure drifts — the purl.org lesson from the R5 brief).
+Increments 1–2 landed 2026-09-23 — projection mechanics; **PID-agnostic per the R5 Amendment**: entities project as `stemma:`-scheme opaque URIs (the scheme the amendment binds), no external identifier base claimed; the PID/resolution decision stays gated to the publication step and will be re-validated against then-current data (identifier infrastructure drifts — the purl.org lesson from the R5 brief).
 
 - [x] `scripts/export_jsonld.py` — canonical-tier → `exports/knowledge.jsonld` first-class document: inline `@context` (SKOS/QUDT/DCTerms + stemma vocabulary), entities dual-typed (qudt:Unit/qudt:Quantity for the firm types), status/review provenance projected, graph assertions from connections (relational object vs value-slot `stemma:value`), Wikidata external ids as real IRIs (`wikidata.org/entity/…`). Canonical-only payload, derived from source files independent of consumer subsets.
 - [x] `scripts/validate_jsonld.py` — structural gate: context prefixes, canonical-only (entities + assertions cross-checked against content/ and connections/), firm fields present on quantities/units, object-XOR-value on assertions, no draft leakage.
 - [x] Determinism: `export_jsonld.py --check` byte-identical; +6 pinned tests (tests/versioning/test_jsonld_determinism.py); both wired as fail-steps in verify_all.py.
-- [ ] Increment 2 (next): SHACL shapes against the stemma vocabulary + release-bundle signing + publication gate (owner: ID base decision, fresh 2026 data re-check per Amendment 0001).
+- [x] Increment 2 landed 2026-09-23: SHACL contract (`schema/projection/stemma-shapes.ttl`, 15 property constraints) + deterministic enforcement runner (`scripts/validate_shacl_shapes.py`, TTL↔runner parity test-pinned) — gate immediately earned its keep: caught a JSON-LD `type` reserved-keyword misuse and an over-constrained multi-valued property; both fixed and pinned. Release bundle (`scripts/build_release_bundle.py`): `release/R6-bundle-<payload_hash12>` with checksums + manifest, no timestamps, byte-deterministic. **Publication gate** (`scripts/publication_gate.py`): runs validate+jsonld+shacl+status+full bundle verification, then BLOCKS (exit 1) until `docs/decisions/r6-identifier-base.md` exists (`decision: w3id|datacite-doi|ark-n2t|stemma-urn-only`, `decided_by human:*`) — Amendment 0001 enforced mechanically, block state test-pinned. NOT wired into verify_all (must stay fail-by-design until the owner decides).
+- [ ] Increment 3 (next): SPARQL-constraint SHACL layer for the assertion XOR rule (declarative), signed bundle (owner key), then the publication step itself at owner's decision.
 
 ## ✅ DONE (R4 — Content Acceptance Test, ADR-0052, closed 2026-09-22)
 
