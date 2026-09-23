@@ -74,7 +74,7 @@ CONTEXT = {
     "reviewStatus": "stemma:reviewStatus",
     "externalIds": "stemma:externalIds",
     "wikidata": {"@id": "stemma:wikidataEntity", "@type": "@id"},
-    "type": "stemma:entityType",
+    "entityType": "stemma:entityType",
     "provenance": "stemma:provenance",
     "aiDrafted": "stemma:aiDrafted",
     "sourceKind": "stemma:sourceKind",
@@ -97,7 +97,7 @@ def project_entity(d: dict) -> dict:
         "@id": d["id"],
         "@type": ENTITY_TYPE_MAP.get(d.get("type"), ["skos:Concept", "stemma:Concept"]),
         "name": d.get("name"),
-        "type": d.get("type"),
+        "entityType": d.get("type"),
         "status": d.get("status"),
         "definition": d.get("definition"),
     }
