@@ -35,11 +35,11 @@ none
 - Provenance gaps (no reviewed_by): 0
 
 ## Entity review coverage
-- Entities: 7
-- Human-reviewed/canonical entities: 7 (100.0%)
+- Entities: 9
+- Human-reviewed/canonical entities: 7 (77.8%)
 - Canonical entities: 7
-- By status: {'canonical': 7}
-- By domain: {"physics": {"canonical": 7, "human_reviewed": 7, "total": 7}}
+- By status: {'draft': 2, 'canonical': 7}
+- By domain: {"physics": {"canonical": 7, "human_reviewed": 7, "total": 9}}
 
 ## Note
 Schema correctness != semantic acceptance. Canonical objects (397) include 382 proposed/unreviewed.

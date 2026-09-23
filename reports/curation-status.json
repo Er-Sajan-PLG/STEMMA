@@ -52,20 +52,21 @@
   "provenance_gaps_count": 0,
   "evidence_gaps_sample": [],
   "provenance_gaps_sample": [],
-  "entity_count": 7,
+  "entity_count": 9,
   "entity_reviewed_count": 7,
   "entity_canonical_count": 7,
   "entity_status": {
+    "draft": 2,
     "canonical": 7
   },
   "entity_type": {
+    "unit": 3,
     "quantity": 4,
-    "unit": 1,
     "law": 2
   },
   "entity_review_coverage_by_domain": {
     "physics": {
-      "total": 7,
+      "total": 9,
       "human_reviewed": 7,
       "canonical": 7
     }

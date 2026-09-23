@@ -46,10 +46,11 @@ class TestReleaseBundleAndGate(unittest.TestCase):
         ttl = (ROOT / "schema/projection/stemma-shapes.ttl").read_text(encoding="utf-8")
         ttl_paths = len(re.findall(r"sh:path", ttl))
         self.assertGreater(ttl_paths, 3)
-        # runner must load the number of property constraints present in the ttl
+        # runner must load every constraint present in the ttl (property + XOR paths)
         out = self._run("validate_shacl_shapes.py").stdout
-        m = re.search(r"(\d+) property constraints", out)
-        self.assertEqual(int(m.group(1)), ttl_paths)
+        m = re.search(r"(\d+) property constraints, (\d+) XOR paths", out)
+        self.assertIsNotNone(m)
+        self.assertEqual(int(m.group(1)) + int(m.group(2)), ttl_paths)
 
     def test_publication_gate_blocked_until_owner_decision(self):
         """Gate must exit 1 with the amendment block while no decision record exists."""
@@ -58,6 +59,21 @@ class TestReleaseBundleAndGate(unittest.TestCase):
         self.assertIn("BLOCKED", r.stdout)
         self.assertIn("w3id", r.stdout)
         self.assertIn("datacite-doi", r.stdout)
+
+    def test_signing_requires_owner_key(self):
+        "Signing without gpg/--key must fail with setup guidance (exit 2), never fake."
+        name = self._run("build_release_bundle.py", "--print-name").stdout.strip().splitlines()[-1]
+        import shutil, subprocess, sys
+        cmd = [sys.executable, str(ROOT / "scripts/sign_release_bundle.py"),
+               f"release/{name}", "--key", "nonexistent@example.invalid"]
+        r = subprocess.run(cmd, capture_output=True, text=True, cwd=ROOT)
+        if shutil.which("gpg"):
+            # with gpg, a bogus key must fail hard, without producing a .sig
+            self.assertEqual(r.returncode, 1)
+            self.assertFalse((ROOT / "release" / name / "SHA256SUMS.sig").exists())
+        else:
+            self.assertEqual(r.returncode, 2)
+            self.assertIn("SETUP", r.stdout)
 
     def test_publication_gate_explain_lists_candidates(self):
         r = self._run("publication_gate.py", "--explain")
