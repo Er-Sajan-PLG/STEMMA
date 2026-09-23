@@ -1,0 +1,343 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "@vocab": "stemma:",
+    "stemma": "stemma:",
+    "skos": "http://www.w3.org/2004/02/skos/core#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "qudt": "http://qudt.org/schema/qudt/",
+    "owl": "http://www.w3.org/2002/07/owl#",
+    "name": "skos:prefLabel",
+    "definition": "skos:definition",
+    "status": "stemma:status",
+    "reviewedAt": "stemma:reviewedAt",
+    "reviewer": "stemma:reviewer",
+    "writer": "dcterms:creator",
+    "quantityKind": "stemma:quantityKind",
+    "tensorCharacter": "stemma:tensorCharacter",
+    "sameDimensionalQuantities": "stemma:sameDimensionalQuantities",
+    "symbol": "stemma:symbol",
+    "unit": "stemma:unit",
+    "governedBy": {
+      "@id": "stemma:governedBy",
+      "@type": "@id"
+    },
+    "predicate": "stemma:predicate",
+    "subject": "stemma:subject",
+    "object": "stemma:object",
+    "value": "stemma:value",
+    "valueUnit": "stemma:valueUnit",
+    "evidence": "stemma:evidence",
+    "assertedBy": "stemma:assertedBy",
+    "reviewStatus": "stemma:reviewStatus",
+    "externalIds": "stemma:externalIds",
+    "wikidata": {
+      "@id": "stemma:wikidataEntity",
+      "@type": "@id"
+    },
+    "type": "stemma:entityType",
+    "provenance": "stemma:provenance",
+    "aiDrafted": "stemma:aiDrafted",
+    "sourceKind": "stemma:sourceKind",
+    "sourceCitation": "stemma:sourceCitation",
+    "delegatedProvenance": "stemma:delegatedProvenance"
+  },
+  "generated_by": "scripts/export_jsonld.py — R6 increment 1 (projection mechanics; provisional external base per ADR-0053 Amendment 0001)",
+  "@graph": [
+    {
+      "@id": "stemma:phys.conservation-energy",
+      "@type": [
+        "skos:Concept",
+        "stemma:Law"
+      ],
+      "name": "Conservation of Energy",
+      "type": "law",
+      "status": "canonical",
+      "definition": "Conservation of energy: for an isolated system the total energy — summed over all forms (kinetic, potential, thermal, chemical, nuclear, ...) — remains constant in time; energy transforms between forms but is neither created nor destroyed. Historical line: Mayer (1842), Joule (1843), Helmholtz (1847, 'Über die Erhaltung der Kraft'); standard statement per Halliday, Resnick, Walker 12th ed., Ch 8.",
+      "symbol": "E_total = const",
+      "governedBy": [
+        "stemma:phys.dimensional-analysis",
+        "stemma:phys.newtons-second-law"
+      ],
+      "externalIds": {
+        "wikidata": "http://www.wikidata.org/entity/Q11382"
+      },
+      "provenance": {
+        "aiDrafted": true,
+        "writer": "llm:coding-agent.001",
+        "reviewer": "human:curator.001",
+        "reviewedAt": "2026-09-23T04:35:20.283368+00:00",
+        "sourceKind": "textbook",
+        "sourceCitation": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 8 (potential energy and conservation of energy in isolated systems)."
+      }
+    },
+    {
+      "@id": "stemma:phys.force",
+      "@type": [
+        "skos:Concept",
+        "qudt:Quantity",
+        "stemma:Quantity"
+      ],
+      "name": "Force",
+      "type": "quantity",
+      "status": "canonical",
+      "definition": "Force is the derived physical quantity of mechanical interaction: the net force on a body equals the time rate of change of its linear momentum, F = dp/dt (Newton, Principia Lex II); for constant mass this reduces to F = m a. Force is a vector quantity — it has magnitude and direction and adds by vector addition (net force = vector sum). SI derived unit: the newton, N = kg m s-2. Reference: Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5; Newton, Principia (1687), Lex II.",
+      "sameDimensionalQuantities": [
+        "weight",
+        "tension",
+        "friction",
+        "normal force",
+        "buoyant force",
+        "thrust",
+        "drag"
+      ],
+      "quantityKind": "derived",
+      "tensorCharacter": "vector",
+      "symbol": "F",
+      "unit": "newton (N = kg m s-2)",
+      "governedBy": [
+        "stemma:phys.dimensional-analysis",
+        "stemma:phys.newtons-second-law"
+      ],
+      "externalIds": {
+        "wikidata": "http://www.wikidata.org/entity/Q14038"
+      },
+      "provenance": {
+        "aiDrafted": true,
+        "writer": "llm:coding-agent.001",
+        "reviewer": "human:curator.001",
+        "reviewedAt": "2026-09-23T04:35:19.890893+00:00",
+        "sourceKind": "textbook",
+        "sourceCitation": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5: net force ΣF = m a; Principia (1687), Lex II: mutationem motus proportionalem esse vi motrici impressae."
+      }
+    },
+    {
+      "@id": "stemma:phys.length",
+      "@type": [
+        "skos:Concept",
+        "qudt:Quantity",
+        "stemma:Quantity"
+      ],
+      "name": "Length",
+      "type": "quantity",
+      "status": "canonical",
+      "definition": "Length is the SI base physical quantity of spatial extent — the measure of one-dimensional distance between two points in space. The metre is the unit in which length is expressed: 1 m = the length of the path travelled by light in vacuum during 1/299,792,458 of a second (c fixed exact). Agreed per BIPM SI Brochure 9th ed. (2019), base quantities table; §2.3.1.",
+      "sameDimensionalQuantities": [
+        "width",
+        "height",
+        "displacement magnitude",
+        "wavelength",
+        "radius",
+        "thickness"
+      ],
+      "quantityKind": "base",
+      "tensorCharacter": "scalar",
+      "symbol": "L",
+      "unit": "metre (m)",
+      "governedBy": [
+        "stemma:phys.dimensional-analysis",
+        "stemma:phys.si-definitions"
+      ],
+      "externalIds": {
+        "wikidata": "http://www.wikidata.org/entity/Q11433"
+      },
+      "provenance": {
+        "aiDrafted": true,
+        "writer": "llm:coding-agent.001",
+        "reviewer": "human:curator.001",
+        "reviewedAt": "2026-09-23T04:35:19.964859+00:00",
+        "sourceKind": "standards-or-specification",
+        "sourceCitation": "BIPM SI Brochure 9th ed. (2019): among the seven SI base quantities, length with base unit metre; metre defined by fixed numerical value of c in vacuum (2.3.1)."
+      }
+    },
+    {
+      "@id": "stemma:phys.mass",
+      "@type": [
+        "skos:Concept",
+        "qudt:Quantity",
+        "stemma:Quantity"
+      ],
+      "name": "Mass",
+      "type": "quantity",
+      "status": "canonical",
+      "definition": "Mass is the SI base physical quantity measuring a body's inertia and its quantity of matter. Its SI unit, the kilogram, is defined by taking the fixed numerical value of the Planck constant h to be exactly 6.62607015e-34 when expressed in J s = kg m2 s-1, with the metre and second as separately defined (SI 2019 redefinition). Agreed per BIPM SI Brochure 9th ed. (2019) §2.3.1.",
+      "sameDimensionalQuantities": [
+        "inertial mass",
+        "gravitational mass",
+        "rest mass"
+      ],
+      "quantityKind": "base",
+      "tensorCharacter": "scalar",
+      "symbol": "M",
+      "unit": "kilogram (kg)",
+      "governedBy": [
+        "stemma:phys.dimensional-analysis",
+        "stemma:phys.si-definitions"
+      ],
+      "externalIds": {
+        "wikidata": "http://www.wikidata.org/entity/Q11423"
+      },
+      "provenance": {
+        "aiDrafted": true,
+        "writer": "llm:coding-agent.001",
+        "reviewer": "human:curator.001",
+        "reviewedAt": "2026-09-23T04:35:20.044882+00:00",
+        "sourceKind": "standards-or-specification",
+        "sourceCitation": "BIPM SI Brochure 9th ed. (2019): mass among the seven SI base quantities; kilogram defined by fixed h = 6.62607015e-34 kg m2 s-1 (2.3.1)."
+      }
+    },
+    {
+      "@id": "stemma:phys.metre",
+      "@type": [
+        "skos:Concept",
+        "qudt:Unit",
+        "stemma:Unit"
+      ],
+      "name": "Metre",
+      "type": "unit",
+      "status": "canonical",
+      "definition": "The metre (symbol: m) is the base unit of length in the International System of Units (SI). It is scientifically defined as the length of the path travelled by light in a vacuum during a time interval of 1/299,792,458 of a second. Exact: c=299,792,458 m/s. Agreed per BIPM SI Brochure 9th ed. 2019 redefinition, fixing c exact.",
+      "sameDimensionalQuantities": [
+        "distance",
+        "width",
+        "height",
+        "displacement",
+        "wavelength",
+        "radius"
+      ],
+      "symbol": "m",
+      "unit": "metre (m)",
+      "governedBy": [
+        "stemma:phys.dimensional-analysis",
+        "stemma:phys.si-definitions"
+      ],
+      "externalIds": {
+        "wikidata": "http://www.wikidata.org/entity/Q11573"
+      },
+      "provenance": {
+        "aiDrafted": false,
+        "writer": "human:curator.001",
+        "reviewer": "human:curator.001",
+        "reviewedAt": "2026-09-23T04:35:19.817235+00:00",
+        "sourceKind": "standards-or-specification",
+        "sourceCitation": "BIPM SI Brochure 9th ed. (2019) §2.3.1, p130-132: The metre, symbol m, is the SI unit of length. It is defined by taking the fixed numerical value of the speed of light in vacuum c to be 299792458 when expressed in m s-1. Exact: c=299,792,458 m/s. Agreed internationally."
+      }
+    },
+    {
+      "@id": "stemma:phys.newtons-second-law",
+      "@type": [
+        "skos:Concept",
+        "stemma:Law"
+      ],
+      "name": "Newton's Second Law",
+      "type": "law",
+      "status": "canonical",
+      "definition": "Newton's second law of motion: the net external force on a system equals the time rate of change of its total linear momentum, ΣF = dp/dt; for constant mass this reduces to F = m a. Valid in classical (non-relativistic) mechanics in inertial reference frames. Stated by Isaac Newton as Lex II in Philosophiae Naturalis Principia Mathematica (1687); standard modern formulation per Halliday, Resnick, Walker 12th ed., Ch 5.",
+      "symbol": "F_net = m a",
+      "governedBy": [
+        "stemma:phys.conservation-momentum",
+        "stemma:phys.dimensional-analysis"
+      ],
+      "externalIds": {
+        "wikidata": "http://www.wikidata.org/entity/Q104212301"
+      },
+      "provenance": {
+        "aiDrafted": true,
+        "writer": "llm:coding-agent.001",
+        "reviewer": "human:curator.001",
+        "reviewedAt": "2026-09-23T04:35:20.201837+00:00",
+        "sourceKind": "textbook",
+        "sourceCitation": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5 (Newton second law, force and momentum); Principia (1687), Lex II."
+      }
+    },
+    {
+      "@id": "stemma:phys.time",
+      "@type": [
+        "skos:Concept",
+        "qudt:Quantity",
+        "stemma:Quantity"
+      ],
+      "name": "Time",
+      "type": "quantity",
+      "status": "canonical",
+      "definition": "Time is the SI base physical quantity of duration and temporal sequence. Its SI unit, the second, is defined by taking the fixed numerical value of the caesium frequency ΔνCs — the unperturbed ground-state hyperfine transition frequency of the caesium-133 atom — to be exactly 9,192,631,770 hertz (Hz = s-1): one second is the duration of 9,192,631,770 periods of the radiation corresponding to that transition. Exact per BIPM SI Brochure 9th ed. (2019) §2.3.1.",
+      "sameDimensionalQuantities": [
+        "duration",
+        "period",
+        "half-life",
+        "age"
+      ],
+      "quantityKind": "base",
+      "tensorCharacter": "scalar",
+      "symbol": "T",
+      "unit": "second (s)",
+      "governedBy": [
+        "stemma:phys.dimensional-analysis",
+        "stemma:phys.si-definitions"
+      ],
+      "externalIds": {
+        "wikidata": "http://www.wikidata.org/entity/Q11551"
+      },
+      "provenance": {
+        "aiDrafted": true,
+        "writer": "llm:coding-agent.001",
+        "reviewer": "human:curator.001",
+        "reviewedAt": "2026-09-23T04:35:20.127988+00:00",
+        "sourceKind": "standards-or-specification",
+        "sourceCitation": "BIPM SI Brochure 9th ed. (2019): time among the seven SI base quantities; second defined by fixed ΔνCs = 9,192,631,770 Hz (2.3.1)."
+      }
+    },
+    {
+      "@id": "stemma:conn.000156",
+      "@type": "stemma:Assertion",
+      "predicate": "derived_from",
+      "subject": "stemma:phys.metre",
+      "reviewStatus": "canonical",
+      "value": {
+        "amount": "299792458",
+        "lowerBound": null,
+        "upperBound": null,
+        "unit": "qudt:unit-MeterPerSecond"
+      },
+      "evidence": [
+        {
+          "type": "standard",
+          "stance": "supports",
+          "sourceRef": "stemma:src.nist-si-brochure-9th",
+          "locator": "SI Brochure 9th ed. (2019) 2.3.1, p130-132: metre defined by taking fixed numerical value of c = 299792458 m s-1"
+        }
+      ],
+      "assertedBy": "human:institution.wikidata-community",
+      "reviewer": [
+        "human:curator.001",
+        "human:institution.wikidata-community"
+      ]
+    },
+    {
+      "@id": "stemma:conn.000157",
+      "@type": "stemma:Assertion",
+      "predicate": "mathematically_requires",
+      "subject": "stemma:phys.force",
+      "reviewStatus": "canonical",
+      "object": "stemma:phys.mass",
+      "evidence": [
+        {
+          "type": "textbook",
+          "stance": "supports",
+          "sourceRef": "stemma:src.halliday-resnick-walker-12th",
+          "locator": "Ch 5, Newton's second law, net force = mass x acceleration"
+        },
+        {
+          "type": "other",
+          "stance": "supports",
+          "sourceRef": "stemma:src.newton-principia-1687",
+          "locator": "Lex II"
+        }
+      ],
+      "assertedBy": "llm:coding-agent.001",
+      "reviewer": [
+        "human:curator.001"
+      ]
+    }
+  ]
+}

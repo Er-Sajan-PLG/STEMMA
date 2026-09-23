@@ -22,6 +22,8 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 steps = [
     [sys.executable, str(ROOT / "scripts/validate.py")],
+    [sys.executable, str(ROOT / "scripts/export_jsonld.py"), "--check"],
+    [sys.executable, str(ROOT / "scripts/validate_jsonld.py")],
     [sys.executable, str(ROOT / "scripts/status_truth.py")],
     [sys.executable, str(ROOT / "scripts/physics_core_profile_check.py")],
     [sys.executable, str(ROOT / "scripts/physics_governing_check.py")],

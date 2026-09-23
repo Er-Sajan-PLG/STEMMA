@@ -140,7 +140,7 @@ slow-research evaluation docs/PERSISTENT-IDENTIFIER-BRIEF.md):
 - Non-actions: slug NOT claimed; no ID changes; no resolution infrastructure.
 R4 proceeds unchanged (never depended on the gate).
 
-## R6 — Projection Publication (Roadmap R4 After Phase 5) Days
+## R6 — Projection Publication (Roadmap R4 After Phase 5) Days — 🔄 STARTED 2026-09-23 (increment 1: knowledge.jsonld projection + validation + determinism, PID-agnostic)
 
 exports/knowledge.jsonld + SKOS mapping + context file + SHACL shapes learn-from + signed release bundle + integrity manifest pluggable BFO schema.org
 
