@@ -19,3 +19,8 @@ explorer/public/exports/
 # fake vectors unless --placeholder (pipeline tests only).
 exports/embeddings.jsonl
 exports/vector_store/
+
+# Release staging (scripts/build_release_bundle.py). Releases live on GitHub
+# Releases (.github/workflows/release.yml); bundles are not committed. The three
+# legacy R6 bundles already tracked stay tracked.
+release/R6-bundle-*/

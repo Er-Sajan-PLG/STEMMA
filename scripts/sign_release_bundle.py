@@ -35,7 +35,9 @@ def main() -> int:
     ap.add_argument("--key", help="gpg key id or email of the owner key")
     ap.add_argument("--verify-only", action="store_true")
     args = ap.parse_args()
-    bundle = ROOT / args.bundle_dir if not args.bundle_dir.startswith("/") else pathlib.Path(args.bundle_dir)
+    # A downloaded release extracted anywhere (cwd-relative) or release/<bundle> (repo-relative).
+    given = pathlib.Path(args.bundle_dir)
+    bundle = given if given.is_absolute() or given.exists() else ROOT / given
     sums = bundle / "SHA256SUMS.txt"
     sig = bundle / "SHA256SUMS.sig"
     if not bundle.exists() or not sums.exists():
