@@ -135,6 +135,59 @@ published manifest is the attested one). Consumers verify with
 
 ## SDK
 
+### Load a published release (recommended for products)
+
+```python
+from stemma_adapter import Stemma
+
+stemma = Stemma.from_release(
+    "Er-Sajan-PLG/STEMMA", "v3.0.0-rc1",        # explicit tag; "latest" is refused
+    file="knowledge.learninghub.json",          # one kind:"export" asset per call
+    cache_dir="/var/cache/stemma",              # default: $XDG_CACHE_HOME/stemma-adapter
+)                                               # needs: pip install "./adapters/python[verify]"
+print(stemma.release_info)   # tag, file, sha256, content_hash, verification="sigstore"
+
+# Mirror / CDN: the signer identity comes from you, never from the mirror
+Stemma.from_url("https://cdn.example.org/stemma/v3.0.0-rc1/manifest.json",
+                file="knowledge.json",
+                expected_repository="Er-Sajan-PLG/STEMMA",
+                expected_ref="refs/tags/v3.0.0-rc1")
+```
+
+What is checked, before anything is parsed or cached (any failure raises
+`ReleaseError`, a subclass of `ExportError`):
+
+- HTTPS only, including every redirect; size caps (manifest 1 MiB, checksums
+  256 KiB, export = its exact manifest `bytes`, at most `max_export_bytes`).
+- `manifest.json` and `SHA256SUMS.txt` are parsed strictly (no duplicate keys
+  or entries, lowercase sha256) and must agree on every file.
+- `file` must be a plain asset name listed with `kind: export`; anything else
+  (`connections.canonical.json`, `knowledge.hash.json`, ...) is refused before
+  its body is requested.
+- The export's sha256 must match `SHA256SUMS.txt`; then `load_export` runs and
+  its `content_hash` must equal the manifest's.
+- **Attestation (default on):** one Sigstore statement must cover
+  `manifest.json`, `SHA256SUMS.txt` and the export (name + digest), signed by
+  `.github/workflows/release.yml` at `refs/tags/<tag>` of the expected
+  repository (GitHub Actions OIDC, trigger `push`). Trust root: the one embedded
+  in the installed `sigstore` (no TUF refresh; keep `sigstore` updated).
+
+| Mode | Proves | Does not prove |
+|---|---|---|
+| default (`verify_attestation=True`) | files were built by this repo's `release.yml` for this tag (**workflow provenance**) + integrity | owner approval |
+| `verify_attestation=False` | **checksum-only integrity**: detects corruption/mismatch | publisher authenticity — a host replacing both file and checksum list is not detected |
+| owner GPG `SHA256SUMS.sig` (manual, not checked by the SDK) | **owner approval** of a final release | — |
+
+**Cache:** `<cache>/github/<owner>/<repo>/<tag>/<content_hash>/` (mirrors:
+`<cache>/url/<sha256(url)>/...`). Files are written atomically, only after all
+checks pass, and every cached copy is fully re-verified on load (checksums and,
+if requested, the stored attestation — never a cached "verified" flag). A valid
+copy is reused with **zero requests**; `offline=True` never touches the
+network. Release tags are treated as immutable — moving or replacing a
+published tag is unsupported (delete that cache directory if it happens).
+
+### Local files
+
 - **Python:** adapters/python/ pip install ./adapters/python
   ```python
   from stemma_adapter import Stemma
@@ -177,7 +230,7 @@ describe intended consumer profiles.
 - `schema/api.yaml` — OpenAPI schema
 - `schema/consumer-registry.yaml` — consumer API access
 - `schema/embedding-registry.yaml` — embedding models for /v2/embeddings
-- `adapters/python/stemma_adapter/server.py` v0.2.0 — adapter server with embeddings + RAG + export + OpenAPI
+- `adapters/python/stemma_adapter/server.py` v0.3.0 — adapter server with embeddings + RAG + export + OpenAPI
 - `webapp/server.py` — webapp server with RAG playground
 - `scripts/embed.py` — generates embeddings for API
 - `scripts/rag.py` — RAG system for API

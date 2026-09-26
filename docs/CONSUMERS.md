@@ -84,7 +84,7 @@ Defined in `schema/consumer-registry.yaml` — 4 consumers:
   ```
 
 ### 3. SDKs
-- **Python:** adapters/python/ — pip install ./adapters/python — SDK, CLI, local JSON API server v0.2.0 now with embeddings + RAG
+- **Python:** adapters/python/ — pip install ./adapters/python — SDK (incl. verified `Stemma.from_release`/`from_url`), CLI, local JSON API server v0.3.0 with embeddings + RAG
   ```python
   from stemma_adapter import Stemma
   stemma = Stemma.from_file("exports/knowledge.json")
