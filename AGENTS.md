@@ -181,7 +181,7 @@ python3 scripts/export_subsets.py
 2. Choose mode: deterministic (no LLM, scales, recommended) OR AI draft with frontier/custom model when PDF missing exact SI (choose model via webapp Settings → Model Selection window like DeepSeek harness)
 3. Upload PDF via webapp (`python3 webapp/server.py --port 8081`) or CLI `python3 scripts/pdf_ingest_primary.py --pdf path/to.pdf` or deterministic `python3 scripts/evolvable_template.py --pdf-extract workflow/extraction/*.txt`
 4. Extract deterministic (poppler/tesseract) → markdown preview in `workflow/candidates/<doc_id>/<slug>.md` (deterministic templates regex + exact SI constants OR AI draft with frontier model)
-5. HITL: Human explicitly edits markdown file in webapp textarea (fix definition with Exact: + agreed status + reference, governed_by, source_refs, writer human:*, link) → Save human edit → audit logs `candidate_edited` by human:curator.001
+5. HITL: Human explicitly edits markdown file in webapp textarea (fix definition with Exact: + agreed status + reference, governed_by, source_refs, link) → Save human edit → audit logs `candidate_edited` by the operator in `STEMMA_REVIEWER_ID`; server sets `writer` to that human and keeps the machine as `drafted_by`
 6. Stage for human review → `workflow/proposals/<slug>.md` → validation: `validate.py` + `physics_core_profile_check.py` + `physics_governing_check.py` + `hitl_check.py` (verifies human edited) + `evolvable_template.py` check — all must pass
 7. Review: `review_entity.py accept <slug> --reviewer human:curator.001` → human_reviewed
 8. Canonicalize: `review_entity.py canonicalize <slug> --reviewer human:curator.001` → `content/physics/<subdomain>/<slug>.md` + connections with evidence (only 8 allowed relations per ADR-0042, no `related_to`)
@@ -209,6 +209,19 @@ python3 scripts/export_subsets.py
 **Time-invariant + HITL guarantee:** No LLM reasoning for placement — registry lookup only. Same result any time. No entity without human explicitly editing markdown — HITL audit trail.
 
 ---
+
+## Webapp Identity (no login)
+
+**Webapp identity:** the webapp has **no login**. Identity = whoever started the
+server: set `STEMMA_REVIEWER_ID=human:<you>` (your id in
+`schema/agent-registry.yaml`) before `python3 webapp/server.py`. Saving a human
+edit or staging a proposal **fails closed** if it is missing, unregistered,
+inactive, a group (`human:institution.*`) or not a human. Machine drafts are
+recorded as `process:deterministic-draft.v1` / `llm:antigravity-001`; when you
+edit one you become `writer` and the machine stays as `drafted_by`.
+
+Agents must never set `writer`/`reviewer` to a human id on the human's behalf, and must never
+default a missing writer to a human id. `hitl_check.py` and `validate.py` reject unregistered ids.
 
 ## Quick Start
 

@@ -132,6 +132,14 @@ Ingestion/review UI + RAG playground: `python3 webapp/server.py --port 8081`
 (see [docs/WEBAPP.md](docs/WEBAPP.md), [docs/RAG.md](docs/RAG.md),
 [docs/EMBEDDINGS.md](docs/EMBEDDINGS.md), [docs/API.md](docs/API.md)).
 
+> **Webapp identity:** the webapp has **no login**. Identity = whoever started the
+> server: set `STEMMA_REVIEWER_ID=human:<you>` (your id in
+> `schema/agent-registry.yaml`) before `python3 webapp/server.py`. Saving a human
+> edit or staging a proposal **fails closed** if it is missing, unregistered,
+> inactive, a group (`human:institution.*`) or not a human. Machine drafts are
+> recorded as `process:deterministic-draft.v1` / `llm:antigravity-001`; when you
+> edit one you become `writer` and the machine stays as `drafted_by`.
+
 ## Get the content out — file, API, SDK
 
 ```bash
