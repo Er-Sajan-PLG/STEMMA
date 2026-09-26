@@ -39,7 +39,10 @@ jobs:
           python3 -c 'import json; d=json.load(open("exports/knowledge.json")); print("Export OK: {} entities".format(len(d["entities"])))'
       - name: Check no embeddings in canonical content
         run: |
-          if find content/ -name "*.md" -exec grep -l "vector" {} \; 2>/dev/null | head -n 1 | grep .; then echo "FAIL: vector in canonical"; exit 1; fi
+          # Look for embedding-SHAPED data (a vector/embedding key holding a numeric
+          # array), not the English word "vector" (e.g. "force is a vector quantity").
+          pattern='("?(embedding|embeddings|vector|vectors)"?[[:space:]]*:[[:space:]]*\[[[:space:]]*-?[0-9])'
+          if grep -rlE "$pattern" content/ --include="*.md"; then echo "FAIL: embedding-shaped data in canonical content/"; exit 1; fi
           echo "No embeddings in canonical OK"
 
   security:
