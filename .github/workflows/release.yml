@@ -3,9 +3,12 @@ name: Release — publish the file contract to GitHub Releases
 # Distribution plane (ADR-0054, decision 1): consumers — internal products and
 # third parties alike — pull the SAME published bundle from GitHub Releases.
 # Every asset gets a Sigstore build-provenance attestation (decision 3, layer 2).
-# The owner's GPG signature (layer 1) stays a manual local step:
-#   python3 scripts/sign_release_bundle.py release/<bundle> --key <owner-key>
-#   gh release upload <tag> release/<bundle>/SHA256SUMS.sig
+# The owner's GPG signature (layer 1) is a manual local step — the key is never
+# given to Actions. Hence:
+#   vX.Y.Z-rcN -> published as a pre-release, CI-attested only (no owner signature)
+#   vX.Y.Z     -> created as a DRAFT (invisible to consumers); the owner signs
+#                 SHA256SUMS.txt, uploads SHA256SUMS.sig, then publishes it
+#                 (docs/API.md "Owner signature").
 #
 # Tags: vX.Y.Z (final) or vX.Y.Z-rcN (pre-release). X.Y.Z must equal ./VERSION.
 # Final releases additionally require scripts/publication_gate.py to pass
@@ -128,8 +131,13 @@ jobs:
           gh attestation verify knowledge.learninghub.json --repo ${{ github.repository }}
           python -m stemma_adapter validate knowledge.learninghub.json
           \`\`\`
-          An owner GPG signature (\`SHA256SUMS.sig\`) is attached separately when signed.
           EOF
-          flag=""; [[ "${{ steps.tag.outputs.prerelease }}" == "true" ]] && flag="--prerelease"
+          if [[ "${{ steps.tag.outputs.prerelease }}" == "true" ]]; then
+            echo "Pre-release: CI-attested only — no owner GPG signature." >> notes.md
+            flag="--prerelease"
+          else
+            printf '%s\n' "Owner GPG signature: \`gpg --verify SHA256SUMS.sig SHA256SUMS.txt\`." >> notes.md
+            flag="--draft"   # owner signs, uploads SHA256SUMS.sig, then publishes
+          fi
           gh release create "$TAG" "$dir"/* "dist/stemma-$TAG.tar.gz" \
             --title "STEMMA $TAG" --notes-file notes.md --verify-tag $flag
