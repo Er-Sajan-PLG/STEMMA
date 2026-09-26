@@ -67,6 +67,42 @@ change without notice. See [WEBAPP.md](WEBAPP.md).
 Generated via `python3 scripts/validate.py` (knowledge.json + views) and the
 optional `scripts/embed.py` / `scripts/export_consumers.py`.
 
+## Releases — the published file contract
+
+Consumers (internal products and third parties alike) pull the **same** bundle
+from GitHub Releases — never from the repo. `.github/workflows/release.yml`
+publishes one per tag `vX.Y.Z` / `vX.Y.Z-rcN` (`X.Y.Z` = `./VERSION`, which is
+independent of `export_version`).
+
+| Asset | Kind (`manifest.files[*].kind`) |
+|---|---|
+| `knowledge.json` | `export` — everything, all statuses |
+| `knowledge.<consumer>.json` | `export` — pre-filtered per `schema/consumer-registry.yaml` |
+| `knowledge.hash.json` | `hash-pointer` — sha256 + `content_hash` of `knowledge.json` (cheap "did it change?") |
+| `knowledge.canonical.json` | `connections-view` — review-aware connections only, **not** a full export |
+| `knowledge.jsonld`, `stemma-shapes.ttl` | JSON-LD projection, SHACL shapes |
+| `manifest.json`, `SHA256SUMS.txt`, `stemma-<tag>.tar.gz` | versions, `content_hash`, per-file sha256/counts, `license: CC-BY-4.0`, `generated_at` (commit time) |
+
+Never included: embeddings / vector stores (ADR-0054) — the builder refuses them.
+
+**Verify before use:**
+
+```bash
+sha256sum -c SHA256SUMS.txt
+gh attestation verify knowledge.learninghub.json --repo Er-Sajan-PLG/STEMMA   # Sigstore build provenance
+python -m stemma_adapter validate knowledge.learninghub.json
+```
+
+**Status:** until the owner records `docs/decisions/r6-identifier-base.md`
+(Amendment 0001), only pre-releases (`-rcN`) publish, marked
+`PENDING-PUBLICATION`; a final tag fails at `scripts/publication_gate.py`.
+
+**Owner signature (manual, second layer):** after the workflow publishes,
+download the tarball, then locally:
+`python3 scripts/sign_release_bundle.py <extracted-dir> --key <owner-key>` and
+`gh release upload <tag> <extracted-dir>/SHA256SUMS.sig`.
+`release/` is local staging only (git-ignored); bundles are not committed.
+
 ## SDK
 
 - **Python:** adapters/python/ pip install ./adapters/python
