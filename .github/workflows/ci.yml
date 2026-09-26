@@ -274,9 +274,31 @@ jobs:
         run: pip install -r requirements-dev.txt
       - name: Run full pytest suite
         run: python3 -m pytest tests/ -q
+      - name: Adapter SDK tests — base group (no sigstore installed)
+        env:
+          STEMMA_FORBID_SIGSTORE: "1"
+        run: python3 -m pytest adapters/python/tests -q
       - name: Check exports/reports untouched by tests
         run: |
           git diff --exit-code -- exports reports || { echo "FAIL: tests mutated derived artifacts"; exit 1; }
+
+  adapter-verify:
+    name: Adapter SDK — attestation verification (offline)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install adapter with [verify] extra
+        run: pip install -r requirements-dev.txt -e "adapters/python[verify]"
+      - name: Adapter tests incl. Sigstore policy (real rc1 bundle, no network)
+        env:
+          STEMMA_REQUIRE_SIGSTORE: "1"
+        run: python3 -m pytest adapters/python/tests -q
+      - name: Check exports/reports untouched by tests
+        run: git diff --exit-code -- exports reports
 
   check-branching:
     name: Branching Strategy
@@ -306,7 +328,7 @@ jobs:
   all-green:
     name: All Checks Green — Nothing Bad Gets Merged
     runs-on: ubuntu-latest
-    needs: [verify-knowledge-base, security, verify-docs, explorer-build, webapp-ingestion, embeddings-rag-consumer, no-wall-clock, id-immutability-registry, test-suite]
+    needs: [verify-knowledge-base, security, verify-docs, explorer-build, webapp-ingestion, embeddings-rag-consumer, no-wall-clock, id-immutability-registry, test-suite, adapter-verify]
     if: always()
     steps:
       - name: Check all jobs passed
@@ -320,4 +342,5 @@ jobs:
           if [ "${{ needs.no-wall-clock.result }}" != "success" ]; then echo "FAIL: wall-clock"; exit 1; fi
           if [ "${{ needs.id-immutability-registry.result }}" != "success" ]; then echo "FAIL: registry"; exit 1; fi
           if [ "${{ needs.test-suite.result }}" != "success" ]; then echo "FAIL: test-suite"; exit 1; fi
+          if [ "${{ needs.adapter-verify.result }}" != "success" ]; then echo "FAIL: adapter-verify"; exit 1; fi
           echo "ALL CHECKS GREEN — Strong CI Passed"
