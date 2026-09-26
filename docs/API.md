@@ -111,10 +111,26 @@ yields byte-identical assets.
 (Amendment 0001), only pre-releases (`-rcN`) publish, marked
 `PENDING-PUBLICATION`; a final tag fails at `scripts/publication_gate.py`.
 
-**Owner signature (manual, second layer):** after the workflow publishes,
-download the tarball, then locally:
-`python3 scripts/sign_release_bundle.py <extracted-dir> --key <owner-key>` and
-`gh release upload <tag> <extracted-dir>/SHA256SUMS.sig`.
+**Owner signature (manual, second layer).** `-rcN` tags are **CI-attested
+only** (Sigstore) and carry no owner signature. A **final** tag is never
+published by CI: `release.yml` creates it as a **draft** (invisible to
+consumers), and it stays unpublished until the owner has signed
+`SHA256SUMS.txt` locally and attached `SHA256SUMS.sig`. The GPG key must never
+be stored in GitHub Actions secrets or used by any workflow.
+
+```bash
+TAG=vX.Y.Z
+gh release download "$TAG" -D "sign-$TAG" -p SHA256SUMS.txt -p manifest.json
+# optional, independent: rebuild from the tag (reproducible) and diff SHA256SUMS.txt
+python3 scripts/sign_release_bundle.py "sign-$TAG" --key <owner-key>
+python3 scripts/sign_release_bundle.py "sign-$TAG" --verify-only
+gh release upload "$TAG" "sign-$TAG/SHA256SUMS.sig"      # upload ONLY the .sig
+gh release edit "$TAG" --draft=false --latest             # publish
+```
+
+The signer also annotates the *local* `manifest.json`; never re-upload it (the
+published manifest is the attested one). Consumers verify with
+`gpg --verify SHA256SUMS.sig SHA256SUMS.txt` against the owner's published key.
 `release/` is local staging only (git-ignored); bundles are not committed.
 
 ## SDK

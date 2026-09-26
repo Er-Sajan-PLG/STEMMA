@@ -131,3 +131,20 @@ def test_export_like_name_for_non_export_is_refused(tmp_path, monkeypatch):
     monkeypatch.setattr(B, "file_kind", lambda n, _k=B.file_kind: "connections-view" if n == "knowledge.canonical.json" else _k(n))
     with pytest.raises(B.BundleError, match="named like an export"):
         B.build(tmp_path, release_tag="v0.0.0-test")
+
+
+def test_release_workflow_never_publishes_unsigned_finals():
+    """rc = CI-attested pre-release; final = draft until the owner attaches SHA256SUMS.sig.
+    The owner GPG key must never reach Actions."""
+    wf = ROOT / ".github" / "workflows"
+    release = (wf / "release.yml").read_text(encoding="utf-8")
+    assert 'flag="--draft"' in release and 'flag="--prerelease"' in release
+    assert "--draft=false" not in release  # publishing a final is the owner's manual step
+    for path in wf.glob("*.y*ml"):
+        text = path.read_text(encoding="utf-8").lower()
+        for needle in ("gpg --import", "gpg_private", "gpg_key", "gpg_passphrase", "sign_release_bundle.py"):
+            if needle == "sign_release_bundle.py" and path.name == "release.yml":
+                # only allowed as an instruction in comments, never executed
+                assert all(l.lstrip().startswith("#") for l in text.splitlines() if needle in l), path
+                continue
+            assert needle not in text, f"{path.name}: {needle}"
