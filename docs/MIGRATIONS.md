@@ -2,6 +2,18 @@
 
 **Status:** Beginning, no legacy. Old migrations archived to archive/old-design/.
 
+## 2026-09-26 — version baseline for the consumer versioning policy
+
+- **What:** records the versions in force when the policy in
+  `docs/VERSIONING.md` ("Consumer versioning and release policy", ADR-0054
+  Amendment 1) was written. From here on, every change to one of these gets
+  its own entry in this file.
+- **Baseline:** release version `3.0.0` (`./VERSION`, first tag
+  `v3.0.0-rc1`); `export_version` 2.2.0 (ADR-0050); `schema_version` 1.3.0
+  (H1, entry below); `relation_registry_version` 1.0.0 (reserved duplicates
+  removed; `equivalent_to` / `misconception_of` per ADR-0048).
+- **Consumers:** nothing to do.
+
 ## 2026-09-26 — release asset rename: `knowledge.canonical.json` → `connections.canonical.json`
 
 - **What:** in GitHub Release bundles only, the review-aware *canonical

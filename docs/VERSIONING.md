@@ -2,6 +2,125 @@
 
 **Status:** Authoritative, comprehensive all-STEM mediocre, 8 domains, embeddings, RAG, consumer export.
 
+## Consumer versioning and release policy (ADR-0054 Amendment 1)
+
+Status of each rule: **D** = already decided by the owner (recorded here),
+**P** = proposed, awaiting the owner's decision. Nothing marked **P** is
+binding until the amendment in ADR-0054 is marked Decided.
+
+### 1. Independent version numbers (D)
+
+| Number | Lives in | Identifies | Changes when |
+|---|---|---|---|
+| **Release version** | `./VERSION`; git tag `vX.Y.Z[-rcN]`; export `kernel_version`; manifest `release_tag` | one published bundle — what consumers pin | a new final release (rules: §2) |
+| **`export_version`** | `schema/VERSION.yaml`; every export file | the file format consumers parse | only when the format changes (§3) — never for content alone |
+| **`schema_version`** | `schema/VERSION.yaml`; export `schema_version` | the authoring schemas under `schema/` | when concept/connection/source schemas change; producer-side, informational for consumers |
+| **`content_hash`** | every export file; `manifest.json` | the canonical knowledge | automatically, whenever canonical sources change (§4) |
+| `relation_registry_version` | `schema/VERSION.yaml`; export | the relation vocabulary shipped inside the export | when `schema/relation-registry.yaml` changes |
+| adapter version | `adapters/python/pyproject.toml` (+ `__version__`) | the `stemma-adapter` package | its own SemVer; `adapters/python/CHANGELOG.md` |
+
+They move independently. `export_version` stays on 2.x and is **not** aligned
+with the release version 3.x. Tags must match `./VERSION` (`release.yml`).
+
+### 2. Release version rules (P)
+
+SemVer, judged from a consumer's point of view:
+
+- **MAJOR** — an `export_version` major bump; removal or rename of a
+  `kind: export` release asset; anything listed as breaking in §3.
+- **MINOR** — an `export_version` minor bump; new content (entities,
+  connections, sources) or status promotions; a new consumer export or other
+  new asset.
+- **PATCH** — corrections to existing content (definitions, values,
+  provenance, citations) with all IDs unchanged.
+
+Release candidates (`-rcN`) iterate on one version; each new final release
+needs a new `VERSION` because tags are immutable (§7).
+
+### 3. Breaking vs additive for the export file contract (facts; one P rule)
+
+Additive → `export_version` **MINOR**; readers of the same major keep working:
+
+- a new optional member on entities, connections, sources, provenance or
+  evidence (open objects in `schema/export.schema.json`);
+- a new optional top-level member (declared in `export.schema.json`, which is
+  closed at the top level; the SDK ignores unknown top-level members);
+- a new relation, provided it is in the export's embedded `relation_registry`
+  (the SDK refuses only relations missing from that registry);
+- a new value for an enumerated field such as `status`, `authority`, `warrant`
+  or `correction_class` (the SDK does not restrict them). **(P)** Consumers
+  must treat unknown values as "unknown — not canonical", never as an error.
+
+Breaking → `export_version` **MAJOR** (the SDK refuses an unknown major —
+`SUPPORTED_EXPORT_MAJOR`):
+
+- removing or renaming a member, or changing its type, units or meaning;
+- **any new member in the value slot** (`connections[].value`): it is closed
+  in both `export.schema.json` and the SDK, so existing readers would reject it;
+- removing an entity or connection ID, or changing what it denotes (IDs are
+  immutable; retire them — §5).
+
+Content changes are never format changes: they move `content_hash` and the
+release version, not `export_version`.
+
+### 4. `content_hash` (facts)
+
+- `sha256` over the relative path and bytes of every file under `content/`,
+  `connections/` and `sources/` (`scripts/validate.py`). Subset and consumer
+  exports carry the same base `content_hash`.
+- It changes **iff** those bytes change — including whitespace-only edits. It
+  does **not** change for version bumps, schema or registry edits, or tooling.
+- Same `content_hash` does not mean same file bytes: a new `export_version` or
+  `kernel_version` over unchanged content produces a different file. To detect
+  *any* change, compare the file's sha256 (`manifest.files`, `SHA256SUMS.txt`,
+  `knowledge.hash.json`). Use `content_hash` to answer only "did the knowledge
+  change?". Cache on `(export_version, content_hash)` or on the file sha256 —
+  never on `content_hash` alone.
+
+### 5. Deprecation (P)
+
+- **IDs** are never deleted or reused. Retire an entity with
+  `status: deprecated` plus `deprecated_by` (the SDK validates the target), and
+  a connection with `lifecycle.replaced_by`.
+- **Contract members and release assets**: announce in `docs/MIGRATIONS.md` and
+  the release notes; keep them for at least one final MINOR release **and** 90
+  days; remove only in the next MAJOR.
+- **Old majors** are not published side by side. Earlier final releases stay
+  downloadable (tags are immutable), and consumers pin a major through the SDK.
+
+### 6. Where changes are recorded (P — formalises current practice)
+
+| What | Where |
+|---|---|
+| every `export_version`, `schema_version` or `relation_registry_version` change, and every release-asset change, with the consumer action | `docs/MIGRATIONS.md` |
+| one line per version with its ADR | comments in `schema/VERSION.yaml` |
+| adapter package versions | `adapters/python/CHANGELOG.md` |
+| per-release summary | GitHub Release notes (written by `release.yml`) |
+
+`tests/repo/test_versioning_policy.py` fails if the current export, schema,
+registry or adapter version has no entry here. **(P)** No root `CHANGELOG.md`:
+retire release-please (`.github/workflows/release-please.yml` and its config
+are still present, fail on every push to `main`, and would create a changelog
+that duplicates the ones above).
+
+### 7. Tags, release candidates and promotion
+
+- **Tags are immutable (D)**: never moved, deleted or re-pushed. A mistake is
+  fixed with a new `-rcN` or a new version. Protect `v*` tags with a
+  repository tag ruleset (owner setting).
+- **`vX.Y.Z-rcN` (D)**: CI publishes a GitHub pre-release with the Sigstore
+  build attestation only; manifest status `PENDING-PUBLICATION`.
+- **`vX.Y.Z` (D)**: requires `scripts/publication_gate.py` (the identifier-base
+  decision in `docs/decisions/r6-identifier-base.md`). CI creates it as a
+  **draft**; the owner signs `SHA256SUMS.txt` locally, uploads only
+  `SHA256SUMS.sig`, verifies it, then publishes. The GPG key never goes into
+  GitHub Actions. Commands: `docs/API.md` → "Owner signature".
+- **Promotion (P)**: a final tag must point at exactly the commit of the last
+  `-rcN` of that version that passed `release.yml`; any change means a new rc.
+  The export files are then byte-identical to that rc (only the manifest's
+  `release_tag` and status differ). Enforcing this in `release.yml` is a
+  proposed follow-up, not implemented yet.
+
 ## Versions — single source VERSION.yaml (ADR-0022; ADR-0027/0028 refoundation)
 
 - **schema_version:** 1.3.0 — v1.3.0 ADDITIVE optional provenance.drafted_by (machine origin of a human-written entity; H1); earlier: canonical JSON Schemas, concept, connection, source, v1.0.0 namespace stemma: replaces retired prefix, deprecated entity-side relationships[] removed
@@ -16,7 +135,7 @@
 
 ## Deterministic, content-hash, no wall clock — now also for embeddings and vector store
 
-- **exports/knowledge.json:** content_hash sha256:2c007fc6... deterministic, no wall clock, versioned v2.2.0, 1 entity now metre via HITL, will grow to 400-800 mediocre all-domain
+- **exports/knowledge.json:** deterministic `content_hash` (no wall clock), `export_version` 2.2.0; current values are in the file itself and in each release `manifest.json` (see §4 above)
 - **exports/embeddings.jsonl:** content_hash per embedding = sha256(text + model_id + knowledge.json content_hash)[:16], deterministic same content + model → same embeddings, versioned via knowledge.json content_hash + model id, 1 embeddings now
 - **exports/vector_store/:** meta.json with model, dimensions, content_hash, entity_count, created_at deterministic no wall clock, version 1.0.0, type faiss, index_type flat, metric cosine, vectors.npy + ids.json, versioned via content_hash + model id, deterministic
 - **exports/consumers/<consumer>/knowledge.<consumer>.json:** filtered by consumer domains/review_policy/entity_types, content_hash same as main export, deterministic, versioned

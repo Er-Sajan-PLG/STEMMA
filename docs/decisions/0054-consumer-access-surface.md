@@ -84,3 +84,36 @@ exactly one admin.
 - Accepted residual risk: anyone on the owner's tailnet who is allowed in
   `STEMMA_ALLOWED_HOSTS` can use the admin tool. The tailnet is the
   authentication boundary in this phase.
+
+
+## Amendment 1 — 2026-09-26: versioning and release policy
+
+Status: **Partly decided.** Items marked *Decided* restate owner decisions
+already made. Items marked *Proposed* await the owner's yes/no and are not
+binding until this line says so. Full rules: `docs/VERSIONING.md` →
+"Consumer versioning and release policy". Test:
+`tests/repo/test_versioning_policy.py`.
+
+- *Decided* — The release version (`./VERSION`, tag, `kernel_version`),
+  `export_version`, `schema_version` and `content_hash` are independent.
+  `export_version` stays on 2.x, and a new export major is breaking.
+- *Decided* — Tags are immutable. `-rcN` = CI pre-release with the Sigstore
+  attestation only. Final = `publication_gate`, then a draft, then the owner
+  GPG-signs `SHA256SUMS.txt` locally, then publishes. The key never goes into
+  Actions.
+- *Proposed D1* — Release SemVer from the consumer's view: MAJOR = export
+  major or removed/renamed export asset; MINOR = export minor, new content or
+  new assets; PATCH = corrections with IDs unchanged.
+- *Proposed D2* — Additive (export minor) vs breaking (export major) as listed
+  in `VERSIONING.md` §3. Any new value-slot member is breaking, and consumers
+  treat unknown enum values as "unknown — not canonical".
+- *Proposed D3* — IDs are never deleted or reused: retire them with
+  `deprecated_by` / `replaced_by`. Contract members and assets are announced,
+  kept for at least one final MINOR release and 90 days, and removed only in
+  the next MAJOR.
+- *Proposed D4* — Change records live in `docs/MIGRATIONS.md`,
+  `schema/VERSION.yaml` comments, `adapters/python/CHANGELOG.md` and the
+  release notes. No root CHANGELOG, so release-please is retired.
+- *Proposed D5* — A final tag points at exactly the commit of the last rc of
+  that version that passed `release.yml`, so its export files are
+  byte-identical to that rc. Enforcing this in `release.yml` is a follow-up.
