@@ -24,3 +24,6 @@ exports/vector_store/
 # Releases (.github/workflows/release.yml); bundles are not committed. The three
 # legacy R6 bundles already tracked stay tracked.
 release/R6-bundle-*/
+
+# editable installs (pip install -e adapters/python)
+*.egg-info/
