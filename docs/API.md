@@ -79,7 +79,7 @@ independent of `export_version`).
 | `knowledge.json` | `export` — everything, all statuses |
 | `knowledge.<consumer>.json` | `export` — pre-filtered per `schema/consumer-registry.yaml` |
 | `knowledge.hash.json` | `hash-pointer` — sha256 + `content_hash` of `knowledge.json` (cheap "did it change?") |
-| `knowledge.canonical.json` | `connections-view` — review-aware connections only, **not** a full export |
+| `connections.canonical.json` | `connections-view` — canonical connections only, **not** a full export (named `knowledge.canonical.json` in `v3.0.0-rc1`) |
 | `knowledge.jsonld`, `stemma-shapes.ttl` | JSON-LD projection, SHACL shapes |
 | `manifest.json`, `SHA256SUMS.txt`, `stemma-<tag>.tar.gz` | versions, `content_hash`, per-file sha256/counts, `license: CC-BY-4.0`, `generated_at` (commit time) |
 

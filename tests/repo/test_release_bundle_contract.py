@@ -37,7 +37,7 @@ def _manifest(bundle):
 
 def test_bundle_contents(bundle):
     names = {p.name for p in bundle.iterdir()}
-    expected = {"knowledge.json", "knowledge.hash.json", "knowledge.canonical.json", "knowledge.jsonld",
+    expected = {"knowledge.json", "knowledge.hash.json", "connections.canonical.json", "knowledge.jsonld",
                 "stemma-shapes.ttl", "SHA256SUMS.txt", "manifest.json"} | {f"knowledge.{c}.json" for c in CONSUMERS}
     assert names == expected
     assert not any("embedding" in n or "vector" in n for n in names)
@@ -69,7 +69,9 @@ def test_every_export_kind_loads_with_the_sdk(bundle):
     kinds = {n: meta["kind"] for n, meta in _manifest(bundle)["files"].items()}
     exports = [n for n, k in kinds.items() if k == "export"]
     assert set(exports) == {"knowledge.json"} | {f"knowledge.{c}.json" for c in CONSUMERS}
-    assert kinds["knowledge.canonical.json"] == "connections-view"
+    assert kinds["connections.canonical.json"] == "connections-view"
+    # the name `knowledge.*.json` is reserved for loadable exports (+ the hash pointer)
+    assert {n for n in kinds if n.startswith("knowledge.") and n.endswith(".json")} == set(exports) | {"knowledge.hash.json"}
     for name in exports:
         load_export(bundle / name)  # raises ExportError if not a valid export
 
@@ -120,3 +122,12 @@ def test_guard_refuses_stale_consumer_bundle(tmp_path, monkeypatch):
     (root / "exports/consumers/x/knowledge.x.json").write_text(json.dumps({"export_version": "2.1.0", "schema_version": "1.3.0"}))
     with pytest.raises(B.BundleError, match="stale consumer bundle"):
         B.guard_payload("exports/consumers/x/knowledge.x.json", "knowledge.x.json")
+
+
+def test_export_like_name_for_non_export_is_refused(tmp_path, monkeypatch):
+    monkeypatch.setenv("SOURCE_DATE_EPOCH", EPOCH)
+    bad = [(s, "knowledge.canonical.json" if d == "connections.canonical.json" else d) for s, d in B.STATIC_PAYLOAD]
+    monkeypatch.setattr(B, "STATIC_PAYLOAD", bad)
+    monkeypatch.setattr(B, "file_kind", lambda n, _k=B.file_kind: "connections-view" if n == "knowledge.canonical.json" else _k(n))
+    with pytest.raises(B.BundleError, match="named like an export"):
+        B.build(tmp_path, release_tag="v0.0.0-test")

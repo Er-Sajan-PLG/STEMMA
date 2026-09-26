@@ -2,6 +2,21 @@
 
 **Status:** Beginning, no legacy. Old migrations archived to archive/old-design/.
 
+## 2026-09-26 — release asset rename: `knowledge.canonical.json` → `connections.canonical.json`
+
+- **What:** in GitHub Release bundles only, the review-aware *canonical
+  connections* view is now published as `connections.canonical.json`
+  (`manifest.files[*].kind: connections-view`). It has no entities and never
+  loaded with `stemma_adapter validate`; the old name suggested a full export.
+- **Rule:** in a release bundle, `knowledge.*.json` is reserved for loadable
+  exports (`kind: export`) plus the `knowledge.hash.json` pointer;
+  `build_release_bundle.py` refuses anything else.
+- **Consumers:** want canonical entities? Use `knowledge.learninghub.json`-style
+  consumer exports or filter `knowledge.json` by `status`. `v3.0.0-rc1` keeps
+  the old name (tags are immutable); the rename applies from the next tag.
+- **Unchanged:** `exports/knowledge.canonical.json` in the repo, `export_version`,
+  `schema_version`.
+
 ## 2026-09-26 — schema 1.3.0: provenance.drafted_by (H1, additive)
 
 - **What:** `concept.schema.json` provenance gains optional `drafted_by`

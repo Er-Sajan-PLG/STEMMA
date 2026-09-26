@@ -29,7 +29,7 @@ class TestReleaseBundleAndGate(unittest.TestCase):
     def test_bundle_contents_and_verification(self):
         name = self._run("build_release_bundle.py", "--print-name").stdout.strip().splitlines()[-1]
         bundle = ROOT / "release" / name
-        for f in ("knowledge.jsonld", "knowledge.canonical.json", "stemma-shapes.ttl",
+        for f in ("knowledge.jsonld", "connections.canonical.json", "stemma-shapes.ttl",
                   "SHA256SUMS.txt", "manifest.json"):
             self.assertTrue((bundle / f).exists(), f)
         self._run("build_release_bundle.py", "--verify", str(bundle))
