@@ -30,6 +30,10 @@ class BadRequestError(ValueError):
 class Stemma:
     """A zero-dependency, read-only adapter over a validated STEMMA export."""
 
+    #: Provenance of a release-loaded export (tag, file, sha256, verification, ...);
+    #: None for from_file()/from_dict().
+    release_info: dict[str, Any] | None = None
+
     def __init__(self, export: dict[str, Any]) -> None:
         self.export = export
         self.entities_by_id: dict[str, dict[str, Any]] = {
@@ -81,6 +85,47 @@ class Stemma:
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "Stemma":
         return cls(load_export(data))
+
+    @classmethod
+    def from_release(cls, repo: str, tag: str, *, cache_dir: Any = None, file: str = "knowledge.json",
+                     verify_attestation: bool = True, offline: bool = False, timeout: float = 30,
+                     ssl_context: Any = None, max_export_bytes: int | None = None) -> "Stemma":
+        """Load `file` from GitHub release `repo`@`tag`, verified before parsing.
+
+        `tag` must be explicit (vX.Y.Z / vX.Y.Z-rcN). Default: Sigstore attestation
+        required (needs ``stemma-adapter[verify]``); ``verify_attestation=False`` is
+        checksum-only integrity. See ``stemma_adapter.release``.
+        """
+        from . import release
+
+        data, info = release.load_release(
+            repo, tag, cache_dir=cache_dir, file=file, verify_attestation=verify_attestation,
+            offline=offline, timeout=timeout, ssl_context=ssl_context,
+            max_export_bytes=max_export_bytes or release.DEFAULT_MAX_EXPORT_BYTES)
+        stemma = cls.from_dict(data)
+        stemma.release_info = info
+        return stemma
+
+    @classmethod
+    def from_url(cls, manifest_url: str, *, cache_dir: Any = None, file: str = "knowledge.json",
+                 verify_attestation: bool = True, expected_repository: str | None = None,
+                 expected_ref: str | None = None, offline: bool = False, timeout: float = 30,
+                 ssl_context: Any = None, max_export_bytes: int | None = None) -> "Stemma":
+        """Load `file` from a release mirror (https://.../manifest.json), verified before parsing.
+
+        With attestation (default) `expected_repository` and `expected_ref` are
+        required — the signer identity is never read from the mirror.
+        """
+        from . import release
+
+        data, info = release.load_url(
+            manifest_url, cache_dir=cache_dir, file=file, verify_attestation=verify_attestation,
+            expected_repository=expected_repository, expected_ref=expected_ref, offline=offline,
+            timeout=timeout, ssl_context=ssl_context,
+            max_export_bytes=max_export_bytes or release.DEFAULT_MAX_EXPORT_BYTES)
+        stemma = cls.from_dict(data)
+        stemma.release_info = info
+        return stemma
 
     @property
     def stats(self) -> dict[str, Any]:

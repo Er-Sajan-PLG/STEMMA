@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "stemma-adapter"
-version = "0.2.0"
+version = "0.3.0"
 description = "First-party read-only STEMMA adapter: SDK, CLI, local JSON API"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -20,6 +20,10 @@ classifiers = [
   "Topic :: Software Development :: Libraries :: Python Modules",
 ]
 dependencies = []
+
+[project.optional-dependencies]
+# Sigstore build-attestation verification for Stemma.from_release/from_url.
+verify = ["sigstore>=4,<5"]
 
 [project.scripts]
 stemma-adapter = "stemma_adapter.cli:entrypoint"

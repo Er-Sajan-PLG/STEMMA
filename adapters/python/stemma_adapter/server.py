@@ -12,7 +12,7 @@ from urllib.parse import parse_qs, unquote, urlsplit
 from .client import BadRequestError, NotFoundError, Stemma
 from .loader import ExportError
 
-ADAPTER_VERSION = "0.2.0"
+ADAPTER_VERSION = "0.3.0"
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent.parent.parent
 
