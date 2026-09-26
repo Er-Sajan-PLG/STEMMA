@@ -93,6 +93,20 @@ gh attestation verify knowledge.learninghub.json --repo Er-Sajan-PLG/STEMMA   # 
 python -m stemma_adapter validate knowledge.learninghub.json
 ```
 
+Without `gh` ≥ 2.49 (no `attestation` command), verify the same Sigstore
+attestation with [`sigstore-python`](https://pypi.org/project/sigstore/):
+
+```bash
+d=$(sha256sum knowledge.learninghub.json | cut -d' ' -f1)
+gh api repos/Er-Sajan-PLG/STEMMA/attestations/sha256:$d --jq '.attestations[0].bundle' > att.json
+sigstore verify github knowledge.learninghub.json --bundle att.json \
+  --repository Er-Sajan-PLG/STEMMA --ref refs/tags/<tag> --trigger push
+```
+
+Builds are reproducible: rebuilding a tag with
+`SOURCE_DATE_EPOCH=$(git log -1 --format=%ct) python3 scripts/build_release_bundle.py --release-tag <tag>`
+yields byte-identical assets.
+
 **Status:** until the owner records `docs/decisions/r6-identifier-base.md`
 (Amendment 0001), only pre-releases (`-rcN`) publish, marked
 `PENDING-PUBLICATION`; a final tag fails at `scripts/publication_gate.py`.
