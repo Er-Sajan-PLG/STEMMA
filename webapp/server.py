@@ -5,13 +5,20 @@ A simple, dependency-free HTTP server that exposes the human-in-the-loop
 ingestion workflow. It serves a single-page UI and a small JSON API over
 ``webapp.core.Workflow``. It never writes canonical knowledge.
 
-Run:
-    python3 webapp/server.py --host 0.0.0.0 --port 8081
+Run (single-owner admin tool; local by default):
+    python3 webapp/server.py                      # http://127.0.0.1:8081
+
+Security model: this is the private curation tool. It binds to 127.0.0.1, sends
+no CORS headers, and rejects requests whose Host / Origin is not this server
+(blocks cross-site requests and DNS rebinding). For remote access use a private
+network (e.g. ``tailscale serve 8081``) and add the name you browse with to
+``STEMMA_ALLOWED_HOSTS`` (comma-separated). Never expose it to the internet.
 """
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import sys
 import uuid
@@ -41,6 +48,23 @@ STATIC_DIR = Path(__file__).resolve().parent / "static"
 _SAFE_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$")
 
 
+_LOCAL_HOSTS = {"localhost", "127.0.0.1", "::1"}
+MAX_BODY_BYTES = int(os.environ.get("STEMMA_MAX_BODY_MB", "50")) * 1024 * 1024
+
+
+def _allowed_hosts() -> set[str]:
+    extra = {h.strip().lower() for h in os.environ.get("STEMMA_ALLOWED_HOSTS", "").split(",") if h.strip()}
+    return _LOCAL_HOSTS | extra
+
+
+def _hostname(netloc: str) -> str:
+    """Hostname part of a Host header / netloc (handles [::1]:8081 and host:port)."""
+    netloc = netloc.strip().lower()
+    if netloc.startswith("["):
+        return netloc[1:netloc.find("]")] if "]" in netloc else netloc
+    return netloc.rsplit(":", 1)[0] if netloc.count(":") == 1 else netloc
+
+
 def _safe_id(value: Any, label: str = "id") -> str:
     """Return ``value`` if it is a safe single path segment, else raise WebappError."""
     if not isinstance(value, str) or not _SAFE_ID_RE.match(value) or ".." in value:
@@ -55,12 +79,43 @@ class _Server(ThreadingHTTPServer):
 class _Handler(BaseHTTPRequestHandler):
     workflow: Workflow
 
+    def _request_allowed(self) -> bool:
+        """Same-origin + Host allowlist guard (CSRF / cross-site / DNS rebinding).
+
+        - Host header must name this server (localhost or STEMMA_ALLOWED_HOSTS).
+        - If the browser sends Origin, it must be exactly this server's origin.
+        - State-changing requests must be JSON (forces a CORS preflight, which
+          this server never approves).
+        Sends the error response itself and returns False when blocked.
+        """
+        host = self.headers.get("Host") or ""
+        if _hostname(host) not in _allowed_hosts():
+            self._send_json(403, {"error": f"host {host!r} not allowed; add it to STEMMA_ALLOWED_HOSTS "
+                                           "if you intentionally browse via that name"})
+            return False
+        origin = self.headers.get("Origin")
+        if origin is not None:
+            origin_netloc = urlsplit(origin).netloc.lower()
+            if origin == "null" or origin_netloc != host.strip().lower():
+                self._send_json(403, {"error": "cross-origin request blocked"})
+                return False
+        if self.command in ("POST", "PATCH", "PUT"):
+            ctype = (self.headers.get("Content-Type") or "").split(";")[0].strip().lower()
+            if ctype != "application/json":
+                self._send_json(415, {"error": "Content-Type must be application/json"})
+                return False
+        return True
+
     def do_OPTIONS(self) -> None:  # noqa: N802
-        self.send_response(204)
-        self._send_common_headers()
+        # No CORS: the UI is same-origin, so preflights are never approved.
+        self.send_response(405)
+        self.send_header("Allow", "GET, POST, PATCH, DELETE")
+        self.send_header("Content-Length", "0")
         self.end_headers()
 
     def do_GET(self) -> None:  # noqa: N802
+        if not self._request_allowed():
+            return
         parsed = urlsplit(self.path)
         path = parsed.path.rstrip("/") or "/"
         if path == "/" or path.startswith("/static/"):
@@ -109,6 +164,8 @@ class _Handler(BaseHTTPRequestHandler):
         return resolved.read_bytes(), content_type
 
     def do_POST(self) -> None:  # noqa: N802
+        if not self._request_allowed():
+            return
         try:
             status, payload = self._dispatch_post()
         except ProviderNotConfigured as exc:
@@ -123,6 +180,8 @@ class _Handler(BaseHTTPRequestHandler):
         self._send_json(status, payload)
 
     def do_PATCH(self) -> None:  # noqa: N802
+        if not self._request_allowed():
+            return
         try:
             status, payload = self._dispatch_patch()
         except NotFound as exc:
@@ -134,6 +193,8 @@ class _Handler(BaseHTTPRequestHandler):
         self._send_json(status, payload)
 
     def do_DELETE(self) -> None:  # noqa: N802
+        if not self._request_allowed():
+            return
         try:
             status, payload = self._dispatch_delete()
         except NotFound as exc:
@@ -673,9 +734,14 @@ class _Handler(BaseHTTPRequestHandler):
         raise WebappError("claims_file must be an existing .json file inside the workflow directory")
 
     def _read_json_body(self) -> dict:
-        length = int(self.headers.get("Content-Length") or "0")
+        try:
+            length = int(self.headers.get("Content-Length") or "0")
+        except ValueError:
+            raise WebappError("invalid Content-Length") from None
         if length <= 0:
             raise WebappError("request body is required")
+        if length > MAX_BODY_BYTES:
+            raise WebappError(f"request body too large (max {MAX_BODY_BYTES // (1024 * 1024)} MB)")
         raw = self.rfile.read(length).decode("utf-8")
         try:
             payload = json.loads(raw)
@@ -695,10 +761,9 @@ class _Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def _send_common_headers(self) -> None:
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.send_header("Cache-Control", "no-cache")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("Referrer-Policy", "no-referrer")
 
     def log_message(self, format: str, *args: Any) -> None:  # noqa: A003
         return
@@ -718,7 +783,7 @@ def _decode_base64(value: str) -> bytes:
     return base64.b64decode(value, validate=True)
 
 
-def serve(*, host: str = "0.0.0.0", port: int = 8081, workflow: Workflow | None = None) -> _Server:
+def serve(*, host: str = "127.0.0.1", port: int = 8081, workflow: Workflow | None = None) -> _Server:
     wf = workflow or Workflow()
     handler = type("StemmaWebHandler", (_Handler,), {"workflow": wf})
     return _Server((host, port), handler)
@@ -726,7 +791,8 @@ def serve(*, host: str = "0.0.0.0", port: int = 8081, workflow: Workflow | None 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="STEMMA ingestion/review webapp")
-    parser.add_argument("--host", default="0.0.0.0")
+    parser.add_argument("--host", default="127.0.0.1",
+                        help="bind address (default 127.0.0.1; use a private network like Tailscale for remote access)")
     parser.add_argument("--port", type=int, default=8081)
     parser.add_argument("--workflow", default=None, help="workflow dir (default: workflow/ under repo)")
     parser.add_argument("--open-and-exit", action="store_true", help="smoke-test then exit")

@@ -126,6 +126,30 @@ class Workflow:
     # ------------------------------------------------------------------ #
     # LLM provider configuration (stored under git-ignored workflow/)
     # ------------------------------------------------------------------ #
+    @staticmethod
+    def _stored_key_for(stored: dict, provider: str | None, base_url: str | None) -> str:
+        """The stored API key, but only for the exact provider + endpoint it was saved with."""
+        same_provider = (providers.canonical_provider(stored.get("provider") or "")
+                         == providers.canonical_provider(provider or ""))
+        norm = lambda u: (u or "").strip().rstrip("/").lower()  # noqa: E731
+        same_endpoint = norm(stored.get("base_url")) == norm(base_url)
+        return (stored.get("api_key") or "") if (same_provider and same_endpoint) else ""
+
+    @staticmethod
+    def _write_secret_json(path: Path, data: dict) -> None:
+        """Write a secret-bearing JSON file readable only by the owner (0600, dir 0700)."""
+        path.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            os.chmod(path.parent, 0o700)
+        except OSError:
+            pass
+        tmp = path.with_suffix(path.suffix + ".tmp")
+        fd = os.open(tmp, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            fh.write(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
+        os.chmod(tmp, 0o600)
+        os.replace(tmp, path)
+
     def read_llm_config(self, mask: bool = False) -> dict:
         path = self.config / "llm.json"
         if not path.exists():
@@ -173,15 +197,18 @@ class Workflow:
         # The GET config masks the key. If the UI submitted the masked value
         # (the user did not type a new key), preserve the existing secret.
         existing = self.read_llm_config()
-        if existing.get("provider") != provider:
-            # Switching providers always requires a fresh key (no cross-provider secret reuse).
-            existing = {"api_key": ""}
         if cfg["api_key"].startswith("••••") or not cfg["api_key"].strip():
-            cfg["api_key"] = existing.get("api_key") or ""
+            # Re-use the stored secret ONLY for the exact provider + endpoint it was
+            # saved for. Changing either requires re-entering the key; otherwise a
+            # caller could point base_url at their own server and receive the key.
+            reused = self._stored_key_for(existing, provider, cfg["base_url"])
+            if not reused and existing.get("api_key") and (
+                    providers.canonical_provider(existing.get("provider")) == provider):
+                raise WebappError("base_url changed: re-enter the API key for the new endpoint "
+                                  "(stored keys are never sent to a different endpoint)")
+            cfg["api_key"] = reused
         data = {k: (v.strip().rstrip("/") if isinstance(v, str) else v) for k, v in cfg.items()}
-        (self.config / "llm.json").write_text(
-            json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
-        )
+        self._write_secret_json(self.config / "llm.json", data)
         self.log("config_saved", detail={
             "provider": provider,
             "base_url": data["base_url"], "model": data["model"],
@@ -243,14 +270,15 @@ class Workflow:
                              base_url: str | None = None,
                              api_key: str | None = None) -> dict:
         """List models exposed by the selected provider/agent backend."""
-        cfg = self.read_llm_config()
-        provider = provider or cfg.get("provider") or "antigravity"
-        endpoint = (base_url if base_url is not None else cfg.get("base_url") or "").strip().rstrip("/")
-        key = (api_key if api_key is not None else cfg.get("api_key") or "").strip()
-        if key.startswith("••••"):
-            key = cfg.get("api_key") or ""
-        cfg = {**cfg, "provider": provider, "base_url": endpoint or cfg.get("base_url", ""),
-               "api_key": key or cfg.get("api_key", "")}
+        stored = self.read_llm_config()
+        provider = provider or stored.get("provider") or "antigravity"
+        endpoint = (base_url if base_url is not None else stored.get("base_url") or "").strip().rstrip("/")
+        endpoint = endpoint or stored.get("base_url", "")
+        key = (api_key or "").strip()
+        if not key or key.startswith("••••"):
+            # Never forward the stored secret to an endpoint it was not saved for.
+            key = self._stored_key_for(stored, provider, endpoint)
+        cfg = {**stored, "provider": provider, "base_url": endpoint, "api_key": key}
         try:
             result = providers.list_models(cfg)
         except providers.ProviderError as exc:
@@ -268,14 +296,15 @@ class Workflow:
         harness may expose its own login URL, which is opened in the user's
         browser.
         """
-        cfg = self.read_llm_config()
-        provider = provider or cfg.get("provider") or "antigravity"
-        endpoint = (base_url if base_url is not None else cfg.get("base_url") or "").strip().rstrip("/")
-        key = (api_key if api_key is not None else cfg.get("api_key") or "").strip()
-        if key.startswith("••••"):
-            key = cfg.get("api_key") or ""
-        cfg = {**cfg, "provider": provider, "base_url": endpoint or cfg.get("base_url", ""),
-               "api_key": key or cfg.get("api_key", "")}
+        stored = self.read_llm_config()
+        provider = provider or stored.get("provider") or "antigravity"
+        endpoint = (base_url if base_url is not None else stored.get("base_url") or "").strip().rstrip("/")
+        endpoint = endpoint or stored.get("base_url", "")
+        key = (api_key or "").strip()
+        if not key or key.startswith("••••"):
+            # Never forward the stored secret to an endpoint it was not saved for.
+            key = self._stored_key_for(stored, provider, endpoint)
+        cfg = {**stored, "provider": provider, "base_url": endpoint, "api_key": key}
         try:
             return providers.login(cfg)
         except providers.ProviderError as exc:
