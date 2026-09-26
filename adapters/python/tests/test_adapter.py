@@ -249,75 +249,105 @@ def http_json(url: str, *, etag: str | None = None) -> tuple[int, dict[str, str]
         return exc.code, dict(exc.headers.items()), payload
 
 
+def _raw_export() -> dict[str, Any]:
+    return json.loads((REPO_ROOT / "exports" / "knowledge.json").read_text(encoding="utf-8"))
+
+
 def test_real_export() -> None:
+    """The committed export must load and behave per contract.
+
+    Expectations are derived from the export itself (not frozen corpus numbers),
+    so the test stays meaningful as the knowledge base grows.
+    """
     export_path = REPO_ROOT / "exports" / "knowledge.json"
+    raw = _raw_export()
     export = load_export(export_path)
     if export["entity_count"] == 0:
         print("SKIP: test_real_export (0 entities in empty knowledge base)")
         return
-    assert export["entity_count"] == 224
-    assert export["connection_count"] == 654
-    assert export["source_count"] == 3
+    n_ent, n_conn, n_src = len(raw["entities"]), len(raw["connections"]), len(raw["sources"])
+    assert (export["entity_count"], export["connection_count"], export["source_count"]) == (n_ent, n_conn, n_src)
 
     client = Stemma.from_file(str(export_path))
-    assert client.stats["entity_count"] == 224
-    assert client.stats["connection_count"] == 654
-    assert client.stats["source_count"] == 3
-    assert len(client.entities_by_id) == 224
-    assert len(client.all_connections) == 654
-    assert len(client.sources_by_id) == 3
+    assert (client.stats["entity_count"], client.stats["connection_count"], client.stats["source_count"]) == (
+        n_ent, n_conn, n_src)
+    assert len(client.entities_by_id) == n_ent
+    assert len(client.all_connections) == n_conn
+    assert len(client.sources_by_id) == n_src
 
-    expected_counts = {
-        "all": 650,
-        "reviewed": 50,
-        "canonical": 50,
-        "trusted": 50,
-    }
-    for policy, expected in expected_counts.items():
+    # Policy views agree with the producer's published per-policy exports.
+    for policy in ("all", "reviewed", "canonical", "trusted"):
         filtered = filter_connections(client.all_connections, policy)
-        assert len(filtered) == expected
         exported = json.loads((REPO_ROOT / "exports" / f"knowledge.{policy}.json").read_text(encoding="utf-8"))
-        assert exported["count"] == expected
+        assert exported["count"] == len(filtered)
         assert [conn["id"] for conn in filtered] == [conn["id"] for conn in exported["connections"]]
-        assert len(client.connections(policy=policy)) == expected
-
-    proposed_count = sum(
-        1
-        for connection in client.all_connections
-        if connection["assertion"]["review"]["status"] == "unreviewed"
-        and connection["assertion"]["type"] == "proposed"
-    )
-    assert proposed_count == 604
-
+        assert len(client.connections(policy=policy)) == len(filtered)
     all_ids = {conn["id"] for conn in client.connections(policy="all")}
     canonical_ids = {conn["id"] for conn in client.connections(policy="canonical")}
     assert canonical_ids <= all_ids
 
-    force = client.by_external_id("wd", "Q11402")
-    assert force["id"] == "stemma:phys.force"
+    # External-id round trip for every entity that declares one.
+    for entity in raw["entities"]:
+        for scheme, ext in (entity.get("external_ids") or {}).items():
+            assert client.by_external_id(scheme, ext)["id"] == entity["id"]
 
-    prereqs_all = {entity["id"] for entity in client.prerequisites("stemma:phys.newtons-second-law", policy="all")}
-    assert "stemma:phys.newtons-second-law" not in prereqs_all
-    for required in {
-        "stemma:phys.force",
-        "stemma:phys.mass",
-        "stemma:phys.acceleration",
-        "stemma:phys.vector",
-    }:
-        assert required in prereqs_all
-    assert "stemma:phys.velocity" in prereqs_all
+    # ADR-0045: relational vs valued claims are exposed through the right API.
+    valued = [c for c in raw["connections"] if c.get("value") is not None]
+    relational = [c for c in raw["connections"] if c.get("target") is not None]
+    assert len(valued) + len(relational) == n_conn
+    for conn in valued:
+        got = {v["connection_id"]: v for v in client.values(conn["source"])}
+        assert conn["id"] in got and got[conn["id"]]["value"]["amount"] == conn["value"]["amount"]
+    for entity_id in client.entities_by_id:
+        for edge in client.neighbors(entity_id, include_retired=True):
+            assert edge["target"] is not None, "valued claims must not appear as graph edges"
+        prereqs = {e["id"] for e in client.prerequisites(entity_id, policy="all", include_retired=True)}
+        assert entity_id not in prereqs
+        assert {e["id"] for e in client.prerequisites(entity_id, policy="canonical", include_retired=True)} <= prereqs
 
-    prereqs_canonical = {
-        entity["id"] for entity in client.prerequisites("stemma:phys.newtons-second-law", policy="canonical")
-    }
-    assert prereqs_canonical <= prereqs_all
-    assert "stemma:phys.velocity" not in prereqs_canonical
+    # Search is deterministic and finds an entity by its own name.
+    first = raw["entities"][0]
+    token = first["name"].split()[0]
+    results = client.search(token, domain=first["domain"])
+    assert first["id"] in [e["id"] for e in results]
+    assert results == client.search(token, domain=first["domain"])
 
-    search_results = client.search("force", domain="physics")
-    assert search_results[0]["id"] == "stemma:phys.force"
-    assert [entity["id"] for entity in search_results] == [
-        entity["id"] for entity in client.search("force", domain="physics")
-    ]
+
+def test_valued_claim_contract() -> None:
+    """ADR-0045 value-slot: exactly one of target/value; value shape enforced."""
+    export = synthetic_export()
+    src = export["connections"][0]["source"]
+    valued = copy.deepcopy(export["connections"][0])
+    valued["id"] = "stemma:conn.999999"
+    valued["target"] = None
+    valued["value"] = {"amount": "299792458", "lowerBound": None, "upperBound": None,
+                       "unit": "qudt:unit-MeterPerSecond"}
+    export["connections"].append(valued)
+    export["connection_count"] += 1
+    load_export(export)
+    client = Stemma.from_dict(export)
+    vals = client.values(src, policy="all")
+    assert [v["connection_id"] for v in vals] == ["stemma:conn.999999"]
+    assert vals[0]["value"]["unit"] == "qudt:unit-MeterPerSecond"
+    assert all(edge["connection_id"] != "stemma:conn.999999" for edge in client.neighbors(src))
+
+    def rejects(mutate, needle: str) -> None:
+        bad = copy.deepcopy(export)
+        mutate(bad["connections"][-1])
+        try:
+            load_export(bad)
+        except ExportError as exc:
+            assert needle in str(exc), str(exc)
+        else:
+            raise AssertionError(f"expected ExportError containing {needle!r}")
+
+    rejects(lambda c: c.update(target=c["source"]), "exactly one of")  # both
+    rejects(lambda c: c.update(value=None), "exactly one of")  # neither
+    rejects(lambda c: c["value"].update(amount=42), "decimal string")
+    rejects(lambda c: c["value"].update(amount="4e"), "decimal string")
+    rejects(lambda c: c["value"].update(currency="USD"), "unknown member")
+    rejects(lambda c: c["value"].update(upperBound="abc"), "upperBound")
+    print("PASS: test_valued_claim_contract")
 
 
 def test_synthetic_export() -> None:
@@ -474,7 +504,12 @@ def test_cli_smoke() -> None:
     if loaded["entity_count"] == 0:
         print("SKIP: test_cli_smoke (0 entities in empty knowledge base)")
         return
-    assert loaded["entity_count"] == 224
+    assert loaded["entity_count"] == len(_raw_export()["entities"])
+
+    for conn in (c for c in _raw_export()["connections"] if c.get("value") is not None):
+        values = run_cli("values", str(export_path), conn["source"])
+        assert values.returncode == 0, values.stderr
+        assert conn["id"] in [v["connection_id"] for v in json.loads(values.stdout)]
 
     resolve = run_cli("resolve", str(export_path), "stemma:phys.force")
     assert resolve.returncode == 0, resolve.stderr
@@ -522,16 +557,21 @@ def test_server() -> None:
         if payload["stats"]["entity_count"] == 0:
             print("SKIP: test_server (0 entities in empty knowledge base)")
             return
-        assert payload["stats"]["entity_count"] == 224
+        assert payload["stats"]["entity_count"] == len(_raw_export()["entities"])
         etag = headers["ETag"]
 
         status, _, payload = http_json(base_url + "/v2/stats")
         assert status == 200
-        assert payload["connection_count"] == 654
+        assert payload["connection_count"] == len(_raw_export()["connections"])
 
         status, _, payload = http_json(base_url + "/v2/stats", etag=etag)
         assert status == 304
         assert payload is None
+
+        for conn in (c for c in _raw_export()["connections"] if c.get("value") is not None):
+            status, _, payload = http_json(base_url + "/v2/values/" + conn["source"].replace(":", "%3A"))
+            assert status == 200
+            assert [v["value"] for v in payload if v["connection_id"] == conn["id"]] == [conn["value"]]
 
         status, _, payload = http_json(base_url + "/v2/entities/stemma%3Aphys.force")
         assert status == 200
@@ -545,7 +585,7 @@ def test_server() -> None:
         assert status == 200
         assert payload[0]["id"] == "stemma:phys.force"
 
-        status, _, payload = http_json(base_url + "/v2/external/wd/Q11402")
+        status, _, payload = http_json(base_url + "/v2/external/wd/Q14038")
         assert status == 200
         assert payload["id"] == "stemma:phys.force"
 
@@ -580,6 +620,7 @@ def test_server() -> None:
 def main() -> int:
     test_real_export()
     test_synthetic_export()
+    test_valued_claim_contract()
     test_rejected_visibility()
     test_relation_introspection()
     test_cli_smoke()

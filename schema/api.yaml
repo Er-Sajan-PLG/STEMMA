@@ -203,6 +203,34 @@ paths:
         '200':
           description: Prerequisites
 
+  /v2/values/{id}:
+    get:
+      summary: Get valued claims for an entity (ADR-0045 value-slot)
+      description: >-
+        Connections whose object is a structured value ({amount, lowerBound,
+        upperBound, unit}) rather than a target entity. These never appear in
+        /v2/neighbors or /v2/prerequisites.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: relation
+          in: query
+          schema:
+            type: string
+        - name: policy
+          in: query
+          schema:
+            type: string
+            enum: [all, canonical, reviewed, trusted]
+      responses:
+        '200':
+          description: Valued claims sorted by connection id
+        '404':
+          description: Unknown entity id
+
   /v2/relations:
     get:
       summary: Get relation registry

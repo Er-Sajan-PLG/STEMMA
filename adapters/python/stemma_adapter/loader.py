@@ -29,7 +29,11 @@ TOP_LEVEL_REQUIRED = (
     "sources",
 )
 ENTITY_REQUIRED = ("id", "type", "name", "domain", "status", "definition", "provenance")
-CONNECTION_REQUIRED = ("id", "type", "source", "relation", "target", "assertion", "provenance")
+# ADR-0045 value-slot: a connection is EITHER relational (target: entity id) OR
+# valued (value: {amount, lowerBound?, upperBound?, unit?}) — exactly one non-null.
+CONNECTION_REQUIRED = ("id", "type", "source", "relation", "assertion", "provenance")
+VALUE_KEYS = {"amount", "lowerBound", "upperBound", "unit"}
+DECIMAL_RE = re.compile(r"^-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][-+]?[0-9]+)?$")
 SOURCE_REQUIRED = ("id", "type", "citation")
 
 
@@ -87,6 +91,24 @@ def _read_json(path: pathlib.Path) -> dict[str, Any]:
     except json.JSONDecodeError as exc:
         raise ExportError(f"invalid JSON in export {path}: {exc}") from exc
     return _require_mapping(data, "export")
+
+
+def _validate_value_slot(value: Any, label: str) -> None:
+    """ADR-0045 value slot: {amount: decimal string, lowerBound?, upperBound?, unit?}."""
+    obj = _require_mapping(value, label)
+    extra = set(obj) - VALUE_KEYS
+    if extra:
+        raise ExportError(f"{label} has unknown member(s): {', '.join(sorted(extra))}")
+    amount = obj.get("amount")
+    if not isinstance(amount, str) or not DECIMAL_RE.fullmatch(amount):
+        raise ExportError(f"{label}.amount must be a decimal string (e.g. '299792458')")
+    for bound in ("lowerBound", "upperBound"):
+        b = obj.get(bound)
+        if b is not None and (not isinstance(b, str) or not DECIMAL_RE.fullmatch(b)):
+            raise ExportError(f"{label}.{bound} must be a decimal string or null")
+    unit = obj.get("unit")
+    if unit is not None and (not isinstance(unit, str) or not unit.strip()):
+        raise ExportError(f"{label}.unit must be a non-empty string when present")
 
 
 def load_export(path_or_dict: str | pathlib.Path | Mapping[str, Any]) -> dict[str, Any]:
@@ -215,15 +237,25 @@ def load_export(path_or_dict: str | pathlib.Path | Mapping[str, Any]) -> dict[st
             )
 
         source_id = _require_pattern(conn_obj["source"], ENTITY_ID_RE, f"export.connections[{index}].source")
-        target_id = _require_pattern(conn_obj["target"], ENTITY_ID_RE, f"export.connections[{index}].target")
         if source_id not in entity_ids:
             raise ExportError(
                 f"export.connections[{index}].source refers to unknown entity {source_id}"
             )
-        if target_id not in entity_ids:
+        target_raw = conn_obj.get("target")
+        value_raw = conn_obj.get("value")
+        if (target_raw is None) == (value_raw is None):
             raise ExportError(
-                f"export.connections[{index}].target refers to unknown entity {target_id}"
+                f"export.connections[{index}] must carry exactly one of 'target' (relational "
+                "claim) or 'value' (valued claim, ADR-0045)"
             )
+        if target_raw is not None:
+            target_id = _require_pattern(target_raw, ENTITY_ID_RE, f"export.connections[{index}].target")
+            if target_id not in entity_ids:
+                raise ExportError(
+                    f"export.connections[{index}].target refers to unknown entity {target_id}"
+                )
+        else:
+            _validate_value_slot(value_raw, f"export.connections[{index}].value")
 
         assertion = _require_mapping(conn_obj["assertion"], f"export.connections[{index}].assertion")
         _require_members(assertion, ("status", "type", "review"), f"export.connections[{index}].assertion")
