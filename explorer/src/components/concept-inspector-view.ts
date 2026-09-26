@@ -28,13 +28,23 @@ export class ConceptInspectorView {
     this.onConceptSelect = options.onConceptSelect;
   }
 
+  private summary = '';
+
+  /** Corpus counts shown on the empty panel — always computed from the loaded export. */
+  public setSummary(entities: number, relations: number, values: number): void {
+    const plural = (n: number, one: string, many: string) => `${n} ${n === 1 ? one : many}`;
+    const parts = [plural(entities, 'concept', 'concepts'), plural(relations, 'relation', 'relations')];
+    if (values > 0) parts.push(plural(values, 'measured value', 'measured values'));
+    this.summary = parts.join(' · ');
+  }
+
   public renderEmpty(): void {
     this.currentDetails = null;
     this.container.innerHTML = `
       <div class="empty-inspector">
         <div class="empty-icon">⚛️</div>
         <h3 style="font-size:1.1rem;font-weight:700;color:#fff;">STEMMA — beginning</h3>
-        <p style="font-size:0.82rem;line-height:1.4;color:var(--text-secondary);max-width:280px;">70 entities · 134 relations · clean minimal. Click any node — it will center with its relations.</p>
+        <p style="font-size:0.82rem;line-height:1.4;color:var(--text-secondary);max-width:280px;">${this.summary ? `${this.summary} · ` : ''}Click any node — it will center with its relations.</p>
       </div>
     `;
   }

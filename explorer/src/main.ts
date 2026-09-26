@@ -6,6 +6,7 @@ import { ExplorerStateManager, ExplorerState } from './state/explorer-state';
 import { GraphView } from './components/graph-view';
 import { GraphLegend } from './components/graph-legend';
 import { ConceptInspectorView } from './components/concept-inspector-view';
+import { feedbackUrl } from './services/feedback';
 import { SearchFilterBar } from './components/search-filter-bar';
 import { AccessibleListView } from './components/accessible-list-view';
 
@@ -26,12 +27,8 @@ class ExplorerApp {
     this.showLoading(true);
 
     try {
-      try {
-        this.exportData = await loadKnowledgeExport('/exports/knowledge.json');
-      } catch (err) {
-        console.warn('Primary fetch /exports/knowledge.json failed, trying ./exports/knowledge.json...', err);
-        this.exportData = await loadKnowledgeExport('./exports/knowledge.json');
-      }
+      // BASE_URL is '/' locally and '/STEMMA/' on GitHub Pages.
+      this.exportData = await loadKnowledgeExport(`${import.meta.env.BASE_URL}exports/knowledge.json`);
       
       this.showLoading(false);
       this.initUI();
@@ -90,6 +87,9 @@ class ExplorerApp {
       container: inspectorContainer,
       onConceptSelect: (id) => this.stateManager.selectConcept(id)
     });
+    const conns = this.exportData.connections as Array<{ target?: string | null }>;
+    const relations = conns.filter(c => c.target != null).length;
+    this.inspectorView.setSummary(this.exportData.entities.length, relations, conns.length - relations);
 
     // 4. Init Accessible List View
     const listContainer = document.getElementById('accessibleList')!;
@@ -186,6 +186,15 @@ class ExplorerApp {
     }
 
     this.accessibleListView.render(matchingEntities, state.selectedConceptId);
+
+    // Feedback link carries the selected concept so reports are actionable.
+    const feedbackLink = document.getElementById('feedbackLink') as HTMLAnchorElement | null;
+    if (feedbackLink) {
+      const selected = state.selectedConceptId
+        ? this.exportData.entities.find(e => e.id === state.selectedConceptId) ?? null
+        : null;
+      feedbackLink.href = feedbackUrl(selected ? { id: selected.id, name: selected.name } : null);
+    }
 
     // Update Inspector
     if (state.selectedConceptId) {

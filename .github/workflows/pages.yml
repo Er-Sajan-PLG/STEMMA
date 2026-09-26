@@ -1,0 +1,84 @@
+name: Pages — family site (explorer + exports)
+
+# Read-only public site for family/testers (ADR-0054): the static 3D explorer
+# plus the published knowledge exports. No server, no keys, no accounts.
+# Served at https://er-sajan-plg.github.io/STEMMA/
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: Build site
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      # Fail closed: never publish an export that consumers can't load.
+      - name: Validate export with the consumer adapter
+        run: PYTHONPATH=adapters/python python -m stemma_adapter validate exports/knowledge.json
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: explorer/package-lock.json
+
+      - name: Install explorer dependencies
+        working-directory: explorer
+        run: npm ci
+
+      - name: Verify graph projection
+        working-directory: explorer
+        run: npm run verify
+
+      - name: Build explorer for /STEMMA/
+        working-directory: explorer
+        env:
+          STEMMA_BASE: /STEMMA/
+        run: npm run build
+
+      # Publish the real knowledge exports only (not embeddings/vector_store).
+      - name: Assemble site
+        run: |
+          set -euo pipefail
+          mkdir -p explorer/dist/exports
+          cp exports/knowledge*.json exports/knowledge.jsonld explorer/dist/exports/
+          touch explorer/dist/.nojekyll
+          test -s explorer/dist/index.html
+          test -s explorer/dist/exports/knowledge.json
+          grep -q '/STEMMA/assets/' explorer/dist/index.html
+          ls -la explorer/dist explorer/dist/exports
+
+      - uses: actions/configure-pages@v6
+
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: explorer/dist
+
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v5
