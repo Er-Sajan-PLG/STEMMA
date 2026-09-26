@@ -50,7 +50,7 @@ def check_embeddings():
             print(f"OK: embeddings exist — model {meta.get('model')} {meta.get('dimensions')} dim, {meta.get('entity_count')} entities, content_hash {meta.get('content_hash','')[:20]}..., deterministic, versioned")
             return True
         else:
-            print(f"INFO: embeddings not yet generated — run python3 scripts/embed.py --model sentence-transformers/all-MiniLM-L6-v2 (deterministic fake for demo if torch not installed)")
+            print("INFO: no embeddings (not committed by design, ADR-0054) — generate locally with python3 scripts/embed.py (needs sentence-transformers; --placeholder for pipeline tests only)")
             return True  # Don't fail, just info — embeddings are derived, regenerable
     except Exception as e:
         print(f"INFO: embeddings check failed: {e} — run embed.py")
