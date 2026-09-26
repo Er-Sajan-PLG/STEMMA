@@ -1,22 +1,70 @@
 {
   "export_version": "2.2.0",
-  "schema_version": "1.2.0",
+  "schema_version": "1.3.0",
   "policy": "type:unit",
-  "generated_at": "2026-09-22T02:23:18+00:00",
+  "content_hash": "sha256:cbf17acdb11cb78dfa15171580dabe1000731a4f9ae4d3e6f11c4b910903e157",
   "source": "content/ + connections/ + sources/ (canonical)",
-  "entity_count": 1,
+  "entity_count": 3,
   "connection_count": 1,
   "entities": [
+    {
+      "id": "stemma:phys.kilogram",
+      "type": "unit",
+      "name": "Kilogram",
+      "domain": "physics",
+      "subdomain": "measurement-units",
+      "status": "draft",
+      "definition": "The kilogram (symbol: kg) is the SI base unit of mass. It is defined by taking the fixed numerical value of the Planck constant h to be exactly 6.62607015e-34 when expressed in the unit joule second, J s, which is equal to kg m2 s-1, where the metre and the second are defined in terms of c and ΔνCs. Exact per BIPM definition of the kilogram (SI Brochure 9th ed., 2019, §2.3.1.2; the text of the 26th CGPM 2018, Resolution 1).",
+      "symbol": "kg",
+      "unit": "kilogram (kg)",
+      "same_dimensional_quantities": [
+        "inertial mass",
+        "gravitational mass",
+        "rest mass"
+      ],
+      "governed_by": [
+        "stemma:phys.si-definitions",
+        "stemma:phys.dimensional-analysis"
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "writer": "llm:coding-agent.001",
+        "source_kind": "standards-or-specification",
+        "source": "BIPM SI Brochure 9th ed. (2019) §2.3.1.2: the kilogram is defined by the fixed numerical value h = 6.62607015e-34 J s (kg m2 s-1), metre and second defined via c and ΔνCs.",
+        "link": "https://www.bipm.org/en/publications/si-brochure",
+        "original_author": "BIPM",
+        "retrieved_at": "2026-09-23"
+      },
+      "source_refs": [
+        "stemma:src.nist-si-brochure-9th"
+      ],
+      "external_ids": {
+        "wd": "Q11570"
+      },
+      "historical": {
+        "stated_by": "BIPM",
+        "year": 2019,
+        "where": "SI Brochure 9th ed."
+      }
+    },
     {
       "id": "stemma:phys.metre",
       "type": "unit",
       "name": "Metre",
       "domain": "physics",
       "subdomain": "measurement-units",
-      "status": "draft",
+      "status": "canonical",
       "definition": "The metre (symbol: m) is the base unit of length in the International System of Units (SI). It is scientifically defined as the length of the path travelled by light in a vacuum during a time interval of 1/299,792,458 of a second. Exact: c=299,792,458 m/s. Agreed per BIPM SI Brochure 9th ed. 2019 redefinition, fixing c exact.",
       "symbol": "m",
       "unit": "metre (m)",
+      "same_dimensional_quantities": [
+        "distance",
+        "width",
+        "height",
+        "displacement",
+        "wavelength",
+        "radius"
+      ],
       "governed_by": [
         "stemma:phys.si-definitions",
         "stemma:phys.dimensional-analysis"
@@ -28,7 +76,9 @@
         "source": "BIPM SI Brochure 9th ed. (2019) §2.3.1, p130-132: The metre, symbol m, is the SI unit of length. It is defined by taking the fixed numerical value of the speed of light in vacuum c to be 299792458 when expressed in m s-1. Exact: c=299,792,458 m/s. Agreed internationally.",
         "link": "https://www.bipm.org/en/publications/si-brochure",
         "original_author": "BIPM",
-        "retrieved_at": "2026-09-21"
+        "retrieved_at": "2026-09-21",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-23T04:35:19.817235+00:00"
       },
       "source_refs": [
         "stemma:src.nist-si-brochure-9th"
@@ -54,6 +104,47 @@
           }
         ]
       }
+    },
+    {
+      "id": "stemma:phys.second",
+      "type": "unit",
+      "name": "Second",
+      "domain": "physics",
+      "subdomain": "measurement-units",
+      "status": "draft",
+      "definition": "The second (symbol: s) is the SI base unit of time. It is defined by taking the fixed numerical value of the caesium frequency ΔνCs, the unperturbed ground-state hyperfine transition frequency of the caesium-133 atom, to be exactly 9,192,631,770 when expressed in the unit hertz, which is equal to s-1. Exact per BIPM definition of the second (SI Brochure 9th ed., 2019, §2.3.1.1; the text of the 26th CGPM 2018, Resolution 1).",
+      "symbol": "s",
+      "unit": "second (s)",
+      "same_dimensional_quantities": [
+        "duration",
+        "period",
+        "half-life",
+        "age"
+      ],
+      "governed_by": [
+        "stemma:phys.si-definitions",
+        "stemma:phys.dimensional-analysis"
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "writer": "llm:coding-agent.001",
+        "source_kind": "standards-or-specification",
+        "source": "BIPM SI Brochure 9th ed. (2019) §2.3.1.1: the second is defined by the fixed numerical value of ΔνCs = 9,192,631,770 Hz (unperturbed hyperfine transition of Cs-133).",
+        "link": "https://www.bipm.org/en/publications/si-brochure",
+        "original_author": "BIPM",
+        "retrieved_at": "2026-09-23"
+      },
+      "source_refs": [
+        "stemma:src.nist-si-brochure-9th"
+      ],
+      "external_ids": {
+        "wd": "Q11574"
+      },
+      "historical": {
+        "stated_by": "BIPM",
+        "year": 2019,
+        "where": "SI Brochure 9th ed."
+      }
     }
   ],
   "connections": [
@@ -61,7 +152,7 @@
       "id": "stemma:conn.000156",
       "type": "connection",
       "source": "stemma:phys.metre",
-      "relation": "related_to",
+      "relation": "derived_from",
       "value": {
         "amount": "299792458",
         "lowerBound": null,
@@ -72,7 +163,7 @@
         "status": "active",
         "type": "asserted",
         "review": {
-          "status": "unreviewed"
+          "status": "canonical"
         },
         "confidence": 1.0,
         "confidence_basis": "definitional"
@@ -83,7 +174,7 @@
         "assumptions": [
           "exact-defined-constant",
           "speed-of-light-in-vacuum-fixed",
-          "role-unit-definition-fixed-constant (corresponds_to reserved in relation-registry; adopted fallback used pending governance adoption)"
+          "role-unit-definition-fixed-constant (derived_from = the 2019 metre derives from the fixed c constant; dedicated value-claim relation reserved pending governance adoption)"
         ]
       },
       "evidence": [
@@ -123,11 +214,37 @@
               "audit_date": "2026-09-22",
               "sample_audit_rate": 0.1
             }
+          },
+          {
+            "type": "human",
+            "id": "human:curator.001"
           }
         ],
-        "review_history": []
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:16:10.348782+00:00",
+            "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:18:15.323738+00:00",
+            "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-23T04:35:35.329049+00:00",
+            "reason": "pilot canonicalization"
+          }
+        ]
       },
-      "claim_signature": "sha256:05b0f13292f921535563358922a67f807f562674b55e2fe2e62f49ba456b61da"
+      "claim_signature": "sha256:c84cf0ce9006ca6776f8864b5b653a85a6d8d27b480ef477386071d332f3ab00"
     }
   ]
 }

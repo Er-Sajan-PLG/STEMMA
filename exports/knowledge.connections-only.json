@@ -1,11 +1,11 @@
 {
   "export_version": "2.2.0",
-  "schema_version": "1.2.0",
+  "schema_version": "1.3.0",
   "policy": "connections-only",
-  "generated_at": "2026-09-22T02:23:18+00:00",
+  "content_hash": "sha256:cbf17acdb11cb78dfa15171580dabe1000731a4f9ae4d3e6f11c4b910903e157",
   "source": "content/ + connections/ + sources/ (canonical)",
-  "entity_count": 4,
-  "connection_count": 3,
+  "entity_count": 3,
+  "connection_count": 2,
   "entities": [
     {
       "id": "stemma:phys.force",
@@ -13,13 +13,24 @@
       "name": "Force",
       "domain": "physics",
       "subdomain": "mechanics",
-      "status": "draft",
-      "definition": "Force is the derived physical quantity of interaction: an influence capable of changing the state of motion of a body, Newton second law net force equals rate of change of momentum (for constant mass F = m a). SI derived unit the newton, N = kg m s-2. Reference: Halliday, Resnick, Walker 12th ed. Ch 5; Newton, Principia (1687), Lex II.",
+      "status": "canonical",
+      "definition": "Force is the derived physical quantity of mechanical interaction: the net force on a body equals the time rate of change of its linear momentum, F = dp/dt (Newton, Principia Lex II); for constant mass this reduces to F = m a. Force is a vector quantity — it has magnitude and direction and adds by vector addition (net force = vector sum). SI derived unit: the newton, N = kg m s-2. Reference: Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5; Newton, Principia (1687), Lex II.",
+      "quantity_kind": "derived",
+      "tensor_character": "vector",
       "symbol": "F",
       "unit": "newton (N = kg m s-2)",
+      "same_dimensional_quantities": [
+        "weight",
+        "tension",
+        "friction",
+        "normal force",
+        "buoyant force",
+        "thrust",
+        "drag"
+      ],
       "governed_by": [
         "stemma:phys.dimensional-analysis",
-        "stemma:phys.newtons-laws-of-motion"
+        "stemma:phys.newtons-second-law"
       ],
       "provenance": {
         "ai_drafted": true,
@@ -28,7 +39,9 @@
         "source": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5: net force ΣF = m a; Principia (1687), Lex II: mutationem motus proportionalem esse vi motrici impressae.",
         "link": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511",
         "original_author": "Halliday, Resnick, Walker",
-        "retrieved_at": "2026-09-22"
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-23T04:35:19.890893+00:00"
       },
       "source_refs": [
         "stemma:src.halliday-resnick-walker-12th",
@@ -44,50 +57,22 @@
       }
     },
     {
-      "id": "stemma:phys.length",
-      "type": "quantity",
-      "name": "Length",
-      "domain": "physics",
-      "subdomain": "measurement-units",
-      "status": "draft",
-      "definition": "Length is the fundamental physical quantity of spatial extent — the measure of one-dimensional distance between points. It is one of the seven base quantities of the SI (dimension L); its SI base unit is the metre (m). Agreed per BIPM SI Brochure 9th ed. (2019), base quantities table.",
-      "symbol": "L",
-      "unit": "metre (m)",
-      "governed_by": [
-        "stemma:phys.si-definitions",
-        "stemma:phys.dimensional-analysis"
-      ],
-      "provenance": {
-        "ai_drafted": true,
-        "writer": "llm:coding-agent.001",
-        "source_kind": "standards-or-specification",
-        "source": "BIPM SI Brochure 9th ed. (2019): among the seven SI base quantities, length with base unit metre; metre defined by fixed numerical value of c in vacuum (2.3.1).",
-        "link": "https://www.bipm.org/en/publications/si-brochure",
-        "original_author": "BIPM",
-        "retrieved_at": "2026-09-22"
-      },
-      "source_refs": [
-        "stemma:src.nist-si-brochure-9th"
-      ],
-      "external_ids": {
-        "wd": "Q11433"
-      },
-      "historical": {
-        "stated_by": "BIPM",
-        "year": 2019,
-        "where": "SI Brochure 9th ed."
-      }
-    },
-    {
       "id": "stemma:phys.mass",
       "type": "quantity",
       "name": "Mass",
       "domain": "physics",
       "subdomain": "measurement-units",
-      "status": "draft",
-      "definition": "Mass is the fundamental physical quantity measuring inertia and amount of substance of a body. It is one of the seven base quantities of the SI (dimension M); its SI base unit is the kilogram (kg), defined by taking the fixed numerical exact value of the Planck constant h = 6.62607015e-34 J s. Agreed per BIPM SI Brochure 9th ed. (2019).",
+      "status": "canonical",
+      "definition": "Mass is the SI base physical quantity measuring a body's inertia and its quantity of matter. Its SI unit, the kilogram, is defined by taking the fixed numerical value of the Planck constant h to be exactly 6.62607015e-34 when expressed in J s = kg m2 s-1, with the metre and second as separately defined (SI 2019 redefinition). Agreed per BIPM SI Brochure 9th ed. (2019) §2.3.1.",
       "symbol": "M",
       "unit": "kilogram (kg)",
+      "same_dimensional_quantities": [
+        "inertial mass",
+        "gravitational mass",
+        "rest mass"
+      ],
+      "quantity_kind": "base",
+      "tensor_character": "scalar",
       "governed_by": [
         "stemma:phys.si-definitions",
         "stemma:phys.dimensional-analysis"
@@ -99,7 +84,9 @@
         "source": "BIPM SI Brochure 9th ed. (2019): mass among the seven SI base quantities; kilogram defined by fixed h = 6.62607015e-34 kg m2 s-1 (2.3.1).",
         "link": "https://www.bipm.org/en/publications/si-brochure",
         "original_author": "BIPM",
-        "retrieved_at": "2026-09-22"
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-23T04:35:20.044882+00:00"
       },
       "source_refs": [
         "stemma:src.nist-si-brochure-9th"
@@ -119,10 +106,18 @@
       "name": "Metre",
       "domain": "physics",
       "subdomain": "measurement-units",
-      "status": "draft",
+      "status": "canonical",
       "definition": "The metre (symbol: m) is the base unit of length in the International System of Units (SI). It is scientifically defined as the length of the path travelled by light in a vacuum during a time interval of 1/299,792,458 of a second. Exact: c=299,792,458 m/s. Agreed per BIPM SI Brochure 9th ed. 2019 redefinition, fixing c exact.",
       "symbol": "m",
       "unit": "metre (m)",
+      "same_dimensional_quantities": [
+        "distance",
+        "width",
+        "height",
+        "displacement",
+        "wavelength",
+        "radius"
+      ],
       "governed_by": [
         "stemma:phys.si-definitions",
         "stemma:phys.dimensional-analysis"
@@ -134,7 +129,9 @@
         "source": "BIPM SI Brochure 9th ed. (2019) §2.3.1, p130-132: The metre, symbol m, is the SI unit of length. It is defined by taking the fixed numerical value of the speed of light in vacuum c to be 299792458 when expressed in m s-1. Exact: c=299,792,458 m/s. Agreed internationally.",
         "link": "https://www.bipm.org/en/publications/si-brochure",
         "original_author": "BIPM",
-        "retrieved_at": "2026-09-21"
+        "retrieved_at": "2026-09-21",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-23T04:35:19.817235+00:00"
       },
       "source_refs": [
         "stemma:src.nist-si-brochure-9th"
@@ -164,59 +161,10 @@
   ],
   "connections": [
     {
-      "id": "stemma:conn.000155",
-      "type": "connection",
-      "source": "stemma:phys.length",
-      "relation": "related_to",
-      "target": "stemma:phys.metre",
-      "assertion": {
-        "status": "active",
-        "type": "asserted",
-        "review": {
-          "status": "unreviewed"
-        },
-        "confidence": 1.0,
-        "confidence_basis": "definitional"
-      },
-      "context": {
-        "domain": "physics",
-        "subdomain": "measurement-units",
-        "assumptions": [
-          "international-system-of-units",
-          "role-si-base-unit-of-length (has_unit reserved in relation-registry; adopted fallback used pending governance adoption)"
-        ]
-      },
-      "evidence": [
-        {
-          "type": "standard",
-          "stance": "supports",
-          "source_ref": "stemma:src.nist-si-brochure-9th",
-          "locator": "SI Brochure 9th ed. (2019), base quantities table: length, unit metre (m)",
-          "description": "SI 2019 defines length as a base quantity with base unit the metre."
-        }
-      ],
-      "provenance": {
-        "asserted_by": {
-          "type": "llm",
-          "id": "llm:coding-agent.001"
-        },
-        "generated_by": {
-          "type": "llm",
-          "id": "llm:coding-agent.001"
-        },
-        "method": {
-          "type": "manual"
-        },
-        "reviewed_by": [],
-        "review_history": []
-      },
-      "claim_signature": "sha256:5518065a76cf7aefe1e1f01807e6dc53fc6bb0c72e1c97d2f10394c03a259135"
-    },
-    {
       "id": "stemma:conn.000156",
       "type": "connection",
       "source": "stemma:phys.metre",
-      "relation": "related_to",
+      "relation": "derived_from",
       "value": {
         "amount": "299792458",
         "lowerBound": null,
@@ -227,7 +175,7 @@
         "status": "active",
         "type": "asserted",
         "review": {
-          "status": "unreviewed"
+          "status": "canonical"
         },
         "confidence": 1.0,
         "confidence_basis": "definitional"
@@ -238,7 +186,7 @@
         "assumptions": [
           "exact-defined-constant",
           "speed-of-light-in-vacuum-fixed",
-          "role-unit-definition-fixed-constant (corresponds_to reserved in relation-registry; adopted fallback used pending governance adoption)"
+          "role-unit-definition-fixed-constant (derived_from = the 2019 metre derives from the fixed c constant; dedicated value-claim relation reserved pending governance adoption)"
         ]
       },
       "evidence": [
@@ -278,11 +226,37 @@
               "audit_date": "2026-09-22",
               "sample_audit_rate": 0.1
             }
+          },
+          {
+            "type": "human",
+            "id": "human:curator.001"
           }
         ],
-        "review_history": []
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:16:10.348782+00:00",
+            "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:18:15.323738+00:00",
+            "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-23T04:35:35.329049+00:00",
+            "reason": "pilot canonicalization"
+          }
+        ]
       },
-      "claim_signature": "sha256:05b0f13292f921535563358922a67f807f562674b55e2fe2e62f49ba456b61da"
+      "claim_signature": "sha256:c84cf0ce9006ca6776f8864b5b653a85a6d8d27b480ef477386071d332f3ab00"
     },
     {
       "id": "stemma:conn.000157",
@@ -294,7 +268,7 @@
         "status": "active",
         "type": "asserted",
         "review": {
-          "status": "unreviewed"
+          "status": "canonical"
         },
         "confidence": 1.0,
         "confidence_basis": "expert_review"
@@ -339,8 +313,35 @@
         "method": {
           "type": "manual"
         },
-        "reviewed_by": [],
-        "review_history": []
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:curator.001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:16:10.390451+00:00",
+            "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:18:15.366572+00:00",
+            "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-23T04:35:35.389605+00:00",
+            "reason": "pilot canonicalization"
+          }
+        ]
       },
       "claim_signature": "sha256:5ef7c09f3a7927a4522a322893f6bd70a865899b90dd4abacd884d8d5f29887b"
     }

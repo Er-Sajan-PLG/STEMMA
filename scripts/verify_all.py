@@ -31,6 +31,9 @@ steps = [
     [sys.executable, str(ROOT / "scripts/hitl_check.py"), "--check-workflow"],
     [sys.executable, str(ROOT / "scripts/graph_analysis.py")],
     [sys.executable, str(ROOT / "scripts/export_review_aware.py")],
+    # Subset exports are published by Pages (exports/knowledge*.json); regenerate so
+    # CI's freshness diff catches staleness (they had drifted since the R4 canon tier).
+    [sys.executable, str(ROOT / "scripts/export_subsets.py")],
     [sys.executable, str(ROOT / "tests/registry/test_registry_coherence.py")],
     [sys.executable, str(ROOT / "tests/registry/test_domain_identity.py")],
     [sys.executable, str(ROOT / "tests/versioning/test_validation_report.py")],
