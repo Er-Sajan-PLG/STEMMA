@@ -1,0 +1,41 @@
+name: 💬 Feedback on STEMMA
+description: Spotted something wrong, confusing, or missing on the STEMMA site? Tell us here.
+title: "[Feedback] "
+labels: ["feedback"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping! Plain words are perfect — no technical knowledge needed.
+        Please don't include passwords or private information: issues on this repository are public.
+  - type: input
+    id: concept
+    attributes:
+      label: Which concept? (optional)
+      description: Filled in automatically if you used the Feedback button while a concept was selected.
+      placeholder: "e.g. stemma:phys.force"
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of feedback?
+      options:
+        - Something looks wrong (a fact, a number, or a link)
+        - Something is confusing or hard to understand
+        - A concept or connection is missing
+        - The site doesn't work properly (display, speed, phone)
+        - An idea or suggestion
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Tell us more
+      description: What did you see, and what did you expect? A source link helps if you think a fact is wrong.
+    validations:
+      required: true
+  - type: input
+    id: device
+    attributes:
+      label: Device / browser (optional)
+      placeholder: "e.g. Android phone, Chrome"
