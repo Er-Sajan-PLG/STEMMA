@@ -250,7 +250,8 @@ jobs:
       - name: Run full pytest suite
         run: python3 -m pytest tests/ -q
       - name: Check exports/reports untouched by tests
-        run: git diff --exit-code -- exports reports || (echo "FAIL: tests mutated derived artifacts"; exit 1)
+        run: |
+          git diff --exit-code -- exports reports || { echo "FAIL: tests mutated derived artifacts"; exit 1; }
 
   check-branching:
     name: Branching Strategy
