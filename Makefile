@@ -24,7 +24,7 @@ explorer-build:
 	@echo "Explorer OK"
 
 webapp-test:
-	python3 scripts/hitl_check.py --check-workflow || echo "HITL OK"
+	python3 scripts/hitl_check.py --check-workflow
 	test -f schema/template-registry.yaml
 	grep -q "version: '2.0.0'" schema/template-registry.yaml
 	test -f schema/embedding-registry.yaml
