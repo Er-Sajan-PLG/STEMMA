@@ -220,6 +220,11 @@ inactive, a group (`human:institution.*`) or not a human. Machine drafts are
 recorded as `process:deterministic-draft.v1` / `llm:antigravity-001`; when you
 edit one you become `writer` and the machine stays as `drafted_by`.
 
+```bash
+export STEMMA_REVIEWER_ID=human:curator.001   # your id in schema/agent-registry.yaml
+python3 webapp/server.py --port 8081
+```
+
 Agents must never set `writer`/`reviewer` to a human id on the human's behalf, and must never
 default a missing writer to a human id. `hitl_check.py` and `validate.py` reject unregistered ids.
 

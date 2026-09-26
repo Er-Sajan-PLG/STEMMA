@@ -128,7 +128,13 @@ python3 scripts/export_consumers.py --consumer general --format json
 ```
 
 Exit code `0` = valid. Explore visually: `npm --prefix explorer run dev`.
-Ingestion/review UI + RAG playground: `python3 webapp/server.py --port 8081`
+Ingestion/review UI + RAG playground (admin only, loopback):
+
+```bash
+export STEMMA_REVIEWER_ID=human:curator.001   # your id in schema/agent-registry.yaml
+python3 webapp/server.py --port 8081
+```
+
 (see [docs/WEBAPP.md](docs/WEBAPP.md), [docs/RAG.md](docs/RAG.md),
 [docs/EMBEDDINGS.md](docs/EMBEDDINGS.md), [docs/API.md](docs/API.md)).
 

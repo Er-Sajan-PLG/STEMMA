@@ -35,8 +35,12 @@ upload ──► extract ──► draft (LLM seam, optional) ──► human re
 
 ```bash
 # From the repo root — binds to 127.0.0.1 (local only) by default
+export STEMMA_REVIEWER_ID=human:curator.001   # your id in schema/agent-registry.yaml
 python3 webapp/server.py --port 8081
 ```
+
+Without a valid `STEMMA_REVIEWER_ID` the UI still loads, but *Save human edit*
+and *Stage* are refused (see **Who you are** below).
 
 Open `http://127.0.0.1:8081`. The default port is `8081` so it does not collide
 with common local harness ports such as DeepSeek/Antigravity harnesses on `3080`.
@@ -58,6 +62,7 @@ the read-only explorer site instead — see ADR-0054).
 internet. With [Tailscale](https://tailscale.com/kb/1312/serve):
 
 ```bash
+export STEMMA_REVIEWER_ID=human:curator.001            # your id in schema/agent-registry.yaml
 python3 webapp/server.py --port 8081                   # still loopback-only
 tailscale serve --bg 8081                              # HTTPS on your tailnet
 export STEMMA_ALLOWED_HOSTS=<machine>.<tailnet>.ts.net # the name you browse with
@@ -85,6 +90,7 @@ as `drafted_by` — the origin is never rewritten.
 To use a different workflow directory:
 
 ```bash
+export STEMMA_REVIEWER_ID=human:curator.001
 STEMMA_WORKFLOW_DIR=/tmp/stemma-workflow python3 webapp/server.py --port 8081
 ```
 
