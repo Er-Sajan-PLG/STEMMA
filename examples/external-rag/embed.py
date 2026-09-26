@@ -61,10 +61,12 @@ def main():
     embeddings = []
     for ent in entities:
         text = chunk_entity(ent)
-        vec = fake_embed(text, dim=384)  # fake deterministic for demo, no torch needed
+        vec = fake_embed(text, dim=384)  # placeholder hash vector: shows the data flow, NOT semantics
         embeddings.append({
             'entity_id': ent['id'],
-            'model': args.model,
+            'model': 'stemma:placeholder-hash',  # never label hash vectors with a real model id
+            'requested_model': args.model,
+            'placeholder': True,
             'dimensions': 384,
             'vector': vec,
             'content': text,
@@ -81,7 +83,9 @@ def main():
     vs_path = ROOT / args.vector_store
     vs_path.mkdir(parents=True, exist_ok=True)
     meta = {
-        'model': args.model,
+        'model': 'stemma:placeholder-hash',
+        'requested_model': args.model,
+        'placeholder': True,
         'dimensions': 384,
         'content_hash': content_hash,
         'entity_count': len(embeddings),

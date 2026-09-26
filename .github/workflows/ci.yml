@@ -172,15 +172,32 @@ jobs:
         run: pip install -r requirements.txt
       - name: Validate first
         run: python3 scripts/validate.py
-      - name: Generate embeddings
+      - name: No embeddings committed or published (ADR-0054)
         run: |
+          if git ls-files exports/embeddings.jsonl exports/vector_store | grep -q .; then
+            echo "FAIL: derived embeddings are committed under exports/"; exit 1
+          fi
+          echo "No committed embeddings OK"
+      - name: embed.py refuses to fake real-model embeddings
+        run: |
+          if python3 -c "import sentence_transformers" 2>/dev/null; then
+            echo "sentence-transformers installed; refusal path not applicable"; exit 0
+          fi
+          set +e
           python3 scripts/embed.py --model sentence-transformers/all-MiniLM-L6-v2
-          test -f exports/embeddings.jsonl
-          test -f exports/vector_store/meta.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2 || { echo "FAIL: expected exit 2 without --placeholder, got $rc"; exit 1; }
+          test ! -e exports/embeddings.jsonl || { echo "FAIL: wrote embeddings without a real model"; exit 1; }
+          echo "Refusal OK"
+      - name: Generate placeholder embeddings (pipeline test only)
+        run: |
+          python3 scripts/embed.py --model sentence-transformers/all-MiniLM-L6-v2 --placeholder
+          python3 -c 'import json; m=json.load(open("exports/vector_store/meta.json")); assert m["placeholder"] is True and m["model"]=="stemma:placeholder-hash", m; print("Honest labelling OK")'
       - name: Check embeddings deterministic
         run: |
           cp exports/embeddings.jsonl /tmp/embeddings1.jsonl
-          python3 scripts/embed.py --model sentence-transformers/all-MiniLM-L6-v2
+          python3 scripts/embed.py --model sentence-transformers/all-MiniLM-L6-v2 --placeholder
           diff /tmp/embeddings1.jsonl exports/embeddings.jsonl && echo "Deterministic OK"
       - name: Check content_hash versioning
         run: python3 -c 'import json; m=json.load(open("exports/vector_store/meta.json")); assert m["content_hash"].startswith("sha256:"); print("Content-hash OK")'

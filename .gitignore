@@ -13,3 +13,9 @@ workflow/
 # at dev/build time — the validator never writes into explorer/.
 explorer/public/exports/
 .env
+
+# Derived embeddings are never committed or published (ADR-0054): they are
+# regenerable, model-specific, and a consumer concern. embed.py refuses to write
+# fake vectors unless --placeholder (pipeline tests only).
+exports/embeddings.jsonl
+exports/vector_store/

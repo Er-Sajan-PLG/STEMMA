@@ -1,3 +1,11 @@
 [
-  "stemma:phys.metre"
+  "stemma:phys.conservation-energy",
+  "stemma:phys.force",
+  "stemma:phys.kilogram",
+  "stemma:phys.length",
+  "stemma:phys.mass",
+  "stemma:phys.metre",
+  "stemma:phys.newtons-second-law",
+  "stemma:phys.second",
+  "stemma:phys.time"
 ]

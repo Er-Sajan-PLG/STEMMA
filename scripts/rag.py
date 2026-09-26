@@ -117,6 +117,9 @@ def vector_search(query: str, top_k: int = 5, model_id: str = None, domain: str 
     if not embeddings:
         return []
 
+    placeholder = bool(embeddings[0].get('placeholder'))
+    if placeholder:
+        print("WARNING: embeddings are placeholders (embed.py --placeholder); scores are meaningless", file=sys.stderr)
     dim = embeddings[0].get('dimensions', 384)
     model_used = embeddings[0].get('model', model_id or 'sentence-transformers/all-MiniLM-L6-v2')
     query_vec = get_embedding_for_query(query, model_used, dim)
@@ -141,6 +144,7 @@ def vector_search(query: str, top_k: int = 5, model_id: str = None, domain: str 
             'score': score,
             'content': emb.get('content',''),
             'entity_id': emb['entity_id'],
+            **({'placeholder': True} if placeholder else {}),
         })
     return results
 
