@@ -34,6 +34,7 @@ if str(ROOT / "webapp") not in sys.path:
     sys.path.insert(0, str(ROOT / "webapp"))
 
 from core import (  # noqa: E402
+    DETERMINISTIC_DRAFT_WRITER,
     CandidateInvalid,
     ExtractionFailed,
     NotFound,
@@ -474,7 +475,9 @@ class _Handler(BaseHTTPRequestHandler):
                             "governed_by": ent.get("governed_by",[]),
                             "provenance": {
                                 "ai_drafted": False,
-                                "writer": "human:curator.001",
+                                # H1: machine output carries a machine identity; a human
+                                # becomes writer only by editing (update_candidate).
+                                "writer": DETERMINISTIC_DRAFT_WRITER,
                                 "source_kind": "standards-or-specification",
                                 "source": f"Deterministic from {doc_id} + SI Brochure constants",
                                 "link": "https://www.bipm.org/en/publications/si-brochure",
@@ -514,10 +517,10 @@ class _Handler(BaseHTTPRequestHandler):
         if path.startswith("/api/candidates/") and path.endswith("/stage"):
             candidate_id = self._id_from_path(path, "/api/candidates/", suffix="/stage")
             body = self._read_json_body()
-            reviewer = str(body.get("reviewer") or "")
-            if not reviewer:
-                raise WebappError("reviewer is required to stage a proposal")
-            return 201, wf.stage_candidate(candidate_id, reviewer=reviewer, note=str(body.get("note") or ""))
+            # Reviewer = the configured operator (STEMMA_REVIEWER_ID); a body value is
+            # accepted only if it matches, so a request cannot claim someone else.
+            return 201, wf.stage_candidate(candidate_id, reviewer=(str(body.get("reviewer") or "") or None),
+                                           note=str(body.get("note") or ""))
         # NEW — RAG query POST
         if path == "/api/rag/query":
             body = self._read_json_body()

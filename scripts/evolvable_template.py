@@ -144,7 +144,9 @@ external_ids:
         unit=entity.get("unit",""),
         governed_by=json.dumps(entity.get("governed_by",[])),
         ai_drafted=str(ai_drafted).lower(),
-        writer="llm:antigravity-001" if ai_drafted else "human:curator.001",
+        # H1: drafts carry their real (machine) author; a human becomes writer only by
+        # editing the draft in the review workflow. Both ids are in schema/agent-registry.yaml.
+        writer="llm:antigravity-001" if ai_drafted else "process:deterministic-draft.v1",
         source_kind="standards-or-specification",
         source=f"BIPM SI Brochure 9th ed. (2019) and Halliday Resnick Walker 12th ed. for {entity['name']}. Exact definition with fixed constants.",
         link="https://www.bipm.org/en/publications/si-brochure",
@@ -250,7 +252,7 @@ def main():
         out_path=ROOT/f"workflow/candidates/deterministic/{ent['slug']}.md"
         out_path.parent.mkdir(parents=True, exist_ok=True)
         out_path.write_text(md, encoding="utf-8")
-        print(f"  Wrote markdown preview: {out_path} (ai_drafted={ 'true' if llm_def else 'false' }, writer={'llm' if llm_def else 'human'})")
+        print(f"  Wrote markdown preview: {out_path} (ai_drafted={ 'true' if llm_def else 'false' }, writer={'llm:antigravity-001' if llm_def else 'process:deterministic-draft.v1'})")
 
     print(f"\nDone. Markdown previews in workflow/candidates/deterministic/ — human must explicitly edit before canonical (HITL).")
     print(f"Even LLM fallback requires HITL: audit logs candidate_edited by human before canonical.")

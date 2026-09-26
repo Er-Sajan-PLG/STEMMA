@@ -694,24 +694,23 @@ function renderCandidate(container, candidate) {
 }
 
 async function stageCandidate(candidate) {
-  const reviewer = prompt("Human reviewer (must be human:curator.001 or active human in agent-registry.yaml):", "human:curator.001");
-  if (!reviewer) return;
-  if (!reviewer.startsWith("human:")) {
-    alert("Reviewer must be human:* — HITL requires human reviewer");
-    return;
-  }
-  const note = prompt("Review note / evidence decision (why human edited, verification):", "Human explicitly edited markdown, verified standard definition with exact SI, checked governed_by, source_refs, writer human, link") || "";
+  // The reviewer identity is the server's configured operator (STEMMA_REVIEWER_ID),
+  // checked against schema/agent-registry.yaml — the browser never asserts it (H1).
+  const note = prompt("Review note / evidence decision (what you verified and why):", "") ;
+  if (note === null) return;
   try {
     const result = await api(`/api/candidates/${candidate.id}/stage`, {
       method: "POST",
-      body: JSON.stringify({ reviewer, note }),
+      body: JSON.stringify({ note }),
     });
-    alert(`Staged proposal: ${result.path}\n\nNext: python3 scripts/review_entity.py accept <slug> --reviewer ${reviewer}\nThen canonicalize.\nValidation includes hitl_check.py — must pass HITL (human edited markdown). Deterministic scales, LLM fallback even needs HITL.`);
+    const reviewer = (result.record && result.record.human_review && result.record.human_review.reviewer) || "(operator)";
+    alert(`Staged proposal: ${result.path}\nRecorded reviewer: ${reviewer}\n\nNext: python3 scripts/review_entity.py accept <slug> --reviewer ${reviewer}\nThen canonicalize (hitl_check.py runs in the gate).`);
     await refreshCandidates(state.selectedDoc);
     await refreshProposals();
     await refreshAudit();
-  } catch (e) { alert(`stage failed: ${e.message}\n\nHINT: Did human explicitly edit markdown first? HITL check requires candidate_edited event by human. Click Save human edit first.`); }
+  } catch (e) { alert(`stage failed: ${e.message}`); }
 }
+
 
 async function refreshProposals() {
   const container = document.getElementById("proposals");
