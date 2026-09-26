@@ -4,7 +4,7 @@
   deterministic derived export (`exports/knowledge.json`, export_version from
   `schema/VERSION.yaml`) as `/v2/*` endpoints (see [../schema/api.yaml](../schema/api.yaml)):
   `/v2/stats`, `/v2/entities`, `/v2/entities/{id}`, `/v2/connections`, `/v2/search`,
-  `/v2/neighbors/{id}`, `/v2/prerequisites/{id}`, `/v2/relations`, `/v2/embeddings`,
+  `/v2/neighbors/{id}`, `/v2/prerequisites/{id}`, `/v2/values/{id}`, `/v2/relations`, `/v2/embeddings`,
   `/v2/rag/search`, `/v2/rag/query` (POST), `/v2/export`.
 - Contract: [../docs/API.md](../docs/API.md) and exported sidecars (relation
   registry, vocabularies) inside the export itself.

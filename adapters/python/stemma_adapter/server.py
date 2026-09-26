@@ -95,6 +95,7 @@ class StemmaServer:
                             "/v2/connections",
                             "/v2/neighbors/{id}",
                             "/v2/prerequisites/{id}",
+                            "/v2/values/{id}",
                             "/v2/search?q=...",
                             "/v2/external/{scheme}/{value}",
                             "/v2/relations",
@@ -154,6 +155,16 @@ class StemmaServer:
                         policy=self._query_value(query, "policy"),
                         include_retired=self._query_bool(query, "include_retired", False),
                         limit=self._query_int(query, "limit"),
+                    )
+
+                if path.startswith("/v2/values/"):
+                    entity_id = unquote(path.removeprefix("/v2/values/"))
+                    return self.adapter_client.values(
+                        entity_id,
+                        relation=self._query_value(query, "relation"),
+                        review=self._query_value(query, "review"),
+                        policy=self._query_value(query, "policy"),
+                        include_retired=self._query_bool(query, "include_retired", False),
                     )
 
                 if path.startswith("/v2/prerequisites/"):

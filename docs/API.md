@@ -21,7 +21,8 @@ Paths:
 - /v2/entities/{id} — get entity e.g., stemma:phys.metre
 - /v2/connections?source=...&target=...&relation=... — list connections 8 relations
 - /v2/search?q=...&domain=...&type=...&limit=... — search
-- /v2/neighbors/{id}, /v2/prerequisites/{id}?policy=... — graph queries
+- /v2/neighbors/{id}, /v2/prerequisites/{id}?policy=... — graph queries (entity→entity edges only)
+- /v2/values/{id}?relation=&policy=... — valued claims (ADR-0045 value-slot: `{amount, lowerBound, upperBound, unit}`), e.g. the metre's defining speed of light
 - /v2/relations, /v2/relations/{name}, /v2/vocabularies — registries
 - /v2/embeddings?model=...&id=...&domain=...&limit=... — NEW embeddings with model selector like DeepSeek harness (local + frontier models)
 - /v2/rag/search?q=...&top_k=...&model=...&domain=... — NEW vector search for RAG

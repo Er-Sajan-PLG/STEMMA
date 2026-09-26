@@ -59,7 +59,10 @@ class Stemma:
 
         for connection in self.all_connections:
             self._connections_by_source[connection["source"]].append(connection)
-            self._connections_by_target[connection["target"]].append(connection)
+            # Valued claims (ADR-0045) have no target entity; only relational
+            # connections participate in the entity graph index.
+            if connection.get("target") is not None:
+                self._connections_by_target[connection["target"]].append(connection)
 
         for entity in export["entities"]:
             external_ids = entity.get("external_ids") or {}
@@ -267,6 +270,8 @@ class Stemma:
 
         if direction in {"out", "both"}:
             for connection in self._connections_by_source.get(entity_id, []):
+                if connection.get("target") is None:
+                    continue  # valued claim — see Stemma.values()
                 edge = self._neighbor_edge(
                     connection,
                     entity_id=entity_id,
@@ -307,6 +312,42 @@ class Stemma:
             return edges[:limit]
         return edges
 
+    def values(
+        self,
+        entity_id: str,
+        *,
+        relation: str | None = None,
+        review: str | None = None,
+        policy: str | None = None,
+        include_retired: bool = False,
+    ) -> list[dict[str, Any]]:
+        """Valued claims (ADR-0045 value-slot) asserted about ``entity_id``.
+
+        Example: the speed of light entity carrying ``value: {amount: "299792458",
+        unit: "qudt:unit-MeterPerSecond"}``. Returned sorted by connection id.
+        """
+        self._validate_policy(policy)
+        self.entity(entity_id, include_retired=include_retired)
+        out: list[dict[str, Any]] = []
+        for connection in self._connections_by_source.get(entity_id, []):
+            if connection.get("target") is not None or connection.get("value") is None:
+                continue
+            if relation is not None and connection.get("relation") != relation:
+                continue
+            if not self._connection_visible(connection, policy=policy, review=review):
+                continue
+            out.append({
+                "assertion_status": connection.get("assertion", {}).get("status"),
+                "claim_signature": connection.get("claim_signature"),
+                "connection_id": connection.get("id"),
+                "relation": connection.get("relation"),
+                "review": connection.get("assertion", {}).get("review", {}).get("status"),
+                "source": connection.get("source"),
+                "value": dict(connection["value"]),
+            })
+        out.sort(key=lambda item: item["connection_id"])
+        return out
+
     def prerequisites(
         self,
         entity_id: str,
@@ -326,7 +367,9 @@ class Stemma:
             for connection in self.connections(source=current_id, policy=policy):
                 if connection.get("relation") not in PREREQUISITE_RELATIONS:
                     continue
-                target_id = connection["target"]
+                target_id = connection.get("target")
+                if target_id is None:
+                    continue  # valued claim, not an entity prerequisite
                 if target_id in seen:
                     continue
                 target_entity = self.entities_by_id[target_id]
