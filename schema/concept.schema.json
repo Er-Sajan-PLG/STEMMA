@@ -169,6 +169,15 @@
           "default": null,
           "description": "Agent id who wrote this entity file, e.g. human:curator.001 \u2014 for audit trail and double verification (ADR-0043)."
         },
+        "drafted_by": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "default": null,
+          "pattern": "^(llm|process):[a-z0-9][a-z0-9._-]*$",
+          "description": "Machine agent (llm:* or process:*) that produced the original draft, when a human is the writer. Origin is preserved, never rewritten (CURATION-PROTOCOL \u00a76, H1). Must resolve in schema/agent-registry.yaml."
+        },
         "original_author": {
           "type": [
             "string",

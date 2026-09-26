@@ -488,8 +488,8 @@ class Workflow:
                     human_edited = bool(human_edited or edited_markdown)
                     reviewer = self.operator_identity() if human_edited else None
                     # Authorship fields are server-owned: a client payload can never
-                    # set or change writer / drafted_by / edited_by / ai_drafted.
-                    for key in ("writer", "drafted_by", "edited_by", "edited_at", "ai_drafted"):
+                    # set or change writer / drafted_by / ai_drafted.
+                    for key in ("writer", "drafted_by", "ai_drafted"):
                         new_prov.pop(key, None)
                         if key in old_prov:
                             new_prov[key] = old_prov[key]
@@ -497,9 +497,9 @@ class Workflow:
                         original = old_prov.get("drafted_by") or old_prov.get("writer")
                         if original and original != reviewer:
                             new_prov["drafted_by"] = original  # origin preserved, never rewritten
+                        # Only fields concept.schema.json allows: the edit time and
+                        # attestation live in the audit event + candidate record.
                         new_prov["writer"] = reviewer
-                        new_prov["edited_by"] = reviewer
-                        new_prov["edited_at"] = now_iso()
                     if new_prov or old_prov:
                         proposal = {**proposal, "provenance": new_prov}
                     candidate["proposal"] = proposal

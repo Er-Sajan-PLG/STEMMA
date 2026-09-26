@@ -47,9 +47,11 @@ def tree(tmp_path, monkeypatch):
     return wf
 
 
-def _candidate(wf, slug, writer):
+def _candidate(wf, slug, writer, drafted_by=None, ai_drafted=None):
+    extra = (f"  drafted_by: {drafted_by}\n" if drafted_by else "") + \
+            (f"  ai_drafted: {str(ai_drafted).lower()}\n" if ai_drafted is not None else "")
     (wf / "candidates" / "doc1" / f"{slug}.md").write_text(
-        f"---\nid: stemma:phys.{slug}\nprovenance:\n  writer: {writer}\n---\nbody\n")
+        f"---\nid: stemma:phys.{slug}\nprovenance:\n  writer: {writer}\n{extra}---\nbody\n")
 
 
 def _edit(wf, slug, writer):
@@ -133,3 +135,19 @@ def test_review_entity_registered_human_fails_closed(tmp_path):
     assert R._registered_human(HUMAN, ROOT) is True
     assert R._registered_human("human:institution.wikidata-community", ROOT) is False
     assert R._registered_human("human:made-up.999", ROOT) is False
+
+
+# Provenance model (review of H1): a machine may draft, a human must write/approve,
+# and both stay visible. hitl_check judges `writer` only; `drafted_by` is origin.
+def test_ai_drafted_human_written_entity_passes(tree):
+    _candidate(tree, "metre", HUMAN, drafted_by="llm:antigravity-001", ai_drafted=True)
+    _edit(tree, "metre", HUMAN)
+    ok, v = H.check_entity("stemma:phys.metre")
+    assert ok, v
+
+
+def test_same_entity_with_machine_writer_fails(tree):
+    _candidate(tree, "metre", "llm:antigravity-001", drafted_by="llm:antigravity-001", ai_drafted=True)
+    _edit(tree, "metre", HUMAN)
+    ok, v = H.check_entity("stemma:phys.metre")
+    assert not ok and any("provenance.writer" in x for x in v)

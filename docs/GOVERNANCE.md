@@ -15,7 +15,7 @@
 - Deterministic scales: template-registry.yaml regex + exact SI constants c,h,ΔνCs,e,k,N_A,K_cd, no LLM, no cost, no hallucination, scales to 1000s PDFs, any domain
 - Evolvable: add new domain (chemistry, biology, math) via `python3 scripts/evolvable_template.py --evolve --new-domain chemistry` without code change, templates in YAML
 - LLM fallback only when PDF missing exact SI definition — then frontier model (DeepSeek R1/V3 free, Claude 3.5 Sonnet/Opus, GPT-4o/o1, Gemini 2.5 Pro/2.0 Flash free, Llama 3.3 70B free) or custom model via OpenRouter/NVIDIA NIM/OpenAI-compatible, selector like DeepSeek harness (search, categories Frontier/Reasoning/Free/Custom, 25 models, custom input), even LLM requires HITL human edit before canonical
-- HITL enforcement: workflow/audit/audit.jsonl must contain candidate_edited by human:* after AI draft, writer must be human:*, markdown file explicit edit, hitl_check.py fails if bypassed, review_entity.py enforces human reviewer
+- HITL enforcement: workflow/audit/audit.jsonl must contain candidate_edited by human:* after AI draft, writer must be a registered active human (a machine drafter is kept as provenance.drafted_by), edit event must be for that entity's own markdown file, hitl_check.py fails if bypassed, review_entity.py enforces human reviewer
 - Markdown explicit: AI shows data in markdown preview (textarea + rendered + checklist), human explicitly edits markdown file for easy verification (plain text diffable)
 - Deterministic, content-hash stamped, no wall clock, versioned exports v2.2.0, single source VERSION.yaml
 
