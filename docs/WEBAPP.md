@@ -64,7 +64,8 @@ export STEMMA_ALLOWED_HOSTS=<machine>.<tailnet>.ts.net # the name you browse wit
 ```
 
 If a request is refused with `host ... not allowed`, add exactly that hostname
-to `STEMMA_ALLOWED_HOSTS` (comma-separated). Do not run with `--host 0.0.0.0`
+to `STEMMA_ALLOWED_HOSTS` (comma-separated). Uploads are capped at
+`STEMMA_MAX_BODY_MB` (default 50). Do not run with `--host 0.0.0.0`
 on a shared or public network.
 
 To use a different workflow directory:
