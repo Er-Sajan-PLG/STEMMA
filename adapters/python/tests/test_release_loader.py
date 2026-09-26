@@ -319,12 +319,21 @@ def test_file_validated(server, tmp_path, file):
     assert server.requests == []
 
 
-@pytest.mark.parametrize("url", ["https://" + "user:" + "pw" + "@example.org/manifest.json",  # creds in URL "https://example.org/x.json",
-                                 "https://example.org/manifest.json?x=1", "file:///etc/manifest.json",
-                                 "ftp://example.org/manifest.json"])
-def test_manifest_url_validated(tmp_path, url):
-    with pytest.raises(ReleaseError):
+CREDS_URL = "https://" + "user:" + "pw" + "@example.org/manifest.json"  # split: not a real secret
+
+
+@pytest.mark.parametrize("url,match", [
+    (CREDS_URL, "without credentials"),
+    ("https://example.org/x.json", "must end in /manifest.json"),
+    ("https://example.org/manifest.json?x=1", "must end in /manifest.json"),
+    ("file:///etc/manifest.json", "must be an https:// URL"),
+    ("ftp://example.org/manifest.json", "must be an https:// URL"),
+    ("http://example.org/manifest.json", "must be an https:// URL"),
+])
+def test_manifest_url_validated(tmp_path, url, match):
+    with pytest.raises(ReleaseError, match=match) as exc:
         Stemma.from_url(url, cache_dir=tmp_path, **CHECKSUM_ONLY)
+    assert "pw@" not in str(exc.value)  # credentials never echoed
 
 
 def test_from_url_attestation_needs_caller_identity(server, tmp_path):
