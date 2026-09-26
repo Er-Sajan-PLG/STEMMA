@@ -7,7 +7,6 @@ or relationship types. Useful for consumers that only need a subset.
 import json
 import pathlib
 import sys
-from datetime import datetime, timezone
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 EXPORT_BASE = ROOT / "exports" / "knowledge.json"
@@ -38,7 +37,7 @@ def filter_by_domain(base: dict, domain: str) -> dict:
         "export_version": base["export_version"],
         "schema_version": base["schema_version"],
         "policy": f"domain:{domain}",
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "content_hash": base["content_hash"],  # deterministic stamp of the base; no wall clock
         "source": base["source"],
         "entity_count": len(entities),
         "connection_count": len(connections),
@@ -58,7 +57,7 @@ def filter_by_type(base: dict, entity_type: str) -> dict:
         "export_version": base["export_version"],
         "schema_version": base["schema_version"],
         "policy": f"type:{entity_type}",
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "content_hash": base["content_hash"],  # deterministic stamp of the base; no wall clock
         "source": base["source"],
         "entity_count": len(entities),
         "connection_count": len(connections),
@@ -78,7 +77,7 @@ def filter_by_status(base: dict, status: str) -> dict:
         "export_version": base["export_version"],
         "schema_version": base["schema_version"],
         "policy": f"status:{status}",
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "content_hash": base["content_hash"],  # deterministic stamp of the base; no wall clock
         "source": base["source"],
         "entity_count": len(entities),
         "connection_count": len(connections),
@@ -93,7 +92,7 @@ def filter_entities_only(base: dict) -> dict:
         "export_version": base["export_version"],
         "schema_version": base["schema_version"],
         "policy": "entities-only",
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "content_hash": base["content_hash"],  # deterministic stamp of the base; no wall clock
         "source": base["source"],
         "entity_count": len(base["entities"]),
         "connection_count": 0,
@@ -115,7 +114,7 @@ def filter_connections_only(base: dict) -> dict:
         "export_version": base["export_version"],
         "schema_version": base["schema_version"],
         "policy": "connections-only",
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "content_hash": base["content_hash"],  # deterministic stamp of the base; no wall clock
         "source": base["source"],
         "entity_count": len(entities),
         "connection_count": len(base.get("connections", [])),
@@ -157,7 +156,7 @@ def filter_ai_rag(base: dict) -> dict:
         "export_version": base["export_version"],
         "schema_version": base["schema_version"],
         "policy": "ai-rag",
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "content_hash": base["content_hash"],  # deterministic stamp of the base; no wall clock
         "source": base["source"],
         "entity_count": len(entities),
         "connection_count": sum(len(v) for v in adj.values()),
@@ -180,7 +179,7 @@ def filter_educational(base: dict) -> dict:
         "export_version": base["export_version"],
         "schema_version": base["schema_version"],
         "policy": "educational",
-        "generated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"),
+        "content_hash": base["content_hash"],  # deterministic stamp of the base; no wall clock
         "source": base["source"],
         "entity_count": len(entities),
         "connection_count": len(connections),

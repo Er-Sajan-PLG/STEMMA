@@ -1,19 +1,42 @@
 {
   "export_version": "2.2.0",
-  "schema_version": "1.2.0",
+  "schema_version": "1.3.0",
   "policy": "ai-rag",
-  "generated_at": "2026-09-22T02:23:18+00:00",
+  "content_hash": "sha256:cbf17acdb11cb78dfa15171580dabe1000731a4f9ae4d3e6f11c4b910903e157",
   "source": "content/ + connections/ + sources/ (canonical)",
-  "entity_count": 5,
-  "connection_count": 3,
+  "entity_count": 9,
+  "connection_count": 2,
   "entities": [
+    {
+      "id": "stemma:phys.conservation-energy",
+      "type": "law",
+      "name": "Conservation of Energy",
+      "domain": "physics",
+      "status": "canonical",
+      "definition": "Conservation of energy: for an isolated system the total energy — summed over all forms (kinetic, potential, thermal, chemical, nuclear, ...) — remains constant in time; energy transforms between forms but is neither created nor destroyed. Historical line: Mayer (1842), Joule (1843), Helmholtz (1847, 'Über die Erhaltung der Kraft'); standard statement per Halliday, Resnick, Walker 12th ed., Ch 8.",
+      "symbol": "E_total = const",
+      "unit": null,
+      "equation": null,
+      "relationships": [],
+      "provenance": {
+        "ai_drafted": true,
+        "writer": "llm:coding-agent.001",
+        "source_kind": "textbook",
+        "source": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 8 (potential energy and conservation of energy in isolated systems).",
+        "link": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511",
+        "original_author": "Mayer, Joule, Helmholtz",
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-23T04:35:20.283368+00:00"
+      }
+    },
     {
       "id": "stemma:phys.force",
       "type": "quantity",
       "name": "Force",
       "domain": "physics",
-      "status": "draft",
-      "definition": "Force is the derived physical quantity of interaction: an influence capable of changing the state of motion of a body, Newton second law net force equals rate of change of momentum (for constant mass F = m a). SI derived unit the newton, N = kg m s-2. Reference: Halliday, Resnick, Walker 12th ed. Ch 5; Newton, Principia (1687), Lex II.",
+      "status": "canonical",
+      "definition": "Force is the derived physical quantity of mechanical interaction: the net force on a body equals the time rate of change of its linear momentum, F = dp/dt (Newton, Principia Lex II); for constant mass this reduces to F = m a. Force is a vector quantity — it has magnitude and direction and adds by vector addition (net force = vector sum). SI derived unit: the newton, N = kg m s-2. Reference: Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5; Newton, Principia (1687), Lex II.",
       "symbol": "F",
       "unit": "newton (N = kg m s-2)",
       "equation": null,
@@ -44,7 +67,30 @@
         "source": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5: net force ΣF = m a; Principia (1687), Lex II: mutationem motus proportionalem esse vi motrici impressae.",
         "link": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511",
         "original_author": "Halliday, Resnick, Walker",
-        "retrieved_at": "2026-09-22"
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-23T04:35:19.890893+00:00"
+      }
+    },
+    {
+      "id": "stemma:phys.kilogram",
+      "type": "unit",
+      "name": "Kilogram",
+      "domain": "physics",
+      "status": "draft",
+      "definition": "The kilogram (symbol: kg) is the SI base unit of mass. It is defined by taking the fixed numerical value of the Planck constant h to be exactly 6.62607015e-34 when expressed in the unit joule second, J s, which is equal to kg m2 s-1, where the metre and the second are defined in terms of c and ΔνCs. Exact per BIPM definition of the kilogram (SI Brochure 9th ed., 2019, §2.3.1.2; the text of the 26th CGPM 2018, Resolution 1).",
+      "symbol": "kg",
+      "unit": "kilogram (kg)",
+      "equation": null,
+      "relationships": [],
+      "provenance": {
+        "ai_drafted": true,
+        "writer": "llm:coding-agent.001",
+        "source_kind": "standards-or-specification",
+        "source": "BIPM SI Brochure 9th ed. (2019) §2.3.1.2: the kilogram is defined by the fixed numerical value h = 6.62607015e-34 J s (kg m2 s-1), metre and second defined via c and ΔνCs.",
+        "link": "https://www.bipm.org/en/publications/si-brochure",
+        "original_author": "BIPM",
+        "retrieved_at": "2026-09-23"
       }
     },
     {
@@ -52,27 +98,12 @@
       "type": "quantity",
       "name": "Length",
       "domain": "physics",
-      "status": "draft",
-      "definition": "Length is the fundamental physical quantity of spatial extent — the measure of one-dimensional distance between points. It is one of the seven base quantities of the SI (dimension L); its SI base unit is the metre (m). Agreed per BIPM SI Brochure 9th ed. (2019), base quantities table.",
+      "status": "canonical",
+      "definition": "Length is the SI base physical quantity of spatial extent — the measure of one-dimensional distance between two points in space. The metre is the unit in which length is expressed: 1 m = the length of the path travelled by light in vacuum during 1/299,792,458 of a second (c fixed exact). Agreed per BIPM SI Brochure 9th ed. (2019), base quantities table; §2.3.1.",
       "symbol": "L",
       "unit": "metre (m)",
       "equation": null,
-      "relationships": [
-        {
-          "relation": "related_to",
-          "target": "stemma:phys.metre",
-          "value": null,
-          "confidence": 1.0,
-          "context": {
-            "domain": "physics",
-            "subdomain": "measurement-units",
-            "assumptions": [
-              "international-system-of-units",
-              "role-si-base-unit-of-length (has_unit reserved in relation-registry; adopted fallback used pending governance adoption)"
-            ]
-          }
-        }
-      ],
+      "relationships": [],
       "provenance": {
         "ai_drafted": true,
         "writer": "llm:coding-agent.001",
@@ -80,7 +111,9 @@
         "source": "BIPM SI Brochure 9th ed. (2019): among the seven SI base quantities, length with base unit metre; metre defined by fixed numerical value of c in vacuum (2.3.1).",
         "link": "https://www.bipm.org/en/publications/si-brochure",
         "original_author": "BIPM",
-        "retrieved_at": "2026-09-22"
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-23T04:35:19.964859+00:00"
       }
     },
     {
@@ -88,8 +121,8 @@
       "type": "quantity",
       "name": "Mass",
       "domain": "physics",
-      "status": "draft",
-      "definition": "Mass is the fundamental physical quantity measuring inertia and amount of substance of a body. It is one of the seven base quantities of the SI (dimension M); its SI base unit is the kilogram (kg), defined by taking the fixed numerical exact value of the Planck constant h = 6.62607015e-34 J s. Agreed per BIPM SI Brochure 9th ed. (2019).",
+      "status": "canonical",
+      "definition": "Mass is the SI base physical quantity measuring a body's inertia and its quantity of matter. Its SI unit, the kilogram, is defined by taking the fixed numerical value of the Planck constant h to be exactly 6.62607015e-34 when expressed in J s = kg m2 s-1, with the metre and second as separately defined (SI 2019 redefinition). Agreed per BIPM SI Brochure 9th ed. (2019) §2.3.1.",
       "symbol": "M",
       "unit": "kilogram (kg)",
       "equation": null,
@@ -101,7 +134,9 @@
         "source": "BIPM SI Brochure 9th ed. (2019): mass among the seven SI base quantities; kilogram defined by fixed h = 6.62607015e-34 kg m2 s-1 (2.3.1).",
         "link": "https://www.bipm.org/en/publications/si-brochure",
         "original_author": "BIPM",
-        "retrieved_at": "2026-09-22"
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-23T04:35:20.044882+00:00"
       }
     },
     {
@@ -109,14 +144,14 @@
       "type": "unit",
       "name": "Metre",
       "domain": "physics",
-      "status": "draft",
+      "status": "canonical",
       "definition": "The metre (symbol: m) is the base unit of length in the International System of Units (SI). It is scientifically defined as the length of the path travelled by light in a vacuum during a time interval of 1/299,792,458 of a second. Exact: c=299,792,458 m/s. Agreed per BIPM SI Brochure 9th ed. 2019 redefinition, fixing c exact.",
       "symbol": "m",
       "unit": "metre (m)",
       "equation": null,
       "relationships": [
         {
-          "relation": "related_to",
+          "relation": "derived_from",
           "target": null,
           "value": {
             "amount": "299792458",
@@ -131,7 +166,7 @@
             "assumptions": [
               "exact-defined-constant",
               "speed-of-light-in-vacuum-fixed",
-              "role-unit-definition-fixed-constant (corresponds_to reserved in relation-registry; adopted fallback used pending governance adoption)"
+              "role-unit-definition-fixed-constant (derived_from = the 2019 metre derives from the fixed c constant; dedicated value-claim relation reserved pending governance adoption)"
             ]
           }
         }
@@ -143,7 +178,53 @@
         "source": "BIPM SI Brochure 9th ed. (2019) §2.3.1, p130-132: The metre, symbol m, is the SI unit of length. It is defined by taking the fixed numerical value of the speed of light in vacuum c to be 299792458 when expressed in m s-1. Exact: c=299,792,458 m/s. Agreed internationally.",
         "link": "https://www.bipm.org/en/publications/si-brochure",
         "original_author": "BIPM",
-        "retrieved_at": "2026-09-21"
+        "retrieved_at": "2026-09-21",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-23T04:35:19.817235+00:00"
+      }
+    },
+    {
+      "id": "stemma:phys.newtons-second-law",
+      "type": "law",
+      "name": "Newton's Second Law",
+      "domain": "physics",
+      "status": "canonical",
+      "definition": "Newton's second law of motion: the net external force on a system equals the time rate of change of its total linear momentum, ΣF = dp/dt; for constant mass this reduces to F = m a. Valid in classical (non-relativistic) mechanics in inertial reference frames. Stated by Isaac Newton as Lex II in Philosophiae Naturalis Principia Mathematica (1687); standard modern formulation per Halliday, Resnick, Walker 12th ed., Ch 5.",
+      "symbol": "F_net = m a",
+      "unit": null,
+      "equation": null,
+      "relationships": [],
+      "provenance": {
+        "ai_drafted": true,
+        "writer": "llm:coding-agent.001",
+        "source_kind": "textbook",
+        "source": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5 (Newton second law, force and momentum); Principia (1687), Lex II.",
+        "link": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511",
+        "original_author": "Isaac Newton",
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-23T04:35:20.201837+00:00"
+      }
+    },
+    {
+      "id": "stemma:phys.second",
+      "type": "unit",
+      "name": "Second",
+      "domain": "physics",
+      "status": "draft",
+      "definition": "The second (symbol: s) is the SI base unit of time. It is defined by taking the fixed numerical value of the caesium frequency ΔνCs, the unperturbed ground-state hyperfine transition frequency of the caesium-133 atom, to be exactly 9,192,631,770 when expressed in the unit hertz, which is equal to s-1. Exact per BIPM definition of the second (SI Brochure 9th ed., 2019, §2.3.1.1; the text of the 26th CGPM 2018, Resolution 1).",
+      "symbol": "s",
+      "unit": "second (s)",
+      "equation": null,
+      "relationships": [],
+      "provenance": {
+        "ai_drafted": true,
+        "writer": "llm:coding-agent.001",
+        "source_kind": "standards-or-specification",
+        "source": "BIPM SI Brochure 9th ed. (2019) §2.3.1.1: the second is defined by the fixed numerical value of ΔνCs = 9,192,631,770 Hz (unperturbed hyperfine transition of Cs-133).",
+        "link": "https://www.bipm.org/en/publications/si-brochure",
+        "original_author": "BIPM",
+        "retrieved_at": "2026-09-23"
       }
     },
     {
@@ -151,8 +232,8 @@
       "type": "quantity",
       "name": "Time",
       "domain": "physics",
-      "status": "draft",
-      "definition": "Time is the fundamental physical quantity of duration and temporal sequence. It is one of the seven base quantities of the SI (dimension T); its SI base unit is the second (s), defined by taking the fixed numerical value of the caesium-133 hyperfine transition frequency ΔνCs = 9,192,631,770 Hz. Agreed per BIPM SI Brochure 9th ed. (2019).",
+      "status": "canonical",
+      "definition": "Time is the SI base physical quantity of duration and temporal sequence. Its SI unit, the second, is defined by taking the fixed numerical value of the caesium frequency ΔνCs — the unperturbed ground-state hyperfine transition frequency of the caesium-133 atom — to be exactly 9,192,631,770 hertz (Hz = s-1): one second is the duration of 9,192,631,770 periods of the radiation corresponding to that transition. Exact per BIPM SI Brochure 9th ed. (2019) §2.3.1.",
       "symbol": "T",
       "unit": "second (s)",
       "equation": null,
@@ -164,7 +245,9 @@
         "source": "BIPM SI Brochure 9th ed. (2019): time among the seven SI base quantities; second defined by fixed ΔνCs = 9,192,631,770 Hz (2.3.1).",
         "link": "https://www.bipm.org/en/publications/si-brochure",
         "original_author": "BIPM",
-        "retrieved_at": "2026-09-22"
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-23T04:35:20.127988+00:00"
       }
     }
   ],
