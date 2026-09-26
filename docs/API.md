@@ -62,7 +62,7 @@ change without notice. See [WEBAPP.md](WEBAPP.md).
 - `exports/knowledge.{all,reviewed,canonical,trusted,proposed,rejected}.json` — review-aware views
 - `exports/knowledge.jsonld` — derived semantic-web projection (ADR-0053)
 - `exports/embeddings.jsonl`, `exports/vector_store/` — **not committed or published** (derived, model-specific; a consumer concern). Generate locally with `scripts/embed.py` — it refuses to write vectors without a real model; `--placeholder` writes hash vectors labelled `stemma:placeholder-hash` for pipeline tests only
-- `exports/consumers/<consumer>/knowledge.<consumer>.json` — consumer-filtered views
+- `exports/consumers/<consumer>/knowledge.<consumer>.json` — one bundle per consumer in `schema/consumer-registry.yaml` (general, learninghub, professor-j, stemma-explorer). Each is a valid export (loads with `stemma_adapter`), narrowed by domain/subdomain/type and a trust tier applied to **both** entity status and connection review (`canonical` ⊂ `trusted` ⊆ `reviewed` ⊂ `all`; `trusted` also requires LLM-asserted connections to be canonical). Deterministic; CI fails if stale (`export_consumers.py --all --check`)
 
 Generated via `python3 scripts/validate.py` (knowledge.json + views) and the
 optional `scripts/embed.py` / `scripts/export_consumers.py`.

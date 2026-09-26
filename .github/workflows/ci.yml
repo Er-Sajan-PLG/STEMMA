@@ -206,6 +206,11 @@ jobs:
       - name: Check consumer exports
         run: |
           python3 scripts/export_review_aware.py
+          # Committed per-consumer bundles must be fresh and loadable (release file contract, ADR-0054)
+          python3 scripts/export_consumers.py --all --check
+          for f in exports/consumers/*/knowledge.*.json; do
+            PYTHONPATH=adapters/python python3 -m stemma_adapter validate "$f" > /dev/null || { echo "FAIL: $f"; exit 1; }
+          done
           echo "Consumer export OK"
       - name: Check external RAG sample
         run: |

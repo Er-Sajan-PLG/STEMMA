@@ -27,6 +27,8 @@ from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, unquote, urlsplit
 
+import yaml
+
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT / "webapp") not in sys.path:
     sys.path.insert(0, str(ROOT / "webapp"))
@@ -222,7 +224,6 @@ class _Handler(BaseHTTPRequestHandler):
         if path == "/api/models/embedding":
             # Embedding models — model selector like DeepSeek harness (local + frontier models) for embeddings
             try:
-                import yaml
                 emb_path = ROOT / "schema/embedding-registry.yaml"
                 if emb_path.exists():
                     data = yaml.safe_load(emb_path.read_text(encoding="utf-8"))
@@ -248,7 +249,6 @@ class _Handler(BaseHTTPRequestHandler):
             model = self._query_value(query, "model")
             domain = self._query_value(query, "domain")
             try:
-                import sys
                 sys.path.insert(0, str(ROOT / "scripts"))
                 import rag as rag_module
                 results = rag_module.vector_search(q, top_k=top_k, model_id=model, domain=domain)
@@ -277,30 +277,30 @@ class _Handler(BaseHTTPRequestHandler):
             return 200, {"model": model_id, "count": len(results), "embeddings": results}
         # NEW — Export for consumer
         if path == "/api/export":
+            # Preview of a consumer bundle, built by the same code that writes the
+            # published bundles (scripts/export_consumers.py) so tiers match exactly.
             consumer = self._query_value(query, "consumer") or "general"
-            fmt = self._query_value(query, "format") or "json"
-            try:
-                import sys
+            if str(ROOT / "scripts") not in sys.path:
                 sys.path.insert(0, str(ROOT / "scripts"))
-                import export_consumers
-                # For GET, just return preview via filtering
-                export_path = ROOT / "exports/knowledge.json"
-                import json as js
-                data = js.loads(export_path.read_text(encoding='utf-8'))
-                # Simple filter by consumer
-                import yaml
-                reg_path = ROOT / "schema/consumer-registry.yaml"
-                if reg_path.exists():
-                    reg = yaml.safe_load(reg_path.read_text(encoding='utf-8'))
-                    cfg = reg.get('consumers',{}).get(consumer,{})
-                    domains = cfg.get('domains',[])
-                    ents = data.get('entities',[])
-                    if domains and domains != 'all':
-                        ents = [e for e in ents if e.get('domain') in domains]
-                    return 200, {"consumer": consumer, "format": fmt, "entity_count": len(ents), "entities": ents[:20], "config": cfg}
-                return 200, {"consumer": consumer, "entities": data.get('entities',[])[:20]}
-            except Exception as e:
-                return 200, {"consumer": consumer, "error": str(e)}
+            import export_consumers as _ec
+            registry = _ec.load_registry()
+            if consumer not in registry:
+                raise WebappError(f"unknown consumer {consumer!r}; known: {', '.join(sorted(registry))}")
+            base = json.loads((ROOT / "exports" / "knowledge.json").read_text(encoding="utf-8"))
+            versions = yaml.safe_load((ROOT / "schema" / "VERSION.yaml").read_text(encoding="utf-8"))
+            try:
+                bundle = _ec.build_consumer_export(consumer, registry[consumer], base, versions)
+            except _ec.ConsumerExportError as exc:
+                raise WebappError(str(exc)) from None
+            return 200, {
+                "consumer": consumer,
+                "config": bundle["consumer_profile"],
+                "entity_count": bundle["entity_count"],
+                "connection_count": bundle["connection_count"],
+                "source_count": bundle["source_count"],
+                "payload_sha256": bundle["payload_sha256"],
+                "entities": bundle["entities"][:20],
+            }
         # NEW — Semantic Acquisition Pipeline GET endpoints
         if path == "/api/semantic/claims":
             doc_id = self._query_value(query, "doc_id")
@@ -329,7 +329,7 @@ class _Handler(BaseHTTPRequestHandler):
         if path == "/api/semantic/proposals/list":
             try:
                 proposals_dir = ROOT / "proposals"
-                import json as js, yaml
+                import json as js
                 proposals=[]
                 for f in list(proposals_dir.glob("*.yaml"))[:20] + list(proposals_dir.glob("*.json"))[:20]:
                     try:
@@ -348,7 +348,6 @@ class _Handler(BaseHTTPRequestHandler):
 
         if path == "/api/semantic/registries":
             try:
-                import yaml
                 result={}
                 for name in ["template-registry", "embedding-registry", "consumer-registry", "llm-registry"]:
                     rp = ROOT / f"schema/{name}.yaml"
@@ -364,7 +363,6 @@ class _Handler(BaseHTTPRequestHandler):
         # NEW — OpenAPI
         if path == "/api/openapi" or path == "/openapi.yaml":
             try:
-                import yaml
                 api_path = ROOT / "schema/api.yaml"
                 if api_path.exists():
                     return 200, yaml.safe_load(api_path.read_text(encoding='utf-8'))
@@ -441,7 +439,6 @@ class _Handler(BaseHTTPRequestHandler):
             doc_id = self._id_from_path(path, "/api/documents/", suffix="/deterministic-draft")
             # Deterministic draft — no LLM, uses evolvable templates, scales
             try:
-                import sys
                 sys.path.insert(0, str(ROOT / "scripts"))
                 from evolvable_template import deterministic_extract, build_markdown, load_registry
                 registry = load_registry()
@@ -533,7 +530,6 @@ class _Handler(BaseHTTPRequestHandler):
             domain = body.get("domain")
             consumer = body.get("consumer") or "general"
             try:
-                import sys
                 sys.path.insert(0, str(ROOT / "scripts"))
                 import rag as rag_module
                 result = rag_module.rag_query(question, top_k=top_k, model_id=model_id, embedding_model=embedding_model, domain=domain, consumer=consumer)
@@ -552,7 +548,6 @@ class _Handler(BaseHTTPRequestHandler):
             model_id = body.get("model") or "deterministic"
             provider = body.get("provider") or "deterministic"
             try:
-                import sys
                 sys.path.insert(0, str(ROOT / "scripts"))
                 import semantic_extract
                 if doc_id:
@@ -599,7 +594,6 @@ class _Handler(BaseHTTPRequestHandler):
             verifier_model = body.get("verifier_model") or "anthropic/claude-3-haiku"
             provider = body.get("provider") or "openrouter"
             try:
-                import sys
                 sys.path.insert(0, str(ROOT / "scripts"))
                 import verify_claim
                 if claims_file:
@@ -618,7 +612,6 @@ class _Handler(BaseHTTPRequestHandler):
             body = self._read_json_body()
             claims_file = body.get("claims_file")
             try:
-                import sys
                 sys.path.insert(0, str(ROOT / "scripts"))
                 import conflict_analysis
                 if claims_file:
@@ -638,7 +631,6 @@ class _Handler(BaseHTTPRequestHandler):
             doc_id = body.get("doc_id") or "test-doc"
             claims_file = body.get("claims_file")
             try:
-                import sys
                 sys.path.insert(0, str(ROOT / "scripts"))
                 import proposal_generate
                 if claims_file:
@@ -659,7 +651,6 @@ class _Handler(BaseHTTPRequestHandler):
             claims_file = body.get("claims_file")
             threshold = float(body.get("threshold") or 0.85)
             try:
-                import sys
                 sys.path.insert(0, str(ROOT / "scripts"))
                 import entity_resolution
                 if claims_file:
