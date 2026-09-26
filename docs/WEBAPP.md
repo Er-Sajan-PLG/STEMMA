@@ -34,14 +34,38 @@ upload ──► extract ──► draft (LLM seam, optional) ──► human re
 ## Running it
 
 ```bash
-# From the repo root
-python3 webapp/server.py --host 0.0.0.0 --port 8081
+# From the repo root — binds to 127.0.0.1 (local only) by default
+python3 webapp/server.py --port 8081
 ```
 
-Open `http://localhost:8081` (or the platform's preview URL). It binds to
-`0.0.0.0` so it can be used in the arena preview. The default port is `8081`
-so it does not collide with common local harness ports such as DeepSeek/Antigravity
-harnesses on `3080`.
+Open `http://127.0.0.1:8081`. The default port is `8081` so it does not collide
+with common local harness ports such as DeepSeek/Antigravity harnesses on `3080`.
+
+### Security model (single-owner admin tool)
+
+The webapp is the **private curation tool**: it holds LLM provider keys and
+writes workflow files, so it is never shared with readers (family/testers use
+the read-only explorer site instead — see ADR-0054).
+
+- Binds to `127.0.0.1` by default; sends **no CORS headers**.
+- Rejects requests whose `Host` is not this server (DNS rebinding) or whose
+  `Origin` is another site (cross-site requests), and requires JSON for writes.
+- A saved API key is bound to the provider **and** `base_url` it was saved
+  with; it is never sent to another endpoint (changing `base_url` requires
+  re-entering the key). `workflow/config/llm.json` is written `0600`.
+
+**Remote access from your own devices:** use a private network, not the
+internet. With [Tailscale](https://tailscale.com/kb/1312/serve):
+
+```bash
+python3 webapp/server.py --port 8081                   # still loopback-only
+tailscale serve --bg 8081                              # HTTPS on your tailnet
+export STEMMA_ALLOWED_HOSTS=<machine>.<tailnet>.ts.net # the name you browse with
+```
+
+If a request is refused with `host ... not allowed`, add exactly that hostname
+to `STEMMA_ALLOWED_HOSTS` (comma-separated). Do not run with `--host 0.0.0.0`
+on a shared or public network.
 
 To use a different workflow directory:
 
@@ -76,7 +100,7 @@ never carries ambiguous ids.
 ### Using Antigravity (official, no key)
 
 1. Run the webapp **on the same machine** as your Antigravity login
-   (`python3 webapp/server.py --host 0.0.0.0 --port 8081`), or ensure
+   (`python3 webapp/server.py --port 8081`), or ensure
    `agy` / `google.antigravity` is installed on the host running the server.
 2. In **LLM Draft settings** select **Antigravity (official local agent)**.
 3. Press **Sign in to Google AI Pro / harness**. For the official provider this
