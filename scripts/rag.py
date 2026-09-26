@@ -83,16 +83,24 @@ def fake_embed(text: str, dim: int = 384) -> List[float]:
         vec = [x/norm for x in vec]
     return vec
 
-def get_embedding_for_query(query: str, model_id: str, dim: int) -> List[float]:
-    """Get embedding for query — tries local model, falls back to fake deterministic"""
+def get_embedding_for_query(query: str, model_id: str, dim: int, placeholder: bool = False) -> List[float]:
+    """Embed the query with the SAME model as the stored vectors.
+
+    Placeholder stores (embed.py --placeholder) are matched with a hash vector
+    and are already flagged meaningless. For a real store there is no silent
+    fallback: ranking real vectors against a hash vector returns confident
+    noise (audit H5), so a missing model is an error the caller must surface.
+    """
+    if placeholder:
+        return fake_embed(query, dim)
     try:
         from sentence_transformers import SentenceTransformer
-        model = SentenceTransformer(model_id)
-        vec = model.encode([query], normalize_embeddings=True)[0]
-        return vec.tolist()
-    except Exception as e:
-        print(f"Local embedding failed ({e}), using fake deterministic for demo", file=sys.stderr)
-        return fake_embed(query, dim)
+    except ImportError as e:
+        raise RuntimeError(f"cannot embed query with {model_id}: {e} "
+                           "(pip install sentence-transformers); refusing to fake a query vector") from None
+    model = SentenceTransformer(model_id)
+    return model.encode([query], normalize_embeddings=True)[0].tolist()
+
 
 def vector_search(query: str, top_k: int = 5, model_id: str = None, domain: str = None) -> List[Dict[str, Any]]:
     """Vector search over embeddings"""
@@ -122,7 +130,7 @@ def vector_search(query: str, top_k: int = 5, model_id: str = None, domain: str 
         print("WARNING: embeddings are placeholders (embed.py --placeholder); scores are meaningless", file=sys.stderr)
     dim = embeddings[0].get('dimensions', 384)
     model_used = embeddings[0].get('model', model_id or 'sentence-transformers/all-MiniLM-L6-v2')
-    query_vec = get_embedding_for_query(query, model_used, dim)
+    query_vec = get_embedding_for_query(query, model_used, dim, placeholder=placeholder)
 
     scored = []
     for emb in embeddings:
