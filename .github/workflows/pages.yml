@@ -28,8 +28,14 @@ jobs:
           python-version: "3.12"
 
       # Fail closed: never publish an export that consumers can't load.
-      - name: Validate export with the consumer adapter
-        run: PYTHONPATH=adapters/python python -m stemma_adapter validate exports/knowledge.json
+      - name: Validate exports with the consumer adapter
+        run: |
+          set -euo pipefail
+          for f in exports/knowledge.json exports/consumers/*/knowledge.*.json; do
+            PYTHONPATH=adapters/python python -m stemma_adapter validate "$f"
+          done
+          pip install -q pyyaml
+          python scripts/export_consumers.py --all --check
 
       - uses: actions/setup-node@v7
         with:
@@ -57,6 +63,10 @@ jobs:
           set -euo pipefail
           mkdir -p explorer/dist/exports
           cp exports/knowledge*.json exports/knowledge.jsonld explorer/dist/exports/
+          for f in exports/consumers/*/knowledge.*.json; do
+            d="explorer/dist/exports/consumers/$(basename "$(dirname "$f")")"
+            mkdir -p "$d" && cp "$f" "$d/"
+          done
           touch explorer/dist/.nojekyll
           test -s explorer/dist/index.html
           test -s explorer/dist/exports/knowledge.json

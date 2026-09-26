@@ -3,14 +3,14 @@
   "schema_version": "1.2.0",
   "content_hash": "sha256:cbf17acdb11cb78dfa15171580dabe1000731a4f9ae4d3e6f11c4b910903e157",
   "payload_sha256": "sha256:82b4ed411d7e7c0b57aca7cd9216028ab6b203ac89d653fc525a9e9549f5a9a7",
-  "consumer": "general",
+  "consumer": "stemma-explorer",
   "consumer_profile": {
-    "label": "General Consumer",
+    "label": "STEMMA Explorer (Reference 3D Graph)",
     "domains": "all",
     "subdomains": "all",
     "entity_types": "all",
     "review_policy": "all",
-    "recommended_embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+    "recommended_embedding_model": null
   },
   "source": "content/ + connections/ + sources/ (canonical)",
   "kernel_version": "3.0.0",

@@ -2,15 +2,24 @@
   "export_version": "2.2.0",
   "schema_version": "1.2.0",
   "content_hash": "sha256:cbf17acdb11cb78dfa15171580dabe1000731a4f9ae4d3e6f11c4b910903e157",
-  "payload_sha256": "sha256:82b4ed411d7e7c0b57aca7cd9216028ab6b203ac89d653fc525a9e9549f5a9a7",
-  "consumer": "general",
+  "payload_sha256": "sha256:c809c439d6030abe32c075721953ed5f5ca8b3e1ba68c16e6d0aec9386d50e85",
+  "consumer": "professor-j",
   "consumer_profile": {
-    "label": "General Consumer",
-    "domains": "all",
+    "label": "PROFESSOR-J",
+    "domains": [
+      "physics",
+      "chemistry",
+      "biology",
+      "earth-science",
+      "astronomy",
+      "computer-science",
+      "engineering",
+      "mathematics"
+    ],
     "subdomains": "all",
     "entity_types": "all",
-    "review_policy": "all",
-    "recommended_embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+    "review_policy": "reviewed",
+    "recommended_embedding_model": "BAAI/bge-large-en-v1.5"
   },
   "source": "content/ + connections/ + sources/ (canonical)",
   "kernel_version": "3.0.0",
@@ -1071,7 +1080,7 @@
       "cosmological"
     ]
   },
-  "entity_count": 9,
+  "entity_count": 7,
   "connection_count": 2,
   "source_count": 3,
   "entities": [
@@ -1176,46 +1185,6 @@
         "stated_by": "Halliday, Resnick, Walker",
         "year": 1687,
         "where": "Principia, Lex II"
-      }
-    },
-    {
-      "id": "stemma:phys.kilogram",
-      "type": "unit",
-      "name": "Kilogram",
-      "domain": "physics",
-      "subdomain": "measurement-units",
-      "status": "draft",
-      "definition": "The kilogram (symbol: kg) is the SI base unit of mass. It is defined by taking the fixed numerical value of the Planck constant h to be exactly 6.62607015e-34 when expressed in the unit joule second, J s, which is equal to kg m2 s-1, where the metre and the second are defined in terms of c and ΔνCs. Exact per BIPM definition of the kilogram (SI Brochure 9th ed., 2019, §2.3.1.2; the text of the 26th CGPM 2018, Resolution 1).",
-      "symbol": "kg",
-      "unit": "kilogram (kg)",
-      "same_dimensional_quantities": [
-        "inertial mass",
-        "gravitational mass",
-        "rest mass"
-      ],
-      "governed_by": [
-        "stemma:phys.si-definitions",
-        "stemma:phys.dimensional-analysis"
-      ],
-      "provenance": {
-        "ai_drafted": true,
-        "writer": "llm:coding-agent.001",
-        "source_kind": "standards-or-specification",
-        "source": "BIPM SI Brochure 9th ed. (2019) §2.3.1.2: the kilogram is defined by the fixed numerical value h = 6.62607015e-34 J s (kg m2 s-1), metre and second defined via c and ΔνCs.",
-        "link": "https://www.bipm.org/en/publications/si-brochure",
-        "original_author": "BIPM",
-        "retrieved_at": "2026-09-23"
-      },
-      "source_refs": [
-        "stemma:src.nist-si-brochure-9th"
-      ],
-      "external_ids": {
-        "wd": "Q11570"
-      },
-      "historical": {
-        "stated_by": "BIPM",
-        "year": 2019,
-        "where": "SI Brochure 9th ed."
       }
     },
     {
@@ -1420,47 +1389,6 @@
             "event": "F = m a expressed with exact SI definitions (N = kg m s-2)"
           }
         ]
-      }
-    },
-    {
-      "id": "stemma:phys.second",
-      "type": "unit",
-      "name": "Second",
-      "domain": "physics",
-      "subdomain": "measurement-units",
-      "status": "draft",
-      "definition": "The second (symbol: s) is the SI base unit of time. It is defined by taking the fixed numerical value of the caesium frequency ΔνCs, the unperturbed ground-state hyperfine transition frequency of the caesium-133 atom, to be exactly 9,192,631,770 when expressed in the unit hertz, which is equal to s-1. Exact per BIPM definition of the second (SI Brochure 9th ed., 2019, §2.3.1.1; the text of the 26th CGPM 2018, Resolution 1).",
-      "symbol": "s",
-      "unit": "second (s)",
-      "same_dimensional_quantities": [
-        "duration",
-        "period",
-        "half-life",
-        "age"
-      ],
-      "governed_by": [
-        "stemma:phys.si-definitions",
-        "stemma:phys.dimensional-analysis"
-      ],
-      "provenance": {
-        "ai_drafted": true,
-        "writer": "llm:coding-agent.001",
-        "source_kind": "standards-or-specification",
-        "source": "BIPM SI Brochure 9th ed. (2019) §2.3.1.1: the second is defined by the fixed numerical value of ΔνCs = 9,192,631,770 Hz (unperturbed hyperfine transition of Cs-133).",
-        "link": "https://www.bipm.org/en/publications/si-brochure",
-        "original_author": "BIPM",
-        "retrieved_at": "2026-09-23"
-      },
-      "source_refs": [
-        "stemma:src.nist-si-brochure-9th"
-      ],
-      "external_ids": {
-        "wd": "Q11574"
-      },
-      "historical": {
-        "stated_by": "BIPM",
-        "year": 2019,
-        "where": "SI Brochure 9th ed."
       }
     },
     {
