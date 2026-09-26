@@ -137,9 +137,14 @@ def test_human_edit_records_operator_and_preserves_machine_origin(tmp_path):
     out = wf.update_candidate(cid, proposal=dict(MACHINE_DRAFT), human_edited=True,
                               edited_markdown="---\nid: stemma:phys.test-provenance\n---\n")
     prov = out["proposal"]["provenance"]
-    assert prov["writer"] == OPERATOR and prov["edited_by"] == OPERATOR
+    assert prov["writer"] == OPERATOR
     assert prov["drafted_by"] == DETERMINISTIC_DRAFT_WRITER
     assert prov["ai_drafted"] is False
+    # Provenance stays canonical-schema-valid: only fields concept.schema.json
+    # allows (the edit time/attestation live in the audit event).
+    allowed = set(json.loads((ROOT / "schema/concept.schema.json").read_text())
+                  ["properties"]["provenance"]["properties"])
+    assert set(prov) <= allowed, set(prov) - allowed
     edits = _audit_edits(wf)
     assert edits[-1]["detail"]["writer"] == OPERATOR
     assert edits[-1]["detail"]["attested_via"] == REVIEWER_ENV
@@ -151,12 +156,12 @@ def test_human_edit_records_operator_and_preserves_machine_origin(tmp_path):
 def test_client_cannot_set_authorship_fields(tmp_path):
     wf, _doc, cid = _workflow_with_candidate(tmp_path, None)
     forged = json.loads(json.dumps(MACHINE_DRAFT))
-    forged["provenance"].update(writer=OPERATOR, edited_by=OPERATOR, drafted_by=OPERATOR, ai_drafted=True)
+    forged["provenance"].update(writer=OPERATOR, drafted_by=OPERATOR, ai_drafted=True)
     out = wf.update_candidate(cid, proposal=forged)  # not a human edit
     prov = out["proposal"]["provenance"]
     assert prov["writer"] == DETERMINISTIC_DRAFT_WRITER
     assert prov["ai_drafted"] is False
-    assert "edited_by" not in prov and "drafted_by" not in prov
+    assert "drafted_by" not in prov
     assert not any("human:" in json.dumps(e) for e in _audit_edits(wf))
 
 

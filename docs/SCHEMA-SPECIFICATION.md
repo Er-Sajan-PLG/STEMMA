@@ -1,4 +1,4 @@
-# STEMMA — Schema Specification (BEGINNING, NO LEGACY, v1.2.0, HITL, EVOLVABLE, FRONTIER)
+# STEMMA — Schema Specification (BEGINNING, NO LEGACY, v1.3.0, HITL, EVOLVABLE, FRONTIER)
 
 **Status:** Authoritative for schema_version 1.2.0, beginning clean. No legacy. 1 entity (metre) via PDF primary ingestion with HITL, deterministic scales, evolvable templates, model selector like DeepSeek harness (local + frontier models). Old 74 entities archived.
 
@@ -18,14 +18,14 @@
 | Connection | `^stemma:conn\.[0-9]{6}$` | `connections/conn.NNNNNN.yaml` only after HITL + evidence | workflow/candidates/ → proposals → connections/ |
 | Source | `^stemma:src\.[a-z0-9-]+$` | `sources/src.<slug>.yaml` with url/doi/isbn | Canonical |
 
-## 3. Entity envelope v1.2.0 (Minimal, Dual Verification, HITL, Exact SI)
+## 3. Entity envelope v1.3.0 (Minimal, Dual Verification, HITL, Exact SI)
 
 Required: `id, type, name, domain, subdomain, status, definition (standard exact SI), provenance (writer human:*), source_refs>=1, governed_by>=1`
 
 - `subdomain`: mechanics | measurement-units | electricity-magnetism | thermal-physics — decided by governing law from physics-governing-registry.yaml, deterministic, no LLM
 - `governed_by`: law ids from physics-governing-registry.yaml — mandatory >=1, each in registry, subdomain must match law's subdomain, no self-governance
 - `source_refs`: canonical source ids >=1 — dual verification, each must resolve to sources/*.yaml with url/doi/isbn
-- `provenance`: must have ai_drafted (bool), source_kind (textbook | standards-or-specification), source (full citation with page + Exact: value), writer human:* (must be human:* for HITL, not llm:*), original_author BIPM/HRW, link https://www.bipm.org/en/publications/si-brochure (mandatory), retrieved_at ISO date, reviewer/reviewed_at after human review
+- `provenance`: must have ai_drafted (bool), source_kind (textbook | standards-or-specification), source (full citation with page + Exact: value), writer human:* (must be human:* for HITL, not llm:*), original_author BIPM/HRW, link https://www.bipm.org/en/publications/si-brochure (mandatory), retrieved_at ISO date, reviewer/reviewed_at after human review, `drafted_by` (v1.3.0, optional) = the llm:/process: agent that produced the original draft when a human is the writer — origin preserved, never rewritten. `writer`, `reviewer`, `drafted_by` must resolve in schema/agent-registry.yaml (reviewer human; drafted_by machine) — validate.py enforces
 - `historical`: optional draft, mandatory law/model/equation when human_reviewed/canonical with stated_by, year, where, timeline[]
 - `symbol`, `unit`: mandatory for unit/quantity
 - `quantity_kind` (base|derived), `tensor_character` (scalar|vector|tensor): mandatory when type=quantity (owner directive 2026-09-22) — semantic firmness: what the quantity IS, machine-verifiable

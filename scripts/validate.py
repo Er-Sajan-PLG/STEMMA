@@ -137,6 +137,30 @@ def check_agent_registry_shape(agents: dict[str, dict], errors: list) -> None:
             errors.append(f"schema/agent-registry.yaml: agent {aid} status must be active|retired|test")
 
 
+def check_entity_agents(entity: dict, agents: dict[str, dict], errors: list) -> None:
+    """Entity provenance agents must resolve in the agent registry (H1).
+
+    writer/reviewer/drafted_by were free strings, so `human:anyone` passed.
+    reviewer must be a human agent; drafted_by records the machine origin of a
+    human-written entity and must be an llm:/process: agent."""
+    here = f"{entity.get('_file', '<entity>')}:"
+    prov = entity.get("provenance")
+    if not isinstance(prov, dict):
+        return
+    for field in ("writer", "reviewer", "drafted_by"):
+        aid = prov.get(field)
+        if aid is None:
+            continue
+        if not isinstance(aid, str) or aid not in agents:
+            errors.append(f"{here} provenance.{field} {aid!r} not in schema/agent-registry.yaml (H1)")
+            continue
+        cls = agents[aid].get("class")
+        if field == "reviewer" and cls != "human":
+            errors.append(f"{here} provenance.reviewer must be a human agent (found {aid!r})")
+        if field == "drafted_by" and cls not in ("llm", "process"):
+            errors.append(f"{here} provenance.drafted_by must be an llm:/process: agent (found {aid!r})")
+
+
 def _agent_refs(conn: dict) -> list[tuple[str, str]]:
     """All (field, agent_id) pairs referenced by a connection's provenance."""
     prov = conn.get("provenance") or {}
@@ -1177,6 +1201,8 @@ def main(argv: list[str] | None = None) -> int:
     }
     warnings: list = []
     agents = load_agent_registry()
+    for _entity in entities.values():
+        check_entity_agents(_entity, agents, errors)
     if not agents:
         errors.append("schema/agent-registry.yaml missing or empty (plan v2 E4.2: every provenance agent must resolve)")
     check_agent_registry_shape(agents, errors)

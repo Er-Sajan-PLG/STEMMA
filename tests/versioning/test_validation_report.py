@@ -47,7 +47,9 @@ def test_validate_json_contract():
     assert report["valid"] is True
     assert report["ok"] is True
     assert report["conforms"] is True
-    assert report["schema_version"] == "1.2.0"
+    import yaml  # version literals are forbidden (schema/VERSION.yaml header)
+    expected = yaml.safe_load((ROOT / "schema" / "VERSION.yaml").read_text(encoding="utf-8"))["schema_version"]
+    assert report["schema_version"] == expected
     assert report["export_version"] == "2.2.0"
     assert report["relation_registry_version"] == "1.0.0"
     assert report["content_hash"].startswith("sha256:")
