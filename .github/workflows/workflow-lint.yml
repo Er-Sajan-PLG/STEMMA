@@ -1,0 +1,31 @@
+name: Workflow Lint
+
+# Guard against "silent dead CI": if ci.yml is not valid YAML / not a valid
+# workflow, GitHub never runs it and it fails in 0s with no job output. This
+# separate, deliberately tiny workflow validates EVERY workflow file, so a broken
+# ci.yml turns this check red instead of disappearing. Keep it minimal so it
+# cannot itself break the same way.
+
+on:
+  push:
+    branches: ["**"]
+    paths: [".github/workflows/**"]
+  pull_request:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  lint-workflows:
+    name: Validate workflow files
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install check-jsonschema
+        run: pip install "check-jsonschema>=0.29,<1"
+      - name: Validate against the GitHub Actions workflow schema
+        run: check-jsonschema --builtin-schema vendor.github-workflows .github/workflows/*.yml
