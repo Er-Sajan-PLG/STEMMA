@@ -50,8 +50,9 @@ def _registered_human(agent: str, root: pathlib.Path = ROOT) -> bool:
     try:
         data = yaml.safe_load((root / AGENTS.relative_to(ROOT)).read_text(encoding="utf-8")) or {}
     except Exception:
-        return agent.startswith("human:")
+        return False  # fail closed: an unreadable registry verifies nobody (H1)
     return any(a.get("id") == agent and a.get("class") == "human" and a.get("status") == "active"
+               and a.get("type") != "institution"
                for a in data.get("agents") or [])
 
 
@@ -104,15 +105,11 @@ def _check_hitl(eid: str, root: pathlib.Path):
         return  # Entity not in workflow, skip (direct file edit without ingestion)
 
     # If in workflow, enforce HITL
-    try:
-        sys.path.insert(0, str(root / "scripts"))
-        from hitl_check import check_entity as hitl_check_entity
-        ok, violations = hitl_check_entity(eid, verbose=False)
-        if not ok:
-            raise ValueError(f"HITL required — human must explicitly edit markdown before review/canonicalize: {'; '.join(violations)}")
-    except ImportError:
-        # hitl_check not available, warn but don't block
-        pass
+    sys.path.insert(0, str(root / "scripts"))
+    from hitl_check import check_entity as hitl_check_entity  # in-repo; ImportError blocks
+    ok, violations = hitl_check_entity(eid, verbose=False)
+    if not ok:
+        raise ValueError(f"HITL required — human must explicitly edit markdown before review/canonicalize: {'; '.join(violations)}")
 
 
 def transition_entity(root: pathlib.Path, eid: str, action: str, reviewer: str,
@@ -124,14 +121,14 @@ def transition_entity(root: pathlib.Path, eid: str, action: str, reviewer: str,
         raise ValueError(f"--reviewer must be an active human agent in "
                          f"{AGENTS.relative_to(ROOT)}: {reviewer!r}")
 
-    # HITL enforcement before transition
+    # HITL enforcement before transition. Fail closed: if the check itself
+    # errors, the transition is refused rather than silently allowed (H1).
     try:
         _check_hitl(eid, root)
     except ValueError:
         raise
     except Exception as exc:
-        # Log but don't block if hitl_check itself errors
-        print(f"warning: hitl_check error (not blocking): {exc}", file=sys.stderr)
+        raise ValueError(f"HITL check could not run ({exc!r}); refusing transition") from exc
 
     entity, path = find_entity(root, eid)
     status = entity.get("status")
