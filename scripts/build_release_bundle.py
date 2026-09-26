@@ -5,7 +5,8 @@ release/R6-bundle-<payload_hash12>/ (staging, git-ignored) containing:
   knowledge.json              (full export, all statuses; consumers pick a tier)
   knowledge.hash.json         (small pointer: sha256 + content_hash of knowledge.json)
   knowledge.<consumer>.json   (one per schema/consumer-registry.yaml consumer)
-  knowledge.canonical.json    (canonical consumer export)
+  connections.canonical.json  (review-aware view: canonical connections only, NOT an export;
+                               shipped before v3.0.0-rc2 as knowledge.canonical.json)
   knowledge.jsonld            (canonical projection)
   stemma-shapes.ttl           (SHACL contract)
   SHA256SUMS.txt              (sorted, sha256 of the payload files)
@@ -43,7 +44,7 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 BASE_EXPORT = "exports/knowledge.json"
 STATIC_PAYLOAD = [
     (BASE_EXPORT, "knowledge.json"),
-    ("exports/knowledge.canonical.json", "knowledge.canonical.json"),
+    ("exports/knowledge.canonical.json", "connections.canonical.json"),
     ("exports/knowledge.jsonld", "knowledge.jsonld"),
     ("schema/projection/stemma-shapes.ttl", "stemma-shapes.ttl"),
 ]
@@ -110,7 +111,7 @@ def file_kind(name: str) -> str:
                                     and name.split(".")[1] in _consumer_ids()):
         return "export"
     return {
-        "knowledge.canonical.json": "connections-view",  # review-aware view: connections only, no entities
+        "connections.canonical.json": "connections-view",  # review-aware view: connections only, no entities
         "knowledge.hash.json": "hash-pointer",
         "knowledge.jsonld": "jsonld-projection",
         "stemma-shapes.ttl": "shacl-shapes",
@@ -171,6 +172,9 @@ def build(out_root: pathlib.Path | None = None, release_tag: str | None = None) 
     pointer_bytes = (json.dumps(pointer, indent=2, sort_keys=True) + "\n").encode("utf-8")
     digests = {dst: sha256(ROOT / src) for src, dst in items}
     digests[HASH_POINTER] = hashlib.sha256(pointer_bytes).hexdigest()
+    for n in digests:  # `knowledge.*.json` promises a loadable export (only the pointer is exempt)
+        if n.startswith("knowledge.") and n.endswith(".json") and n != HASH_POINTER and file_kind(n) != "export":
+            raise BundleError(f"{n} is named like an export but is {file_kind(n)!r}; rename it")
     sums = "".join(f"{digests[name]}  {name}\n" for name in sorted(digests))
     payload_hash = hashlib.sha256(sums.encode("utf-8")).hexdigest()
     name = f"R6-bundle-{payload_hash[:12]}"
