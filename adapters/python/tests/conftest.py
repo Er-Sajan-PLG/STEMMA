@@ -48,6 +48,11 @@ class ReleaseFixture:
         self.replay_any_digest = False             # API returns the genuine bundle for any digest
         self.base = ""
 
+    def redirect_targets(self) -> dict[str, str]:
+        scheme = "http" if self.redirect == "http" else "https"
+        host = self.base.split("://", 1)[1]
+        return {n: f"{scheme}://{host}/cdn/{n}?X-Amz-Signature=secret" for n in ASSETS}
+
     def asset_requests(self, name: str) -> list[str]:
         return [p for p in self.requests if p.rsplit("/", 1)[-1] == name]
 
@@ -84,10 +89,10 @@ def _handler(fx: ReleaseFixture):
                     return self._send(404, b"not found")
                 name = parts[5]
                 if fx.redirect and name in fx.files:
-                    scheme = fx.redirect
-                    host = fx.base.split("://", 1)[1]
+                    # Location built only from fixture-owned values, never from the request
+                    target = fx.redirect_targets()[name]
                     self.send_response(302)
-                    self.send_header("Location", f"{scheme}://{host}/cdn/{name}?X-Amz-Signature=secret")
+                    self.send_header("Location", target)
                     self.send_header("Content-Length", "0")
                     self.end_headers()
                     return None
@@ -128,6 +133,7 @@ def server(tls_cert):
     fx = ReleaseFixture()
     httpd = ThreadingHTTPServer(("127.0.0.1", 0), _handler(fx))
     sctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
+    sctx.minimum_version = ssl.TLSVersion.TLSv1_2
     sctx.load_cert_chain(cert, key)
     httpd.socket = sctx.wrap_socket(httpd.socket, server_side=True)
     fx.base = f"https://127.0.0.1:{httpd.server_address[1]}"
