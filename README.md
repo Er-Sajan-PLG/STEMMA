@@ -138,8 +138,9 @@ Ingestion/review UI + RAG playground: `python3 webapp/server.py --port 8081`
 # File
 cat exports/knowledge.json | python3 -c "import json; print(json.load(open('exports/knowledge.json'))['content_hash'])"
 
-# API — adapter v0.2.0 (/v2/entities, /v2/embeddings, /v2/rag/search,
-# POST /v2/rag/query, /v2/export?consumer=..., /openapi.yaml)
+# API — optional read-only adapter over the export (ADR-0054; local, no auth).
+# Stable: /v2/stats, /v2/entities, /v2/search, /v2/neighbors, /v2/values, ...
+# Experimental (placeholder vectors): /v2/embeddings, /v2/rag/*, /v2/export
 PYTHONPATH=adapters/python python3 -m stemma_adapter serve exports/knowledge.json --port 8080
 curl http://127.0.0.1:8080/v2/stats
 

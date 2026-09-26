@@ -1,121 +1,85 @@
-# API — Comprehensive All-STEM, Export Mechanism for LearningHub, PROFESSOR-J, Embeddings, RAG
+# API — How consumers get STEMMA data
 
-**Status:** Authoritative, v2.2.0, OpenAPI 3.0.3 schema in `schema/api.yaml`, implemented in adapter server v0.2.0 and webapp server, for consumers like LearningHub, PROFESSOR-J, general, explorer.
+**Status:** reconciled with the code on 2026-09-26 per
+[ADR-0054](decisions/0054-consumer-access-surface.md). Where this page and the
+code disagree, the code plus `schema/api.yaml` (v2.3.0) win. `schema/api.yaml`
+is kept in sync with the adapter by `tests/repo/test_api_spec_matches_server.py`.
 
-## Do we need export mechanism via api schema link/api? YES.
+## The three access paths (in order of preference)
 
-**Answer:** Yes, you need export mechanism via API schema link/api for consumers like LearningHub, PROFESSOR-J. File-based exports (knowledge.json) are deterministic versioned content-hash but require file access. API provides REST access with filtering, embeddings, RAG, consumer-specific exports, OpenAPI schema, auth, rate limiting.
+| Path | What it is | Status |
+|---|---|---|
+| **File** | `exports/knowledge.json` (+ `knowledge.*.json` review views, `knowledge.jsonld`), versioned by `content_hash` | **Primary contract.** Published read-only at <https://er-sajan-plg.github.io/STEMMA/exports/knowledge.json> |
+| **SDK** | Python `stemma_adapter` (`adapters/python/`) — loads + validates an export fail-closed, graph queries, ADR-0045 valued claims | Supported |
+| **HTTP `/v2/*`** | The same SDK served read-only over one export, run locally by the consumer | Optional convenience; no auth, no rate limiting, no hosted endpoint |
 
-## OpenAPI Schema — schema/api.yaml v2.2.0
+The webapp (`webapp/server.py`, `/api/*`) is the owner's **private curation
+tool**, not a consumer API (see [WEBAPP.md](WEBAPP.md)).
 
-OpenAPI 3.0.3, title STEMMA API — Comprehensive All-STEM Knowledge Foundation with RAG and Embeddings, version 2.2.0, description comprehensive all-STEM mediocre coverage with embeddings + RAG + consumer export, domains 8, features deterministic exports content-hash no wall clock versioned, embeddings model selector like DeepSeek harness (local + frontier models: local free BGE All-MiniLM + frontier OpenAI text-embedding-3-large Cohere Gemini NVIDIA NV-Embed), RAG retrieval-augmented generation using vector store FAISS/Chroma + frontier LLM selector (DeepSeek R1, Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro, Llama 3.3, custom), consumer-specific exports LearningHub canonical physics/chem/bio/math high-quality embeddings, PROFESSOR-J reviewed all domains offline SOTA embeddings, RAG, HITL enforced all entities have human:writer and audit trail.
+## HTTP `/v2/*` — adapter server
 
-Servers:
-- http://localhost:8080 — adapter Python local JSON API (PYTHONPATH=adapters/python python3 -m stemma_adapter serve exports/knowledge.json --port 8080)
-- http://localhost:8081 — webapp ingestion/review UI + RAG (python3 webapp/server.py --port 8081)
-- https://api.stemma.example.com/v2 — production future
+```bash
+PYTHONPATH=adapters/python python3 -m stemma_adapter serve exports/knowledge.json --port 8080   # binds 127.0.0.1
+curl http://127.0.0.1:8080/v2/stats
+```
 
-Paths:
-- /v2/stats — stats
-- /v2/entities?domain=...&subdomain=...&type=...&status=...&limit=... — list entities with filters for 8 domains, 12 entity types
-- /v2/entities/{id} — get entity e.g., stemma:phys.metre
-- /v2/connections?source=...&target=...&relation=... — list connections 8 relations
-- /v2/search?q=...&domain=...&type=...&limit=... — search
+Stable paths (read-only, JSON):
+
+- /v2/stats — counts, content_hash, versions
+- /v2/entities?domain=...&type=...&status=...&limit=... — list entities
+- /v2/entities/{id} — one entity, e.g. `stemma:phys.metre`
+- /v2/resolve/{id} — follow alias / deprecation chains → `{resolved, chain}`
+- /v2/external/{scheme}/{value} — look up by external id, e.g. `/v2/external/wd/Q14038`
+- /v2/connections?source=...&target=...&relation=...&policy=... — list connections
+- /v2/search?q=...&domain=...&limit=... — token search
 - /v2/neighbors/{id}, /v2/prerequisites/{id}?policy=... — graph queries (entity→entity edges only)
 - /v2/values/{id}?relation=&policy=... — valued claims (ADR-0045 value-slot: `{amount, lowerBound, upperBound, unit}`), e.g. the metre's defining speed of light
 - /v2/relations, /v2/relations/{name}, /v2/vocabularies — registries
-- /v2/embeddings?model=...&id=...&domain=...&limit=... — NEW embeddings with model selector like DeepSeek harness (local + frontier models)
-- /v2/rag/search?q=...&top_k=...&model=...&domain=... — NEW vector search for RAG
-- POST /v2/rag/query — NEW RAG query with body {question, top_k, model, embedding_model, domain, consumer} → {question, answer, citations, retrieved_entities, model_used, embedding_model_used, content_hash}
-- /v2/export?consumer=...&format=...&review_policy=... — NEW export for specific consumer filtered by domains/review_policy/entity_types
-- /openapi.yaml or /v2/openapi.yaml — OpenAPI schema
+- /openapi.yaml (alias /v2/openapi.yaml) — the OpenAPI document
 
-Components schemas: Stats, Entity (id, type enum 12 types, name, domain enum 8 domains, subdomain, definition, status, provenance, source_refs, external_ids), Connection, Embedding (entity_id, model, dimensions, vector, content_hash), RAGResult (entity, score, content), RAGAnswer (question, answer, citations, retrieved_entities, model_used, embedding_model_used, content_hash)
+Experimental paths (`x-stability: experimental` — reference/demo only; unless
+`sentence-transformers` is installed they use deterministic **placeholder**
+vectors, so similarity results are not meaningful):
 
-## Adapter Server v0.2.0 — adapters/python/stemma_adapter/server.py
+- /v2/embeddings?model=...&id=...&domain=...&limit=...
+- /v2/rag/search?q=...&top_k=...&model=...&domain=...
+- POST /v2/rag/query — body `{question, top_k, model, embedding_model, domain, consumer}`
+- /v2/export?consumer=...&format=...&review_policy=...
 
-Previously v0.1.0 only had /v2/stats, /v2/entities, /v2/search, etc. Now v0.2.0 adds embeddings + RAG + consumer export + OpenAPI:
+Not implemented (planned, needs a future ADR): authentication, API keys,
+per-consumer rate limits, a hosted production endpoint.
 
-- **GET /** — returns adapter version 0.2.0, content_hash, domains 8, description comprehensive all-STEM with embeddings RAG consumer export for LearningHub PROFESSOR-J, endpoints list including new /v2/embeddings, /v2/rag/search, /v2/rag/query POST, /v2/export, /openapi.yaml, consumers list, embedding_models list, llm_models list, stats
-- **GET /v2/embeddings?model=BAAI/bge-large-en-v1.5&id=stemma:phys.metre&domain=physics&limit=100** — handles embeddings: loads exports/embeddings.jsonl, filters by model, entity_id, domain, limit, returns model, count, embeddings with vector_preview (first 5 dims) + content_hash + content, hint for full vectors, available_models note
-- **GET /v2/rag/search?q=...&top_k=...&model=...&domain=...** — handles RAG search: tries rag.vector_search if embeddings exist, else falls back to text search via adapter search, returns query, top_k, model, results
-- **POST /v2/rag/query** — handles full RAG: reads JSON body question, top_k, model, embedding_model, domain, consumer, calls rag.rag_query, returns answer with citations
-- **GET /v2/export?consumer=learninghub&format=json&review_policy=canonical** — handles consumer export: loads consumer-specific export if exists at exports/consumers/<consumer>/knowledge.<consumer>.json, else filters on the fly by domains/review_policy, returns consumer, format, entity_count, entities preview, hint for full file, embedding_model, api_access, rag config
-- **GET /openapi.yaml or /v2/openapi.yaml** — serves OpenAPI schema from schema/api.yaml parsed via yaml
+## Webapp `/api/*` — private admin tool (not a consumer API)
 
-**Run:**
-```bash
-PYTHONPATH=adapters/python python3 -m stemma_adapter serve exports/knowledge.json --host 127.0.0.1 --port 8080
-curl http://127.0.0.1:8080/
-curl http://127.0.0.1:8080/v2/stats
-curl "http://127.0.0.1:8080/v2/entities?domain=physics&limit=5"
-curl "http://127.0.0.1:8080/v2/search?q=force&domain=physics"
-curl "http://127.0.0.1:8080/v2/embeddings?model=BAAI/bge-large-en-v1.5&limit=5"
-curl "http://127.0.0.1:8080/v2/rag/search?q=Newton%20second%20law&top_k=5"
-curl -X POST http://127.0.0.1:8080/v2/rag/query -H "Content-Type: application/json" -d '{"question":"What is Newton second law?","top_k":5,"model":"deepseek/deepseek-r1:free","consumer":"learninghub"}'
-curl "http://127.0.0.1:8080/v2/export?consumer=learninghub&format=json"
-curl http://127.0.0.1:8080/openapi.yaml
-```
+Curation workflow (documents, semantic extraction/verification, proposals,
+LLM provider config) plus a RAG playground on the same experimental
+embeddings. Bound to `127.0.0.1`, no CORS, Host/Origin-checked; routes may
+change without notice. See [WEBAPP.md](WEBAPP.md).
 
-## Webapp Server — webapp/server.py + RAG playground
+## File-based exports
 
-Previously only ingestion/review UI. Now adds RAG + embeddings + export + OpenAPI:
+- `exports/knowledge.json` — main deterministic export (content_hash)
+- `exports/knowledge.{all,reviewed,canonical,trusted,proposed,rejected}.json` — review-aware views
+- `exports/knowledge.jsonld` — derived semantic-web projection (ADR-0053)
+- `exports/embeddings.jsonl`, `exports/vector_store/` — experimental, placeholder vectors (not published on the site)
+- `exports/consumers/<consumer>/knowledge.<consumer>.json` — consumer-filtered views
 
-- **GET /api/models/embedding** — embedding models list from schema/embedding-registry.yaml
-- **GET /api/rag/search?q=...&top_k=...&model=...&domain=...** — vector search via rag.vector_search
-- **GET /api/embeddings?model=...&limit=...** — embeddings preview from exports/embeddings.jsonl
-- **GET /api/export?consumer=...&format=...** — consumer export preview filtered by domains
-- **GET /api/openapi or /openapi.yaml** — OpenAPI schema
-- **POST /api/rag/query** — full RAG query via rag.rag_query, body question, top_k, model, embedding_model, domain, consumer
+Generated via `python3 scripts/validate.py` (knowledge.json + views) and the
+optional `scripts/embed.py` / `scripts/export_consumers.py`.
 
-**Run:**
-```bash
-python3 webapp/server.py --host 0.0.0.0 --port 8081
-# Then open http://localhost:8081
-# New RAG Playground section with embedding model selector like DeepSeek harness (local + frontier models) + LLM model selector + domain filter + consumer selector + question input + Search + Query buttons + results with scores + citations
-```
-
-## Export Mechanisms — 3 ways (file, API, SDK)
-
-### File-based
-
-- `exports/knowledge.json` — main deterministic content-hash v2.2.0
-- `exports/knowledge.*.json` — review-aware
-- `exports/embeddings.jsonl` — embeddings per entity
-- `exports/vector_store/` — FAISS meta.json + vectors.json + ids.json
-- `exports/consumers/<consumer>/knowledge.<consumer>.json` — consumer-specific filtered
-- `exports/openapi.yaml` — OpenAPI schema copy from schema/api.yaml
-
-Generated via:
-```bash
-python3 scripts/validate.py  # generates knowledge.json
-python3 scripts/embed.py --model BAAI/bge-large-en-v1.5  # generates embeddings.jsonl + vector_store/
-python3 scripts/export_consumers.py --consumer learninghub --format json  # generates consumers/learninghub/knowledge.learninghub.json
-python3 scripts/export_consumers.py --all  # all consumers
-```
-
-### API
-
-- Adapter server v0.2.0: /v2/* endpoints with embeddings + RAG + export + OpenAPI
-- Webapp server: /api/* endpoints with RAG playground
-- OpenAPI schema: schema/api.yaml v2.2.0, served at /openapi.yaml
-- Auth: none local, api_key for LearningHub/PROFESSOR-J, bearer for frontier models via OpenRouter
-- Rate limiting: LearningHub 1000/hour, PROFESSOR-J 10000/hour, general 100/hour (future, currently no enforcement)
-
-### SDK
+## SDK
 
 - **Python:** adapters/python/ pip install ./adapters/python
   ```python
   from stemma_adapter import Stemma
-  stemma = Stemma.from_file("exports/knowledge.json")
+  stemma = Stemma.from_file("exports/knowledge.json")   # validates, fails closed
   print(stemma.stats)
-  # Search
   print(stemma.search("force", domain="physics"))
-  # Via API
-  # stemma-adapter serve exports/knowledge.json --port 8080
-  # curl http://localhost:8080/v2/search?q=force&domain=physics
+  print(stemma.neighbors("stemma:phys.force"))           # entity -> entity edges
+  print(stemma.values("stemma:phys.metre"))              # ADR-0045 valued claims
+  # CLI equivalents: python -m stemma_adapter {stats,search,neighbors,values,...} exports/knowledge.json
 
-  # RAG via scripts/rag.py
+  # Experimental RAG via scripts/rag.py (placeholder vectors unless sentence-transformers is installed)
   import sys
   sys.path.insert(0, "scripts")
   import rag
@@ -127,7 +91,9 @@ python3 scripts/export_consumers.py --all  # all consumers
 
 ## Consumer-specific API access
 
-Defined in `schema/consumer-registry.yaml` v1.0.0:
+Defined in `schema/consumer-registry.yaml` v1.0.0. **Planned, not enforced:**
+the adapter has no auth or rate limiting today (ADR-0054); these entries
+describe intended consumer profiles.
 
 - **LearningHub:** endpoints /v2/stats, /v2/entities, /v2/search, /v2/rag/query, /v2/embeddings — rate limit 1000/hour api_key — example query "What is Newton's second law?"
 - **PROFESSOR-J:** endpoints /v2/stats, /v2/entities, /v2/connections, /v2/search, /v2/neighbors, /v2/prerequisites, /v2/rag/query, /v2/rag/search, /v2/embeddings, /v2/export — rate limit 10000/hour api_key — example "Explain photosynthesis and its relation to cellular respiration"

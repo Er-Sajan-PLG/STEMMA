@@ -118,7 +118,7 @@ invariants:
     must_appear_in: [docs/API.md, adapters/README.md]
     note: "every OpenAPI path must be mentioned in the API reference doc + adapter README"
   env_surface:
-    scan_files: [webapp/core.py, webapp/providers.py, scripts/embed.py]
+    scan_files: [webapp/core.py, webapp/providers.py, webapp/server.py, scripts/embed.py]
     must_appear_in: [.env.example, docs/WEBAPP.md]
     capture:
       - 'os\.environ\.get\(["'']?([A-Z][A-Z0-9_]+)'

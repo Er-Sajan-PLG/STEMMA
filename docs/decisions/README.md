@@ -20,6 +20,7 @@
 | 0051 | [governance-hygiene](0051-governance-hygiene.md) | Governance Hygiene — lhs sweep, fix AGENTS.md dead refs, un-stub test_independence | Decided — Phase 3 |
 | 0052 | [content-acceptance-test](0052-content-acceptance-test.md) | Content as Acceptance Test Before IRI Gate — proof engine works 3-5 entities 2-3 connections both authority tiers | Decided — Phase 4 |
 | 0053 | [organization-domain-iri-base](0053-organization-domain-iri-base.md) | Organization/Domain/IRI Base — publisher individual Sajan reaffirmed; canonical stays immutable stemma: URN reaffirmed; w3id/resolution base UNDER REVIEW, deferred to R6 (Amendment 0001) | Decided — Phase 5; amended 2026-09-22 |
+| 0054 | [consumer-access-surface](0054-consumer-access-surface.md) | Consumer access surface — file/SDK contract first; `/v2` read-only local adapter (embeddings/RAG experimental); webapp = private admin tool on 127.0.0.1 + Tailscale with endpoint-bound key; family = static Pages site + GitHub feedback form; amends ARCH-V2 §5.3 | Decided — 2026-09-26 |
 
 No legacy, this is beginning. Old ADRs 0001-0039 archived to archive/old-design/docs/decisions/. New foundation ADR-0044 v2 is normative core decided — see docs/ARCHITECTURE-V2.md authoritative clean single part and docs/IMPLEMENTATION-PLAN-V2.md Phases 0-8 ideal order architecture → plan → work integrating early work as implementation.
 

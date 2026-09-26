@@ -408,8 +408,11 @@ Whose job is embedding and RAG? CONSUMER's job not STEMMA's STEMMA provides refe
 
 ### 5.3 Export Mechanism to Consumers LearningHub PROFESSOR-J via API Schema
 
-- OpenAPI 3.0.3 api.yaml endpoints /api/entities /api/connections /api/sources /api/semantic/claims /api/semantic/proposals/list /api/semantic/registries /api/embeddings /api/rag/search content_hash versioned contract validation
-- webapp/server.py implements GET /api/semantic/claims /proposals/list /registries POST /api/semantic/extract /verify /conflicts /proposals /resolve + existing /api/entities /api/connections /api/ingest /api/rag/search
+> **Amended by [ADR-0054](decisions/0054-consumer-access-surface.md) (2026-09-26).** The two bullets that previously opened this section described `schema/api.yaml` as `/api/*` endpoints and listed webapp routes (`/api/entities`, `/api/connections`, `/api/ingest`) as "existing"; neither matched the code (original text in git history).
+
+- **File contract first:** `exports/knowledge.json` (+ review views, `knowledge.jsonld`) versioned by `content_hash` is the primary consumer contract, published read-only via GitHub Pages; the Python SDK `adapters/python/` is the reference reader and fails closed (incl. ADR-0045 valued claims)
+- **`/v2/*` HTTP (OpenAPI 3.0.3 `schema/api.yaml` v2.3.0)** is an optional read-only adapter over one export, run locally by the consumer; no auth/rate limiting/hosted endpoint in this phase; embeddings/RAG/export paths are `x-stability: experimental`; spec ↔ server parity is test-enforced
+- **Webapp `/api/*` is the private admin curation tool, not a consumer API** — 127.0.0.1 + private network (Tailscale) only, single owner, one owner-controlled LLM key bound to its endpoint; family/testers use the static explorer site + GitHub feedback form
 - Consumer-registry v1.0.0 4 consumers LearningHub canonical physics/chem/bio/math OpenAI Large GPT-4o PROFESSOR-J reviewed all 8 domains mediocre BGE Large offline DeepSeek R1 free general explorer
 - Subset exports exports/knowledge.json all canonical reviewed trusted proposed rejected plus views/
 - Content-hash invalidation consumers know exactly when to reload via meta.json content_hash
