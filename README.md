@@ -103,7 +103,7 @@ STEMMA/
 ├── sources/              canonical citation records
 ├── schema/               JSON Schemas, VERSION.yaml, relation/template/embedding/
 │                         consumer/llm/agent registries, api.yaml (OpenAPI 3.0.3)
-├── adapters/python/      first-party read-only Python adapter v0.2.0 (SDK, CLI, JSON API)
+├── adapters/python/      first-party read-only Python adapter v0.3.0 (SDK, CLI, JSON API)
 ├── scripts/              validation gate, review workflow, ingestion, embedding/RAG
 │                         reference implementation, derived-artifact builders
 ├── webapp/               stdlib ingestion/review UI + RAG playground (HITL; never

@@ -14,9 +14,10 @@ producer repository's validator stack.
 
 ## Status
 
-`0.2.0` is an in-repo first-party adapter release: SDK, CLI, and local JSON
+`0.3.0` is an in-repo first-party adapter release: SDK (now including verified
+release loading, `Stemma.from_release` / `Stemma.from_url`), CLI, and local JSON
 API with embeddings, RAG, and consumer export (`/v2/*` endpoints) against the
-2.2.0 export contract. Promotion to adapter `1.0` and any PyPI publication
+2.2.0 export contract. See [CHANGELOG.md](CHANGELOG.md). Promotion to adapter `1.0` and any PyPI publication
 remain human-gated decisions.
 
 ## Install
@@ -24,10 +25,11 @@ remain human-gated decisions.
 From the repository root:
 
 ```bash
-pip install ./adapters/python
+pip install ./adapters/python              # core: standard library only
+pip install "./adapters/python[verify]"    # + Sigstore attestation checks (needed by default for releases)
 ```
 
-Or for local development without installation:
+Not published to PyPI yet. Or for local development without installation:
 
 ```bash
 PYTHONPATH=adapters/python python3 -m stemma_adapter --help
@@ -43,6 +45,26 @@ print(stemma.stats)
 print(stemma.resolve("stemma:phys.force"))
 print(stemma.by_external_id("wd", "Q11402")["id"])
 ```
+
+### From a published release (verified before use)
+
+```python
+stemma = Stemma.from_release("Er-Sajan-PLG/STEMMA", "v3.0.0-rc1",
+                             file="knowledge.learninghub.json", cache_dir="/var/cache/stemma")
+stemma.release_info["verification"]   # "sigstore"
+```
+
+- Explicit tag only (`vX.Y.Z` / `vX.Y.Z-rcN`); one `kind: export` asset per call via `file=`.
+- Default: Sigstore attestation for `manifest.json` + `SHA256SUMS.txt` + the
+  export, from `release.yml` at `refs/tags/<tag>` (needs `[verify]`).
+  `verify_attestation=False` = **checksum-only integrity**, not publisher
+  authenticity. The owner's GPG signature is not checked by the SDK.
+- `Stemma.from_url(".../manifest.json", expected_repository=..., expected_ref=...)`
+  for mirrors/CDNs: the signer identity always comes from the caller.
+- Verified copies are cached and reused with zero requests (`offline=True`
+  never uses the network). Tags are treated as immutable.
+
+Full rules: [docs/API.md → SDK](../../docs/API.md#sdk).
 
 ## CLI
 
