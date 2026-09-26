@@ -12,7 +12,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import sys
+import uuid
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
@@ -33,6 +35,17 @@ from core import (  # noqa: E402
 )
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
+
+# Workflow identifiers (document ids are uuid hex; candidate ids are similar).
+# Strict allowlist: no path separators, no leading dot, no "..".
+_SAFE_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$")
+
+
+def _safe_id(value: Any, label: str = "id") -> str:
+    """Return ``value`` if it is a safe single path segment, else raise WebappError."""
+    if not isinstance(value, str) or not _SAFE_ID_RE.match(value) or ".." in value:
+        raise WebappError(f"invalid {label}: {value!r}")
+    return value
 
 
 class _Server(ThreadingHTTPServer):
@@ -232,6 +245,7 @@ class _Handler(BaseHTTPRequestHandler):
             doc_id = self._query_value(query, "doc_id")
             if not doc_id:
                 raise WebappError("doc_id required")
+            doc_id = _safe_id(doc_id, "doc_id")
             try:
                 wf = self.workflow
                 candidates_dir = wf.root / f"candidates/{doc_id}"
@@ -246,6 +260,8 @@ class _Handler(BaseHTTPRequestHandler):
                         data = js.loads(pf.read_text())
                         return 200, data
                 return 200, {"doc_id": doc_id, "claims": [], "message": "no semantic claims yet, run /api/semantic/extract"}
+            except (WebappError, NotFound):
+                raise
             except Exception as e:
                 return 200, {"error": str(e), "claims": []}
 
@@ -264,6 +280,8 @@ class _Handler(BaseHTTPRequestHandler):
                     except:
                         continue
                 return 200, {"proposals": proposals, "count": len(proposals)}
+            except (WebappError, NotFound):
+                raise
             except Exception as e:
                 return 200, {"error": str(e), "proposals": []}
 
@@ -277,6 +295,8 @@ class _Handler(BaseHTTPRequestHandler):
                         data=yaml.safe_load(rp.read_text())
                         result[name] = {"version": data.get("version"), "count": len(data.get("domains",{}) or data.get("models",{}) or data.get("consumers",{}) or data.get("roles",{}))}
                 return 200, result
+            except (WebappError, NotFound):
+                raise
             except Exception as e:
                 return 200, {"error": str(e)}
 
@@ -287,6 +307,8 @@ class _Handler(BaseHTTPRequestHandler):
                 api_path = ROOT / "schema/api.yaml"
                 if api_path.exists():
                     return 200, yaml.safe_load(api_path.read_text(encoding='utf-8'))
+            except (WebappError, NotFound):
+                raise
             except Exception as e:
                 return 200, {"error": str(e)}
         if path.endswith("/text") and path.startswith("/api/documents/"):
@@ -347,14 +369,14 @@ class _Handler(BaseHTTPRequestHandler):
                 mime=str(body.get("mime") or ""),
                 data=data,
             )
-        if path.endswith("/extract"):
+        if path.startswith("/api/documents/") and path.endswith("/extract"):
             doc_id = self._id_from_path(path, "/api/documents/", suffix="/extract")
             return 200, wf.extract_document(doc_id)
-        if path.endswith("/generate"):
+        if path.startswith("/api/documents/") and path.endswith("/generate"):
             doc_id = self._id_from_path(path, "/api/documents/", suffix="/generate")
             body = self._read_json_body()
             return 200, wf.generate_candidates(doc_id, target_kinds=body.get("target_kinds"))
-        if path.endswith("/deterministic-draft"):
+        if path.startswith("/api/documents/") and path.endswith("/deterministic-draft"):
             doc_id = self._id_from_path(path, "/api/documents/", suffix="/deterministic-draft")
             # Deterministic draft — no LLM, uses evolvable templates, scales
             try:
@@ -368,7 +390,6 @@ class _Handler(BaseHTTPRequestHandler):
                 text = text_path.read_text(encoding="utf-8")
                 entities = deterministic_extract(text, registry)
                 # Build candidates deterministically
-                import uuid, json
                 from datetime import datetime, timezone
                 now = datetime.now(timezone.utc).isoformat()
                 candidates_dir = wf.root / f"candidates/{doc_id}"
@@ -432,7 +453,7 @@ class _Handler(BaseHTTPRequestHandler):
                 return 200, out
             except Exception as e:
                 raise Exception(f"Deterministic draft failed: {e}")
-        if path.endswith("/stage"):
+        if path.startswith("/api/candidates/") and path.endswith("/stage"):
             candidate_id = self._id_from_path(path, "/api/candidates/", suffix="/stage")
             body = self._read_json_body()
             reviewer = str(body.get("reviewer") or "")
@@ -463,6 +484,8 @@ class _Handler(BaseHTTPRequestHandler):
         if path == "/api/semantic/extract":
             body = self._read_json_body()
             doc_id = body.get("doc_id")
+            if doc_id is not None:
+                doc_id = _safe_id(doc_id, "doc_id")
             text = body.get("text")
             source_id = body.get("source_id") or "stemma:src.test"
             model_id = body.get("model") or "deterministic"
@@ -486,7 +509,6 @@ class _Handler(BaseHTTPRequestHandler):
                         full_text = (wf.root / "documents" / f"{doc_id}.txt").read_text(encoding="utf-8")
                     claims = semantic_extract.semantic_extract(full_text, source_id=source_id, model_id=model_id, provider=provider)
                     # Save to candidates
-                    import uuid
                     from datetime import datetime, timezone
                     candidates_dir = wf.root / f"candidates/{doc_id}"
                     candidates_dir.mkdir(parents=True, exist_ok=True)
@@ -505,6 +527,8 @@ class _Handler(BaseHTTPRequestHandler):
                     return 200, {"source_id": source_id, "claims": claims, "count": len(claims)}
                 else:
                     raise WebappError("doc_id or text required")
+            except (WebappError, NotFound):
+                raise
             except Exception as e:
                 return 200, {"error": str(e), "claims": [], "hint": "run pdf_ingest_primary.py --check-registries first"}
 
@@ -518,14 +542,14 @@ class _Handler(BaseHTTPRequestHandler):
                 sys.path.insert(0, str(ROOT / "scripts"))
                 import verify_claim
                 if claims_file:
-                    p = Path(claims_file)
-                    if not p.is_absolute():
-                        p = ROOT / p
+                    p = self._confined_claims_file(claims_file)
                     data = json.loads(p.read_text())
                     result = verify_claim.verify_claims(data, verifier_model_id=verifier_model, verifier_provider=provider)
                     return 200, result
                 else:
                     raise WebappError("claims_file required")
+            except (WebappError, NotFound):
+                raise
             except Exception as e:
                 return 200, {"error": str(e)}
 
@@ -537,14 +561,14 @@ class _Handler(BaseHTTPRequestHandler):
                 sys.path.insert(0, str(ROOT / "scripts"))
                 import conflict_analysis
                 if claims_file:
-                    p = Path(claims_file)
-                    if not p.is_absolute():
-                        p = ROOT / p
+                    p = self._confined_claims_file(claims_file)
                     data = json.loads(p.read_text())
                     result = conflict_analysis.analyze_conflicts(data)
                     return 200, result
                 else:
                     raise WebappError("claims_file required")
+            except (WebappError, NotFound):
+                raise
             except Exception as e:
                 return 200, {"error": str(e)}
 
@@ -557,15 +581,15 @@ class _Handler(BaseHTTPRequestHandler):
                 sys.path.insert(0, str(ROOT / "scripts"))
                 import proposal_generate
                 if claims_file:
-                    p = Path(claims_file)
-                    if not p.is_absolute():
-                        p = ROOT / p
+                    p = self._confined_claims_file(claims_file)
                     data = json.loads(p.read_text())
                     proposals = proposal_generate.generate_proposals(data, doc_id=doc_id)
                     written = proposal_generate.write_proposals(proposals, doc_id)
                     return 200, {"doc_id": doc_id, "proposals": proposals[:5], "count": len(proposals), "written": written}
                 else:
                     raise WebappError("claims_file required")
+            except (WebappError, NotFound):
+                raise
             except Exception as e:
                 return 200, {"error": str(e)}
 
@@ -578,14 +602,14 @@ class _Handler(BaseHTTPRequestHandler):
                 sys.path.insert(0, str(ROOT / "scripts"))
                 import entity_resolution
                 if claims_file:
-                    p = Path(claims_file)
-                    if not p.is_absolute():
-                        p = ROOT / p
+                    p = self._confined_claims_file(claims_file)
                     data = json.loads(p.read_text())
                     resolved = entity_resolution.resolve_claim_entities(data, threshold=threshold)
                     return 200, {"claims": resolved[:5], "count": len(resolved)}
                 else:
                     raise WebappError("claims_file required")
+            except (WebappError, NotFound):
+                raise
             except Exception as e:
                 return 200, {"error": str(e)}
 
@@ -625,9 +649,28 @@ class _Handler(BaseHTTPRequestHandler):
         if remainder.startswith(prefix):
             remainder = remainder[len(prefix):]
         value = unquote(remainder.strip("/"))
-        if not value or "/" in value:
+        if not value or "/" in value or not _SAFE_ID_RE.match(value) or ".." in value:
             raise NotFound(f"invalid id fragment in path: {path}")
         return value
+
+    def _confined_claims_file(self, raw: Any) -> Path:
+        """Resolve a client-supplied claims file, confined to the workflow directory.
+
+        Accepts workflow-relative (``candidates/<doc>/semantic_claims.json``) or
+        repo-relative (``workflow/candidates/...``) paths. Anything that resolves
+        outside the workflow root (absolute paths elsewhere, ``..``, symlinks out)
+        or is not a ``.json`` file is rejected.
+        """
+        if not isinstance(raw, str) or not raw.strip():
+            raise WebappError("claims_file required")
+        root = self.workflow.root.resolve()
+        given = Path(raw)
+        candidates = [given] if given.is_absolute() else [root / given, ROOT / given]
+        for cand in candidates:
+            resolved = cand.resolve()
+            if resolved.is_relative_to(root) and resolved.suffix == ".json" and resolved.is_file():
+                return resolved
+        raise WebappError("claims_file must be an existing .json file inside the workflow directory")
 
     def _read_json_body(self) -> dict:
         length = int(self.headers.get("Content-Length") or "0")
