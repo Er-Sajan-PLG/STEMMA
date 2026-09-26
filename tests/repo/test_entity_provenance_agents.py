@@ -69,3 +69,25 @@ def test_entity_agent_violations(field, value, needle):
     e["provenance"][field] = value
     errs = _agent_errors(e)
     assert any(needle in x for x in errs), errs
+
+
+def test_reviewer_stays_optional_on_drafts():
+    """reviewer is checked only when present; drafts need none (kilogram/second today)."""
+    drafts = []
+    for path in (ROOT / "content").rglob("*.md"):
+        fm = yaml.safe_load(path.read_text(encoding="utf-8").split("---")[1])
+        if fm.get("status") == "draft":
+            drafts.append(path.stem)
+            assert not (fm.get("provenance") or {}).get("reviewer"), path
+            assert [x.message for x in SCHEMA.iter_errors(fm)] == [], path
+            assert _agent_errors(fm) == [], path
+            errors: list[str] = []
+            validate.validate_entity({**fm, "_file": str(path)}, errors, filename_slug=path.stem)
+            assert errors == [], errors
+    assert drafts, "corpus should contain at least one draft to exercise this"
+    # a fresh machine draft with no reviewer at all is also fine for the agent check
+    e = _metre()
+    e["status"] = "draft"
+    e["provenance"].pop("reviewer", None)
+    e["provenance"].pop("reviewed_at", None)
+    assert _agent_errors(e) == []
