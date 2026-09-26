@@ -68,6 +68,20 @@ to `STEMMA_ALLOWED_HOSTS` (comma-separated). Uploads are capped at
 `STEMMA_MAX_BODY_MB` (default 50). Do not run with `--host 0.0.0.0`
 on a shared or public network.
 
+**Who you are (provenance):** human edits and staging are attributed to the
+operator configured on the server, never to a name typed in the browser:
+
+```bash
+export STEMMA_REVIEWER_ID=human:curator.001   # your id in schema/agent-registry.yaml
+```
+
+It must be an active, individual `class: human` agent in
+`schema/agent-registry.yaml`; if it is unset or invalid, *Save human edit* and
+*Stage* are refused. Machine drafts are recorded as
+`process:deterministic-draft.v1` (templates) or `llm:antigravity-001` (LLM).
+When you edit one, you become `writer`/`edited_by` and the machine id is kept
+as `drafted_by` — the origin is never rewritten.
+
 To use a different workflow directory:
 
 ```bash
@@ -157,8 +171,8 @@ written by this app.
 ## Environment variables (§6 — contract-enforced)
 
 Root `.env` (git-ignored; see [../.env.example](../.env.example)) is parsed
-line-wise by `webapp/providers.py`; `STEMMA_WORKFLOW_DIR` is read from the
-process environment by `webapp/core.py`:
+line-wise by `webapp/providers.py`; the `STEMMA_*` variables are read from the
+process environment by `webapp/core.py` / `webapp/server.py`:
 
 | Variable | Read by | Purpose |
 |---|---|---|
@@ -167,9 +181,13 @@ process environment by `webapp/core.py`:
 | `OPENCODE_API_KEY` | webapp/providers.py | OpenCode provider calls |
 | `OPENAI_API_KEY` | scripts/embed.py (CLI) | Frontier OpenAI embedding model runs (or `--api-key`) |
 | `STEMMA_WORKFLOW_DIR` | webapp/core.py | Override the HITL workflow directory (default `./workflow`) |
+| `STEMMA_REVIEWER_ID` | webapp/core.py | Your `human:*` id (agent registry); required for human edits and staging |
+| `STEMMA_ALLOWED_HOSTS` | webapp/server.py | Extra allowed `Host` names, e.g. your Tailscale name |
+| `STEMMA_MAX_BODY_MB` | webapp/server.py | Max request body (uploads), default 50 |
 
-All are optional: local deterministic fake embeddings and the deterministic
-ingestion path work with no keys. Never commit `.env` or real values.
+All are optional to browse and to run the deterministic ingestion path;
+`STEMMA_REVIEWER_ID` is needed to record a human edit or stage a proposal.
+(`scripts/embed.py --placeholder` needs no key but is labelled non-semantic.) Never commit `.env` or real values.
 
 ## Boundaries
 
