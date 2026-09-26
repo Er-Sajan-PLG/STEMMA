@@ -12,3 +12,18 @@ workflow/
 # Explorer copy of the derived export (E7.4): synced by explorer/scripts/sync-export.mjs
 # at dev/build time — the validator never writes into explorer/.
 explorer/public/exports/
+.env
+
+# Derived embeddings are never committed or published (ADR-0054): they are
+# regenerable, model-specific, and a consumer concern. embed.py refuses to write
+# fake vectors unless --placeholder (pipeline tests only).
+exports/embeddings.jsonl
+exports/vector_store/
+
+# Release staging (scripts/build_release_bundle.py). Releases live on GitHub
+# Releases (.github/workflows/release.yml); bundles are not committed. The three
+# legacy R6 bundles already tracked stay tracked.
+release/R6-bundle-*/
+
+# editable installs (pip install -e adapters/python)
+*.egg-info/

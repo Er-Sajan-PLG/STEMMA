@@ -20,6 +20,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
+import yaml
+
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT / "scripts") not in sys.path:
     sys.path.insert(0, str(ROOT / "scripts"))
@@ -31,6 +33,12 @@ import providers  # noqa: E402
 import validate  # noqa: E402
 
 WORKFLOW_ENV = "STEMMA_WORKFLOW_DIR"
+# H1: the human identity behind webapp actions is server-side configuration (the
+# single operator of this private tool, ADR-0054), never a value sent by the client.
+REVIEWER_ENV = "STEMMA_REVIEWER_ID"
+AGENT_REGISTRY = ROOT / "schema" / "agent-registry.yaml"
+# Registered machine identity for drafts produced without a human or an LLM.
+DETERMINISTIC_DRAFT_WRITER = "process:deterministic-draft.v1"
 DEFAULT_WORKFLOW = ROOT / "workflow"
 
 DOCUMENT_STATUSES = {"uploaded", "extracting", "ready", "error", "unsupported", "generated", "staged"}
@@ -83,8 +91,11 @@ class Workflow:
     to review upload -> extraction -> candidate -> staged-proposal.
     """
 
-    def __init__(self, root: Path | None = None) -> None:
+    def __init__(self, root: Path | None = None, *, reviewer_id: str | None = None) -> None:
         self.root = (root or Path(os.environ.get(WORKFLOW_ENV, DEFAULT_WORKFLOW))).resolve()
+        # None -> read REVIEWER_ENV lazily, so a misconfiguration only blocks
+        # human-attributed actions, not the whole tool.
+        self._reviewer_id = reviewer_id
         self.uploads = self.root / "uploads"
         self.meta = self.root / "meta"
         self.extraction = self.root / "extraction"
@@ -93,6 +104,39 @@ class Workflow:
         self.config = self.root / "config"
         self.audit = self.root / "audit"
         self.init_dirs()
+
+    # ------------------------------------------------------------------ #
+    # Human identity (H1: provenance is never minted from client input)
+    # ------------------------------------------------------------------ #
+    @staticmethod
+    def verified_human(identity: str) -> str:
+        """Return ``identity`` if it is an active individual human in
+        schema/agent-registry.yaml; otherwise raise WebappError."""
+        identity = (identity or "").strip()
+        try:
+            entries = yaml.safe_load(AGENT_REGISTRY.read_text(encoding="utf-8")) or []
+        except OSError as exc:
+            raise WebappError(f"agent registry unreadable ({AGENT_REGISTRY}): {exc}") from None
+        if isinstance(entries, dict):
+            entries = entries.get("agents") or []
+        for entry in entries:
+            if isinstance(entry, dict) and entry.get("id") == identity:
+                if entry.get("class") != "human" or entry.get("type") == "institution":
+                    raise WebappError(f"{identity} is not an individual human agent")
+                if entry.get("status") != "active":
+                    raise WebappError(f"{identity} is not active (status={entry.get('status')!r})")
+                return identity
+        raise WebappError(f"{identity or '(empty)'} is not registered in schema/agent-registry.yaml")
+
+    def operator_identity(self) -> str:
+        """The human operating this private tool, from server configuration."""
+        configured = self._reviewer_id if self._reviewer_id is not None else os.environ.get(REVIEWER_ENV, "")
+        if not configured.strip():
+            raise WebappError(
+                f"human-attributed actions (edit, stage) need {REVIEWER_ENV} set to your "
+                "human:* id from schema/agent-registry.yaml before starting the webapp"
+            )
+        return self.verified_human(configured)
 
     def init_dirs(self) -> None:
         for directory in (self.uploads, self.meta, self.extraction, self.candidates,
@@ -126,6 +170,30 @@ class Workflow:
     # ------------------------------------------------------------------ #
     # LLM provider configuration (stored under git-ignored workflow/)
     # ------------------------------------------------------------------ #
+    @staticmethod
+    def _stored_key_for(stored: dict, provider: str | None, base_url: str | None) -> str:
+        """The stored API key, but only for the exact provider + endpoint it was saved with."""
+        same_provider = (providers.canonical_provider(stored.get("provider") or "")
+                         == providers.canonical_provider(provider or ""))
+        norm = lambda u: (u or "").strip().rstrip("/").lower()  # noqa: E731
+        same_endpoint = norm(stored.get("base_url")) == norm(base_url)
+        return (stored.get("api_key") or "") if (same_provider and same_endpoint) else ""
+
+    @staticmethod
+    def _write_secret_json(path: Path, data: dict) -> None:
+        """Write a secret-bearing JSON file readable only by the owner (0600, dir 0700)."""
+        path.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            os.chmod(path.parent, 0o700)
+        except OSError:
+            pass
+        tmp = path.with_suffix(path.suffix + ".tmp")
+        fd = os.open(tmp, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+        with os.fdopen(fd, "w", encoding="utf-8") as fh:
+            fh.write(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
+        os.chmod(tmp, 0o600)
+        os.replace(tmp, path)
+
     def read_llm_config(self, mask: bool = False) -> dict:
         path = self.config / "llm.json"
         if not path.exists():
@@ -173,15 +241,18 @@ class Workflow:
         # The GET config masks the key. If the UI submitted the masked value
         # (the user did not type a new key), preserve the existing secret.
         existing = self.read_llm_config()
-        if existing.get("provider") != provider:
-            # Switching providers always requires a fresh key (no cross-provider secret reuse).
-            existing = {"api_key": ""}
         if cfg["api_key"].startswith("••••") or not cfg["api_key"].strip():
-            cfg["api_key"] = existing.get("api_key") or ""
+            # Re-use the stored secret ONLY for the exact provider + endpoint it was
+            # saved for. Changing either requires re-entering the key; otherwise a
+            # caller could point base_url at their own server and receive the key.
+            reused = self._stored_key_for(existing, provider, cfg["base_url"])
+            if not reused and existing.get("api_key") and (
+                    providers.canonical_provider(existing.get("provider")) == provider):
+                raise WebappError("base_url changed: re-enter the API key for the new endpoint "
+                                  "(stored keys are never sent to a different endpoint)")
+            cfg["api_key"] = reused
         data = {k: (v.strip().rstrip("/") if isinstance(v, str) else v) for k, v in cfg.items()}
-        (self.config / "llm.json").write_text(
-            json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8"
-        )
+        self._write_secret_json(self.config / "llm.json", data)
         self.log("config_saved", detail={
             "provider": provider,
             "base_url": data["base_url"], "model": data["model"],
@@ -243,14 +314,15 @@ class Workflow:
                              base_url: str | None = None,
                              api_key: str | None = None) -> dict:
         """List models exposed by the selected provider/agent backend."""
-        cfg = self.read_llm_config()
-        provider = provider or cfg.get("provider") or "antigravity"
-        endpoint = (base_url if base_url is not None else cfg.get("base_url") or "").strip().rstrip("/")
-        key = (api_key if api_key is not None else cfg.get("api_key") or "").strip()
-        if key.startswith("••••"):
-            key = cfg.get("api_key") or ""
-        cfg = {**cfg, "provider": provider, "base_url": endpoint or cfg.get("base_url", ""),
-               "api_key": key or cfg.get("api_key", "")}
+        stored = self.read_llm_config()
+        provider = provider or stored.get("provider") or "antigravity"
+        endpoint = (base_url if base_url is not None else stored.get("base_url") or "").strip().rstrip("/")
+        endpoint = endpoint or stored.get("base_url", "")
+        key = (api_key or "").strip()
+        if not key or key.startswith("••••"):
+            # Never forward the stored secret to an endpoint it was not saved for.
+            key = self._stored_key_for(stored, provider, endpoint)
+        cfg = {**stored, "provider": provider, "base_url": endpoint, "api_key": key}
         try:
             result = providers.list_models(cfg)
         except providers.ProviderError as exc:
@@ -268,14 +340,15 @@ class Workflow:
         harness may expose its own login URL, which is opened in the user's
         browser.
         """
-        cfg = self.read_llm_config()
-        provider = provider or cfg.get("provider") or "antigravity"
-        endpoint = (base_url if base_url is not None else cfg.get("base_url") or "").strip().rstrip("/")
-        key = (api_key if api_key is not None else cfg.get("api_key") or "").strip()
-        if key.startswith("••••"):
-            key = cfg.get("api_key") or ""
-        cfg = {**cfg, "provider": provider, "base_url": endpoint or cfg.get("base_url", ""),
-               "api_key": key or cfg.get("api_key", "")}
+        stored = self.read_llm_config()
+        provider = provider or stored.get("provider") or "antigravity"
+        endpoint = (base_url if base_url is not None else stored.get("base_url") or "").strip().rstrip("/")
+        endpoint = endpoint or stored.get("base_url", "")
+        key = (api_key or "").strip()
+        if not key or key.startswith("••••"):
+            # Never forward the stored secret to an endpoint it was not saved for.
+            key = self._stored_key_for(stored, provider, endpoint)
+        cfg = {**stored, "provider": provider, "base_url": endpoint, "api_key": key}
         try:
             return providers.login(cfg)
         except providers.ProviderError as exc:
@@ -408,6 +481,27 @@ class Workflow:
             data = self._read_json(path)
             for candidate in data["candidates"]:
                 if candidate["id"] == candidate_id:
+                    old_prov = (candidate.get("proposal") or {}).get("provenance") or {}
+                    new_prov = dict(proposal.get("provenance") or {})
+                    # Edited markdown only comes from a person at the editor, so it is a
+                    # human edit and must be attributable to the configured operator.
+                    human_edited = bool(human_edited or edited_markdown)
+                    reviewer = self.operator_identity() if human_edited else None
+                    # Authorship fields are server-owned: a client payload can never
+                    # set or change writer / drafted_by / ai_drafted.
+                    for key in ("writer", "drafted_by", "ai_drafted"):
+                        new_prov.pop(key, None)
+                        if key in old_prov:
+                            new_prov[key] = old_prov[key]
+                    if reviewer:
+                        original = old_prov.get("drafted_by") or old_prov.get("writer")
+                        if original and original != reviewer:
+                            new_prov["drafted_by"] = original  # origin preserved, never rewritten
+                        # Only fields concept.schema.json allows: the edit time and
+                        # attestation live in the audit event + candidate record.
+                        new_prov["writer"] = reviewer
+                    if new_prov or old_prov:
+                        proposal = {**proposal, "provenance": new_prov}
                     candidate["proposal"] = proposal
                     candidate["findings"] = self.validate_candidate(candidate["kind"], proposal)
                     candidate["updated_at"] = now_iso()
@@ -424,8 +518,9 @@ class Workflow:
                     path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
                     # Audit: log human edit for HITL enforcement
                     detail = {"candidate_id": candidate_id, "human_edited": human_edited}
-                    if human_edited:
-                        detail["writer"] = "human:curator.001"
+                    if reviewer:
+                        detail["writer"] = reviewer
+                        detail["attested_via"] = REVIEWER_ENV
                         detail["markdown_path"] = candidate.get("markdown_path", "")
                     self.log("candidate_edited", doc_id=data.get("doc_id", ""), detail=detail)
                     return candidate
@@ -456,7 +551,10 @@ class Workflow:
         prov = proposal.get("provenance") or {}
         if prov:
             lines.append("provenance:")
-            lines.append(f"  writer: {prov.get('writer','human:curator.001')}")
+            if prov.get("writer"):  # never default to a human id (H1)
+                lines.append(f"  writer: {prov['writer']}")
+            if prov.get("drafted_by"):
+                lines.append(f"  drafted_by: {prov['drafted_by']}")
             lines.append(f"  source_kind: {prov.get('source_kind','')}")
             lines.append(f"  source: {json.dumps(prov.get('source',''))}")
             lines.append(f"  link: {prov.get('link','')}")
@@ -488,7 +586,13 @@ class Workflow:
                 return
         raise NotFound(f"candidate not found: {candidate_id}")
 
-    def stage_candidate(self, candidate_id: str, *, reviewer: str, note: str = "") -> dict:
+    def stage_candidate(self, candidate_id: str, *, reviewer: str | None = None, note: str = "") -> dict:
+        operator = self.operator_identity()
+        if reviewer and reviewer.strip() != operator:
+            raise WebappError(
+                f"reviewer identity comes from {REVIEWER_ENV} ({operator}); the request claimed {reviewer!r}"
+            )
+        reviewer = operator
         candidate = self._find_candidate(candidate_id)
         findings = self.validate_candidate(candidate["kind"], candidate["proposal"])
         if findings:
@@ -507,7 +611,7 @@ class Workflow:
             "source_document": self._metadata_for_doc(candidate["doc_id"]),
             "source_candidate": self._source_candidate_for(doc),
             "candidate": proposal,
-            "human_review": {"reviewer": reviewer, "note": note, "at": now_iso()},
+            "human_review": {"reviewer": reviewer, "attested_via": REVIEWER_ENV, "note": note, "at": now_iso()},
             "provenance": {"origin": f"webapp-human-review:{reviewer}", "generated_by": "webapp"},
             "destination": {
                 "canonical": "content/ | connections/ | sources/",
@@ -759,7 +863,6 @@ class Workflow:
 
     @staticmethod
     def _write_yaml(path: Path, record: dict) -> None:
-        import yaml
 
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(
@@ -768,6 +871,5 @@ class Workflow:
 
     @staticmethod
     def _read_yaml(path: Path) -> dict:
-        import yaml
 
         return yaml.safe_load(path.read_text(encoding="utf-8")) or {}

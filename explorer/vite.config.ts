@@ -1,6 +1,8 @@
 import { defineConfig } from 'vite';
 export default defineConfig({
   root: '.',
+  // '/' locally; the Pages workflow sets STEMMA_BASE=/STEMMA/ (project site subpath).
+  base: process.env.STEMMA_BASE || '/',
   publicDir: 'public',
   server: {
     host: '0.0.0.0',

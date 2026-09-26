@@ -1,0 +1,73 @@
+id: stemma:conn.000156
+type: connection
+source: stemma:phys.metre
+relation: derived_from
+value:
+  amount: '299792458'
+  lowerBound: null
+  upperBound: null
+  unit: qudt:unit-MeterPerSecond
+assertion:
+  status: active
+  type: asserted
+  review:
+    status: canonical
+  confidence: 1.0
+  confidence_basis: definitional
+context:
+  domain: physics
+  subdomain: measurement-units
+  assumptions:
+  - exact-defined-constant
+  - speed-of-light-in-vacuum-fixed
+  - role-unit-definition-fixed-constant (derived_from = the 2019 metre derives from
+    the fixed c constant; dedicated value-claim relation reserved pending governance
+    adoption)
+evidence:
+- type: standard
+  stance: supports
+  source_ref: stemma:src.nist-si-brochure-9th
+  locator: 'SI Brochure 9th ed. (2019) 2.3.1, p130-132: metre defined by taking fixed
+    numerical value of c = 299792458 m s-1'
+  locator_struct:
+    page: '130'
+    section: 2.3.1
+  description: 2019 SI definition of the metre fixes the exact numerical value of
+    the speed of light in vacuum.
+provenance:
+  asserted_by:
+    type: human
+    id: human:institution.wikidata-community
+  generated_by:
+    type: llm
+    id: llm:coding-agent.001
+  method:
+    type: manual
+  reviewed_by:
+  - type: human
+    id: human:institution.wikidata-community
+    authority: delegated
+    delegated_provenance:
+      institution_id: human:institution.wikidata-community
+      review_standard_url: https://www.wikidata.org/wiki/Wikidata:Verifiability
+      review_standard_version: v3.2
+      audit_date: '2026-09-22'
+      sample_audit_rate: 0.1
+  - type: human
+    id: human:curator.001
+  review_history:
+  - from: unreviewed
+    to: reviewed
+    reviewer: human:curator.001
+    at: '2026-09-22T12:16:10.348782+00:00'
+    reason: transition to reviewed
+  - from: reviewed
+    to: reviewed
+    reviewer: human:curator.001
+    at: '2026-09-22T12:18:15.323738+00:00'
+    reason: transition to reviewed
+  - from: reviewed
+    to: canonical
+    reviewer: human:curator.001
+    at: '2026-09-23T04:35:35.329049+00:00'
+    reason: pilot canonicalization

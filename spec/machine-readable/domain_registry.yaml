@@ -1,0 +1,16 @@
+# Canonical domain registry — mirrors spec/DOMAIN_REGISTRY.md
+project: STEMMA
+domains:
+  CORE: "Canonical corpus: entities, connections, sources, identity, history"
+  GATE: "Deterministic validation gate + CI chain"
+  EXP: "Export contract + derived artifacts"
+  SCH: "JSON Schemas + registries (contract data)"
+  HITL: "Human-in-the-loop review"
+  SEC: "Security, integrity, secrets, provenance"
+  OPS: "Build/dev/CI operations and repo hygiene"
+  INTEG: "Consumers, adapters, cross-repo interfaces"
+  RAG: "Derived RAG/embedding reference implementation"
+  SPEC: "This recovery program itself (pilot management)"
+rules:
+  - "IDs carry domain, never hierarchy; hierarchy uses explicit parent fields"
+  - "new domains require a recorded justification in DOMAIN_REGISTRY.md before use"

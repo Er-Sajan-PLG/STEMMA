@@ -100,7 +100,7 @@ def main():
         "by_review": dict(by_review),
         "by_origin": dict(by_origin),
         "review_semantics": "reviewed-only (review.status==reviewed) vs canonical (review.status==canonical, terminal); canonical implies reviewed; total_reviewed_including_canonical = reviewed-only + canonical",
-        "top_reviewed": [{"id": c["id"], "relation": c["relation"], "source": c["source"], "target": c["target"]} for c in reviewed_sorted[:20]],
+        "top_reviewed": [{"id": c["id"], "relation": c["relation"], "source": c["source"], "target": c.get("target") or (f"value:{c.get('value')}" if c.get("value") is not None else None)} for c in reviewed_sorted[:20]],
         "remaining_high_priority": remaining,
         "evidence_gaps_count": len(evidence_gaps),
         "provenance_gaps_count": len(provenance_gaps),
@@ -117,7 +117,7 @@ def main():
     out_json = ROOT / "reports/curation-status.json"
     out_json.write_text(json.dumps(report, indent=2) + "\n")
 
-    top_lines = "\n".join(f"- {c['id']}: {c['relation']} {c['source']} -> {c['target']}" for c in reviewed_sorted[:15])
+    top_lines = "\n".join(f"- {c['id']}: {c['relation']} {c['source']} -> {c.get('target') or ('value:' + str(c.get('value'))) if (c.get('value') is not None) else c.get('target')}" for c in reviewed_sorted[:15])
     rem_lines = "\n".join(f"- {r['connection_id']}: {r['proposed_relation']}" for r in remaining[:10]) if remaining else "none"
     out_md = ROOT / "reports/curation-status.md"
     out_md.write_text(

@@ -1,0 +1,25 @@
+# Canonical conflict records — mirrors spec/CONFLICTS.md
+# Per protocol section 22.3: NO free "current interpretation" field.
+# Interpretation, where unavoidable, lives ONLY in observed_behavior_inference
+# and is always (a) marked INFERENCE, (b) non-authoritative, (c) paired with authority_required.
+conflicts:
+  - id: CONFLICT-STEMMA-EXP-001
+    observation: "Derived-layer vector_store/meta.json declares index_type faiss while implementation scripts/embed.py:227,241-244 stores plain vectors.json (FAISS absent from environment and pinned dependencies)."
+    status: OPEN
+    severity: P2
+    detected: 2026-09-22
+    requirement_refs: [REQ-STEMMA-EXP-001, REQ-STEMMA-EXP-002]
+    evidence_refs: [EVID-STEMMA-EXP-003, EVID-STEMMA-EXP-004]
+    observed_behavior_inference: "meta.json index_type is written unconditionally as 'faiss' even when the JSON fallback is the actual store (INFERENCE: likely a hardcoded label; metadata wrong-kind, not a data hazard; non-authoritative)."
+    authority_required: "SOLE_OWNER for derived-layer design intent; remediation deferred to second pilot or R4 planning."
+    resolution: null
+  - id: CONFLICT-STEMMA-SCH-001
+    observation: "relation-registry.yaml adopts related_to (2026-09-22) while physics-core.profile.yml lists related_to under forbidden_relations."
+    status: RESOLVED
+    severity: P3
+    detected: 2026-09-22
+    requirement_refs: [REQ-STEMMA-SCH-003]
+    evidence_refs: [EVID-STEMMA-SCH-003, EVID-STEMMA-SCH-004]
+    observed_behavior_inference: "Registry-global adoption and per-domain forbiddance coexist by construction: the profile prohibits related_to inside physics-core subtrees only (INFERENCE from registry + profile text, consistent on inspection; non-authoritative)."
+    authority_required: "SOLE_OWNER ratification of the scope-rule reading (applied provisionally by executor; non-blocking)."
+    resolution: "RESOLVED via profile scope rule: forbidden_relations constrains physics-core domain subtrees; the global registry may hold relations forbidden within a specific domain. No normative text changed. Owner ratification pending, non-blocking."

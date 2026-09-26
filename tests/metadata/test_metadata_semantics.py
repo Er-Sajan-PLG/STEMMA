@@ -76,7 +76,10 @@ def test_polarity_distinct():
 
 def test_claim_signature_deterministic():
     def sig(d):
-        return hashlib.sha256(f"{d['source']}|{d['relation']}|{d['target']}|{d['assertion'].get('polarity','positive')}".encode()).hexdigest()[:16]
+        # ARCH-V2: claim_signature := sha256(source|relation|value_canonical|...); valued
+        # connections carry no target (XOR) — sign the canonical value payload instead.
+        tgt = d.get('target') if d.get('target') is not None else json.dumps(d.get('value'), sort_keys=True)
+        return hashlib.sha256(f"{d['source']}|{d['relation']}|{tgt}|{d['assertion'].get('polarity','positive')}".encode()).hexdigest()[:16]
     # Two connections same triple same polarity should have same signature
     conns = [yaml.safe_load(p.read_text()) for p in sorted((ROOT/"connections").glob("*.yaml"))]
     by_sig = {}

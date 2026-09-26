@@ -1,45 +1,74 @@
 {
-  "total_connections": 0,
-  "canonical_objects": 0,
-  "canonical_assertions": 0,
+  "total_connections": 2,
+  "canonical_objects": 2,
+  "canonical_assertions": 2,
   "reviewed_only": 0,
   "reviewed": 0,
-  "canonical": 0,
-  "total_reviewed_including_canonical": 0,
+  "canonical": 2,
+  "total_reviewed_including_canonical": 2,
   "unreviewed": 0,
   "proposed": 0,
   "inferred": 0,
   "rejected": 0,
   "deprecated": 0,
   "migrated": 0,
-  "human_authored": 0,
-  "llm_authored": 0,
-  "by_relation": {},
-  "by_family": {},
-  "by_domain": {},
-  "by_review": {},
-  "by_origin": {},
+  "human_authored": 1,
+  "llm_authored": 1,
+  "by_relation": {
+    "derived_from": 1,
+    "mathematically_requires": 1
+  },
+  "by_family": {
+    "derivation": 1,
+    "dependency": 1
+  },
+  "by_domain": {
+    "physics": 2
+  },
+  "by_review": {
+    "canonical": 2
+  },
+  "by_origin": {
+    "human-authored": 1,
+    "llm-authored": 1
+  },
   "review_semantics": "reviewed-only (review.status==reviewed) vs canonical (review.status==canonical, terminal); canonical implies reviewed; total_reviewed_including_canonical = reviewed-only + canonical",
-  "top_reviewed": [],
+  "top_reviewed": [
+    {
+      "id": "stemma:conn.000156",
+      "relation": "derived_from",
+      "source": "stemma:phys.metre",
+      "target": "value:{'amount': '299792458', 'lowerBound': None, 'upperBound': None, 'unit': 'qudt:unit-MeterPerSecond'}"
+    },
+    {
+      "id": "stemma:conn.000157",
+      "relation": "mathematically_requires",
+      "source": "stemma:phys.force",
+      "target": "stemma:phys.mass"
+    }
+  ],
   "remaining_high_priority": [],
   "evidence_gaps_count": 0,
   "provenance_gaps_count": 0,
   "evidence_gaps_sample": [],
   "provenance_gaps_sample": [],
-  "entity_count": 1,
-  "entity_reviewed_count": 0,
-  "entity_canonical_count": 0,
+  "entity_count": 9,
+  "entity_reviewed_count": 7,
+  "entity_canonical_count": 7,
   "entity_status": {
-    "draft": 1
+    "draft": 2,
+    "canonical": 7
   },
   "entity_type": {
-    "unit": 1
+    "unit": 3,
+    "quantity": 4,
+    "law": 2
   },
   "entity_review_coverage_by_domain": {
     "physics": {
-      "total": 1,
-      "human_reviewed": 0,
-      "canonical": 0
+      "total": 9,
+      "human_reviewed": 7,
+      "canonical": 7
     }
   }
 }

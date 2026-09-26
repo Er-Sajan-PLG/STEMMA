@@ -1,23 +1,25 @@
 openapi: 3.0.3
 info:
-  title: STEMMA API — Comprehensive All-STEM Knowledge Foundation with RAG and Embeddings
-  version: 2.1.0
+  title: STEMMA read-only consumer API (adapter /v2)
+  version: 2.3.0
   description: |
-    STEMMA API for consumers like LearningHub, PROFESSOR-J, and general consumers.
-    Provides entities, connections, search, embeddings, RAG query, and export for specific consumers.
+    Read-only HTTP view over one STEMMA export, served by the Python adapter
+    (`adapters/python/stemma_adapter`). Scope and status are fixed by ADR-0054:
 
-    **Domains:** physics, chemistry, biology, earth-science, astronomy, computer-science, engineering, mathematics — comprehensive mediocre coverage, not minimal physics.
+    - The **file contract** (`exports/knowledge.json` + `content_hash`) is the
+      primary consumer contract; this HTTP API is an optional convenience that a
+      consumer runs locally (default bind 127.0.0.1).
+    - No auth and no rate limiting; there is no hosted production endpoint in
+      this phase.
+    - Paths marked `x-stability: experimental` (embeddings, RAG, consumer
+      export) are reference/demo implementations. Unless `sentence-transformers`
+      is installed they run on deterministic placeholder vectors; production
+      embedding/RAG is the consumer's job (ARCHITECTURE-V2 §5.1–5.2).
+    - The webapp's `/api/*` routes are the private curation tool and are NOT
+      part of this API.
 
-    **Features:**
-    - Deterministic exports with content-hash, no wall clock, versioned
-    - Embeddings with model selector like DeepSeek harness (local + frontier models) (local free BGE, All-MiniLM + frontier OpenAI text-embedding-3-large, Cohere, Gemini, NVIDIA NV-Embed)
-    - RAG system: retrieval-augmented generation using vector store (FAISS/Chroma) + frontier LLM selector (DeepSeek R1, Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro, Llama 3.3, custom)
-    - Consumer-specific exports: LearningHub (canonical physics/chem/bio/math, high-quality embeddings), PROFESSOR-J (all domains reviewed, offline SOTA embeddings, RAG), general
-    - HITL enforced: all entities have human:writer and audit trail
-
-    **Base URL:** /v2 for adapter server (adapters/python), /api for webapp server
-
-    **Auth:** None for local, api_key for LearningHub/PROFESSOR-J, bearer for frontier models via OpenRouter
+    `tests/repo/test_api_spec_matches_server.py` keeps this file in sync with
+    the routes the adapter actually serves.
 
   contact:
     name: STEMMA
@@ -26,12 +28,8 @@ info:
     name: CC BY 4.0 for content, MIT for code
 
 servers:
-  - url: http://localhost:8080
-    description: Adapter Python local JSON API (PYTHONPATH=adapters/python python3 -m stemma_adapter serve exports/knowledge.json --port 8080)
-  - url: http://localhost:8081
-    description: Webapp ingestion/review UI + RAG (python3 webapp/server.py --port 8081)
-  - url: https://api.stemma.example.com/v2
-    description: Production (future)
+  - url: http://127.0.0.1:8080
+    description: Local adapter (PYTHONPATH=adapters/python python3 -m stemma_adapter serve exports/knowledge.json --port 8080)
 
 paths:
   /v2/stats:
@@ -203,6 +201,34 @@ paths:
         '200':
           description: Prerequisites
 
+  /v2/values/{id}:
+    get:
+      summary: Get valued claims for an entity (ADR-0045 value-slot)
+      description: >-
+        Connections whose object is a structured value ({amount, lowerBound,
+        upperBound, unit}) rather than a target entity. These never appear in
+        /v2/neighbors or /v2/prerequisites.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: relation
+          in: query
+          schema:
+            type: string
+        - name: policy
+          in: query
+          schema:
+            type: string
+            enum: [all, canonical, reviewed, trusted]
+      responses:
+        '200':
+          description: Valued claims sorted by connection id
+        '404':
+          description: Unknown entity id
+
   /v2/relations:
     get:
       summary: Get relation registry
@@ -210,8 +236,80 @@ paths:
         '200':
           description: Relation registry
 
+  /v2/relations/{name}:
+    get:
+      summary: Get one relation definition
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Relation definition (family, direction, inverse, ...)
+        '400':
+          description: Unknown relation
+
+  /v2/resolve/{id}:
+    get:
+      summary: Resolve an id through alias / deprecation chains
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: "{resolved, chain}"
+        '404':
+          description: Unknown entity id
+
+  /v2/external/{scheme}/{value}:
+    get:
+      summary: Look up an entity by external identifier (e.g. wd/Q14038)
+      parameters:
+        - name: scheme
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: value
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Entity
+        '404':
+          description: No entity carries that external id
+
+  /v2/vocabularies:
+    get:
+      summary: Controlled vocabularies (domains, entity types, statuses, ...)
+      responses:
+        '200':
+          description: Vocabularies
+
+  /openapi.yaml:
+    get:
+      summary: This OpenAPI document (also served at /v2/openapi.yaml)
+      responses:
+        '200':
+          description: OpenAPI YAML
+
+  /v2/openapi.yaml:
+    get:
+      summary: Alias of /openapi.yaml
+      responses:
+        '200':
+          description: OpenAPI YAML
+
   /v2/embeddings:
     get:
+      x-stability: experimental
       summary: Get embeddings for entities
       description: Returns embeddings for entities, with model selection like DeepSeek harness (local free BGE, All-MiniLM + frontier OpenAI, Cohere, Gemini, NVIDIA)
       parameters:
@@ -256,6 +354,7 @@ paths:
 
   /v2/rag/search:
     get:
+      x-stability: experimental
       summary: Vector search for RAG
       description: Embedding-based similarity search over entities for RAG
       parameters:
@@ -295,6 +394,7 @@ paths:
 
   /v2/rag/query:
     post:
+      x-stability: experimental
       summary: RAG query — retrieval-augmented generation
       description: |
         RAG query: embed question, retrieve top_k entities, build context with definitions + connections + sources, call LLM with model selector like DeepSeek harness (local + frontier models) (DeepSeek R1, Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro, Llama 3.3, custom) to generate answer with citations.
@@ -340,6 +440,7 @@ paths:
 
   /v2/export:
     get:
+      x-stability: experimental
       summary: Export for specific consumer
       description: Export filtered knowledge for consumer like LearningHub, PROFESSOR-J
       parameters:

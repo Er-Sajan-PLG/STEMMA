@@ -1,0 +1,128 @@
+# DOCUMENTATION CONTRACT — STEMMA (documentation-sync task Phase 2)
+# Machine-readable source-of-truth model: which docs exist, what they describe,
+# which are generated, which invariants gate them. Read by scripts/docs.py.
+version: 1
+kinds: [CANONICAL, DERIVED, GENERATED, REFERENCE, INDEX]
+kind_semantics:
+  CANONICAL: "human-owned prose; source of truth for its subject"
+  DERIVED: "produced by the knowledge pipeline (exports/reports); gated by verify-knowledge-base"
+  GENERATED: "produced by a declared docs generator; drift-gated by docs check"
+  REFERENCE: "external-standard or machine data referenced by docs (not prose)"
+  INDEX: "navigation-only document"
+categories: {A1: governance, A2: requirements, A3: architecture, A4: source-code, A5: api,
+             A6: configuration, A7: testing, A8: operations, A9: security, A10: user-facing,
+             A11: developer, A12: compliance, A13: analytics, A14: meta}
+artifacts:
+  # ---- root (A4/A1/A11) ----
+  - {path: README.md, cat: A4, tier: 0, kind: CANONICAL, sources: [content/, connections/, sources/, schema/], note: "status block region is GENERATED (see generators.readme-status-block)"}
+  - {path: PROGRESS.md, cat: A1, tier: 0, kind: CANONICAL, sources: [spec/, docs/decisions/, .github/workflows/], note: "work tracker; counts owned by status_truth"}
+  - {path: AGENTS.md, cat: A11, tier: 1, kind: CANONICAL, sources: [spec/, .agents/skills/, scripts/hitl_check.py]}
+  - {path: SPECIFICATION_PROCESS_REVIEW.md, cat: A14, tier: 4, kind: CANONICAL, sources: [spec/]}
+  - {path: LICENSE, cat: A12, tier: 0, kind: CANONICAL, sources: []}
+  - {path: LICENSE-CODE, cat: A12, tier: 0, kind: CANONICAL, sources: []}
+  - {path: VERSION, cat: A1, tier: 0, kind: CANONICAL, sources: [schema/VERSION.yaml]}
+  - {path: Makefile, cat: A11, tier: 1, kind: CANONICAL, sources: [scripts/, tests/]}
+  - {path: requirements.txt, cat: A11, tier: 1, kind: CANONICAL, sources: [scripts/, tests/]}
+  # ---- docs/ (ADR-0029 living set) ----
+  - {path: docs/README.md, cat: A14, tier: 2, kind: INDEX, sources: [docs/, spec/], depends_on: []}
+  - {path: docs/VISION.md, cat: A1, tier: 2, kind: CANONICAL, sources: [content/, schema/]}
+  - {path: docs/ARCHITECTURE-V2.md, cat: A3, tier: 2, kind: CANONICAL, sources: [scripts/, schema/, webapp/, explorer/]}
+  - {path: docs/ARCHITECTURE.md, cat: A3, tier: 2, kind: CANONICAL, sources: [docs/ARCHITECTURE-V2.md]}
+  - {path: docs/DOMAIN-MODEL.md, cat: A3, tier: 2, kind: CANONICAL, sources: [schema/, content/]}
+  - {path: docs/SCHEMA-SPECIFICATION.md, cat: A2, tier: 2, kind: CANONICAL, sources: [schema/]}
+  - {path: docs/METADATA-SPECIFICATION.md, cat: A2, tier: 2, kind: CANONICAL, sources: [schema/, content/]}
+  - {path: docs/RELATIONSHIP-SPECIFICATION.md, cat: A3, tier: 2, kind: CANONICAL, sources: [schema/relation-registry.yaml, connections/]}
+  - {path: docs/PIPELINES.md, cat: A3, tier: 2, kind: CANONICAL, sources: [scripts/, webapp/, workflow/]}
+  - {path: docs/IMPLEMENTATION-PLAN-V2.md, cat: A1, tier: 2, kind: CANONICAL, sources: [docs/decisions/, schema/]}
+  - {path: docs/IMPLEMENTATION-STATUS.md, cat: A1, tier: 2, kind: CANONICAL, sources: [spec/, scripts/, docs/decisions/]}
+  - {path: docs/ROADMAP.md, cat: A1, tier: 2, kind: CANONICAL, sources: [docs/decisions/, spec/, PROGRESS.md]}
+  - {path: docs/TESTING.md, cat: A7, tier: 2, kind: CANONICAL, sources: [scripts/verify_all.py, tests/, spec/machine-readable/validate_recovery.py]}
+  - {path: docs/STANDARDS.md, cat: A11, tier: 2, kind: CANONICAL, sources: [schema/]}
+  - {path: docs/GOVERNANCE.md, cat: A1, tier: 2, kind: CANONICAL, sources: [spec/ROLES_AND_AUTHORITY.md, spec/BASELINE.md, scripts/hitl_check.py, schema/]}
+  - {path: docs/SECURITY-INTEGRITY-PROVENANCE.md, cat: A9, tier: 3, kind: CANONICAL, sources: [.github/workflows/ci.yml, .gitleaks.toml]}
+  - {path: docs/CONSUMERS.md, cat: A10, tier: 3, kind: CANONICAL, sources: [schema/consumer-registry.yaml, scripts/export_consumers.py, exports/consumers/]}
+  - {path: docs/VERSIONING.md, cat: A5, tier: 2, kind: CANONICAL, sources: [schema/VERSION.yaml, docs/decisions/0050-contract-update-2.2.0.md]}
+  - {path: docs/MIGRATIONS.md, cat: A10, tier: 3, kind: CANONICAL, sources: [schema/, docs/decisions/]}
+  - {path: docs/GLOSSARY.md, cat: A2, tier: 2, kind: CANONICAL, sources: [docs/]}
+  - {path: docs/CURATION-PROTOCOL.md, cat: A11, tier: 2, kind: CANONICAL, sources: [scripts/review.py, scripts/hitl_check.py]}
+  - {path: docs/CONTRIBUTING.md, cat: A11, tier: 0, kind: CANONICAL, sources: [tests/, Makefile]}
+  - {path: docs/EMBEDDINGS.md, cat: A3, tier: 3, kind: CANONICAL, sources: [scripts/embed.py, schema/embedding-registry.yaml]}
+  - {path: docs/RAG.md, cat: A3, tier: 3, kind: CANONICAL, sources: [scripts/rag.py, schema/llm-registry.yaml]}
+  - {path: docs/API.md, cat: A5, tier: 2, kind: CANONICAL, sources: [schema/api.yaml, adapters/]}
+  - {path: docs/GUIDELINE-EMBEDDER-RAG.md, cat: A10, tier: 3, kind: CANONICAL, sources: [adapters/, schema/embedding-registry.yaml, examples/]}
+  - {path: docs/SEMANTIC-ACQUISITION-PIPELINE.md, cat: A3, tier: 3, kind: CANONICAL, sources: [scripts/semantic_extract.py, scripts/verify_claim.py, scripts/conflict_analysis.py, schema/semantic-claim.schema.json]}
+  - {path: docs/INGESTION-PRIMARY.md, cat: A7, tier: 3, kind: CANONICAL, sources: [scripts/pdf_ingest_primary.py, webapp/]}
+  - {path: docs/AGENT.md, cat: A11, tier: 3, kind: CANONICAL, sources: [.agents/skills/, scripts/]}
+  - {path: docs/RESET-AND-HITL-GUIDE.md, cat: A8, tier: 3, kind: CANONICAL, sources: [scripts/reset_learninghub.py, scripts/review.py]}
+  - {path: docs/PHYSICS-GOVERNING-LAWS.md, cat: A2, tier: 3, kind: CANONICAL, sources: [schema/physics-governing-registry.yaml]}
+  - {path: docs/PHYSICS-MINIMAL-DESIGN-V2.md, cat: A3, tier: 3, kind: CANONICAL, sources: [content/physics/, explorer/]}
+  - {path: docs/WEBAPP.md, cat: A6, tier: 2, kind: CANONICAL, sources: [webapp/]}
+  - {path: docs/DOCUMENTATION-SYSTEM.md, cat: A14, tier: 2, kind: CANONICAL, sources: [docs/docs-contract.yaml, docs/meta/doc-taxonomy.yaml, scripts/docs.py]}
+  - {path: docs/PERSISTENT-IDENTIFIER-BRIEF.md, cat: A14, tier: 3, kind: CANONICAL, sources: [docs/decisions/, spec/], note: "owner-directed slow research; NO decision recorded; feeds ADR-0053 reaffirm/amend/supersede"}
+  - {path: docs/decisions/README.md, cat: A14, tier: 2, kind: INDEX, sources: [docs/decisions/, spec/DECISIONS/]}
+  # ---- spec/ (recovery baseline; authority: PROPOSED unless approved by owner) ----
+  - {path: spec/PILOT_CHARTER.md, cat: A1, tier: 2, kind: CANONICAL, sources: [spec/]}
+  - {path: spec/ROLES_AND_AUTHORITY.md, cat: A1, tier: 2, kind: CANONICAL, sources: [spec/machine-readable/authority.yaml]}
+  - {path: spec/DOMAIN_REGISTRY.md, cat: A2, tier: 2, kind: CANONICAL, sources: [spec/machine-readable/domain_registry.yaml]}
+  - {path: spec/REQUIREMENTS.md, cat: A2, tier: 2, kind: CANONICAL, sources: [spec/machine-readable/requirements.yaml, spec/EVIDENCE_REGISTER.md]}
+  - {path: spec/EVIDENCE_REGISTER.md, cat: A2, tier: 2, kind: CANONICAL, sources: [spec/machine-readable/evidence.yaml]}
+  - {path: spec/SPECIFICATION.md, cat: A2, tier: 2, kind: CANONICAL, sources: [spec/REQUIREMENTS.md]}
+  - {path: spec/BASELINE.md, cat: A2, tier: 2, kind: CANONICAL, sources: [spec/]}
+  - {path: spec/SPECIFICATION_GAP_ANALYSIS.md, cat: A2, tier: 2, kind: CANONICAL, sources: [spec/]}
+  - {path: spec/OPEN_QUESTIONS.md, cat: A2, tier: 2, kind: CANONICAL, sources: [spec/machine-readable/open_questions.yaml]}
+  - {path: spec/CONFLICTS.md, cat: A2, tier: 2, kind: CANONICAL, sources: [spec/machine-readable/conflicts.yaml]}
+  - {path: spec/ASSUMPTIONS.md, cat: A2, tier: 2, kind: CANONICAL, sources: []}
+  - {path: spec/AS_BUILT.md, cat: A2, tier: 2, kind: CANONICAL, sources: [spec/machine-readable/evidence.yaml]}
+  - {path: spec/EXTERNAL_CONSTRAINTS.md, cat: A2, tier: 2, kind: CANONICAL, sources: []}
+  - {path: spec/VERIFICATION.md, cat: A7, tier: 2, kind: CANONICAL, sources: [spec/machine-readable/verification.yaml]}
+  - {path: spec/DECISIONS/README.md, cat: A14, tier: 2, kind: INDEX, sources: [spec/DECISIONS/]}
+  - {path: spec/DECISIONS/ADR-STEMMA-SPEC-001-slice-selection.md, cat: A1, tier: 2, kind: CANONICAL, sources: [spec/PILOT_CHARTER.md]}
+  - {path: spec/INTERFACES/IFACE-STEMMA-EXP-001-knowledge-json.md, cat: A5, tier: 2, kind: CANONICAL, sources: [schema/export.schema.json, exports/knowledge.json]}
+  - {path: spec/INTERFACES/IFACE-STEMMA-GATE-001-verification-chain-cli.md, cat: A5, tier: 2, kind: CANONICAL, sources: [scripts/verify_all.py]}
+  - {path: spec/machine-readable/requirements.yaml, cat: A2, tier: 2, kind: CANONICAL, sources: [spec/REQUIREMENTS.md], note: "canonical machine registry mirrored by REQUIREMENTS.md"}
+  - {path: spec/machine-readable/validate_recovery.py, cat: A14, tier: 2, kind: CANONICAL, sources: [spec/machine-readable/]}
+  # ---- machine data referenced by docs (REFERENCE) ----
+  - {path: schema/VERSION.yaml, cat: A5, tier: 0, kind: CANONICAL, sources: [docs/VERSIONING.md]}
+  - {path: .github/workflows/ci.yml, cat: A8, tier: 1, kind: CANONICAL, sources: [scripts/, tests/]}
+  - {path: .env.example, cat: A6, tier: 1, kind: CANONICAL, sources: [webapp/providers.py, webapp/core.py, scripts/embed.py]}
+  - {path: webapp/README.md, cat: A4, tier: 1, kind: CANONICAL, sources: [webapp/]}
+  - {path: adapters/README.md, cat: A4, tier: 1, kind: CANONICAL, sources: [adapters/, schema/api.yaml]}
+  - {path: explorer/README.md, cat: A4, tier: 1, kind: CANONICAL, sources: [explorer/]}
+  - {path: .github/PULL_REQUEST_TEMPLATE.md, cat: A11, tier: 1, kind: CANONICAL, sources: [scripts/verify_all.py, scripts/docs.py]}
+  - {path: .github/ISSUE_TEMPLATE/bug_report.md, cat: A11, tier: 1, kind: CANONICAL, sources: []}
+  - {path: .github/ISSUE_TEMPLATE/feature_request.md, cat: A11, tier: 1, kind: CANONICAL, sources: []}
+generators:
+  readme-status-block:
+    write: "python3 scripts/status_truth.py --write"
+    check: "python3 scripts/status_truth.py"
+    outputs: [README.md]
+    marker: "status-truth:start"
+  documentation-coverage:
+    write: "internal:coverage --write"
+    check: "internal:coverage --check"
+    outputs: [docs/meta/documentation-coverage.md]
+link_scope: [docs/*.md, docs/decisions/*.md, README.md, AGENTS.md, PROGRESS.md, SPECIFICATION_PROCESS_REVIEW.md, spec/*.md, spec/DECISIONS/*.md, spec/INTERFACES/*.md]
+checks:
+  - {id: docs-consistency, subject: "index parity, retired links, INGESTION-PRIMARY contract, contract pins, VERSION keys, consumer registry(+lint), archived-path lint", run: "python3 tests/repo/test_docs_consistency.py"}
+  - {id: independence, subject: "retired namespaces + ecosystem independence (ADR-0027/0051) across tracked files", run: "python3 tests/repo/test_independence.py"}
+  - {id: recovery-registries, subject: "spec machine-readable registries (9 checks)", run: "python3 spec/machine-readable/validate_recovery.py"}
+
+# ---- Tier enforcement (Phase 8): missing taxonomy artifacts at strict tiers fail validation
+enforcement:
+  strict_tiers: [0, 1]
+
+# ---- Mechanical invariants (Phase 5B additions; declarative where possible)
+invariants:
+  api_surface:
+    spec: schema/api.yaml
+    must_appear_in: [docs/API.md, adapters/README.md]
+    note: "every OpenAPI path must be mentioned in the API reference doc + adapter README"
+  env_surface:
+    scan_files: [webapp/core.py, webapp/providers.py, webapp/server.py, scripts/embed.py]
+    must_appear_in: [.env.example, docs/WEBAPP.md]
+    capture:
+      - 'os\.environ\.get\(["'']?([A-Z][A-Z0-9_]+)'
+      - 'ENV_KEYS\.get\(["'']?([A-Z][A-Z0-9_]+)'
+      - '_ENV\s*=\s*"([A-Z][A-Z0-9_]+)"'
+      - '([A-Z][A-Z0-9_]{3,}_API_KEY)'
+      - '\$\{?([A-Z][A-Z0-9_]+)\}?'

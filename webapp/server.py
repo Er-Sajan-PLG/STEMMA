@@ -5,24 +5,36 @@ A simple, dependency-free HTTP server that exposes the human-in-the-loop
 ingestion workflow. It serves a single-page UI and a small JSON API over
 ``webapp.core.Workflow``. It never writes canonical knowledge.
 
-Run:
-    python3 webapp/server.py --host 0.0.0.0 --port 8081
+Run (single-owner admin tool; local by default):
+    python3 webapp/server.py                      # http://127.0.0.1:8081
+
+Security model: this is the private curation tool. It binds to 127.0.0.1, sends
+no CORS headers, and rejects requests whose Host / Origin is not this server
+(blocks cross-site requests and DNS rebinding). For remote access use a private
+network (e.g. ``tailscale serve 8081``) and add the name you browse with to
+``STEMMA_ALLOWED_HOSTS`` (comma-separated). Never expose it to the internet.
 """
 from __future__ import annotations
 
 import argparse
 import json
+import os
+import re
 import sys
+import uuid
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from typing import Any
 from urllib.parse import parse_qs, unquote, urlsplit
+
+import yaml
 
 ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT / "webapp") not in sys.path:
     sys.path.insert(0, str(ROOT / "webapp"))
 
 from core import (  # noqa: E402
+    DETERMINISTIC_DRAFT_WRITER,
     CandidateInvalid,
     ExtractionFailed,
     NotFound,
@@ -34,6 +46,34 @@ from core import (  # noqa: E402
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 
+# Workflow identifiers (document ids are uuid hex; candidate ids are similar).
+# Strict allowlist: no path separators, no leading dot, no "..".
+_SAFE_ID_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.-]{0,127}$")
+
+
+_LOCAL_HOSTS = {"localhost", "127.0.0.1", "::1"}
+MAX_BODY_BYTES = int(os.environ.get("STEMMA_MAX_BODY_MB", "50")) * 1024 * 1024
+
+
+def _allowed_hosts() -> set[str]:
+    extra = {h.strip().lower() for h in os.environ.get("STEMMA_ALLOWED_HOSTS", "").split(",") if h.strip()}
+    return _LOCAL_HOSTS | extra
+
+
+def _hostname(netloc: str) -> str:
+    """Hostname part of a Host header / netloc (handles [::1]:8081 and host:port)."""
+    netloc = netloc.strip().lower()
+    if netloc.startswith("["):
+        return netloc[1:netloc.find("]")] if "]" in netloc else netloc
+    return netloc.rsplit(":", 1)[0] if netloc.count(":") == 1 else netloc
+
+
+def _safe_id(value: Any, label: str = "id") -> str:
+    """Return ``value`` if it is a safe single path segment, else raise WebappError."""
+    if not isinstance(value, str) or not _SAFE_ID_RE.match(value) or ".." in value:
+        raise WebappError(f"invalid {label}: {value!r}")
+    return value
+
 
 class _Server(ThreadingHTTPServer):
     daemon_threads = True
@@ -42,12 +82,43 @@ class _Server(ThreadingHTTPServer):
 class _Handler(BaseHTTPRequestHandler):
     workflow: Workflow
 
+    def _request_allowed(self) -> bool:
+        """Same-origin + Host allowlist guard (CSRF / cross-site / DNS rebinding).
+
+        - Host header must name this server (localhost or STEMMA_ALLOWED_HOSTS).
+        - If the browser sends Origin, it must be exactly this server's origin.
+        - State-changing requests must be JSON (forces a CORS preflight, which
+          this server never approves).
+        Sends the error response itself and returns False when blocked.
+        """
+        host = self.headers.get("Host") or ""
+        if _hostname(host) not in _allowed_hosts():
+            self._send_json(403, {"error": f"host {host!r} not allowed; add it to STEMMA_ALLOWED_HOSTS "
+                                           "if you intentionally browse via that name"})
+            return False
+        origin = self.headers.get("Origin")
+        if origin is not None:
+            origin_netloc = urlsplit(origin).netloc.lower()
+            if origin == "null" or origin_netloc != host.strip().lower():
+                self._send_json(403, {"error": "cross-origin request blocked"})
+                return False
+        if self.command in ("POST", "PATCH", "PUT"):
+            ctype = (self.headers.get("Content-Type") or "").split(";")[0].strip().lower()
+            if ctype != "application/json":
+                self._send_json(415, {"error": "Content-Type must be application/json"})
+                return False
+        return True
+
     def do_OPTIONS(self) -> None:  # noqa: N802
-        self.send_response(204)
-        self._send_common_headers()
+        # No CORS: the UI is same-origin, so preflights are never approved.
+        self.send_response(405)
+        self.send_header("Allow", "GET, POST, PATCH, DELETE")
+        self.send_header("Content-Length", "0")
         self.end_headers()
 
     def do_GET(self) -> None:  # noqa: N802
+        if not self._request_allowed():
+            return
         parsed = urlsplit(self.path)
         path = parsed.path.rstrip("/") or "/"
         if path == "/" or path.startswith("/static/"):
@@ -96,6 +167,8 @@ class _Handler(BaseHTTPRequestHandler):
         return resolved.read_bytes(), content_type
 
     def do_POST(self) -> None:  # noqa: N802
+        if not self._request_allowed():
+            return
         try:
             status, payload = self._dispatch_post()
         except ProviderNotConfigured as exc:
@@ -110,6 +183,8 @@ class _Handler(BaseHTTPRequestHandler):
         self._send_json(status, payload)
 
     def do_PATCH(self) -> None:  # noqa: N802
+        if not self._request_allowed():
+            return
         try:
             status, payload = self._dispatch_patch()
         except NotFound as exc:
@@ -121,6 +196,8 @@ class _Handler(BaseHTTPRequestHandler):
         self._send_json(status, payload)
 
     def do_DELETE(self) -> None:  # noqa: N802
+        if not self._request_allowed():
+            return
         try:
             status, payload = self._dispatch_delete()
         except NotFound as exc:
@@ -148,7 +225,6 @@ class _Handler(BaseHTTPRequestHandler):
         if path == "/api/models/embedding":
             # Embedding models — model selector like DeepSeek harness (local + frontier models) for embeddings
             try:
-                import yaml
                 emb_path = ROOT / "schema/embedding-registry.yaml"
                 if emb_path.exists():
                     data = yaml.safe_load(emb_path.read_text(encoding="utf-8"))
@@ -174,7 +250,6 @@ class _Handler(BaseHTTPRequestHandler):
             model = self._query_value(query, "model")
             domain = self._query_value(query, "domain")
             try:
-                import sys
                 sys.path.insert(0, str(ROOT / "scripts"))
                 import rag as rag_module
                 results = rag_module.vector_search(q, top_k=top_k, model_id=model, domain=domain)
@@ -203,35 +278,36 @@ class _Handler(BaseHTTPRequestHandler):
             return 200, {"model": model_id, "count": len(results), "embeddings": results}
         # NEW — Export for consumer
         if path == "/api/export":
+            # Preview of a consumer bundle, built by the same code that writes the
+            # published bundles (scripts/export_consumers.py) so tiers match exactly.
             consumer = self._query_value(query, "consumer") or "general"
-            fmt = self._query_value(query, "format") or "json"
-            try:
-                import sys
+            if str(ROOT / "scripts") not in sys.path:
                 sys.path.insert(0, str(ROOT / "scripts"))
-                import export_consumers
-                # For GET, just return preview via filtering
-                export_path = ROOT / "exports/knowledge.json"
-                import json as js
-                data = js.loads(export_path.read_text(encoding='utf-8'))
-                # Simple filter by consumer
-                import yaml
-                reg_path = ROOT / "schema/consumer-registry.yaml"
-                if reg_path.exists():
-                    reg = yaml.safe_load(reg_path.read_text(encoding='utf-8'))
-                    cfg = reg.get('consumers',{}).get(consumer,{})
-                    domains = cfg.get('domains',[])
-                    ents = data.get('entities',[])
-                    if domains and domains != 'all':
-                        ents = [e for e in ents if e.get('domain') in domains]
-                    return 200, {"consumer": consumer, "format": fmt, "entity_count": len(ents), "entities": ents[:20], "config": cfg}
-                return 200, {"consumer": consumer, "entities": data.get('entities',[])[:20]}
-            except Exception as e:
-                return 200, {"consumer": consumer, "error": str(e)}
+            import export_consumers as _ec
+            registry = _ec.load_registry()
+            if consumer not in registry:
+                raise WebappError(f"unknown consumer {consumer!r}; known: {', '.join(sorted(registry))}")
+            base = json.loads((ROOT / "exports" / "knowledge.json").read_text(encoding="utf-8"))
+            versions = yaml.safe_load((ROOT / "schema" / "VERSION.yaml").read_text(encoding="utf-8"))
+            try:
+                bundle = _ec.build_consumer_export(consumer, registry[consumer], base, versions)
+            except _ec.ConsumerExportError as exc:
+                raise WebappError(str(exc)) from None
+            return 200, {
+                "consumer": consumer,
+                "config": bundle["consumer_profile"],
+                "entity_count": bundle["entity_count"],
+                "connection_count": bundle["connection_count"],
+                "source_count": bundle["source_count"],
+                "payload_sha256": bundle["payload_sha256"],
+                "entities": bundle["entities"][:20],
+            }
         # NEW — Semantic Acquisition Pipeline GET endpoints
         if path == "/api/semantic/claims":
             doc_id = self._query_value(query, "doc_id")
             if not doc_id:
                 raise WebappError("doc_id required")
+            doc_id = _safe_id(doc_id, "doc_id")
             try:
                 wf = self.workflow
                 candidates_dir = wf.root / f"candidates/{doc_id}"
@@ -246,13 +322,15 @@ class _Handler(BaseHTTPRequestHandler):
                         data = js.loads(pf.read_text())
                         return 200, data
                 return 200, {"doc_id": doc_id, "claims": [], "message": "no semantic claims yet, run /api/semantic/extract"}
+            except (WebappError, NotFound):
+                raise
             except Exception as e:
                 return 200, {"error": str(e), "claims": []}
 
         if path == "/api/semantic/proposals/list":
             try:
                 proposals_dir = ROOT / "proposals"
-                import json as js, yaml
+                import json as js
                 proposals=[]
                 for f in list(proposals_dir.glob("*.yaml"))[:20] + list(proposals_dir.glob("*.json"))[:20]:
                     try:
@@ -264,12 +342,13 @@ class _Handler(BaseHTTPRequestHandler):
                     except:
                         continue
                 return 200, {"proposals": proposals, "count": len(proposals)}
+            except (WebappError, NotFound):
+                raise
             except Exception as e:
                 return 200, {"error": str(e), "proposals": []}
 
         if path == "/api/semantic/registries":
             try:
-                import yaml
                 result={}
                 for name in ["template-registry", "embedding-registry", "consumer-registry", "llm-registry"]:
                     rp = ROOT / f"schema/{name}.yaml"
@@ -277,16 +356,19 @@ class _Handler(BaseHTTPRequestHandler):
                         data=yaml.safe_load(rp.read_text())
                         result[name] = {"version": data.get("version"), "count": len(data.get("domains",{}) or data.get("models",{}) or data.get("consumers",{}) or data.get("roles",{}))}
                 return 200, result
+            except (WebappError, NotFound):
+                raise
             except Exception as e:
                 return 200, {"error": str(e)}
 
         # NEW — OpenAPI
         if path == "/api/openapi" or path == "/openapi.yaml":
             try:
-                import yaml
                 api_path = ROOT / "schema/api.yaml"
                 if api_path.exists():
                     return 200, yaml.safe_load(api_path.read_text(encoding='utf-8'))
+            except (WebappError, NotFound):
+                raise
             except Exception as e:
                 return 200, {"error": str(e)}
         if path.endswith("/text") and path.startswith("/api/documents/"):
@@ -347,18 +429,17 @@ class _Handler(BaseHTTPRequestHandler):
                 mime=str(body.get("mime") or ""),
                 data=data,
             )
-        if path.endswith("/extract"):
+        if path.startswith("/api/documents/") and path.endswith("/extract"):
             doc_id = self._id_from_path(path, "/api/documents/", suffix="/extract")
             return 200, wf.extract_document(doc_id)
-        if path.endswith("/generate"):
+        if path.startswith("/api/documents/") and path.endswith("/generate"):
             doc_id = self._id_from_path(path, "/api/documents/", suffix="/generate")
             body = self._read_json_body()
             return 200, wf.generate_candidates(doc_id, target_kinds=body.get("target_kinds"))
-        if path.endswith("/deterministic-draft"):
+        if path.startswith("/api/documents/") and path.endswith("/deterministic-draft"):
             doc_id = self._id_from_path(path, "/api/documents/", suffix="/deterministic-draft")
             # Deterministic draft — no LLM, uses evolvable templates, scales
             try:
-                import sys
                 sys.path.insert(0, str(ROOT / "scripts"))
                 from evolvable_template import deterministic_extract, build_markdown, load_registry
                 registry = load_registry()
@@ -368,7 +449,6 @@ class _Handler(BaseHTTPRequestHandler):
                 text = text_path.read_text(encoding="utf-8")
                 entities = deterministic_extract(text, registry)
                 # Build candidates deterministically
-                import uuid, json
                 from datetime import datetime, timezone
                 now = datetime.now(timezone.utc).isoformat()
                 candidates_dir = wf.root / f"candidates/{doc_id}"
@@ -395,7 +475,9 @@ class _Handler(BaseHTTPRequestHandler):
                             "governed_by": ent.get("governed_by",[]),
                             "provenance": {
                                 "ai_drafted": False,
-                                "writer": "human:curator.001",
+                                # H1: machine output carries a machine identity; a human
+                                # becomes writer only by editing (update_candidate).
+                                "writer": DETERMINISTIC_DRAFT_WRITER,
                                 "source_kind": "standards-or-specification",
                                 "source": f"Deterministic from {doc_id} + SI Brochure constants",
                                 "link": "https://www.bipm.org/en/publications/si-brochure",
@@ -432,13 +514,13 @@ class _Handler(BaseHTTPRequestHandler):
                 return 200, out
             except Exception as e:
                 raise Exception(f"Deterministic draft failed: {e}")
-        if path.endswith("/stage"):
+        if path.startswith("/api/candidates/") and path.endswith("/stage"):
             candidate_id = self._id_from_path(path, "/api/candidates/", suffix="/stage")
             body = self._read_json_body()
-            reviewer = str(body.get("reviewer") or "")
-            if not reviewer:
-                raise WebappError("reviewer is required to stage a proposal")
-            return 201, wf.stage_candidate(candidate_id, reviewer=reviewer, note=str(body.get("note") or ""))
+            # Reviewer = the configured operator (STEMMA_REVIEWER_ID); a body value is
+            # accepted only if it matches, so a request cannot claim someone else.
+            return 201, wf.stage_candidate(candidate_id, reviewer=(str(body.get("reviewer") or "") or None),
+                                           note=str(body.get("note") or ""))
         # NEW — RAG query POST
         if path == "/api/rag/query":
             body = self._read_json_body()
@@ -451,7 +533,6 @@ class _Handler(BaseHTTPRequestHandler):
             domain = body.get("domain")
             consumer = body.get("consumer") or "general"
             try:
-                import sys
                 sys.path.insert(0, str(ROOT / "scripts"))
                 import rag as rag_module
                 result = rag_module.rag_query(question, top_k=top_k, model_id=model_id, embedding_model=embedding_model, domain=domain, consumer=consumer)
@@ -463,12 +544,13 @@ class _Handler(BaseHTTPRequestHandler):
         if path == "/api/semantic/extract":
             body = self._read_json_body()
             doc_id = body.get("doc_id")
+            if doc_id is not None:
+                doc_id = _safe_id(doc_id, "doc_id")
             text = body.get("text")
             source_id = body.get("source_id") or "stemma:src.test"
             model_id = body.get("model") or "deterministic"
             provider = body.get("provider") or "deterministic"
             try:
-                import sys
                 sys.path.insert(0, str(ROOT / "scripts"))
                 import semantic_extract
                 if doc_id:
@@ -486,7 +568,6 @@ class _Handler(BaseHTTPRequestHandler):
                         full_text = (wf.root / "documents" / f"{doc_id}.txt").read_text(encoding="utf-8")
                     claims = semantic_extract.semantic_extract(full_text, source_id=source_id, model_id=model_id, provider=provider)
                     # Save to candidates
-                    import uuid
                     from datetime import datetime, timezone
                     candidates_dir = wf.root / f"candidates/{doc_id}"
                     candidates_dir.mkdir(parents=True, exist_ok=True)
@@ -505,6 +586,8 @@ class _Handler(BaseHTTPRequestHandler):
                     return 200, {"source_id": source_id, "claims": claims, "count": len(claims)}
                 else:
                     raise WebappError("doc_id or text required")
+            except (WebappError, NotFound):
+                raise
             except Exception as e:
                 return 200, {"error": str(e), "claims": [], "hint": "run pdf_ingest_primary.py --check-registries first"}
 
@@ -514,18 +597,17 @@ class _Handler(BaseHTTPRequestHandler):
             verifier_model = body.get("verifier_model") or "anthropic/claude-3-haiku"
             provider = body.get("provider") or "openrouter"
             try:
-                import sys
                 sys.path.insert(0, str(ROOT / "scripts"))
                 import verify_claim
                 if claims_file:
-                    p = Path(claims_file)
-                    if not p.is_absolute():
-                        p = ROOT / p
+                    p = self._confined_claims_file(claims_file)
                     data = json.loads(p.read_text())
                     result = verify_claim.verify_claims(data, verifier_model_id=verifier_model, verifier_provider=provider)
                     return 200, result
                 else:
                     raise WebappError("claims_file required")
+            except (WebappError, NotFound):
+                raise
             except Exception as e:
                 return 200, {"error": str(e)}
 
@@ -533,18 +615,17 @@ class _Handler(BaseHTTPRequestHandler):
             body = self._read_json_body()
             claims_file = body.get("claims_file")
             try:
-                import sys
                 sys.path.insert(0, str(ROOT / "scripts"))
                 import conflict_analysis
                 if claims_file:
-                    p = Path(claims_file)
-                    if not p.is_absolute():
-                        p = ROOT / p
+                    p = self._confined_claims_file(claims_file)
                     data = json.loads(p.read_text())
                     result = conflict_analysis.analyze_conflicts(data)
                     return 200, result
                 else:
                     raise WebappError("claims_file required")
+            except (WebappError, NotFound):
+                raise
             except Exception as e:
                 return 200, {"error": str(e)}
 
@@ -553,19 +634,18 @@ class _Handler(BaseHTTPRequestHandler):
             doc_id = body.get("doc_id") or "test-doc"
             claims_file = body.get("claims_file")
             try:
-                import sys
                 sys.path.insert(0, str(ROOT / "scripts"))
                 import proposal_generate
                 if claims_file:
-                    p = Path(claims_file)
-                    if not p.is_absolute():
-                        p = ROOT / p
+                    p = self._confined_claims_file(claims_file)
                     data = json.loads(p.read_text())
                     proposals = proposal_generate.generate_proposals(data, doc_id=doc_id)
                     written = proposal_generate.write_proposals(proposals, doc_id)
                     return 200, {"doc_id": doc_id, "proposals": proposals[:5], "count": len(proposals), "written": written}
                 else:
                     raise WebappError("claims_file required")
+            except (WebappError, NotFound):
+                raise
             except Exception as e:
                 return 200, {"error": str(e)}
 
@@ -574,18 +654,17 @@ class _Handler(BaseHTTPRequestHandler):
             claims_file = body.get("claims_file")
             threshold = float(body.get("threshold") or 0.85)
             try:
-                import sys
                 sys.path.insert(0, str(ROOT / "scripts"))
                 import entity_resolution
                 if claims_file:
-                    p = Path(claims_file)
-                    if not p.is_absolute():
-                        p = ROOT / p
+                    p = self._confined_claims_file(claims_file)
                     data = json.loads(p.read_text())
                     resolved = entity_resolution.resolve_claim_entities(data, threshold=threshold)
                     return 200, {"claims": resolved[:5], "count": len(resolved)}
                 else:
                     raise WebappError("claims_file required")
+            except (WebappError, NotFound):
+                raise
             except Exception as e:
                 return 200, {"error": str(e)}
 
@@ -625,14 +704,38 @@ class _Handler(BaseHTTPRequestHandler):
         if remainder.startswith(prefix):
             remainder = remainder[len(prefix):]
         value = unquote(remainder.strip("/"))
-        if not value or "/" in value:
+        if not value or "/" in value or not _SAFE_ID_RE.match(value) or ".." in value:
             raise NotFound(f"invalid id fragment in path: {path}")
         return value
 
+    def _confined_claims_file(self, raw: Any) -> Path:
+        """Resolve a client-supplied claims file, confined to the workflow directory.
+
+        Accepts workflow-relative (``candidates/<doc>/semantic_claims.json``) or
+        repo-relative (``workflow/candidates/...``) paths. Anything that resolves
+        outside the workflow root (absolute paths elsewhere, ``..``, symlinks out)
+        or is not a ``.json`` file is rejected.
+        """
+        if not isinstance(raw, str) or not raw.strip():
+            raise WebappError("claims_file required")
+        root = self.workflow.root.resolve()
+        given = Path(raw)
+        candidates = [given] if given.is_absolute() else [root / given, ROOT / given]
+        for cand in candidates:
+            resolved = cand.resolve()
+            if resolved.is_relative_to(root) and resolved.suffix == ".json" and resolved.is_file():
+                return resolved
+        raise WebappError("claims_file must be an existing .json file inside the workflow directory")
+
     def _read_json_body(self) -> dict:
-        length = int(self.headers.get("Content-Length") or "0")
+        try:
+            length = int(self.headers.get("Content-Length") or "0")
+        except ValueError:
+            raise WebappError("invalid Content-Length") from None
         if length <= 0:
             raise WebappError("request body is required")
+        if length > MAX_BODY_BYTES:
+            raise WebappError(f"request body too large (max {MAX_BODY_BYTES // (1024 * 1024)} MB)")
         raw = self.rfile.read(length).decode("utf-8")
         try:
             payload = json.loads(raw)
@@ -652,10 +755,9 @@ class _Handler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def _send_common_headers(self) -> None:
-        self.send_header("Access-Control-Allow-Origin", "*")
-        self.send_header("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type")
         self.send_header("Cache-Control", "no-cache")
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("Referrer-Policy", "no-referrer")
 
     def log_message(self, format: str, *args: Any) -> None:  # noqa: A003
         return
@@ -675,7 +777,7 @@ def _decode_base64(value: str) -> bytes:
     return base64.b64decode(value, validate=True)
 
 
-def serve(*, host: str = "0.0.0.0", port: int = 8081, workflow: Workflow | None = None) -> _Server:
+def serve(*, host: str = "127.0.0.1", port: int = 8081, workflow: Workflow | None = None) -> _Server:
     wf = workflow or Workflow()
     handler = type("StemmaWebHandler", (_Handler,), {"workflow": wf})
     return _Server((host, port), handler)
@@ -683,7 +785,8 @@ def serve(*, host: str = "0.0.0.0", port: int = 8081, workflow: Workflow | None 
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="STEMMA ingestion/review webapp")
-    parser.add_argument("--host", default="0.0.0.0")
+    parser.add_argument("--host", default="127.0.0.1",
+                        help="bind address (default 127.0.0.1; use a private network like Tailscale for remote access)")
     parser.add_argument("--port", type=int, default=8081)
     parser.add_argument("--workflow", default=None, help="workflow dir (default: workflow/ under repo)")
     parser.add_argument("--open-and-exit", action="store_true", help="smoke-test then exit")

@@ -4,7 +4,7 @@ Status: Authoritative
 Baseline: b958a5c empty corpus
 Architecture: docs/ARCHITECTURE-V2.md
 Implementation Plan: docs/IMPLEMENTATION-PLAN-V2.md
-Decisions: docs/decisions/README.md 0040-0052
+Decisions: docs/decisions/README.md 0040-0053
 
 Ideal order history: b958a5c empty → 51fc1b0 architecture v2 clean → 493b32b implementation plan v2 → 27576f3 foundation reset fundamentals clean 3D → 3bcfd4a ingestion pipeline evolvable templates model selector → e692b25 comprehensive all-STEM template registry → dbc229f embeddings RAG separation consumer export guideline → 7297c6c strong CI explorer semantic pipeline final → 0df87ff fix status truth.
 
@@ -14,7 +14,7 @@ Ideal order history: b958a5c empty → 51fc1b0 architecture v2 clean → 493b32b
 - Archive old ADRs 0001-0039 to archive/old-design/docs/decisions/
 - Write ADR-0044 clean constitutional spec L1-L8 refined
 - Update docs/decisions/README.md retitle LearningHubSTEM to STEMMA Foundation index ADRs 0023-0044
-- Fix AGENTS.md dead refs NORTHSTAR.md STEMMA-SPECIFICATION.md force.md
+- Fix AGENTS.md dead Quick Start refs (retired docs)
 - Fix ingest.py candidates conform to source.schema.json, remove hand-written report prose stale counts
 
 Exit: ADR-0044 committed, README indexed, requirements.txt present, AGENTS.md clean, gate green.
@@ -43,7 +43,7 @@ Exit: Validator handles extended basis, tests pass.
 - Remove learning_objectives instructional_sequencing from concept.schema.json properties entirely
 - Allow real_world_applications common_misconceptions ONLY when evidenced as ValueClaim with evidence[] and source not free-form strings
 - Extend test_generality.py to reject pedagogical keys but allow evidenced knowledge claims
-- Record SOTA-REVIEW §6.5 softer alternative as partially adopted via extension-registry.yaml
+- Record the archived SOTA review's §6.5 softer alternative as partially adopted via extension-registry.yaml
 
 Exit: Schema updated, test_generality rejects pedagogical keys but allows evidenced claims.
 
@@ -66,7 +66,7 @@ Exit: Schemas updated, validator handles delegated authority, tests pass.
 
 ## R2 — Contract Update (Days) — Phase 2 — ADR-0050
 
-- export_version 2.1.0→2.2.0 in schema/export.schema.json and schema/VERSION.yaml add authority field and value-slot support
+- export_version 2.2.0→2.2.0 in schema/export.schema.json and schema/VERSION.yaml add authority field and value-slot support
 - Update adapters/python/ to handle value-slot and delegated authority
 - Update explorer/ to render value-slot claims and authority filter clean small nodes thin lines manual legend centered zoom 8 domains
 - Update docs/CONSUMERS.md with new contract surface
@@ -81,7 +81,27 @@ Exit: Export contract bumped, adapter round-trips, explorer renders, gate green.
 
 Exit: No stale references, independence test live, namespace clean.
 
-## R4 — Content as Acceptance Test Before IRI Gate (Hours to Days) — Phase 4 — ADR-0052 — Work Integrating Early Work
+## RS0 — Specification Recovery Pilot (Before R4) — ✅ DONE 2026-09-22 — Protocol v3.1
+
+Specification Recovery Protocol v3.1 (pilot edition) executed on the CORE-GATE-EXPORT
+vertical slice ahead of R4. Evidence → as-built → requirements → specification chain
+recovered; implementation treated as evidence, not authority.
+
+- Charter `../spec/PILOT_CHARTER.md`, slice recorded as ADR-STEMMA-SPEC-001 (`../spec/DECISIONS/`)
+- 37 classified evidence records; 22 requirements (full §8.6 schema) **ALL PROPOSED** — owner approval pending (SOLE_OWNER Sajan; agent had no approval power)
+- 2 interfaces (export knowledge.json 2.2.0; verify_all CLI), 6 UNRES, 2 CONFLICT (1 OPEN: vector-store `meta.json` type label), assumptions, two-tier gap analysis
+- Machine-readable canonical set `../spec/machine-readable/` + minimum validator (9/9 checks, fails closed)
+- Baseline `../spec/BASELINE.md`, maturity **L2 slice-scoped** — L3 blocked on owner approval, L4 blocked per §9.1 (no VERIFIED pre-APPROVED)
+- Mandatory process review: `../SPECIFICATION_PROCESS_REVIEW.md`
+
+Exit: baseline artifacts complete and validated; approval + verification queue handed to owner.
+R5 partially settled 2026-09-22 (ADR-0053 + Amendment 0001, owner) — identity binding; PID/resolution base deferred to R6; UNRES-STEMMA-CORE-001 partially resolved/open; R4 proceeds unchanged.
+
+## R4 — Content as Acceptance Test Before IRI Gate (Hours to Days) — Phase 4 — ADR-0052 — ✅ DONE 2026-09-22 (mechanical + owner review pass; canonicalize = owner follow-up) — Work Integrating Early Work
+
+**Status 2026-09-22:** mechanical side complete (all seeds + delegated import + machine gates green: validate, verify_all, pytest 161); the remaining item is the OWNER human review pass to canonical (ADR-0052 step f) — see PROGRESS.md for the tracked state and exact handoff commands.
+
+R4 value already delivered beyond the seeds: the exercise exposed and fixed the dormant value-slot (ADR-0045) engine gap across validate/graph/immutability/triage/anomalies/subsets, two stale corpus-scale test pins, and identified a follow-up governance item (adopt reserved measurement-relation family via micro-ADR).
 
 Goal: Prove full L8 chain both authority tiers, corpus has real content, engine built, integrating all early work from start as implementation of architecture.
 
@@ -108,11 +128,19 @@ Tasks:
 
 Exit: Full L8 chain proven end-to-end both authority tiers corpus has 3-5 entities 2-3 connections real content engine built.
 
-## R5 — Organization/IRI Gate (Roadmap R3) Human decision
+## R5 — Organization/IRI Gate — ◐ PARTIAL 2026-09-22 — ADR-0053 + Amendment 0001
 
-Human decision on owning organization domain IRI base everything touching published IRIs waits for this.
+Owner rulings in 0053-organization-domain-iri-base.md (Amendment 0001, after
+slow-research evaluation docs/PERSISTENT-IDENTIFIER-BRIEF.md):
+- SETTLED (binding): publisher of record = individual Sajan; canonical keeps
+  immutable `stemma:` URN identifiers; resolution never enters canonical files.
+- OPEN / DEFERRED to R6 projection publication: published-PID domain and
+  resolution architecture (w3id.org is a candidate, not a decision). Research
+  established this is safely deferrable pre-publication.
+- Non-actions: slug NOT claimed; no ID changes; no resolution infrastructure.
+R4 proceeds unchanged (never depended on the gate).
 
-## R6 — Projection Publication (Roadmap R4 After Phase 5) Days
+## R6 — Projection Publication (Roadmap R4 After Phase 5) Days — 🔄 STARTED 2026-09-23 (increment 1: knowledge.jsonld projection + validation + determinism, PID-agnostic)
 
 exports/knowledge.jsonld + SKOS mapping + context file + SHACL shapes learn-from + signed release bundle + integrity manifest pluggable BFO schema.org
 
@@ -151,11 +179,11 @@ All STEM at once without HITL, hosting without auth, curriculum, ontology, datab
 - Even LLM requires HITL: human explicitly edits markdown before canonical
 - Embeddings — YES needed: For RAG and consumer export, embedding model generates vectors, deterministic same content_hash + model → same embeddings, local free All-MiniLM 384 fast 80MB 5x faster + BGE Large SOTA 1024 1.3GB best for RAG MTEB top + frontier API OpenAI text-embedding-3-large 3072 best quality MTEB 64.6 + NVIDIA nv-embed-v1 SOTA 4096 free via NIM, model selector like DeepSeek harness
 - RAG — YES needed: STEMMA is knowledge foundation, RAG is how consumers use it, without RAG static JSON, with RAG queryable knowledge with citations, flow question → embedding → vector search top_k → context definitions + connections + sources → LLM frontier selector → answer with citations, API /v2/rag/search GET + /v2/rag/query POST, webapp RAG playground
-- Consumer export — YES needed: file (knowledge.json deterministic content-hash v2.1.0, embeddings.jsonl, vector_store/ FAISS, consumers/<consumer>/knowledge.<consumer>.json filtered), API (adapter v0.2.0 endpoints /v2/entities, /v2/embeddings, /v2/rag/search, /v2/rag/query POST, /v2/export?consumer=..., /openapi.yaml OpenAPI 3.0.3), SDK (Python Stemma.from_file + StemmaRAG), for LearningHub (canonical physics/chem/bio/math, OpenAI embeddings, GPT-4o RAG), PROFESSOR-J (reviewed all 8 domains mediocre, BGE Large offline SOTA, FAISS, DeepSeek R1 free RAG), general, explorer
+- Consumer export — YES needed: file (knowledge.json deterministic content-hash v2.2.0, embeddings.jsonl, vector_store/ FAISS, consumers/<consumer>/knowledge.<consumer>.json filtered), API (adapter v0.2.0 endpoints /v2/entities, /v2/embeddings, /v2/rag/search, /v2/rag/query POST, /v2/export?consumer=..., /openapi.yaml OpenAPI 3.0.3), SDK (Python Stemma.from_file + StemmaRAG), for LearningHub (canonical physics/chem/bio/math, OpenAI embeddings, GPT-4o RAG), PROFESSOR-J (reviewed all 8 domains mediocre, BGE Large offline SOTA, FAISS, DeepSeek R1 free RAG), general, explorer
 
 ## Whose Job Is Embedding and RAG? CONSUMER's Job, Not STEMMA's — STEMMA Provides Reference Implementation
 
-STEMMA's job — knowledge foundation pure deterministic HITL versioned content-hash NO embeddings/RAG in canonical: content/<domain>/**/*.md, connections/*.yaml, sources/*.yaml, schema/, scripts/validate.py NEVER checks embeddings, physics_core_profile_check.py, physics_governing_check.py, hitl_check.py, evolvable_template.py, status_truth.py, verify_all.py — provides knowledge foundation + deterministic versioned exports knowledge.json v2.1.0 content-hash + openapi.yaml + SDK for consumers — pure deterministic HITL versioned NO embeddings/RAG in canonical — whole STEMMA is here
+STEMMA's job — knowledge foundation pure deterministic HITL versioned content-hash NO embeddings/RAG in canonical: content/<domain>/**/*.md, connections/*.yaml, sources/*.yaml, schema/, scripts/validate.py NEVER checks embeddings, physics_core_profile_check.py, physics_governing_check.py, hitl_check.py, evolvable_template.py, status_truth.py, verify_all.py — provides knowledge foundation + deterministic versioned exports knowledge.json v2.2.0 content-hash + openapi.yaml + SDK for consumers — pure deterministic HITL versioned NO embeddings/RAG in canonical — whole STEMMA is here
 
 CONSUMER's job — build embedding and RAG out of STEMMA as connection layer NOT containing whole STEMMA: LearningHub, PROFESSOR-J, general, explorer, STEMMA-RAG — data/knowledge.json copied from STEMMA exports/knowledge.json, data/embeddings.jsonl generated externally via embed.py out of STEMMA, data/vector_store/ FAISS built externally out of STEMMA, rag.py retrieval + generation logic out of STEMMA, or via API calls to STEMMA API /v2/entities /v2/stats content_hash /v2/search etc., or via SDK Stemma.from_file() — generate vectors DERIVED from STEMMA definitions via embedding model local free All-MiniLM/BGE Large + frontier OpenAI Large/NVIDIA NV-Embed model selector like DeepSeek harness, build vector store FAISS/Chroma/Qdrant/Pinecone, serve RAG queries with retrieval + generation + citations — does NOT contain whole STEMMA, just connection layer, whole STEMMA remains in STEMMA repo
 

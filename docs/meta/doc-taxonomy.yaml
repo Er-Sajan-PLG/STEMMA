@@ -1,0 +1,241 @@
+# Documentation taxonomy census for STEMMA (Appendix A of the documentation-sync task).
+# status: present | partial | missing | na   (na = not applicable to this repository, with note)
+# relevance decisions are repo-specific and recorded here so they are reviewable, not implicit.
+version: 1
+categories:
+  A1: "Project & Governance"
+  A2: "Requirements & Specifications"
+  A3: "Architecture & Design"
+  A4: "Source Code Documentation"
+  A5: "API Documentation"
+  A6: "Configuration Documentation"
+  A7: "Testing Documentation"
+  A8: "Operations, DevOps & SRE"
+  A9: "Security Documentation"
+  A10: "User-Facing Documentation"
+  A11: "Developer & Contributor Documentation"
+  A12: "Compliance, Legal & Audit"
+  A13: "Analytics, Metrics & Reporting"
+  A14: "Meta-Documentation"
+artifacts:
+  - {id: 1, cat: A1, tier: 4, name: "Project charter / vision", status: present, path: docs/VISION.md}
+  - {id: 2, cat: A1, tier: 2, name: "Project plan", status: present, path: docs/IMPLEMENTATION-PLAN-V2.md}
+  - {id: 3, cat: A1, tier: 2, name: "Scope statement", status: present, path: docs/GOVERNANCE.md, note: "Scope/OUT sections"}
+  - {id: 4, cat: A1, tier: 4, name: "Stakeholder register", status: na, note: "single-owner public foundation; consumers are external by design"}
+  - {id: 5, cat: A1, tier: 4, name: "RACI matrix", status: partial, path: spec/ROLES_AND_AUTHORITY.md, note: "adopted at repo level via CI gate roles"}
+  - {id: 6, cat: A1, tier: 4, name: "Risk register", status: partial, path: spec/OPEN_QUESTIONS.md, note: "blocking risks tracked as UNRES records"}
+  - {id: 7, cat: A1, tier: 0, name: "Changelog", status: partial, path: PROGRESS.md, note: "repo convention: PROGRESS.md + ADR trail + git log act as changelog (adr-0029 one-doc-per-subject); formal CHANGELOG deferred to owner"}
+  - {id: 8, cat: A1, tier: 3, name: "Release notes", status: partial, path: docs/MIGRATIONS.md, note: "release artifacts are versioned exports"}
+  - {id: 9, cat: A1, tier: 2, name: "Roadmap", status: present, path: docs/ROADMAP.md}
+  - {id: 10, cat: A1, tier: 4, name: "ADRs", status: present, path: docs/decisions/README.md, note: "two layers: docs/decisions + spec/DECISIONS"}
+  - {id: 11, cat: A1, tier: 2, name: "Governance model", status: present, path: docs/GOVERNANCE.md}
+  - {id: 12, cat: A1, tier: 4, name: "Budget / cost tracking", status: na, note: "no commercial budget; model costs noted in RAG/EMBEDDINGS docs"}
+  - {id: 13, cat: A1, tier: 4, name: "Lessons learned / retrospectives", status: present, path: SPECIFICATION_PROCESS_REVIEW.md}
+  - {id: 14, cat: A1, tier: 1, name: "Product brief / one-pager", status: present, path: README.md}
+  - {id: 15, cat: A1, tier: 4, name: "Elevator pitch", status: present, path: README.md, note: "tagline + What this is"}
+  - {id: 16, cat: A2, tier: 2, name: "Business requirements", status: partial, path: docs/VISION.md, note: "vision-level rationale, not SRS-style"}
+  - {id: 17, cat: A2, tier: 2, name: "Functional requirements (SRS)", status: partial, path: spec/REQUIREMENTS.md, note: "PROPOSED, awaiting owner approval"}
+  - {id: 18, cat: A2, tier: 2, name: "Non-functional requirements", status: partial, path: spec/REQUIREMENTS.md, note: "determinism/freshness covered; perf NFRs not yet specified"}
+  - {id: 19, cat: A2, tier: 2, name: "User stories / use cases", status: partial, path: docs/CONSUMERS.md, note: "consumer usage patterns"}
+  - {id: 20, cat: A2, tier: 2, name: "Acceptance criteria", status: present, path: spec/REQUIREMENTS.md, note: "per-requirement acceptance_criteria"}
+  - {id: 21, cat: A2, tier: 2, name: "Glossary / domain dictionary", status: present, path: docs/GLOSSARY.md}
+  - {id: 22, cat: A2, tier: 2, name: "Data dictionary", status: present, path: docs/SCHEMA-SPECIFICATION.md}
+  - {id: 23, cat: A2, tier: 3, name: "Data flow diagrams", status: partial, path: docs/PIPELINES.md, note: "prose stage chains (16-stage canonical form)"}
+  - {id: 24, cat: A2, tier: 3, name: "State diagrams", status: partial, path: docs/AGENT.md, note: "candidate->proposal->canonical lifecycle prose"}
+  - {id: 25, cat: A2, tier: 3, name: "Workflow diagrams", status: partial, path: docs/INGESTION-PRIMARY.md}
+  - {id: 26, cat: A2, tier: 2, name: "Requirements traceability matrix", status: partial, path: spec/machine-readable/traceability.yaml, note: "PROPOSED-scope; validator-enforced"}
+  - {id: 27, cat: A2, tier: 2, name: "Constraints documentation", status: present, path: spec/EXTERNAL_CONSTRAINTS.md}
+  - {id: 28, cat: A2, tier: 2, name: "Assumptions & dependencies", status: present, path: spec/ASSUMPTIONS.md}
+  - {id: 29, cat: A2, tier: 3, name: "Prioritization / MoSCoW", status: partial, path: docs/ROADMAP.md, note: "phase ordering + P0-P3 in spec requirements"}
+  - {id: 30, cat: A2, tier: 3, name: "Wireframes & mockups", status: na, note: "demo webapp only; not product UI"}
+  - {id: 31, cat: A2, tier: 3, name: "Interaction specifications", status: na, note: "demo webapp"}
+  - {id: 32, cat: A2, tier: 3, name: "Content requirements (UI text)", status: na, note: "no product UI copy"}
+  - {id: 33, cat: A2, tier: 3, name: "Accessibility requirements", status: na, note: "explorer/webapp are dev demos; no a11y commitment declared"}
+  - {id: 34, cat: A2, tier: 3, name: "i18n / l10n specs", status: na, note: "English-only knowledge base"}
+  - {id: 35, cat: A2, tier: 3, name: "Persona profiles", status: partial, path: docs/CONSUMERS.md, note: "consumer archetypes declared in registry"}
+  - {id: 36, cat: A3, tier: 2, name: "System architecture overview", status: present, path: docs/ARCHITECTURE-V2.md}
+  - {id: 37, cat: A3, tier: 3, name: "Component design documents", status: partial, path: docs/PHYSICS-MINIMAL-DESIGN-V2.md, note: "per-component docs uneven"}
+  - {id: 38, cat: A3, tier: 2, name: "Technology stack documentation", status: partial, path: docs/STANDARDS.md, note: "stdlib-python stance; model catalogs in registries"}
+  - {id: 39, cat: A3, tier: 4, name: "ADRs (individual)", status: present, path: docs/decisions/}
+  - {id: 40, cat: A3, tier: 3, name: "Design pattern documentation", status: partial, path: docs/ARCHITECTURE-V2.md, note: "canonical/derived/consumer separation pattern"}
+  - {id: 41, cat: A3, tier: 3, name: "UML diagrams", status: na, note: "repo uses prose + schema contracts, not UML"}
+  - {id: 42, cat: A3, tier: 3, name: "C4 model diagrams", status: na, note: "as above"}
+  - {id: 43, cat: A3, tier: 3, name: "Entity-relationship diagrams", status: present, path: docs/RELATIONSHIP-SPECIFICATION.md, note: "relation registry is the normative form"}
+  - {id: 44, cat: A3, tier: 3, name: "Database schema documentation", status: na, note: "no database; canonical graph in files"}
+  - {id: 45, cat: A3, tier: 2, name: "Data model documentation", status: present, path: docs/DOMAIN-MODEL.md}
+  - {id: 46, cat: A3, tier: 3, name: "Data migration documentation", status: present, path: docs/MIGRATIONS.md}
+  - {id: 47, cat: A3, tier: 3, name: "Event/message schema docs", status: partial, path: schema/export.schema.json, note: "export contract serves as integration message schema"}
+  - {id: 48, cat: A3, tier: 3, name: "Integration architecture", status: present, path: docs/GUIDELINE-EMBEDDER-RAG.md}
+  - {id: 49, cat: A3, tier: 3, name: "Deployment architecture", status: na, note: "no deployed runtime; CI on GitHub Actions"}
+  - {id: 50, cat: A3, tier: 3, name: "Security architecture", status: partial, path: docs/SECURITY-INTEGRITY-PROVENANCE.md}
+  - {id: 51, cat: A3, tier: 3, name: "Threat model", status: partial, path: docs/SECURITY-INTEGRITY-PROVENANCE.md, note: "bypass/integrity threats enumerated informally"}
+  - {id: 52, cat: A3, tier: 3, name: "Concurrency design", status: na, note: "single-process stdlib tooling"}
+  - {id: 53, cat: A3, tier: 3, name: "Error handling strategy", status: partial, path: spec/INTERFACES/IFACE-STEMMA-GATE-001-verification-chain-cli.md, note: "fail-closed exit codes contract"}
+  - {id: 54, cat: A3, tier: 3, name: "Logging & observability design", status: partial, note: "HITL audit trail under workflow/audit (git-ignored runtime state; portability gap UNRES-STEMMA-HITL-001)"}
+  - {id: 55, cat: A3, tier: 3, name: "Caching strategy", status: na, note: "content_hash equivalence is the cache signal; no cache infra"}
+  - {id: 56, cat: A3, tier: 3, name: "Scaling strategy", status: present, path: docs/ARCHITECTURE-V2.md, note: "10^2-10^6 scale section"}
+  - {id: 57, cat: A3, tier: 3, name: "Disaster recovery plan", status: na, note: "git history + regenerable exports"}
+  - {id: 58, cat: A3, tier: 3, name: "Capacity planning", status: partial, path: docs/ROADMAP.md, note: "R8 scale readiness"}
+  - {id: 59, cat: A3, tier: 3, name: "Performance budget", status: na, note: "no latency commitments; determinism prioritized"}
+  - {id: 60, cat: A3, tier: 4, name: "Design review notes", status: partial, path: docs/decisions/, note: "rationale embedded in ADRs"}
+  - {id: 61, cat: A4, tier: 0, name: "README (root)", status: present, path: README.md}
+  - {id: 62, cat: A4, tier: 1, name: "README (per module)", status: present, path: webapp/README.md, note: "webapp/README.md, adapters/README.md, explorer/README.md (added 2026-09-22)"}
+  - {id: 63, cat: A4, tier: 0, name: "Inline code comments", status: present, note: "decision-point comments in scripts"}
+  - {id: 64, cat: A4, tier: 0, name: "Docstrings", status: present, note: "module docstrings on gate scripts"}
+  - {id: 65, cat: A4, tier: 2, name: "Type/interface annotations", status: partial, note: "sparse type hints in scripts"}
+  - {id: 66, cat: A4, tier: 3, name: "TODO/FIXME with context", status: na, note: "no standing TODO convention; issues via spec/OPEN_QUESTIONS"}
+  - {id: 67, cat: A4, tier: 3, name: "Code-level design notes", status: partial, note: "script header notes"}
+  - {id: 68, cat: A4, tier: 4, name: "Literate programming", status: na}
+  - {id: 69, cat: A4, tier: 2, name: "Dependency documentation", status: partial, path: requirements.txt, note: "small pinned set; per-dep rationale undocumented"}
+  - {id: 70, cat: A4, tier: 2, name: "CODEOWNERS", status: na, note: "sole-owner repo; authority recorded in spec/ROLES_AND_AUTHORITY.md"}
+  - {id: 71, cat: A4, tier: 3, name: "Deprecated API documentation", status: partial, path: archive/, note: "old design archived byte-identical with pointers"}
+  - {id: 72, cat: A4, tier: 4, name: "Magic number documentation", status: na, note: "constants live in schema registries with descriptions"}
+  - {id: 73, cat: A4, tier: 3, name: "Algorithm documentation", status: partial, path: docs/SEMANTIC-ACQUISITION-PIPELINE.md}
+  - {id: 74, cat: A4, tier: 3, name: "Regex documentation", status: partial, path: schema/template-registry.yaml, note: "patterns documented inline in registries"}
+  - {id: 75, cat: A5, tier: 2, name: "API overview / philosophy", status: present, path: docs/API.md}
+  - {id: 76, cat: A5, tier: 2, name: "API reference (per endpoint)", status: present, path: docs/API.md, note: "adapter /v2/* endpoints"}
+  - {id: 77, cat: A5, tier: 3, name: "API authentication guide", status: na, note: "read-only local file/API; no auth surface"}
+  - {id: 78, cat: A5, tier: 3, name: "API rate limiting / quotas", status: na}
+  - {id: 79, cat: A5, tier: 3, name: "API pagination guide", status: na, note: "single JSON export; no pagination"}
+  - {id: 80, cat: A5, tier: 3, name: "API error catalog", status: partial, path: docs/API.md}
+  - {id: 81, cat: A5, tier: 2, name: "API versioning guide", status: present, path: docs/VERSIONING.md}
+  - {id: 82, cat: A5, tier: 2, name: "API changelog", status: present, path: docs/VERSIONING.md, note: "export_format_history records"}
+  - {id: 83, cat: A5, tier: 2, name: "OpenAPI schemas", status: present, path: schema/api.yaml}
+  - {id: 84, cat: A5, tier: 3, name: "API usage examples / recipes", status: present, path: docs/API.md}
+  - {id: 85, cat: A5, tier: 3, name: "API SDK documentation", status: present, path: docs/GUIDELINE-EMBEDDER-RAG.md}
+  - {id: 86, cat: A5, tier: 3, name: "Webhook documentation", status: na}
+  - {id: 87, cat: A5, tier: 3, name: "Internal API / RPC docs", status: na, note: "scripts import each other; documented in script docstrings"}
+  - {id: 88, cat: A5, tier: 3, name: "Event/message API docs", status: na}
+  - {id: 89, cat: A5, tier: 2, name: "CLI API documentation", status: present, path: spec/INTERFACES/IFACE-STEMMA-GATE-001-verification-chain-cli.md}
+  - {id: 90, cat: A5, tier: 3, name: "Plugin/extension API", status: partial, path: schema/extension-registry.yaml, note: "governed extension dimensions"}
+  - {id: 91, cat: A6, tier: 2, name: "Configuration reference", status: partial, path: docs/WEBAPP.md, note: "webapp/settings documented; script flags in --help"}
+  - {id: 92, cat: A6, tier: 2, name: "Environment variables", status: present, path: .env.example, note: "root .env (git-ignored) parsed by webapp/providers.py; vars documented in docs/WEBAPP.md; env-coverage invariant in docs contract"}
+  - {id: 93, cat: A6, tier: 3, name: "Feature flags / toggles", status: na, note: "no feature flags"}
+  - {id: 94, cat: A6, tier: 2, name: "Config file format", status: partial, path: schema/, note: "YAML registries with schema-notes"}
+  - {id: 95, cat: A6, tier: 3, name: "Secrets management", status: present, path: docs/SECURITY-INTEGRITY-PROVENANCE.md, note: "no-secrets invariant in CI + keys-via-env pattern"}
+  - {id: 96, cat: A6, tier: 3, name: "Environment matrix", status: na, note: "single environment (local + CI)"}
+  - {id: 97, cat: A6, tier: 4, name: "License / entitlement config", status: na}
+  - {id: 98, cat: A7, tier: 2, name: "Test strategy / test plan", status: present, path: docs/TESTING.md}
+  - {id: 99, cat: A7, tier: 2, name: "Test case specifications", status: partial, note: "tests are self-documenting; no external specs"}
+  - {id: 100, cat: A7, tier: 2, name: "Unit test documentation", status: present, path: docs/TESTING.md}
+  - {id: 101, cat: A7, tier: 2, name: "Integration test docs", status: partial, path: docs/TESTING.md}
+  - {id: 102, cat: A7, tier: 3, name: "E2E test documentation", status: na, note: "verify_all chain is the E2E; no UI e2e"}
+  - {id: 103, cat: A7, tier: 3, name: "Performance test docs", status: na, note: "R8 future"}
+  - {id: 104, cat: A7, tier: 3, name: "Security test docs", status: partial, path: docs/TESTING.md, note: "secrets/independence scans"}
+  - {id: 105, cat: A7, tier: 3, name: "Accessibility test docs", status: na}
+  - {id: 106, cat: A7, tier: 3, name: "Test data documentation", status: partial, note: "live corpus is the fixture (no synthetic seeds)"}
+  - {id: 107, cat: A7, tier: 3, name: "Test fixtures / factories", status: na}
+  - {id: 108, cat: A7, tier: 2, name: "Test environment docs", status: partial, path: docs/TESTING.md, note: "venv + requirements documented"}
+  - {id: 109, cat: A7, tier: 2, name: "Test coverage report", status: missing, note: "no coverage tooling; suite count tracked in PROGRESS"}
+  - {id: 110, cat: A7, tier: 3, name: "QA sign-off records", status: na, note: "HITL review is the sign-off analog"}
+  - {id: 111, cat: A7, tier: 3, name: "Known bugs / test exclusions", status: present, path: PROGRESS.md, note: "archived stale tests recorded"}
+  - {id: 112, cat: A7, tier: 3, name: "Mock/stub documentation", status: na, note: "deterministic-fake embeddings documented in embed.py"}
+  - {id: 113, cat: A7, tier: 2, name: "Regression test suite", status: present, path: tests/, note: "133-test suite in CI"}
+  - {id: 114, cat: A7, tier: 3, name: "Flaky test register", status: na, note: "no known flakies"}
+  - {id: 115, cat: A8, tier: 2, name: "Deployment guide", status: partial, path: README.md, note: "clean-clone + install instructions; no server deploy"}
+  - {id: 116, cat: A8, tier: 3, name: "Rollback procedure", status: partial, note: "git-based rollback; not formalized"}
+  - {id: 117, cat: A8, tier: 3, name: "IaC documentation", status: na, note: "no infrastructure; docker-compose archived"}
+  - {id: 118, cat: A8, tier: 1, name: "CI/CD pipeline docs", status: present, path: docs/TESTING.md, note: "jobs enumerated; ci.yml is the authoritative form"}
+  - {id: 119, cat: A8, tier: 3, name: "Container / image docs", status: na}
+  - {id: 120, cat: A8, tier: 3, name: "K8s manifests", status: na}
+  - {id: 121, cat: A8, tier: 3, name: "Monitoring & alerting docs", status: na, note: "CI all-green job is the alerting surface"}
+  - {id: 122, cat: A8, tier: 3, name: "Dashboard documentation", status: na}
+  - {id: 123, cat: A8, tier: 3, name: "Runbook / ops manual", status: partial, path: docs/RESET-AND-HITL-GUIDE.md, note: "reset/rebuild procedures"}
+  - {id: 124, cat: A8, tier: 3, name: "Incident response playbook", status: na, note: "no service; gate failures have repair instructions"}
+  - {id: 125, cat: A8, tier: 4, name: "Postmortem template", status: na}
+  - {id: 126, cat: A8, tier: 3, name: "On-call documentation", status: na}
+  - {id: 127, cat: A8, tier: 3, name: "SLO / SLI / SLA docs", status: na, note: "determinism + freshness are the service-level analogs"}
+  - {id: 128, cat: A8, tier: 3, name: "Error budget policy", status: na}
+  - {id: 129, cat: A8, tier: 3, name: "Backup & restore procedures", status: partial, note: "git + archive/ immutability; exports regenerable"}
+  - {id: 130, cat: A8, tier: 3, name: "Certificate / TLS management", status: na}
+  - {id: 131, cat: A8, tier: 3, name: "DNS / networking docs", status: na}
+  - {id: 132, cat: A8, tier: 3, name: "Log management docs", status: na}
+  - {id: 133, cat: A8, tier: 4, name: "Performance baseline", status: na, note: "R8 future"}
+  - {id: 134, cat: A8, tier: 3, name: "Scaling runbook", status: na, note: "R8 future"}
+  - {id: 135, cat: A8, tier: 3, name: "Maintenance window procedures", status: na}
+  - {id: 136, cat: A8, tier: 3, name: "Cost / billing docs", status: na}
+  - {id: 137, cat: A8, tier: 3, name: "Compliance monitoring", status: partial, path: .github/workflows/ci.yml, note: "10-job all-green gate"}
+  - {id: 138, cat: A9, tier: 3, name: "Security policy", status: partial, path: docs/SECURITY-INTEGRITY-PROVENANCE.md}
+  - {id: 139, cat: A9, tier: 3, name: "Auth & authorization design", status: na, note: "no auth decisions; read-only public data"}
+  - {id: 140, cat: A9, tier: 3, name: "Vulnerability management", status: partial, note: "gitleaks + dependabot in CI"}
+  - {id: 141, cat: A9, tier: 3, name: "Penetration test reports", status: na}
+  - {id: 142, cat: A9, tier: 3, name: "Security audit trail", status: partial, note: "HITL audit trail under workflow/audit (git-ignored; portability gap UNRES-STEMMA-HITL-001)"}
+  - {id: 143, cat: A9, tier: 3, name: "Incident response plan", status: na}
+  - {id: 144, cat: A9, tier: 3, name: "Data classification", status: present, note: "canonical = public knowledge by constitution"}
+  - {id: 145, cat: A9, tier: 3, name: "Encryption documentation", status: na}
+  - {id: 146, cat: A9, tier: 3, name: "Privacy / PII handling", status: na, note: "no PII collected; provider keys via .env only"}
+  - {id: 147, cat: A9, tier: 3, name: "GDPR / CCPA / SOC2 docs", status: na}
+  - {id: 148, cat: A9, tier: 3, name: "Supply chain security", status: partial, note: "pinned deps + dependabot + secrets scan"}
+  - {id: 149, cat: A9, tier: 3, name: "SBOM", status: missing, note: "conditional — required only on distribution of release bundles (R6)"}
+  - {id: 150, cat: A9, tier: 4, name: "Security training records", status: na}
+  - {id: 151, cat: A9, tier: 3, name: "Access control matrix", status: partial, path: spec/ROLES_AND_AUTHORITY.md}
+  - {id: 152, cat: A10, tier: 3, name: "User manual / handbook", status: partial, path: docs/README.md, note: "readers are engineers/consumers, not end-users"}
+  - {id: 153, cat: A10, tier: 1, name: "Getting started guide", status: present, path: README.md, note: "Quick start section"}
+  - {id: 154, cat: A10, tier: 1, name: "Quick start guide", status: present, path: README.md}
+  - {id: 155, cat: A10, tier: 3, name: "Tutorials", status: partial, path: docs/GUIDELINE-EMBEDDER-RAG.md, note: "consumer build guide"}
+  - {id: 156, cat: A10, tier: 3, name: "How-to guides", status: partial, path: docs/RESET-AND-HITL-GUIDE.md}
+  - {id: 157, cat: A10, tier: 2, name: "Reference documentation", status: present, path: docs/README.md, note: "reference set table"}
+  - {id: 158, cat: A10, tier: 3, name: "Explanations / concepts", status: present, path: docs/ARCHITECTURE-V2.md}
+  - {id: 159, cat: A10, tier: 3, name: "FAQ", status: na}
+  - {id: 160, cat: A10, tier: 3, name: "Troubleshooting guide", status: partial, path: docs/RESET-AND-HITL-GUIDE.md}
+  - {id: 161, cat: A10, tier: 3, name: "Glossary (user-facing)", status: present, path: docs/GLOSSARY.md}
+  - {id: 162, cat: A10, tier: 3, name: "Screenshot / visual docs", status: na}
+  - {id: 163, cat: A10, tier: 3, name: "Video tutorials", status: na}
+  - {id: 164, cat: A10, tier: 3, name: "In-product help / tooltips", status: na, note: "demo webapp"}
+  - {id: 165, cat: A10, tier: 3, name: "Onboarding wizard content", status: na}
+  - {id: 166, cat: A10, tier: 3, name: "Keyboard shortcuts", status: na}
+  - {id: 167, cat: A10, tier: 3, name: "Release migration guide", status: present, path: docs/MIGRATIONS.md}
+  - {id: 168, cat: A10, tier: 3, name: "Known issues / limitations", status: present, path: spec/OPEN_QUESTIONS.md, note: "honest limitation tracking"}
+  - {id: 169, cat: A10, tier: 3, name: "Accessibility guide (user)", status: na}
+  - {id: 170, cat: A10, tier: 3, name: "Print/PDF export docs", status: na, note: "knowledge.json IS the export"}
+  - {id: 171, cat: A11, tier: 0, name: "CONTRIBUTING.md", status: present, path: docs/CONTRIBUTING.md}
+  - {id: 172, cat: A11, tier: 1, name: "Developer setup guide", status: present, path: docs/TESTING.md, note: "venv + gate commands"}
+  - {id: 173, cat: A11, tier: 1, name: "Build system docs", status: present, path: Makefile, note: "self-documented targets"}
+  - {id: 174, cat: A11, tier: 1, name: "Code style guide", status: partial, path: AGENTS.md, note: "rules embedded in agent instructions"}
+  - {id: 175, cat: A11, tier: 2, name: "Code review guidelines", status: partial, path: docs/CURATION-PROTOCOL.md, note: "content review protocol exists; code-review protocol implicit"}
+  - {id: 176, cat: A11, tier: 1, name: "Git workflow / branching", status: partial, path: .github/workflows/ci.yml, note: "check-branching job enforces; prose minimal"}
+  - {id: 177, cat: A11, tier: 2, name: "Commit message convention", status: partial, note: "conventional prefixes observed (docs:/fix:/test:/webapp:)"}
+  - {id: 178, cat: A11, tier: 1, name: "PR / MR template", status: present, path: .github/PULL_REQUEST_TEMPLATE.md, note: "added 2026-09-22"}
+  - {id: 179, cat: A11, tier: 1, name: "Issue templates", status: present, path: .github/ISSUE_TEMPLATE, note: "bug_report + feature_request (added 2026-09-22)"}
+  - {id: 180, cat: A11, tier: 1, name: "Module/package README", status: present, path: adapters/README.md, note: "all three runtime modules covered (added 2026-09-22)"}
+  - {id: 181, cat: A11, tier: 2, name: "Makefile / task runner ref", status: present, path: Makefile}
+  - {id: 182, cat: A11, tier: 3, name: "IDE / tooling setup", status: na}
+  - {id: 183, cat: A11, tier: 3, name: "Debugging guide", status: partial, path: docs/TESTING.md, note: "gate failure sections"}
+  - {id: 184, cat: A11, tier: 3, name: "Profiling guide", status: na}
+  - {id: 185, cat: A11, tier: 2, name: "Migration guide (dev)", status: present, path: docs/MIGRATIONS.md}
+  - {id: 186, cat: A11, tier: 3, name: "Monorepo guide", status: partial, path: docs/README.md, note: "poly-repo by explicit constitution; monorepo layout documented"}
+  - {id: 187, cat: A11, tier: 3, name: "Plugin development guide", status: partial, path: docs/AGENT.md, note: "skill/candidate authoring protocol"}
+  - {id: 188, cat: A11, tier: 3, name: "i18n guide (developer)", status: na}
+  - {id: 189, cat: A11, tier: 3, name: "Database dev guide", status: na}
+  - {id: 190, cat: A11, tier: 2, name: "Agent / AI instructions", status: present, path: AGENTS.md, note: "+ .agents/skills/ 7 protocols"}
+  - {id: 191, cat: A12, tier: 0, name: "LICENSE", status: present, path: LICENSE, note: "CC0 data + LICENSE-CODE MIT"}
+  - {id: 192, cat: A12, tier: 2, name: "Third-party licenses", status: partial, path: LICENSE-CODE, note: "deps small; per-dep license list not generated"}
+  - {id: 193, cat: A12, tier: 3, name: "Terms of service", status: na}
+  - {id: 194, cat: A12, tier: 3, name: "Privacy policy", status: na}
+  - {id: 195, cat: A12, tier: 3, name: "EULA", status: na}
+  - {id: 196, cat: A12, tier: 3, name: "Compliance matrix", status: na, note: "no regulated-domain claims"}
+  - {id: 197, cat: A12, tier: 3, name: "Audit log documentation", status: partial, path: docs/RESET-AND-HITL-GUIDE.md, note: "HITL audit trail; portability UNRES"}
+  - {id: 198, cat: A12, tier: 3, name: "Regulatory documentation", status: na}
+  - {id: 199, cat: A12, tier: 3, name: "Data retention policy", status: partial, path: docs/CURATION-PROTOCOL.md, note: "immutable history + history[] convention"}
+  - {id: 200, cat: A12, tier: 3, name: "Data processing agreements", status: na}
+  - {id: 201, cat: A12, tier: 3, name: "Accessibility statement", status: na}
+  - {id: 202, cat: A12, tier: 3, name: "Export control docs", status: na, note: "public-domain knowledge"}
+  - {id: 203, cat: A13, tier: 4, name: "KPI dashboard docs", status: na}
+  - {id: 204, cat: A13, tier: 4, name: "Analytics event schema", status: na}
+  - {id: 205, cat: A13, tier: 4, name: "Funnel / conversion docs", status: na}
+  - {id: 206, cat: A13, tier: 4, name: "A/B testing docs", status: na}
+  - {id: 207, cat: A13, tier: 4, name: "BI data dictionary", status: na}
+  - {id: 208, cat: A13, tier: 4, name: "Report documentation", status: partial, path: reports/, note: "validation/consumer reports self-describing"}
+  - {id: 209, cat: A13, tier: 4, name: "Error rate / crash reporting", status: na, note: "gate FAIL output is the error signal"}
+  - {id: 210, cat: A14, tier: 4, name: "Documentation style guide", status: missing, note: "Tier4 candidate"}
+  - {id: 211, cat: A14, tier: 2, name: "Documentation architecture", status: present, path: docs/README.md}
+  - {id: 212, cat: A14, tier: 2, name: "Information architecture / sitemap", status: present, path: docs/README.md, note: "reading order + reference set"}
+  - {id: 213, cat: A14, tier: 2, name: "Source-of-truth matrix", status: present, path: docs/docs-contract.yaml, note: "THIS SYSTEM (docs sync contract)"}
+  - {id: 214, cat: A14, tier: 2, name: "Documentation ownership model", status: present, path: docs/docs-contract.yaml}
+  - {id: 215, cat: A14, tier: 2, name: "Documentation sync contract", status: present, path: docs/docs-contract.yaml}
+  - {id: 216, cat: A14, tier: 2, name: "Docs contribution guide", status: present, path: docs/DOCUMENTATION-SYSTEM.md}
+  - {id: 217, cat: A14, tier: 4, name: "Docs review checklist", status: missing, note: "quality gate currently = docs check"}
+  - {id: 218, cat: A14, tier: 4, name: "Documentation analytics", status: na}
+  - {id: 219, cat: A14, tier: 4, name: "Content audit log", status: present, path: PROGRESS.md, note: "dated verified-state blocks"}
+  - {id: 220, cat: A14, tier: 2, name: "Documentation toolchain", status: present, path: docs/DOCUMENTATION-SYSTEM.md}
+  - {id: 221, cat: A14, tier: 3, name: "Decision research brief (persistent identifiers)", status: present, path: docs/PERSISTENT-IDENTIFIER-BRIEF.md, note: "owner-directed slow research; informs ADR-0053 reaffirm/amend/supersede; records NO decision"}

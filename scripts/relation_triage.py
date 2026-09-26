@@ -110,11 +110,11 @@ def build_report(root: pathlib.Path = ROOT) -> dict:
         specific = pairs_to_relations.get(pair, [])
         if specific:
             already_specific.append({
-                "id": c["id"], "source": c["source"], "target": c["target"],
+                "id": c["id"], "source": c["source"], "target": c.get("target"),
                 "specific_relations": sorted(set(specific)),
             })
             continue
-        related_to_only.append({"id": c["id"], "source": c["source"], "target": c["target"]})
+        related_to_only.append({"id": c["id"], "source": c["source"], "target": c.get("target")})
         dep = best_reclassification(c, entities, registry, DEPENDENCY_RELATIONS)
         if dep:
             dependency_pairs.append({**related_to_only[-1], "suggested": dep})

@@ -92,6 +92,7 @@ Both require HITL before canonical — enforced by hitl_check.py and review_enti
 
 Via webapp UI (recommended):
 ```bash
+export STEMMA_REVIEWER_ID=human:curator.001   # your id in schema/agent-registry.yaml
 python3 webapp/server.py --port 8081
 # Open http://localhost:8081
 # Upload PDF: SI-Brochure-9th-ed.pdf or HRW Ch1 Measurement

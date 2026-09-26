@@ -30,7 +30,7 @@ if [[ " ${FILES[*]} " =~ (content|connections|sources|schema)/ ]]; then
     python3 scripts/validate.py || { echo "❌ Validation failed"; exit 1; }
 fi
 
-if [[ " ${FILES[*]} " =~ (scripts/|webapp/|ingestion_webapp/) ]]; then
+if [[ " ${FILES[*]} " =~ (scripts/|webapp/) ]]; then
     echo "  → Running verify_all.py..."
     python3 scripts/verify_all.py || { echo "❌ verify_all failed"; exit 1; }
 fi

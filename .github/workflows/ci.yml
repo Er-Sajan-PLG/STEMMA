@@ -26,7 +26,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install deps
-        run: pip install pyyaml jsonschema
+        run: pip install -r requirements.txt
       - name: Run authoritative verification chain
         run: python3 scripts/verify_all.py
       - name: Check derived exports are fresh and deterministic
@@ -39,7 +39,10 @@ jobs:
           python3 -c 'import json; d=json.load(open("exports/knowledge.json")); print("Export OK: {} entities".format(len(d["entities"])))'
       - name: Check no embeddings in canonical content
         run: |
-          if find content/ -name "*.md" -exec grep -l "vector" {} \; 2>/dev/null | head -n 1 | grep .; then echo "FAIL: vector in canonical"; exit 1; fi
+          # Look for embedding-SHAPED data (a vector/embedding key holding a numeric
+          # array), not the English word "vector" (e.g. "force is a vector quantity").
+          pattern='("?(embedding|embeddings|vector|vectors)"?[[:space:]]*:[[:space:]]*\[[[:space:]]*-?[0-9])'
+          if grep -rlE "$pattern" content/ --include="*.md"; then echo "FAIL: embedding-shaped data in canonical content/"; exit 1; fi
           echo "No embeddings in canonical OK"
 
   security:
@@ -67,17 +70,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
-      - name: Check required docs exist
-        run: |
-          for f in AGENTS.md README.md VERSION docs/README.md docs/VISION.md docs/ARCHITECTURE.md docs/DOMAIN-MODEL.md docs/SCHEMA-SPECIFICATION.md docs/METADATA-SPECIFICATION.md docs/RELATIONSHIP-SPECIFICATION.md docs/PIPELINES.md docs/GOVERNANCE.md docs/TESTING.md docs/ROADMAP.md docs/MIGRATIONS.md docs/CURATION-PROTOCOL.md docs/CONSUMERS.md docs/EMBEDDINGS.md docs/RAG.md docs/API.md docs/GUIDELINE-EMBEDDER-RAG.md docs/IMPLEMENTATION-STATUS.md; do if [ ! -f "$f" ]; then echo "FAIL: Missing $f"; exit 1; fi; echo "OK: $f"; done
       - name: Check guideline exists and comprehensive
         run: |
           test -f docs/GUIDELINE-EMBEDDER-RAG.md
           grep -q "Embedder" docs/GUIDELINE-EMBEDDER-RAG.md
           grep -q "content_hash" docs/GUIDELINE-EMBEDDER-RAG.md
           echo "Guideline OK"
-      - name: Check versions single-sourced
-        run: python3 -c 'import yaml; v=yaml.safe_load(open("schema/VERSION.yaml")); assert v.get("schema_version"); print("VERSION OK")'
+      - name: Documentation contract gate (single canonical command; covers required docs, ADR-0029/0027 invariants, links, recovery registries)
+        run: |
+          pip install -r requirements.txt -q
+          python3 -m pip install -q pyyaml
+          python3 scripts/docs.py sync
+          git diff --exit-code
+          python3 scripts/docs.py check
 
   explorer-build:
     name: Explorer Build
@@ -121,7 +126,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install deps
-        run: pip install pyyaml jsonschema
+        run: pip install -r requirements.txt
       - name: Check webapp core exists
         run: |
           test -f webapp/core.py
@@ -164,18 +169,35 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install deps
-        run: pip install pyyaml jsonschema
+        run: pip install -r requirements.txt
       - name: Validate first
         run: python3 scripts/validate.py
-      - name: Generate embeddings
+      - name: No embeddings committed or published (ADR-0054)
         run: |
+          if git ls-files exports/embeddings.jsonl exports/vector_store | grep -q .; then
+            echo "FAIL: derived embeddings are committed under exports/"; exit 1
+          fi
+          echo "No committed embeddings OK"
+      - name: embed.py refuses to fake real-model embeddings
+        run: |
+          if python3 -c "import sentence_transformers" 2>/dev/null; then
+            echo "sentence-transformers installed; refusal path not applicable"; exit 0
+          fi
+          set +e
           python3 scripts/embed.py --model sentence-transformers/all-MiniLM-L6-v2
-          test -f exports/embeddings.jsonl
-          test -f exports/vector_store/meta.json
+          rc=$?
+          set -e
+          test "$rc" -eq 2 || { echo "FAIL: expected exit 2 without --placeholder, got $rc"; exit 1; }
+          test ! -e exports/embeddings.jsonl || { echo "FAIL: wrote embeddings without a real model"; exit 1; }
+          echo "Refusal OK"
+      - name: Generate placeholder embeddings (pipeline test only)
+        run: |
+          python3 scripts/embed.py --model sentence-transformers/all-MiniLM-L6-v2 --placeholder
+          python3 -c 'import json; m=json.load(open("exports/vector_store/meta.json")); assert m["placeholder"] is True and m["model"]=="stemma:placeholder-hash", m; print("Honest labelling OK")'
       - name: Check embeddings deterministic
         run: |
           cp exports/embeddings.jsonl /tmp/embeddings1.jsonl
-          python3 scripts/embed.py --model sentence-transformers/all-MiniLM-L6-v2
+          python3 scripts/embed.py --model sentence-transformers/all-MiniLM-L6-v2 --placeholder
           diff /tmp/embeddings1.jsonl exports/embeddings.jsonl && echo "Deterministic OK"
       - name: Check content_hash versioning
         run: python3 -c 'import json; m=json.load(open("exports/vector_store/meta.json")); assert m["content_hash"].startswith("sha256:"); print("Content-hash OK")'
@@ -184,6 +206,11 @@ jobs:
       - name: Check consumer exports
         run: |
           python3 scripts/export_review_aware.py
+          # Committed per-consumer bundles must be fresh and loadable (release file contract, ADR-0054)
+          python3 scripts/export_consumers.py --all --check
+          for f in exports/consumers/*/knowledge.*.json; do
+            PYTHONPATH=adapters/python python3 -m stemma_adapter validate "$f" > /dev/null || { echo "FAIL: $f"; exit 1; }
+          done
           echo "Consumer export OK"
       - name: Check external RAG sample
         run: |
@@ -198,7 +225,7 @@ jobs:
       - uses: actions/checkout@v7
       - name: Check deterministic export byte-identical
         run: |
-          pip install pyyaml jsonschema -q
+          pip install -r requirements.txt -q
           python3 scripts/validate.py
           cp exports/knowledge.json /tmp/knowledge1.json
           python3 scripts/validate.py
@@ -220,7 +247,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install deps
-        run: pip install pyyaml jsonschema
+        run: pip install -r requirements.txt
       - name: Check registry coherence
         run: python3 tests/registry/test_registry_coherence.py
       - name: Check domain identity
@@ -231,6 +258,47 @@ jobs:
         run: python3 tests/versioning/test_deterministic_export.py
       - name: Check status truth
         run: python3 scripts/status_truth.py
+
+  test-suite:
+    name: Full Test Suite (pytest)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: pip install -r requirements-dev.txt
+      - name: Run full pytest suite
+        run: python3 -m pytest tests/ -q
+      - name: Adapter SDK tests — base group (no sigstore installed)
+        env:
+          STEMMA_FORBID_SIGSTORE: "1"
+        run: python3 -m pytest adapters/python/tests -q
+      - name: Check exports/reports untouched by tests
+        run: |
+          git diff --exit-code -- exports reports || { echo "FAIL: tests mutated derived artifacts"; exit 1; }
+
+  adapter-verify:
+    name: Adapter SDK — attestation verification (offline)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install adapter with [verify] extra
+        run: pip install -r requirements-dev.txt -e "adapters/python[verify]"
+      - name: Adapter tests incl. Sigstore policy (real rc1 bundle, no network)
+        env:
+          STEMMA_REQUIRE_SIGSTORE: "1"
+        run: python3 -m pytest adapters/python/tests -q
+      - name: Check exports/reports untouched by tests
+        run: git diff --exit-code -- exports reports
 
   check-branching:
     name: Branching Strategy
@@ -260,7 +328,7 @@ jobs:
   all-green:
     name: All Checks Green — Nothing Bad Gets Merged
     runs-on: ubuntu-latest
-    needs: [verify-knowledge-base, security, verify-docs, explorer-build, webapp-ingestion, embeddings-rag-consumer, no-wall-clock, id-immutability-registry]
+    needs: [verify-knowledge-base, security, verify-docs, explorer-build, webapp-ingestion, embeddings-rag-consumer, no-wall-clock, id-immutability-registry, test-suite, adapter-verify]
     if: always()
     steps:
       - name: Check all jobs passed
@@ -273,4 +341,6 @@ jobs:
           if [ "${{ needs.embeddings-rag-consumer.result }}" != "success" ]; then echo "FAIL: embeddings"; exit 1; fi
           if [ "${{ needs.no-wall-clock.result }}" != "success" ]; then echo "FAIL: wall-clock"; exit 1; fi
           if [ "${{ needs.id-immutability-registry.result }}" != "success" ]; then echo "FAIL: registry"; exit 1; fi
+          if [ "${{ needs.test-suite.result }}" != "success" ]; then echo "FAIL: test-suite"; exit 1; fi
+          if [ "${{ needs.adapter-verify.result }}" != "success" ]; then echo "FAIL: adapter-verify"; exit 1; fi
           echo "ALL CHECKS GREEN — Strong CI Passed"

@@ -18,8 +18,8 @@ sys.path.insert(0, str(ROOT / "webapp"))
 from core import CandidateInvalid, ProviderNotConfigured, Workflow  # noqa: E402
 
 
-def _fresh_workflow(tmp_path: pathlib.Path) -> Workflow:
-    return Workflow(tmp_path / "wf")
+def _fresh_workflow(tmp_path: pathlib.Path, reviewer_id: str | None = None) -> Workflow:
+    return Workflow(tmp_path / "wf", reviewer_id=reviewer_id)
 
 
 def test_default_workflow_is_gitignored_path():
@@ -77,13 +77,14 @@ def test_generation_requires_provider(tmp_path: pathlib.Path):
 
 
 def test_validation_and_staging(tmp_path: pathlib.Path):
-    wf = _fresh_workflow(tmp_path)
+    wf = _fresh_workflow(tmp_path, reviewer_id="human:curator.001")
     doc = wf.accept_upload(original_name="laws.txt", mime="text/plain", data=b"good content")
     wf.extract_document(doc["id"])
 
     good = {"id": "stemma:phys.test-newton", "type": "concept", "name": "Newton's law",
             "domain": "physics", "status": "draft",
             "definition": "A proposed definition.",
+            "same_dimensional_quantities": None,
             "provenance": {"ai_drafted": False, "source": "stemma:src.webapp-x"}}
     candidate = {"id": "cand-test", "doc_id": doc["id"], "kind": "entity",
                  "proposal": good, "findings": []}
@@ -93,7 +94,7 @@ def test_validation_and_staging(tmp_path: pathlib.Path):
     (wf.candidates / f"{doc['id']}.json").write_text(
         json.dumps({"doc_id": doc["id"], "generated_at": "", "candidates": [candidate]}),
         encoding="utf-8")
-    result = wf.stage_candidate(candidate["id"], reviewer="human:tester.001", note="test proposal")
+    result = wf.stage_candidate(candidate["id"], note="test proposal")
     assert result["path"].endswith(".entity.proposal.yaml")
     # The proposal is NOT under content/connections/sources.
     assert not any(str(wf.root / result["path"]).startswith(str(ROOT / d)) for d in ("content", "connections", "sources"))
@@ -104,7 +105,7 @@ def test_validation_and_staging(tmp_path: pathlib.Path):
 
 
 def test_invalid_candidate_refuses_stage(tmp_path: pathlib.Path):
-    wf = _fresh_workflow(tmp_path)
+    wf = _fresh_workflow(tmp_path, reviewer_id="human:curator.001")
     doc = wf.accept_upload(original_name="laws.txt", mime="text/plain", data=b"good content")
     wf.extract_document(doc["id"])
     bad = {"id": "not-an-id", "type": "concept", "name": "Bad", "domain": "physics",
@@ -116,7 +117,7 @@ def test_invalid_candidate_refuses_stage(tmp_path: pathlib.Path):
         json.dumps({"doc_id": doc["id"], "generated_at": "", "candidates": [candidate]}),
         encoding="utf-8")
     try:
-        wf.stage_candidate(candidate["id"], reviewer="human:tester.001")
+        wf.stage_candidate(candidate["id"])
     except CandidateInvalid:
         pass
     else:
@@ -167,13 +168,15 @@ def test_gemini_config_roundtrip(tmp_path: pathlib.Path):
 
 def test_provider_registry_contract():
     import providers
-    # Four distinct entitlement paths, Antigravity is official/local.
-    assert set(providers.PROVIDER_IDS) == {"antigravity", "gemini_api", "vertex_ai", "openai_compatible", "openrouter", "nvidia", "opencode"}
+    # 'deterministic' is the built-in offline provider; the rest are distinct
+    # entitlement paths, Antigravity is official/local.
+    assert set(providers.PROVIDER_IDS) == {"deterministic", "antigravity", "gemini_api", "vertex_ai", "openai_compatible", "openrouter", "nvidia", "opencode"}
     # Aliases never leak into persistence.
     assert providers.canonical_provider("google") == "gemini_api"
     assert providers.canonical_provider("openai") == "openai_compatible"
-    # Antigravity does not require an API key; Gemini API does.
+    # Antigravity and deterministic do not require an API key; Gemini API does.
     assert providers.spec("antigravity").needs_api_key is False
+    assert providers.spec("deterministic").needs_api_key is False
     assert providers.spec("gemini_api").needs_api_key is True
     print("PASS: provider registry contract")
 

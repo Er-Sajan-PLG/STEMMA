@@ -1,0 +1,1252 @@
+{
+  "export_version": "2.2.0",
+  "schema_version": "1.2.0",
+  "content_hash": "sha256:d79c733dfa4a863cc37137d250e21878c95332759dfd74e7ecad81fe5b027afe",
+  "kernel_version": "3.0.0",
+  "relation_registry_version": "1.0.0",
+  "relation_registry": {
+    "part_of": {
+      "family": "structural",
+      "inverse": "has_part",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "phenomenon",
+        "model",
+        "quantity"
+      ],
+      "range": [
+        "concept",
+        "phenomenon",
+        "model",
+        "quantity"
+      ],
+      "status": "adopted"
+    },
+    "has_part": {
+      "family": "structural",
+      "inverse": "part_of",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "phenomenon",
+        "model",
+        "quantity"
+      ],
+      "range": [
+        "concept",
+        "phenomenon",
+        "model",
+        "quantity"
+      ],
+      "status": "reserved"
+    },
+    "composed_of": {
+      "family": "structural",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "model",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "generalizes": {
+      "family": "hierarchical",
+      "inverse": "special_case_of",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "law",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "law",
+        "model"
+      ],
+      "status": "adopted"
+    },
+    "special_case_of": {
+      "family": "hierarchical",
+      "inverse": "generalizes",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "law",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "law",
+        "model"
+      ],
+      "status": "adopted"
+    },
+    "requires": {
+      "family": "dependency",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "prerequisite_of": {
+      "family": "dependency",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "mathematically_requires": {
+      "family": "dependency",
+      "inverse": "mathematically_required_by",
+      "transitive": true,
+      "domain": [
+        "law",
+        "equation",
+        "model",
+        "quantity",
+        "concept",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "equation",
+        "phenomenon",
+        "unit",
+        "law"
+      ],
+      "status": "adopted"
+    },
+    "mathematically_required_by": {
+      "family": "dependency",
+      "inverse": "mathematically_requires",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "equation",
+        "phenomenon",
+        "unit",
+        "law"
+      ],
+      "range": [
+        "law",
+        "equation",
+        "model",
+        "quantity",
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "logically_requires": {
+      "family": "dependency",
+      "inverse": "logically_required_by",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon",
+        "unit"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon",
+        "unit"
+      ],
+      "status": "adopted"
+    },
+    "logically_required_by": {
+      "family": "dependency",
+      "inverse": "logically_requires",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon",
+        "unit"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon",
+        "unit"
+      ],
+      "status": "reserved"
+    },
+    "depends_on": {
+      "family": "dependency",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "causes": {
+      "family": "causal",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "model",
+        "law",
+        "concept"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "contributes_to": {
+      "family": "causal",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "model",
+        "law",
+        "concept"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "results_in": {
+      "family": "causal",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "concept",
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "influences": {
+      "family": "causal",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "concept",
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "concept",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "prevents": {
+      "family": "causal",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "concept",
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "explains": {
+      "family": "explanatory",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "law",
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "concept",
+        "law"
+      ],
+      "status": "reserved"
+    },
+    "accounts_for": {
+      "family": "explanatory",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "law",
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "predicted_by": {
+      "family": "explanatory",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "concept"
+      ],
+      "range": [
+        "law",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "supported_by": {
+      "family": "explanatory",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "law",
+        "model",
+        "concept"
+      ],
+      "range": [
+        "phenomenon",
+        "concept",
+        "law"
+      ],
+      "status": "reserved"
+    },
+    "evidenced_by": {
+      "family": "explanatory",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "law",
+        "model",
+        "concept"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "approximates": {
+      "family": "model",
+      "inverse": "approximated_by",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "model",
+        "equation",
+        "law",
+        "concept",
+        "phenomenon",
+        "quantity"
+      ],
+      "range": [
+        "phenomenon",
+        "model",
+        "law",
+        "equation",
+        "concept",
+        "quantity"
+      ],
+      "status": "adopted"
+    },
+    "approximated_by": {
+      "family": "model",
+      "inverse": "approximates",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "model",
+        "law",
+        "equation",
+        "concept",
+        "quantity"
+      ],
+      "range": [
+        "model",
+        "equation",
+        "law",
+        "concept",
+        "phenomenon",
+        "quantity"
+      ],
+      "status": "reserved"
+    },
+    "idealizes": {
+      "family": "model",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "extends": {
+      "family": "model",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "model",
+        "law"
+      ],
+      "range": [
+        "model",
+        "law"
+      ],
+      "status": "reserved"
+    },
+    "supersedes": {
+      "family": "model",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "model",
+        "law"
+      ],
+      "range": [
+        "model",
+        "law"
+      ],
+      "status": "reserved"
+    },
+    "simplifies": {
+      "family": "model",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "model",
+        "equation"
+      ],
+      "range": [
+        "model",
+        "equation"
+      ],
+      "status": "reserved"
+    },
+    "contradicts": {
+      "family": "conflict",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "range": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "inconsistent_with": {
+      "family": "conflict",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "range": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "competes_with": {
+      "family": "conflict",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "range": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "limited_by": {
+      "family": "conflict",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "range": [
+        "law",
+        "model",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "measures": {
+      "family": "measurement",
+      "inverse": "measured_by",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "experiment"
+      ],
+      "range": [
+        "quantity"
+      ],
+      "status": "reserved"
+    },
+    "measured_by": {
+      "family": "measurement",
+      "inverse": "measures",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "quantity"
+      ],
+      "range": [
+        "concept",
+        "experiment"
+      ],
+      "status": "reserved"
+    },
+    "quantifies": {
+      "family": "measurement",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "quantity"
+      ],
+      "range": [
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "expressed_in": {
+      "family": "measurement",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "quantity"
+      ],
+      "range": [
+        "unit"
+      ],
+      "status": "reserved"
+    },
+    "has_unit": {
+      "family": "measurement",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "quantity",
+        "concept"
+      ],
+      "range": [
+        "unit"
+      ],
+      "status": "reserved"
+    },
+    "enables": {
+      "family": "engineering",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "law",
+        "model",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "used_in": {
+      "family": "engineering",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "law",
+        "model",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "applied_to": {
+      "family": "engineering",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "law",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "implemented_by": {
+      "family": "engineering",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "model",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "analogous_to": {
+      "family": "analogy",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "concept",
+        "quantity",
+        "phenomenon",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "phenomenon",
+        "model"
+      ],
+      "status": "adopted"
+    },
+    "isomorphic_to": {
+      "family": "analogy",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "concept",
+        "quantity",
+        "phenomenon",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "phenomenon",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "corresponds_to": {
+      "family": "analogy",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "concept",
+        "phenomenon",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "phenomenon",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "bridges": {
+      "family": "cross_domain",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "concept",
+        "quantity",
+        "phenomenon",
+        "law",
+        "model",
+        "unit"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "phenomenon",
+        "law",
+        "model",
+        "unit"
+      ],
+      "status": "adopted"
+    },
+    "maps_to": {
+      "family": "cross_domain",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "phenomenon",
+        "law",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "phenomenon",
+        "law",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "manifestation_of": {
+      "family": "cross_domain",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "concept"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "shared_mechanism_with": {
+      "family": "cross_domain",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "phenomenon",
+        "concept",
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "concept",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "related_to": {
+      "family": "associative",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "unit",
+        "phenomenon",
+        "model",
+        "misconception"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "unit",
+        "phenomenon",
+        "model",
+        "misconception"
+      ],
+      "status": "adopted"
+    },
+    "derived_from": {
+      "family": "derivation",
+      "inverse": "is_basis_of",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "law",
+        "model",
+        "equation"
+      ],
+      "range": [
+        "concept",
+        "law",
+        "model",
+        "equation"
+      ],
+      "status": "adopted"
+    },
+    "is_basis_of": {
+      "family": "derivation",
+      "inverse": "derived_from",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "law",
+        "model",
+        "equation"
+      ],
+      "range": [
+        "concept",
+        "law",
+        "model",
+        "equation"
+      ],
+      "status": "reserved"
+    },
+    "appears_in_law": {
+      "family": "derivation",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "quantity",
+        "unit",
+        "phenomenon",
+        "model"
+      ],
+      "range": [
+        "law"
+      ],
+      "status": "adopted"
+    },
+    "applies_to": {
+      "family": "derivation",
+      "inverse": "governed_by",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "law"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "equation",
+        "phenomenon",
+        "model"
+      ],
+      "status": "adopted"
+    },
+    "governed_by": {
+      "family": "derivation",
+      "inverse": "applies_to",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "quantity",
+        "equation",
+        "phenomenon",
+        "model"
+      ],
+      "range": [
+        "law"
+      ],
+      "status": "reserved"
+    },
+    "equivalent_to": {
+      "family": "derivation",
+      "symmetric": true,
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "unit",
+        "phenomenon",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "unit",
+        "phenomenon",
+        "model"
+      ],
+      "status": "adopted"
+    },
+    "misconception_of": {
+      "family": "explanatory",
+      "symmetric": false,
+      "transitive": false,
+      "domain": [
+        "misconception"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "unit",
+        "phenomenon",
+        "model"
+      ],
+      "status": "adopted"
+    }
+  },
+  "vocabularies": {
+    "domains": [
+      "physics",
+      "chemistry",
+      "biology",
+      "earth-space",
+      "engineering",
+      "mathematics",
+      "scientific-practice"
+    ],
+    "subdomains": {
+      "physics": [
+        "mechanics",
+        "thermal-physics",
+        "electricity-magnetism",
+        "waves-optics",
+        "atomic-nuclear",
+        "measurement-units"
+      ],
+      "chemistry": [
+        "matter-foundations",
+        "atomic-structure-periodicity",
+        "bonding-structure",
+        "reactions-stoichiometry",
+        "acids-bases",
+        "electrochemistry-redox",
+        "equilibrium-kinetics",
+        "organic-chemistry",
+        "thermodynamics"
+      ],
+      "biology": [
+        "cell-biology",
+        "genetics-heredity",
+        "evolution-ecology",
+        "metabolism-processes",
+        "physiology"
+      ],
+      "earth-space": [
+        "atmosphere-climate",
+        "earth-systems-geology",
+        "space-cosmology"
+      ],
+      "engineering": [
+        "design-process"
+      ],
+      "scientific-practice": [
+        "inquiry-observation",
+        "epistemology-nature-of-science"
+      ],
+      "mathematics": [
+        "foundations",
+        "arithmetic",
+        "number-theory",
+        "algebra",
+        "geometry",
+        "measurement",
+        "statistics-probability",
+        "functions",
+        "calculus"
+      ]
+    },
+    "regimes": [
+      "classical",
+      "quantum",
+      "relativistic",
+      "statistical",
+      "nonrelativistic",
+      "equilibrium",
+      "nonequilibrium",
+      "macroscopic",
+      "microscopic",
+      "mesoscopic",
+      "continuum",
+      "discrete",
+      "low_velocity",
+      "high_velocity",
+      "weak_gravity",
+      "strong_gravity",
+      "moderate_pressure",
+      "high_temperature",
+      "low_temperature",
+      "none"
+    ],
+    "scales": [
+      "quantum",
+      "atomic",
+      "molecular",
+      "microscopic",
+      "macroscopic",
+      "astronomical",
+      "cosmological"
+    ]
+  },
+  "policy": "canonical",
+  "count": 2,
+  "connections": [
+    {
+      "id": "stemma:conn.000156",
+      "type": "connection",
+      "source": "stemma:phys.metre",
+      "relation": "derived_from",
+      "value": {
+        "amount": "299792458",
+        "lowerBound": null,
+        "upperBound": null,
+        "unit": "qudt:unit-MeterPerSecond"
+      },
+      "assertion": {
+        "status": "active",
+        "type": "asserted",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": 1.0,
+        "confidence_basis": "definitional"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "measurement-units",
+        "assumptions": [
+          "exact-defined-constant",
+          "speed-of-light-in-vacuum-fixed",
+          "role-unit-definition-fixed-constant (derived_from = the 2019 metre derives from the fixed c constant; dedicated value-claim relation reserved pending governance adoption)"
+        ]
+      },
+      "evidence": [
+        {
+          "type": "standard",
+          "stance": "supports",
+          "source_ref": "stemma:src.nist-si-brochure-9th",
+          "locator": "SI Brochure 9th ed. (2019) 2.3.1, p130-132: metre defined by taking fixed numerical value of c = 299792458 m s-1",
+          "locator_struct": {
+            "page": "130",
+            "section": "2.3.1"
+          },
+          "description": "2019 SI definition of the metre fixes the exact numerical value of the speed of light in vacuum."
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "human",
+          "id": "human:institution.wikidata-community"
+        },
+        "generated_by": {
+          "type": "llm",
+          "id": "llm:coding-agent.001"
+        },
+        "method": {
+          "type": "manual"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:institution.wikidata-community",
+            "authority": "delegated",
+            "delegated_provenance": {
+              "institution_id": "human:institution.wikidata-community",
+              "review_standard_url": "https://www.wikidata.org/wiki/Wikidata:Verifiability",
+              "review_standard_version": "v3.2",
+              "audit_date": "2026-09-22",
+              "sample_audit_rate": 0.1
+            }
+          },
+          {
+            "type": "human",
+            "id": "human:curator.001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:16:10.348782+00:00",
+            "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:18:15.323738+00:00",
+            "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-23T04:35:35.329049+00:00",
+            "reason": "pilot canonicalization"
+          }
+        ]
+      },
+      "claim_signature": "sha256:c84cf0ce9006ca6776f8864b5b653a85a6d8d27b480ef477386071d332f3ab00"
+    },
+    {
+      "id": "stemma:conn.000157",
+      "type": "connection",
+      "source": "stemma:phys.force",
+      "relation": "mathematically_requires",
+      "target": "stemma:phys.mass",
+      "assertion": {
+        "status": "active",
+        "type": "asserted",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": 1.0,
+        "confidence_basis": "expert_review"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "assumptions": [
+          "non-relativistic",
+          "inertial-reference-frame",
+          "constant-mass"
+        ]
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "stance": "supports",
+          "source_ref": "stemma:src.halliday-resnick-walker-12th",
+          "locator": "Ch 5, Newton's second law, net force = mass x acceleration",
+          "description": "Newton's second law quantifies force via mass."
+        },
+        {
+          "type": "other",
+          "stance": "supports",
+          "source_ref": "stemma:src.newton-principia-1687",
+          "locator": "Lex II",
+          "description": "Principia Lex II ties impressed force to change of motion (quantity of matter)."
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "llm",
+          "id": "llm:coding-agent.001"
+        },
+        "generated_by": {
+          "type": "llm",
+          "id": "llm:coding-agent.001"
+        },
+        "method": {
+          "type": "manual"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:curator.001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:16:10.390451+00:00",
+            "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:18:15.366572+00:00",
+            "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-23T04:35:35.389605+00:00",
+            "reason": "pilot canonicalization"
+          }
+        ]
+      },
+      "claim_signature": "sha256:5ef7c09f3a7927a4522a322893f6bd70a865899b90dd4abacd884d8d5f29887b"
+    }
+  ]
+}

@@ -1,0 +1,3 @@
+7c8cc10f5db9797b4ebab22b3f4c4d77c40b892d68bdeb44af863b847ae42814  knowledge.jsonld
+d76505bc1e0071719b2f473ccddff3355b39716aa7ff58a0dd9e5b1423b5e102  knowledge.canonical.json
+4e04df2820170c7227b033a84cbe8583748cf73a247aa3b2356189864ccec58c  stemma-shapes.ttl

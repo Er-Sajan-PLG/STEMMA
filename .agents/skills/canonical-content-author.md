@@ -38,7 +38,7 @@ jq '.entities[] | select(.name == "Name")' exports/knowledge.json
 ### 3. Write Entity Frontmatter (use template)
 ```markdown
 ---
-id: lhs:phys.force
+id: stemma:phys.force
 type: concept
 name: Force
 domain: physics
@@ -68,11 +68,11 @@ provenance:
   source: "IUPAP / Physics Curriculum Framework"
 relationships:
 - type: mathematically_requires
-  target: lhs:phys.mass
+  target: stemma:phys.mass
 - type: mathematically_requires
-  target: lhs:phys.acceleration
+  target: stemma:phys.acceleration
 - type: appears_in_law
-  target: lhs:phys.newtons-second-law
+  target: stemma:phys.newtons-second-law
 ---
 
 ## Notes
@@ -101,7 +101,7 @@ python3 scripts/validate.py
 
 ### 1. Locate Entity
 ```bash
-find content/ -name "*.md" -exec grep -l "lhs:phys.force" {} \;
+find content/ -name "*.md" -exec grep -l "stemma:phys.force" {} \;
 ```
 
 ### 2. Apply Identity Rules
@@ -131,13 +131,13 @@ python3 scripts/validate.py
 Add to `relationships:` array in entity file.
 
 ### 2. First-Class (Connection File)
-Create `connections/lhs:conn.NNNNNN.yaml`:
+Create `connections/stemma:conn.NNNNNN.yaml`:
 ```yaml
-id: lhs:conn.000655
+id: stemma:conn.000655
 type: connection
-source: lhs:phys.force
+source: stemma:phys.force
 relation: mathematically_requires
-target: lhs:phys.mass
+target: stemma:phys.mass
 assertion:
   status: active
   type: proposed

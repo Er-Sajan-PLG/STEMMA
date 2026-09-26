@@ -1,0 +1,41 @@
+# STEMMA projection shapes (R6 increment 2) — W3C SHACL contract for
+# exports/knowledge.jsonld. Enforced today by scripts/validate_shacl_shapes.py
+# (subset semantics, minimum tooling); the file itself is the portable
+# standards artifact for future SHACL engines.
+# External identifier base intentionally NOT referenced here — seeing the
+# amendment (ADR-0053 + 0001): stemma: IRIs are the bound scheme.
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix stemma: <stemma:> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+stemma:EntityShape a sh:NodeShape ;
+  sh:targetClass skos:Concept ;
+  sh:property [ sh:path stemma:status ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path skos:prefLabel ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path skos:definition ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path stemma:entityType ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] .
+
+stemma:QuantityShape a sh:NodeShape ;
+  sh:targetClass stemma:Quantity ;
+  sh:property [ sh:path stemma:quantityKind ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path stemma:tensorCharacter ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path stemma:sameDimensionalQuantities ; sh:minCount 1 ] ;
+  sh:property [ sh:path stemma:symbol ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path stemma:unit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] .
+
+stemma:UnitShape a sh:NodeShape ;
+  sh:targetClass stemma:Unit ;
+  sh:property [ sh:path stemma:sameDimensionalQuantities ; sh:minCount 1 ] ;
+  sh:property [ sh:path stemma:symbol ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path stemma:unit ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] .
+
+stemma:AssertionShape a sh:NodeShape ;
+  sh:targetClass stemma:Assertion ;
+  sh:property [ sh:path stemma:predicate ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path stemma:subject ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] ;
+  sh:property [ sh:path stemma:reviewStatus ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:string ] .
+# sameDimensionalQuantities is multi-valued (minCount only).
+# XOR rule (relational object vs value-slot value) is enforced in
+# scripts/validate_jsonld.py — SHACL core leaves arbitrary XOR to SPARQL
+# constraints; declarative version belongs to increment 3 (engine choice).

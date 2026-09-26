@@ -1,0 +1,1753 @@
+{
+  "export_version": "2.2.0",
+  "schema_version": "1.3.0",
+  "content_hash": "sha256:cbf17acdb11cb78dfa15171580dabe1000731a4f9ae4d3e6f11c4b910903e157",
+  "payload_sha256": "sha256:82b4ed411d7e7c0b57aca7cd9216028ab6b203ac89d653fc525a9e9549f5a9a7",
+  "consumer": "stemma-explorer",
+  "consumer_profile": {
+    "label": "STEMMA Explorer (Reference 3D Graph)",
+    "domains": "all",
+    "subdomains": "all",
+    "entity_types": "all",
+    "review_policy": "all",
+    "recommended_embedding_model": null
+  },
+  "source": "content/ + connections/ + sources/ (canonical)",
+  "kernel_version": "3.0.0",
+  "relation_registry_version": "1.0.0",
+  "relation_registry": {
+    "part_of": {
+      "family": "structural",
+      "inverse": "has_part",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "phenomenon",
+        "model",
+        "quantity"
+      ],
+      "range": [
+        "concept",
+        "phenomenon",
+        "model",
+        "quantity"
+      ],
+      "status": "adopted"
+    },
+    "has_part": {
+      "family": "structural",
+      "inverse": "part_of",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "phenomenon",
+        "model",
+        "quantity"
+      ],
+      "range": [
+        "concept",
+        "phenomenon",
+        "model",
+        "quantity"
+      ],
+      "status": "reserved"
+    },
+    "composed_of": {
+      "family": "structural",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "model",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "generalizes": {
+      "family": "hierarchical",
+      "inverse": "special_case_of",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "law",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "law",
+        "model"
+      ],
+      "status": "adopted"
+    },
+    "special_case_of": {
+      "family": "hierarchical",
+      "inverse": "generalizes",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "law",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "law",
+        "model"
+      ],
+      "status": "adopted"
+    },
+    "requires": {
+      "family": "dependency",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "prerequisite_of": {
+      "family": "dependency",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "mathematically_requires": {
+      "family": "dependency",
+      "inverse": "mathematically_required_by",
+      "transitive": true,
+      "domain": [
+        "law",
+        "equation",
+        "model",
+        "quantity",
+        "concept",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "equation",
+        "phenomenon",
+        "unit",
+        "law"
+      ],
+      "status": "adopted"
+    },
+    "mathematically_required_by": {
+      "family": "dependency",
+      "inverse": "mathematically_requires",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "equation",
+        "phenomenon",
+        "unit",
+        "law"
+      ],
+      "range": [
+        "law",
+        "equation",
+        "model",
+        "quantity",
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "logically_requires": {
+      "family": "dependency",
+      "inverse": "logically_required_by",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon",
+        "unit"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon",
+        "unit"
+      ],
+      "status": "adopted"
+    },
+    "logically_required_by": {
+      "family": "dependency",
+      "inverse": "logically_requires",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon",
+        "unit"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon",
+        "unit"
+      ],
+      "status": "reserved"
+    },
+    "depends_on": {
+      "family": "dependency",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "model",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "causes": {
+      "family": "causal",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "model",
+        "law",
+        "concept"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "contributes_to": {
+      "family": "causal",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "model",
+        "law",
+        "concept"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "results_in": {
+      "family": "causal",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "concept",
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "influences": {
+      "family": "causal",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "concept",
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "concept",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "prevents": {
+      "family": "causal",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "concept",
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "explains": {
+      "family": "explanatory",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "law",
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "concept",
+        "law"
+      ],
+      "status": "reserved"
+    },
+    "accounts_for": {
+      "family": "explanatory",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "law",
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "predicted_by": {
+      "family": "explanatory",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "concept"
+      ],
+      "range": [
+        "law",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "supported_by": {
+      "family": "explanatory",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "law",
+        "model",
+        "concept"
+      ],
+      "range": [
+        "phenomenon",
+        "concept",
+        "law"
+      ],
+      "status": "reserved"
+    },
+    "evidenced_by": {
+      "family": "explanatory",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "law",
+        "model",
+        "concept"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "approximates": {
+      "family": "model",
+      "inverse": "approximated_by",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "model",
+        "equation",
+        "law",
+        "concept",
+        "phenomenon",
+        "quantity"
+      ],
+      "range": [
+        "phenomenon",
+        "model",
+        "law",
+        "equation",
+        "concept",
+        "quantity"
+      ],
+      "status": "adopted"
+    },
+    "approximated_by": {
+      "family": "model",
+      "inverse": "approximates",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "model",
+        "law",
+        "equation",
+        "concept",
+        "quantity"
+      ],
+      "range": [
+        "model",
+        "equation",
+        "law",
+        "concept",
+        "phenomenon",
+        "quantity"
+      ],
+      "status": "reserved"
+    },
+    "idealizes": {
+      "family": "model",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "extends": {
+      "family": "model",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "model",
+        "law"
+      ],
+      "range": [
+        "model",
+        "law"
+      ],
+      "status": "reserved"
+    },
+    "supersedes": {
+      "family": "model",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "model",
+        "law"
+      ],
+      "range": [
+        "model",
+        "law"
+      ],
+      "status": "reserved"
+    },
+    "simplifies": {
+      "family": "model",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "model",
+        "equation"
+      ],
+      "range": [
+        "model",
+        "equation"
+      ],
+      "status": "reserved"
+    },
+    "contradicts": {
+      "family": "conflict",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "range": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "inconsistent_with": {
+      "family": "conflict",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "range": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "competes_with": {
+      "family": "conflict",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "range": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "limited_by": {
+      "family": "conflict",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "law",
+        "model",
+        "concept",
+        "phenomenon"
+      ],
+      "range": [
+        "law",
+        "model",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "measures": {
+      "family": "measurement",
+      "inverse": "measured_by",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "experiment"
+      ],
+      "range": [
+        "quantity"
+      ],
+      "status": "reserved"
+    },
+    "measured_by": {
+      "family": "measurement",
+      "inverse": "measures",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "quantity"
+      ],
+      "range": [
+        "concept",
+        "experiment"
+      ],
+      "status": "reserved"
+    },
+    "quantifies": {
+      "family": "measurement",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "quantity"
+      ],
+      "range": [
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "expressed_in": {
+      "family": "measurement",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "quantity"
+      ],
+      "range": [
+        "unit"
+      ],
+      "status": "reserved"
+    },
+    "has_unit": {
+      "family": "measurement",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "quantity",
+        "concept"
+      ],
+      "range": [
+        "unit"
+      ],
+      "status": "reserved"
+    },
+    "enables": {
+      "family": "engineering",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "law",
+        "model",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "used_in": {
+      "family": "engineering",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "law",
+        "model",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "applied_to": {
+      "family": "engineering",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "law",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "phenomenon"
+      ],
+      "status": "reserved"
+    },
+    "implemented_by": {
+      "family": "engineering",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "model",
+        "phenomenon"
+      ],
+      "range": [
+        "concept",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "analogous_to": {
+      "family": "analogy",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "concept",
+        "quantity",
+        "phenomenon",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "phenomenon",
+        "model"
+      ],
+      "status": "adopted"
+    },
+    "isomorphic_to": {
+      "family": "analogy",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "concept",
+        "quantity",
+        "phenomenon",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "phenomenon",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "corresponds_to": {
+      "family": "analogy",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "concept",
+        "phenomenon",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "phenomenon",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "bridges": {
+      "family": "cross_domain",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "concept",
+        "quantity",
+        "phenomenon",
+        "law",
+        "model",
+        "unit"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "phenomenon",
+        "law",
+        "model",
+        "unit"
+      ],
+      "status": "adopted"
+    },
+    "maps_to": {
+      "family": "cross_domain",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "phenomenon",
+        "law",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "phenomenon",
+        "law",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "manifestation_of": {
+      "family": "cross_domain",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "phenomenon",
+        "concept"
+      ],
+      "range": [
+        "phenomenon",
+        "concept"
+      ],
+      "status": "reserved"
+    },
+    "shared_mechanism_with": {
+      "family": "cross_domain",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "phenomenon",
+        "concept",
+        "model"
+      ],
+      "range": [
+        "phenomenon",
+        "concept",
+        "model"
+      ],
+      "status": "reserved"
+    },
+    "related_to": {
+      "family": "associative",
+      "symmetric": true,
+      "transitive": false,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "unit",
+        "phenomenon",
+        "model",
+        "misconception"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "unit",
+        "phenomenon",
+        "model",
+        "misconception"
+      ],
+      "status": "adopted"
+    },
+    "derived_from": {
+      "family": "derivation",
+      "inverse": "is_basis_of",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "law",
+        "model",
+        "equation"
+      ],
+      "range": [
+        "concept",
+        "law",
+        "model",
+        "equation"
+      ],
+      "status": "adopted"
+    },
+    "is_basis_of": {
+      "family": "derivation",
+      "inverse": "derived_from",
+      "transitive": true,
+      "domain": [
+        "concept",
+        "law",
+        "model",
+        "equation"
+      ],
+      "range": [
+        "concept",
+        "law",
+        "model",
+        "equation"
+      ],
+      "status": "reserved"
+    },
+    "appears_in_law": {
+      "family": "derivation",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "quantity",
+        "unit",
+        "phenomenon",
+        "model"
+      ],
+      "range": [
+        "law"
+      ],
+      "status": "adopted"
+    },
+    "applies_to": {
+      "family": "derivation",
+      "inverse": "governed_by",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "law"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "equation",
+        "phenomenon",
+        "model"
+      ],
+      "status": "adopted"
+    },
+    "governed_by": {
+      "family": "derivation",
+      "inverse": "applies_to",
+      "transitive": false,
+      "symmetric": false,
+      "domain": [
+        "concept",
+        "quantity",
+        "equation",
+        "phenomenon",
+        "model"
+      ],
+      "range": [
+        "law"
+      ],
+      "status": "reserved"
+    },
+    "equivalent_to": {
+      "family": "derivation",
+      "symmetric": true,
+      "transitive": true,
+      "domain": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "unit",
+        "phenomenon",
+        "model"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "unit",
+        "phenomenon",
+        "model"
+      ],
+      "status": "adopted"
+    },
+    "misconception_of": {
+      "family": "explanatory",
+      "symmetric": false,
+      "transitive": false,
+      "domain": [
+        "misconception"
+      ],
+      "range": [
+        "concept",
+        "quantity",
+        "law",
+        "equation",
+        "unit",
+        "phenomenon",
+        "model"
+      ],
+      "status": "adopted"
+    }
+  },
+  "vocabularies": {
+    "domains": [
+      "physics",
+      "chemistry",
+      "biology",
+      "earth-space",
+      "engineering",
+      "mathematics",
+      "scientific-practice"
+    ],
+    "subdomains": {
+      "physics": [
+        "mechanics",
+        "thermal-physics",
+        "electricity-magnetism",
+        "waves-optics",
+        "atomic-nuclear",
+        "measurement-units"
+      ],
+      "chemistry": [
+        "matter-foundations",
+        "atomic-structure-periodicity",
+        "bonding-structure",
+        "reactions-stoichiometry",
+        "acids-bases",
+        "electrochemistry-redox",
+        "equilibrium-kinetics",
+        "organic-chemistry",
+        "thermodynamics"
+      ],
+      "biology": [
+        "cell-biology",
+        "genetics-heredity",
+        "evolution-ecology",
+        "metabolism-processes",
+        "physiology"
+      ],
+      "earth-space": [
+        "atmosphere-climate",
+        "earth-systems-geology",
+        "space-cosmology"
+      ],
+      "engineering": [
+        "design-process"
+      ],
+      "scientific-practice": [
+        "inquiry-observation",
+        "epistemology-nature-of-science"
+      ],
+      "mathematics": [
+        "foundations",
+        "arithmetic",
+        "number-theory",
+        "algebra",
+        "geometry",
+        "measurement",
+        "statistics-probability",
+        "functions",
+        "calculus"
+      ]
+    },
+    "regimes": [
+      "classical",
+      "quantum",
+      "relativistic",
+      "statistical",
+      "nonrelativistic",
+      "equilibrium",
+      "nonequilibrium",
+      "macroscopic",
+      "microscopic",
+      "mesoscopic",
+      "continuum",
+      "discrete",
+      "low_velocity",
+      "high_velocity",
+      "weak_gravity",
+      "strong_gravity",
+      "moderate_pressure",
+      "high_temperature",
+      "low_temperature",
+      "none"
+    ],
+    "scales": [
+      "quantum",
+      "atomic",
+      "molecular",
+      "microscopic",
+      "macroscopic",
+      "astronomical",
+      "cosmological"
+    ]
+  },
+  "entity_count": 9,
+  "connection_count": 2,
+  "source_count": 3,
+  "entities": [
+    {
+      "id": "stemma:phys.conservation-energy",
+      "type": "law",
+      "name": "Conservation of Energy",
+      "domain": "physics",
+      "subdomain": "mechanics",
+      "status": "canonical",
+      "definition": "Conservation of energy: for an isolated system the total energy — summed over all forms (kinetic, potential, thermal, chemical, nuclear, ...) — remains constant in time; energy transforms between forms but is neither created nor destroyed. Historical line: Mayer (1842), Joule (1843), Helmholtz (1847, 'Über die Erhaltung der Kraft'); standard statement per Halliday, Resnick, Walker 12th ed., Ch 8.",
+      "symbol": "E_total = const",
+      "same_dimensional_quantities": null,
+      "governed_by": [
+        "stemma:phys.newtons-second-law",
+        "stemma:phys.dimensional-analysis"
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "writer": "llm:coding-agent.001",
+        "source_kind": "textbook",
+        "source": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 8 (potential energy and conservation of energy in isolated systems).",
+        "link": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511",
+        "original_author": "Mayer, Joule, Helmholtz",
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-23T04:35:20.283368+00:00"
+      },
+      "source_refs": [
+        "stemma:src.halliday-resnick-walker-12th"
+      ],
+      "external_ids": {
+        "wd": "Q11382"
+      },
+      "historical": {
+        "stated_by": "Julius Robert Mayer / Hermann von Helmholtz",
+        "year": 1847,
+        "where": "Helmholtz, Über die Erhaltung der Kraft",
+        "timeline": [
+          {
+            "year": 1842,
+            "by": "Julius Robert Mayer",
+            "event": "First statement of energy conservation (work-heat equivalence)"
+          },
+          {
+            "year": 1843,
+            "by": "James Prescott Joule",
+            "event": "Experimental mechanical equivalent of heat"
+          },
+          {
+            "year": 1847,
+            "by": "Hermann von Helmholtz",
+            "event": "Über die Erhaltung der Kraft — formal statement of energy conservation"
+          }
+        ]
+      }
+    },
+    {
+      "id": "stemma:phys.force",
+      "type": "quantity",
+      "name": "Force",
+      "domain": "physics",
+      "subdomain": "mechanics",
+      "status": "canonical",
+      "definition": "Force is the derived physical quantity of mechanical interaction: the net force on a body equals the time rate of change of its linear momentum, F = dp/dt (Newton, Principia Lex II); for constant mass this reduces to F = m a. Force is a vector quantity — it has magnitude and direction and adds by vector addition (net force = vector sum). SI derived unit: the newton, N = kg m s-2. Reference: Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5; Newton, Principia (1687), Lex II.",
+      "quantity_kind": "derived",
+      "tensor_character": "vector",
+      "symbol": "F",
+      "unit": "newton (N = kg m s-2)",
+      "same_dimensional_quantities": [
+        "weight",
+        "tension",
+        "friction",
+        "normal force",
+        "buoyant force",
+        "thrust",
+        "drag"
+      ],
+      "governed_by": [
+        "stemma:phys.dimensional-analysis",
+        "stemma:phys.newtons-second-law"
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "writer": "llm:coding-agent.001",
+        "source_kind": "textbook",
+        "source": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5: net force ΣF = m a; Principia (1687), Lex II: mutationem motus proportionalem esse vi motrici impressae.",
+        "link": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511",
+        "original_author": "Halliday, Resnick, Walker",
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-23T04:35:19.890893+00:00"
+      },
+      "source_refs": [
+        "stemma:src.halliday-resnick-walker-12th",
+        "stemma:src.newton-principia-1687"
+      ],
+      "external_ids": {
+        "wd": "Q14038"
+      },
+      "historical": {
+        "stated_by": "Halliday, Resnick, Walker",
+        "year": 1687,
+        "where": "Principia, Lex II"
+      }
+    },
+    {
+      "id": "stemma:phys.kilogram",
+      "type": "unit",
+      "name": "Kilogram",
+      "domain": "physics",
+      "subdomain": "measurement-units",
+      "status": "draft",
+      "definition": "The kilogram (symbol: kg) is the SI base unit of mass. It is defined by taking the fixed numerical value of the Planck constant h to be exactly 6.62607015e-34 when expressed in the unit joule second, J s, which is equal to kg m2 s-1, where the metre and the second are defined in terms of c and ΔνCs. Exact per BIPM definition of the kilogram (SI Brochure 9th ed., 2019, §2.3.1.2; the text of the 26th CGPM 2018, Resolution 1).",
+      "symbol": "kg",
+      "unit": "kilogram (kg)",
+      "same_dimensional_quantities": [
+        "inertial mass",
+        "gravitational mass",
+        "rest mass"
+      ],
+      "governed_by": [
+        "stemma:phys.si-definitions",
+        "stemma:phys.dimensional-analysis"
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "writer": "llm:coding-agent.001",
+        "source_kind": "standards-or-specification",
+        "source": "BIPM SI Brochure 9th ed. (2019) §2.3.1.2: the kilogram is defined by the fixed numerical value h = 6.62607015e-34 J s (kg m2 s-1), metre and second defined via c and ΔνCs.",
+        "link": "https://www.bipm.org/en/publications/si-brochure",
+        "original_author": "BIPM",
+        "retrieved_at": "2026-09-23"
+      },
+      "source_refs": [
+        "stemma:src.nist-si-brochure-9th"
+      ],
+      "external_ids": {
+        "wd": "Q11570"
+      },
+      "historical": {
+        "stated_by": "BIPM",
+        "year": 2019,
+        "where": "SI Brochure 9th ed."
+      }
+    },
+    {
+      "id": "stemma:phys.length",
+      "type": "quantity",
+      "name": "Length",
+      "domain": "physics",
+      "subdomain": "measurement-units",
+      "status": "canonical",
+      "definition": "Length is the SI base physical quantity of spatial extent — the measure of one-dimensional distance between two points in space. The metre is the unit in which length is expressed: 1 m = the length of the path travelled by light in vacuum during 1/299,792,458 of a second (c fixed exact). Agreed per BIPM SI Brochure 9th ed. (2019), base quantities table; §2.3.1.",
+      "symbol": "L",
+      "unit": "metre (m)",
+      "same_dimensional_quantities": [
+        "width",
+        "height",
+        "displacement magnitude",
+        "wavelength",
+        "radius",
+        "thickness"
+      ],
+      "quantity_kind": "base",
+      "tensor_character": "scalar",
+      "governed_by": [
+        "stemma:phys.si-definitions",
+        "stemma:phys.dimensional-analysis"
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "writer": "llm:coding-agent.001",
+        "source_kind": "standards-or-specification",
+        "source": "BIPM SI Brochure 9th ed. (2019): among the seven SI base quantities, length with base unit metre; metre defined by fixed numerical value of c in vacuum (2.3.1).",
+        "link": "https://www.bipm.org/en/publications/si-brochure",
+        "original_author": "BIPM",
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-23T04:35:19.964859+00:00"
+      },
+      "source_refs": [
+        "stemma:src.nist-si-brochure-9th"
+      ],
+      "external_ids": {
+        "wd": "Q11433"
+      },
+      "historical": {
+        "stated_by": "BIPM",
+        "year": 2019,
+        "where": "SI Brochure 9th ed."
+      }
+    },
+    {
+      "id": "stemma:phys.mass",
+      "type": "quantity",
+      "name": "Mass",
+      "domain": "physics",
+      "subdomain": "measurement-units",
+      "status": "canonical",
+      "definition": "Mass is the SI base physical quantity measuring a body's inertia and its quantity of matter. Its SI unit, the kilogram, is defined by taking the fixed numerical value of the Planck constant h to be exactly 6.62607015e-34 when expressed in J s = kg m2 s-1, with the metre and second as separately defined (SI 2019 redefinition). Agreed per BIPM SI Brochure 9th ed. (2019) §2.3.1.",
+      "symbol": "M",
+      "unit": "kilogram (kg)",
+      "same_dimensional_quantities": [
+        "inertial mass",
+        "gravitational mass",
+        "rest mass"
+      ],
+      "quantity_kind": "base",
+      "tensor_character": "scalar",
+      "governed_by": [
+        "stemma:phys.si-definitions",
+        "stemma:phys.dimensional-analysis"
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "writer": "llm:coding-agent.001",
+        "source_kind": "standards-or-specification",
+        "source": "BIPM SI Brochure 9th ed. (2019): mass among the seven SI base quantities; kilogram defined by fixed h = 6.62607015e-34 kg m2 s-1 (2.3.1).",
+        "link": "https://www.bipm.org/en/publications/si-brochure",
+        "original_author": "BIPM",
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-23T04:35:20.044882+00:00"
+      },
+      "source_refs": [
+        "stemma:src.nist-si-brochure-9th"
+      ],
+      "external_ids": {
+        "wd": "Q11423"
+      },
+      "historical": {
+        "stated_by": "BIPM",
+        "year": 2019,
+        "where": "SI Brochure 9th ed."
+      }
+    },
+    {
+      "id": "stemma:phys.metre",
+      "type": "unit",
+      "name": "Metre",
+      "domain": "physics",
+      "subdomain": "measurement-units",
+      "status": "canonical",
+      "definition": "The metre (symbol: m) is the base unit of length in the International System of Units (SI). It is scientifically defined as the length of the path travelled by light in a vacuum during a time interval of 1/299,792,458 of a second. Exact: c=299,792,458 m/s. Agreed per BIPM SI Brochure 9th ed. 2019 redefinition, fixing c exact.",
+      "symbol": "m",
+      "unit": "metre (m)",
+      "same_dimensional_quantities": [
+        "distance",
+        "width",
+        "height",
+        "displacement",
+        "wavelength",
+        "radius"
+      ],
+      "governed_by": [
+        "stemma:phys.si-definitions",
+        "stemma:phys.dimensional-analysis"
+      ],
+      "provenance": {
+        "ai_drafted": false,
+        "writer": "human:curator.001",
+        "source_kind": "standards-or-specification",
+        "source": "BIPM SI Brochure 9th ed. (2019) §2.3.1, p130-132: The metre, symbol m, is the SI unit of length. It is defined by taking the fixed numerical value of the speed of light in vacuum c to be 299792458 when expressed in m s-1. Exact: c=299,792,458 m/s. Agreed internationally.",
+        "link": "https://www.bipm.org/en/publications/si-brochure",
+        "original_author": "BIPM",
+        "retrieved_at": "2026-09-21",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-23T04:35:19.817235+00:00"
+      },
+      "source_refs": [
+        "stemma:src.nist-si-brochure-9th"
+      ],
+      "external_ids": {
+        "wd": "Q11573",
+        "qudt": "unit-M"
+      },
+      "historical": {
+        "stated_by": "BIPM",
+        "year": 2019,
+        "where": "SI Brochure 9th ed.",
+        "timeline": [
+          {
+            "year": 1983,
+            "by": "BIPM",
+            "event": "Metre defined via c=299,792,458 m/s"
+          },
+          {
+            "year": 2019,
+            "by": "BIPM",
+            "event": "SI redefinition with fixed constants, c exact"
+          }
+        ]
+      }
+    },
+    {
+      "id": "stemma:phys.newtons-second-law",
+      "type": "law",
+      "name": "Newton's Second Law",
+      "domain": "physics",
+      "subdomain": "mechanics",
+      "status": "canonical",
+      "definition": "Newton's second law of motion: the net external force on a system equals the time rate of change of its total linear momentum, ΣF = dp/dt; for constant mass this reduces to F = m a. Valid in classical (non-relativistic) mechanics in inertial reference frames. Stated by Isaac Newton as Lex II in Philosophiae Naturalis Principia Mathematica (1687); standard modern formulation per Halliday, Resnick, Walker 12th ed., Ch 5.",
+      "symbol": "F_net = m a",
+      "same_dimensional_quantities": null,
+      "governed_by": [
+        "stemma:phys.conservation-momentum",
+        "stemma:phys.dimensional-analysis"
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "writer": "llm:coding-agent.001",
+        "source_kind": "textbook",
+        "source": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5 (Newton second law, force and momentum); Principia (1687), Lex II.",
+        "link": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511",
+        "original_author": "Isaac Newton",
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-23T04:35:20.201837+00:00"
+      },
+      "source_refs": [
+        "stemma:src.halliday-resnick-walker-12th",
+        "stemma:src.newton-principia-1687"
+      ],
+      "external_ids": {
+        "wd": "Q104212301"
+      },
+      "historical": {
+        "stated_by": "Isaac Newton",
+        "year": 1687,
+        "where": "Principia, Lex II",
+        "timeline": [
+          {
+            "year": 1687,
+            "by": "Isaac Newton",
+            "event": "Principia Lex II: mutationem motus proportionalem esse vi motrici impressae"
+          },
+          {
+            "year": 1820,
+            "by": "Momentum-era formulation",
+            "event": "dsp/dt form standardized in classical mechanics texts"
+          },
+          {
+            "year": 2019,
+            "by": "SI 2019",
+            "event": "F = m a expressed with exact SI definitions (N = kg m s-2)"
+          }
+        ]
+      }
+    },
+    {
+      "id": "stemma:phys.second",
+      "type": "unit",
+      "name": "Second",
+      "domain": "physics",
+      "subdomain": "measurement-units",
+      "status": "draft",
+      "definition": "The second (symbol: s) is the SI base unit of time. It is defined by taking the fixed numerical value of the caesium frequency ΔνCs, the unperturbed ground-state hyperfine transition frequency of the caesium-133 atom, to be exactly 9,192,631,770 when expressed in the unit hertz, which is equal to s-1. Exact per BIPM definition of the second (SI Brochure 9th ed., 2019, §2.3.1.1; the text of the 26th CGPM 2018, Resolution 1).",
+      "symbol": "s",
+      "unit": "second (s)",
+      "same_dimensional_quantities": [
+        "duration",
+        "period",
+        "half-life",
+        "age"
+      ],
+      "governed_by": [
+        "stemma:phys.si-definitions",
+        "stemma:phys.dimensional-analysis"
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "writer": "llm:coding-agent.001",
+        "source_kind": "standards-or-specification",
+        "source": "BIPM SI Brochure 9th ed. (2019) §2.3.1.1: the second is defined by the fixed numerical value of ΔνCs = 9,192,631,770 Hz (unperturbed hyperfine transition of Cs-133).",
+        "link": "https://www.bipm.org/en/publications/si-brochure",
+        "original_author": "BIPM",
+        "retrieved_at": "2026-09-23"
+      },
+      "source_refs": [
+        "stemma:src.nist-si-brochure-9th"
+      ],
+      "external_ids": {
+        "wd": "Q11574"
+      },
+      "historical": {
+        "stated_by": "BIPM",
+        "year": 2019,
+        "where": "SI Brochure 9th ed."
+      }
+    },
+    {
+      "id": "stemma:phys.time",
+      "type": "quantity",
+      "name": "Time",
+      "domain": "physics",
+      "subdomain": "measurement-units",
+      "status": "canonical",
+      "definition": "Time is the SI base physical quantity of duration and temporal sequence. Its SI unit, the second, is defined by taking the fixed numerical value of the caesium frequency ΔνCs — the unperturbed ground-state hyperfine transition frequency of the caesium-133 atom — to be exactly 9,192,631,770 hertz (Hz = s-1): one second is the duration of 9,192,631,770 periods of the radiation corresponding to that transition. Exact per BIPM SI Brochure 9th ed. (2019) §2.3.1.",
+      "symbol": "T",
+      "unit": "second (s)",
+      "same_dimensional_quantities": [
+        "duration",
+        "period",
+        "half-life",
+        "age"
+      ],
+      "quantity_kind": "base",
+      "tensor_character": "scalar",
+      "governed_by": [
+        "stemma:phys.si-definitions",
+        "stemma:phys.dimensional-analysis"
+      ],
+      "provenance": {
+        "ai_drafted": true,
+        "writer": "llm:coding-agent.001",
+        "source_kind": "standards-or-specification",
+        "source": "BIPM SI Brochure 9th ed. (2019): time among the seven SI base quantities; second defined by fixed ΔνCs = 9,192,631,770 Hz (2.3.1).",
+        "link": "https://www.bipm.org/en/publications/si-brochure",
+        "original_author": "BIPM",
+        "retrieved_at": "2026-09-22",
+        "reviewer": "human:curator.001",
+        "reviewed_at": "2026-09-23T04:35:20.127988+00:00"
+      },
+      "source_refs": [
+        "stemma:src.nist-si-brochure-9th"
+      ],
+      "external_ids": {
+        "wd": "Q11551"
+      },
+      "historical": {
+        "stated_by": "BIPM",
+        "year": 2019,
+        "where": "SI Brochure 9th ed."
+      }
+    }
+  ],
+  "connections": [
+    {
+      "id": "stemma:conn.000156",
+      "type": "connection",
+      "source": "stemma:phys.metre",
+      "relation": "derived_from",
+      "value": {
+        "amount": "299792458",
+        "lowerBound": null,
+        "upperBound": null,
+        "unit": "qudt:unit-MeterPerSecond"
+      },
+      "assertion": {
+        "status": "active",
+        "type": "asserted",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": 1.0,
+        "confidence_basis": "definitional"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "measurement-units",
+        "assumptions": [
+          "exact-defined-constant",
+          "speed-of-light-in-vacuum-fixed",
+          "role-unit-definition-fixed-constant (derived_from = the 2019 metre derives from the fixed c constant; dedicated value-claim relation reserved pending governance adoption)"
+        ]
+      },
+      "evidence": [
+        {
+          "type": "standard",
+          "stance": "supports",
+          "source_ref": "stemma:src.nist-si-brochure-9th",
+          "locator": "SI Brochure 9th ed. (2019) 2.3.1, p130-132: metre defined by taking fixed numerical value of c = 299792458 m s-1",
+          "locator_struct": {
+            "page": "130",
+            "section": "2.3.1"
+          },
+          "description": "2019 SI definition of the metre fixes the exact numerical value of the speed of light in vacuum."
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "human",
+          "id": "human:institution.wikidata-community"
+        },
+        "generated_by": {
+          "type": "llm",
+          "id": "llm:coding-agent.001"
+        },
+        "method": {
+          "type": "manual"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:institution.wikidata-community",
+            "authority": "delegated",
+            "delegated_provenance": {
+              "institution_id": "human:institution.wikidata-community",
+              "review_standard_url": "https://www.wikidata.org/wiki/Wikidata:Verifiability",
+              "review_standard_version": "v3.2",
+              "audit_date": "2026-09-22",
+              "sample_audit_rate": 0.1
+            }
+          },
+          {
+            "type": "human",
+            "id": "human:curator.001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:16:10.348782+00:00",
+            "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:18:15.323738+00:00",
+            "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-23T04:35:35.329049+00:00",
+            "reason": "pilot canonicalization"
+          }
+        ]
+      },
+      "claim_signature": "sha256:c84cf0ce9006ca6776f8864b5b653a85a6d8d27b480ef477386071d332f3ab00"
+    },
+    {
+      "id": "stemma:conn.000157",
+      "type": "connection",
+      "source": "stemma:phys.force",
+      "relation": "mathematically_requires",
+      "target": "stemma:phys.mass",
+      "assertion": {
+        "status": "active",
+        "type": "asserted",
+        "review": {
+          "status": "canonical"
+        },
+        "confidence": 1.0,
+        "confidence_basis": "expert_review"
+      },
+      "context": {
+        "domain": "physics",
+        "subdomain": "mechanics",
+        "regime": [
+          "classical"
+        ],
+        "assumptions": [
+          "non-relativistic",
+          "inertial-reference-frame",
+          "constant-mass"
+        ]
+      },
+      "evidence": [
+        {
+          "type": "textbook",
+          "stance": "supports",
+          "source_ref": "stemma:src.halliday-resnick-walker-12th",
+          "locator": "Ch 5, Newton's second law, net force = mass x acceleration",
+          "description": "Newton's second law quantifies force via mass."
+        },
+        {
+          "type": "other",
+          "stance": "supports",
+          "source_ref": "stemma:src.newton-principia-1687",
+          "locator": "Lex II",
+          "description": "Principia Lex II ties impressed force to change of motion (quantity of matter)."
+        }
+      ],
+      "provenance": {
+        "asserted_by": {
+          "type": "llm",
+          "id": "llm:coding-agent.001"
+        },
+        "generated_by": {
+          "type": "llm",
+          "id": "llm:coding-agent.001"
+        },
+        "method": {
+          "type": "manual"
+        },
+        "reviewed_by": [
+          {
+            "type": "human",
+            "id": "human:curator.001"
+          }
+        ],
+        "review_history": [
+          {
+            "from": "unreviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:16:10.390451+00:00",
+            "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "reviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-22T12:18:15.366572+00:00",
+            "reason": "transition to reviewed"
+          },
+          {
+            "from": "reviewed",
+            "to": "canonical",
+            "reviewer": "human:curator.001",
+            "at": "2026-09-23T04:35:35.389605+00:00",
+            "reason": "pilot canonicalization"
+          }
+        ]
+      },
+      "claim_signature": "sha256:5ef7c09f3a7927a4522a322893f6bd70a865899b90dd4abacd884d8d5f29887b"
+    }
+  ],
+  "sources": [
+    {
+      "id": "stemma:src.halliday-resnick-walker-12th",
+      "type": "textbook",
+      "citation": "Halliday, D., Resnick, R., & Walker, J. (2021). Fundamentals of Physics (12th ed.). Wiley.",
+      "title": "Fundamentals of Physics",
+      "authors": [
+        "David Halliday",
+        "Robert Resnick",
+        "Jearl Walker"
+      ],
+      "year": 2021,
+      "publisher": "Wiley",
+      "edition": "12th",
+      "isbn": "978-1119801128",
+      "url": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119801128",
+      "language": "en",
+      "source_role": "primary",
+      "writer": "human:curator.001",
+      "retrieved_at": "2026-09-21"
+    },
+    {
+      "id": "stemma:src.newton-principia-1687",
+      "type": "other",
+      "citation": "Newton, I. (1687). Philosophiæ Naturalis Principia Mathematica. London.",
+      "title": "Philosophiæ Naturalis Principia Mathematica",
+      "authors": [
+        "Isaac Newton"
+      ],
+      "year": 1687,
+      "publisher": "Royal Society",
+      "url": "https://cudl.lib.cam.ac.uk/view/PR-ADV-B-00039-00001-00008/1",
+      "language": "la",
+      "source_role": "primary",
+      "writer": "human:curator.001",
+      "retrieved_at": "2026-09-21"
+    },
+    {
+      "id": "stemma:src.nist-si-brochure-9th",
+      "type": "standard",
+      "citation": "BIPM (2019). The International System of Units (SI), 9th edition. Bureau International des Poids et Mesures.",
+      "title": "The International System of Units (SI) Brochure, 9th edition",
+      "authors": [
+        "BIPM"
+      ],
+      "year": 2019,
+      "publisher": "BIPM",
+      "url": "https://www.bipm.org/en/publications/si-brochure",
+      "language": "en",
+      "source_role": "primary",
+      "writer": "human:curator.001",
+      "retrieved_at": "2026-09-21"
+    }
+  ]
+}

@@ -8,7 +8,7 @@
 
 > **STEMMA is an open, structured, reusable STEM knowledge foundation.**
 > Curriculum is external. Products are external. Learning experiences are external.
-> AI agents are consumers. STEM-TUITION (LearningHub) is one consumer — never a controller.
+> AI agents are consumers. LearningHub is one consumer — never a controller.
 
 STEMMA exists so that anyone — educators, developers, researchers, AI systems, other products — can build on top of a high-quality, reusable STEM knowledge base.
 
@@ -25,6 +25,46 @@ STEMMA exists so that anyone — educators, developers, researchers, AI systems,
 | `schema/connection.schema.json` | Connection JSON Schema | Contract |
 | `schema/relation-registry.yaml` | Authoritative relation vocabulary | Contract |
 | `schema/extension-registry.yaml` | Governed extension dimensions | Contract |
+
+---
+
+## Specification Recovery Artifacts (`spec/`)
+
+A recovered, evidence-backed specification (recovery protocol v3.1, pilot
+CORE-GATE-EXPORT, 2026-09-22) lives in `spec/`. Operating rules for agents:
+
+- `spec/REQUIREMENTS.md` and `spec/machine-readable/requirements.yaml` are the
+  canonical requirement records. Every requirement is **PROPOSED** until the
+  sole owner (the repository owner) marks it APPROVED — PROPOSED text is review
+  material, **never** normative.
+- Do not edit `spec/` records as if they were normative; do not approve, verify,
+  resolve conflicts, or close open questions on the owner's behalf.
+- `spec/EVIDENCE_REGISTER.md` classifies FACT vs CLAIM vs INFERENCE — cite it
+  instead of re-asserting; never elevate INFERENCE to FACT.
+- Change registries? Run `python3 spec/machine-readable/validate_recovery.py`
+  (9 reference/lifecycle checks; must pass).
+- Recovery-layer decisions live in `spec/DECISIONS/` (ADR-STEMMA-*); product
+  decisions remain in `docs/decisions/` (ADR-0040+). Both layers are immutable
+  once recorded.
+
+---
+
+## Documentation Contract (agent must not finish while violated)
+
+Agents modifying this repository must close the documentation loop before
+considering a task complete:
+
+```
+modify repo → python3 scripts/docs.py impact   (what docs are affected?)
+            → python3 scripts/docs.py sync      (regenerate GENERATED docs)
+            → review the sync diff (never discard generated changes silently)
+            → python3 scripts/docs.py check     (local CI-equivalent gate)
+```
+
+If `sync` produced changes, include them in the same change set. If `check`
+fails, fix the cause — do not work around the gate. The contract lives in
+`docs/docs-contract.yaml`; new docs must be classified there (see
+`docs/DOCUMENTATION-SYSTEM.md` "Adding a new obligation").
 
 ---
 
@@ -106,9 +146,8 @@ python3 scripts/export_subsets.py
 2. **Index entities by ID** for O(1) access
 3. **Resolve relationships** (throw on dangling, never silently skip)
 4. **Map canonical → consumer model** (consumer owns the mapping)
-5. **Handle ID namespace** (`lhs:` ↔ `stemma:` compatibility)
-
-**Example**: `LearningHub/apps/shell/src/lib/lhs-adapter.ts`
+5. **Use the `stemma:` ID namespace** — the retired prefix is never emitted
+   (ADR-0027); throw on unknown namespaces instead of silently translating
 
 ---
 
@@ -142,7 +181,7 @@ python3 scripts/export_subsets.py
 2. Choose mode: deterministic (no LLM, scales, recommended) OR AI draft with frontier/custom model when PDF missing exact SI (choose model via webapp Settings → Model Selection window like DeepSeek harness)
 3. Upload PDF via webapp (`python3 webapp/server.py --port 8081`) or CLI `python3 scripts/pdf_ingest_primary.py --pdf path/to.pdf` or deterministic `python3 scripts/evolvable_template.py --pdf-extract workflow/extraction/*.txt`
 4. Extract deterministic (poppler/tesseract) → markdown preview in `workflow/candidates/<doc_id>/<slug>.md` (deterministic templates regex + exact SI constants OR AI draft with frontier model)
-5. HITL: Human explicitly edits markdown file in webapp textarea (fix definition with Exact: + agreed status + reference, governed_by, source_refs, writer human:*, link) → Save human edit → audit logs `candidate_edited` by human:curator.001
+5. HITL: Human explicitly edits markdown file in webapp textarea (fix definition with Exact: + agreed status + reference, governed_by, source_refs, link) → Save human edit → audit logs `candidate_edited` by the operator in `STEMMA_REVIEWER_ID`; server sets `writer` to that human and keeps the machine as `drafted_by`
 6. Stage for human review → `workflow/proposals/<slug>.md` → validation: `validate.py` + `physics_core_profile_check.py` + `physics_governing_check.py` + `hitl_check.py` (verifies human edited) + `evolvable_template.py` check — all must pass
 7. Review: `review_entity.py accept <slug> --reviewer human:curator.001` → human_reviewed
 8. Canonicalize: `review_entity.py canonicalize <slug> --reviewer human:curator.001` → `content/physics/<subdomain>/<slug>.md` + connections with evidence (only 8 allowed relations per ADR-0042, no `related_to`)
@@ -171,28 +210,45 @@ python3 scripts/export_subsets.py
 
 ---
 
+## Webapp Identity (no login)
+
+**Webapp identity:** the webapp has **no login**. Identity = whoever started the
+server: set `STEMMA_REVIEWER_ID=human:<you>` (your id in
+`schema/agent-registry.yaml`) before `python3 webapp/server.py`. Saving a human
+edit or staging a proposal **fails closed** if it is missing, unregistered,
+inactive, a group (`human:institution.*`) or not a human. Machine drafts are
+recorded as `process:deterministic-draft.v1` / `llm:antigravity-001`; when you
+edit one you become `writer` and the machine stays as `drafted_by`.
+
+```bash
+export STEMMA_REVIEWER_ID=human:curator.001   # your id in schema/agent-registry.yaml
+python3 webapp/server.py --port 8081
+```
+
+Agents must never set `writer`/`reviewer` to a human id on the human's behalf, and must never
+default a missing writer to a human id. `hitl_check.py` and `validate.py` reject unregistered ids.
+
 ## Quick Start
 
 ```bash
 # 1. Read governance
-cat docs/NORTHSTAR.md
+cat docs/ARCHITECTURE-V2.md
 cat docs/GOVERNANCE.md
-cat docs/STEMMA-SPECIFICATION.md
 
 # 2. Validate current state
 python3 scripts/validate.py
 
 # 3. Explore content
-ls content/physics/mechanics/
-cat content/physics/mechanics/force.md
+ls content/physics/measurement-units/
+cat content/physics/measurement-units/metre.md
 
 # 4. Check export
 jq '.entities[0]' exports/knowledge.json
 
 # 5. Run tests
-python3 tests/curation/test_curation.py
-python3 tests/phase-b/test_phase_b.py
-python3 tests/metadata/test_adaptive_extensions.py
+python3 -m pytest tests/ -q
+python3 tests/repo/test_docs_consistency.py
+python3 tests/repo/test_independence.py
 python3 tests/curation/test_generality.py
 python3 tests/metadata/test_metadata_semantics.py
 ```
@@ -211,8 +267,6 @@ Every significant piece of work must be classified:
 | **OUT** | Not relevant | Do not implement |
 
 **Deferred unless human activates**:
-- Full MVP activation (`ACTIVATE LEARNINGHUBSTEM MVP`)
-- STEM-GAME, STEM Lab, JARVIS integration
 - Microservices, cloud, auth, payments, analytics
 - Vector/graph databases, recommendation engines
 - Shared platform services
@@ -221,7 +275,7 @@ Every significant piece of work must be classified:
 
 ## Definition of Done (Canonical Entity)
 
-- [ ] Stable ID (`lhs:<domain>.<slug>`)
+- [ ] Stable ID (`stemma:<domain>.<slug>`)
 - [ ] Valid schema
 - [ ] Required metadata complete
 - [ ] Provenance (source and/or reviewer)
@@ -245,7 +299,7 @@ Prose rules → Schemas → Validation → Tests → CI enforcement
 
 ## Session Protocol
 
-1. Read `AGENTS.md`, `docs/NORTHSTAR.md`, `docs/GOVERNANCE.md`
+1. Read `AGENTS.md`, `docs/ARCHITECTURE-V2.md`, `docs/GOVERNANCE.md`
 2. Classify work: NOW / SEAM / LATER / OUT
 3. State short plan before changing anything
 4. Run `python3 scripts/validate.py`

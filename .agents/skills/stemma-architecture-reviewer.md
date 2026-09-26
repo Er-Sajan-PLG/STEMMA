@@ -15,7 +15,7 @@ These are NEVER overridden:
 1. **Knowledge ≠ Curriculum ≠ Pedagogy ≠ Product**
 2. **Canonical source of truth = `content/`, `connections/`, `sources/`**
 3. **Derived artifacts are regenerable, never authoritative**
-4. **Stable IDs are forever (`lhs:` namespace)**
+4. **Stable IDs are forever (`stemma:` namespace)**
 5. **AI output requires human review before canonical**
 6. **Products are consumers, never dependencies**
 7. **Dependency direction: Consumer → Foundation**

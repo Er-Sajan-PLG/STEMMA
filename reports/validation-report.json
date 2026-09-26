@@ -2,11 +2,11 @@
   "conforms": true,
   "valid": true,
   "ok": true,
-  "schema_version": "1.2.0",
+  "schema_version": "1.3.0",
   "export_version": "2.2.0",
   "relation_registry_version": "1.0.0",
   "kernel_version": "3.0.0",
-  "content_hash": "sha256:2c007fc6e235b0ac73a823cec3f9002b2ef62219c9bf89e1ff7a70b91975b764",
+  "content_hash": "sha256:cbf17acdb11cb78dfa15171580dabe1000731a4f9ae4d3e6f11c4b910903e157",
   "severity_counts": {
     "ERROR": 0,
     "WARNING": 0,

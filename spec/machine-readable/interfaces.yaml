@@ -1,0 +1,30 @@
+# Canonical interface records — mirrors spec/INTERFACES/
+interfaces:
+  - id: IFACE-STEMMA-EXP-001
+    title: "Derived export contract: exports/knowledge.json (export_version 2.2.0)"
+    status: PROPOSED
+    direction: "STEMMA -> consumers (read-only)"
+    version: "2.2.0 (pinned from schema/VERSION.yaml)"
+    produced_by: ["scripts/validate.py (regenerate_export_derived)", "scripts/export_review_aware.py"]
+    consumed_by: ["adapters/python/stemma_adapter (Stemma, load_export)", "LearningHub (exports/consumers/learninghub, currently 0 entities)"]
+    determinism: [deterministic, content-hashed, no wall clock]
+    required_fields:
+      top_level: [export_version, generated_by, content_hash, entity_count, entity_status_counts, metadata, relation_registry, vocabularies, entities, connections, sources, consumers]
+      metadata: [governance, review, verification_chain, authority_boundary, source_binding, revision, derived_layers]
+    acceptance: ["schema/export.schema.json validation passes", "content_hash present (sha256:*)", "export_version == schema/api.yaml == schema/VERSION.yaml"]
+    evolution: "additive within major version; breaking changes consume schema major + ADR + migration"
+    doc: spec/INTERFACES/IFACE-STEMMA-EXP-001-knowledge-json.md
+    related: [REQ-STEMMA-EXP-001, REQ-STEMMA-EXP-002, REQ-STEMMA-EXP-004, ADR-0032, ADR-0050]
+  - id: IFACE-STEMMA-GATE-001
+    title: "CLI contract: python3 scripts/verify_all.py"
+    status: PROPOSED
+    direction: "operator/CI -> repo (synchronous, local)"
+    exit_codes:
+      0: all checks passed or INFO-only
+      non_zero: any FAIL (short-circuits)
+    output: "step name, duration_ms, PASS/FAIL/INFO lines to stdout"
+    checks: [validate, export_review_aware, relation_registry_export, relation_registry_coherence, version_history_contract, review_integrity, hitl_check, review_packet, status_truth, derived_indexes, consumer_validation_report]
+    known_weakness: "derived check failure reports INFO not FAIL (scripts/verify_all.py:48-54); recorded but not called a conflict until compared against design intent evidence"
+    acceptance: ["exit code reflects truth of FAIL-level checks", "deterministic given clean tree"]
+    doc: spec/INTERFACES/IFACE-STEMMA-GATE-001-verification-chain-cli.md
+    related: [REQ-STEMMA-GATE-001, REQ-STEMMA-GATE-002, REQ-STEMMA-GATE-003, REQ-STEMMA-HITL-001]

@@ -103,7 +103,7 @@ REVIEW named human OR delegated institution v2 with audit forward-only
   ▼
 CANONICAL human-only write L2
   ▼
-DERIVED EXPORT deterministic content-hashed L6 exports/knowledge.json v2.1.0 content_hash sha256 no wall-clock byte-identical embeddings.jsonl vector_store FAISS content_hash versioned
+DERIVED EXPORT deterministic content-hashed L6 exports/knowledge.json v2.2.0 content_hash sha256 no wall-clock byte-identical embeddings.jsonl vector_store FAISS content_hash versioned
   ▼
 CONSUMER file/API/SDK content_hash invalidation subset exports views LearningHub PROFESSOR-J explorer
 ```
@@ -408,8 +408,11 @@ Whose job is embedding and RAG? CONSUMER's job not STEMMA's STEMMA provides refe
 
 ### 5.3 Export Mechanism to Consumers LearningHub PROFESSOR-J via API Schema
 
-- OpenAPI 3.0.3 api.yaml endpoints /api/entities /api/connections /api/sources /api/semantic/claims /api/semantic/proposals/list /api/semantic/registries /api/embeddings /api/rag/search content_hash versioned contract validation
-- webapp/server.py implements GET /api/semantic/claims /proposals/list /registries POST /api/semantic/extract /verify /conflicts /proposals /resolve + existing /api/entities /api/connections /api/ingest /api/rag/search
+> **Amended by [ADR-0054](decisions/0054-consumer-access-surface.md) (2026-09-26).** The two bullets that previously opened this section described `schema/api.yaml` as `/api/*` endpoints and listed webapp routes (`/api/entities`, `/api/connections`, `/api/ingest`) as "existing"; neither matched the code (original text in git history).
+
+- **File contract first:** `exports/knowledge.json` (+ review views, `knowledge.jsonld`) versioned by `content_hash` is the primary consumer contract, published read-only via GitHub Pages; the Python SDK `adapters/python/` is the reference reader and fails closed (incl. ADR-0045 valued claims)
+- **`/v2/*` HTTP (OpenAPI 3.0.3 `schema/api.yaml` v2.3.0)** is an optional read-only adapter over one export, run locally by the consumer; no auth/rate limiting/hosted endpoint in this phase; embeddings/RAG/export paths are `x-stability: experimental`; spec ↔ server parity is test-enforced
+- **Webapp `/api/*` is the private admin curation tool, not a consumer API** — 127.0.0.1 + private network (Tailscale) only, single owner, one owner-controlled LLM key bound to its endpoint; family/testers use the static explorer site + GitHub feedback form
 - Consumer-registry v1.0.0 4 consumers LearningHub canonical physics/chem/bio/math OpenAI Large GPT-4o PROFESSOR-J reviewed all 8 domains mediocre BGE Large offline DeepSeek R1 free general explorer
 - Subset exports exports/knowledge.json all canonical reviewed trusted proposed rejected plus views/
 - Content-hash invalidation consumers know exactly when to reload via meta.json content_hash
@@ -530,25 +533,25 @@ Clean 3D viewer small nodes thin lines legend manual zoom centered 8 domains the
 
 Every phase lands with enforcement same change set ADR+validator+test+docs+verify_all green+clean git diff derived per ADR-0026 discipline.
 
-Phase 0 Foundation Prerequisites Hours reproducibility fix requirements.txt pyyaml jsonschema write ADR-0044 update docs/decisions/README.md retitle LearningHubSTEM to STEMMA Foundation index ADRs 0023-0044 fix AGENTS.md dead refs NORTHSTAR.md STEMMA-SPECIFICATION.md force.md fix ingest.py candidates conform to source.schema.json remove hand-written report prose stale counts exit ADR-0044 committed README indexed requirements.txt present AGENTS.md clean gate green.
+Phase 0 Foundation Prerequisites Hours reproducibility fix requirements.txt pyyaml jsonschema write ADR-0044 update docs/decisions/README.md retitle LearningHubSTEM to STEMMA Foundation index ADRs 0023-0044 fix AGENTS.md dead Quick Start refs (retired docs) fix ingest.py candidates conform to source.schema.json remove hand-written report prose stale counts exit ADR-0044 committed README indexed requirements.txt present AGENTS.md clean gate green.
 
 Phase 1a Value-Slot Days make target and value mutually exclusive XOR in connection.schema.json extend claim_signature computation validate.py extend check_id_immutability.py to cover value-slot claims unit field interim allowlist QUDT/UCUM/SI symbols documented anchor strings until ADR-0024 not just "1" exit schemas updated validator handles new shapes tests pass gate green.
 
 Phase 1b Warrant Axis + Correction Labels Days extend confidence_basis enum with definitional axiomatic model_based update check_assertion_epistemics to handle extended basis without requiring inference blocks for non-inferred types keep assertion.type 3 values add optional correction_class enum to review_history[] items start used set at 3 reserve 8 exit validator handles extended basis tests pass gate green.
 
-Phase 1c L7 Refinement Not Purge Days refine L7 to distinguish pedagogical vs knowledge remove learning_objectives instructional_sequencing from concept.schema.json properties allow real_world_applications common_misconceptions ONLY when evidenced as ValueClaim with evidence[] and source not free-form strings extend test_generality.py to reject pedagogical keys but allow evidenced knowledge claims record SOTA-REVIEW §6.5 softer alternative as partially adopted exit schema updated test_generality rejects pedagogical keys but allows evidenced claims gate green.
+Phase 1c L7 Refinement Not Purge Days refine L7 to distinguish pedagogical vs knowledge remove learning_objectives instructional_sequencing from concept.schema.json properties allow real_world_applications common_misconceptions ONLY when evidenced as ValueClaim with evidence[] and source not free-form strings extend test_generality.py to reject pedagogical keys but allow evidenced knowledge claims record the archived SOTA review's §6.5 softer alternative as partially adopted exit schema updated test_generality rejects pedagogical keys but allows evidenced claims gate green.
 
 Phase 1d New Relations Days adopt equivalent_to misconception_of in registry with proper domain/range/symmetry/transitivity declarations update validator domain/range checks exit registry updated validator handles new relations gate green.
 
 Phase 1e Delegated Authority v2 Days add authority field to reviewed_by[] and review_history[] in connection.schema.json add trusted-institution entry type to agent-registry.yaml with audit_frequency sample_audit_rate last_audit next_audit review_standard_version delegated_provenance block update validator to accept delegated authority for canonical transitions only with registered institution add sample audit check 10% first 100 5% ongoing annual audit add revocation procedure update export contract to expose authority field exit schemas updated validator handles delegated authority tests pass gate green.
 
-Phase 2 Contract Update Days export_version 2.1.0→2.2.0 add authority field to export shape add value-slot support update adapters/python/ to handle value-slot and delegated authority update explorer/ to render value-slot claims and authority filter update docs/CONSUMERS.md with new contract surface exit export contract bumped adapter round-trips explorer renders gate green.
+Phase 2 Contract Update Days export_version 2.2.0→2.2.0 add authority field to export shape add value-slot support update adapters/python/ to handle value-slot and delegated authority update explorer/ to render value-slot claims and authority filter update docs/CONSUMERS.md with new contract surface exit export contract bumped adapter round-trips explorer renders gate green.
 
 Phase 3 Governance Hygiene Hours lhs sweep across all tracked files EXCEPT ADR documents which are history per ADR-0027 §3 un-stub tests/repo/test_independence.py and remove ecosystem references from AGENTS.md in same PR close ADR-0027 owner-ratification gate exit no stale references independence test live namespace clean.
 
 Phase 4 Content as Acceptance Test Before IRI Gate Hours to Days proof engine works register one trusted external institution in agent-registry.yaml exercises delegated authority v2 path with audit seed one source record conforming to source.schema.json SI Brochure 9th ed seed two entities metre with scientific definition exactly as meter example with reference fundamental quantities visible and phys.force with definition and reference conforming to updated concept.schema.json restores file AGENTS.md Quick Start references seed one relational connection with non-empty evidence[] pointing to source record seed one value-claim connection measurement or misconception prevalence exercising value-slot one human review pass to canonical via scripts/review.py internal authority one delegated-authority import exercising institution path with sample audit python3 scripts/verify_all.py + git diff --exit-code -- exports reports exit full L8 chain proven end-to-end both authority tiers corpus has 3-5 entities 2-3 connections real content engine is built.
 
-Phase 5 Organization/IRI Gate Roadmap R3 Human decision owning organization domain IRI base everything touching published IRIs waits for this.
+Phase 5 Organization/IRI Gate Roadmap R3 — PARTIAL 2026-09-22 (ADR-0053 + Amendment 0001, owner): individual Sajan publisher of record and immutable stemma: URN canonical identity settled; published-PID domain/resolution UNDER REVIEW, deferred to this R6 publication stage (slow-research basis: docs/PERSISTENT-IDENTIFIER-BRIEF.md).
 
 Phase 6 Projection Publication Roadmap R4 After Phase 5 Days exports/knowledge.jsonld+SKOS mapping+context file+SHACL shapes learn-from+signed release bundle+integrity manifest pluggable BFO schema.org exit.
 

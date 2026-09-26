@@ -1,183 +1,232 @@
 #!/usr/bin/env python3
-"""
-Export for consumers like LearningHub, PROFESSOR-J, general, stemma-explorer
+"""Consumer-shaped exports — one deterministic bundle per consumer in
+schema/consumer-registry.yaml (LearningHub, PROFESSOR-J, STEMMA Explorer, general).
 
-Generates consumer-specific exports filtered by domains, review_policy, entity_types, etc.
+Each bundle is a *valid STEMMA export* (it loads with `stemma_adapter.load_export`)
+that has been narrowed to one consumer's profile. Published as part of the release
+file contract (ADR-0054). Rules:
 
-Supports:
-- LearningHub: canonical physics, chemistry, biology, mathematics, high-quality embeddings, REST API
-- PROFESSOR-J: reviewed all domains mediocre coverage, offline SOTA embeddings, RAG, all endpoints
-- General: all domains, all review policies, fast local embeddings
-- Explorer: all entities for 3D graph
-
-Also generates:
-- knowledge.json (main deterministic export)
-- embeddings.jsonl (via embed.py)
-- vector_store/ (FAISS)
-- openapi.yaml (API schema)
+- Versions come from schema/VERSION.yaml (ADR-0022) and must equal the base
+  export's; the base `content_hash` identifies the canonical snapshot the bundle
+  was derived from, and `payload_sha256` identifies the bundle's own payload.
+- Trust tiers (review_policy) apply to BOTH axes:
+    entity status        all: any · reviewed/trusted: human_reviewed|canonical · canonical: canonical
+    connection review    graph_policy.should_include_connection (same single source
+                         as exports/knowledge.<policy>.json); `trusted` additionally
+                         requires LLM-asserted connections to be canonical.
+- A relational connection is kept only if both endpoints survive; a valued claim
+  (ADR-0045, target=null) is kept if its source entity survives.
+- Deterministic: sorted by id, no timestamps; `--check` fails if committed bundles
+  are stale (used by CI).
+- No embeddings: derived vectors are a consumer concern (ADR-0054).
 
 Usage:
-  python3 scripts/export_consumers.py --consumer learninghub --format json
-  python3 scripts/export_consumers.py --consumer professor-j --format json --review-policy reviewed
-  python3 scripts/export_consumers.py --all
+  python3 scripts/export_consumers.py --all              # write all bundles
+  python3 scripts/export_consumers.py --consumer learninghub
+  python3 scripts/export_consumers.py --all --check      # CI: verify committed bundles are fresh
 """
+from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import pathlib
 import sys
-from typing import Dict, Any, List
+from typing import Any
+
+import yaml
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-EXPORT_PATH = ROOT / "exports/knowledge.json"
-CONSUMER_REGISTRY_PATH = ROOT / "schema/consumer-registry.yaml"
+sys.path.insert(0, str(ROOT / "scripts"))
+from graph_policy import should_include_connection  # noqa: E402  (single policy source)
 
-try:
-    import yaml
-except ImportError:
-    print("Missing pyyaml", file=sys.stderr)
-    sys.exit(1)
+EXPORT_PATH = ROOT / "exports" / "knowledge.json"
+VERSION_PATH = ROOT / "schema" / "VERSION.yaml"
+CONSUMER_REGISTRY_PATH = ROOT / "schema" / "consumer-registry.yaml"
+OUT_DIR = ROOT / "exports" / "consumers"
 
-def load_export():
-    return json.loads(EXPORT_PATH.read_text(encoding='utf-8'))
+POLICIES = ("all", "reviewed", "trusted", "canonical")
+ENTITY_STATUSES_FOR_POLICY: dict[str, set[str] | None] = {
+    "all": None,  # no entity-status filter
+    "reviewed": {"human_reviewed", "canonical"},
+    "trusted": {"human_reviewed", "canonical"},
+    "canonical": {"canonical"},
+}
+# Copied verbatim from the base export so each bundle is self-describing.
+PASSTHROUGH_KEYS = ("source", "kernel_version", "relation_registry_version", "relation_registry", "vocabularies")
 
-def load_consumer_registry():
-    if not CONSUMER_REGISTRY_PATH.exists():
-        print(f"Consumer registry not found: {CONSUMER_REGISTRY_PATH}", file=sys.stderr)
-        sys.exit(1)
-    return yaml.safe_load(CONSUMER_REGISTRY_PATH.read_text(encoding='utf-8'))
 
-def filter_entities(entities: List[Dict[str, Any]], consumer_cfg: Dict[str, Any], review_policy: str = None) -> List[Dict[str, Any]]:
-    domains = consumer_cfg.get('domains', [])
-    if domains == 'all':
-        domains = None
-    subdomains = consumer_cfg.get('subdomains', [])
-    if subdomains == 'all':
-        subdomains = None
-    entity_types = consumer_cfg.get('entity_types', [])
-    if entity_types == 'all':
-        entity_types = None
-    policy = review_policy or consumer_cfg.get('review_policy', 'all')
+class ConsumerExportError(RuntimeError):
+    pass
 
-    filtered = entities
-    if domains:
-        filtered = [e for e in filtered if e.get('domain') in domains]
-    if subdomains:
-        filtered = [e for e in filtered if e.get('subdomain') in subdomains or e.get('domain') in domains]  # subdomain filter optional
-    if entity_types:
-        filtered = [e for e in filtered if e.get('type') in entity_types]
-    # Review policy filtering
-    if policy == 'canonical':
-        filtered = [e for e in filtered if e.get('status') == 'canonical']
-    elif policy == 'reviewed':
-        filtered = [e for e in filtered if e.get('status') in ('human_reviewed','canonical')]
-    elif policy == 'trusted':
-        filtered = [e for e in filtered if e.get('status') in ('human_reviewed','canonical')]  # simplified
-    # all = no filter
-    return filtered
 
-def export_for_consumer(consumer_id: str, fmt: str = 'json', review_policy: str = None):
-    registry = load_consumer_registry()
-    consumer_cfg = registry.get('consumers', {}).get(consumer_id)
-    if not consumer_cfg:
-        print(f"Consumer {consumer_id} not found", file=sys.stderr)
-        sys.exit(1)
+def load_registry() -> dict[str, dict[str, Any]]:
+    data = yaml.safe_load(CONSUMER_REGISTRY_PATH.read_text(encoding="utf-8")) or {}
+    consumers = data.get("consumers") or {}
+    if not consumers:
+        raise ConsumerExportError(f"no consumers defined in {CONSUMER_REGISTRY_PATH.relative_to(ROOT)}")
+    return consumers
 
-    export = load_export()
-    entities = export.get('entities', [])
-    connections = export.get('connections', [])
-    sources = export.get('sources', [])
 
-    filtered_entities = filter_entities(entities, consumer_cfg, review_policy)
-    # Filter connections to only those where source and target are in filtered entities
-    filtered_ids = set(e['id'] for e in filtered_entities)
-    filtered_connections = [c for c in connections if c.get('source') in filtered_ids and c.get('target') in filtered_ids]
-    # Filter sources to only those referenced by filtered entities
-    referenced_source_refs = set()
-    for e in filtered_entities:
-        for ref in e.get('source_refs', []):
-            referenced_source_refs.add(ref)
-    for c in filtered_connections:
-        for ev in c.get('evidence', []):
-            if ev.get('source_ref'):
-                referenced_source_refs.add(ev['source_ref'])
-    filtered_sources = [s for s in sources if s.get('id') in referenced_source_refs]
+def _as_filter(value: Any) -> set[str] | None:
+    """Registry fields are either 'all' / missing (no filter) or a list."""
+    if value in (None, "all", []):
+        return None
+    if isinstance(value, list):
+        return set(value)
+    raise ConsumerExportError(f"expected 'all' or a list, got {value!r}")
 
-    print(f"Consumer {consumer_id} ({consumer_cfg.get('label')}): {len(entities)} -> {len(filtered_entities)} entities, {len(connections)} -> {len(filtered_connections)} connections, {len(sources)} -> {len(filtered_sources)} sources")
-    print(f"Domains: {consumer_cfg.get('domains')} Review policy: {review_policy or consumer_cfg.get('review_policy')} Formats: {consumer_cfg.get('export_formats')}")
 
-    # Build export
-    consumer_export = {
-        'export_version': export.get('export_version'),
-        'schema_version': export.get('schema_version'),
-        'content_hash': export.get('content_hash'),
-        'consumer': consumer_id,
-        'consumer_label': consumer_cfg.get('label'),
-        'review_policy': review_policy or consumer_cfg.get('review_policy'),
-        'entity_count': len(filtered_entities),
-        'connection_count': len(filtered_connections),
-        'source_count': len(filtered_sources),
-        'entities': filtered_entities,
-        'connections': filtered_connections,
-        'sources': filtered_sources,
-        'embedding_model': consumer_cfg.get('embedding_model'),
-        'api_access': consumer_cfg.get('api_access'),
-        'rag': consumer_cfg.get('rag'),
+def entity_passes(entity: dict[str, Any], profile: dict[str, Any], policy: str) -> bool:
+    domains = _as_filter(profile.get("domains"))
+    subdomains = _as_filter(profile.get("subdomains"))
+    types = _as_filter(profile.get("entity_types"))
+    statuses = ENTITY_STATUSES_FOR_POLICY[policy]
+    if domains is not None and entity.get("domain") not in domains:
+        return False
+    if subdomains is not None and entity.get("subdomain") not in subdomains:
+        return False
+    if types is not None and entity.get("type") not in types:
+        return False
+    if statuses is not None and entity.get("status") not in statuses:
+        return False
+    return True
+
+
+def connection_passes(conn: dict[str, Any], kept_ids: set[str], policy: str) -> bool:
+    if not should_include_connection(conn, policy):
+        return False
+    if conn.get("source") not in kept_ids:
+        return False
+    target = conn.get("target")
+    if target is None:  # ADR-0045 valued claim: only the source must survive
+        return conn.get("value") is not None
+    return target in kept_ids
+
+
+def _payload_sha256(entities: list, connections: list, sources: list) -> str:
+    canonical = json.dumps(
+        {"entities": entities, "connections": connections, "sources": sources},
+        sort_keys=True, ensure_ascii=False, separators=(",", ":"),
+    )
+    return "sha256:" + hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+
+
+def build_consumer_export(consumer_id: str, profile: dict[str, Any], base: dict[str, Any],
+                          versions: dict[str, Any], review_policy: str | None = None) -> dict[str, Any]:
+    policy = review_policy or profile.get("review_policy") or "all"
+    if policy not in POLICIES:
+        raise ConsumerExportError(f"{consumer_id}: unknown review_policy {policy!r} (expected one of {POLICIES})")
+    for key in ("export_version", "schema_version"):
+        if base.get(key) != versions.get(key):
+            raise ConsumerExportError(
+                f"exports/knowledge.json {key}={base.get(key)!r} != schema/VERSION.yaml {versions.get(key)!r}; "
+                "regenerate the base export first (python3 scripts/validate.py)"
+            )
+
+    entities = sorted((e for e in base["entities"] if entity_passes(e, profile, policy)), key=lambda e: e["id"])
+    kept_ids = {e["id"] for e in entities}
+    connections = sorted((c for c in base["connections"] if connection_passes(c, kept_ids, policy)),
+                         key=lambda c: c["id"])
+    referenced: set[str] = set()
+    for e in entities:
+        referenced.update(e.get("source_refs") or [])
+    for c in connections:
+        for ev in c.get("evidence") or []:
+            if ev.get("source_ref"):
+                referenced.add(ev["source_ref"])
+    sources = sorted((s for s in base["sources"] if s.get("id") in referenced), key=lambda s: s["id"])
+
+    bundle: dict[str, Any] = {
+        "export_version": versions["export_version"],
+        "schema_version": versions["schema_version"],
+        "content_hash": base["content_hash"],  # canonical snapshot this bundle derives from
+        "payload_sha256": _payload_sha256(entities, connections, sources),
+        "consumer": consumer_id,
+        "consumer_profile": {
+            "label": profile.get("label"),
+            "domains": profile.get("domains", "all"),
+            "subdomains": profile.get("subdomains", "all"),
+            "entity_types": profile.get("entity_types", "all"),
+            "review_policy": policy,
+            "recommended_embedding_model": profile.get("embedding_model"),
+        },
     }
+    for key in PASSTHROUGH_KEYS:
+        if key in base:
+            bundle[key] = base[key]
+    bundle.update({
+        "entity_count": len(entities),
+        "connection_count": len(connections),
+        "source_count": len(sources),
+        "entities": entities,
+        "connections": connections,
+        "sources": sources,
+    })
+    return bundle
 
-    # Write file
-    out_dir = ROOT / f"exports/consumers/{consumer_id}"
-    out_dir.mkdir(parents=True, exist_ok=True)
 
-    if fmt == 'json':
-        out_path = out_dir / f"knowledge.{consumer_id}.json"
-        out_path.write_text(json.dumps(consumer_export, indent=2), encoding='utf-8')
-        print(f"OK: Wrote {out_path} — {len(filtered_entities)} entities, content_hash {export.get('content_hash')}")
-    elif fmt == 'jsonl':
-        out_path = out_dir / f"knowledge.{consumer_id}.jsonl"
-        with open(out_path, 'w', encoding='utf-8') as f:
-            for e in filtered_entities:
-                f.write(json.dumps(e) + '\n')
-        print(f"OK: Wrote {out_path} — JSONL {len(filtered_entities)} entities")
-    elif fmt == 'embeddings':
-        # Generate embeddings for this consumer's entities
-        import subprocess
-        model = consumer_cfg.get('embedding_model', 'sentence-transformers/all-MiniLM-L6-v2')
-        cmd = [sys.executable, str(ROOT / "scripts/embed.py"), '--model', model, '--for-consumer', consumer_id, '--output', str(out_dir / f"embeddings.{consumer_id}.jsonl")]
-        print(f"Running: {' '.join(cmd)}")
-        subprocess.run(cmd, check=False)
-    elif fmt == 'vector_store':
-        import subprocess
-        model = consumer_cfg.get('embedding_model', 'sentence-transformers/all-MiniLM-L6-v2')
-        cmd = [sys.executable, str(ROOT / "scripts/embed.py"), '--model', model, '--for-consumer', consumer_id, '--output', str(out_dir / f"embeddings.{consumer_id}.jsonl"), '--vector-store', str(out_dir / "vector_store")]
-        print(f"Running: {' '.join(cmd)}")
-        subprocess.run(cmd, check=False)
-    else:
-        print(f"Unknown format {fmt}", file=sys.stderr)
-        sys.exit(1)
+def render(bundle: dict[str, Any]) -> str:
+    return json.dumps(bundle, indent=2, ensure_ascii=False) + "\n"
 
-    return consumer_export
 
-def main():
-    parser = argparse.ArgumentParser(description="STEMMA export for consumers — LearningHub, PROFESSOR-J, etc.")
-    parser.add_argument('--consumer', choices=['learninghub', 'professor-j', 'general', 'stemma-explorer'], help='Consumer ID')
-    parser.add_argument('--format', default='json', choices=['json', 'jsonl', 'embeddings', 'vector_store'], help='Export format')
-    parser.add_argument('--review-policy', choices=['all', 'canonical', 'reviewed', 'trusted'], help='Review policy override')
-    parser.add_argument('--all', action='store_true', help='Export for all consumers')
-    args = parser.parse_args()
+def bundle_path(consumer_id: str) -> pathlib.Path:
+    return OUT_DIR / consumer_id / f"knowledge.{consumer_id}.json"
 
-    if args.all:
-        for cid in ['learninghub', 'professor-j', 'general', 'stemma-explorer']:
-            export_for_consumer(cid, fmt=args.format, review_policy=args.review_policy)
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="STEMMA consumer-shaped exports (release file contract, ADR-0054)")
+    parser.add_argument("--consumer", help="consumer id from schema/consumer-registry.yaml")
+    parser.add_argument("--all", action="store_true", help="every consumer in the registry")
+    parser.add_argument("--review-policy", choices=POLICIES, help="override the registry policy (not with --check)")
+    parser.add_argument("--check", action="store_true", help="verify committed bundles are fresh; write nothing")
+    parser.add_argument("--format", choices=["json"], default="json", help=argparse.SUPPRESS)  # legacy flag; json only
+    args = parser.parse_args(argv)
+
+    try:
+        registry = load_registry()
+        if args.all:
+            ids = sorted(registry)
+        elif args.consumer:
+            if args.consumer not in registry:
+                raise ConsumerExportError(f"unknown consumer {args.consumer!r}; known: {', '.join(sorted(registry))}")
+            ids = [args.consumer]
+        else:
+            parser.print_help()
+            return 1
+        if args.check and args.review_policy:
+            raise ConsumerExportError("--check verifies registry policies; do not combine with --review-policy")
+
+        base = json.loads(EXPORT_PATH.read_text(encoding="utf-8"))
+        versions = yaml.safe_load(VERSION_PATH.read_text(encoding="utf-8"))
+        stale: list[str] = []
+        for cid in ids:
+            bundle = build_consumer_export(cid, registry[cid], base, versions, args.review_policy)
+            text = render(bundle)
+            path = bundle_path(cid)
+            rel = path.relative_to(ROOT)
+            if args.check:
+                if not path.exists() or path.read_text(encoding="utf-8") != text:
+                    stale.append(str(rel))
+                continue
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(text, encoding="utf-8")
+            print(f"OK: {rel} — policy {bundle['consumer_profile']['review_policy']}, "
+                  f"{bundle['entity_count']} entities, {bundle['connection_count']} connections, "
+                  f"{bundle['source_count']} sources, {bundle['payload_sha256'][:19]}…")
+        if stale:
+            print("FAIL: consumer exports are stale or missing — run python3 scripts/export_consumers.py --all",
+                  file=sys.stderr)
+            for rel in stale:
+                print(f"  - {rel}", file=sys.stderr)
+            return 1
+        if args.check:
+            print(f"OK: {len(ids)} consumer export(s) fresh")
         return 0
+    except ConsumerExportError as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
 
-    if not args.consumer:
-        print("Need --consumer or --all", file=sys.stderr)
-        parser.print_help()
-        return 1
 
-    export_for_consumer(args.consumer, fmt=args.format, review_policy=args.review_policy)
-    return 0
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     sys.exit(main())

@@ -109,7 +109,7 @@ The adapter is the **ONLY** file that imports across the seam.
 2. Index entities by ID for O(1) lookup
 3. Resolve relationships (throw on dangling, never silently skip)
 4. Map canonical → consumer application model
-5. Handle ID namespace compatibility (`lhs:` ↔ `stemma:`)
+5. Handle ID namespace compatibility (`stemma:` ↔ `stemma:`)
 
 **Example Adapter Interface**:
 ```typescript

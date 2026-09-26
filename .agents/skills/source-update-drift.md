@@ -43,19 +43,19 @@ For each affected canonical object:
 
 #### Source Retraction
 ```bash
-python3 scripts/handle_retraction.py --action retract --source lhs:src.xxx --reason "Retracted by publisher" --apply
+python3 scripts/handle_retraction.py --action retract --source stemma:src.xxx --reason "Retracted by publisher" --apply
 ```
 Effect: Marks source `retracted`, proposes deprecation/qualification of dependents.
 
 #### Source Correction
 ```bash
-python3 scripts/handle_retraction.py --action correct --source lhs:src.xxx --reason "Corrigendum: Eq. 4.2 corrected" --apply
+python3 scripts/handle_retraction.py --action correct --source stemma:src.xxx --reason "Corrigendum: Eq. 4.2 corrected" --apply
 ```
 Effect: Flags dependents for review, adds correction notice.
 
 #### Source Supersession
 ```bash
-python3 scripts/handle_retraction.py --action supersede --source lhs:src.old --new-source lhs:src.new --reason "New edition published" --apply
+python3 scripts/handle_retraction.py --action supersede --source stemma:src.old --new-source stemma:src.new --reason "New edition published" --apply
 ```
 Effect: Marks old `superseded`, links to new, proposes evidence migration.
 

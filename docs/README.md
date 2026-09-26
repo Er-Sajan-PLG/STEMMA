@@ -4,8 +4,9 @@ Status: Authoritative
 Baseline: b958a5c empty corpus — engine for canonicalization not yet built, now built.
 Architecture: docs/ARCHITECTURE-V2.md clean constitutional foundation single part L1-L8 refined
 Implementation Plan: docs/IMPLEMENTATION-PLAN-V2.md Phases 0-8 ideal order architecture → plan → work integrating early work
-Decisions: docs/decisions/README.md 0040-0052
+Decisions: docs/decisions/README.md 0040-0053
 Roadmap: docs/ROADMAP.md Phases 0-8 ideal order
+Specification recovery (pilot): ../spec/BASELINE.md CORE-GATE-EXPORT slice recovered 2026-09-22 per protocol v3.1 — maturity L2 slice-scoped, 22 requirements PROPOSED awaiting owner approval, process review at ../SPECIFICATION_PROCESS_REVIEW.md
 
 Ideal order history: b958a5c empty → 51fc1b0 architecture v2 clean → 493b32b implementation plan v2 → 27576f3 foundation reset fundamentals clean 3D → 3bcfd4a ingestion pipeline evolvable templates model selector → e692b25 comprehensive all-STEM template registry → dbc229f embeddings RAG separation consumer export guideline → 7297c6c strong CI explorer semantic pipeline final → 0df87ff fix status truth.
 
@@ -15,8 +16,8 @@ All early work from start included as implementation of new architecture, not pr
 
 1. **[ARCHITECTURE-V2.md](ARCHITECTURE-V2.md)** — authoritative clean single part constitutional foundation L1-L8 refined, data model value-slot XOR, semantic primitives, delegated authority v2 audited, scale 10^2–10^6, 16-stage semantic acquisition pipeline, embedding and RAG producer vs consumer separation, standards alignment pluggable, consumption
 2. **[IMPLEMENTATION-PLAN-V2.md](IMPLEMENTATION-PLAN-V2.md)** — Phases 0-8 ideal order architecture → plan → work integrating early work, verification plan, cost model, what-is-not, consequences, human decisions
-3. **[decisions/README.md](decisions/README.md)** — ADRs 0040-0052 beginning no legacy, old 0001-0039 archived to archive/old-design/
-4. **[VISION.md](VISION.md)** — what STEMMA is, knowledge foundation not curriculum not product, 8 domains mediocre 400-800 target, embeddings RAG consumer export via file/API/SDK content_hash
+3. **[decisions/README.md](decisions/README.md)** — ADRs 0040-0053 beginning no legacy, old 0001-0039 archived to archive/old-design/
+4. **[VISION.md](VISION.md)** — what STEMMA is, knowledge foundation not curriculum not product, 8 domains mediocre 400-800 target, embeddings RAG consumer export via file/API/SDK content_hash. Note: the SDK ships `Stemma`/`load_export`; `StemmaRAG` is specified but not yet implemented (SPECIFIED_AND_MISSING — see ../spec/SPECIFICATION_GAP_ANALYSIS.md)
 5. **[DOMAIN-MODEL.md](DOMAIN-MODEL.md)** — entities, connections, sources with governed_by, 8 domains physics/chemistry/biology/earth-science/astronomy/computer-science/engineering/mathematics, 97 subdomains, 12 entity types
 6. **[SCHEMA-SPECIFICATION.md](SCHEMA-SPECIFICATION.md)** — JSON Schemas, relation-registry, template-registry v2.0.0, embedding-registry v1.0.0, consumer-registry v1.0.0, llm-registry v1.0.0, api.yaml OpenAPI 3.0.3
 7. **[PIPELINES.md](PIPELINES.md)** — 16 stages DOCUMENT→OBSERVATION→EVIDENCE WINDOWS→CANDIDATE→ENTITY RESOLUTION threshold 0.85→CLAIM→NORMALIZATION→DETERMINISTIC VALIDATION→INDEPENDENT VERIFICATION Verifier Model B→CONFLICT ANALYSIS explicit P=10 vs P=12→PROPOSAL→REVIEW→CANONICAL→DERIVED EXPORT→CONSUMER never PDF→LLM→canonical
@@ -28,7 +29,7 @@ All early work from start included as implementation of new architecture, not pr
 13. **[GUIDELINE-EMBEDDER-RAG.md](GUIDELINE-EMBEDDER-RAG.md)** — 81KB guideline how to build embedder and RAG that imports from STEMMA consistently via file/API/SDK + content_hash, sample in derived inside and out of STEMMA, direction and future plans
 14. **[SEMANTIC-ACQUISITION-PIPELINE.md](SEMANTIC-ACQUISITION-PIPELINE.md)** — 81KB 19 sections 16 stages evidence first-class model roles document_vision extraction reasoning verification embedding model-agnostic reproducibility vertical slice corpus 6 PDFs SI Brochure HRW Campbell Atkins CLRS Carroll
 15. **[IMPLEMENTATION-STATUS.md](IMPLEMENTATION-STATUS.md)** — current counts 1 entity metre via HITL 0 connections 3 sources, checks all green, template registry 8 domains, embedding registry 11 models, consumer registry 4 consumers, API schema, webapp PDF primary + deterministic draft + AI draft frontier + markdown preview + HITL + RAG playground + consumer export, explorer clean
-16. **[ROADMAP.md](ROADMAP.md)** — Phases 0-8 ideal order R0 foundation prerequisites, R1a value-slot ADR-0045, R1b warrant axis correction labels ADR-0046, R1c L7 refinement ADR-0047, R1d new relations ADR-0048, R1e delegated authority v2 ADR-0049, R2 contract update 2.2.0 ADR-0050, R3 governance hygiene ADR-0051, R4 content acceptance test before IRI gate ADR-0052 work integrating early work, R5 org/IRI gate, R6 projection, R7 views routing, R8 scale readiness
+16. **[ROADMAP.md](ROADMAP.md)** — Phases 0-8 ideal order R0 foundation prerequisites, R1a value-slot ADR-0045, R1b warrant axis correction labels ADR-0046, R1c L7 refinement ADR-0047, R1d new relations ADR-0048, R1e delegated authority v2 ADR-0049, R2 contract update 2.2.0 ADR-0050, R3 governance hygiene ADR-0051, R4 content acceptance test before IRI gate ADR-0052 work integrating early work, R5 org/IRI gate ADR-0053+Amendment 0001 identity settled 2026-09-22 (PID base deferred to R6), R6 projection, R7 views routing, R8 scale readiness
 
 ## Reference set — architecture v2
 
@@ -36,7 +37,7 @@ All early work from start included as implementation of new architecture, not pr
 |---|---|
 | Architecture v2 authoritative clean single part | [ARCHITECTURE-V2.md](ARCHITECTURE-V2.md) |
 | Implementation Plan v2 Phases 0-8 ideal order | [IMPLEMENTATION-PLAN-V2.md](IMPLEMENTATION-PLAN-V2.md) |
-| Decisions beginning no legacy 0040-0052 | [decisions/README.md](decisions/README.md) |
+| Decisions beginning no legacy 0040-0053 | [decisions/README.md](decisions/README.md) |
 | Vision | [VISION.md](VISION.md) |
 | Domain model | [DOMAIN-MODEL.md](DOMAIN-MODEL.md) |
 | Schema contracts | [SCHEMA-SPECIFICATION.md](SCHEMA-SPECIFICATION.md) |
@@ -54,12 +55,37 @@ All early work from start included as implementation of new architecture, not pr
 | RAG YES needed retrieval+generation+citations | [RAG.md](RAG.md) |
 | API export mechanism YES file/API/SDK content_hash | [API.md](API.md) |
 | Semantic Acquisition Pipeline 16 stages evidence first-class | [SEMANTIC-ACQUISITION-PIPELINE.md](SEMANTIC-ACQUISITION-PIPELINE.md) |
+| Specification recovery program (pilot charter, roles/authority, domain registry) | [../spec/PILOT_CHARTER.md](../spec/PILOT_CHARTER.md) |
+| Recovered specification baseline (L2, 22 PROPOSED requirements, 2 interfaces, validator) | [../spec/BASELINE.md](../spec/BASELINE.md) |
+| Recovery process review (mandatory, root) | [../SPECIFICATION_PROCESS_REVIEW.md](../SPECIFICATION_PROCESS_REVIEW.md) |
+| Documentation sync & enforcement system (contract, impact, census) | [DOCUMENTATION-SYSTEM.md](DOCUMENTATION-SYSTEM.md) |
+| Persistent-identifier decision brief (slow research, NO decision) | [PERSISTENT-IDENTIFIER-BRIEF.md](PERSISTENT-IDENTIFIER-BRIEF.md) |
 | Ingestion Primary PDF primary HITL | [INGESTION-PRIMARY.md](INGESTION-PRIMARY.md) |
 | Agent deterministic protocol HITL | [AGENT.md](AGENT.md) |
 | Reset and HITL Guide beginning clean | [RESET-AND-HITL-GUIDE.md](RESET-AND-HITL-GUIDE.md) |
 | Versioning | [VERSIONING.md](VERSIONING.md) |
 | Migrations | [MIGRATIONS.md](MIGRATIONS.md) |
 | Curation protocol | [CURATION-PROTOCOL.md](CURATION-PROTOCOL.md) |
+
+## Supplementary docs
+
+| Subject | Document |
+|---|---|
+| Deprecated architecture pointer | [ARCHITECTURE.md](ARCHITECTURE.md) |
+| Physics governing laws | [PHYSICS-GOVERNING-LAWS.md](PHYSICS-GOVERNING-LAWS.md) |
+| Physics minimal design v2 | [PHYSICS-MINIMAL-DESIGN-V2.md](PHYSICS-MINIMAL-DESIGN-V2.md) |
+| Security/integrity/provenance | [SECURITY-INTEGRITY-PROVENANCE.md](SECURITY-INTEGRITY-PROVENANCE.md) |
+| Ingestion & review webapp | [WEBAPP.md](WEBAPP.md) |
+| Contributing | [CONTRIBUTING.md](CONTRIBUTING.md) |
+| Glossary | [GLOSSARY.md](GLOSSARY.md) |
+
+Old-design v1.0 acquisition docs (KNOWLEDGE-ACQUISITION, CANONICAL-ADMISSION,
+EVIDENCE-MODEL, PROVENANCE, SOURCE-POLICY, INGESTION, SOURCES, SOTA-REVIEW,
+DEEP-DIVE-RECOMMENDATIONS, AUDIT-INGESTION-BASELINE, ACQUISITION-OPERATIONS,
+STEMMA-CONSUMER-SEAM) were retired 2026-09-22 — byte-identical copies live in
+`archive/old-design/docs/`. Current equivalents: PIPELINES.md +
+SEMANTIC-ACQUISITION-PIPELINE.md (acquisition), METADATA-SPECIFICATION.md
+(provenance semantics), connection.schema.json (evidence).
 
 ## Ground rule — architecture v2 ideal order
 
@@ -107,10 +133,10 @@ All early work from start included as implementation of new architecture, not pr
 - **decisions/0047-l7-refinement.md** — L7 refined not blanket purge allow evidenced real_world_applications common_misconceptions as ValueClaims
 - **decisions/0048-new-relations.md** — equivalent_to misconception_of
 - **decisions/0049-delegated-authority-v2.md** — delegated authority v2 audited federation audit_frequency sample_audit_rate 10%/5% versioning revocation
-- **decisions/0050-contract-update-2.2.0.md** — contract 2.2.0 value-slot + delegated authority export_version 2.1.0→2.2.0
+- **decisions/0050-contract-update-2.2.0.md** — contract 2.2.0 value-slot + delegated authority export_version 2.2.0→2.2.0
 - **decisions/0051-governance-hygiene.md** — lhs sweep fix AGENTS.md dead refs un-stub test_independence
 - **decisions/0052-content-acceptance-test.md** — content as acceptance test before IRI gate 3-5 entities 2-3 connections both authority tiers work integrating early work
-- **ROADMAP.md** — Phases 0-8 ideal order R0 foundation prerequisites, R1a value-slot ADR-0045, R1b warrant axis correction labels ADR-0046, R1c L7 refinement ADR-0047, R1d new relations ADR-0048, R1e delegated authority v2 ADR-0049, R2 contract update 2.2.0 ADR-0050, R3 governance hygiene ADR-0051, R4 content acceptance test before IRI gate ADR-0052 work integrating early work, R5 org/IRI gate, R6 projection, R7 views routing, R8 scale readiness
+- **ROADMAP.md** — Phases 0-8 ideal order R0 foundation prerequisites, R1a value-slot ADR-0045, R1b warrant axis correction labels ADR-0046, R1c L7 refinement ADR-0047, R1d new relations ADR-0048, R1e delegated authority v2 ADR-0049, R2 contract update 2.2.0 ADR-0050, R3 governance hygiene ADR-0051, R4 content acceptance test before IRI gate ADR-0052 work integrating early work, R5 org/IRI gate ADR-0053+Amendment 0001 identity settled 2026-09-22 (PID base deferred to R6), R6 projection, R7 views routing, R8 scale readiness
 - **IMPLEMENTATION-STATUS.md** — architecture v2 ideal order current counts 1 entity metre via HITL 0 connections 3 sources checks all green template registry 8 domains embedding registry 11 models consumer registry 4 consumers API schema webapp PDF primary + deterministic draft + AI draft frontier + markdown preview + HITL + RAG playground + consumer export explorer clean
 - **GUIDELINE-EMBEDDER-RAG.md** — 81KB guideline how to build embedder and RAG that imports from STEMMA consistently via file/API/SDK + content_hash sample in derived inside and out of STEMMA direction and future plans
 - **SEMANTIC-ACQUISITION-PIPELINE.md** — 81KB 19 sections 16 stages evidence first-class model roles document_vision extraction reasoning verification embedding model-agnostic reproducibility vertical slice corpus 6 PDFs SI Brochure HRW Campbell Atkins CLRS Carroll

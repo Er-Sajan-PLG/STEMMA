@@ -1,0 +1,4 @@
+# STEMMA gate dependencies (ROADMAP R0 — a clean clone must not exit 2)
+# Used by: scripts/validate.py and every gate in scripts/verify_all.py, plus CI.
+pyyaml>=6.0,<7.0
+jsonschema>=4.0,<5.0

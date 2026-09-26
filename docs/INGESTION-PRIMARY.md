@@ -220,6 +220,7 @@ Commands to add first entity via primary:
 python3 scripts/pdf_ingest_primary.py --pdf ~/SI-Brochure-9.pdf --provider antigravity --model gemini-3-pro
 
 # 2. Open webapp
+export STEMMA_REVIEWER_ID=human:curator.001   # your id in schema/agent-registry.yaml
 python3 webapp/server.py --port 8081
 # Open http://localhost:8081 → Documents → Extract → Draft → Edit markdown → Stage
 

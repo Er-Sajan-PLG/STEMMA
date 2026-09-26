@@ -22,12 +22,18 @@ ROOT = pathlib.Path(__file__).resolve().parent.parent
 
 steps = [
     [sys.executable, str(ROOT / "scripts/validate.py")],
+    [sys.executable, str(ROOT / "scripts/export_jsonld.py"), "--check"],
+    [sys.executable, str(ROOT / "scripts/validate_jsonld.py")],
+    [sys.executable, str(ROOT / "scripts/validate_shacl_shapes.py")],
     [sys.executable, str(ROOT / "scripts/status_truth.py")],
     [sys.executable, str(ROOT / "scripts/physics_core_profile_check.py")],
     [sys.executable, str(ROOT / "scripts/physics_governing_check.py")],
     [sys.executable, str(ROOT / "scripts/hitl_check.py"), "--check-workflow"],
     [sys.executable, str(ROOT / "scripts/graph_analysis.py")],
     [sys.executable, str(ROOT / "scripts/export_review_aware.py")],
+    # Subset exports are published by Pages (exports/knowledge*.json); regenerate so
+    # CI's freshness diff catches staleness (they had drifted since the R4 canon tier).
+    [sys.executable, str(ROOT / "scripts/export_subsets.py")],
     [sys.executable, str(ROOT / "tests/registry/test_registry_coherence.py")],
     [sys.executable, str(ROOT / "tests/registry/test_domain_identity.py")],
     [sys.executable, str(ROOT / "tests/versioning/test_validation_report.py")],
@@ -47,7 +53,7 @@ def check_embeddings():
             print(f"OK: embeddings exist — model {meta.get('model')} {meta.get('dimensions')} dim, {meta.get('entity_count')} entities, content_hash {meta.get('content_hash','')[:20]}..., deterministic, versioned")
             return True
         else:
-            print(f"INFO: embeddings not yet generated — run python3 scripts/embed.py --model sentence-transformers/all-MiniLM-L6-v2 (deterministic fake for demo if torch not installed)")
+            print("INFO: no embeddings (not committed by design, ADR-0054) — generate locally with python3 scripts/embed.py (needs sentence-transformers; --placeholder for pipeline tests only)")
             return True  # Don't fail, just info — embeddings are derived, regenerable
     except Exception as e:
         print(f"INFO: embeddings check failed: {e} — run embed.py")

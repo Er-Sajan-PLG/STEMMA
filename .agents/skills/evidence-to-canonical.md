@@ -27,8 +27,8 @@ From each evidence item, identify:
 ### 2. Entity Identification
 For each concept mentioned:
 1. **Search existing canonical entities** by name, symbol, aliases
-2. **If found**: Use existing `lhs:` ID
-3. **If not found**: Create candidate with placeholder ID `lhs:<domain>.<proposed-slug>`
+2. **If found**: Use existing `stemma:` ID
+3. **If not found**: Create candidate with placeholder ID `stemma:<domain>.<proposed-slug>`
 4. **Check for duplicates**: Use `scripts/entity_resolution.py`
 
 ### 3. Relationship Identification
@@ -45,7 +45,7 @@ For each relationship between entities:
 kind: entity
 intent: "Define Force as vector quantity causing acceleration"
 data:
-  id: lhs:phys.force
+  id: stemma:phys.force
   type: concept
   name: Force
   domain: physics
@@ -57,14 +57,14 @@ data:
   provenance:
     ai_drafted: true
     source_kind: textbook
-    source: lhs:src.halliday-resnick
+    source: stemma:src.halliday-resnick
   relationships:
     - type: mathematically_requires
-      target: lhs:phys.mass
+      target: stemma:phys.mass
     - type: mathematically_requires
-      target: lhs:phys.acceleration
+      target: stemma:phys.acceleration
     - type: appears_in_law
-      target: lhs:phys.newtons-second-law
+      target: stemma:phys.newtons-second-law
 ```
 
 #### Connection Candidate
@@ -72,11 +72,11 @@ data:
 kind: connection
 intent: "Newton's second law applies to force"
 data:
-  id: lhs:conn.000655
+  id: stemma:conn.000655
   type: connection
-  source: lhs:phys.newtons-second-law
+  source: stemma:phys.newtons-second-law
   relation: applies_to
-  target: lhs:phys.force
+  target: stemma:phys.force
   assertion:
     status: active
     type: proposed
@@ -90,7 +90,7 @@ data:
   evidence:
     - type: textbook
       stance: supports
-      source_ref: lhs:src.halliday-resnick
+      source_ref: stemma:src.halliday-resnick
       locator: {page: "123", equation: "Eq. 4.2"}
       description: "Textbook statement of F=ma"
   provenance:
@@ -105,7 +105,7 @@ Every candidate MUST have traceable evidence:
 evidence:
   - type: textbook
     stance: supports
-    source_ref: lhs:src.halliday-resnick
+    source_ref: stemma:src.halliday-resnick
     locator:
       page: "123"
       section: "4.2"
@@ -120,7 +120,7 @@ evidence:
 - **Symbols**: Standardize (SI symbols where applicable)
 - **Units**: Use SI units in `unit` field
 - **Equations**: Canonical form using defined symbols
-- **Identifiers**: Resolve all `lhs:` references
+- **Identifiers**: Resolve all `stemma:` references
 
 ### 7. Cross-Source Reconciliation
 When multiple sources mention same claim:
@@ -140,7 +140,7 @@ python3 scripts/validate.py  # Must pass all gates
 ### Common Gate Failures
 | Gate | Common Fix |
 |------|------------|
-| `identity` | Fix ID format `lhs:<domain>.<slug>` |
+| `identity` | Fix ID format `stemma:<domain>.<slug>` |
 | `schema` | Add missing required fields |
 | `relations` | Use whitelisted relation type |
 | `provenance` | Add required provenance fields |

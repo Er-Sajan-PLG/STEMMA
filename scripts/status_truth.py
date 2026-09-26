@@ -51,7 +51,7 @@ def block(counts: dict) -> str:
         f"- Entities: **{counts['entities']}** — human-reviewed/canonical: **{counts['entities_reviewed']}**, draft: **{counts['entities_draft']}**\n"
         f"- Connections (first-class assertions): **{counts['connections']}** — review-canonical: **{counts['connections_canonical']}** ({pct:.1f}%), unreviewed: **{counts['connections_unreviewed']}**\n"
         f"- Canonical source records: **{counts['sources']}**\n"
-        f"{END}\n"
+        f"{END}"
     )
 
 
@@ -64,7 +64,7 @@ def main() -> int:
             pattern = re.compile(re.escape(START) + r".*?" + re.escape(END), re.DOTALL)
             text = pattern.sub(lambda _: block(counts), text, count=1)
         else:
-            text = text.rstrip("\n") + "\n\n" + block(counts)
+            text = text.rstrip("\n") + "\n\n" + block(counts) + "\n"
         README.write_text(text, encoding="utf-8")
         print(f"README status block written from live counts: {counts}")
         return 0
