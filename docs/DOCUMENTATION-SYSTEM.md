@@ -137,7 +137,7 @@ the repair happened through the proper registered roots. Not failures.
    contract artifact entry, README inventory row — then check/mutation gates
    re-passed. (Related growth-tolerance fix: the census-count unit test was
    pinned at exactly 220 rows and was relaxed to the actual invariant:
-   unique ids, valid statuses, never shrink — commit `aaed0d7`.)
+   unique ids, valid statuses, never shrink — commit `a669ab5`.)
 
 2. **Independence invariant (ADR-0027/0051) caught a forbidden ecosystem
    reference introduced by a user prompt**: the same brief initially carried
