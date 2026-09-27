@@ -137,6 +137,30 @@ def check_agent_registry_shape(agents: dict[str, dict], errors: list) -> None:
             errors.append(f"schema/agent-registry.yaml: agent {aid} status must be active|retired|test")
 
 
+def check_entity_agents(entity: dict, agents: dict[str, dict], errors: list) -> None:
+    """Entity provenance agents must resolve in the agent registry (H1).
+
+    writer/reviewer/drafted_by were free strings, so `human:anyone` passed.
+    reviewer must be a human agent; drafted_by records the machine origin of a
+    human-written entity and must be an llm:/process: agent."""
+    here = f"{entity.get('_file', '<entity>')}:"
+    prov = entity.get("provenance")
+    if not isinstance(prov, dict):
+        return
+    for field in ("writer", "reviewer", "drafted_by"):
+        aid = prov.get(field)
+        if aid is None:
+            continue
+        if not isinstance(aid, str) or aid not in agents:
+            errors.append(f"{here} provenance.{field} {aid!r} not in schema/agent-registry.yaml (H1)")
+            continue
+        cls = agents[aid].get("class")
+        if field == "reviewer" and cls != "human":
+            errors.append(f"{here} provenance.reviewer must be a human agent (found {aid!r})")
+        if field == "drafted_by" and cls not in ("llm", "process"):
+            errors.append(f"{here} provenance.drafted_by must be an llm:/process: agent (found {aid!r})")
+
+
 def _agent_refs(conn: dict) -> list[tuple[str, str]]:
     """All (field, agent_id) pairs referenced by a connection's provenance."""
     prov = conn.get("provenance") or {}
@@ -480,6 +504,24 @@ def validate_entity(entity: dict, errors: list, filename_slug: str | None = None
     if entity.get("status") not in STATUSES:
         errors.append(f"{here} unknown status: {entity.get('status')!r}")
 
+    # Type-conditional firmness fields (owner directive 2026-09-22): quantity
+    # entities MUST declare SI classification (base|derived) and tensorial
+    # character (scalar|vector|tensor) so consumers can prove what the entity IS.
+    if entity.get("type") == "quantity":
+        if entity.get("quantity_kind") not in ("base", "derived"):
+            errors.append(f"{here} quantity requires quantity_kind: base|derived")
+        if entity.get("tensor_character") not in ("scalar", "vector", "tensor"):
+            errors.append(f"{here} quantity requires tensor_character: scalar|vector|tensor")
+
+    # same_dimensional_quantities (owner directive 2026-09-22): dimension-class members
+    # for quantity/unit entities (non-empty list); explicit null elsewhere.
+    if "same_dimensional_quantities" not in entity:
+        errors.append(f"{here} missing same_dimensional_quantities (explicit null allowed for non-quantity/unit types)")
+    elif entity.get("type") in ("quantity", "unit"):
+        ex = entity.get("same_dimensional_quantities")
+        if not isinstance(ex, list) or not len(ex):
+            errors.append(f"{here} {entity.get('type')} requires non-empty same_dimensional_quantities list")
+
     # Provenance shape
     prov = entity.get("provenance")
     if isinstance(prov, dict) and not isinstance(prov.get("ai_drafted"), bool):
@@ -552,7 +594,13 @@ def validate_connection(conn: dict, entities: dict, sources: dict, errors: list)
     tgt = conn.get("target")
     if not isinstance(src, str) or src not in entities:
         errors.append(f"{here} source does not resolve to a canonical entity: {src!r}")
-    if not isinstance(tgt, str) or tgt not in entities:
+    # Value-slot connections (measurement/prevalence, ADR-0045; ARCH-V2 3.2)
+    # carry `value` INSTEAD of `target` (XOR); the target-existence check only
+    # applies to relational connections.
+    if conn.get("value") is not None:
+        if tgt is not None:
+            errors.append(f"{here} target must be omitted when value is present (target XOR value; ARCH-V2 3.2)")
+    elif not isinstance(tgt, str) or tgt not in entities:
         errors.append(f"{here} target does not resolve to a canonical entity: {tgt!r}")
 
     rel = conn.get("relation")
@@ -912,7 +960,8 @@ def check_relationship_cycles(connections: dict, registry: dict, errors: list) -
         if conn.get("assertion", {}).get("status") != "active":
             continue
         if rel in transitive:
-            by_relation.setdefault(rel, {}).setdefault(conn["source"], set()).add(conn["target"])
+            if conn.get("target"):  # value-slot claims (ADR-0045) are not entity->entity edges
+                by_relation.setdefault(rel, {}).setdefault(conn["source"], set()).add(conn["target"])
 
     for rel in sorted(by_relation):
         graph = by_relation[rel]
@@ -1152,6 +1201,8 @@ def main(argv: list[str] | None = None) -> int:
     }
     warnings: list = []
     agents = load_agent_registry()
+    for _entity in entities.values():
+        check_entity_agents(_entity, agents, errors)
     if not agents:
         errors.append("schema/agent-registry.yaml missing or empty (plan v2 E4.2: every provenance agent must resolve)")
     check_agent_registry_shape(agents, errors)

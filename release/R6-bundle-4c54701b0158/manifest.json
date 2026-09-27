@@ -1,0 +1,12 @@
+{
+  "bundle": "R6-bundle-4c54701b0158",
+  "release_phase": "R6 projection publication — candidate",
+  "payload_hash_sha256": "4c54701b0158bc37218e9e2a40b9736e0dec719612e854116f553a200f54683e",
+  "entity_count": 7,
+  "assertion_count": 2,
+  "schema_version": "1.2.0",
+  "identifier_base": "STAGED-WITHOUT-DECISION (stemma: URNs bound; external base NOT claimed)",
+  "amendment_0001_gate": "BLOCKED until docs/decisions/r6-identifier-base.md exists with decided_by human:* + decision per ADR-0053 candidate set (w3id | datacite-doi | ark-n2t | stemma-urn-only-as-declared)",
+  "export_version": "2.2.0",
+  "shacl_contract": "stemma-shapes.ttl enforced by scripts/validate_shacl_shapes.py"
+}

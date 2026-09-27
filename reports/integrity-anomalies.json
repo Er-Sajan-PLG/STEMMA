@@ -3,9 +3,14 @@
     {
       "level": "INFO",
       "type": "isolated_entities",
-      "message": "1 entities have no connections",
+      "message": "6 entities have no connections",
       "ids": [
-        "stemma:phys.metre"
+        "stemma:phys.conservation-energy",
+        "stemma:phys.kilogram",
+        "stemma:phys.length",
+        "stemma:phys.newtons-second-law",
+        "stemma:phys.second",
+        "stemma:phys.time"
       ]
     }
   ],

@@ -24,6 +24,8 @@ body, html { width:100%; height:100%; overflow:hidden; background: var(--bg-dark
 .brand-logo { width:20px; height:20px; border-radius:50%; background:#5fd0ff; }
 .brand-sub { font-size:0.65rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:var(--accent-cyan); background:rgba(95,208,255,0.1); padding:3px 8px; border-radius:9999px; border:1px solid rgba(95,208,255,0.2); }
 .chat-soon { font-size:0.65rem; font-weight:600; color:var(--text-secondary); background:rgba(255,255,255,0.04); border:1px solid var(--border-glass); padding:3px 8px; border-radius:9999px; }
+.feedback-link { color:var(--accent-cyan); text-decoration:none; cursor:pointer; }
+.feedback-link:hover, .feedback-link:focus-visible { background:rgba(95,208,255,0.12); border-color:rgba(95,208,255,0.35); }
 .toolbar-controls { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
 .search-wrapper { position:relative; display:flex; align-items:center; }
 .search-input { background: var(--bg-card); border:1px solid var(--border-glass); color:var(--text-primary); padding:7px 28px 7px 10px; border-radius:8px; font-size:0.82rem; width:220px; outline:none; }

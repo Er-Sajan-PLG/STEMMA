@@ -83,20 +83,33 @@ check('trust distribution matches assertion.review.status',
   JSON.stringify(actualTrust) === JSON.stringify(expectedTrust), JSON.stringify(actualTrust));
 
 // Trust must be visible: reviewed edges are drawn heavier, unreviewed ones faint.
-// Comprehensive all-STEM: when 0 connections (early stage 1 entity, will grow to 400-800), this is INFO not FAIL
-const canonical = projection.links.find(l => l.trust === 'canonical');
-const unreviewed = projection.links.find(l => l.trust === 'unreviewed');
-if (canonical && unreviewed) {
-  const sameRelation = projection.links.filter(l => l.relationship === canonical.relationship);
-  const a = sameRelation.find(l => l.trust === 'canonical');
-  const b = sameRelation.find(l => l.trust === 'unreviewed');
-  check('trust modulates edge weight/opacity', !a || !b || (a.width > b.width && a.trustOpacity > b.trustOpacity));
-} else {
-  if (projection.links.length === 0) {
-    console.log(`INFO: both canonical and unreviewed edges exist in the export — 0 links now (1 entity, will grow to 400-800 across 8 domains), skipping trust styling check — INFO not FAIL`);
-  } else {
-    check('both canonical and unreviewed edges exist in the export', false, 'cannot compare trust styling');
-  }
+// This tests the STYLING CODE, so it must not depend on what the corpus happens to
+// contain (it used to FAIL with exactly one tier present and silently skip with none).
+// Always exercise it on a synthetic export that has both tiers on the same relation.
+{
+  const base = data.connections.find(c => typeof c.target === 'string') ?? null;
+  const [e1, e2] = data.entities.length >= 2 ? data.entities : [
+    { ...(data.entities[0] ?? {}), id: 'stemma:phys.synthetic-a', name: 'A' },
+    { ...(data.entities[0] ?? {}), id: 'stemma:phys.synthetic-b', name: 'B' },
+  ];
+  const mk = (id, status) => ({
+    ...(base ?? {}),
+    id, source: e1.id, target: e2.id, relation: base?.relation ?? 'mathematically_requires',
+    value: undefined,
+    assertion: { ...(base?.assertion ?? {}), status: 'active', review: { ...(base?.assertion?.review ?? {}), status } },
+    claim_signature: 'sha256:' + '0'.repeat(64),
+  });
+  const synthetic = {
+    ...data,
+    entities: data.entities.length >= 2 ? data.entities : [e1, e2],
+    connections: [mk('stemma:conn.900001', 'canonical'), mk('stemma:conn.900002', 'unreviewed')],
+  };
+  const sp = projectKnowledgeGraph(synthetic);
+  const a = sp.links.find(l => l.trust === 'canonical');
+  const b = sp.links.find(l => l.trust === 'unreviewed');
+  check('trust modulates edge weight/opacity (synthetic canonical vs unreviewed edge)',
+    !!a && !!b && a.width > b.width && a.trustOpacity > b.trustOpacity,
+    a && b ? `canonical w=${a.width} o=${a.trustOpacity} / unreviewed w=${b.width} o=${b.trustOpacity}` : 'missing tier in synthetic projection');
 }
 
 // --- contract v2.0: an export with a MISSING connections[] is invalid ----------------

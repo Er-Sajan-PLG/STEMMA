@@ -87,6 +87,6 @@ graph_analysis.py (invariants)
 ↓
 export_review_aware.py (review-aware export)
 ↓
-exports/knowledge.json (v2.1.0, deterministic, content-hash)
+exports/knowledge.json (v2.2.0, deterministic, content-hash)
 
 No legacy, this is beginning. PDF primary ingestion with HITL.

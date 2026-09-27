@@ -9,8 +9,10 @@ This is mandatory for BOTH:
 - Secondary flow: Direct agent addition (LLM) → markdown draft → human edit → canonical
 
 Checks:
-1. Audit trail: workflow/audit/audit.jsonl must contain candidate_edited event by human:* for entity
-2. Writer is human: provenance.writer must start with human: (not llm:, unknown:)
+1. Audit trail: workflow/audit/audit.jsonl must contain a candidate_edited event whose
+   detail.writer is a REGISTERED active human and whose markdown_path is this entity's file
+2. Writer is human: provenance.writer must be an active individual human in
+   schema/agent-registry.yaml (a bare human:* prefix is not enough — H1)
 3. Markdown explicit: workflow/candidates/ and workflow/proposals/ must have human-edited markdown file
 4. File modified after AI draft: proposal mtime > candidate mtime, or audit shows human edit after draft
 
@@ -34,6 +36,36 @@ AUDIT = WORKFLOW / "audit" / "audit.jsonl"
 CANDIDATES = WORKFLOW / "candidates"
 PROPOSALS = WORKFLOW / "proposals"
 CONTENT = ROOT / "content"
+AGENTS = ROOT / "schema" / "agent-registry.yaml"
+
+
+def registered_humans() -> set[str]:
+    """Active individual humans in the agent registry. Empty on any error, so
+    every human check fails closed rather than trusting a `human:` prefix."""
+    import yaml
+    try:
+        data = yaml.safe_load(AGENTS.read_text(encoding="utf-8")) or {}
+    except Exception:
+        return set()
+    return {a["id"] for a in data.get("agents") or []
+            if isinstance(a, dict) and a.get("class") == "human"
+            and a.get("status") == "active" and a.get("type") != "institution"}
+
+
+def human_edit_events(audit: list, humans: set[str], slug: str | None = None) -> list:
+    """candidate_edited events attributed to a registered human; with `slug`,
+    only events whose edited markdown file is exactly `<slug>.md`."""
+    out = []
+    for e in audit:
+        if e.get("event") != "candidate_edited":
+            continue
+        detail = e.get("detail") or {}
+        if detail.get("writer") not in humans:
+            continue
+        if slug is not None and Path(str(detail.get("markdown_path") or "")).name != f"{slug}.md":
+            continue
+        out.append(e)
+    return out
 
 def load_audit():
     if not AUDIT.exists():
@@ -61,8 +93,13 @@ def check_entity(entity_id: str, verbose=False):
         content_file=md
         break
     # Also check workflow proposals
+    # A Path is always truthy: keep None when absent, or every `or`/`not` test
+    # below silently picks a missing file and skips the writer check.
     proposal_file = PROPOSALS / f"{slug}.md"
-    candidate_files = list(CANDIDATES.rglob(f"{slug}.md")) + list(CANDIDATES.rglob(f"*{slug}*.md"))
+    if not proposal_file.exists():
+        proposal_file = None
+    # Exact file name only: '*metre*' would also pick up centimetre.md.
+    candidate_files = sorted(CANDIDATES.rglob(f"{slug}.md"))
 
     if not content_file and not proposal_file and not candidate_files:
         # No file yet — not an error for hitl_check, just not ready
@@ -79,10 +116,10 @@ def check_entity(entity_id: str, verbose=False):
                 import yaml
                 fm=yaml.safe_load(text.split("---")[1])
                 writer=fm.get("provenance",{}).get("writer","")
-                if writer and not writer.startswith("human:"):
-                    violations.append(f"{full_id}: provenance.writer is '{writer}' not human:* — HITL requires human writer, not {writer.split(':')[0]}")
+                if writer and writer not in registered_humans():
+                    violations.append(f"{full_id}: provenance.writer is '{writer}', not an active human in {AGENTS.relative_to(ROOT)} — HITL requires a registered human writer")
                 if not writer:
-                    violations.append(f"{full_id}: missing provenance.writer — must be human:curator.001 for HITL")
+                    violations.append(f"{full_id}: missing provenance.writer — must be a registered human for HITL")
         except Exception as e:
             violations.append(f"{full_id}: failed to parse {file_to_check}: {e}")
 
@@ -90,19 +127,17 @@ def check_entity(entity_id: str, verbose=False):
     audit_entries=load_audit()
     # Find events for this slug
     relevant=[e for e in audit_entries if slug in json.dumps(e) or e.get("doc_id","") in slug or slug in e.get("detail",{}).get("candidate_id","")]
-    # More generic: check if any candidate_edited by human exists
-    edited_events=[e for e in audit_entries if e.get("event")=="candidate_edited" and "human:" in json.dumps(e.get("detail",{}))]
-    # For specific entity, check if edited event mentions slug
-    edited_for_entity=[e for e in edited_events if slug in json.dumps(e)]
+    humans=registered_humans()
+    edited_events=human_edit_events(audit_entries, humans)
+    # Evidence must be for THIS entity: an edit of <slug>.md by a registered human.
+    edited_for_entity=human_edit_events(audit_entries, humans, slug)
 
     if not audit_entries:
         violations.append(f"{full_id}: no audit trail at {AUDIT} — workflow/audit/audit.jsonl missing, run ingestion via webapp or pdf_ingest_primary.py")
-    elif not edited_events:
-        violations.append(f"{full_id}: no candidate_edited event by human:* in audit trail — human must explicitly edit markdown file before canonical (HITL required)")
-    elif not edited_for_entity and candidate_files:
-        # If we have candidate files but no specific edit for this slug, warn
-        if verbose:
-            print(f"{full_id}: no specific audit for {slug}, but found {len(edited_events)} human edits overall")
+    elif not edited_for_entity:
+        # Fail closed: another entity's edit is not evidence for this one.
+        violations.append(f"{full_id}: no candidate_edited event for {slug}.md by a registered human in the audit trail "
+                          f"({len(edited_events)} human edit(s) of other files) — human must explicitly edit this markdown before canonical (HITL required)")
 
     # 3. Markdown explicit check
     if not candidate_files and not proposal_file:
@@ -119,7 +154,7 @@ def check_entity(entity_id: str, verbose=False):
             if prop_mtime + 2 < cand_mtime:
                 # Check if audit has human edit — if yes, don't fail on mtime
                 audit_entries=load_audit()
-                edited_for_entity=[e for e in audit_entries if e.get("event")=="candidate_edited" and slug in json.dumps(e)]
+                edited_for_entity=human_edit_events(audit_entries, registered_humans(), slug)
                 if not edited_for_entity:
                     violations.append(f"{full_id}: proposal {proposal_file} mtime {prop_mtime} < candidate mtime {cand_mtime} — proposal must be edited by human after AI draft (no audit of human edit found)")
         except Exception as e:
@@ -198,13 +233,16 @@ def main():
         for p in proposals[:10]:
             print(f"  - {p}")
         # Check if any human edit
-        human_edits=[e for e in audit if e.get("event")=="candidate_edited" and "human:" in json.dumps(e)]
+        human_edits=human_edit_events(audit, registered_humans())
         print(f"Human edits (HITL): {len(human_edits)}")
         if not human_edits and (candidates or proposals):
             print(f"FAIL: No human edits in audit — HITL required, human must explicitly edit markdown")
             return 1
+        elif not (candidates or proposals):
+            print("OK: no workflow candidates or proposals yet — nothing to check")
+            return 0
         else:
-            print(f"OK: HITL workflow has human edits")
+            print(f"OK: HITL workflow has {len(human_edits)} registered-human edit(s); per-entity evidence is enforced at review time (review_entity.py)")
             return 0
 
     parser.print_help()

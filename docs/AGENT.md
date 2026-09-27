@@ -44,7 +44,7 @@ Agent (you, LLM) proposes entity per this protocol → writes to workflow/candid
 3. `schema/physics-governing-registry.yaml` — machine-readable governing laws, allowed quantities per subdomain
 4. `docs/PHYSICS-MINIMAL-DESIGN-V2.md` — minimal schema with dual verification + history rules
 5. `docs/DOMAIN-MODEL.md` §8 — physics profile
-6. `schema/concept.schema.json` v1.2.0 — required fields
+6. `schema/concept.schema.json` v1.3.0 — required fields
 
 **Do NOT rely on LLM reasoning to decide subdomain or governing law.** Use deterministic mapping in `PHYSICS-GOVERNING-LAWS.md` §3.
 
@@ -159,6 +159,7 @@ provenance:  # MANDATORY — dual verification + HITL
   source: >-
     Full citation with page and exact: BIPM SI Brochure 9th ed. (2019) §2.3.1, p130: The metre is defined as path of light in vacuum during 1/299,792,458 s. Exact c=299,792,458 m/s.
   writer: human:curator.001  # who wrote this file — must be human:* for HITL, must resolve in agent-registry.yaml, not llm:*
+  drafted_by: llm:antigravity-001  # optional (schema 1.3.0): machine that produced the draft — origin kept, never rewritten
   original_author: "BIPM"  # who originally stated science — BIPM or Halliday, Resnick, Walker
   link: "https://www.bipm.org/en/publications/si-brochure"  # URL — mandatory, for triple-check
   retrieved_at: "2026-09-21"  # ISO date — mandatory

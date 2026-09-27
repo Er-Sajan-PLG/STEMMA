@@ -1,0 +1,17 @@
+# Canonical decision records — pilot-level decisions.
+# scope: stemma_spec_recovery_slice (ADR-STEMMA-SPEC-001) | repo: core_export_surface_and_gate | component: null when repo-wide
+decisions:
+  - id: ADR-STEMMA-SPEC-001
+    title: "Specification Recovery pilot slice selection"
+    status: ACCEPTED        # charter-designated pilot participant authority for process slice choice; content approval NOT implied
+    date: 2026-09-22
+    decided_by: "recovery executor (sole participant), within charter-designated authority"
+    scope: stemma_spec_recovery_slice
+    context: "Recovery must proceed pilot-first; slice must be coherent, deeply assessable, high architectural leverage, feasible within timebox, low authorization risk."
+    options: ["foundation schema+gate slice (chosen)", "whole repo language of control", "consumer surface first", "single pipeline first"]
+    rationale: "Layers L5–L9 + the gate expose the atomic contract + enforceable controls + measurable conforming surfaces; ROI (control leverage)/(complexity)*(novelty) is maximal here."
+    consequences: "Alternate slices demoted to queue; whole-repo expansion forbidden until process review."
+    links: [spec/PILOT_CHARTER.md, spec/SPECIFICATION_GAP_ANALYSIS.md]
+historical_decisions:
+  note: "Historical ADR-0001..ADR-0052 live under docs/decisions/ (product history, ISO-style numeric IDs). Recovery references them from requirement records via related_adr fields; it does not re-author or renumber them."
+  index: docs/decisions/

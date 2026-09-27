@@ -104,7 +104,6 @@ def test_export_publishes_relation_registry_and_vocabularies():
     export = json.loads((ROOT / "exports" / "knowledge.json").read_text())
 
     assert export["export_version"] == versions["export_version"]
-    assert export["export_version"] == "2.1.0"
 
     assert export["relation_registry_version"] == versions["relation_registry_version"]
     registry = export["relation_registry"]
@@ -118,8 +117,22 @@ def test_export_publishes_relation_registry_and_vocabularies():
     }
     assert required <= set(registry), f"registry missing adopted relations: {required - set(registry)}"
     for name, entry in registry.items():
-        for field in ("family", "transitive", "symmetric", "domain", "range", "status"):
+        for field in ("family", "transitive", "domain", "range", "status"):
             assert field in entry, f"relation_registry[{name!r}] missing {field}"
+        # Registry semantics (test_registry_coherence): `symmetric` defaults to
+        # False; symmetric relations carry NO inverse field; non-symmetric
+        # relations MUST declare a derived inverse name.
+        if entry.get("symmetric", False):
+            assert not entry.get("inverse"), \
+                f"relation_registry[{name!r}] symmetric relation must not declare an inverse"
+        else:
+            inv = entry.get("inverse")
+            if inv is not None:
+                # Named inverses must exist in the registry and be mutual
+                # (mirrors tests/registry/test_registry_coherence.py).
+                assert inv in registry, f"relation_registry[{name!r}] inverse {inv!r} not in registry"
+                assert registry[inv].get("inverse") == name, \
+                    f"relation_registry[{name!r}] inverse not mutual with {inv!r}"
 
     vocabularies = export["vocabularies"]
     assert "physics" in vocabularies["domains"]

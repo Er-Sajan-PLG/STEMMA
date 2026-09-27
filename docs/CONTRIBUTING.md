@@ -5,9 +5,9 @@ knowledge foundation. Every contribution keeps the foundation
 **curriculum-agnostic, product-independent, identity-stable, and honest about
 provenance**.
 
-Start here: [docs/VISION.md](docs/VISION.md) ·
-[docs/GOVERNANCE.md](docs/GOVERNANCE.md) ·
-[docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) (detailed guide).
+Start here: [docs/VISION.md](VISION.md) ·
+[docs/GOVERNANCE.md](GOVERNANCE.md) ·
+[docs/CONTRIBUTING.md](CONTRIBUTING.md) (detailed guide).
 
 ## The five ground rules
 
@@ -62,7 +62,7 @@ npm --prefix explorer run verify
 ## Reviewing knowledge
 
 Human review is the authority track — see
-[docs/CURATION-PROTOCOL.md](docs/CURATION-PROTOCOL.md) for states,
+[docs/CURATION-PROTOCOL.md](CURATION-PROTOCOL.md) for states,
 transitions, evidence standards per relation family, and the campaign
 worksheet workflow. AI agents may propose and prepare; they never decide.
 

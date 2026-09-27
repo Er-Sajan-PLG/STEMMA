@@ -196,7 +196,16 @@ def check_embeddings_deterministic():
     shutil.copy(emb_path, "/tmp/embeddings1.jsonl")
     shutil.copy(meta_path, "/tmp/meta1.json")
 
-    run([sys.executable, "scripts/embed.py", "--model", meta.get("model", "sentence-transformers/all-MiniLM-L6-v2")], fail_fast=False)
+    # Rerun exactly the same kind of run. A placeholder store (H5) is labelled
+    # stemma:placeholder-hash, which embed.py only writes with --placeholder;
+    # the originally requested registry model is recorded on each row.
+    cmd = [sys.executable, "scripts/embed.py"]
+    if meta.get("placeholder") or meta.get("model") == "stemma:placeholder-hash":
+        first = json.loads(emb_path.read_text().splitlines()[0]) if emb_path.stat().st_size else {}
+        cmd += ["--placeholder"] + (["--model", first["requested_model"]] if first.get("requested_model") else [])
+    else:
+        cmd += ["--model", meta.get("model", "sentence-transformers/all-MiniLM-L6-v2")]
+    run(cmd, fail_fast=False)
     
     if emb_path.exists():
         with open("/tmp/embeddings1.jsonl") as f1, open(emb_path) as f2:

@@ -1,0 +1,143 @@
+name: Release — publish the file contract to GitHub Releases
+
+# Distribution plane (ADR-0054, decision 1): consumers — internal products and
+# third parties alike — pull the SAME published bundle from GitHub Releases.
+# Every asset gets a Sigstore build-provenance attestation (decision 3, layer 2).
+# The owner's GPG signature (layer 1) is a manual local step — the key is never
+# given to Actions. Hence:
+#   vX.Y.Z-rcN -> published as a pre-release, CI-attested only (no owner signature)
+#   vX.Y.Z     -> created as a DRAFT (invisible to consumers); the owner signs
+#                 SHA256SUMS.txt, uploads SHA256SUMS.sig, then publishes it
+#                 (docs/API.md "Owner signature").
+#
+# Tags: vX.Y.Z (final) or vX.Y.Z-rcN (pre-release). X.Y.Z must equal ./VERSION.
+# Final releases additionally require scripts/publication_gate.py to pass
+# (owner's identifier-base decision recorded — Amendment 0001 / ADR-0053);
+# pre-releases are published as GitHub pre-releases marked PENDING-PUBLICATION.
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build, verify, attest, publish
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write      # create the GitHub Release
+      id-token: write      # Sigstore OIDC token for the attestation
+      attestations: write  # store the attestation
+    env:
+      TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      - name: Classify tag and check it matches VERSION
+        id: tag
+        run: |
+          set -euo pipefail
+          if [[ ! "$TAG" =~ ^v([0-9]+\.[0-9]+\.[0-9]+)(-rc[0-9]+)?$ ]]; then
+            echo "FAIL: tag $TAG must be vX.Y.Z or vX.Y.Z-rcN"; exit 1
+          fi
+          base="${BASH_REMATCH[1]}"; suffix="${BASH_REMATCH[2]:-}"
+          version="$(tr -d '[:space:]' < VERSION)"
+          if [[ "$base" != "$version" ]]; then
+            echo "FAIL: tag $TAG does not match VERSION ($version)"; exit 1
+          fi
+          if [[ -n "$suffix" ]]; then echo "prerelease=true" >> "$GITHUB_OUTPUT"; else echo "prerelease=false" >> "$GITHUB_OUTPUT"; fi
+          echo "epoch=$(git log -1 --format=%ct)" >> "$GITHUB_OUTPUT"
+
+      - name: Verification chain + exports fresh
+        run: |
+          set -euo pipefail
+          python3 scripts/verify_all.py
+          git diff --exit-code -- exports reports || { echo "FAIL: exports/ or reports/ not fresh at $TAG"; exit 1; }
+          python3 scripts/export_consumers.py --all --check
+
+      - name: Publication gate (final releases only)
+        run: |
+          if [[ "${{ steps.tag.outputs.prerelease }}" == "true" ]]; then
+            echo "Pre-release: publication gate not required; bundle is marked PENDING-PUBLICATION."
+            python3 scripts/publication_gate.py --explain
+          else
+            python3 scripts/publication_gate.py
+          fi
+
+      - name: Build release bundle
+        id: bundle
+        env:
+          SOURCE_DATE_EPOCH: ${{ steps.tag.outputs.epoch }}
+        run: |
+          set -euo pipefail
+          name="$(python3 scripts/build_release_bundle.py --out dist --release-tag "$TAG" --print-name | tail -n 1)"
+          python3 scripts/build_release_bundle.py --verify "dist/$name"
+          out="dist/stemma-$TAG"
+          mv "dist/$name" "$out"
+          (cd "$out" && sha256sum -c SHA256SUMS.txt)
+          # Only complete exports load with the SDK (manifest kind == export)
+          for f in $(python3 -c "import json,sys; m=json.load(open('$out/manifest.json')); print(' '.join(n for n,v in m['files'].items() if v['kind']=='export'))"); do
+            PYTHONPATH=adapters/python python3 -m stemma_adapter validate "$out/$f" > /dev/null || { echo "FAIL: $f"; exit 1; }
+          done
+          # Deterministic tarball of the whole bundle
+          tar --sort=name --mtime="@${SOURCE_DATE_EPOCH}" --owner=0 --group=0 --numeric-owner --format=gnu \
+              -C dist -cf - "stemma-$TAG" | gzip -n > "dist/stemma-$TAG.tar.gz"
+          ls -l "$out" "dist/stemma-$TAG.tar.gz"
+          echo "dir=$out" >> "$GITHUB_OUTPUT"
+
+      - name: Attest build provenance (Sigstore, keyless)
+        uses: actions/attest-build-provenance@v4
+        with:
+          subject-path: |
+            ${{ steps.bundle.outputs.dir }}/*
+            dist/stemma-${{ env.TAG }}.tar.gz
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          dir="${{ steps.bundle.outputs.dir }}"
+          status="$(python3 -c "import json; print(json.load(open('$dir/manifest.json'))['release_status'])")"
+          chash="$(python3 -c "import json; print(json.load(open('$dir/manifest.json'))['content_hash'])")"
+          cat > notes.md <<EOF
+          STEMMA knowledge bundle **$TAG** — content \`$chash\`
+
+          Status: $status
+
+          Content: CC BY 4.0 (credit "STEMMA" at product level). Code: MIT.
+
+          **Which file?** \`knowledge.<consumer>.json\` is pre-filtered per consumer
+          (learninghub = canonical, professor-j = reviewed, general / stemma-explorer = all).
+          \`knowledge.json\` is everything; \`manifest.json\` lists every file's kind, sha256 and counts.
+
+          **Verify before use**
+          \`\`\`bash
+          sha256sum -c SHA256SUMS.txt
+          gh attestation verify knowledge.learninghub.json --repo ${{ github.repository }}
+          python -m stemma_adapter validate knowledge.learninghub.json
+          \`\`\`
+          EOF
+          if [[ "${{ steps.tag.outputs.prerelease }}" == "true" ]]; then
+            echo "Pre-release: CI-attested only — no owner GPG signature." >> notes.md
+            flag="--prerelease"
+          else
+            printf '%s\n' "Owner GPG signature: \`gpg --verify SHA256SUMS.sig SHA256SUMS.txt\`." >> notes.md
+            flag="--draft"   # owner signs, uploads SHA256SUMS.sig, then publishes
+          fi
+          gh release create "$TAG" "$dir"/* "dist/stemma-$TAG.tar.gz" \
+            --title "STEMMA $TAG" --notes-file notes.md --verify-tag $flag

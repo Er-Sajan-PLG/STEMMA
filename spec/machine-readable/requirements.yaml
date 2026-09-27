@@ -1,0 +1,560 @@
+# Canonical requirement records — mirrors spec/REQUIREMENTS.md
+# ALL status: PROPOSED — executor has no approval authority (approver: null = pending SOLE_OWNER).
+schema_note: "Full section-8.6 schema. supersedes: null everywhere (v1 revision series)."
+requirements:
+  - id: REQ-STEMMA-CORE-001
+    revision: 1
+    title: Canonical locations only
+    statement: "Canonical knowledge SHALL live only in content/, connections/, sources/; everything else is regenerable derived output or tooling."
+    type: FUNCTIONAL
+    origin: RECOVERED
+    status: PROPOSED
+    priority: P0
+    normative_strength: SHALL
+    rationale: "Consumers and agents must have one unambiguous source of truth; derived copies invite forked truth (architecture L6)."
+    source: [EVID-STEMMA-GATE-003, EVID-STEMMA-CORE-001]
+    validation_basis: [recovered_intent, implemented_behavior, governing_docs]
+    validation_status: SUPPORTED
+    acceptance_criteria:
+      - "Consumers read the export (IFACE-STEMMA-EXP-001), never canonical markdown directly"
+      - "Derived artifacts regenerate from canonical via the gate"
+    verification_method: INSPECTION
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: []
+    related_spec: ["spec/SPECIFICATION.md#4.1"]
+    related_adr: [ADR-0027, ADR-0044]
+    related_implementation: ["scripts/validate.py"]
+    related_verification: ["cmd: python3 scripts/validate.py"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-CORE-002
+    revision: 1
+    title: Immutable stable identity
+    statement: "Canonical IDs SHALL match the stemma: schema patterns and SHALL never be reused or reassigned; corrections are supersessions, never edits in place."
+    type: DATA
+    origin: RECOVERED
+    status: PROPOSED
+    priority: P0
+    normative_strength: SHALL
+    rationale: "Knowledge-graph consumers join on IDs; reuse silently corrupts meaning (L5)."
+    source: [EVID-STEMMA-CORE-003]
+    validation_basis: [recovered_intent, schema_contract]
+    validation_status: SUPPORTED
+    acceptance_criteria:
+      - "concept/source schemas reject non-stemma IDs"
+      - "check_id_immutability guards history: no deletion/rename across git history"
+    verification_method: STATIC_ANALYSIS
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: []
+    related_spec: ["spec/SPECIFICATION.md#4.1", "spec/SPECIFICATION.md#4.4"]
+    related_adr: [ADR-0027]
+    related_implementation: ["schema/concept.schema.json", "scripts/check_id_immutability.py"]
+    related_verification: ["tests/curation/test_id_immutability.py"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-CORE-003
+    revision: 1
+    title: No embeddings in canonical
+    statement: "Canonical data SHALL NOT contain embeddings, vectors, or RAG artifacts; those are derived-layer only."
+    type: CONSTRAINT
+    origin: RECOVERED
+    status: PROPOSED
+    priority: P0
+    normative_strength: SHALL NOT
+    rationale: "Vectors are model-specific, non-reviewable, non-time-invariant; canonical purity keeps human review meaningful (L6)."
+    source: [EVID-STEMMA-SEC-002]
+    validation_basis: [recovered_intent, ci_enforcement]
+    validation_status: SUPPORTED
+    acceptance_criteria: ["CI step fails if content/ contains vector material"]
+    verification_method: STATIC_ANALYSIS
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: []
+    related_spec: ["spec/SPECIFICATION.md#4.1"]
+    related_adr: [ADR-0044]
+    related_implementation: [".github/workflows/ci.yml"]
+    related_verification: ["ci: verify-knowledge-base no-embeddings step"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-CORE-004
+    revision: 1
+    title: Curriculum-free canonical data
+    statement: "Canonical data SHALL NOT contain curriculum, grade, course, country, or product semantics."
+    type: CONSTRAINT
+    origin: RECOVERED
+    status: PROPOSED
+    priority: P0
+    normative_strength: SHALL NOT
+    rationale: "Reusability across curricula and products (L7 refined by ADR-0047)."
+    source: [EVID-STEMMA-GATE-001]
+    validation_basis: [recovered_intent, machine_check]
+    validation_status: SUPPORTED
+    acceptance_criteria: ["test_generality rejects pedagogical keys; allows evidenced knowledge claims"]
+    verification_method: UNIT_TEST
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: []
+    related_spec: ["spec/SPECIFICATION.md#4.1"]
+    related_adr: [ADR-0047]
+    related_implementation: ["tests/curation/test_generality.py", "scripts/validate.py"]
+    related_verification: ["tests/curation/test_generality.py"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-SCH-001
+    revision: 1
+    title: Schema-conformant canonical objects
+    statement: "Every canonical object SHALL validate against its JSON Schema (concept/connection/source) within the gate."
+    type: DATA
+    origin: RECOVERED
+    status: PROPOSED
+    priority: P0
+    normative_strength: SHALL
+    rationale: "Contract-first data; schema is the parseable definition of the object model."
+    source: [EVID-STEMMA-GATE-003]
+    validation_basis: [implemented_behavior]
+    validation_status: SUPPORTED
+    acceptance_criteria: ["validate.py exits non-zero on any schema violation"]
+    verification_method: UNIT_TEST
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: [REQ-STEMMA-SCH-002]
+    related_spec: ["spec/SPECIFICATION.md#4.2"]
+    related_adr: []
+    related_implementation: ["scripts/validate.py", "schema/concept.schema.json", "schema/connection.schema.json", "schema/source.schema.json"]
+    related_verification: ["cmd: python3 scripts/validate.py"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-SCH-002
+    revision: 1
+    title: Single-sourced versions
+    statement: "All version literals in derived artifacts SHALL originate from schema/VERSION.yaml; hardcoded export/schema versions in producers are forbidden."
+    type: INTERFACE
+    origin: RECOVERED
+    status: PROPOSED
+    priority: P1
+    normative_strength: SHALL
+    rationale: "Observed drift mechanism: prose/literals duplicating machine-owned values desynchronize (EVID-STEMMA-OPS-004)."
+    source: [EVID-STEMMA-SCH-001, EVID-STEMMA-OPS-004]
+    validation_basis: [recovered_intent, implemented_behavior, observed_drift]
+    validation_status: SUPPORTED
+    acceptance_criteria:
+      - "test_no_version_literals_in_exporters passes"
+      - "docs-consistency check enforces VERSION.yaml keys"
+    verification_method: UNIT_TEST
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: []
+    related_spec: ["spec/SPECIFICATION.md#4.3"]
+    related_adr: [ADR-0022, ADR-0050]
+    related_implementation: ["schema/VERSION.yaml", "tests/versioning/test_deterministic_export.py"]
+    related_verification: ["tests/versioning/test_deterministic_export.py", "tests/repo/test_docs_consistency.py"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-SCH-003
+    revision: 1
+    title: Relation registry coherence
+    statement: "The relation registry SHALL remain coherent: named inverses mutual and mirrored, symmetric relations carry no inverse, domain/range reference known entity types."
+    type: DATA
+    origin: RECOVERED
+    status: PROPOSED
+    priority: P1
+    normative_strength: SHALL
+    rationale: "Derived graph projections emit inverse names; incoherence would produce illegal edges for consumers."
+    source: [EVID-STEMMA-SCH-003]
+    validation_basis: [implemented_behavior, registry_contract]
+    validation_status: SUPPORTED
+    acceptance_criteria: ["test_registry_coherence passes in the gate chain"]
+    verification_method: UNIT_TEST
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: []
+    related_spec: ["spec/SPECIFICATION.md#4.2"]
+    related_adr: [ADR-0042, ADR-0048]
+    related_implementation: ["schema/relation-registry.yaml", "tests/registry/test_registry_coherence.py"]
+    related_verification: ["tests/registry/test_registry_coherence.py", "tests/versioning/test_deterministic_export.py"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-GATE-001
+    revision: 1
+    title: Fail-closed gate chain
+    statement: "The verification chain SHALL fail closed: any failed step terminates the chain with a non-zero exit; nothing ships on a red gate."
+    type: BEHAVIORAL
+    origin: RECOVERED
+    status: PROPOSED
+    priority: P0
+    normative_strength: SHALL
+    rationale: "A gate that reports failure but exits zero is worse than no gate."
+    source: [EVID-STEMMA-GATE-002]
+    validation_basis: [implemented_behavior, observed_negative_run]
+    validation_status: SUPPORTED
+    acceptance_criteria: ["verify_all.py exits non-zero when any FAIL-level step fails (observed EVID-STEMMA-GATE-002)", "permanent CI negative-path test exists"]
+    verification_method: INTEGRATION_TEST
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: []
+    related_spec: ["spec/SPECIFICATION.md#4.2", "spec/INTERFACES/IFACE-STEMMA-GATE-001-verification-chain-cli.md"]
+    related_adr: []
+    related_implementation: ["scripts/verify_all.py"]
+    related_verification: ["cmd: python3 scripts/verify_all.py (positive and negative runs)"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-GATE-002
+    revision: 1
+    title: Status honesty gate
+    statement: "The README status block SHALL be machine-generated from live canonical counts; drift SHALL fail CI."
+    type: BEHAVIORAL
+    origin: RECOVERED
+    status: PROPOSED
+    priority: P0
+    normative_strength: SHALL
+    rationale: "Status honesty was itself an audit finding (F2); trust requires the headline numbers to be provable."
+    source: [EVID-STEMMA-GATE-006]
+    validation_basis: [implemented_behavior]
+    validation_status: SUPPORTED
+    acceptance_criteria: ["status_truth.py exits non-zero when the README block diverges from canonical"]
+    verification_method: UNIT_TEST
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: []
+    related_spec: ["spec/SPECIFICATION.md#4.2"]
+    related_adr: []
+    related_implementation: ["scripts/status_truth.py"]
+    related_verification: ["cmd: python3 scripts/status_truth.py"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-GATE-003
+    revision: 1
+    title: CI runs the full test suite
+    statement: "CI SHALL execute the full pytest suite and the all-green merge gate SHALL require its success."
+    type: OPERATIONAL
+    origin: RECOVERED
+    status: PROPOSED
+    priority: P1
+    normative_strength: SHALL
+    rationale: "Full-suite failures were invisible to CI pre-2026-09-22 (16 silent failures while main was green, EVID-STEMMA-GATE-009)."
+    source: [EVID-STEMMA-GATE-005, EVID-STEMMA-GATE-009]
+    validation_basis: [implemented_behavior, observed_failure_mode]
+    validation_status: SUPPORTED
+    acceptance_criteria: ["test-suite job runs pytest tests/ -q", "all-green job lists test-suite in needs"]
+    verification_method: INSPECTION
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: []
+    related_spec: ["spec/SPECIFICATION.md#4.2"]
+    related_adr: []
+    related_implementation: [".github/workflows/ci.yml"]
+    related_verification: ["ci: test-suite job; observed next PR"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-GATE-004
+    revision: 1
+    title: Docs consistency invariant (ADR-0029)
+    statement: "The authoritative doc set SHALL be one document per subject; docs/README.md SHALL index exactly the docs that exist; no living doc shall link a retired doc."
+    type: CONSTRAINT
+    origin: RECOVERED
+    status: PROPOSED
+    priority: P1
+    normative_strength: SHALL
+    rationale: "Duplicate/parallel doc sets were the largest measured divergence source in this repository."
+    source: [EVID-STEMMA-GATE-007]
+    validation_basis: [implemented_behavior]
+    validation_status: SUPPORTED
+    acceptance_criteria: ["tests/repo/test_docs_consistency.py exits 0 and is wired into CI"]
+    verification_method: UNIT_TEST
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: []
+    related_spec: ["spec/SPECIFICATION.md#4.2"]
+    related_adr: [ADR-0029]
+    related_implementation: ["tests/repo/test_docs_consistency.py"]
+    related_verification: ["ci: verify-docs job"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-GATE-005
+    revision: 1
+    title: Independence invariant (ADR-0027/0051)
+    statement: "Tracked living files SHALL NOT reference retired docs, ecosystem controllers, or the retired ID namespace outside history."
+    type: CONSTRAINT
+    origin: RECOVERED
+    status: PROPOSED
+    priority: P1
+    normative_strength: SHALL
+    rationale: "Cross-repo coupling via naming was a real historical failure mode (namespace replaced per ADR-0027)."
+    source: [EVID-STEMMA-GATE-008]
+    validation_basis: [implemented_behavior]
+    validation_status: SUPPORTED
+    acceptance_criteria: ["tests/repo/test_independence.py exits 0 and is wired into CI"]
+    verification_method: UNIT_TEST
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: []
+    related_spec: ["spec/SPECIFICATION.md#4.2"]
+    related_adr: [ADR-0027, ADR-0051]
+    related_implementation: ["tests/repo/test_independence.py"]
+    related_verification: ["ci: verify-docs job"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-EXP-001
+    revision: 1
+    title: Deterministic regenerable exports
+    statement: "Derived exports SHALL be deterministic: byte-identical regeneration, content-hash stamped, no wall clock."
+    type: BEHAVIORAL
+    origin: RECOVERED
+    status: PROPOSED
+    priority: P0
+    normative_strength: SHALL
+    rationale: "Content-hash equivalence is the cache/validity signal for all consumers (file/API/SDK connections)."
+    source: [EVID-STEMMA-EXP-002]
+    validation_basis: [implemented_behavior, ci_enforcement]
+    validation_status: SUPPORTED
+    acceptance_criteria: ["Two consecutive gate runs produce byte-identical exports", "content_hash present as sha256:*"]
+    verification_method: UNIT_TEST
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: [REQ-STEMMA-SCH-002]
+    related_spec: ["spec/SPECIFICATION.md#4.3", "spec/INTERFACES/IFACE-STEMMA-EXP-001-knowledge-json.md"]
+    related_adr: [ADR-0022]
+    related_implementation: ["scripts/validate.py", "scripts/export_review_aware.py"]
+    related_verification: ["tests/versioning/test_deterministic_export.py", "ci: no-wall-clock job"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-EXP-002
+    revision: 1
+    title: Versioned additive export contract with introspection sidecars
+    statement: "The export contract SHALL be versioned (export_version, currently 2.2.0) and evolve additively within a major version; the export SHALL carry relation-registry and vocabulary sidecars."
+    type: INTERFACE
+    origin: RECOVERED
+    status: PROPOSED
+    priority: P0
+    normative_strength: SHALL
+    rationale: "Consumers must introspect semantics without cloning the producer (ADR-0032) and must never receive breaking changes silently (ADR-0050)."
+    source: [EVID-STEMMA-EXP-001, EVID-STEMMA-SCH-001]
+    validation_basis: [implemented_behavior, contract_history]
+    validation_status: SUPPORTED
+    acceptance_criteria: ["export_version equals VERSION.yaml", "relation_registry + vocabularies present and registry-coherent", "jsonschema validation of export passes"]
+    verification_method: UNIT_TEST
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: [REQ-STEMMA-EXP-001, REQ-STEMMA-SCH-003]
+    related_spec: ["spec/INTERFACES/IFACE-STEMMA-EXP-001-knowledge-json.md"]
+    related_adr: [ADR-0032, ADR-0050]
+    related_implementation: ["scripts/validate.py", "schema/export.schema.json"]
+    related_verification: ["tests/versioning/test_deterministic_export.py"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-EXP-003
+    revision: 1
+    title: Derived-artifact freshness gate
+    statement: "Committed derived artifacts (exports/, reports/) SHALL be fresh: CI regenerates them and fails on diff."
+    type: BEHAVIORAL
+    origin: RECOVERED
+    status: PROPOSED
+    priority: P1
+    normative_strength: SHALL
+    rationale: "Stale committed exports silently contradict canonical data."
+    source: [EVID-STEMMA-GATE-005]
+    validation_basis: [implemented_behavior, ci_enforcement]
+    validation_status: SUPPORTED
+    acceptance_criteria: ["verify-knowledge-base job runs git diff --exit-code -- exports reports"]
+    verification_method: INTEGRATION_TEST
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: [REQ-STEMMA-EXP-001]
+    related_spec: ["spec/SPECIFICATION.md#4.3"]
+    related_adr: []
+    related_implementation: [".github/workflows/ci.yml"]
+    related_verification: ["ci: verify-knowledge-base freshness step"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-EXP-004
+    revision: 1
+    title: Consumer-filtered exports honor review_policy
+    statement: "Consumer exports SHOULD honor each consumer's declared review_policy (e.g., learninghub = canonical-only)."
+    type: INTERFACE
+    origin: RECOVERED
+    status: PROPOSED
+    priority: P1
+    normative_strength: SHOULD
+    rationale: "Consumers filter by review status; an all-draft corpus yields an empty canonical export."
+    source: [EVID-STEMMA-EXP-006, EVID-STEMMA-EXP-007]
+    validation_basis: [implemented_behavior, intent_claim_unconfirmed]
+    validation_status: PARTIALLY_SUPPORTED
+    acceptance_criteria: ["learninghub export excludes draft entities", "behavior documented and owner-confirmed (UNRES-STEMMA-EXP-001)"]
+    verification_method: INTEGRATION_TEST
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: [REQ-STEMMA-EXP-001]
+    related_spec: ["spec/SPECIFICATION.md#4.3"]
+    related_adr: []
+    related_implementation: ["scripts/export_consumers.py", "schema/consumer-registry.yaml"]
+    related_verification: ["cmd: python3 scripts/export_consumers.py --consumer learninghub --format json"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-HITL-001
+    revision: 1
+    title: Human review before canonical
+    statement: "AI-drafted content SHALL remain draft until a named human reviews it; canonical objects declare writer: human:* and are gated by hitl_check."
+    type: SECURITY
+    origin: RECOVERED
+    status: PROPOSED
+    priority: P0
+    normative_strength: SHALL
+    rationale: "Human accountability is the trust boundary of the foundation (L2/L8)."
+    source: [EVID-STEMMA-HITL-001, EVID-STEMMA-HITL-002, EVID-STEMMA-CORE-004]
+    validation_basis: [implemented_behavior, declared_metadata, gate_enforcement]
+    validation_status: SUPPORTED
+    acceptance_criteria: ["hitl_check present in gate chain", "every canonical entity carries human writer + review metadata", "audit evidence verifiable (see UNRES-STEMMA-HITL-001 limitation)"]
+    verification_method: INTEGRATION_TEST
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: [REQ-STEMMA-HITL-002]
+    related_spec: ["spec/SPECIFICATION.md#4.1", "spec/SPECIFICATION.md#7"]
+    related_adr: [ADR-0043]
+    related_implementation: ["scripts/hitl_check.py", "scripts/review.py"]
+    related_verification: ["cmd: python3 scripts/hitl_check.py --check-workflow"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-HITL-002
+    revision: 1
+    title: Explicit human markdown edit mandatory
+    statement: "No object SHALL become canonical without an explicit human markdown edit recorded in the HITL audit trail."
+    type: CONSTRAINT
+    origin: RECOVERED
+    status: PROPOSED
+    priority: P1
+    normative_strength: SHALL NOT
+    rationale: "Even LLM-assisted drafts require human-authored final text; rubber-stamping is forbidden by design."
+    source: [EVID-STEMMA-HITL-001]
+    validation_basis: [implemented_behavior, gate_enforcement]
+    validation_status: SUPPORTED
+    acceptance_criteria: ["hitl_check requires candidate_edited events by human:*"]
+    verification_method: INTEGRATION_TEST
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: []
+    related_spec: ["spec/SPECIFICATION.md#4.1"]
+    related_adr: [ADR-0043]
+    related_implementation: ["scripts/hitl_check.py"]
+    related_verification: ["gate: hitl_check step"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-SEC-001
+    revision: 1
+    title: Secret-free canonical layer
+    statement: "The canonical layer SHALL be free of secrets; machine-checked on every change (gitleaks + content greps)."
+    type: SECURITY
+    origin: RECOVERED
+    status: PROPOSED
+    priority: P1
+    normative_strength: SHALL
+    rationale: "Public knowledge repo with API-key-bearing tooling nearby; leak blast radius is git-permanent."
+    source: [EVID-STEMMA-SEC-001]
+    validation_basis: [implemented_behavior, ci_enforcement]
+    validation_status: SUPPORTED
+    acceptance_criteria: ["gitleaks action + no-secrets grep run in CI security job"]
+    verification_method: STATIC_ANALYSIS
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: []
+    related_spec: ["spec/SPECIFICATION.md#7"]
+    related_adr: []
+    related_implementation: [".github/workflows/ci.yml", ".gitleaks.toml"]
+    related_verification: ["ci: security job"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-SEC-002
+    revision: 1
+    title: No committed provider credentials
+    statement: "Provider API keys SHALL NOT be committed; key material lives only in runtime configuration or credential stores."
+    type: SECURITY
+    origin: EXTERNAL
+    status: PROPOSED
+    priority: P2
+    normative_strength: SHALL NOT
+    rationale: "XC-5: model-provider terms + credential safety for the webapp model selector."
+    source: [XC-5]
+    validation_basis: [external_constraint]
+    validation_status: NEEDS_AUTHORITY
+    acceptance_criteria: ["git history contains no provider keys", "webapp key handling reviewed in second pilot"]
+    verification_method: INSPECTION
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: [REQ-STEMMA-SEC-001]
+    related_spec: ["spec/SPECIFICATION.md#7", "spec/EXTERNAL_CONSTRAINTS.md"]
+    related_adr: []
+    related_implementation: ["webapp/providers.py"]
+    related_verification: ["inspection: second pilot (webapp slice)"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-OPS-001
+    revision: 1
+    title: Clean-clone gate reproducibility
+    statement: "A clean clone SHALL run the full gate after installing only the declared dependencies (requirements.txt)."
+    type: OPERATIONAL
+    origin: DERIVED
+    status: PROPOSED
+    priority: P1
+    normative_strength: SHALL
+    rationale: "Fresh-clone gate exited 2 pre-requirements.txt (ROADMAP R0 finding, observed during recovery)."
+    source: [EVID-STEMMA-GATE-004]
+    validation_basis: [implemented_behavior, observed_failure_mode]
+    validation_status: SUPPORTED
+    acceptance_criteria: ["fresh venv + pip install -r requirements.txt + verify_all.py -> exit 0"]
+    verification_method: MEASUREMENT
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: []
+    related_spec: ["spec/SPECIFICATION.md#5"]
+    related_adr: []
+    related_implementation: ["requirements.txt"]
+    related_verification: ["cmd: clean-venv install + gate run (performed during recovery)"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-OPS-002
+    revision: 1
+    title: Machine-owned counts and versions
+    statement: "Living documents SHOULD NOT hardcode machine-owned counts or versions; single sources (status_truth, VERSION.yaml) own them."
+    type: OPERATIONAL
+    origin: PROPOSED
+    status: PROPOSED
+    priority: P2
+    normative_strength: SHOULD
+    rationale: "EVID-STEMMA-OPS-004 (INFERENCE): prose-embedded values produced the measured drift class."
+    source: [EVID-STEMMA-OPS-004]
+    validation_basis: [inference_from_observed_drift]
+    validation_status: NEEDS_AUTHORITY
+    acceptance_criteria: ["docs drift incidents of this class trend to zero across releases"]
+    verification_method: INSPECTION
+    owner: Sajan
+    approver: null
+    parent: null
+    dependencies: [REQ-STEMMA-GATE-002]
+    related_spec: ["spec/SPECIFICATION.md#4.2"]
+    related_adr: []
+    related_implementation: ["scripts/status_truth.py", "schema/VERSION.yaml"]
+    related_verification: ["inspection: recurring doc drift review"]
+    history: []
+    supersedes: null

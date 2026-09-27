@@ -57,7 +57,7 @@ Explicit canonicalization (review_entity.py accept + canonicalize, human reviewe
   ↓
 STEMMA canonical knowledge (content/<domain>/<subdomain>/*.md with exact definitions dual verification governed_by history triple verification link+source_refs+external_ids)
   ↓
-Deterministic Exports / Indexes (exports/knowledge.json v2.1.0 deterministic content_hash sha256, no wall-clock, byte-identical on rerun, embeddings.jsonl + vector_store/ FAISS meta.json content_hash versioned, consumers/)
+Deterministic Exports / Indexes (exports/knowledge.json v2.2.0 deterministic content_hash sha256, no wall-clock, byte-identical on rerun, embeddings.jsonl + vector_store/ FAISS meta.json content_hash versioned, consumers/)
 ```
 
 The LLM is therefore an **extractor/interpreter**, not an authority.
@@ -462,7 +462,7 @@ STEMMA should not be designed around assumption "AI knows STEM." It should be de
 
 ## Implementation Status
 
-- R1 NOW: 1 entity metre via HITL, template-registry v2.0.0 8 domains 97 subdomains 12 entity types, embedding-registry v1.0.0 12 models, consumer-registry v1.0.0 4 consumers, pdf_ingest_primary.py comprehensive, webapp with HITL model selector like DeepSeek harness RAG playground consumer export, explorer clean 8 domains, guideline docs/GUIDELINE-EMBEDDER-RAG.md 81KB, strong CI 10 jobs all-green, verify_strong.py strong verification, Makefile, pre-commit hooks, install_hooks.py
+- R1 NOW: 1 entity metre via HITL, template-registry v2.0.0 8 domains 97 subdomains 12 entity types, embedding-registry v1.0.0 11 models, consumer-registry v1.0.0 4 consumers, pdf_ingest_primary.py comprehensive, webapp with HITL model selector like DeepSeek harness RAG playground consumer export, explorer clean 8 domains, guideline docs/GUIDELINE-EMBEDDER-RAG.md 81KB, strong CI 10 jobs all-green, verify_strong.py strong verification, Makefile, pre-commit hooks, install_hooks.py
 - R2: Semantic extraction pipeline — semantic_extract.py, entity_resolution.py enhanced, verify_claim.py independent verification, conflict_analysis.py explicit conflict detection, proposal_generate.py evidence first-class, llm-registry.yaml model roles, semantic-claim.schema.json, evidence windows, normalization, license gate, manifest, document vision
 - R3: Production RAG conflict-aware retrieval, evaluation dataset with deliberately conflicting sources, citation coverage, hosted vector store Qdrant/Pinecone, consistent architecture across all consumers via guideline
 

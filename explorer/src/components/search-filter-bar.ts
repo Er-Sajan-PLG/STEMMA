@@ -1,4 +1,5 @@
 import { ExplorerState, ExplorerMode } from '../state/explorer-state';
+import { feedbackUrl } from '../services/feedback';
 import { GRAPH_THEME } from '../styles/theme';
 
 export interface SearchFilterBarOptions {
@@ -29,7 +30,7 @@ export class SearchFilterBar {
           <div class="brand-logo"></div>
           <span>stemma</span>
           <span class="brand-sub">3D STEM</span>
-          <span class="chat-soon" title="Ask anything about a concept, equation, or relation — arriving next">💬 Ask stemma · soon</span>
+          <a class="chat-soon feedback-link" id="feedbackLink" href="${feedbackUrl()}" target="_blank" rel="noopener noreferrer" title="Spotted something wrong or confusing? Tell us (opens a GitHub form)">💬 Feedback</a>
         </div>
 
         <div class="toolbar-controls">
@@ -41,7 +42,7 @@ export class SearchFilterBar {
 
           <!-- Domain Dropdown — comprehensive all-STEM 8 domains -->
           <select id="domainSelect" class="select-control">
-            <option value="all">🌐 All Domains (8 domains, 97 subdomains, 400-800 target)</option>
+            <option value="all">🌐 All Domains</option>
             <option value="physics">⚡ Physics</option>
             <option value="chemistry">🧪 Chemistry</option>
             <option value="biology">🧬 Biology</option>

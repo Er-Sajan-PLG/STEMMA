@@ -1,0 +1,3 @@
+# STEMMA development/test dependencies (not needed by the canonical gate)
+-r requirements.txt
+pytest>=8.0,<9.0

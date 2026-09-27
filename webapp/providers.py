@@ -716,30 +716,21 @@ def list_models(config: dict[str, Any]) -> dict[str, Any]:
 FREE_MODEL_CATALOG: dict[str, list[str]] = {
     "deterministic": [],
     "openai_compatible": [
+        # OpenRouter free tier via an OpenAI-compatible endpoint — free models only.
         "meta-llama/llama-3.3-70b-instruct:free",
         "deepseek/deepseek-r1:free",
         "deepseek/deepseek-v3:free",
         "google/gemini-2.0-flash-exp:free",
         "nvidia/nemotron-3.5-lightning:free",
         "qwen/qwen-2.5-72b-instruct:free",
-        "anthropic/claude-3.5-sonnet",
-        "openai/gpt-4o",
-        "google/gemini-2.5-pro",
     ],
     "openrouter": [
+        # Known-free quick picks — every entry must end with ':free'.
         "deepseek/deepseek-r1:free",
         "deepseek/deepseek-v3:free",
-        "deepseek/deepseek-r1",
-        "deepseek/deepseek-v3",
-        "anthropic/claude-3.5-sonnet",
-        "anthropic/claude-3-opus",
-        "openai/gpt-4o",
-        "openai/gpt-4o-mini",
-        "openai/o1",
-        "google/gemini-2.5-pro",
         "google/gemini-2.0-flash-exp:free",
         "meta-llama/llama-3.3-70b-instruct:free",
-        "meta-llama/llama-3.1-405b-instruct",
+        "nvidia/nemotron-3.5-lightning:free",
         "qwen/qwen-2.5-72b-instruct:free",
     ],
     "nvidia": [

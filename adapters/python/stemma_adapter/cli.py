@@ -59,6 +59,14 @@ def build_parser() -> ArgumentParser:
     prereqs.add_argument("--policy", choices=["all", "reviewed", "canonical", "trusted"])
     prereqs.add_argument("--include-retired", action="store_true")
 
+    values = subparsers.add_parser("values", help="list valued claims (ADR-0045) for an entity")
+    values.add_argument("export", help="path to exports/knowledge.json")
+    values.add_argument("id", help="entity id")
+    values.add_argument("--relation")
+    values.add_argument("--review")
+    values.add_argument("--policy", choices=["all", "reviewed", "canonical", "trusted"])
+    values.add_argument("--include-retired", action="store_true")
+
     search = subparsers.add_parser("search", help="search entities by token")
     search.add_argument("export", help="path to exports/knowledge.json")
     search.add_argument("query", help="search query")
@@ -146,6 +154,17 @@ def main(argv: list[str] | None = None) -> int:
             emit_json(
                 client.prerequisites(
                     args.id,
+                    policy=args.policy,
+                    include_retired=args.include_retired,
+                )
+            )
+            return 0
+        if args.command == "values":
+            emit_json(
+                client.values(
+                    args.id,
+                    relation=args.relation,
+                    review=args.review,
                     policy=args.policy,
                     include_retired=args.include_retired,
                 )

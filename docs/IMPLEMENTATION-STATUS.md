@@ -5,7 +5,7 @@ Date: 2026-09-21
 Baseline: b958a5c empty corpus
 Architecture: docs/ARCHITECTURE-V2.md
 Implementation Plan: docs/IMPLEMENTATION-PLAN-V2.md
-Decisions: docs/decisions/README.md 0040-0052
+Decisions: docs/decisions/README.md 0040-0053
 Roadmap: docs/ROADMAP.md
 
 Ideal order history: b958a5c empty → 51fc1b0 architecture v2 clean → 493b32b implementation plan v2 → 27576f3 foundation reset fundamentals clean 3D → 3bcfd4a ingestion pipeline evolvable templates model selector → e692b25 comprehensive all-STEM template registry → dbc229f embeddings RAG separation consumer export guideline → 7297c6c strong CI explorer semantic pipeline final → 0df87ff fix status truth.
@@ -123,19 +123,19 @@ Intake Chain L8 16 stages DOCUMENT content_sha256 version URI anchors to Source 
 
 Every phase lands with enforcement same change set ADR+validator+test+docs+verify_all green+clean git diff derived per ADR-0026 discipline.
 
-Phase 0 Foundation Prerequisites Hours reproducibility fix requirements.txt pyyaml jsonschema write ADR-0044 update docs/decisions/README.md retitle LearningHubSTEM to STEMMA Foundation index ADRs 0023-0044 fix AGENTS.md dead refs NORTHSTAR.md STEMMA-SPECIFICATION.md force.md fix ingest.py candidates conform to source.schema.json remove hand-written report prose stale counts exit ADR-0044 committed README indexed requirements.txt present AGENTS.md clean gate green.
+Phase 0 Foundation Prerequisites Hours reproducibility fix requirements.txt pyyaml jsonschema write ADR-0044 update docs/decisions/README.md retitle LearningHubSTEM to STEMMA Foundation index ADRs 0023-0044 fix AGENTS.md dead Quick Start refs (retired docs) fix ingest.py candidates conform to source.schema.json remove hand-written report prose stale counts exit ADR-0044 committed README indexed requirements.txt present AGENTS.md clean gate green.
 
 Phase 1a Value-Slot Days make target and value mutually exclusive XOR in connection.schema.json extend claim_signature computation validate.py extend check_id_immutability.py to cover value-slot claims unit field interim allowlist QUDT/UCUM/SI symbols documented anchor strings until ADR-0024 not just "1" exit schemas updated validator handles new shapes tests pass gate green — ADR-0045.
 
 Phase 1b Warrant Axis + Correction Labels Days extend confidence_basis enum with definitional axiomatic model_based update check_assertion_epistemics to handle extended basis without requiring inference blocks for non-inferred types keep assertion.type 3 values add optional correction_class enum to review_history[] items start used set at 3 reserve 8 exit validator handles extended basis tests pass gate green — ADR-0046.
 
-Phase 1c L7 Refinement Not Purge Days refine L7 to distinguish pedagogical vs knowledge remove learning_objectives instructional_sequencing from concept.schema.json properties allow real_world_applications common_misconceptions ONLY when evidenced as ValueClaim with evidence[] and source not free-form strings extend test_generality.py to reject pedagogical keys but allow evidenced knowledge claims record SOTA-REVIEW §6.5 softer alternative as partially adopted exit schema updated test_generality rejects pedagogical keys but allows evidenced claims gate green — ADR-0047.
+Phase 1c L7 Refinement Not Purge Days refine L7 to distinguish pedagogical vs knowledge remove learning_objectives instructional_sequencing from concept.schema.json properties allow real_world_applications common_misconceptions ONLY when evidenced as ValueClaim with evidence[] and source not free-form strings extend test_generality.py to reject pedagogical keys but allow evidenced knowledge claims record the archived SOTA review's §6.5 softer alternative as partially adopted exit schema updated test_generality rejects pedagogical keys but allows evidenced claims gate green — ADR-0047.
 
 Phase 1d New Relations Days adopt equivalent_to misconception_of in registry with proper domain/range/symmetry/transitivity declarations update validator domain/range checks exit registry updated validator handles new relations gate green — ADR-0048.
 
 Phase 1e Delegated Authority v2 Days add authority field to reviewed_by[] and review_history[] in connection.schema.json add trusted-institution entry type to agent-registry.yaml with audit_frequency sample_audit_rate last_audit next_audit review_standard_version delegated_provenance block update validator to accept delegated authority for canonical transitions only with registered institution add sample audit check 10% first 100 5% ongoing annual audit add revocation procedure update export contract to expose authority field exit schemas updated validator handles delegated authority tests pass gate green — ADR-0049.
 
-Phase 2 Contract Update Days export_version 2.1.0→2.2.0 add authority field to export shape add value-slot support update adapters/python/ to handle value-slot and delegated authority update explorer/ to render value-slot claims and authority filter update docs/CONSUMERS.md with new contract surface exit export contract bumped adapter round-trips explorer renders gate green — ADR-0050.
+Phase 2 Contract Update Days export_version 2.2.0→2.2.0 add authority field to export shape add value-slot support update adapters/python/ to handle value-slot and delegated authority update explorer/ to render value-slot claims and authority filter update docs/CONSUMERS.md with new contract surface exit export contract bumped adapter round-trips explorer renders gate green — ADR-0050.
 
 Phase 3 Governance Hygiene Hours lhs sweep across all tracked files EXCEPT ADR documents which are history per ADR-0027 §3 un-stub tests/repo/test_independence.py and remove ecosystem references from AGENTS.md in same PR close ADR-0027 owner-ratification gate exit no stale references independence test live namespace clean — ADR-0051.
 
@@ -161,6 +161,7 @@ Phase 8 Scale Readiness Days benchmark git performance at 10^4 entities design c
 - 7297c6c strong CI explorer semantic pipeline final integrating early work
 - 0df87ff fix status truth 1 entity 3 sources
 - Now new docs new ADRs 0045-0052 roadmaps updated to architecture v2 ideal order
+- 2026-09-22 specification recovery pilot (protocol v3.1): CORE-GATE-EXPORT slice baseline at spec/ — 22 requirements PROPOSED awaiting owner approval, maturity L2, validator 9/9 — process review at repo root (pre-R4 work)
 
 Verification: make quick-verify PASS — 1 entity metre via HITL, 0 connections, 3 sources, embeddings deterministic content_hash sha256:2c007fc6..., RAG vector search metre 0.2874 citations, semantic pipeline evidence first-class conflict demo P=10 vs P=12, explorer clean small nodes thin lines manual legend centered zoom 8 domains, webapp HITL PDF primary model selector DeepSeek harness, strong CI 10 jobs all-green.
 
@@ -177,6 +178,7 @@ python3 scripts/rag.py --search "metre" --top-k 2  # OK vector search
 python3 scripts/status_truth.py --write  # OK README status block
 python3 scripts/verify_all.py  # OK all verify steps pass — architecture v2 ideal order
 python3 scripts/verify_strong.py --quick  # ALL STRONG CHECKS GREEN
+python3 spec/machine-readable/validate_recovery.py  # OK RECOVERY VALIDATOR PASS 9/9 (spec recovery pilot 2026-09-22)
 ```
 
 All good, ready for PR — but PR not created per instruction, now architecture v2 ideal order with new docs new ADRs roadmaps etc.

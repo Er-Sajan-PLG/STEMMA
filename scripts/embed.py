@@ -94,38 +94,57 @@ def chunk_entity(entity: Dict[str, Any]) -> str:
         parts.append(f"Unit: {entity.get('unit')}")
     return "\n".join(parts)
 
+PLACEHOLDER_MODEL = "stemma:placeholder-hash"
+
+
+class EmbeddingUnavailable(RuntimeError):
+    """Real embeddings cannot be produced in this environment."""
+
+
+def generate_placeholder_embeddings(entities: List[Dict[str, Any]], model_id: str, content_hash: str) -> List[Dict[str, Any]]:
+    """Deterministic hash vectors for pipeline tests ONLY (--placeholder).
+
+    They carry no semantic meaning, so they are labelled PLACEHOLDER_MODEL (never
+    the requested model id) and must never be committed or published.
+    """
+    results = []
+    for ent in entities:
+        text = chunk_entity(ent)
+        # Deterministic fake vector based on hash
+        h = hashlib.sha256((text + model_id).encode()).digest()
+        # Create fake vector of appropriate dim
+        model_info = get_model_info(model_id)
+        dim = model_info.get('dimensions', 384)
+        # Use hash to generate deterministic float vector
+        vec = []
+        for i in range(dim):
+            # Simple deterministic float from hash bytes
+            byte_val = h[i % len(h)]
+            vec.append((byte_val / 255.0 * 2 - 1) * 0.5)  # -0.5 to 0.5
+        results.append({
+            'entity_id': ent['id'],
+            'model': PLACEHOLDER_MODEL,
+            'requested_model': model_id,
+            'placeholder': True,
+            'dimensions': dim,
+            'vector': vec,
+            'content': text,
+            'content_hash': deterministic_hash(text, PLACEHOLDER_MODEL, content_hash),
+            'entity': ent,
+        })
+    return results
+
+
 def generate_embeddings_local(entities: List[Dict[str, Any]], model_id: str, content_hash: str) -> List[Dict[str, Any]]:
-    """Generate embeddings using local sentence-transformers model"""
+    """Generate embeddings using a local sentence-transformers model (no silent fallback)."""
     try:
         from sentence_transformers import SentenceTransformer
     except ImportError:
-        print("Local embedding requires sentence-transformers: pip install sentence-transformers torch", file=sys.stderr)
-        print("Falling back to deterministic fake embeddings for demo (hash-based)", file=sys.stderr)
-        # Fake deterministic embeddings for demo without torch
-        results = []
-        for ent in entities:
-            text = chunk_entity(ent)
-            # Deterministic fake vector based on hash
-            h = hashlib.sha256((text + model_id).encode()).digest()
-            # Create fake vector of appropriate dim
-            model_info = get_model_info(model_id)
-            dim = model_info.get('dimensions', 384)
-            # Use hash to generate deterministic float vector
-            vec = []
-            for i in range(dim):
-                # Simple deterministic float from hash bytes
-                byte_val = h[i % len(h)]
-                vec.append((byte_val / 255.0 * 2 - 1) * 0.5)  # -0.5 to 0.5
-            results.append({
-                'entity_id': ent['id'],
-                'model': model_id,
-                'dimensions': dim,
-                'vector': vec,
-                'content': text,
-                'content_hash': deterministic_hash(text, model_id, content_hash),
-                'entity': ent,
-            })
-        return results
+        raise EmbeddingUnavailable(
+            f"real embeddings for {model_id} need sentence-transformers "
+            "(pip install sentence-transformers torch); refusing to write fake vectors. "
+            "For pipeline tests only, pass --placeholder."
+        ) from None
 
     print(f"Loading local model {model_id}...")
     model = SentenceTransformer(model_id)
@@ -146,9 +165,11 @@ def generate_embeddings_local(entities: List[Dict[str, Any]], model_id: str, con
     return results
 
 def generate_embeddings_api(entities: List[Dict[str, Any]], model_id: str, content_hash: str, api_key: str = None) -> List[Dict[str, Any]]:
-    """Generate embeddings via API (OpenAI, Cohere, etc.) — placeholder for now"""
-    print(f"API embedding for {model_id} not fully implemented, using fake deterministic for demo", file=sys.stderr)
-    return generate_embeddings_local(entities, model_id, content_hash)
+    """Generate embeddings via API (OpenAI, Cohere, etc.) — not implemented."""
+    raise EmbeddingUnavailable(
+        f"API embedding for {model_id} is not implemented; refusing to write fake vectors. "
+        "For pipeline tests only, pass --placeholder."
+    )
 
 def main():
     parser = argparse.ArgumentParser(description="STEMMA embedding generator — all-STEM mediocre, RAG, consumer export")
@@ -160,6 +181,9 @@ def main():
     parser.add_argument('--api-key', default=None, help='API key for frontier models')
     parser.add_argument('--domain', default=None, help='Filter by domain')
     parser.add_argument('--limit', type=int, default=None, help='Limit entities')
+    parser.add_argument('--placeholder', action='store_true',
+                        help='write deterministic hash vectors labelled stemma:placeholder-hash '
+                             '(pipeline tests only; never commit or publish them)')
     args = parser.parse_args()
 
     if args.list_models:
@@ -192,10 +216,18 @@ def main():
     print(f"Export content_hash: {content_hash}")
 
     model_info = get_model_info(model_id)
-    if model_info.get('local', True):
-        embeddings = generate_embeddings_local(entities, model_id, content_hash)
-    else:
-        embeddings = generate_embeddings_api(entities, model_id, content_hash, api_key=args.api_key)
+    try:
+        if args.placeholder:
+            print(f"WARNING: --placeholder: writing meaningless hash vectors labelled {PLACEHOLDER_MODEL}", file=sys.stderr)
+            embeddings = generate_placeholder_embeddings(entities, model_id, content_hash)
+        elif model_info.get('local', True):
+            embeddings = generate_embeddings_local(entities, model_id, content_hash)
+        else:
+            embeddings = generate_embeddings_api(entities, model_id, content_hash, api_key=args.api_key)
+    except EmbeddingUnavailable as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
+    written_model = embeddings[0]['model'] if embeddings else model_id
 
     # Write JSONL
     output_path = ROOT / args.output
@@ -206,6 +238,7 @@ def main():
             record = {
                 'entity_id': emb['entity_id'],
                 'model': emb['model'],
+                **({'placeholder': True, 'requested_model': emb['requested_model']} if emb.get('placeholder') else {}),
                 'dimensions': emb['dimensions'],
                 'vector': emb['vector'],
                 'content': emb['content'],
@@ -218,7 +251,8 @@ def main():
     vs_path = ROOT / args.vector_store
     vs_path.mkdir(parents=True, exist_ok=True)
     meta = {
-        'model': model_id,
+        'model': written_model,
+        'placeholder': bool(args.placeholder),
         'dimensions': model_info.get('dimensions', 384),
         'content_hash': content_hash,
         'entity_count': len(embeddings),

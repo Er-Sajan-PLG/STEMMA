@@ -1,4 +1,4 @@
-.PHONY: help verify validate strong-verify quick-verify explorer-build webapp-test embed-test rag-test consumer-test security docs deterministic no-wall-clock id-immutability all ci-local install-hooks clean
+.PHONY: help verify validate strong-verify quick-verify explorer-build webapp-test embed-test rag-test consumer-test security docs docs-sync docs-impact docs-coverage deterministic no-wall-clock id-immutability all ci-local install-hooks clean
 
 help:
 	@echo "STEMMA Strong CI — Nothing Bad Gets Pushed/Merged"
@@ -24,7 +24,7 @@ explorer-build:
 	@echo "Explorer OK"
 
 webapp-test:
-	python3 scripts/hitl_check.py --check-workflow || echo "HITL OK"
+	python3 scripts/hitl_check.py --check-workflow
 	test -f schema/template-registry.yaml
 	grep -q "version: '2.0.0'" schema/template-registry.yaml
 	test -f schema/embedding-registry.yaml
@@ -51,7 +51,17 @@ security:
 	@echo "No secrets OK"
 
 docs:
-	@for f in AGENTS.md README.md VERSION docs/README.md docs/VISION.md docs/ARCHITECTURE.md docs/EMBEDDINGS.md docs/RAG.md docs/API.md docs/GUIDELINE-EMBEDDER-RAG.md; do if [ ! -f "$$f" ]; then echo "FAIL: Missing $$f"; exit 1; fi; done
+	@python3 scripts/docs.py check
+
+docs-sync:
+	@python3 scripts/docs.py sync
+
+docs-impact:
+	@python3 scripts/docs.py impact
+
+docs-coverage:
+	@python3 scripts/docs.py coverage --write
+	@python3 tests/repo/test_independence.py
 	@echo "Docs OK"
 
 deterministic:

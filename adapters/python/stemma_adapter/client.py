@@ -30,6 +30,10 @@ class BadRequestError(ValueError):
 class Stemma:
     """A zero-dependency, read-only adapter over a validated STEMMA export."""
 
+    #: Provenance of a release-loaded export (tag, file, sha256, verification, ...);
+    #: None for from_file()/from_dict().
+    release_info: dict[str, Any] | None = None
+
     def __init__(self, export: dict[str, Any]) -> None:
         self.export = export
         self.entities_by_id: dict[str, dict[str, Any]] = {
@@ -59,7 +63,10 @@ class Stemma:
 
         for connection in self.all_connections:
             self._connections_by_source[connection["source"]].append(connection)
-            self._connections_by_target[connection["target"]].append(connection)
+            # Valued claims (ADR-0045) have no target entity; only relational
+            # connections participate in the entity graph index.
+            if connection.get("target") is not None:
+                self._connections_by_target[connection["target"]].append(connection)
 
         for entity in export["entities"]:
             external_ids = entity.get("external_ids") or {}
@@ -78,6 +85,47 @@ class Stemma:
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> "Stemma":
         return cls(load_export(data))
+
+    @classmethod
+    def from_release(cls, repo: str, tag: str, *, cache_dir: Any = None, file: str = "knowledge.json",
+                     verify_attestation: bool = True, offline: bool = False, timeout: float = 30,
+                     ssl_context: Any = None, max_export_bytes: int | None = None) -> "Stemma":
+        """Load `file` from GitHub release `repo`@`tag`, verified before parsing.
+
+        `tag` must be explicit (vX.Y.Z / vX.Y.Z-rcN). Default: Sigstore attestation
+        required (needs ``stemma-adapter[verify]``); ``verify_attestation=False`` is
+        checksum-only integrity. See ``stemma_adapter.release``.
+        """
+        from . import release
+
+        data, info = release.load_release(
+            repo, tag, cache_dir=cache_dir, file=file, verify_attestation=verify_attestation,
+            offline=offline, timeout=timeout, ssl_context=ssl_context,
+            max_export_bytes=max_export_bytes or release.DEFAULT_MAX_EXPORT_BYTES)
+        stemma = cls.from_dict(data)
+        stemma.release_info = info
+        return stemma
+
+    @classmethod
+    def from_url(cls, manifest_url: str, *, cache_dir: Any = None, file: str = "knowledge.json",
+                 verify_attestation: bool = True, expected_repository: str | None = None,
+                 expected_ref: str | None = None, offline: bool = False, timeout: float = 30,
+                 ssl_context: Any = None, max_export_bytes: int | None = None) -> "Stemma":
+        """Load `file` from a release mirror (https://.../manifest.json), verified before parsing.
+
+        With attestation (default) `expected_repository` and `expected_ref` are
+        required — the signer identity is never read from the mirror.
+        """
+        from . import release
+
+        data, info = release.load_url(
+            manifest_url, cache_dir=cache_dir, file=file, verify_attestation=verify_attestation,
+            expected_repository=expected_repository, expected_ref=expected_ref, offline=offline,
+            timeout=timeout, ssl_context=ssl_context,
+            max_export_bytes=max_export_bytes or release.DEFAULT_MAX_EXPORT_BYTES)
+        stemma = cls.from_dict(data)
+        stemma.release_info = info
+        return stemma
 
     @property
     def stats(self) -> dict[str, Any]:
@@ -267,6 +315,8 @@ class Stemma:
 
         if direction in {"out", "both"}:
             for connection in self._connections_by_source.get(entity_id, []):
+                if connection.get("target") is None:
+                    continue  # valued claim — see Stemma.values()
                 edge = self._neighbor_edge(
                     connection,
                     entity_id=entity_id,
@@ -307,6 +357,42 @@ class Stemma:
             return edges[:limit]
         return edges
 
+    def values(
+        self,
+        entity_id: str,
+        *,
+        relation: str | None = None,
+        review: str | None = None,
+        policy: str | None = None,
+        include_retired: bool = False,
+    ) -> list[dict[str, Any]]:
+        """Valued claims (ADR-0045 value-slot) asserted about ``entity_id``.
+
+        Example: the speed of light entity carrying ``value: {amount: "299792458",
+        unit: "qudt:unit-MeterPerSecond"}``. Returned sorted by connection id.
+        """
+        self._validate_policy(policy)
+        self.entity(entity_id, include_retired=include_retired)
+        out: list[dict[str, Any]] = []
+        for connection in self._connections_by_source.get(entity_id, []):
+            if connection.get("target") is not None or connection.get("value") is None:
+                continue
+            if relation is not None and connection.get("relation") != relation:
+                continue
+            if not self._connection_visible(connection, policy=policy, review=review):
+                continue
+            out.append({
+                "assertion_status": connection.get("assertion", {}).get("status"),
+                "claim_signature": connection.get("claim_signature"),
+                "connection_id": connection.get("id"),
+                "relation": connection.get("relation"),
+                "review": connection.get("assertion", {}).get("review", {}).get("status"),
+                "source": connection.get("source"),
+                "value": dict(connection["value"]),
+            })
+        out.sort(key=lambda item: item["connection_id"])
+        return out
+
     def prerequisites(
         self,
         entity_id: str,
@@ -326,7 +412,9 @@ class Stemma:
             for connection in self.connections(source=current_id, policy=policy):
                 if connection.get("relation") not in PREREQUISITE_RELATIONS:
                     continue
-                target_id = connection["target"]
+                target_id = connection.get("target")
+                if target_id is None:
+                    continue  # valued claim, not an entity prerequisite
                 if target_id in seen:
                     continue
                 target_entity = self.entities_by_id[target_id]

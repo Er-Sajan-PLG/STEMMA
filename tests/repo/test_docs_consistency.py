@@ -22,12 +22,14 @@ REQUIRED_DOCS = [
     "docs/TESTING.md", "docs/STANDARDS.md", "docs/GOVERNANCE.md",
     "docs/SECURITY-INTEGRITY-PROVENANCE.md", "docs/CONSUMERS.md",
     "docs/VERSIONING.md", "docs/MIGRATIONS.md", "docs/GLOSSARY.md",
-    "docs/CURATION-PROTOCOL.md", "docs/INGESTION.md", "docs/SOURCES.md",
+    "docs/CURATION-PROTOCOL.md",
     "docs/CONTRIBUTING.md", "docs/decisions/README.md",
     "README.md", "AGENTS.md", "LICENSE", "LICENSE-CODE", "VERSION",
 ]
 
 # Documents retired with the refoundation must not be linked from living docs.
+# Old-design v1.0 acquisition set (archived 2026-09-22, byte-identical copies
+# live under archive/old-design/docs/) included — living docs must not link them.
 RETIRED = [
     "NORTHSTAR.md", "MASTER-VISION.md", "STEMMA-SPECIFICATION.md",
     "STEMMA-ROADMAP.md", "STEMMA-IMPLEMENTATION-PLAN.md",
@@ -36,6 +38,10 @@ RETIRED = [
     "EXPORT-VERSION-MIGRATION-Q3.md", "HISTORY-RENAME.md",
     "REVIEW-RESPONSE.md", "AXIOM-KERNEL-PLAN.md",
     "grade12-curriculum-mapping.md", "RELATIONSHIP-MODEL-ADR-0011-note.md",
+    "KNOWLEDGE-ACQUISITION.md", "ACQUISITION-OPERATIONS.md",
+    "CANONICAL-ADMISSION.md", "EVIDENCE-MODEL.md", "INGESTION.md",
+    "PROVENANCE.md", "SOURCE-POLICY.md", "SOURCES.md", "SOTA-REVIEW.md",
+    "DEEP-DIVE-RECOMMENDATIONS.md", "AUDIT-INGESTION-BASELINE.md",
 ]
 
 ALLOWED_HISTORICAL = {"docs/MIGRATIONS.md", "docs/decisions/README.md"} | {
@@ -65,14 +71,17 @@ def check_index_matches_files() -> list[str]:
 
 
 def check_no_retired_links() -> list[str]:
+    # Whole-filename matching: no letter/digit/hyphen directly before the name,
+    # so SECURITY-INTEGRITY-PROVENANCE.md does not match retired PROVENANCE.md.
+    patterns = [re.compile(r"(?<![A-Za-z0-9-])" + re.escape(name)) for name in RETIRED]
     problems = []
     living = [p for p in DOCS.rglob("*.md")
               if p.relative_to(ROOT).as_posix() not in ALLOWED_HISTORICAL]
     living += [ROOT / "README.md", ROOT / "AGENTS.md"]
     for path in living:
         text = path.read_text(encoding="utf-8")
-        for name in RETIRED:
-            if name in text:
+        for name, pat in zip(RETIRED, patterns):
+            if pat.search(text):
                 problems.append(
                     f"{path.relative_to(ROOT)} references retired document {name}"
                 )
@@ -92,8 +101,6 @@ def check_versions_single_sourced() -> list[str]:
 
 
 def main() -> int:
-    print("SKIP: test_docs_consistency (deferring docs cross-reference cleanup to a separate PR)")
-    return 0
     problems = (check_required() + check_index_matches_files()
                 + check_no_retired_links() + check_versions_single_sourced())
     if problems:

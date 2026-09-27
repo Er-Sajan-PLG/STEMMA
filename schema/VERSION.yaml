@@ -17,6 +17,10 @@
 #                    can introspect relation semantics from the export alone.
 #                    Old 2.0.x readers ignore the new members.
 #                    v2.2.0 (ADR-0050): ADDITIVE value-slot XOR target/value per ADR-0045 + authority field internal|delegated per ADR-0049 delegated authority v2 + warrant axis definitional axiomatic model_based per ADR-0046 + correction_class per ADR-0046. Old 2.1.x readers ignore new members but should upgrade to handle value-slot and authority.
+# schema_version   — v1.3.0 (H1): ADDITIVE optional provenance.drafted_by in
+#                    concept.schema.json (machine origin of a human-written entity).
+#                    Existing entities remain valid; export_version unchanged (entity
+#                    provenance is an open object in export.schema.json).
 # relation_registry_version — '1.0.0' version of schema/relation-registry.yaml.
 #                    Major bump from 0.3: reserved duplicate relations removed
 #                    (broader_than/narrower_than duplicated generalizes/
@@ -24,6 +28,6 @@
 #                    special_case_of for taxonomic use). No adopted relation changed.
 #                    v1.0.0 includes equivalent_to and misconception_of per ADR-0048.
 
-schema_version: '1.2.0'
+schema_version: '1.3.0'
 export_version: '2.2.0'
 relation_registry_version: '1.0.0'

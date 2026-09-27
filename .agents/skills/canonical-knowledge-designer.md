@@ -27,7 +27,7 @@ Choose from the canonical entity types:
 - If uncertain between types, prefer `concept` for general ideas, `quantity` for measurable properties, `law` for principles
 
 ### 2. Assign Stable ID
-Format: `lhs:<domain>.<slug>`
+Format: `stemma:<domain>.<slug>`
 - `<domain>`: one lowercase ASCII word (`math`, `physics`, `chemistry`, `biology`, `earth`, `engineering`, `practice`)
 - `<slug>`: lowercase `[a-z0-9-]`, matches filename
 - **Never reuse IDs** - even for deprecated entities
@@ -115,7 +115,7 @@ Must exit 0. Check warnings (INFO/WARNING) for data quality improvements.
 | Anti-Pattern | Why It's Wrong | Correct Approach |
 |--------------|----------------|------------------|
 | Adding `grade: 10` to entity | Curriculum in canonical | Curriculum mapping is consumer-owned |
-| Creating `Force-Grade9` variant | Duplication | One `lhs:phys.force`, curricula map to it |
+| Creating `Force-Grade9` variant | Duplication | One `stemma:phys.force`, curricula map to it |
 | Using `teaches` as relationship | Pedagogical | Use `logically_requires`, `mathematically_requires` |
 | Putting lesson sequence in entity | Product coupling | Consumer adapter handles sequencing |
 | Changing ID on rename | Breaks consumers | Keep ID, change `name` field |
@@ -124,7 +124,7 @@ Must exit 0. Check warnings (INFO/WARNING) for data quality improvements.
 ---
 
 ## Validation Checklist
-- [ ] ID format matches `lhs:<domain>.<slug>`
+- [ ] ID format matches `stemma:<domain>.<slug>`
 - [ ] Filename matches ID slug
 - [ ] All required fields present
 - [ ] Type is valid enum value

@@ -2,11 +2,19 @@
 
 **Status:** Beginning clean, 1 entity (metre) via PDF primary ingestion with HITL, deterministic scales, evolvable templates, model selector like DeepSeek harness (local + frontier models). Old 74 entities archived.
 
-## Allowed Relations (8 only, no related_to)
+## Allowed Relations
 
-- mathematically_requires, derived_from, appears_in_law, applies_to, generalizes, special_case_of, part_of, approximates
+- **Physics core (ADR-0042):** the minimal 8 — mathematically_requires,
+  derived_from, appears_in_law, applies_to, generalizes, special_case_of,
+  part_of, approximates. `related_to` is forbidden in physics core
+  (machine-checked by `physics_core_profile_check.py`).
+- **Registry-wide:** `schema/relation-registry.yaml` v1.0.0 is the
+  authoritative vocabulary — 15 adopted relations, including ADR-0048
+  `equivalent_to` and `misconception_of`, plus general-purpose relations
+  available outside the physics-core profile (`logically_requires`,
+  `analogous_to`, `bridges`, `related_to`, …).
 
-Only these 8 from ADR-0042. No related_to in physics. Each connection must have evidence >=1 with source_ref+locator+description, mandatory.
+Each connection must have evidence ≥ 1 with source_ref+locator+description, mandatory.
 
 ## Evidence + HITL
 

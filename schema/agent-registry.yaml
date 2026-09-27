@@ -98,6 +98,24 @@ agents:
   external_id: null
   status: active
   note: scripts/dependency_review_campaign.py generates worksheets only; it never writes review status. scripts/apply_review_decisions.py records the HUMAN reviewer, never this process, as reviewer.
+- id: llm:coding-agent.001
+  class: llm
+  display_name: "LLM authoring agent (session executor)"
+  external_id: null
+  status: active
+  note: "Writes entity/connection DRAFTS under explicit owner instruction (ai_drafted: true). Never canonical authority — every artifact requires the human review pass before canonical (HITL; ADR-0043 double verification)."
+- id: llm:antigravity-001
+  class: llm
+  display_name: "Antigravity local agent (LLM draft provider)"
+  external_id: null
+  status: active
+  note: "Writer of AI-drafted candidates from scripts/evolvable_template.py (ai_drafted: true). Drafts only; a human becomes writer by editing in the review workflow (H1)."
+- id: process:deterministic-draft.v1
+  class: process
+  display_name: Deterministic candidate drafter (templates, no LLM)
+  external_id: null
+  status: active
+  note: "Writer of machine-drafted candidates (webapp deterministic draft, scripts/evolvable_template.py with ai_drafted false). Previously mislabelled human:curator.001 (audit H1). Never canonical authority; the human editor is recorded as writer, this id as drafted_by."
 - id: unknown:legacy-relationship
   class: unknown
   display_name: Unrecoverable legacy author (pre-connection inline relationships)
