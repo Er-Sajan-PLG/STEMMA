@@ -57,9 +57,9 @@ traces:
     implementations: [scripts/validate.py, schema/concept.schema.json, schema/export.schema.json]
     verification: VERIFIED
   - requirement: REQ-STEMMA-EXP-003
-    evidence: [EVID-STEMMA-GATE-005]
-    implementations: [.github/workflows/ci.yml]
-    verification: UNVERIFIED
+    evidence: [EVID-STEMMA-EXP-014, EVID-STEMMA-EXP-015, EVID-STEMMA-EXP-016]
+    implementations: [.github/workflows/ci.yml, scripts/validate.py]
+    verification: VERIFIED
   - requirement: REQ-STEMMA-EXP-004
     evidence: [EVID-STEMMA-EXP-006, EVID-STEMMA-EXP-007]
     implementations: [scripts/export_consumers.py, schema/consumer-registry.yaml]

@@ -1,6 +1,6 @@
 # Canonical verification mapping — mirrors spec/VERIFICATION.md
 # Status is UNVERIFIED until an execution is recorded, VERIFIED once one is and it passed.
-verification_set_note: "Execution round 2026-10-01: 17 VERIFIED, 0 FAILED, 7 UNVERIFIED of 24. Methods are bindings-to-come after approval; pre-approval runs were EVIDENCE (EVID-STEMMA-GATE-002), not VERIFICATION. All three FAILED findings raised during this drive were repaired and re-verified: REQ-STEMMA-CORE-004 (generality guard widened + mutation-tested), REQ-STEMMA-EXP-002 criterion 4 (adopted_from implemented, ADR-0056), and REQ-STEMMA-GATE-003 (test-suite + all-green added to the required status checks, EVID-STEMMA-GATE-018). No open FAILED records remain; UNRES-STEMMA-GATE-001 and UNRES-STEMMA-CORE-002 are both closed."
+verification_set_note: "Execution round 2026-10-01: 18 VERIFIED, 0 FAILED, 6 UNVERIFIED of 24. Methods are bindings-to-come after approval; pre-approval runs were EVIDENCE (EVID-STEMMA-GATE-002), not VERIFICATION. All three FAILED findings raised during this drive were repaired and re-verified: REQ-STEMMA-CORE-004 (generality guard widened + mutation-tested), REQ-STEMMA-EXP-002 criterion 4 (adopted_from implemented, ADR-0056), and REQ-STEMMA-GATE-003 (test-suite + all-green added to the required status checks, EVID-STEMMA-GATE-018). REQ-STEMMA-EXP-003 verified by executing the CI freshness gate as an integration test (mutation + regeneration control, EVID-STEMMA-EXP-014/015/016). No open FAILED records remain; UNRES-STEMMA-GATE-001 and UNRES-STEMMA-CORE-002 are both closed. The 6 remaining UNVERIFIED (EXP-004, HITL-001, HITL-002, SEC-002, OPS-002, INTEG-001) are execution-owed or blocked on external preconditions, not defects."
 verification_records:
   - requirement: REQ-STEMMA-CORE-001
     method: INSPECTION
@@ -102,9 +102,11 @@ verification_records:
     result: "PASS on all 4 criteria (after owner-directed implementation, ADR-0056). Criteria 1-3: export_version 2.2.0 == VERSION.yaml; sidecars present and coherent; jsonschema 0 errors. Criterion 4 NOW MET: `adopted_from` is declared in BOTH concept.schema.json and export.schema.json (closed objects), enforced by check_adopted_from() in validate.py (required external_id + closed relation enum + unknown-key rejection, mirroring check_historical), and projected into entities[]. A valid record on metre.md validated (exit 0) and appeared verbatim in exports/knowledge.json; relation='sort_of_ish' and a missing external_id each produced exit 1 with named errors. Additivity confirmed: exports/knowledge.json byte-identical after the change, so export_version correctly stays 2.2.0. Previously FAILED on criterion 4; implemented, not deferred."
   - requirement: REQ-STEMMA-EXP-003
     method: INTEGRATION_TEST
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-GATE-005]
-    procedure: "CI freshness git-diff step."
+    status: VERIFIED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-EXP-014, EVID-STEMMA-EXP-015, EVID-STEMMA-EXP-016]
+    procedure: "Inspect the CI freshness step; then execute it as a true integration test by mutating a committed derived artifact and observing the gate, followed by a positive control that regeneration restores it."
+    result: "AC1 PASS. ci.yml:32-34 runs `git diff --exit-code -- exports reports || (echo FAIL; exit 1)` in the verify-knowledge-base job after the authoritative chain (:30); the same gate repeats at :283 and :301 and in release.yml:69. Executed as an integration test against the real artifacts: (negative control) both an appended entity and an edited existing entity in exports/knowledge.json → exit 1; (positive control) `python3 scripts/validate.py` regenerated the artifact and the diff returned to 0 with a clean tree. The gate is therefore non-vacuous AND a true freshness gate rather than a tautology — a green diff means the derived artifacts genuinely match the canonical layer."
   - requirement: REQ-STEMMA-EXP-004
     method: INTEGRATION_TEST
     status: UNVERIFIED

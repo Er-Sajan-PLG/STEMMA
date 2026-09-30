@@ -5,7 +5,7 @@ is `APPROVED` (§9.1). **All 24 requirements were APPROVED on 2026-10-01**
 (owner: Sajan / `human:curator.001`; see spec/BASELINE.md). The §9.1 blocking
 condition is therefore **cleared** and verification executions are underway.
 
-**Current position (2026-10-01): 17 VERIFIED · 0 FAILED · 7 UNVERIFIED.**
+**Current position (2026-10-01): 18 VERIFIED · 0 FAILED · 6 UNVERIFIED.**
 
 All three findings raised during this drive — two from round 1 and one from
 round 2 — were repaired under owner ruling and re-verified. No `FAILED` record
@@ -50,7 +50,7 @@ either executed or is honestly marked as not yet executed.
 | REQ-STEMMA-EXP-001 | UNIT_TEST + SYSTEM_TEST(CI) | **VERIFIED** (2026-10-01) | EVID-EXP-010 — byte-identical across 3 runs; `sha256:*` stamped; no wall clock | ✅ done |
 
 | REQ-STEMMA-EXP-002 | UNIT_TEST | ✅ **VERIFIED** (2026-10-01, after implementation) | EVID-EXP-009 (the gap) → **EVID-EXP-011/012/013**. `adopted_from` declared in both schemas, enforced by `check_adopted_from`, projected into the export; malformed variants rejected; export byte-identical (additive) | ✅ done — FAILED → VERIFIED (ADR-0056) |
-| REQ-STEMMA-EXP-003 | INTEGRATION_TEST | UNVERIFIED | CI `git diff --exit-code -- exports reports` after regeneration | run the named method and record the result |
+| REQ-STEMMA-EXP-003 | INTEGRATION_TEST | ✅ **VERIFIED** (2026-10-01) | EVID-EXP-014 (ci.yml:32-34 gate is present, wired after the chain, repeated at :283/:301 and release.yml:69); EVID-EXP-015 (negative control: appended entity **and** edited existing entity → exit 1); EVID-EXP-016 (positive control: `validate.py` regeneration restored the diff to 0) | ✅ done — non-vacuous **and** a true freshness gate, not a tautology |
 | REQ-STEMMA-EXP-004 | INTEGRATION_TEST | UNVERIFIED | export_consumers runs; learninghub 0-entity output observed | UNRES-EXP-001 closed by owner; run INTEGRATION_TEST |
 | REQ-STEMMA-HITL-001 | INTEGRATION_TEST | UNVERIFIED | hitl_check in gate (EVID-HITL-001) | UNRES-HITL-001 (evidence locality) limits strength; run INTEGRATION_TEST |
 | REQ-STEMMA-HITL-002 | INTEGRATION_TEST | UNVERIFIED | same as above | same as above |
@@ -151,8 +151,30 @@ variants each produced exit 1 with a named error. The change is **additive** —
 `export_version` correctly stays `2.2.0` (EVID-EXP-011/012/013).
 
 **All three `FAILED` records are now `VERIFIED`** (two from round 1, one from
-round 2). The remaining 7 requirements are `UNVERIFIED` — execution owed, not
-defects. **No `FAILED` record remains.**
+round 2), and **REQ-STEMMA-EXP-003** was verified in the same push. The remaining
+6 requirements are `UNVERIFIED` — execution owed or blocked on external
+preconditions, not defects. **No `FAILED` record remains.**
+
+### REQ-STEMMA-EXP-003 — derived-artifact freshness, verified by execution
+
+The criterion names a CI step (`git diff --exit-code -- exports reports`), so the
+tempting move is to *read* `ci.yml` and call it verified. That would test the
+file, not the gate. Instead the step was **executed as an integration test**
+against the real artifacts (EVID-EXP-014/015/016):
+
+- **Negative control — the gate can go red.** Appending a new entity to
+  `exports/knowledge.json` → exit 1. Editing an *existing* entity's field
+  (`stemma:phys.force`) → exit 1. Both a "missing regeneration" and a "stale
+  regeneration" are caught.
+- **Positive control — the gate is not a tautology.** After mutating the
+  artifact, `python3 scripts/validate.py` (the canonical generator) regenerated
+  it; the diff returned to **0** with a clean tree. This matters: without it, a
+  gate that merely compares the artifact to its own committed copy would look
+  identical and pass forever. Regeneration restoring the file byte-for-byte is
+  what makes a green diff *mean* the derived artifacts match their sources.
+
+The same gate is repeated at `ci.yml:283` (tests must not mutate derived
+artifacts) and `:301`, and in `release.yml:69` at tag time.
 
 ## NFR metrics (§18)
 
@@ -164,7 +186,7 @@ clean-clone measurement recorded 4.00 s over 21 steps — still an observation.)
 ## Gate 6 checklist (§31)
 
 - [x] every applicable requirement has a verification method (no permanent NOT_YET_DETERMINED)
-- [x] verification status recorded (17 VERIFIED · 0 FAILED · 7 UNVERIFIED as of 2026-10-01)
+- [x] verification status recorded (18 VERIFIED · 0 FAILED · 6 UNVERIFIED as of 2026-10-01)
 - [x] unverified explicitly marked
 - [x] objective evidence referenced for as-built observations
 - [x] VERIFIED records carry an execution date, named evidence, and a recorded result
@@ -196,6 +218,7 @@ clean-clone measurement recorded 4.00 s over 21 steps — still an observation.)
 | 2026-10-01 | REQ-STEMMA-CORE-001 | INSPECTION | PASS | EVID-CORE-011, EVID-CORE-012 |
 | 2026-10-01 | REQ-STEMMA-GATE-003 | INSPECTION | **FAIL** (merge-gating clause) | EVID-GATE-016, EVID-GATE-017 |
 | 2026-10-01 | REQ-STEMMA-GATE-003 | INSPECTION | PASS (**re-verified after owner repair**) | EVID-GATE-018 |
+| 2026-10-01 | REQ-STEMMA-EXP-003 | INTEGRATION_TEST | PASS (**executed: mutation + regeneration controls**) | EVID-EXP-014, EVID-EXP-015, EVID-EXP-016 |
 | 2026-10-01 | REQ-STEMMA-OPS-003 | INSPECTION | PASS | EVID-OPS-009 |
 
 ## Method notes (recorded, not hidden)
