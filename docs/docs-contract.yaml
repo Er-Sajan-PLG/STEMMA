@@ -107,6 +107,7 @@ link_scope: [docs/*.md, docs/decisions/*.md, README.md, AGENTS.md, PROGRESS.md, 
 checks:
   - {id: docs-consistency, subject: "index parity, retired links, INGESTION-PRIMARY contract, contract pins, VERSION keys, consumer registry(+lint), archived-path lint", run: "python3 tests/repo/test_docs_consistency.py"}
   - {id: independence, subject: "retired namespaces + ecosystem independence (ADR-0027/0051) across tracked files", run: "python3 tests/repo/test_independence.py"}
+  - {id: gate-fail-closed, subject: "fail-closed chain semantics: non-zero exit + named step + termination (REQ-STEMMA-GATE-001)", run: "python3 tests/repo/test_gate_fail_closed.py"}
   - {id: recovery-registries, subject: "spec machine-readable registries (9 checks)", run: "python3 spec/machine-readable/validate_recovery.py"}
 
 # ---- Tier enforcement (Phase 8): missing taxonomy artifacts at strict tiers fail validation
