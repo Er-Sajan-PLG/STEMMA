@@ -88,7 +88,7 @@ vertical slice ahead of R4. Evidence → as-built → requirements → specifica
 recovered; implementation treated as evidence, not authority.
 
 - Charter `../spec/PILOT_CHARTER.md`, slice recorded as ADR-STEMMA-SPEC-001 (`../spec/DECISIONS/`)
-- 37 classified evidence records; 22 requirements (full §8.6 schema) **ALL PROPOSED** — owner approval pending (SOLE_OWNER Sajan; agent had no approval power)
+- 41 classified evidence records; 24 requirements (full §8.6 schema) **ALL APPROVED 2026-10-01** by owner (Sajan / human:curator.001; agent had no approval power); maturity L3, verification (L4) next
 - 2 interfaces (export knowledge.json 2.2.0; verify_all CLI), 6 UNRES, 2 CONFLICT (1 OPEN: vector-store `meta.json` type label), assumptions, two-tier gap analysis
 - Machine-readable canonical set `../spec/machine-readable/` + minimum validator (9/9 checks, fails closed)
 - Baseline `../spec/BASELINE.md`, maturity **L2 slice-scoped** — L3 blocked on owner approval, L4 blocked per §9.1 (no VERIFIED pre-APPROVED)

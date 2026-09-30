@@ -8,12 +8,13 @@ Specification Authority:    Sajan (SOLE_OWNER)
 Architecture Authority:     Sajan (SOLE_OWNER); advisory inputs: Arena agent, docs/decisions ADR history
 Security Authority:         Sajan (SOLE_OWNER); no separate security officer exists
 Cross-Repository Interface Owner: Sajan for STEMMA side; LearningHub/PROFESSOR-J sides: UNASSIGNED (UNRES-STEMMA-INTEG-001)
-Baseline Approver:          Sajan (SOLE_OWNER) — PENDING first review of this baseline
+Baseline Approver:          Sajan (SOLE_OWNER) — **APPROVED 2026-10-01** (all 24 requirements + baseline)
 Provisional Authority:      Arena agent (executor) — investigate/recover/classify/propose only; MAY NOT approve
 Authority Mode:             SOLE_OWNER
 AUTHORITY-UNKNOWN:          NO — authority is explicitly identified
 Approval Process:           DRAFT → PROPOSED → owner review → APPROVED / REJECTED / DEFERRED
                             (§4.2). The executor self-approves NOTHING (§0.3.1: non-response is not approval).
+                            Status 2026-10-01: all 24 slice requirements APPROVED by the owner.
 Conflict Escalation Path:   executor records CONFLICT-*, classifies required authority level
                             (REPOSITORY_LOCAL / CROSS_REPOSITORY / EXTERNAL / HUMAN_DECISION),
                             owner resolves; external bodies (BIPM/IUPAC etc.) are authority
@@ -31,6 +32,11 @@ limitation is part of the baseline record, not a defect to hide.
 
 ## What the executor did NOT do (Constraint D)
 
-- Did not set any requirement status above `PROPOSED`.
+- Did not set any requirement status above `PROPOSED`. *(The 2026-10-01 transition to
+  `APPROVED` was entered by the owner — Sajan, `human:curator.001` — not by the executor.)*
 - Did not resolve any `CONFLICT-` or close any `UNRES-` record.
-- Did not approve the baseline. `spec/BASELINE.md` records approval as PENDING.
+- Did not approve the baseline. *(The baseline approval on 2026-10-01 is the owner's.)*
+
+The executor's constraint continues to hold after approval: it may now *execute
+verification* (L3 → L4) and *record* results, but it still may not approve, reject, or
+defer requirements, nor convert an INFERENCE to a FACT without owner review.

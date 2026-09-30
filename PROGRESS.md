@@ -10,7 +10,7 @@
 - **Gate:** `verify_all.py` ✅ green · full `pytest tests/` ✅ green (16 stale old-design
   tests archived 2026-09-22) · `test_docs_consistency` + `test_independence` live (un-stubbed per ADR-0051)
 - **Specification:** recovered pilot baseline (protocol v3.1) at `spec/` — maturity **L2**
-  slice-scoped; 22 requirements **PROPOSED** awaiting owner approval; nothing self-approved
+  slice-scoped; 24 requirements **PROPOSED** awaiting owner approval; nothing self-approved
 - **CI:** validate + freshness + docs-consistency + independence + pytest suite + explorer + webapp + embeddings/RAG + determinism
 
 ## ✅ Done
@@ -39,7 +39,7 @@
 - [x] **Specification recovery pilot (protocol v3.1), 2026-09-22 (pre-R4):**
   - [x] Pilot charter + slice ADR (`spec/PILOT_CHARTER.md`, ADR-STEMMA-SPEC-001)
   - [x] 37 classified evidence records; as-built; external constraints; assumptions
-  - [x] 22 requirements (full §8.6 schema) all PROPOSED — none self-approved
+  - [x] 24 requirements (full §8.6 schema) all APPROVED 2026-10-01 by owner — none self-approved
   - [x] Specification v0.1.0-pilot + 2 interface contracts + verification design (all UNVERIFIED per §9.1)
   - [x] Two-tier gap analysis + machine-readable registries + minimum validator (9/9 PASS, fail-closed)
   - [x] Baseline BASELINE-STEMMA-2026-09-22-PILOT-CORE-GATE-EXPORT — maturity L2; process review at root
@@ -71,6 +71,23 @@ Increments 1–3 landed 2026-09-23 — projection mechanics; **PID-agnostic per 
   - **Not a rejection of w3id** — w3id remains the recorded *intended* base, with §6 upgrade conditions: (1) corpus at meaningful scale proving schema+canonicalisation, (2) review process real (more human reviewers, or AI-assisted verification documented in CURATION-PROTOCOL with its limits stated), (3) `IDENTIFIER-POLICY.md` guarantees *demonstrably exercised* (one real deprecation/merge resolved cleanly), (4) candidate base re-verified at that time (infra drifts — purl.org lesson). Upgrade cost = **one `@context` line**; no canonical change, no consumer migration.
   - Also: `docs/IDENTIFIER-POLICY.md` added + owner-ratified — the host-independent semantic half of persistence (never-delete/never-reuse, deprecate≠remove, merge, split, meaning authority), now the *only* persistence guarantee while there is no resolver.
 - [ ] R6 remaining: no owner infrastructure action is required by this decision (deliberately). When §6 conditions are met, adopt the base: change `decision:` in `docs/decisions/r6-identifier-base.md`, set the projection `@context` mapping, sign the release bundle. Optional non-commitment: claim the w3id `stemma` slug as squatting insurance (slug verified free 2026-09-22, re-checked 2026-10-01) — recorded as an option, not a recommendation.
+
+- [x] **Increment 5 landed 2026-10-01 — SOTA comparison of the spec + owner rulings (pre-approval).** Deep 2026-only research (Wikipedia's LLM-content ban RfC 2026-03-20; Lancet/Topaz fabricated-citation audit 2026-05-07; OBO Foundry Newsletter #10 2026-04-13; SHACL-DS ESWC 2026; KG-metadata 2026; Zenodo DOI versioning; bus-factor/xz-utils) → `spec/SOTA-COMPARISON-2026-10-01.md`. **Verdict: STEMMA's knowledge architecture is at/ahead of published 2026 practice; the gaps are in the people-and-continuity layer.** Five findings, all owner-ruled the same day:
+  - **F2 (HIGH) — continuity of authority: recorded as the 23rd requirement.** `REQ-STEMMA-OPS-003` (+ `EVID-STEMMA-OPS-005`) and a "Continuity of approval authority" section in `docs/GOVERNANCE.md` — approval procedure + successor path documented; single-maintainer risk explicitly accepted and dated; exit condition = second approver or contributor intake opens.
+  - **F1 (MED) — IRI wording aligned now.** `docs/IDENTIFIER-POLICY.md` §6 reworded to the OBO "**MUST resolve after redirection**" + term-centric form (status still not-yet-active), so adopting the base later is a switch, not a redefinition.
+  - **F3 (MED) — adoption provenance: extended.** `REQ-STEMMA-EXP-002` bumped to **revision 2**: merged/re-identified entities SHALL carry an adopted-from provenance record in the export (OBO Principle 8 precedent; `EVID-STEMMA-EXP-008`).
+  - **F4 (MED) — dataset-scoped validation: noted, no requirement added** (owner ruling). `UNRES-STEMMA-SCH-001` added (`EVID-STEMMA-SCH-005`).
+  - **F5 (LOW) — contributor freeze stated.** `docs/CONTRIBUTING.md` now opens with a prominent "intake CLOSED — frozen until the owner decides otherwise" notice (reason, no date on purpose, exit condition, forkability preserved).
+  - **Owner-raised (2026-10-01) — explorer preserved + AI chat: recorded as `REQ-STEMMA-INTEG-001`.** The `explorer/` 3D force-graph app was never removed (26 tracked files, `npm --prefix explorer run verify` → OK, CI-gated `explorer-build` job). Requirement: it stays working AND gains an AI chat answering from the STEMMA export (citations to entity ids + source refs; derived-only, never canonical). `schema/consumer-registry.yaml` `stemma-explorer` updated (`rag.enabled: true`). Doubles as the reference consumer conformance test. `EVID-STEMMA-INTEG-004`.
+  - **Boundary decided — `ADR-0055` (explorer & AI chat are the PRODUCT layer, not the core).** Owner principle: "the 3D visual and the chat are the product aspects; they must not leak into the STEMMA core." One-way dependency (core never references `explorer/`), presentation is not canonical, the chat is a consumer (derived-only, grounded, own model selection/keys), RAG stays the consumer's job *including ours*, product qualities are not conformance criteria. Clarifies ADR-0054 §5; indexed in `docs/decisions/README.md`; noted in `docs/ARCHITECTURE-V2.md` §5.3 and `docs/CONSUMERS.md`.
+  - **Net:** pilot set **22 → 24 requirements**; validator 9/9; counters swept across README/ROADMAP/IMPLEMENTATION-STATUS/BASELINE/GOVERNANCE/PROGRESS. Pre-approval gate satisfied.
+  - **Also:** `review.py` value-slot crash fixed and committed (`6522d38`, 5 new tests, suite → 277); `docs/README.md` R6 text corrected `w3id` → `stemma-urn-only`.
+
+- [x] **Increment 6 landed 2026-10-01 — ALL 24 REQUIREMENTS APPROVED; baseline L2 → L3.** The owner gave verdicts and they were applied (`spec/machine-readable/requirements.yaml`: `status: APPROVED`, `approver: human:curator.001`, `approval_date: 2026-10-01` on all 24). **The recovery executor self-approved nothing** — the approval was entered by the owner, and validator check 6 (approval metadata) + check 7 (verification method on APPROVED) now exercise the APPROVED path and pass.
+  - **Verdicts applied:** A1 (EXP-004) agree; A2 (SEC-002) approve with verification deferred to the webapp redesign; A3 (OPS-002) — **the INFERENCE stays human-reviewed before any FACT conversion; no machine promotion**; all other recommendations approved as given.
+  - **Maturity:** `spec/BASELINE.md` raised **L2 (evidence-backed, unapproved) → L3 (approved baseline)**. **L4 (verified) is now UNBLOCKED** — §9.1's APPROVED-before-VERIFIED condition is cleared; no verification execution has run yet, so all 24 remain `UNVERIFIED` *because unexecuted*, not because unapproved.
+  - **Docs updated:** `ROLES_AND_AUTHORITY.md` (baseline approver → APPROVED), `SPECIFICATION.md` (marker ⟦recovered-unapproved⟧ → ⟦recovered-approved⟧ ×8), `VERIFICATION.md` (gap column restated as *execution owed*; + OPS-003 + INTEG-001 rows; now 24 rows), `SPECIFICATION_GAP_ANALYSIS.md` (§21.1 qualifier removed), `APPROVAL-WORKSHEET.md` (marked EXECUTED), `REQUIREMENTS.md`, README, docs/README, ROADMAP, IMPLEMENTATION-STATUS, PROCESS_REVIEW.
+  - **Verified:** validator 9/9 · `docs.py check` PASS · **277 tests pass** · `verify_all.py` exit 0 · publication gate **OPEN** (`stemma-urn-only by human:curator.001`).
 
 ## ✅ DONE (R4 — Content Acceptance Test, ADR-0052, closed 2026-09-22)
 

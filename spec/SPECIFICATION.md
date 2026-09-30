@@ -1,9 +1,11 @@
 # SYSTEM SPECIFICATION — STEMMA CORE-GATE-EXPORT slice (pilot)
 
 Version `0.1.0-pilot.CORE-GATE-EXPORT` · Baseline commit `fb66dd9` · 2026-09-22
-Authority state: everything here is **PROPOSED** pending SOLE_OWNER approval.
-Sections marked ⟦recovered-unapproved⟧ describe evidence-backed behavior not
-yet approved as requirement; uncertainty is not disguised as prose (§13).
+Authority state: the requirement set is **APPROVED** (2026-10-01, Sajan /
+`human:curator.001`); see spec/BASELINE.md (maturity L3). Sections were recovered
+from the as-built system and then approved; the marker ⟦recovered-approved⟧ records
+that lineage. Verification (L4) has not been executed — approval is not verification.
+Uncertainty is not disguised as prose (§13).
 
 ## 1. Purpose
 
@@ -36,7 +38,7 @@ claims (R8).
 
 ## 4. System behavior (layered contracts)
 
-### 4.1 Canonical layer ⟦recovered-unapproved: REQ-CORE-001..004⟧
+### 4.1 Canonical layer ⟦recovered-approved: REQ-CORE-001..004⟧
 
 Three object kinds: entities (Markdown+YAML frontmatter), connections (one YAML
 per assertion, mandatory evidence), sources (citation records). Identity:
@@ -44,14 +46,14 @@ per assertion, mandatory evidence), sources (citation records). Identity:
 curriculum semantics, secrets. Current corpus: 1 draft entity, 0 connections,
 3 sources (2 unreferenced) — a state, not a requirement.
 
-### 4.2 Gate ⟦recovered-unapproved: REQ-GATE-001..005; REQ-SCH-001..003⟧
+### 4.2 Gate ⟦recovered-approved: REQ-GATE-001..005; REQ-SCH-001..003⟧
 
 Deterministic chain (see IFACE-STEMMA-GATE-001). Properties:
 fail-closed (observed), no wall clock, no randomness (CI-checked),
 schema-conformant objects only, registry coherence, status honesty,
 docs consistency, ecosystem independence.
 
-### 4.3 Export layer ⟦recovered-unapproved: REQ-EXP-001..004⟧
+### 4.3 Export layer ⟦recovered-approved: REQ-EXP-001..004⟧
 
 Deterministic regenerable artifacts: `knowledge.json` (export_version 2.2.0,
 content_hash), review-aware variants, embeddings + vector store (deterministic
@@ -60,7 +62,7 @@ Contract rule: additive within major version; versions single-sourced.
 **Known defect-in-waiting (recorded, not resolved):** CONFLICT-STEMMA-EXP-001 —
 meta.json `type: faiss` on the JSON fallback.
 
-### 4.4 Data semantics (§14) ⟦recovered-unapproved⟧
+### 4.4 Data semantics (§14) ⟦recovered-approved⟧
 
 - **Identity & lifecycle:** IDs immutable; corrections supersede; review status
   is data (`draft` → reviewed → canonical), not folder location.
@@ -73,7 +75,7 @@ meta.json `type: faiss` on the JSON fallback.
 - **Sensitive data:** none in canonical layer; PDF corpora and API keys live
   outside git (XC-3, XC-5).
 
-## 5. Failure behavior ⟦recovered-unapproved⟧
+## 5. Failure behavior ⟦recovered-approved⟧
 
 - Invalid canonical data or drifted status/docs/independence → gate exits
   non-zero; nothing ships (observed fail-closed, EVID-STEMMA-GATE-002).
@@ -91,7 +93,7 @@ meta.json `type: faiss` on the JSON fallback.
 - IFACE-STEMMA-GATE-001 — verification-chain CLI contract (exit-code semantics).
 See `spec/INTERFACES/`.
 
-## 7. Security properties ⟦recovered-unapproved⟧
+## 7. Security properties ⟦recovered-approved⟧
 
 Secret-free canonical layer (CI); HITL-gated canonical mutation; immutable IDs;
 no secrets/keys committed (XC-5 → REQ-SEC-002, webapp deep-check NOT_YET_ASSESSED).
@@ -111,7 +113,7 @@ Verification mapping lives in `spec/VERIFICATION.md`; traceability in
 
 ## Gate 4 checklist (§31)
 
-- [x] approved requirements represented — N/A (none approved; PROPOSED set represented explicitly)
+- [x] approved requirements represented — all 24 APPROVED 2026-10-01 (spec/BASELINE.md); sections below carry the ⟦recovered-approved⟧ lineage marker
 - [x] scope/non-goals represented (§2)
 - [x] interfaces represented (§6 + spec/INTERFACES)
 - [x] data semantics represented (§4.4)

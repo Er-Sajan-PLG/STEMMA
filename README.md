@@ -67,10 +67,11 @@ test (ADR-0052).
 Specification Recovery Protocol v3.1 (pilot edition) over the CORE–GATE–EXPORT
 vertical slice (2026-09-22, ahead of the R4 content acceptance test):
 
-- **22 requirements** (full schema, evidence-traced) — **all PROPOSED**; none are
-  normative until the owner approves them. The recovery agent had no approval power.
+- **24 requirements** (full schema, evidence-traced) — **all APPROVED 2026-10-01**
+  by the owner (`human:curator.001`); the recovery agent had no approval power.
+  Verification (L4) is the next gate and has not been executed.
 - **2 interface contracts** (`exports/knowledge.json` 2.2.0; `verify_all.py` CLI),
-  37 classified evidence records, 6 open questions, 2 conflict records,
+  41 classified evidence records, 7 open questions, 2 conflict records,
   two-tier gap analysis, machine-readable registries + a minimum validator
   (`python3 spec/machine-readable/validate_recovery.py`, 9/9 checks).
 - Baseline `spec/BASELINE.md` — maturity **L2 (slice-scoped only)**; approval and

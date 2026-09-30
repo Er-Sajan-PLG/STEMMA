@@ -14,7 +14,7 @@ Content entry point: `spec/REQUIREMENTS.md`.
 | 0 Charter | spec/PILOT_CHARTER.md (budget, abort conditions, slice → ADR-STEMMA-SPEC-001) | PASS |
 | 1 Evidence → As-Built | EVIDENCE_REGISTER.md (37), AS_BUILT.md | PASS |
 | 2 Needs/Intent recovery | requirements origin classification (RECOVERED/PROPOSED/DERIVED/EXTERNAL), validation_basis per record | PASS |
-| 3 Requirements | REQUIREMENTS.md — 22 × full §8.6 schema, ALL PROPOSED | PASS (nothing self-approved) |
+| 3 Requirements | REQUIREMENTS.md — 22 × full §8.6 schema, ALL PROPOSED (later 24, APPROVED 2026-10-01) | PASS (nothing self-approved) |
 | 4 Specification | SPECIFICATION.md v0.1.0-pilot with ⟦recovered-unapproved⟧ marks | PASS |
 | 5 Architecture/Decision | spec/DECISIONS/ two-layer model; historical ADR-0001..0039 located in archive/old-design, 0040..0052 cross-linked | PASS |
 | 6 Verification design | VERIFICATION.md — all UNVERIFIED by §9.1 rule; methods bound, procedures drafted | PASS |
