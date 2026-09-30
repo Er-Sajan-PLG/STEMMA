@@ -127,12 +127,18 @@ precondition in the R6 record).
 Once an identifier is published as an HTTP IRI, STEMMA accepts these operational duties,
 independent of the resolution base:
 
-1. **Keep resolution working.** A published IRI must resolve for as long as STEMMA
-   exists in any form. Broken targets are STEMMA's responsibility, not the resolver's.
+1. **Keep resolution working — the MUST, stated in the standard's own words.** A published
+   IRI **MUST resolve after redirection** to the artefact it names, and a published
+   *entity* IRI **MUST resolve to a term-centric page for that entity** (not to a bulk
+   file, not to a list, not to a search result). This wording follows the OBO Foundry's
+   Principle 3 as strengthened in 2026 (OBO Foundry Newsletter #10, 2026-04-13) — the
+   closest governance peer to STEMMA — so that adopting the base later is a switch, not a
+   redefinition. Broken targets are STEMMA's responsibility, not the resolver's.
 2. **Keep maintainer authority current and non-singular.** Do not let resolution
    authority rest on one person's account. At least one maintainer other than the
    owner must be able to edit redirect rules, so that succession (individual → org) is
-   a routine edit rather than a recovery operation.
+   a routine edit rather than a recovery operation. (Consistent with
+   `REQ-STEMMA-OPS-003`, continuity of approval authority.)
 3. **Never embed a STEMMA-owned address in a published string.** Published IRIs must
    route through an institution-backed resolution switchboard, never directly through
    a domain STEMMA must own forever. This is what keeps the base swappable.
@@ -168,7 +174,9 @@ Anyone may embed a STEMMA identifier and rely on all of the following:
 - The identifier will never name a different thing than it names today.
 - The identifier will never be deleted or reused.
 - A deprecated, merged, or split identifier remains present and self-describing
-  (currently by inspection of the canonical layer; by dereference once §6 activates).
+  (currently by inspection of the canonical layer; by dereference once §6 activates, at
+  which point a published IRI **MUST resolve after redirection** to the entity's own
+  term-centric page — §6.1).
 - The meaning of an identifier changes only through the documented human review chain.
 - The identifier is globally unique — no two STEMMA entities may share a `stemma:` string.
 - The string shape is stable permanently; the address behind it (if any is ever adopted)

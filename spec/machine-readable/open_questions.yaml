@@ -49,3 +49,10 @@ open_questions:
     proposed_resolution: "Owner supplies rights documentation or marks acceptable-risk; license-compliance then an XC amendment."
     authority_required: SOLE_OWNER
     related: [EVID-STEMMA-CORE-005, XC-6]
+  - id: UNRES-STEMMA-SCH-001
+    question: "Should the export gain a dataset-scoped, declarative validation layer (entities+connections+sidecars together) beyond per-object JSON Schema?"
+    status: OPEN
+    blocking: false
+    proposed_resolution: "Noted, not actioned (owner ruling 2026-10-01, SOTA F4); revisit when the export gains a second real consumer or SHACL-DS-style tooling matures."
+    authority_required: SOLE_OWNER
+    related: [REQ-STEMMA-SCH-001, REQ-STEMMA-EXP-002, EVID-STEMMA-SCH-005]

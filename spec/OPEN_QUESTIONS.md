@@ -20,6 +20,16 @@ authoritative external source. Machine copy: `spec/machine-readable/` conflicts
 - **Owner / Authority required:** Sajan / HUMAN_DECISION.
 - **Status:** RESOLVED (published-PID portion — decided to defer with bounded upgrade conditions) · **Next action:** none required now; revisit when the §6 conditions in r6-identifier-base.md are met.
 
+## UNRES-STEMMA-SCH-001 — Validation is graph/object-scoped; dataset-scoped validation is the 2026 frontier
+
+- **Question:** Should STEMMA add a *dataset-scoped*, declaratively self-contained validation layer for the export (validating `entities[]` + `connections[]` + sidecars together), rather than only the current per-object JSON Schema checks and registry coherence?
+- **Why unresolved:** STEMMA validates each canonical object against its schema in the gate (REQ-STEMMA-SCH-001) plus registry coherence (REQ-STEMMA-SCH-003), and guarantees the export by generator + freshness gate (REQ-STEMMA-EXP-001/-003). The 2026 validation frontier has moved to dataset scope: SHACL-DS (Chiem Dao & Debruyne, ESWC 2026) exists precisely because graph-scoped SHACL "loses track of where triples come from," and the W3C SHACL-UCR work treats dataset validation as an open requirement. STEMMA's export is effectively a dataset.
+- **Known facts:** No dataset-level declarative constraint layer exists today; correctness of the export relies on the generator being correct plus the freshness diff. This is believed adequate now but is the part of the spec most likely to feel dated.
+- **Impact:** Low now; grows with consumer count and export complexity. A consumer reasoning over cross-entity constraints (inverse mirrors, domain/range across the projected edges) can only trust producer behavior, not a declared contract.
+- **Blocking?** NO — explicitly ruled non-blocking by owner 2026-10-01; **no requirement added at this time** (SOTA-COMPARISON-2026-10-01 F4).
+- **Owner / Authority required:** Sajan (SOLE_OWNER) / HUMAN_DECISION.
+- **Status:** OPEN (noted, not actioned) · **Next action:** revisit when the export gains a second real consumer or when SHACL-DS-style tooling matures enough to adopt without new infrastructure.
+
 ## UNRES-STEMMA-HITL-001 — HITL audit evidence is not repository-resident
 
 - **Question:** Should the HITL audit trail (`workflow/audit/`, proving human edits before canonical) be committed (possibly redacted) so canonical trust can be verified from the repo alone?

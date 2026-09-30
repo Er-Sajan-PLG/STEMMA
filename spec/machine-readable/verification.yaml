@@ -112,3 +112,13 @@ verification_records:
     status: UNVERIFIED
     evidence: [EVID-STEMMA-OPS-004]
     procedure: "Trend: underlying prose-owned values removed or machine-linked per release."
+  - requirement: REQ-STEMMA-OPS-003
+    method: INSPECTION
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-OPS-005]
+    procedure: "Read docs/GOVERNANCE.md: approval procedure and successor path documented; single-maintainer risk explicitly accepted and dated."
+  - requirement: REQ-STEMMA-INTEG-001
+    method: INTEGRATION_TEST
+    status: UNVERIFIED
+    evidence: [EVID-STEMMA-INTEG-004]
+    procedure: "Run npm --prefix explorer run verify (graph rendering); then exercise the AI chat against a known export and assert answers cite entity ids + source refs and refuse when ungrounded; assert chat reads exports/ only."

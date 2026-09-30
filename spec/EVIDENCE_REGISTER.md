@@ -38,6 +38,7 @@ All observations made at baseline commit `fb66dd9` on 2026-09-22 unless noted.
 | EVID-STEMMA-SCH-002 | FACT | HIGH | cmd: registry parse → 15 `status: adopted`; `scripts/physics_core_profile_check.py:7`, `:138-139` | Registry adopts 15 relations incl. `related_to`; physics-core profile restricts to 8 and forbids `related_to` — the two statements are scope-compatible, not contradictory |
 | EVID-STEMMA-SCH-003 | FACT | MEDIUM | `tests/registry/test_registry_coherence.py:19-37`, `:73-83`; registry entries w/ `inverse: null` | Coherence rules: named inverses must be mutual; symmetric ⇒ no inverse; non-symmetric MAY carry null inverse; adopted w/ named inverse ⇒ must exist |
 | EVID-STEMMA-SCH-004 | FACT | HIGH | `schema/api.yaml:4` (`version: 2.2.0`) | OpenAPI document version tracks the export contract |
+| EVID-STEMMA-SCH-005 | CLAIM | HIGH | Chiem Dao & Debruyne, *From RDF Graph Validation to RDF Dataset Validation with SHACL-DS*, ESWC 2026; W3C SHACL-UCR (2026-09) | Graph-scoped SHACL is inadequate for datasets ("loses track of where triples come from"); dataset-scoped declarative validation is the 2026 frontier — the external basis for UNRES-STEMMA-SCH-001 (SOTA F4) |
 
 ## EXP
 
@@ -49,6 +50,7 @@ All observations made at baseline commit `fb66dd9` on 2026-09-22 unless noted.
 | EVID-STEMMA-EXP-004 | FACT | HIGH | `exports/vector_store/meta.json` (`"type": "faiss"`); `scripts/embed.py:227`, `:241-244` (`# Fallback: write vectors.json` … "numpy not available") | meta.json declares `type: faiss` even when the store is the deterministic JSON fallback (`vectors.json` + `meta.json` + `ids.json`) — label/behavior divergence |
 | EVID-STEMMA-EXP-005 | FACT | MEDIUM | head of `exports/embeddings.jsonl`; `docs/TESTING.md` embedding section | 1 embedding record (all-MiniLM-L6-v2, 384-dim) produced by deterministic hash-based fallback when torch/sentence-transformers absent |
 | EVID-STEMMA-EXP-006 | FACT | MEDIUM | `exports/consumers/learninghub/knowledge.learninghub.json`; gate output | learninghub consumer export contains 0 entities (review_policy `canonical`; corpus is all-draft). general export contains the draft entity |
+| EVID-STEMMA-EXP-008 | CLAIM | HIGH | OBO Foundry Newsletter #10 (2026-04-13), Principle 8 implementation requirement | OBO requires `rdfs:isDefinedBy` provenance when a term from one ontology is adopted into another under a new identifier, validated automatically via the OBO Dashboard; provenance is treated as required, not optional, metadata — the external precedent for REQ-STEMMA-EXP-002's adopted-from criterion (SOTA F3) |
 
 ## HITL / SEC / OPS / INTEG
 
@@ -64,8 +66,10 @@ All observations made at baseline commit `fb66dd9` on 2026-09-22 unless noted.
 | EVID-STEMMA-INTEG-001 | FACT | MEDIUM | cmd `grep -rn StemmaRAG adapters/ --include="*.py"` → 0 hits; 9 doc lines in GOVERNANCE/CONSUMERS/GUIDELINE | `StemmaRAG` is referenced in docs but does not exist in the adapter package |
 | EVID-STEMMA-INTEG-002 | CLAIM | MEDIUM | `schema/consumer-registry.yaml` | Four consumers declared (learninghub, professor-j, stemma-explorer, general) with review_policy/domain preferences — declared intent |
 | EVID-STEMMA-INTEG-003 | CLAIM | MEDIUM | `docs/CONSUMERS.md`, `docs/GOVERNANCE.md` consumer sections | Intended usage patterns (models, top_k, review policies) are documentation claims, unverified against any running consumer |
+| EVID-STEMMA-INTEG-004 | FACT | HIGH | `explorer/scripts/verify-graph-projection.mjs` → OK; `.github/workflows/ci.yml` `explorer-build` job | The reference explorer (Vite/TS 3D force-graph) is tracked, loads the derived export, passes its projection verifier, and is required by the all-green CI gate — a working, CI-gated consumer fit to host a grounded AI chat |
 | EVID-STEMMA-EXP-007 | CLAIM | LOW | `docs/CONSUMERS.md` (learninghub 0-entities "correct per review_policy") | The empty learninghub export is asserted intended; not owner-confirmed |
 | EVID-STEMMA-OPS-004 | INFERENCE | MEDIUM | `git diff main --stat` (12→11 model fix, contract-version edits in >10 files, 2026-09-22) | Hardcoding counts/versions in many prose locations is the demonstrated drift mechanism; machine-owned single sources (status_truth, VERSION.yaml) are the working countermeasure |
+| EVID-STEMMA-OPS-005 | INFERENCE | HIGH | `spec/ROLES_AND_AUTHORITY.md` (SOLE_OWNER, approver `null` on all 22 requirements); `scripts/verify_all.py` (fail-closed); `spec/SOTA-COMPARISON-2026-10-01.md` F2 | Single-maintainer concentration behind a fail-closed gate: if the sole approver is unavailable, canonical progress stops entirely. Bus-factor research (Avelino et al. 133-project study; xz-utils CVE-2024-3094) treats this as a first-class, tracked risk |
 
 ## Excluded (§5.3)
 

@@ -1,7 +1,7 @@
-# SPEC APPROVAL WORKSHEET — CORE-GATE-EXPORT slice (22 requirements)
+# SPEC APPROVAL WORKSHEET — CORE-GATE-EXPORT slice (24 requirements)
 
-Prepared: 2026-10-01 · For: Sajan (SOLE_OWNER) · Status: DRAFT — awaiting owner verdicts
-Source of truth: `spec/machine-readable/requirements.yaml` (22 records, all `status: PROPOSED`,
+Prepared: 2026-10-01 · For: Sajan (SOLE_OWNER) · Status: **EXECUTED — verdicts given and applied 2026-10-01** (all 24 APPROVED; see spec/BASELINE.md L3)
+Source of truth: `spec/machine-readable/requirements.yaml` (24 records, all `status: APPROVED`,
 all `approver: null`). Readable mirror: `spec/REQUIREMENTS.md`.
 
 ## How to use this worksheet
@@ -179,8 +179,25 @@ by the verification chain, so approving is confirming an accurate description.
 
 \* = requires the corresponding Part A / Part D discussion before approval.
 
-**Count: 22 total — 17 straight APPROVE, 5 needing your explicit ruling** (EXP-004,
+**Count: 22 original — 17 straight APPROVE, 5 needing your explicit ruling** (EXP-004,
 HITL-001, HITL-002, SEC-002, OPS-002).
+
+### Added after the SOTA comparison (2026-10-01) — requirements 23 and 24
+
+The SOTA comparison (`spec/SOTA-COMPARISON-2026-10-01.md`) surfaced two requirements the
+pilot did not yet record. The owner ruled on both the same day.
+
+| # | ID | Statement (condensed) | Owner ruling | Basis |
+|---|----|----------------------|--------------|-------|
+| 23 | OPS-003 | Sole-owner approval authority is a recoverable capability, not an undocumented single point of failure | **ADD (F2)** — recorded | SOTA F2; `EVID-OPS-005`; bus-factor research 2026 |
+| 24 | INTEG-001 | Reference explorer stays working and gains an AI chat grounded in the export (citations; derived-only) | **ADD (owner-raised)** | `EVID-INTEG-004`; `schema/consumer-registry.yaml` |
+
+**EXP-002 amended (F3, owner ruling "extend it"):** acceptance criteria now also require an
+adopted-from provenance record on merged/re-identified entities (revision 2, `EVID-EXP-008`,
+OBO Principle 8 precedent).
+
+**Resulting set: 24 requirements.** Owner rulings applied to F1–F5 are recorded in
+`SPECIFICATION_PROCESS_REVIEW`-adjacent custody in `spec/SOTA-COMPARISON-2026-10-01.md` §5b.
 
 ---
 

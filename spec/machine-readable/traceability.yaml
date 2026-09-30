@@ -88,3 +88,11 @@ traces:
     evidence: [EVID-STEMMA-OPS-004]
     implementations: [scripts/status_truth.py, schema/VERSION.yaml]
     verification: UNVERIFIED
+  - requirement: REQ-STEMMA-OPS-003
+    evidence: [EVID-STEMMA-OPS-005]
+    implementations: [docs/GOVERNANCE.md, spec/ROLES_AND_AUTHORITY.md]
+    verification: UNVERIFIED
+  - requirement: REQ-STEMMA-INTEG-001
+    evidence: [EVID-STEMMA-INTEG-004, EVID-STEMMA-INTEG-002]
+    implementations: [explorer/, explorer/scripts/verify-graph-projection.mjs, schema/consumer-registry.yaml]
+    verification: UNVERIFIED
