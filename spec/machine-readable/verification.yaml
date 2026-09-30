@@ -1,6 +1,6 @@
 # Canonical verification mapping — mirrors spec/VERIFICATION.md
 # Status is UNVERIFIED until an execution is recorded, VERIFIED once one is and it passed.
-verification_set_note: "Execution round 2026-10-01: 18 VERIFIED, 0 FAILED, 6 UNVERIFIED of 24. Methods are bindings-to-come after approval; pre-approval runs were EVIDENCE (EVID-STEMMA-GATE-002), not VERIFICATION. All three FAILED findings raised during this drive were repaired and re-verified: REQ-STEMMA-CORE-004 (generality guard widened + mutation-tested), REQ-STEMMA-EXP-002 criterion 4 (adopted_from implemented, ADR-0056), and REQ-STEMMA-GATE-003 (test-suite + all-green added to the required status checks, EVID-STEMMA-GATE-018). REQ-STEMMA-EXP-003 verified by executing the CI freshness gate as an integration test (mutation + regeneration control, EVID-STEMMA-EXP-014/015/016). No open FAILED records remain; UNRES-STEMMA-GATE-001 and UNRES-STEMMA-CORE-002 are both closed. The 6 remaining UNVERIFIED (EXP-004, HITL-001, HITL-002, SEC-002, OPS-002, INTEG-001) are execution-owed or blocked on external preconditions, not defects."
+verification_set_note: "Execution round 2026-10-01: 18 VERIFIED, 2 FAILED, 4 UNVERIFIED of 24. Methods are bindings-to-come after approval; pre-approval runs were EVIDENCE (EVID-STEMMA-GATE-002), not VERIFICATION. Earlier findings repaired and re-verified: REQ-STEMMA-CORE-004 (generality guard widened + mutation-tested), REQ-STEMMA-EXP-002 criterion 4 (adopted_from implemented, ADR-0056), REQ-STEMMA-GATE-003 (test-suite + all-green added to the required status checks, EVID-STEMMA-GATE-018). REQ-STEMMA-EXP-003 verified by executing the CI freshness gate as an integration test (mutation + regeneration control, EVID-STEMMA-EXP-014/015/016). NEW FAILED (round 3): REQ-STEMMA-HITL-001 and REQ-STEMMA-HITL-002 — the chain's hitl_check --check-workflow step audits an empty, git-ignored workflow/ directory and exits 0 with 'nothing to check', so it is vacuous over content/; 6 of 9 canonical entities declare provenance.writer=llm:coding-agent.001, contradicting HITL-001 AC2; hitl_check --all independently returns exit 1 with 9/9 failures. Routed as UNRES-STEMMA-HITL-002 (blocking, owner ruling required) and entangled with UNRES-STEMMA-HITL-001 (audit-trail portability). The 4 remaining UNVERIFIED (EXP-004, SEC-002, OPS-002, INTEG-001) are execution-owed or blocked on external preconditions. Closed: UNRES-STEMMA-GATE-001, UNRES-STEMMA-CORE-002."
 verification_records:
   - requirement: REQ-STEMMA-CORE-001
     method: INSPECTION
@@ -114,14 +114,18 @@ verification_records:
     procedure: "Review-aware consumer export on mixed corpus (blocked on non-trivial corpus)."
   - requirement: REQ-STEMMA-HITL-001
     method: INTEGRATION_TEST
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-HITL-001, EVID-STEMMA-HITL-002]
-    procedure: "hitl_check --check-workflow audit; portability caveat UNRES-STEMMA-HITL-001."
+    status: FAILED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-HITL-001, EVID-STEMMA-HITL-002, EVID-STEMMA-HITL-003, EVID-STEMMA-HITL-004]
+    procedure: "AC1: inspect the chain step and execute hitl_check exactly as the chain invokes it. AC2: read provenance.writer for every canonical entity from the derived export and cross-check against the agent registry. AC3: inspect the audit trail's repository-portability."
+    result: "FAILED. AC1 — the step IS in the chain (scripts/verify_all.py:31, step 8) but is VACUOUS: `hitl_check.py --check-workflow` reports 'Candidates: 0 / Proposals: 0 / Human edits: 0' and exits 0 with 'nothing to check', auditing a git-ignored directory (.gitignore:10; `git ls-files workflow/` = 0). It asserts nothing about the 9 canonical entities. AC2 — VIOLATED: 6 of 9 entities are status=canonical with provenance.writer=llm:coding-agent.001 (conservation-energy, force, length, mass, newtons-second-law, time); only stemma:phys.metre is human-written. The requirement states canonical objects 'declare writer: human:*'. `hitl_check.py --all` independently returns exit 1 with '9/9 entities fail HITL'. No gate enforces this: validate.py's human-reviewer rule (check_connection_agents) applies only to connections/, never to content/. AC3 — audit evidence is not repository-portable (UNRES-STEMMA-HITL-001, workflow/ is git-ignored)."
   - requirement: REQ-STEMMA-HITL-002
     method: INTEGRATION_TEST
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-HITL-001]
-    procedure: "Negative fixture: candidate without human edit -> hitl_check FAIL."
+    status: FAILED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-HITL-001, EVID-STEMMA-HITL-005]
+    procedure: "AC1: inspect hitl_check's candidate_edited requirement AND audit the live trail for such an event."
+    result: "FAILED. AC1 is IMPLEMENTED in the checker (hitl_check.py:12,56-60,139 requires a `candidate_edited` event attributed to a registered human) but is NOT SATISFIED by the live trail: workflow/audit/audit.jsonl holds 6 events (config_saved x2, document_uploaded, extraction_started, extraction_complete, candidates_generated) and ZERO `candidate_edited` events. Because the chain runs in --check-workflow mode over an empty (git-ignored) workflow/ directory, the unmet condition never surfaces in CI: the check is correct but unexercised. Blocked on UNRES-STEMMA-HITL-001 (trail portability) and on the owner's ruling for how existing entities are brought into compliance."
   - requirement: REQ-STEMMA-SEC-001
     method: STATIC_ANALYSIS
     status: VERIFIED

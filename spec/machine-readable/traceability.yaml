@@ -65,13 +65,13 @@ traces:
     implementations: [scripts/export_consumers.py, schema/consumer-registry.yaml]
     verification: UNVERIFIED
   - requirement: REQ-STEMMA-HITL-001
-    evidence: [EVID-STEMMA-HITL-001, EVID-STEMMA-HITL-002, EVID-STEMMA-CORE-004]
-    implementations: [scripts/hitl_check.py, scripts/review.py]
-    verification: UNVERIFIED
+    evidence: [EVID-STEMMA-HITL-001, EVID-STEMMA-HITL-002, EVID-STEMMA-HITL-003, EVID-STEMMA-HITL-004]
+    implementations: [scripts/hitl_check.py, scripts/review.py, scripts/verify_all.py]
+    verification: FAILED
   - requirement: REQ-STEMMA-HITL-002
-    evidence: [EVID-STEMMA-HITL-001]
-    implementations: [scripts/hitl_check.py]
-    verification: UNVERIFIED
+    evidence: [EVID-STEMMA-HITL-001, EVID-STEMMA-HITL-005]
+    implementations: [scripts/hitl_check.py, scripts/verify_all.py]
+    verification: FAILED
   - requirement: REQ-STEMMA-SEC-001
     evidence: [EVID-STEMMA-SEC-001]
     implementations: [.github/workflows/ci.yml, .gitleaks.toml]

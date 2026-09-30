@@ -5,11 +5,16 @@ is `APPROVED` (§9.1). **All 24 requirements were APPROVED on 2026-10-01**
 (owner: Sajan / `human:curator.001`; see spec/BASELINE.md). The §9.1 blocking
 condition is therefore **cleared** and verification executions are underway.
 
-**Current position (2026-10-01): 18 VERIFIED · 0 FAILED · 6 UNVERIFIED.**
+**Current position (2026-10-01): 18 VERIFIED · 2 FAILED · 4 UNVERIFIED.**
 
-All three findings raised during this drive — two from round 1 and one from
-round 2 — were repaired under owner ruling and re-verified. No `FAILED` record
-remains.
+The three findings raised earlier in this drive (CORE-004, EXP-002 criterion 4,
+GATE-003) were all repaired and re-verified. A **fourth** finding — HITL
+enforcement, detailed below — was raised in the same push and remains **open,
+routed to the owner** as `UNRES-STEMMA-HITL-002`. It is the more serious of the
+two classes of remaining work, because it is not a gap inside a guard; it is a
+gap between a requirement ("AI-drafted content stays draft until a named human
+reviews it") and a corpus where six of nine canonical entities declare an
+**LLM** writer.
 
 The round-2 finding was that the test-suite and `all-green` jobs ran and passed,
 but neither was a *required* status check on `main` — so the merge-gating clause
@@ -52,8 +57,8 @@ either executed or is honestly marked as not yet executed.
 | REQ-STEMMA-EXP-002 | UNIT_TEST | ✅ **VERIFIED** (2026-10-01, after implementation) | EVID-EXP-009 (the gap) → **EVID-EXP-011/012/013**. `adopted_from` declared in both schemas, enforced by `check_adopted_from`, projected into the export; malformed variants rejected; export byte-identical (additive) | ✅ done — FAILED → VERIFIED (ADR-0056) |
 | REQ-STEMMA-EXP-003 | INTEGRATION_TEST | ✅ **VERIFIED** (2026-10-01) | EVID-EXP-014 (ci.yml:32-34 gate is present, wired after the chain, repeated at :283/:301 and release.yml:69); EVID-EXP-015 (negative control: appended entity **and** edited existing entity → exit 1); EVID-EXP-016 (positive control: `validate.py` regeneration restored the diff to 0) | ✅ done — non-vacuous **and** a true freshness gate, not a tautology |
 | REQ-STEMMA-EXP-004 | INTEGRATION_TEST | UNVERIFIED | export_consumers runs; learninghub 0-entity output observed | UNRES-EXP-001 closed by owner; run INTEGRATION_TEST |
-| REQ-STEMMA-HITL-001 | INTEGRATION_TEST | UNVERIFIED | hitl_check in gate (EVID-HITL-001) | UNRES-HITL-001 (evidence locality) limits strength; run INTEGRATION_TEST |
-| REQ-STEMMA-HITL-002 | INTEGRATION_TEST | UNVERIFIED | same as above | same as above |
+| REQ-STEMMA-HITL-001 | INTEGRATION_TEST | ⚠️ **FAILED** (2026-10-01) | EVID-HITL-003 (chain step is vacuous: `--check-workflow` audits an empty, git-ignored `workflow/` → exit 0 "nothing to check"); EVID-HITL-004 (`--all` → exit 1, **9/9 fail**; 6 of 9 canonical entities declare `writer=llm:coding-agent.001`) | **UNRES-HITL-002** — AC1 present-but-vacuous, AC2 violated as stated; owner must rule on scope + corpus remediation |
+| REQ-STEMMA-HITL-002 | INTEGRATION_TEST | ⚠️ **FAILED** (2026-10-01) | EVID-HITL-005 (the `candidate_edited` requirement is implemented at `hitl_check.py:12,56-60,139`, but the live trail holds **zero** `candidate_edited` events and is git-ignored) | **UNRES-HITL-002** + UNRES-HITL-001 — check is correct but never exercised |
 | REQ-STEMMA-SEC-001 | STATIC_ANALYSIS | **VERIFIED** (2026-10-01) | EVID-SEC-003 — canonical secret-free; gitleaks wired (ci.yml:55) + pre-commit hook | ✅ done |
 | REQ-STEMMA-SEC-002 | INSPECTION | UNVERIFIED | XC-5 recorded; webapp NOT_YET_ASSESSED | second pilot (webapp slice); owner ruling: full redesign pending |
 | REQ-STEMMA-OPS-001 | MEASUREMENT | **VERIFIED** (2026-10-01) | EVID-OPS-006 (clean clone, exit 0, 4.00 s, 21 steps); EVID-OPS-007 (controlled: bare venv 1/2 → +requirements.txt 0) | ✅ done |
@@ -150,10 +155,11 @@ variants each produced exit 1 with a named error. The change is **additive** —
 `exports/knowledge.json` is byte-identical where no entity is an adoption, so
 `export_version` correctly stays `2.2.0` (EVID-EXP-011/012/013).
 
-**All three `FAILED` records are now `VERIFIED`** (two from round 1, one from
-round 2), and **REQ-STEMMA-EXP-003** was verified in the same push. The remaining
-6 requirements are `UNVERIFIED` — execution owed or blocked on external
-preconditions, not defects. **No `FAILED` record remains.**
+**All three earlier `FAILED` records are now `VERIFIED`** (two from round 1, one
+from round 2), and **REQ-STEMMA-EXP-003** was verified in the same push. But the
+same push raised **two new `FAILED` records** — HITL-001 and HITL-002 — described
+immediately below. The 4 remaining `UNVERIFIED` are execution owed or blocked on
+external preconditions, not defects.
 
 ### REQ-STEMMA-EXP-003 — derived-artifact freshness, verified by execution
 
@@ -176,6 +182,60 @@ against the real artifacts (EVID-EXP-014/015/016):
 The same gate is repeated at `ci.yml:283` (tests must not mutate derived
 artifacts) and `:301`, and in `release.yml:69` at tag time.
 
+## The HITL finding — a gate that passes because it has nothing to look at
+
+**REQ-STEMMA-HITL-001 — human review before canonical.** *Raised, FAILED.* The
+chain does include the step: `scripts/verify_all.py:31` runs
+`hitl_check.py --check-workflow` as step 8. But executing that exact invocation
+produces:
+
+```
+Candidates: 0 markdown files
+Proposals: 0 markdown files
+Human edits (HITL): 0
+OK: no workflow candidates or proposals yet — nothing to check      # exit 0
+```
+
+`workflow/` is git-ignored (`.gitignore:10`) and `git ls-files workflow/` returns
+**zero** tracked files. So AC1 is **present but vacuous**: the gate audits a
+directory that is empty on every fresh clone, and asserts nothing about the nine
+entities in `content/`.
+
+Then AC2 — "every canonical entity carries a human writer" — is checked against
+the derived export:
+
+| entity | status | `provenance.writer` |
+|---|---|---|
+| conservation-energy · force · length · mass · newtons-second-law · time | **canonical** | `llm:coding-agent.001` |
+| metre | canonical | `human:curator.001` |
+| kilogram · second | draft | `llm:coding-agent.001` |
+
+**Six of nine canonical entities declare an LLM writer**, directly contradicting
+the requirement's statement. `hitl_check.py --all` independently returns exit 1
+with `9/9 entities fail HITL`. Nothing in the chain surfaces this, because no gate
+applies the rule to `content/`: `validate.py`'s human-reviewer check
+(`check_connection_agents`) is scoped to `connections/` only.
+
+This is the mirror image of the GATE-003 defect and worth stating plainly. There,
+a real gate was not wired into the merge gate. Here, the check is present and
+correct but **scoped to an empty directory**, so a green result carries no
+information. A check that cannot fail is not a weaker check — it is a different
+thing wearing the same name.
+
+**REQ-STEMMA-HITL-002 — explicit human markdown edit mandatory.** *Raised,
+FAILED.* AC1 is properly implemented in the checker (`hitl_check.py:12,56-60,139`
+requires a `candidate_edited` event attributed to a registered human). The live
+trail, however, contains six events — `config_saved` ×2, `document_uploaded`,
+`extraction_started`, `extraction_complete`, `candidates_generated` — and **zero
+`candidate_edited` events**. The check is correct but never exercised, for the
+same scoping reason.
+
+Both are routed as **`UNRES-STEMMA-HITL-002`** (owner ruling required; the
+remediation touches provenance, which the executor will not rewrite unilaterally)
+and are entangled with the pre-existing **`UNRES-STEMMA-HITL-001`** (the audit
+trail is git-ignored, so HITL evidence is not repository-portable — a fresh clone
+cannot verify any of it).
+
 ## NFR metrics (§18)
 
 Performance/reliability requirements: **none in this slice** → no metric/threshold
@@ -186,13 +246,14 @@ clean-clone measurement recorded 4.00 s over 21 steps — still an observation.)
 ## Gate 6 checklist (§31)
 
 - [x] every applicable requirement has a verification method (no permanent NOT_YET_DETERMINED)
-- [x] verification status recorded (18 VERIFIED · 0 FAILED · 6 UNVERIFIED as of 2026-10-01)
+- [x] verification status recorded (18 VERIFIED · 2 FAILED · 4 UNVERIFIED as of 2026-10-01)
 - [x] unverified explicitly marked
 - [x] objective evidence referenced for as-built observations
 - [x] VERIFIED records carry an execution date, named evidence, and a recorded result
 - [x] FAILED records carry the specific unmet criterion and a routed open question
 - [x] no round-1 FAILED record is left unrepaired: both were ruled on, fixed, and re-verified
 - [x] round-2 FAILED (GATE-003) was repaired by the owner and re-verified: 7 required checks, byte-exact context match (UNRES-GATE-001 closed)
+- [ ] **round-3 FAILED (HITL-001, HITL-002) remains open** — routed as UNRES-STEMMA-HITL-002; needs an owner ruling on scope, corpus remediation, and the enforcement layer. The box is deliberately left unchecked.
 
 ## Verification log
 
@@ -219,6 +280,8 @@ clean-clone measurement recorded 4.00 s over 21 steps — still an observation.)
 | 2026-10-01 | REQ-STEMMA-GATE-003 | INSPECTION | **FAIL** (merge-gating clause) | EVID-GATE-016, EVID-GATE-017 |
 | 2026-10-01 | REQ-STEMMA-GATE-003 | INSPECTION | PASS (**re-verified after owner repair**) | EVID-GATE-018 |
 | 2026-10-01 | REQ-STEMMA-EXP-003 | INTEGRATION_TEST | PASS (**executed: mutation + regeneration controls**) | EVID-EXP-014, EVID-EXP-015, EVID-EXP-016 |
+| 2026-10-01 | REQ-STEMMA-HITL-001 | INTEGRATION_TEST | **FAIL** (AC1 vacuous, AC2 violated 6/9) | EVID-HITL-003, EVID-HITL-004 |
+| 2026-10-01 | REQ-STEMMA-HITL-002 | INTEGRATION_TEST | **FAIL** (check correct, zero `candidate_edited` events) | EVID-HITL-005 |
 | 2026-10-01 | REQ-STEMMA-OPS-003 | INSPECTION | PASS | EVID-OPS-009 |
 
 ## Method notes (recorded, not hidden)
