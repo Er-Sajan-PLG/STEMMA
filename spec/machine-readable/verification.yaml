@@ -1,6 +1,6 @@
 # Canonical verification mapping — mirrors spec/VERIFICATION.md
 # Status is UNVERIFIED until an execution is recorded, VERIFIED once one is and it passed.
-verification_set_note: "Methods are bindings-to-come after approval; pre-approval runs were EVIDENCE (EVID-STEMMA-GATE-002) not VERIFICATION. REQ-STEMMA-GATE-001 VERIFIED 2026-10-01 by the permanent negative-path test (EVID-STEMMA-GATE-011/012); all others remain UNVERIFIED pending execution."
+verification_set_note: "Execution round 2026-10-01: 13 VERIFIED, 2 FAILED, 9 UNVERIFIED of 24. Methods are bindings-to-come after approval; pre-approval runs were EVIDENCE (EVID-STEMMA-GATE-002), not VERIFICATION. FAILED: REQ-STEMMA-CORE-004 (generality guard misses prefixed variants; defence-in-depth intact — schema rejects) and REQ-STEMMA-EXP-002 (criterion 4 unimplementable as written). Both routed to the owner; the executor may not self-approve a fix (Constraint D, spec/ROLES_AND_AUTHORITY.md)."
 verification_records:
   - requirement: REQ-STEMMA-CORE-001
     method: INSPECTION
@@ -9,34 +9,46 @@ verification_records:
     procedure: "Inspect validate.py canonical path set; confirm export reads only canonical."
   - requirement: REQ-STEMMA-CORE-002
     method: STATIC_ANALYSIS
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-CORE-003]
-    procedure: "check_id_immutability on git history; schema pattern tests."
+    status: VERIFIED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-CORE-003, EVID-STEMMA-CORE-008]
+    procedure: "Run check_id_immutability.py over git history; then a controlled schema probe using a real entity whose id is swapped for malformed forms."
+    result: "PASS - immutability: 9 live/9 historical entity ids, 2 live/2 historical connection ids, no reassignment. Schema: control entity valid=True; 'phys.metre', 'metre', 'http://example.org/metre', '' and 'LHS:metre' all rejected."
   - requirement: REQ-STEMMA-CORE-003
     method: STATIC_ANALYSIS
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-SEC-002]
-    procedure: "CI no-embeddings grep over content/."
+    status: VERIFIED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-SEC-002, EVID-STEMMA-CORE-009]
+    procedure: "Grep for vector/embedding material across content/, connections/, sources/; negative control injects a vector literal to confirm the check discriminates."
+    result: "PASS - canonical clean; injected vector detected, so the green result carries information."
   - requirement: REQ-STEMMA-CORE-004
     method: UNIT_TEST
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-GATE-001]
-    procedure: "test_generality canonical whitelist + phrase rejection."
+    status: FAILED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-GATE-001, EVID-STEMMA-CORE-006, EVID-STEMMA-CORE-007]
+    procedure: "Run tests/curation/test_generality.py; then inject a scoping frontmatter key and confirm the guard rejects it (mutation probe of the guard itself)."
+    result: "FAIL (guard coverage gap, defence-in-depth intact) — the 5 unit tests pass, but the mutation probe shows SCOPING_FIELDS is ^...$-anchored and so misses prefixed variants (grade_level, grade_band, curriculum_scope, target_grade). Injection of `grade_level: 10` was NOT rejected by the guard. scripts/validate.py DID reject it (concept.schema.json additionalProperties:false), so no violation can ship. CORE-004's named guard is simply not the layer that catches prefixed keys."
   - requirement: REQ-STEMMA-SCH-001
     method: UNIT_TEST
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-GATE-003]
-    procedure: "verify_all schema validation step."
+    status: VERIFIED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-GATE-003, EVID-STEMMA-SCH-007]
+    procedure: "Run the gate; then a clean (still-valid YAML) probe removing the required 'definition' field from a real entity."
+    result: "PASS - exit 1 with 'missing/empty required field definition' and a required-property schema error naming the file. The failure is diagnosable, not opaque."
   - requirement: REQ-STEMMA-SCH-002
     method: UNIT_TEST
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-OPS-004]
-    procedure: "test_no_version_literals_in_exporters + docs-consistency VERSION keys."
+    status: VERIFIED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-OPS-004, EVID-STEMMA-SCH-006]
+    procedure: "Run tests/versioning/test_deterministic_export.py (incl. test_no_version_literals_in_exporters) and the docs-consistency VERSION-key check."
+    result: "PASS - 8 passed; no hardcoded version literals in producers; VERSION.yaml keys enforced."
   - requirement: REQ-STEMMA-SCH-003
     method: UNIT_TEST
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-SCH-003]
-    procedure: "test_registry_coherence + export registry comparison."
+    status: VERIFIED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-SCH-003, EVID-STEMMA-SCH-006]
+    procedure: "Run tests/registry/test_registry_coherence.py; compare the export's relation_registry sidecar for coherence."
+    result: "PASS - 6 passed; inverses mutual and mirrored, symmetric relations carry no inverse, domain/range reference known types only."
   - requirement: REQ-STEMMA-GATE-001
     method: INTEGRATION_TEST
     status: VERIFIED
@@ -46,9 +58,11 @@ verification_records:
     result: "PASS — 4 passed; chain terminated at step 1 with exit 1 and a named culprit."
   - requirement: REQ-STEMMA-GATE-002
     method: UNIT_TEST
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-GATE-006]
-    procedure: "status_truth --check on tampered README."
+    status: VERIFIED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-GATE-006, EVID-STEMMA-GATE-013]
+    procedure: "Tamper probe: mutate the README status block (entities 9 -> 108); status_truth.py must exit non-zero and name the divergence."
+    result: "PASS — exit 1, 'entities: README says 108, live is 9'. The machine-generated block is enforced, not hoped for."
   - requirement: REQ-STEMMA-GATE-003
     method: INSPECTION
     status: UNVERIFIED
@@ -56,24 +70,32 @@ verification_records:
     procedure: "CI workflow inspection: test-suite job present; all-green needs it."
   - requirement: REQ-STEMMA-GATE-004
     method: UNIT_TEST
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-GATE-007]
-    procedure: "test_docs_consistency duplicate-doc and index assertion."
+    status: VERIFIED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-GATE-007, EVID-STEMMA-GATE-014]
+    procedure: "Run tests/repo/test_docs_consistency.py; then a mutation probe adding docs/ORPHAN-PROBE.md (an unindexed doc) and confirming rejection."
+    result: "PASS — exit 0 clean; mutation caught: 'docs/README.md does not list: [ORPHAN-PROBE.md]'. Index parity is enforced."
   - requirement: REQ-STEMMA-GATE-005
     method: UNIT_TEST
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-GATE-008]
-    procedure: "test_independence forbidden-reference assertion."
+    status: VERIFIED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-GATE-008, EVID-STEMMA-GATE-015]
+    procedure: "Run tests/repo/test_independence.py; then a mutation probe appending a retired-ecosystem token to README.md."
+    result: "PASS — exit 0 clean; mutation caught: 'README.md:198: <ecosystem reference> (<token>)'. The forbidden-reference assertion is live and locates the violation with file:line."
   - requirement: REQ-STEMMA-EXP-001
     method: UNIT_TEST
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-EXP-002, EVID-STEMMA-EXP-005]
-    procedure: "Double-run gate hash comparison; no-wall-clock job."
+    status: VERIFIED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-EXP-002, EVID-STEMMA-EXP-010]
+    procedure: "Triple-run the gate and compare sha256 of exports/knowledge.json; assert a sha256:* content_hash is present and no wall-clock field exists."
+    result: "PASS — byte-identical across 3 consecutive runs (c93675cf...); content_hash sha256:cbf17acd...; no generated_at field."
   - requirement: REQ-STEMMA-EXP-002
     method: UNIT_TEST
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-SCH-001, EVID-STEMMA-EXP-001]
-    procedure: "export.schema.json validation; export_version equality with VERSION.yaml."
+    status: FAILED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-SCH-001, EVID-STEMMA-EXP-001, EVID-STEMMA-EXP-009]
+    procedure: "Check export_version against schema/VERSION.yaml; assert relation_registry + vocabularies sidecars present and registry-coherent; run jsonschema Draft202012 validation of exports/knowledge.json; then test acceptance criterion 4 (adopted-from provenance for entities with merge/adoption history)."
+    result: "FAIL on criterion 4 of 4 (criteria 1-3 PASS). Criteria 1-3: export_version 2.2.0 == VERSION.yaml 2.2.0; sidecars present (56 relations; domains/subdomains/regimes/scales); jsonschema validation 0 errors. Criterion 4 UNMET: no `adopted_from` field is defined in concept.schema.json or export.schema.json, and there is no merge/adoption history mechanism. Entities carry `external_ids` (Wikidata QIDs) which is identity mapping, not adoption provenance. Vacuous today (no entity has adoption history) but the mechanism is absent, so the criterion cannot be exercised."
   - requirement: REQ-STEMMA-EXP-003
     method: INTEGRATION_TEST
     status: UNVERIFIED
@@ -96,9 +118,11 @@ verification_records:
     procedure: "Negative fixture: candidate without human edit -> hitl_check FAIL."
   - requirement: REQ-STEMMA-SEC-001
     method: STATIC_ANALYSIS
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-SEC-001]
-    procedure: "gitleaks + no-secrets grep (CI + local)."
+    status: VERIFIED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-SEC-001, EVID-STEMMA-SEC-003]
+    procedure: "Run the no-secrets grep over canonical; confirm .gitleaks.toml and the CI gitleaks step exist."
+    result: "PASS - canonical secret-free; gitleaks-action@v3 wired at ci.yml:55 and a pre-commit no-secrets hook; machine-checked on every change."
   - requirement: REQ-STEMMA-SEC-002
     method: INSPECTION
     status: UNVERIFIED
@@ -114,13 +138,16 @@ verification_records:
   - requirement: REQ-STEMMA-OPS-002
     method: INSPECTION
     status: UNVERIFIED
-    evidence: [EVID-STEMMA-OPS-004]
-    procedure: "Trend: underlying prose-owned values removed or machine-linked per release."
+    evidence: [EVID-STEMMA-OPS-004, EVID-STEMMA-OPS-008]
+    procedure: "INSPECTION trend watch across releases: track whether prose-owned values keep being removed or machine-linked."
+    result: "NOT YET MEASURABLE - all single-source mechanisms exist and are gate-enforced (EVID-OPS-008), but the criterion is a trend ACROSS RELEASES and `git tag` is empty: there is one point in time, not a series. Recording VERIFIED here would be claiming a trend from a single observation."
   - requirement: REQ-STEMMA-OPS-003
     method: INSPECTION
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-OPS-005]
-    procedure: "Read docs/GOVERNANCE.md: approval procedure and successor path documented; single-maintainer risk explicitly accepted and dated."
+    status: VERIFIED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-OPS-005, EVID-STEMMA-OPS-009]
+    procedure: "INSPECTION of docs/GOVERNANCE.md: confirm the approval procedure, the successor path, the dated accepted risk and the exit condition are documented."
+    result: "PASS - all four elements present (GOVERNANCE.md:29-56). The risk is recorded as chosen and dated 2026-10-01, with a stated exit condition."
   - requirement: REQ-STEMMA-INTEG-001
     method: INTEGRATION_TEST
     status: UNVERIFIED

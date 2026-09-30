@@ -56,3 +56,10 @@ open_questions:
     proposed_resolution: "Noted, not actioned (owner ruling 2026-10-01, SOTA F4); revisit when the export gains a second real consumer or SHACL-DS-style tooling matures."
     authority_required: SOLE_OWNER
     related: [REQ-STEMMA-SCH-001, REQ-STEMMA-EXP-002, EVID-STEMMA-SCH-005]
+  - id: UNRES-STEMMA-CORE-002
+    question: "Should the generality guard (test_generality.py SCOPING_FIELDS) drop its ^...$ anchors so it also rejects prefixed/suffixed scoping keys (grade_level, grade_band, curriculum_scope, target_grade)?"
+    status: OPEN
+    blocking: false
+    proposed_resolution: "Executor finding, 2026-10-01 (EVID-STEMMA-CORE-006/007): the guard is ^...$-anchored and therefore matches only exact key names. The gap is defence-in-depth only — concept.schema.json's additionalProperties:false still rejects such keys at the validator (exit 1), so no violation can ship. Fixing the guard is an owner decision; the executor may execute verification and record results but not self-approve a code change and then mark it VERIFIED. Options: (a) widen the pattern to a prefix match; (b) leave it, relying on the schema layer; (c) widen and add a permanent mutation test that asserts the guard itself rejects prefixed keys."
+    authority_required: SOLE_OWNER
+    related: [REQ-STEMMA-CORE-004, EVID-STEMMA-CORE-006, EVID-STEMMA-CORE-007]

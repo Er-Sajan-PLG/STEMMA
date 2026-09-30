@@ -72,3 +72,11 @@ authoritative external source. Machine copy: `spec/machine-readable/` conflicts
 - **Blocking?** YES for committing any audit material containing textbook excerpts.
 - **Owner / Authority required:** Sajan (+ external legal if needed) / HUMAN_DECISION.
 - **Status:** OPEN · **Next action:** owner policy (e.g., standards-text-first sources, excerpt-free audit metadata).
+
+## UNRES-STEMMA-CORE-002 — Generality guard misses prefixed scoping keys
+
+- **Question:** Should `test_generality.py`'s `SCOPING_FIELDS` pattern drop its `^…$` anchors so it also rejects prefixed/suffixed scoping keys (`grade_level`, `grade_band`, `curriculum_scope`, `target_grade`)?
+- **Why unresolved:** Raised during verification of REQ-STEMMA-CORE-004 (2026-10-01, EVID-STEMMA-CORE-006/007). The guard is `^…$`-anchored and so matches only exact key names. A mutation probe injecting `grade_level: 10` into `metre.md` frontmatter was **not** rejected by the guard.
+- **Impact:** **Defence-in-depth only, not an open hole.** `concept.schema.json` declares `additionalProperties: false`, so `validate.py` still rejects an unregistered scoping key (exit 1, observed). The `extensions` seam (ADR-0017) is likewise registry-gated. No violation can ship — the guard is simply not the layer that catches prefixed keys. Left unfixed, the guard's stated invariant over-claims relative to its implementation.
+- **Blocking?** NO. · **Owner / Authority required:** Sajan / SOLE_OWNER.
+- **Status:** OPEN · **Next action:** owner picks (a) widen the pattern to a prefix match, (b) leave it and rely on the schema layer, or (c) widen **and** add a permanent mutation test asserting the guard itself rejects prefixed keys. The executor recorded the finding and did **not** self-approve a fix (Constraint D).
