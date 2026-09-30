@@ -5,7 +5,7 @@
   "payload_sha256": "sha256:82b4ed411d7e7c0b57aca7cd9216028ab6b203ac89d653fc525a9e9549f5a9a7",
   "consumer": "stemma-explorer",
   "consumer_profile": {
-    "label": "STEMMA Explorer (Reference 3D Graph)",
+    "label": "STEMMA Explorer (Reference 3D Graph + AI Chat)",
     "domains": "all",
     "subdomains": "all",
     "entity_types": "all",

@@ -30,12 +30,13 @@ Defined in `schema/consumer-registry.yaml` — 4 consumers:
 - **RAG:** enabled, top_k 10, model DeepSeek R1 free (reasoning 671B) fallback Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro — YES RAG system needed, AI professor needs retrieval + generation with citations
 - **Example:** "Explain photosynthesis and its relation to cellular respiration" → embedding BGE Large → vector search top 10 across biology → context → DeepSeek R1 → answer with citations source_refs + links
 
-### STEMMA Explorer (Reference 3D Graph)
-- **Label:** Reference 3D graph explorer — visualizes knowledge graph
+### STEMMA Explorer (Reference 3D Graph + AI Chat)
+- **Label:** Reference 3D graph explorer — visualizes knowledge graph, and answers questions via AI chat
 - **Domains:** all
 - **Review policy:** all
 - **Export formats:** knowledge.json
 - **Needs:** clean 3D small nodes 0.32-0.5 thin lines 0.15 legend hidden manual only zoom centered tight 32-65 centroid, domain filter for 8 domains
+- **AI chat (REQ-STEMMA-INTEG-001, owner-raised 2026-10-01):** answers grounded in the STEMMA export with citations to entity ids + `source_refs`; reads derived exports only, never canonical markdown; declines when the export offers no grounding. Doubles as the **reference consumer conformance test** — it exercises the export the way a real consumer would (the behavioural evidence EXP-002/-004 and the INTEG interface currently lack).
 
 ### General Consumer
 - **Label:** Any app that wants STEMMA via adapter SDK, CLI, or local JSON API
