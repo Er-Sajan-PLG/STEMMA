@@ -85,3 +85,12 @@ authoritative external source. Machine copy: `spec/machine-readable/` conflicts
   - Three new tests: `test_scoping_field_guard_catches_prefixed_variants`, `test_scoping_field_guard_does_not_overreach` (negative control), and `test_widened_guard_is_enforced_end_to_end`.
   - **Non-vacuity proven by mutation:** reverting the matcher to the anchored form turns exactly those tests red (2 failed, 6 passed); restoring gives 8 passed (EVID-STEMMA-CORE-010).
   - **REQ-STEMMA-CORE-004 re-verified: FAILED → VERIFIED.**
+
+## UNRES-STEMMA-GATE-001 — The all-green merge gate is not a required status check
+
+- **Question:** Should `Full Test Suite (pytest)` and `All Checks Green — Nothing Bad Gets Merged` be added to the repository's required status checks on `main`, so that a red suite actually blocks a merge?
+- **Why raised:** During verification of REQ-STEMMA-GATE-003 (2026-10-01, EVID-STEMMA-GATE-016/017). Both **named** acceptance criteria PASS — `ci.yml` defines the `test-suite` job running `python3 -m pytest tests/ -q`, and `all-green` both lists it in `needs` *and* asserts its result `== success` → `exit 1`; live run `36316235760` shows both green.
+- **Impact:** **The merge-gating clause is unenforced.** The requirement's statement is that the all-green gate SHALL **require** the suite's success. The live repository configuration (branch protection *and* active ruleset `22215824`) requires only `Validate Knowledge Base`, `Security scan`, `Verify Governance Docs`, `Branching Strategy`, `Conventional Commits (commitlint)`. Neither the pytest job nor `all-green` is required — **a PR with a failing test suite, or a failing all-green, can still be merged.**
+- **Why it hid until now:** branch protection is a **repository setting, not in-repo config**. Inspecting only `.github/workflows/ci.yml` yields a false PASS, because every job is correctly defined and correctly wired. This is exactly why the criterion names the *merge gate* rather than the *job*.
+- **Blocking?** YES (blocks GATE-003). · **Owner / Authority required:** Sajan / SOLE_OWNER.
+- **Status:** OPEN · **Next action:** owner adds both contexts to the required status checks for `main` in repository settings, then `REQ-STEMMA-GATE-003` is re-verified by inspecting the required-check list. Adding `all-green` alone is sufficient once it is the single aggregate gate (it already asserts every other job's result); adding the pytest job too keeps the failing cause legible. The executor did **not** change branch protection — that is a governance act, not a code change.

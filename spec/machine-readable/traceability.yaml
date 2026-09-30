@@ -1,9 +1,9 @@
 # Canonical traceability matrix — read sideways: evidence -> requirement -> implementation -> (verification pending).
 traces:
   - requirement: REQ-STEMMA-CORE-001
-    evidence: [EVID-STEMMA-CORE-001, EVID-STEMMA-GATE-003]
+    evidence: [EVID-STEMMA-CORE-001, EVID-STEMMA-GATE-003, EVID-STEMMA-CORE-011, EVID-STEMMA-CORE-012]
     implementations: [scripts/validate.py]
-    verification: UNVERIFIED
+    verification: VERIFIED
   - requirement: REQ-STEMMA-CORE-002
     evidence: [EVID-STEMMA-CORE-003]
     implementations: [schema/concept.schema.json, scripts/check_id_immutability.py]
@@ -37,9 +37,9 @@ traces:
     implementations: [scripts/status_truth.py]
     verification: VERIFIED
   - requirement: REQ-STEMMA-GATE-003
-    evidence: [EVID-STEMMA-GATE-005, EVID-STEMMA-GATE-009]
+    evidence: [EVID-STEMMA-GATE-005, EVID-STEMMA-GATE-009, EVID-STEMMA-GATE-016, EVID-STEMMA-GATE-017]
     implementations: [.github/workflows/ci.yml]
-    verification: UNVERIFIED
+    verification: FAILED
   - requirement: REQ-STEMMA-GATE-004
     evidence: [EVID-STEMMA-GATE-007]
     implementations: [tests/repo/test_docs_consistency.py]

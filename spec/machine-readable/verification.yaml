@@ -1,12 +1,14 @@
 # Canonical verification mapping — mirrors spec/VERIFICATION.md
 # Status is UNVERIFIED until an execution is recorded, VERIFIED once one is and it passed.
-verification_set_note: "Execution round 2026-10-01: 15 VERIFIED, 0 FAILED, 9 UNVERIFIED of 24. Methods are bindings-to-come after approval; pre-approval runs were EVIDENCE (EVID-STEMMA-GATE-002), not VERIFICATION. Both round-1 FAILED findings were repaired under owner ruling and re-verified: REQ-STEMMA-CORE-004 (generality guard widened from ^...$-anchored to token-based, mutation-tested; UNRES-STEMMA-CORE-002 resolved) and REQ-STEMMA-EXP-002 criterion 4 (adopted_from implemented end-to-end per ADR-0056). No open FAILED records remain."
+verification_set_note: "Execution round 2026-10-01: 16 VERIFIED, 1 FAILED, 7 UNVERIFIED of 24. Methods are bindings-to-come after approval; pre-approval runs were EVIDENCE (EVID-STEMMA-GATE-002), not VERIFICATION. Round-1 FAILED findings were repaired under owner ruling and re-verified: REQ-STEMMA-CORE-004 (generality guard widened + mutation-tested) and REQ-STEMMA-EXP-002 criterion 4 (adopted_from implemented, ADR-0056). Round-2 FAILED: REQ-STEMMA-GATE-003 — the test-suite/all-green jobs run and pass, but neither is a required status check on main, so the merge-gating clause is unenforced; routed to the owner as UNRES-STEMMA-GATE-001 (a repository setting the executor cannot change)."
 verification_records:
   - requirement: REQ-STEMMA-CORE-001
     method: INSPECTION
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-CORE-001, EVID-STEMMA-GATE-003]
-    procedure: "Inspect validate.py canonical path set; confirm export reads only canonical."
+    status: VERIFIED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-CORE-001, EVID-STEMMA-GATE-003, EVID-STEMMA-CORE-011, EVID-STEMMA-CORE-012]
+    procedure: "Inspect validate.py canonical path set; confirm the consumer reads only the export. Strengthened with a rogue-file probe: place a well-formed entity OUTSIDE content/ and confirm it is ignored; then regenerate and confirm derived artifacts are byte-identical (no forked truth)."
+    result: "PASS on both criteria. (1) Canonical locations are enforced, not just declared: validate.py fixes the set at CONTENT/CONNECTIONS/SOURCES (:55-57) and discovers via CONTENT.rglob('*.md') (:1225) + load_canonical_yaml_dir (:1262-1263); a rogue entity (stemma:phys.rogue-outside-canonical) placed at the repo root left entity_count at 9 and never appeared in the export. (2) Consumers read the export: the sole consumer (explorer) loads exports/knowledge.json through one loader (knowledge-export-loader.ts:61) and never canonical markdown; re-running the gate leaves exports/ and reports/ byte-identical. archive/ holds the only outside copies and is never read by the validator."
   - requirement: REQ-STEMMA-CORE-002
     method: STATIC_ANALYSIS
     status: VERIFIED
@@ -65,9 +67,11 @@ verification_records:
     result: "PASS — exit 1, 'entities: README says 108, live is 9'. The machine-generated block is enforced, not hoped for."
   - requirement: REQ-STEMMA-GATE-003
     method: INSPECTION
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-GATE-005, EVID-STEMMA-GATE-009]
-    procedure: "CI workflow inspection: test-suite job present; all-green needs it."
+    status: FAILED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-GATE-005, EVID-STEMMA-GATE-009, EVID-STEMMA-GATE-016, EVID-STEMMA-GATE-017]
+    procedure: "CI workflow inspection: confirm the test-suite job runs the full pytest suite, and confirm the all-green merge gate REQUIRES its success. The second half was checked against the real repository configuration via the GitHub API (branch protection + active ruleset), not just the workflow file."
+    result: "FAIL on the merge-gating clause (both named acceptance criteria PASS). Criteria 1-2 PASS: ci.yml:262-284 defines test-suite running 'python3 -m pytest tests/ -q' (:276), and all-green (:328-345) lists test-suite in needs (:331) AND asserts needs.test-suite.result == 'success' -> exit 1 (:344); live run 36316235760 shows both jobs success. UNMET: the requirement says the all-green gate SHALL REQUIRE its success, but the repository's required_status_checks are only [Validate Knowledge Base, Security scan, Verify Governance Docs, Branching Strategy, Conventional Commits (commitlint)] — neither 'Full Test Suite (pytest)' nor 'All Checks Green' is required, so a PR with a red suite or a red all-green can still be merged. The jobs execute; nothing blocks a merge on them. This is a repository-configuration gap, invisible to workflow inspection alone — which is exactly why the criterion names the merge gate, not the job. Routed as UNRES-STEMMA-GATE-001 (owner action: add both contexts to required checks)."
   - requirement: REQ-STEMMA-GATE-004
     method: UNIT_TEST
     status: VERIFIED
