@@ -5,7 +5,7 @@ is `APPROVED` (§9.1). **All 24 requirements were APPROVED on 2026-10-01**
 (owner: Sajan / `human:curator.001`; see spec/BASELINE.md). The §9.1 blocking
 condition is therefore **cleared** and verification executions are underway.
 
-**Current position (2026-10-01): 18 VERIFIED · 2 FAILED · 4 UNVERIFIED.**
+**Current position (2026-10-01): 19 VERIFIED · 2 FAILED · 3 UNVERIFIED.**
 
 The three findings raised earlier in this drive (CORE-004, EXP-002 criterion 4,
 GATE-003) were all repaired and re-verified. A **fourth** finding — HITL
@@ -60,7 +60,7 @@ either executed or is honestly marked as not yet executed.
 | REQ-STEMMA-HITL-001 | INTEGRATION_TEST | ⚠️ **FAILED** (2026-10-01) | EVID-HITL-003 (chain step is vacuous: `--check-workflow` audits an empty, git-ignored `workflow/` → exit 0 "nothing to check"); EVID-HITL-004 (`--all` → exit 1, **9/9 fail**; 6 of 9 canonical entities declare `writer=llm:coding-agent.001`) | **UNRES-HITL-002** — AC1 present-but-vacuous, AC2 violated as stated; owner must rule on scope + corpus remediation |
 | REQ-STEMMA-HITL-002 | INTEGRATION_TEST | ⚠️ **FAILED** (2026-10-01) | EVID-HITL-005 (the `candidate_edited` requirement is implemented at `hitl_check.py:12,56-60,139`, but the live trail holds **zero** `candidate_edited` events and is git-ignored) | **UNRES-HITL-002** + UNRES-HITL-001 — check is correct but never exercised |
 | REQ-STEMMA-SEC-001 | STATIC_ANALYSIS | **VERIFIED** (2026-10-01) | EVID-SEC-003 — canonical secret-free; gitleaks wired (ci.yml:55) + pre-commit hook | ✅ done |
-| REQ-STEMMA-SEC-002 | INSPECTION | UNVERIFIED | XC-5 recorded; webapp NOT_YET_ASSESSED | second pilot (webapp slice); owner ruling: full redesign pending |
+| REQ-STEMMA-SEC-002 | INSPECTION | ✅ **VERIFIED** (2026-10-01) | EVID-SEC-004 (all **6245** history objects scanned for 6 key shapes → zero matches; negative control proves the scan fires on a plant); EVID-SEC-005 (`.env.example` template with empty values, `.env` git-ignored, runtime loader at `providers.py:43-51`, gitleaks in CI) | ✅ done — AC1 non-vacuously clean; AC2 boundary enforced (re-review at second pilot is hygiene, not an unmet criterion) |
 | REQ-STEMMA-OPS-001 | MEASUREMENT | **VERIFIED** (2026-10-01) | EVID-OPS-006 (clean clone, exit 0, 4.00 s, 21 steps); EVID-OPS-007 (controlled: bare venv 1/2 → +requirements.txt 0) | ✅ done |
 | REQ-STEMMA-OPS-002 | INSPECTION | UNVERIFIED | EVID-OPS-008 — all single-source mechanisms exist and are gate-enforced | **not yet measurable**: criterion is a trend *across releases*; `git tag` is empty (one point, not a series) |
 | REQ-STEMMA-OPS-003 | INSPECTION | **VERIFIED** (2026-10-01) | EVID-OPS-009 — procedure + successor path + dated accepted risk + exit condition documented | ✅ done |
@@ -156,10 +156,11 @@ variants each produced exit 1 with a named error. The change is **additive** —
 `export_version` correctly stays `2.2.0` (EVID-EXP-011/012/013).
 
 **All three earlier `FAILED` records are now `VERIFIED`** (two from round 1, one
-from round 2), and **REQ-STEMMA-EXP-003** was verified in the same push. But the
-same push raised **two new `FAILED` records** — HITL-001 and HITL-002 — described
-immediately below. The 4 remaining `UNVERIFIED` are execution owed or blocked on
-external preconditions, not defects.
+from round 2), and **REQ-STEMMA-EXP-003** plus **REQ-STEMMA-SEC-002** were
+verified in the same push. But the same push raised **two new `FAILED` records**
+— HITL-001 and HITL-002 — described immediately below. The 3 remaining
+`UNVERIFIED` are execution owed or blocked on external preconditions, not
+defects.
 
 ### REQ-STEMMA-EXP-003 — derived-artifact freshness, verified by execution
 
@@ -246,7 +247,7 @@ clean-clone measurement recorded 4.00 s over 21 steps — still an observation.)
 ## Gate 6 checklist (§31)
 
 - [x] every applicable requirement has a verification method (no permanent NOT_YET_DETERMINED)
-- [x] verification status recorded (18 VERIFIED · 2 FAILED · 4 UNVERIFIED as of 2026-10-01)
+- [x] verification status recorded (19 VERIFIED · 2 FAILED · 3 UNVERIFIED as of 2026-10-01)
 - [x] unverified explicitly marked
 - [x] objective evidence referenced for as-built observations
 - [x] VERIFIED records carry an execution date, named evidence, and a recorded result
@@ -282,6 +283,7 @@ clean-clone measurement recorded 4.00 s over 21 steps — still an observation.)
 | 2026-10-01 | REQ-STEMMA-EXP-003 | INTEGRATION_TEST | PASS (**executed: mutation + regeneration controls**) | EVID-EXP-014, EVID-EXP-015, EVID-EXP-016 |
 | 2026-10-01 | REQ-STEMMA-HITL-001 | INTEGRATION_TEST | **FAIL** (AC1 vacuous, AC2 violated 6/9) | EVID-HITL-003, EVID-HITL-004 |
 | 2026-10-01 | REQ-STEMMA-HITL-002 | INTEGRATION_TEST | **FAIL** (check correct, zero `candidate_edited` events) | EVID-HITL-005 |
+| 2026-10-01 | REQ-STEMMA-SEC-002 | INSPECTION | PASS (**6245 objects scanned, zero keys; non-vacuous via plant**) | EVID-SEC-004, EVID-SEC-005 |
 | 2026-10-01 | REQ-STEMMA-OPS-003 | INSPECTION | PASS | EVID-OPS-009 |
 
 ## Method notes (recorded, not hidden)

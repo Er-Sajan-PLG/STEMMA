@@ -14,7 +14,7 @@
 | 1 | Pilot charter (slice, budget, abort conditions) | spec/PILOT_CHARTER.md | ✅ written; slice recorded as ADR-STEMMA-SPEC-001 |
 | 2 | Roles & authority model (§4) | spec/ROLES_AND_AUTHORITY.md | ✅ SOLE_OWNER model recorded; executor non-actions explicit |
 | 3 | Domain registry | spec/DOMAIN_REGISTRY.md | ✅ 10 domains: CORE GATE EXP SCH HITL SEC OPS INTEG RAG SPEC |
-| 4 | Evidence register (classified) | spec/EVIDENCE_REGISTER.md | ✅ 74 records, FACT/CLAIM/INFERENCE + confidence + locators |
+| 4 | Evidence register (classified) | spec/EVIDENCE_REGISTER.md | ✅ 76 records, FACT/CLAIM/INFERENCE + confidence + locators |
 | 5 | As-built description | spec/AS_BUILT.md | ✅ present-state only, evidence-backed |
 | 6 | External constraints | spec/EXTERNAL_CONSTRAINTS.md | ✅ XC-1..XC-7 |
 | 7 | Open questions | spec/OPEN_QUESTIONS.md | ✅ 10 UNRES (8 OPEN / 2 CLOSED — UNRES-CORE-002 and UNRES-GATE-001 closed by owner ruling; **UNRES-HITL-002 added 2026-10-01, blocking**); none closed by executor |
@@ -24,7 +24,7 @@
 | 11 | Interface contracts | spec/INTERFACES/ | ✅ IFACE-STEMMA-EXP-001 (knowledge.json 2.2.0), IFACE-STEMMA-GATE-001 (verify_all CLI) |
 | 12 | Decision records | spec/DECISIONS/ + docs/decisions/ | ✅ ADR-STEMMA-SPEC-001 (recovery layer); historical ADR-0040..0052 cross-linked, 0001–0039 located in archive/old-design/ |
 | 13 | Assumptions | spec/ASSUMPTIONS.md | ✅ 5 ASM records |
-| 14 | Verification mapping | spec/VERIFICATION.md | ⚠️ **18 VERIFIED · 2 FAILED · 4 UNVERIFIED** (2026-10-01) — CORE-004, EXP-002 criterion 4 and GATE-003 were repaired and re-verified; EXP-003 verified by executing the CI freshness gate (mutation + regeneration controls, EVID-EXP-014/015/016). **New round-3 finding:** REQ-STEMMA-HITL-001/002 FAILED — the chain's `hitl_check --check-workflow` step audits an empty git-ignored `workflow/` and exits 0 ("nothing to check"), while 6 of 9 canonical entities declare `writer=llm:coding-agent.001`; routed as **UNRES-STEMMA-HITL-002** (owner ruling required) |
+| 14 | Verification mapping | spec/VERIFICATION.md | ⚠️ **19 VERIFIED · 2 FAILED · 3 UNVERIFIED** (2026-10-01) — CORE-004, EXP-002 criterion 4 and GATE-003 were repaired and re-verified; EXP-003 verified by executing the CI freshness gate (mutation + regeneration controls, EVID-EXP-014/015/016); SEC-002 verified by a full-history key scan with a non-vacuity control (6245 objects, zero keys, EVID-SEC-004/005). **New round-3 finding:** REQ-STEMMA-HITL-001/002 FAILED — the chain's `hitl_check --check-workflow` step audits an empty git-ignored `workflow/` and exits 0 ("nothing to check"), while 6 of 9 canonical entities declare `writer=llm:coding-agent.001`; routed as **UNRES-STEMMA-HITL-002** (owner ruling required) |
 | 15 | Gap analysis (two tiers) | spec/SPECIFICATION_GAP_ANALYSIS.md | ✅ Tier-1 deep slice findings + Tier-2 ASSESSED/NOT_YET_ASSESSED/OUT_OF_SCOPE inventory |
 | 16 | Machine-readable canonical set | spec/machine-readable/*.yaml | ✅ 8 canonical registries + 2 derived mirrors, single representation per datum |
 | 17 | Minimum validator (§22.2) | spec/machine-readable/validate_recovery.py | ✅ 9/9 checks PASS; negative-path tested (fails closed) |

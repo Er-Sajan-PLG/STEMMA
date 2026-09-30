@@ -77,9 +77,9 @@ traces:
     implementations: [.github/workflows/ci.yml, .gitleaks.toml]
     verification: VERIFIED
   - requirement: REQ-STEMMA-SEC-002
-    evidence: [EVID-STEMMA-SEC-001]
-    implementations: [webapp/providers.py]
-    verification: UNVERIFIED
+    evidence: [EVID-STEMMA-SEC-004, EVID-STEMMA-SEC-005]
+    implementations: [webapp/providers.py, .env.example, .gitignore]
+    verification: VERIFIED
   - requirement: REQ-STEMMA-OPS-001
     evidence: [EVID-STEMMA-GATE-004, EVID-STEMMA-OPS-006, EVID-STEMMA-OPS-007]
     implementations: [requirements.txt]
