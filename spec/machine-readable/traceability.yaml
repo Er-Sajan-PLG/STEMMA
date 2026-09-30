@@ -37,9 +37,9 @@ traces:
     implementations: [scripts/status_truth.py]
     verification: VERIFIED
   - requirement: REQ-STEMMA-GATE-003
-    evidence: [EVID-STEMMA-GATE-005, EVID-STEMMA-GATE-009, EVID-STEMMA-GATE-016, EVID-STEMMA-GATE-017]
+    evidence: [EVID-STEMMA-GATE-005, EVID-STEMMA-GATE-009, EVID-STEMMA-GATE-016, EVID-STEMMA-GATE-017, EVID-STEMMA-GATE-018]
     implementations: [.github/workflows/ci.yml]
-    verification: FAILED
+    verification: VERIFIED
   - requirement: REQ-STEMMA-GATE-004
     evidence: [EVID-STEMMA-GATE-007]
     implementations: [tests/repo/test_docs_consistency.py]

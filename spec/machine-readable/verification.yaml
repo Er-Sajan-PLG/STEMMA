@@ -1,6 +1,6 @@
 # Canonical verification mapping — mirrors spec/VERIFICATION.md
 # Status is UNVERIFIED until an execution is recorded, VERIFIED once one is and it passed.
-verification_set_note: "Execution round 2026-10-01: 16 VERIFIED, 1 FAILED, 7 UNVERIFIED of 24. Methods are bindings-to-come after approval; pre-approval runs were EVIDENCE (EVID-STEMMA-GATE-002), not VERIFICATION. Round-1 FAILED findings were repaired under owner ruling and re-verified: REQ-STEMMA-CORE-004 (generality guard widened + mutation-tested) and REQ-STEMMA-EXP-002 criterion 4 (adopted_from implemented, ADR-0056). Round-2 FAILED: REQ-STEMMA-GATE-003 — the test-suite/all-green jobs run and pass, but neither is a required status check on main, so the merge-gating clause is unenforced; routed to the owner as UNRES-STEMMA-GATE-001 (a repository setting the executor cannot change)."
+verification_set_note: "Execution round 2026-10-01: 17 VERIFIED, 0 FAILED, 7 UNVERIFIED of 24. Methods are bindings-to-come after approval; pre-approval runs were EVIDENCE (EVID-STEMMA-GATE-002), not VERIFICATION. All three FAILED findings raised during this drive were repaired and re-verified: REQ-STEMMA-CORE-004 (generality guard widened + mutation-tested), REQ-STEMMA-EXP-002 criterion 4 (adopted_from implemented, ADR-0056), and REQ-STEMMA-GATE-003 (test-suite + all-green added to the required status checks, EVID-STEMMA-GATE-018). No open FAILED records remain; UNRES-STEMMA-GATE-001 and UNRES-STEMMA-CORE-002 are both closed."
 verification_records:
   - requirement: REQ-STEMMA-CORE-001
     method: INSPECTION
@@ -67,11 +67,11 @@ verification_records:
     result: "PASS — exit 1, 'entities: README says 108, live is 9'. The machine-generated block is enforced, not hoped for."
   - requirement: REQ-STEMMA-GATE-003
     method: INSPECTION
-    status: FAILED
+    status: VERIFIED
     verified_date: 2026-10-01
-    evidence: [EVID-STEMMA-GATE-005, EVID-STEMMA-GATE-009, EVID-STEMMA-GATE-016, EVID-STEMMA-GATE-017]
-    procedure: "CI workflow inspection: confirm the test-suite job runs the full pytest suite, and confirm the all-green merge gate REQUIRES its success. The second half was checked against the real repository configuration via the GitHub API (branch protection + active ruleset), not just the workflow file."
-    result: "FAIL on the merge-gating clause (both named acceptance criteria PASS). Criteria 1-2 PASS: ci.yml:262-284 defines test-suite running 'python3 -m pytest tests/ -q' (:276), and all-green (:328-345) lists test-suite in needs (:331) AND asserts needs.test-suite.result == 'success' -> exit 1 (:344); live run 36316235760 shows both jobs success. UNMET: the requirement says the all-green gate SHALL REQUIRE its success, but the repository's required_status_checks are only [Validate Knowledge Base, Security scan, Verify Governance Docs, Branching Strategy, Conventional Commits (commitlint)] — neither 'Full Test Suite (pytest)' nor 'All Checks Green' is required, so a PR with a red suite or a red all-green can still be merged. The jobs execute; nothing blocks a merge on them. This is a repository-configuration gap, invisible to workflow inspection alone — which is exactly why the criterion names the merge gate, not the job. Routed as UNRES-STEMMA-GATE-001 (owner action: add both contexts to required checks)."
+    evidence: [EVID-STEMMA-GATE-005, EVID-STEMMA-GATE-009, EVID-STEMMA-GATE-016, EVID-STEMMA-GATE-017, EVID-STEMMA-GATE-018]
+    procedure: "CI workflow inspection: confirm the test-suite job runs the full pytest suite, and confirm the all-green merge gate REQUIRES its success. Both halves are checked against the live repository configuration via the GitHub API — the merge-gating half is a repository setting, not in-repo config, so a workflow-only inspection would give a false PASS."
+    result: "PASS on all three clauses (after owner action). (1) The test-suite job runs 'python3 -m pytest tests/ -q' (ci.yml:276). (2) all-green lists test-suite in needs (:331) and asserts needs.test-suite.result == 'success' -> exit 1 (:344), so a red suite makes the gate itself red. (3) The gate is now REQUIRED: the active main ruleset (22215824) requires 7 status checks including 'All Checks Green — Nothing Bad Gets Merged' and 'Full Test Suite (pytest)', with strict_required_status_checks_policy = true. Each required context was compared byte-for-byte against the names CI actually reports (run 36316235760): both EXACT MATCH, so the checks bind rather than silently never matching. Previously FAILED on clause 3 (EVID-GATE-017); repaired by the owner adding the checks (EVID-GATE-018). UNRES-STEMMA-GATE-001 closed."
   - requirement: REQ-STEMMA-GATE-004
     method: UNIT_TEST
     status: VERIFIED
