@@ -52,13 +52,32 @@ class TestReleaseBundleAndGate(unittest.TestCase):
         self.assertIsNotNone(m)
         self.assertEqual(int(m.group(1)) + int(m.group(2)), ttl_paths)
 
-    def test_publication_gate_blocked_until_owner_decision(self):
-        """Gate must exit 1 with the amendment block while no decision record exists."""
-        self.assertFalse((ROOT / "docs/decisions/r6-identifier-base.md").exists())
-        r = self._run("publication_gate.py", expect_code=1)
-        self.assertIn("BLOCKED", r.stdout)
-        self.assertIn("w3id", r.stdout)
-        self.assertIn("datacite-doi", r.stdout)
+    def test_publication_gate_open_once_owner_decision_recorded(self):
+        """Gate must exit 0 and report the recorded decision (Amendment 0001 satisfied).
+
+        R6 identifier base was decided 2026-10-01: stemma-urn-only (external base
+        deferred; w3id remains the intended future base). While the decision record
+        is absent the gate blocks; once present with a valid human:* signer it opens.
+        This test pins the decided state; the blocked branch is covered by
+        test_publication_gate_reblocks_when_record_removed below.
+        """
+        self.assertTrue((ROOT / "docs/decisions/r6-identifier-base.md").exists())
+        r = self._run("publication_gate.py", expect_code=0)
+        self.assertIn("OPEN", r.stdout)
+        self.assertIn("stemma-urn-only", r.stdout)
+        self.assertIn("human:", r.stdout)
+
+    def test_publication_gate_reblocks_when_record_removed(self):
+        """The gate must remain fail-closed: no record => exit 1, never a silent pass."""
+        record = ROOT / "docs/decisions/r6-identifier-base.md"
+        backup = record.read_bytes()
+        try:
+            record.unlink()
+            r = self._run("publication_gate.py", expect_code=1)
+            self.assertIn("BLOCKED", r.stdout)
+            self.assertIn("datacite-doi", r.stdout)
+        finally:
+            record.write_bytes(backup)
 
     def test_signing_requires_owner_key(self):
         "Signing without gpg/--key must fail with setup guidance (exit 2), never fake."

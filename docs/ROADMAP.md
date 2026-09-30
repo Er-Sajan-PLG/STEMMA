@@ -142,6 +142,8 @@ R4 proceeds unchanged (never depended on the gate).
 
 ## R6 — Projection Publication (Roadmap R4 After Phase 5) Days — 🔄 STARTED 2026-09-23 (increment 1: knowledge.jsonld projection + validation + determinism, PID-agnostic)
 
+**Identifier base DECIDED 2026-10-01: `stemma-urn-only`** — ADR-0053(b) settled at this stage per Amendment 0001: STEMMA publishes under its own `stemma:` URNs with **no external resolution base** (`docs/decisions/r6-identifier-base.md`); the projection keeps `"stemma": "stemma:"`. `publication_gate.py` is now OPEN. Deferred deliberately until the corpus, the review process, and the identifier policy are proven (upgrade conditions in that record §6); w3id remains the *intended* base, adopted later via a one-line `@context` change. `docs/IDENTIFIER-POLICY.md` records the semantic guarantees that carry persistence in the meantime. This decision requires no owner infrastructure action.
+
 exports/knowledge.jsonld + SKOS mapping + context file + SHACL shapes learn-from + signed release bundle + integrity manifest pluggable BFO schema.org
 
 ## R7 — Consumer Views and Routing (After Phase 6) Days

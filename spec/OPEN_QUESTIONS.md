@@ -7,16 +7,18 @@ authoritative external source. Machine copy: `spec/machine-readable/` conflicts
 
 ---
 
-## UNRES-STEMMA-CORE-001 — Organization / IRI base for published IRIs — **PARTIALLY RESOLVED / OPEN (deferred to R6)**
+## UNRES-STEMMA-CORE-001 — Organization / IRI base for published IRIs — **RESOLVED (published-PID portion closed 2026-10-01)**
 
 - **Question:** Which owning organization, domain, and IRI base will STEMMA use for published IRIs?
 - **Resolved portion (binding, by Sajan):** publisher of record = individual Sajan; canonical identity = immutable `stemma:` URN identifiers (machine-enforced; resolution never enters canonical files). (ADR-0053 + Amendment 0001, 2026-09-22)
 - **OPEN portion:** published-PID domain and resolution architecture (w3id.org was proposed, then deliberately re-evaluated via slow research: docs/PERSISTENT-IDENTIFIER-BRIEF.md). **Deferred to the R6 projection-publication stage**, per Amendment 0001 — the research establishes this is safely deferrable while pre-publication (nothing embeds resolvable stemma URIs yet).
-- **Status trail:** OPEN → CLOSED (ADR-0053, quick ruling 2026-09-22) → RE-OPENED/DEFERRED (Amendment 0001, same date, owner-directed slow research).
-- **Blocking?** NO — non-blocking until R6; never blocked R4. At R6 the owner rules reaffirm/amend/supersede ADR-0053(b).
-- **Explicit non-actions:** w3id slug NOT claimed; no canonical identifier changes; no resolution infrastructure. Optional slug claim remains a separate, non-blocking owner consideration.
+- **CLOSED (published-PID portion, 2026-10-01):** owner ruled at R6 as Amendment 0001 directed — **`stemma-urn-only`**: STEMMA publishes under its own `stemma:` URNs with no external resolution base for now (`docs/decisions/r6-identifier-base.md`, `decided_by human:curator.001`). Reason: corpus/review maturity not yet sufficient for a public PID promise (single curator + AI; AI-assisted verification a planned next step). w3id remains the recorded *intended* base, to be adopted when that record's §6 conditions are met (one-line `@context` change, no canonical or consumer change). `publication_gate.py` flipped BLOCKED → OPEN. No owner infrastructure action required meanwhile.
+- **Noted consequence:** FAIR F1/A1 resolvability is deliberately not satisfied for now; recorded openly, not hidden.
+- **Status trail:** OPEN → CLOSED (ADR-0053, quick ruling 2026-09-22) → RE-OPENED/DEFERRED (Amendment 0001, same date, owner-directed slow research) → CLOSED at R6 as *decided to defer* (2026-10-01, stemma-urn-only; see r6-identifier-base.md).
+- **Blocking?** NO — non-blocking; never blocked R4; decision recorded at R6 as scheduled.
+- **Explicit non-actions:** no namespace claimed (w3id or otherwise) — claiming later as squatting insurance is a recorded *option*, not a decision; no canonical identifier changes; no resolution infrastructure.
 - **Owner / Authority required:** Sajan / HUMAN_DECISION.
-- **Status:** OPEN · **Next action:** owner decision, then ADR recording the IRI base.
+- **Status:** RESOLVED (published-PID portion — decided to defer with bounded upgrade conditions) · **Next action:** none required now; revisit when the §6 conditions in r6-identifier-base.md are met.
 
 ## UNRES-STEMMA-HITL-001 — HITL audit evidence is not repository-resident
 

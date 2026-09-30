@@ -59,6 +59,8 @@ artifacts:
   - {path: docs/WEBAPP.md, cat: A6, tier: 2, kind: CANONICAL, sources: [webapp/]}
   - {path: docs/DOCUMENTATION-SYSTEM.md, cat: A14, tier: 2, kind: CANONICAL, sources: [docs/docs-contract.yaml, docs/meta/doc-taxonomy.yaml, scripts/docs.py]}
   - {path: docs/PERSISTENT-IDENTIFIER-BRIEF.md, cat: A14, tier: 3, kind: CANONICAL, sources: [docs/decisions/, spec/], note: "owner-directed slow research; NO decision recorded; feeds ADR-0053 reaffirm/amend/supersede"}
+  - {path: docs/IDENTIFIER-POLICY.md, cat: A1, tier: 2, kind: CANONICAL, sources: [docs/decisions/r6-identifier-base.md, docs/decisions/0053-organization-domain-iri-base.md, docs/CURATION-PROTOCOL.md, scripts/hitl_check.py], note: "semantic half of persistence; host-independent; owner-approved"}
+  - {path: docs/decisions/r6-identifier-base.md, cat: A1, tier: 2, kind: CANONICAL, sources: [docs/decisions/0053-organization-domain-iri-base.md, docs/PERSISTENT-IDENTIFIER-BRIEF.md, scripts/publication_gate.py], note: "R6 gate decision record; frontmatter parsed by publication_gate.py (decision/decided_by/decided_at/rationale)"}
   - {path: docs/decisions/README.md, cat: A14, tier: 2, kind: INDEX, sources: [docs/decisions/, spec/DECISIONS/]}
   # ---- spec/ (recovery baseline; authority: PROPOSED unless approved by owner) ----
   - {path: spec/PILOT_CHARTER.md, cat: A1, tier: 2, kind: CANONICAL, sources: [spec/]}
