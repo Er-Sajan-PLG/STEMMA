@@ -100,6 +100,20 @@
           "id": {
             "type": "string",
             "pattern": "^stemma:"
+          },
+          "adopted_from": {
+            "type": ["object", "null"],
+            "description": "ADR-0056 / REQ-STEMMA-EXP-002: adoption provenance exposed to consumers — the external identifier + relation by which this entity adopted or re-identified a term originating elsewhere (OBO Foundry Principle 8). Absent for non-adoptions.",
+            "required": ["external_id", "relation"],
+            "properties": {
+              "external_id": {"type": "string", "minLength": 1},
+              "relation": {"type": "string", "enum": ["exact_match", "close_match", "broad_match", "narrow_match", "reidentification", "merge"]},
+              "source_external_ids": {"type": ["object", "null"]},
+              "note": {"type": ["string", "null"]},
+              "adopted_at": {"type": ["string", "null"]},
+              "authority": {"type": ["string", "null"], "enum": ["internal", "delegated", null]}
+            },
+            "additionalProperties": false
           }
         }
       }

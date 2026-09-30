@@ -330,6 +330,84 @@
       "additionalProperties": false,
       "description": "Historical scientific attribution (ADR-0018): who first stated this claim and when. Distinct from provenance (record source)."
     },
+    "adopted_from": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "ADR-0056 / REQ-STEMMA-EXP-002: provenance of an entity that ADOPTS or RE-IDENTIFIES a term originating elsewhere (another STEMMA entity or an external ontology). Records the external identifier + the relation by which adoption occurred, satisfying OBO Foundry Principle 8 (rdfs:isDefinedBy when a term is adopted under a new identifier). Distinct from external_ids (which anchors identity, it does not record adoption) and from provenance (which records the source of the CONTENT, not the identity). Absent for entities that are not adoptions.",
+      "required": [
+        "external_id",
+        "relation"
+      ],
+      "properties": {
+        "external_id": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The external identifier the term is adopted from, as scheme:value (e.g. 'wd:Q11402', 'obo:UO_0000008') or a bare stemma: entity id when adopting within STEMMA."
+        },
+        "relation": {
+          "type": "string",
+          "enum": [
+            "exact_match",
+            "close_match",
+            "broad_match",
+            "narrow_match",
+            "reidentification",
+            "merge"
+          ],
+          "description": "How the adopted term relates to its origin: exact/close/broad/narrow match (SKOS-style), reidentification (same entity, new identifier), or merge (two prior entities unified)."
+        },
+        "source_external_ids": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          },
+          "description": "Optional: additional external anchors of the ADOPTED-FROM origin (e.g. its DOI or ORCID), for provenance depth."
+        },
+        "note": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Optional human-readable adoption rationale or caveat (e.g. known divergence from the origin term)."
+        },
+        "adopted_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Optional ISO date when the adoption was recorded."
+        },
+        "authority": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "internal",
+            "delegated",
+            null
+          ],
+          "default": null,
+          "description": "Per ADR-0049: whether this adoption was ratified internally or under delegated authority."
+        }
+      },
+      "additionalProperties": false
+    },
     "quantity_kind": {
       "type": [
         "string",

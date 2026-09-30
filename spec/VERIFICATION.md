@@ -5,12 +5,13 @@ is `APPROVED` (§9.1). **All 24 requirements were APPROVED on 2026-10-01**
 (owner: Sajan / `human:curator.001`; see spec/BASELINE.md). The §9.1 blocking
 condition is therefore **cleared** and verification executions are underway.
 
-**Current position (2026-10-01): 13 VERIFIED · 2 FAILED · 9 UNVERIFIED.**
+**Current position (2026-10-01): 15 VERIFIED · 0 FAILED · 9 UNVERIFIED.**
 
-The two `FAILED` records are *findings, not accidents*: each names a real gap
-between what a requirement promises and what its named mechanism does. They are
-kept visible here rather than quietly downgraded to `UNVERIFIED`, because a
-verification exercise that only ever reports PASS is not measuring anything.
+The two `FAILED` records raised in the first execution round were **repaired
+under owner ruling and re-verified**, not merely re-labelled. They are kept in
+the log below (with their FAIL then their PASS) because a verification exercise
+that only ever reports PASS is not measuring anything — and because the *history*
+of a defect is part of the evidence that it was really fixed.
 
 Status legend: **VERIFIED** = executed, passed, dated, evidenced. **FAILED** =
 executed and a criterion was not met (gap recorded; owner decides the remedy).
@@ -25,7 +26,7 @@ either executed or is honestly marked as not yet executed.
 | REQ-STEMMA-CORE-001 | INSPECTION | UNVERIFIED | EVID-GATE-003; repo layout | run INSPECTION: confirm layout still holds; record date |
 | REQ-STEMMA-CORE-002 | STATIC_ANALYSIS | **VERIFIED** (2026-10-01) | EVID-CORE-008 — immutability PASS (9 live/9 historical ids); controlled probe: control entity valid, all malformed ids rejected | ✅ done |
 | REQ-STEMMA-CORE-003 | STATIC_ANALYSIS | **VERIFIED** (2026-10-01) | EVID-CORE-009 — canonical clean; injected vector literal detected (check discriminates) | ✅ done |
-| REQ-STEMMA-CORE-004 | UNIT_TEST | **FAILED** (2026-10-01) | EVID-CORE-006 — guard is `^…$`-anchored, misses `grade_level`; EVID-CORE-007 — schema still catches it | guard coverage gap; **UNRES-CORE-002** (owner decision) |
+| REQ-STEMMA-CORE-004 | UNIT_TEST | ✅ **VERIFIED** (2026-10-01, after repair) | EVID-CORE-006/007 (the defect) → **EVID-CORE-010** (the fix). Guard widened to token-based, 28 variants caught; mutation-revert turns the new tests red | ✅ done — FAILED → VERIFIED (UNRES-CORE-002 closed) |
 | REQ-STEMMA-SCH-001 | UNIT_TEST | **VERIFIED** (2026-10-01) | EVID-SCH-007 — clean required-field removal → exit 1, names file + property | ✅ done |
 | REQ-STEMMA-SCH-002 | UNIT_TEST | **VERIFIED** (2026-10-01) | EVID-SCH-006 — 8 passed incl. `test_no_version_literals_in_exporters` | ✅ done |
 | REQ-STEMMA-SCH-003 | UNIT_TEST | **VERIFIED** (2026-10-01) | EVID-SCH-006 — 6 passed (inverses mutual/mirrored, symmetric no inverse, domain/range known types) | ✅ done |
@@ -35,7 +36,8 @@ either executed or is honestly marked as not yet executed.
 | REQ-STEMMA-GATE-004 | UNIT_TEST | **VERIFIED** (2026-10-01) | EVID-GATE-014 — orphan doc probe caught (`does not list: [ORPHAN-PROBE.md]`) | ✅ done |
 | REQ-STEMMA-GATE-005 | UNIT_TEST | **VERIFIED** (2026-10-01) | EVID-GATE-015 — injected retired-ecosystem token caught at file:line | ✅ done |
 | REQ-STEMMA-EXP-001 | UNIT_TEST + SYSTEM_TEST(CI) | **VERIFIED** (2026-10-01) | EVID-EXP-010 — byte-identical across 3 runs; `sha256:*` stamped; no wall clock | ✅ done |
-| REQ-STEMMA-EXP-002 | UNIT_TEST | **FAILED** (2026-10-01) | EVID-EXP-009 — criteria 1–3 PASS; criterion 4 unmet (no `adopted_from` field exists in any schema) | implement adopted-from provenance; owner decision |
+
+| REQ-STEMMA-EXP-002 | UNIT_TEST | ✅ **VERIFIED** (2026-10-01, after implementation) | EVID-EXP-009 (the gap) → **EVID-EXP-011/012/013**. `adopted_from` declared in both schemas, enforced by `check_adopted_from`, projected into the export; malformed variants rejected; export byte-identical (additive) | ✅ done — FAILED → VERIFIED (ADR-0056) |
 | REQ-STEMMA-EXP-003 | INTEGRATION_TEST | UNVERIFIED | CI `git diff --exit-code -- exports reports` after regeneration | run the named method and record the result |
 | REQ-STEMMA-EXP-004 | INTEGRATION_TEST | UNVERIFIED | export_consumers runs; learninghub 0-entity output observed | UNRES-EXP-001 closed by owner; run INTEGRATION_TEST |
 | REQ-STEMMA-HITL-001 | INTEGRATION_TEST | UNVERIFIED | hitl_check in gate (EVID-HITL-001) | UNRES-HITL-001 (evidence locality) limits strength; run INTEGRATION_TEST |
@@ -47,30 +49,45 @@ either executed or is honestly marked as not yet executed.
 | REQ-STEMMA-OPS-003 | INSPECTION | **VERIFIED** (2026-10-01) | EVID-OPS-009 — procedure + successor path + dated accepted risk + exit condition documented | ✅ done |
 | REQ-STEMMA-INTEG-001 | INTEGRATION_TEST | UNVERIFIED | explorer verify passes (EVID-INTEG-004); AI chat not yet implemented | implement grounded chat; run INTEGRATION_TEST (citations + refusal + derived-only) |
 
-## The two FAILED findings
+## The two findings — raised, routed, repaired, re-verified
 
-**REQ-STEMMA-CORE-004 — generality guard misses prefixed keys.**
-`SCOPING_FIELDS` in `tests/curation/test_generality.py:33` is anchored `^…$`, so
-it matches exact key names (`grade`, `curriculum`, `level`, `course_level`,
+Both findings below were raised in round 1 and returned **FAILED**. Neither was
+quietly downgraded. The owner ruled the remedy on 2026-10-01; both were fixed and
+re-verified the same day. The FAIL→PASS history is retained deliberately: it is
+the evidence that the gap was closed, and it records that the executor did not
+self-approve either repair (Constraint D — the *ruling* came from the owner).
+
+**REQ-STEMMA-CORE-004 — generality guard missed prefixed keys.** *Raised.*
+`SCOPING_FIELDS` in `tests/curation/test_generality.py` was anchored `^…$`, so it
+matched exact key names (`grade`, `curriculum`, `level`, `course_level`,
 `country_scope`) but not variants (`grade_level`, `grade_band`,
-`curriculum_scope`, `target_grade`). Injecting `grade_level: 10` into
-`metre.md` frontmatter was **not** rejected by the guard.
-*Severity: defence-in-depth only.* `concept.schema.json` declares
-`additionalProperties: false`, so `validate.py` still rejected the injection
-(exit 1). No violation can ship; the guard's stated invariant simply over-claims
-relative to its implementation. Raised as **UNRES-STEMMA-CORE-002** for the owner
-— the executor recorded the finding and did **not** self-approve a fix.
+`curriculum_scope`, `target_grade`). Injecting `grade_level: 10` into `metre.md`
+frontmatter was **not** rejected by the guard. *Severity: defence-in-depth only* —
+`concept.schema.json` declares `additionalProperties: false`, so `validate.py`
+still rejected the injection (exit 1). Raised as **UNRES-STEMMA-CORE-002**.
+→ **Repaired** (owner chose *widen + mutation-test*): the anchored regex was
+replaced by a token-based matcher catching 28 variants while still allowing
+`upgrade_notes`/`multigrade`/`trophic_level`. Non-vacuity proved by reverting the
+matcher and watching the new tests go red (EVID-CORE-010). **UNRES-CORE-002 closed.**
 
-**REQ-STEMMA-EXP-002 — adopted-from provenance absent.**
-Criteria 1–3 pass (`export_version` 2.2.0 == VERSION.yaml; `relation_registry`
-(56 relations) + vocabularies sidecars present; jsonschema validation 0 errors).
-Criterion 4 is unmet: no `adopted_from` field is defined in **either**
-`concept.schema.json` or `export.schema.json`, and no merge/adoption history
-mechanism exists. Entities carry `external_ids` (Wikidata QIDs), which is
-*identity mapping*, not *adoption provenance*. The criterion is vacuously true
-today (no entity has adoption history) but cannot be exercised — the mechanism
-is simply absent. This is a real gap introduced when criterion 4 was added under
-SOTA F3; it needs an owner decision on whether to implement or defer.
+**REQ-STEMMA-EXP-002 — adopted-from provenance was absent.** *Raised.*
+Criteria 1–3 passed; criterion 4 was unmet: no `adopted_from` field was defined in
+**either** `concept.schema.json` or `export.schema.json`, and no merge/adoption
+history mechanism existed. Entities carry `external_ids` (Wikidata QIDs), which is
+*identity mapping*, not *adoption provenance*. The criterion was vacuously true
+(no entity had adoption history) but could not be exercised.
+→ **Repaired** (owner chose *implement*, not defer): see **ADR-0056**.
+`adopted_from` is now a closed object in both schemas (`external_id` + closed
+`relation` enum + optional `source_external_ids`/`note`/`adopted_at`/`authority`),
+enforced by `check_adopted_from()` in `validate.py` (mirroring `check_historical`,
+including unknown-key rejection) and projected into `entities[]`. A valid record
+on a real entity survived validation and appeared in the export; malformed
+variants each produced exit 1 with a named error. The change is **additive** —
+`exports/knowledge.json` is byte-identical where no entity is an adoption, so
+`export_version` correctly stays `2.2.0` (EVID-EXP-011/012/013).
+
+**No `FAILED` records remain.** The remaining 9 requirements are `UNVERIFIED`
+— execution owed, not defects.
 
 ## NFR metrics (§18)
 
@@ -82,11 +99,12 @@ clean-clone measurement recorded 4.00 s over 21 steps — still an observation.)
 ## Gate 6 checklist (§31)
 
 - [x] every applicable requirement has a verification method (no permanent NOT_YET_DETERMINED)
-- [x] verification status recorded (13 VERIFIED · 2 FAILED · 9 UNVERIFIED as of 2026-10-01)
+- [x] verification status recorded (15 VERIFIED · 0 FAILED · 9 UNVERIFIED as of 2026-10-01)
 - [x] unverified explicitly marked
 - [x] objective evidence referenced for as-built observations
 - [x] VERIFIED records carry an execution date, named evidence, and a recorded result
 - [x] FAILED records carry the specific unmet criterion and a routed open question
+- [x] no FAILED record is left unrepaired: both round-1 failures were ruled on, fixed, and re-verified
 
 ## Verification log
 
@@ -106,6 +124,9 @@ clean-clone measurement recorded 4.00 s over 21 steps — still an observation.)
 | 2026-10-01 | REQ-STEMMA-EXP-001 | UNIT_TEST | PASS | EVID-EXP-010 |
 | 2026-10-01 | REQ-STEMMA-EXP-002 | UNIT_TEST | **FAIL** | EVID-EXP-009 |
 | 2026-10-01 | REQ-STEMMA-SEC-001 | STATIC_ANALYSIS | PASS | EVID-SEC-003 |
+| 2026-10-01 | REQ-STEMMA-CORE-004 | UNIT_TEST | PASS (**re-verified after repair**) | EVID-CORE-010 |
+| 2026-10-01 | REQ-STEMMA-EXP-002 | UNIT_TEST | PASS (**re-verified after implementation**) | EVID-EXP-011, EVID-EXP-012, EVID-EXP-013 |
+| 2026-10-01 | REQ-STEMMA-OPS-003 | INSPECTION | PASS | EVID-OPS-009 |
 | 2026-10-01 | REQ-STEMMA-OPS-003 | INSPECTION | PASS | EVID-OPS-009 |
 
 ## Method notes (recorded, not hidden)

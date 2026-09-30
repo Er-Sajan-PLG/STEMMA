@@ -1,6 +1,6 @@
 # Canonical verification mapping — mirrors spec/VERIFICATION.md
 # Status is UNVERIFIED until an execution is recorded, VERIFIED once one is and it passed.
-verification_set_note: "Execution round 2026-10-01: 13 VERIFIED, 2 FAILED, 9 UNVERIFIED of 24. Methods are bindings-to-come after approval; pre-approval runs were EVIDENCE (EVID-STEMMA-GATE-002), not VERIFICATION. FAILED: REQ-STEMMA-CORE-004 (generality guard misses prefixed variants; defence-in-depth intact — schema rejects) and REQ-STEMMA-EXP-002 (criterion 4 unimplementable as written). Both routed to the owner; the executor may not self-approve a fix (Constraint D, spec/ROLES_AND_AUTHORITY.md)."
+verification_set_note: "Execution round 2026-10-01: 15 VERIFIED, 0 FAILED, 9 UNVERIFIED of 24. Methods are bindings-to-come after approval; pre-approval runs were EVIDENCE (EVID-STEMMA-GATE-002), not VERIFICATION. Both round-1 FAILED findings were repaired under owner ruling and re-verified: REQ-STEMMA-CORE-004 (generality guard widened from ^...$-anchored to token-based, mutation-tested; UNRES-STEMMA-CORE-002 resolved) and REQ-STEMMA-EXP-002 criterion 4 (adopted_from implemented end-to-end per ADR-0056). No open FAILED records remain."
 verification_records:
   - requirement: REQ-STEMMA-CORE-001
     method: INSPECTION
@@ -23,11 +23,11 @@ verification_records:
     result: "PASS - canonical clean; injected vector detected, so the green result carries information."
   - requirement: REQ-STEMMA-CORE-004
     method: UNIT_TEST
-    status: FAILED
+    status: VERIFIED
     verified_date: 2026-10-01
-    evidence: [EVID-STEMMA-GATE-001, EVID-STEMMA-CORE-006, EVID-STEMMA-CORE-007]
-    procedure: "Run tests/curation/test_generality.py; then inject a scoping frontmatter key and confirm the guard rejects it (mutation probe of the guard itself)."
-    result: "FAIL (guard coverage gap, defence-in-depth intact) — the 5 unit tests pass, but the mutation probe shows SCOPING_FIELDS is ^...$-anchored and so misses prefixed variants (grade_level, grade_band, curriculum_scope, target_grade). Injection of `grade_level: 10` was NOT rejected by the guard. scripts/validate.py DID reject it (concept.schema.json additionalProperties:false), so no violation can ship. CORE-004's named guard is simply not the layer that catches prefixed keys."
+    evidence: [EVID-STEMMA-GATE-001, EVID-STEMMA-CORE-006, EVID-STEMMA-CORE-007, EVID-STEMMA-CORE-010]
+    procedure: "Owner ruling 2026-10-01 (UNRES-STEMMA-CORE-002): WIDEN the guard then mutation-test it. Run tests/curation/test_generality.py; inject a scoping frontmatter key and confirm the guard rejects it; finally revert the widening and confirm the new tests go red."
+    result: "PASS (after owner-directed fix). The original anchored SCOPING_FIELDS was replaced by a token-based matcher (`_scoping_tokens` + `_joined_token_forms` + `_is_scoping_field`), which catches 28 formerly-missed variants (grade_level, grade_band, target_grade, unit_grade, course_level_scope, key_stage, edu_level, ...) while still allowing upgrade_notes, multigrade and trophic_level. Non-vacuity proven by mutation: reverting to the anchored form turns exactly the two new tests red (2 failed, 6 passed), and restoring gives 8 passed. Previously FAILED; the defect (EVID-CORE-006) is fixed, not merely noted."
   - requirement: REQ-STEMMA-SCH-001
     method: UNIT_TEST
     status: VERIFIED
@@ -91,11 +91,11 @@ verification_records:
     result: "PASS — byte-identical across 3 consecutive runs (c93675cf...); content_hash sha256:cbf17acd...; no generated_at field."
   - requirement: REQ-STEMMA-EXP-002
     method: UNIT_TEST
-    status: FAILED
+    status: VERIFIED
     verified_date: 2026-10-01
-    evidence: [EVID-STEMMA-SCH-001, EVID-STEMMA-EXP-001, EVID-STEMMA-EXP-009]
-    procedure: "Check export_version against schema/VERSION.yaml; assert relation_registry + vocabularies sidecars present and registry-coherent; run jsonschema Draft202012 validation of exports/knowledge.json; then test acceptance criterion 4 (adopted-from provenance for entities with merge/adoption history)."
-    result: "FAIL on criterion 4 of 4 (criteria 1-3 PASS). Criteria 1-3: export_version 2.2.0 == VERSION.yaml 2.2.0; sidecars present (56 relations; domains/subdomains/regimes/scales); jsonschema validation 0 errors. Criterion 4 UNMET: no `adopted_from` field is defined in concept.schema.json or export.schema.json, and there is no merge/adoption history mechanism. Entities carry `external_ids` (Wikidata QIDs) which is identity mapping, not adoption provenance. Vacuous today (no entity has adoption history) but the mechanism is absent, so the criterion cannot be exercised."
+    evidence: [EVID-STEMMA-SCH-001, EVID-STEMMA-EXP-001, EVID-STEMMA-EXP-011, EVID-STEMMA-EXP-012, EVID-STEMMA-EXP-013]
+    procedure: "Check export_version against schema/VERSION.yaml; assert relation_registry + vocabularies sidecars present and registry-coherent; run jsonschema Draft202012 validation of exports/knowledge.json; then exercise acceptance criterion 4 — inject a valid adopted_from into a real entity and confirm it survives validation AND appears in the export, then inject malformed variants and confirm rejection (mutation probe)."
+    result: "PASS on all 4 criteria (after owner-directed implementation, ADR-0056). Criteria 1-3: export_version 2.2.0 == VERSION.yaml; sidecars present and coherent; jsonschema 0 errors. Criterion 4 NOW MET: `adopted_from` is declared in BOTH concept.schema.json and export.schema.json (closed objects), enforced by check_adopted_from() in validate.py (required external_id + closed relation enum + unknown-key rejection, mirroring check_historical), and projected into entities[]. A valid record on metre.md validated (exit 0) and appeared verbatim in exports/knowledge.json; relation='sort_of_ish' and a missing external_id each produced exit 1 with named errors. Additivity confirmed: exports/knowledge.json byte-identical after the change, so export_version correctly stays 2.2.0. Previously FAILED on criterion 4; implemented, not deferred."
   - requirement: REQ-STEMMA-EXP-003
     method: INTEGRATION_TEST
     status: UNVERIFIED

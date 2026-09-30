@@ -349,7 +349,7 @@ requirements:
     history: []
     supersedes: null
   - id: REQ-STEMMA-EXP-002
-    revision: 2
+    revision: 3
     title: Versioned additive export contract with introspection sidecars
     statement: "The export contract SHALL be versioned (export_version, currently 2.2.0) and evolve additively within a major version; the export SHALL carry relation-registry and vocabulary sidecars; entities that adopt or re-identify an external entity SHALL carry an explicit adopted-from provenance record in the export."
     type: INTERFACE
@@ -369,10 +369,10 @@ requirements:
     parent: null
     dependencies: [REQ-STEMMA-EXP-001, REQ-STEMMA-SCH-003]
     related_spec: ["spec/INTERFACES/IFACE-STEMMA-EXP-001-knowledge-json.md"]
-    related_adr: [ADR-0032, ADR-0050]
-    related_implementation: ["scripts/validate.py", "schema/export.schema.json"]
-    related_verification: ["tests/versioning/test_deterministic_export.py"]
-    history: [{revision: 1, date: "2026-10-01", change: "acceptance criteria extended with adopted-from provenance (SOTA F3, owner ruling)"}]
+    related_adr: [ADR-0032, ADR-0050, ADR-0056]
+    related_implementation: ["scripts/validate.py", "schema/concept.schema.json", "schema/export.schema.json"]
+    related_verification: ["tests/versioning/test_deterministic_export.py", "tests/metadata/test_adoption_provenance.py"]
+    history: [{revision: 1, date: "2026-10-01", change: "acceptance criteria extended with adopted-from provenance (SOTA F3, owner ruling)"}, {revision: 3, date: "2026-10-01", change: "criterion 4 implemented: adopted_from added to concept + export schemas, enforced by check_adopted_from, mutation-tested (ADR-0056, owner ruling)"}]
     supersedes: null
   - id: REQ-STEMMA-EXP-003
     revision: 1

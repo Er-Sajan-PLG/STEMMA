@@ -337,6 +337,77 @@ def check_historical(data: dict, errors: list, here: str) -> None:
                     errors.append(f"{here} historical.timeline[].by must be a string")
 
 
+ADOPTION_RELATIONS = {
+    "exact_match",
+    "close_match",
+    "broad_match",
+    "narrow_match",
+    "reidentification",
+    "merge",
+}
+
+# Closed key set for one adoption record (kept in lockstep with concept.schema.json).
+ADOPTED_FROM_KEYS = {
+    "external_id",
+    "relation",
+    "source_external_ids",
+    "note",
+    "adopted_at",
+    "authority",
+}
+
+
+def check_adopted_from(data: dict, errors: list, here: str) -> None:
+    """Validate the optional adoption-provenance field (ADR-0056 / REQ-STEMMA-EXP-002).
+
+    When `adopted_from` is present it must carry a `external_id` (non-empty string) and a
+    `relation` from the closed adoption-relation set. Optional `source_external_ids`
+    (mapping), `note`/`adopted_at` (strings), `authority` (internal|delegated). Absent-field
+    is fine — most entities are not adoptions, and an absent adoption record must never be
+    fabricated. Criterion 4 of REQ-STEMMA-EXP-002 holds that every entity WITH an adoption
+    history exposes this record; the schema's `additionalProperties: false` plus this check
+    are what make the record real rather than an unenforced convention.
+    """
+    adopted = data.get("adopted_from")
+    if adopted is None:
+        return
+    if not isinstance(adopted, dict):
+        errors.append(f"{here} adopted_from must be an object")
+        return
+
+    ext = adopted.get("external_id")
+    if not isinstance(ext, str) or not ext.strip():
+        errors.append(f"{here} adopted_from.external_id is required and must be a non-empty string")
+
+    rel = adopted.get("relation")
+    if rel not in ADOPTION_RELATIONS:
+        errors.append(
+            f"{here} adopted_from.relation {rel!r} is not one of {sorted(ADOPTION_RELATIONS)}"
+        )
+
+    src = adopted.get("source_external_ids")
+    if src is not None and not isinstance(src, dict):
+        errors.append(f"{here} adopted_from.source_external_ids must be a mapping")
+
+    for key in ("note", "adopted_at"):
+        v = adopted.get(key)
+        if v is not None and not isinstance(v, str):
+            errors.append(f"{here} adopted_from.{key} must be a string")
+
+    authority = adopted.get("authority")
+    if authority is not None and authority not in {"internal", "delegated"}:
+        errors.append(f"{here} adopted_from.authority must be 'internal' or 'delegated' (ADR-0049)")
+
+    # Defence in depth: the schema already closes this object (additionalProperties: false),
+    # but a malformed key must be caught here too so the reason is legible and the check
+    # survives a caller that validates without the schema pass.
+    unknown = sorted(set(adopted) - ADOPTED_FROM_KEYS)
+    if unknown:
+        errors.append(
+            f"{here} adopted_from has unknown key(s) {unknown}; allowed: {sorted(ADOPTED_FROM_KEYS)}"
+        )
+
+
 def load_schema() -> Any:
     if not HAVE_JSONSCHEMA or not SCHEMA_.exists():
         return None
@@ -1162,6 +1233,7 @@ def main(argv: list[str] | None = None) -> int:
         check_entity_domain_identity(entity, id_domain_map, vocab_domains, errors)
         check_extensions(entity, "entity", errors, f"{entity['_file']}:")
         check_historical(entity, errors, f"{entity['_file']}:")
+        check_adopted_from(entity, errors, f"{entity['_file']}:")
         check_external_ids(entity, errors, f"{entity['_file']}:")
         _id = entity.get("id")
         if isinstance(_id, str):

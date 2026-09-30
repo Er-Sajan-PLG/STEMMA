@@ -58,8 +58,9 @@ open_questions:
     related: [REQ-STEMMA-SCH-001, REQ-STEMMA-EXP-002, EVID-STEMMA-SCH-005]
   - id: UNRES-STEMMA-CORE-002
     question: "Should the generality guard (test_generality.py SCOPING_FIELDS) drop its ^...$ anchors so it also rejects prefixed/suffixed scoping keys (grade_level, grade_band, curriculum_scope, target_grade)?"
-    status: OPEN
+    status: CLOSED
     blocking: false
+    disposition: "RESOLVED (owner ruling 2026-10-01): option (c) — WIDEN the guard, then mutation-test it. Implemented the same day. SCOPING_FIELDS (the ^...$-anchored regex) was replaced by a token-based matcher: `_scoping_tokens` splits an identifier on separators/camelCase/digits, `_joined_token_forms` restores contiguous n-grams so multi-word names (key_stage, learning_objectives) match in either spelling, and `_is_scoping_field` matches whole tokens (never substrings, so upgrade_notes/multigrade stay legitimate). `level` is handled specially: only an education-qualified level (edu_level, grade_level) is a scoping claim; trophic_level/energy_level/sea_level are not. The guard now catches 28 formerly-missed variants. Three new tests: catches_prefixed_variants, does_not_overreach (negative control), and widened_guard_is_enforced_end_to_end. Non-vacuity proven by mutation — reverting the matcher to the anchored form turns exactly those tests red (EVID-STEMMA-CORE-010). REQ-STEMMA-CORE-004 re-verified: FAILED -> VERIFIED."
     proposed_resolution: "Executor finding, 2026-10-01 (EVID-STEMMA-CORE-006/007): the guard is ^...$-anchored and therefore matches only exact key names. The gap is defence-in-depth only — concept.schema.json's additionalProperties:false still rejects such keys at the validator (exit 1), so no violation can ship. Fixing the guard is an owner decision; the executor may execute verification and record results but not self-approve a code change and then mark it VERIFIED. Options: (a) widen the pattern to a prefix match; (b) leave it, relying on the schema layer; (c) widen and add a permanent mutation test that asserts the guard itself rejects prefixed keys."
     authority_required: SOLE_OWNER
-    related: [REQ-STEMMA-CORE-004, EVID-STEMMA-CORE-006, EVID-STEMMA-CORE-007]
+    related: [REQ-STEMMA-CORE-004, EVID-STEMMA-CORE-006, EVID-STEMMA-CORE-007, EVID-STEMMA-CORE-010]
