@@ -19,7 +19,8 @@ All observations made at baseline commit `fb66dd9` on 2026-09-22 unless noted.
 | EVID-STEMMA-GATE-008 | FACT | HIGH | cmd `python3 tests/repo/test_independence.py` → exit 0 | ADR-0027/0051 invariant live: no retired-doc refs, no ecosystem-controller refs, no retired ID namespace outside history |
 | EVID-STEMMA-GATE-009 | FACT | HIGH | cmd output 2026-09-22 @ef9a315: `16 failed, 163 passed` while `main` CI was green | Full-suite failures were previously invisible to CI (test-suite job did not exist) |
 | EVID-STEMMA-GATE-010 | FACT | MEDIUM | `scripts/verify_all.py:48-54` | Derived-layer checks (embeddings/RAG/consumer) are INFO, not FAIL, by design comment `# Don't fail, just info` |
-
+| EVID-STEMMA-GATE-011 | FACT | HIGH | cmd `python3 -m pytest tests/repo/test_gate_fail_closed.py -q` → **4 passed** (2026-10-01) | Permanent negative-path test exists (REQ-STEMMA-GATE-001 acceptance criterion 2): a stubbed failing step yields `verify_all.py` exit 1, a `FAIL:` line naming that step, and **exactly 1 step executed** — the chain terminates rather than accumulating failures |
+| EVID-STEMMA-GATE-012 | FACT | HIGH | mutation probe 2026-10-01: delete `return 1` from `verify_all.py`'s failure branch → `test_gate_fail_closed.py` **FAILS** | The negative-path test is non-vacuous — sabotaging fail-closed semantics turns it red, so a green run carries information (§18) |
 ## CORE
 
 | ID | Class | Conf | Locator | Observation |
@@ -70,6 +71,8 @@ All observations made at baseline commit `fb66dd9` on 2026-09-22 unless noted.
 | EVID-STEMMA-EXP-007 | CLAIM | LOW | `docs/CONSUMERS.md` (learninghub 0-entities "correct per review_policy") | The empty learninghub export is asserted intended; not owner-confirmed |
 | EVID-STEMMA-OPS-004 | INFERENCE | MEDIUM | `git diff main --stat` (12→11 model fix, contract-version edits in >10 files, 2026-09-22) | Hardcoding counts/versions in many prose locations is the demonstrated drift mechanism; machine-owned single sources (status_truth, VERSION.yaml) are the working countermeasure |
 | EVID-STEMMA-OPS-005 | INFERENCE | HIGH | `spec/ROLES_AND_AUTHORITY.md` (SOLE_OWNER, approver `null` on all 22 requirements); `scripts/verify_all.py` (fail-closed); `spec/SOTA-COMPARISON-2026-10-01.md` F2 | Single-maintainer concentration behind a fail-closed gate: if the sole approver is unavailable, canonical progress stops entirely. Bus-factor research (Avelino et al. 133-project study; xz-utils CVE-2024-3094) treats this as a first-class, tracked risk |
+| EVID-STEMMA-OPS-006 | FACT | HIGH | cmd 2026-10-01: `git clone --no-hardlinks` @6dcd441 → `python3 -m venv .venv` → `pip install -r requirements.txt` → `.venv/bin/python scripts/verify_all.py` → **exit 0**, 4.00 s, 21 steps | REQ-STEMMA-OPS-001 acceptance criterion met exactly on a *true* clean clone (736 tracked files, no `.venv`, no untracked leakage); only declared deps installed (PyYAML, jsonschema — no pytest). `git status --porcelain` empty afterwards: the gate is side-effect free on a committed tree |
+| EVID-STEMMA-OPS-007 | FACT | HIGH | controlled comparison 2026-10-01 on the same clean clone: bare venv → `validate.py` exit **2**, `verify_all.py` exit **1**; then `pip install -r requirements.txt` → `verify_all.py` exit **0** | The single varying factor is `requirements.txt`. Independently reproduces EVID-STEMMA-GATE-002 (fail-closed on a missing dependency) on a fresh clone rather than only on the recovery machine, closing the "was that a one-off?" doubt |
 
 ## Excluded (§5.3)
 

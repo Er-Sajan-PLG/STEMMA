@@ -23,7 +23,7 @@
 
 - A recovered specification baseline exists at `spec/` (recovery protocol v3.1, pilot CORE-GATE-EXPORT): evidence register, 24 requirements, 2 interface contracts, conflicts, open questions, machine-readable registries, minimum validator.
 - Authority model: `spec/ROLES_AND_AUTHORITY.md` — SOLE_OWNER = repository owner (Sajan); recovery agent = provisional executor with no approval power. Approval workflow: DRAFT → PROPOSED → owner review → APPROVED / REJECTED / DEFERRED. Only APPROVED requirements count for conformance; a requirement must be APPROVED before it can be VERIFIED.
-- All recovered requirements are currently PROPOSED (review material, not normative). Baseline approval PENDING: `spec/BASELINE.md` (maturity L2, slice-scoped).
+- All 24 recovered requirements are **APPROVED** (2026-10-01, owner `human:curator.001`) and normative. Baseline **APPROVED**: `spec/BASELINE.md` (maturity **L3**, slice-scoped) — verification (L4) in progress.
 - Non-response is not approval; self-approval is forbidden and machine-detectable (validator check on approval metadata).
 
 ## Continuity of approval authority (REQ-STEMMA-OPS-003 — SOTA-COMPARISON-2026-10-01 F2)

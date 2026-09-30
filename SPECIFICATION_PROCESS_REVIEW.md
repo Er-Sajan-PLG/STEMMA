@@ -15,11 +15,11 @@ Content entry point: `spec/REQUIREMENTS.md`.
 | 1 Evidence → As-Built | EVIDENCE_REGISTER.md (37), AS_BUILT.md | PASS |
 | 2 Needs/Intent recovery | requirements origin classification (RECOVERED/PROPOSED/DERIVED/EXTERNAL), validation_basis per record | PASS |
 | 3 Requirements | REQUIREMENTS.md — 22 × full §8.6 schema, ALL PROPOSED (later 24, APPROVED 2026-10-01) | PASS (nothing self-approved) |
-| 4 Specification | SPECIFICATION.md v0.1.0-pilot with ⟦recovered-unapproved⟧ marks | PASS |
-| 5 Architecture/Decision | spec/DECISIONS/ two-layer model; historical ADR-0001..0039 located in archive/old-design, 0040..0052 cross-linked | PASS |
-| 6 Verification design | VERIFICATION.md — all UNVERIFIED by §9.1 rule; methods bound, procedures drafted | PASS |
+| 4 Specification | SPECIFICATION.md v0.1.0-pilot with ⟦recovered-approved⟧ marks | PASS |
+| 5 Architecture/Decision | spec/DECISIONS/ two-layer model; historical ADR-0001..0039 located in archive/old-design, 0040..0055 cross-linked | PASS |
+| 6 Verification design | VERIFICATION.md — 2 of 24 VERIFIED 2026-10-01 (GATE-001, OPS-001); 22 UNVERIFIED by §9.1 rule; methods bound, procedures drafted | PASS |
 | 7 Gap analysis | SPECIFICATION_GAP_ANALYSIS.md Tier-1 (deep) + Tier-2 (coverage inventory) | PASS |
-| 8 Baseline + validator | machine-readable/*.yaml ×10, validate_recovery.py 9/9 PASS + negative-path test, BASELINE.md + maturity L2 | PASS (approval pending) |
+| 8 Baseline + validator | machine-readable/*.yaml ×10, validate_recovery.py 9/9 PASS + negative-path test, BASELINE.md + maturity L3 (approved 2026-10-01) | PASS (L4 verification in progress) |
 
 ## 2. Measured metrics
 

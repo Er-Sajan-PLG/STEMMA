@@ -38,9 +38,9 @@
   free-model catalog contract restored (all entries `:free`)
 - [x] **Specification recovery pilot (protocol v3.1), 2026-09-22 (pre-R4):**
   - [x] Pilot charter + slice ADR (`spec/PILOT_CHARTER.md`, ADR-STEMMA-SPEC-001)
-  - [x] 37 classified evidence records; as-built; external constraints; assumptions
+  - [x] 45 classified evidence records; as-built; external constraints; assumptions
   - [x] 24 requirements (full §8.6 schema) all APPROVED 2026-10-01 by owner — none self-approved
-  - [x] Specification v0.1.0-pilot + 2 interface contracts + verification design (all UNVERIFIED per §9.1)
+  - [x] Specification v0.1.0-pilot + 2 interface contracts + verification design (2 of 24 VERIFIED 2026-10-01; 22 UNVERIFIED pending execution)
   - [x] Two-tier gap analysis + machine-readable registries + minimum validator (9/9 PASS, fail-closed)
   - [x] Baseline BASELINE-STEMMA-2026-09-22-PILOT-CORE-GATE-EXPORT — maturity L2; process review at root
 - [x] **Documentation synchronization & enforcement system, 2026-09-22** (scoped to this repo):

@@ -1,6 +1,6 @@
 # Canonical verification mapping — mirrors spec/VERIFICATION.md
-# All UNVERIFIED: PROPOSED requirements cannot be VERIFIED under section-9.1; executor has run none.
-verification_set_note: "Verification methods below are classified bindings-to-come after approval; pre-approval runs were EVIDENCE (EVID-STEMMA-GATE-002) not VERIFICATION."
+# Status is UNVERIFIED until an execution is recorded, VERIFIED once one is and it passed.
+verification_set_note: "Methods are bindings-to-come after approval; pre-approval runs were EVIDENCE (EVID-STEMMA-GATE-002) not VERIFICATION. REQ-STEMMA-GATE-001 VERIFIED 2026-10-01 by the permanent negative-path test (EVID-STEMMA-GATE-011/012); all others remain UNVERIFIED pending execution."
 verification_records:
   - requirement: REQ-STEMMA-CORE-001
     method: INSPECTION
@@ -39,9 +39,11 @@ verification_records:
     procedure: "test_registry_coherence + export registry comparison."
   - requirement: REQ-STEMMA-GATE-001
     method: INTEGRATION_TEST
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-GATE-002]
-    procedure: "Positive full gate; negative run with forced failure asserting exit non-zero."
+    status: VERIFIED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-GATE-002, EVID-STEMMA-GATE-011, EVID-STEMMA-GATE-012]
+    procedure: "Permanent negative-path test: stub a chain step to exit non-zero; assert verify_all exit!=0, a FAIL line naming the step, and exactly one step executed. Non-vacuity checked by mutation (removing the failure branch makes the test red)."
+    result: "PASS — 4 passed; chain terminated at step 1 with exit 1 and a named culprit."
   - requirement: REQ-STEMMA-GATE-002
     method: UNIT_TEST
     status: UNVERIFIED
@@ -104,9 +106,11 @@ verification_records:
     procedure: "webapp key-handling review (second pilot dependency)."
   - requirement: REQ-STEMMA-OPS-001
     method: MEASUREMENT
-    status: UNVERIFIED
-    evidence: [EVID-STEMMA-GATE-004]
-    procedure: "Fresh venv, pip install -r requirements.txt, full gate timing+exit."
+    status: VERIFIED
+    verified_date: 2026-10-01
+    evidence: [EVID-STEMMA-GATE-004, EVID-STEMMA-OPS-006, EVID-STEMMA-OPS-007]
+    procedure: "True clean clone (git clone --no-hardlinks, no .venv, no untracked files) -> fresh venv -> pip install -r requirements.txt ONLY -> verify_all.py; then a controlled bare-venv comparison to isolate the dependency variable."
+    result: "PASS — exit 0 in 4.00 s over 21 steps; bare venv exits 1/2. Single variable = requirements.txt; clean clone unmodified afterwards."
   - requirement: REQ-STEMMA-OPS-002
     method: INSPECTION
     status: UNVERIFIED

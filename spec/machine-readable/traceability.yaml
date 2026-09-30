@@ -29,9 +29,9 @@ traces:
     implementations: [schema/relation-registry.yaml, tests/registry/test_registry_coherence.py]
     verification: UNVERIFIED
   - requirement: REQ-STEMMA-GATE-001
-    evidence: [EVID-STEMMA-GATE-002, EVID-STEMMA-GATE-010]
-    implementations: [scripts/verify_all.py]
-    verification: UNVERIFIED
+    evidence: [EVID-STEMMA-GATE-002, EVID-STEMMA-GATE-010, EVID-STEMMA-GATE-011, EVID-STEMMA-GATE-012]
+    implementations: [scripts/verify_all.py, tests/repo/test_gate_fail_closed.py]
+    verification: VERIFIED
   - requirement: REQ-STEMMA-GATE-002
     evidence: [EVID-STEMMA-GATE-006]
     implementations: [scripts/status_truth.py]
@@ -81,9 +81,9 @@ traces:
     implementations: [webapp/providers.py]
     verification: UNVERIFIED
   - requirement: REQ-STEMMA-OPS-001
-    evidence: [EVID-STEMMA-GATE-004]
+    evidence: [EVID-STEMMA-GATE-004, EVID-STEMMA-OPS-006, EVID-STEMMA-OPS-007]
     implementations: [requirements.txt]
-    verification: UNVERIFIED
+    verification: VERIFIED
   - requirement: REQ-STEMMA-OPS-002
     evidence: [EVID-STEMMA-OPS-004]
     implementations: [scripts/status_truth.py, schema/VERSION.yaml]

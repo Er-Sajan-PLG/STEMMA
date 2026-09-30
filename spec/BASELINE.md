@@ -24,7 +24,7 @@
 | 11 | Interface contracts | spec/INTERFACES/ | ✅ IFACE-STEMMA-EXP-001 (knowledge.json 2.2.0), IFACE-STEMMA-GATE-001 (verify_all CLI) |
 | 12 | Decision records | spec/DECISIONS/ + docs/decisions/ | ✅ ADR-STEMMA-SPEC-001 (recovery layer); historical ADR-0040..0052 cross-linked, 0001–0039 located in archive/old-design/ |
 | 13 | Assumptions | spec/ASSUMPTIONS.md | ✅ 5 ASM records |
-| 14 | Verification mapping | spec/VERIFICATION.md | ✅ all 24 requirements UNVERIFIED per §9.1 (unverified is the expected state; APPROVED requirements may now be VERIFIED) |
+| 14 | Verification mapping | spec/VERIFICATION.md | ✅ 2 VERIFIED 2026-10-01 (GATE-001, OPS-001); 22 UNVERIFIED and awaiting execution — APPROVED requirements may be VERIFIED per §9.1 |
 | 15 | Gap analysis (two tiers) | spec/SPECIFICATION_GAP_ANALYSIS.md | ✅ Tier-1 deep slice findings + Tier-2 ASSESSED/NOT_YET_ASSESSED/OUT_OF_SCOPE inventory |
 | 16 | Machine-readable canonical set | spec/machine-readable/*.yaml | ✅ 8 canonical registries + 2 derived mirrors, single representation per datum |
 | 17 | Minimum validator (§22.2) | spec/machine-readable/validate_recovery.py | ✅ 9/9 checks PASS; negative-path tested (fails closed) |
