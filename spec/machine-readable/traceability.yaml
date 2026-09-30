@@ -61,7 +61,7 @@ traces:
     implementations: [.github/workflows/ci.yml, scripts/validate.py]
     verification: VERIFIED
   - requirement: REQ-STEMMA-EXP-004
-    evidence: [EVID-STEMMA-EXP-006, EVID-STEMMA-EXP-007]
+    evidence: [EVID-STEMMA-EXP-006, EVID-STEMMA-EXP-007, EVID-STEMMA-EXP-017]
     implementations: [scripts/export_consumers.py, schema/consumer-registry.yaml]
     verification: UNVERIFIED
   - requirement: REQ-STEMMA-HITL-001
@@ -93,6 +93,6 @@ traces:
     implementations: [docs/GOVERNANCE.md, spec/ROLES_AND_AUTHORITY.md]
     verification: VERIFIED
   - requirement: REQ-STEMMA-INTEG-001
-    evidence: [EVID-STEMMA-INTEG-004, EVID-STEMMA-INTEG-002]
+    evidence: [EVID-STEMMA-INTEG-004, EVID-STEMMA-INTEG-002, EVID-STEMMA-INTEG-005, EVID-STEMMA-INTEG-006, EVID-STEMMA-INTEG-007]
     implementations: [explorer/, explorer/scripts/verify-graph-projection.mjs, schema/consumer-registry.yaml]
     verification: UNVERIFIED

@@ -56,7 +56,7 @@ either executed or is honestly marked as not yet executed.
 
 | REQ-STEMMA-EXP-002 | UNIT_TEST | ✅ **VERIFIED** (2026-10-01, after implementation) | EVID-EXP-009 (the gap) → **EVID-EXP-011/012/013**. `adopted_from` declared in both schemas, enforced by `check_adopted_from`, projected into the export; malformed variants rejected; export byte-identical (additive) | ✅ done — FAILED → VERIFIED (ADR-0056) |
 | REQ-STEMMA-EXP-003 | INTEGRATION_TEST | ✅ **VERIFIED** (2026-10-01) | EVID-EXP-014 (ci.yml:32-34 gate is present, wired after the chain, repeated at :283/:301 and release.yml:69); EVID-EXP-015 (negative control: appended entity **and** edited existing entity → exit 1); EVID-EXP-016 (positive control: `validate.py` regeneration restored the diff to 0) | ✅ done — non-vacuous **and** a true freshness gate, not a tautology |
-| REQ-STEMMA-EXP-004 | INTEGRATION_TEST | UNVERIFIED | export_consumers runs; learninghub 0-entity output observed | UNRES-EXP-001 closed by owner; run INTEGRATION_TEST |
+| REQ-STEMMA-EXP-004 | INTEGRATION_TEST | ⏳ **AC1 PASS / AC2 OPEN** | EVID-EXP-017 (`--review-policy all` → **9** entities incl. both drafts; `canonical` → **7**, `{canonical}` only — filter is non-vacuous); EVID-EXP-006 (the old 0-entity observation) | **AC2 only**: behavior documented + owner-confirmed via UNRES-EXP-001, which is still OPEN and whose premise (all-draft corpus) is now stale |
 | REQ-STEMMA-HITL-001 | INTEGRATION_TEST | ⚠️ **FAILED** (2026-10-01) | EVID-HITL-003 (chain step is vacuous: `--check-workflow` audits an empty, git-ignored `workflow/` → exit 0 "nothing to check"); EVID-HITL-004 (`--all` → exit 1, **9/9 fail**; 6 of 9 canonical entities declare `writer=llm:coding-agent.001`) | **UNRES-HITL-002** — AC1 present-but-vacuous, AC2 violated as stated; owner must rule on scope + corpus remediation |
 | REQ-STEMMA-HITL-002 | INTEGRATION_TEST | ⚠️ **FAILED** (2026-10-01) | EVID-HITL-005 (the `candidate_edited` requirement is implemented at `hitl_check.py:12,56-60,139`, but the live trail holds **zero** `candidate_edited` events and is git-ignored) | **UNRES-HITL-002** + UNRES-HITL-001 — check is correct but never exercised |
 | REQ-STEMMA-SEC-001 | STATIC_ANALYSIS | **VERIFIED** (2026-10-01) | EVID-SEC-003 — canonical secret-free; gitleaks wired (ci.yml:55) + pre-commit hook | ✅ done |
@@ -64,7 +64,7 @@ either executed or is honestly marked as not yet executed.
 | REQ-STEMMA-OPS-001 | MEASUREMENT | **VERIFIED** (2026-10-01) | EVID-OPS-006 (clean clone, exit 0, 4.00 s, 21 steps); EVID-OPS-007 (controlled: bare venv 1/2 → +requirements.txt 0) | ✅ done |
 | REQ-STEMMA-OPS-002 | INSPECTION | UNVERIFIED | EVID-OPS-008 — all single-source mechanisms exist and are gate-enforced | **not yet measurable**: criterion is a trend *across releases*; `git tag` is empty (one point, not a series) |
 | REQ-STEMMA-OPS-003 | INSPECTION | **VERIFIED** (2026-10-01) | EVID-OPS-009 — procedure + successor path + dated accepted risk + exit condition documented | ✅ done |
-| REQ-STEMMA-INTEG-001 | INTEGRATION_TEST | UNVERIFIED | explorer verify passes (EVID-INTEG-004); AI chat not yet implemented | implement grounded chat; run INTEGRATION_TEST (citations + refusal + derived-only) |
+| REQ-STEMMA-INTEG-001 | INTEGRATION_TEST | ⏳ **AC1/AC2/AC4 PASS / AC3 unmet** | EVID-INTEG-005 (`verify-graph-projection.mjs` exit 0, 10 PASS, non-vacuous); EVID-INTEG-007 (explorer-build is an all-green dependency at `ci.yml:331,339`); EVID-INTEG-006 (zero `content/`/`.md` references; sole input `exports/knowledge.json`) | **AC3**: no grounded AI chat exists — no chat component, no citation/refusal logic. Genuine implementation gap, not verification-owed |
 
 **No `FAILED` record remains** — all three findings (two from round 1, one from
 round 2) were ruled on, fixed, and re-verified (see below).
@@ -158,9 +158,23 @@ variants each produced exit 1 with a named error. The change is **additive** —
 **All three earlier `FAILED` records are now `VERIFIED`** (two from round 1, one
 from round 2), and **REQ-STEMMA-EXP-003** plus **REQ-STEMMA-SEC-002** were
 verified in the same push. But the same push raised **two new `FAILED` records**
-— HITL-001 and HITL-002 — described immediately below. The 3 remaining
-`UNVERIFIED` are execution owed or blocked on external preconditions, not
-defects.
+— HITL-001 and HITL-002 — described immediately below.
+
+The 3 remaining `UNVERIFIED` are **not all equal**, and the matrix now records
+their acceptance-criteria status individually rather than lumping them as
+"execution owed":
+
+- **EXP-004** — AC1 now **PASSES** (the learninghub filter demonstrably excludes
+  both drafts, and widening the policy re-admits them). Only AC2 is unmet, and it
+  needs an owner confirmation, not code.
+- **INTEG-001** — AC1, AC2 and AC4 all **PASS** for the graph viewer. AC3 is a
+  genuine **implementation gap**: no grounded AI chat exists at all.
+- **OPS-002** — the only one still blocked purely on a precondition: its
+  criterion is a trend *across releases* and no tagged release exists yet.
+
+Stating it this way matters: "UNVERIFIED" hides the difference between *we have
+not looked yet* and *we looked, and it is not built*. Only one of the three is
+the former.
 
 ### REQ-STEMMA-EXP-003 — derived-artifact freshness, verified by execution
 
@@ -284,6 +298,8 @@ clean-clone measurement recorded 4.00 s over 21 steps — still an observation.)
 | 2026-10-01 | REQ-STEMMA-HITL-001 | INTEGRATION_TEST | **FAIL** (AC1 vacuous, AC2 violated 6/9) | EVID-HITL-003, EVID-HITL-004 |
 | 2026-10-01 | REQ-STEMMA-HITL-002 | INTEGRATION_TEST | **FAIL** (check correct, zero `candidate_edited` events) | EVID-HITL-005 |
 | 2026-10-01 | REQ-STEMMA-SEC-002 | INSPECTION | PASS (**6245 objects scanned, zero keys; non-vacuous via plant**) | EVID-SEC-004, EVID-SEC-005 |
+| 2026-10-01 | REQ-STEMMA-EXP-004 | INTEGRATION_TEST | **AC1 PASS** / AC2 open | EVID-EXP-017 |
+| 2026-10-01 | REQ-STEMMA-INTEG-001 | INTEGRATION_TEST | **AC1/AC2/AC4 PASS** / AC3 unmet | EVID-INTEG-005, EVID-INTEG-006, EVID-INTEG-007 |
 | 2026-10-01 | REQ-STEMMA-OPS-003 | INSPECTION | PASS | EVID-OPS-009 |
 
 ## Method notes (recorded, not hidden)

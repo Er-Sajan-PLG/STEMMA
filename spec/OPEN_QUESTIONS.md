@@ -57,6 +57,7 @@ authoritative external source. Machine copy: `spec/machine-readable/` conflicts
 - **Impact:** Consumers subscribing now receive an empty canonical product; could surprise integrators.
 - **Blocking?** NO. · **Owner / Authority required:** Sajan / REPOSITORY_LOCAL.
 - **Status:** OPEN · **Next action:** confirm intent; if intended, document policy in CONSUMERS.md as authoritative once approved.
+- **Update (2026-10-01, verification of EXP-004):** the premise has **moved**. The question was raised when the corpus was all-draft and the learninghub export was consequently empty. The corpus is now **7 canonical / 2 draft**, and the learninghub export contains those **7 canonical entities with both drafts excluded** — verified by building the bundle under every policy (`all` → 9 entities incl. both drafts; `reviewed`/`trusted`/`canonical` → 7, `{canonical}` only; EVID-STEMMA-EXP-017). So this is no longer a question about an *empty* export but about whether a **canonical-only** export is the intended consumer contract. The verification of EXP-004 AC1 does not depend on the answer; AC2 does, which is why EXP-004 stays UNVERIFIED until the owner rules.
 
 ## UNRES-STEMMA-INTEG-001 — Cross-repo consumer interface ownership unassigned
 
