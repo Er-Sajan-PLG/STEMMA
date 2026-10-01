@@ -19,6 +19,7 @@ def _versions() -> dict:
 
 from graph_policy import should_include_connection  # type: ignore
 from validate import claim_signature  # type: ignore — derived claim identity (E4.3 / ADR-0026)
+from atomic_write import write_text_atomic  # readers never see a partial export
 
 
 def _relation_registry() -> dict:
@@ -71,7 +72,7 @@ def main():
             ],
         }
         path = ROOT / f"exports/knowledge.{policy}.json"
-        path.write_text(json.dumps(out, indent=2, ensure_ascii=False) + "\n")
+        write_text_atomic(path, json.dumps(out, indent=2, ensure_ascii=False) + "\n")
         print(f"OK: {policy} -> {len(filtered)} connections -> {path.relative_to(ROOT)}")
     return 0
 

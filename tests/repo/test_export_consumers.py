@@ -18,6 +18,11 @@ from stemma_adapter import load_export  # noqa: E402
 
 VERSIONS = yaml.safe_load((ROOT / "schema" / "VERSION.yaml").read_text(encoding="utf-8"))
 
+# Registry version travels into every bundle (verify_strong.py asserts the
+# committed bundles were built against the committed registry), so the builder
+# takes it as a required argument.
+REGISTRY_VERSION = "1.1.0"
+
 
 def _conn(cid: str, source: str, target: str | None, review: str, asserted: str = "human", value=None) -> dict:
     return {
@@ -58,7 +63,7 @@ def _ids(bundle: dict, key: str) -> list[str]:
 
 def test_trust_tiers_differ_and_cover_both_axes() -> None:
     base, profile = _base(), {"domains": ["physics"]}
-    b = {p: ec.build_consumer_export("t", profile, base, VERSIONS, p) for p in ec.POLICIES}
+    b = {p: ec.build_consumer_export("t", profile, base, VERSIONS, REGISTRY_VERSION, p) for p in ec.POLICIES}
     assert _ids(b["all"], "entities") == ["stemma:phys.a", "stemma:phys.b", "stemma:phys.c"]
     assert _ids(b["reviewed"], "entities") == ["stemma:phys.a", "stemma:phys.b"]
     assert _ids(b["canonical"], "entities") == ["stemma:phys.a"]
@@ -72,11 +77,11 @@ def test_trust_tiers_differ_and_cover_both_axes() -> None:
 
 def test_bundles_are_valid_exports_and_deterministic() -> None:
     base = _base()
-    first = ec.render(ec.build_consumer_export("t", {"domains": "all"}, base, VERSIONS, "all"))
+    first = ec.render(ec.build_consumer_export("t", {"domains": "all"}, base, VERSIONS, REGISTRY_VERSION, "all"))
     shuffled = copy.deepcopy(base)
     shuffled["entities"].reverse()
     shuffled["connections"].reverse()
-    assert ec.render(ec.build_consumer_export("t", {"domains": "all"}, shuffled, VERSIONS, "all")) == first
+    assert ec.render(ec.build_consumer_export("t", {"domains": "all"}, shuffled, VERSIONS, REGISTRY_VERSION, "all")) == first
     load_export(json.loads(first))  # fail-closed consumer contract
 
 
@@ -84,7 +89,7 @@ def test_version_mismatch_fails_closed() -> None:
     base = _base()
     base["export_version"] = "2.1.0"
     try:
-        ec.build_consumer_export("t", {}, base, {**VERSIONS, "export_version": "2.2.0"})
+        ec.build_consumer_export("t", {}, base, {**VERSIONS, "export_version": "2.2.0"}, REGISTRY_VERSION)
     except ec.ConsumerExportError as exc:
         assert "export_version" in str(exc)
     else:
@@ -92,7 +97,7 @@ def test_version_mismatch_fails_closed() -> None:
 
 
 def test_every_registry_consumer_has_a_fresh_committed_bundle() -> None:
-    registry = ec.load_registry()
+    registry, _registry_version = ec.load_registry()
     for cid in registry:
         path = ec.bundle_path(cid)
         assert path.exists(), f"missing {path.relative_to(ROOT)}"
@@ -120,7 +125,7 @@ def test_review_policy_filter_excludes_drafts_and_widens_monotonically() -> None
 
     counts = {}
     for policy in ("all", "reviewed", "trusted", "canonical"):
-        bundle = ec.build_consumer_export("t", {}, base, VERSIONS, review_policy=policy)
+        bundle = ec.build_consumer_export("t", {}, base, VERSIONS, REGISTRY_VERSION, review_policy=policy)
         ids = {e["id"] for e in bundle["entities"]}
         statuses = {e.get("review_status") or e.get("status") for e in bundle["entities"]}
         counts[policy] = len(ids)

@@ -12,6 +12,8 @@ import collections
 
 import yaml
 
+from atomic_write import write_text_atomic  # readers never see a partial export
+
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CONNECTIONS = ROOT / "connections"
 CONTENT = ROOT / "content"
@@ -255,7 +257,7 @@ def main():
         "determinism": "stable sorting, 5-iteration PageRank, BFS deterministic",
     }
     EXPORT_EXT.parent.mkdir(parents=True, exist_ok=True)
-    EXPORT_EXT.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    write_text_atomic(EXPORT_EXT, json.dumps(payload, indent=2, ensure_ascii=False) + "\n")
     print(f"OK: extended export {len(conns_all)} explicit, {len(inverse_edges)} inverse, {len(derived_transitive)} transitive, {len(components)} components")
     return 0
 

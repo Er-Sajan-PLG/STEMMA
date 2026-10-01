@@ -120,16 +120,55 @@ def check_embedding_registry():
     print(f"OK: embedding-registry v1.0.0 — {len(models)} models, local + frontier, model selector like DeepSeek harness")
 
 def check_consumer_registry():
-    print("\n--- Check consumer registry v1.0.0 ---")
+    print("\n--- Check consumer registry ---")
     p = ROOT / "schema/consumer-registry.yaml"
     check_file_exists("schema/consumer-registry.yaml", "consumer-registry")
     import yaml
     data = yaml.safe_load(p.read_text())
-    assert data.get("version") == "1.0.0"
+    # The registry is versioned independently of the frozen v1.0.0 shape, so the
+    # guard checks the version *agrees with the exports it governs* rather than
+    # pinning a literal. A hardcoded "1.0.0" here was a staleness trap: bumping
+    # the registry (e.g. v1.1.0 adding consumer maturity annotations) broke the
+    # push for a purely documentary change, with no real invariant violated.
+    version = data.get("version")
+    assert version, "consumer-registry has no version"
     consumers = data.get("consumers", {})
     assert "learninghub" in consumers
     assert "professor-j" in consumers
-    print(f"OK: consumer-registry v1.0.0 — {len(consumers)} consumers")
+
+    # Compare against the *committed* bundles, not the working tree. verify_all.py
+    # (which this chain runs first) invokes `export_consumers.py --all`, so a
+    # working-tree-only check is self-defeating: the chain regenerates the exports
+    # and erases the very drift this guard exists to catch. `git show HEAD:` reads
+    # what a fresh clone would receive.
+    version_key = "consumer_registry_version"
+    for cid in sorted(consumers):
+        rel = f"exports/consumers/{cid}"
+        tracked = subprocess.run(
+            ["git", "ls-files", f"{rel}/*.json"],
+            cwd=ROOT, capture_output=True, text=True,
+        ).stdout.split()
+        if not tracked:
+            continue  # consumer not yet exported/committed — nothing to compare
+        blob = subprocess.run(
+            ["git", "show", f"HEAD:{tracked[0]}"],
+            cwd=ROOT, capture_output=True, text=True,
+        ).stdout
+        try:
+            committed = json.loads(blob)
+        except json.JSONDecodeError:
+            continue
+        committed_version = committed.get(version_key)
+        assert committed_version is not None, (
+            f"committed bundle {tracked[0]} carries no {version_key} — "
+            f"regenerate and commit consumer exports"
+        )
+        assert committed_version == version, (
+            f"committed consumer export {tracked[0]} was built against registry "
+            f"{committed_version} but the registry is now {version} — "
+            f"regenerate exports (python3 scripts/export_consumers.py --all) and commit them"
+        )
+    print(f"OK: consumer-registry v{version} — {len(consumers)} consumers, committed exports agree")
 
 def check_explorer_clean():
     print("\n--- Check explorer clean viewer requirements ---")

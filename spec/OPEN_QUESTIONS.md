@@ -5,9 +5,35 @@ Do not silently close: `RESOLVED` requires the designated authority or an
 authoritative external source. Machine copy: `spec/machine-readable/` conflicts
 + these records are mirrored in `requirements.yaml`-adjacent tooling only as IDs.
 
+> **Open records awaiting an owner ruling:** see **`spec/UNRES-DECISIONS.md`** —
+> a one-pass decision sheet covering every `OPEN`/divergent `UNRES-` record, in the
+> same shape as `spec/UNVERIFIED-DECISIONS.md`. It records the *state* of each
+> record and the options; it changes no status.
+>
+> **Ruled and executed 2026-10-01 (second pass).** The owner accepted the
+> recommendations, and the executor carried them out. Registry: **9 CLOSED ·
+> 1 DEFERRED · 1 OPEN** of 11.
+> - `CORE-001` → **CLOSED** (registry ratified to match the prose; it had read
+>   `OPEN` only because it was never synced).
+> - `HITL-001` → **CLOSED**, option (c): hash-only provenance manifest
+>   (`scripts/review_manifest.py`), excerpt-free and gate-enforced.
+> - `OPS-001` → **CLOSED**, option (b): excerpt-free metadata only, recorded as
+>   the XC-3 amendment in `spec/EXTERNAL_CONSTRAINTS.md`.
+> - `INTEG-001` → **CLOSED**, option (a): external consumers marked
+>   `prospective` in `schema/consumer-registry.yaml` v1.1.0.
+> - `RAG-001` → **CLOSED**, option (a): hash fallback sanctioned; the `type:
+>   faiss` mislabel fixed independently.
+> - `SCH-001` → **DEFERRED** (was already ruled "not now"; `DEFERRED` states
+>   that more precisely than `OPEN`).
+> - `CORE-003` → **left OPEN by owner directive** (active owner research; the
+>   one record where `OPEN` is the intended state).
+>
+> Earlier the same day: `EXP-001`, `CORE-002`, `GATE-001`, `HITL-002` closed by
+> owner ruling.
+
 ---
 
-## UNRES-STEMMA-CORE-001 — Organization / IRI base for published IRIs — **RESOLVED (published-PID portion closed 2026-10-01)**
+## UNRES-STEMMA-CORE-001 — Organization / IRI base for published IRIs — **CLOSED (registry ratified 2026-10-01)**
 
 - **Question:** Which owning organization, domain, and IRI base will STEMMA use for published IRIs?
 - **Resolved portion (binding, by Sajan):** publisher of record = individual Sajan; canonical identity = immutable `stemma:` URN identifiers (machine-enforced; resolution never enters canonical files). (ADR-0053 + Amendment 0001, 2026-09-22)
@@ -18,9 +44,9 @@ authoritative external source. Machine copy: `spec/machine-readable/` conflicts
 - **Blocking?** NO — non-blocking; never blocked R4; decision recorded at R6 as scheduled.
 - **Explicit non-actions:** no namespace claimed (w3id or otherwise) — claiming later as squatting insurance is a recorded *option*, not a decision; no canonical identifier changes; no resolution infrastructure.
 - **Owner / Authority required:** Sajan / HUMAN_DECISION.
-- **Status:** RESOLVED (published-PID portion — decided to defer with bounded upgrade conditions) · **Next action:** none required now; revisit when the §6 conditions in r6-identifier-base.md are met.
+- **Status:** ✅ **CLOSED (2026-10-01).** The machine registry was ratified to match this prose — it had still read `OPEN` because it was never synced when the decision was taken. Registry and prose now agree. · **Next action:** none required now; revisit when the §6 conditions in r6-identifier-base.md are met.
 
-## UNRES-STEMMA-SCH-001 — Validation is graph/object-scoped; dataset-scoped validation is the 2026 frontier
+## UNRES-STEMMA-SCH-001 — Validation is graph/object-scoped; dataset-scoped validation is the 2026 frontier — **DEFERRED (2026-10-01)**
 
 - **Question:** Should STEMMA add a *dataset-scoped*, declaratively self-contained validation layer for the export (validating `entities[]` + `connections[]` + sidecars together), rather than only the current per-object JSON Schema checks and registry coherence?
 - **Why unresolved:** STEMMA validates each canonical object against its schema in the gate (REQ-STEMMA-SCH-001) plus registry coherence (REQ-STEMMA-SCH-003), and guarantees the export by generator + freshness gate (REQ-STEMMA-EXP-001/-003). The 2026 validation frontier has moved to dataset scope: SHACL-DS (Chiem Dao & Debruyne, ESWC 2026) exists precisely because graph-scoped SHACL "loses track of where triples come from," and the W3C SHACL-UCR work treats dataset validation as an open requirement. STEMMA's export is effectively a dataset.
@@ -28,9 +54,9 @@ authoritative external source. Machine copy: `spec/machine-readable/` conflicts
 - **Impact:** Low now; grows with consumer count and export complexity. A consumer reasoning over cross-entity constraints (inverse mirrors, domain/range across the projected edges) can only trust producer behavior, not a declared contract.
 - **Blocking?** NO — explicitly ruled non-blocking by owner 2026-10-01; **no requirement added at this time** (SOTA-COMPARISON-2026-10-01 F4).
 - **Owner / Authority required:** Sajan (SOLE_OWNER) / HUMAN_DECISION.
-- **Status:** OPEN (noted, not actioned) · **Next action:** revisit when the export gains a second real consumer or when SHACL-DS-style tooling matures enough to adopt without new infrastructure.
+- **Status:** ✅ **DEFERRED (2026-10-01, owner ruling).** Reclassified from `OPEN`: the question was already ruled ("not now", SOTA F4), and `DEFERRED` states that more precisely — a deferred record is a *ruled* record, whereas an open one invites re-litigation. · **Revisit trigger:** the export gains a second real consumer, **or** dataset-scoped tooling (e.g. SHACL-DS) matures to adoption without new infrastructure. No target date; the trigger is the signal.
 
-## UNRES-STEMMA-HITL-001 — HITL audit evidence is not repository-resident
+## UNRES-STEMMA-HITL-001 — HITL audit evidence is not repository-resident — **CLOSED (2026-10-01, hash-only manifest)**
 
 - **Question:** Should the HITL audit trail (`workflow/audit/`, proving human edits before canonical) be committed (possibly redacted) so canonical trust can be verified from the repo alone?
 - **Why unresolved:** Today the gate passes by reading git-ignored local files (EVID-STEMMA-HITL-001, EVID-STEMMA-CORE-004). A fresh clone cannot verify HITL for `metre`.
@@ -38,7 +64,13 @@ authoritative external source. Machine copy: `spec/machine-readable/` conflicts
 - **Impact:** Trust asymmetry between the operator's machine and any other clone; weakens "HITL enforced" claim portability.
 - **Blocking?** NO (behavior consistent), but HIGH integrity relevance.
 - **Owner / Authority required:** Sajan (SOLE_OWNER) / REPOSITORY_LOCAL.
-- **Status:** OPEN · **Next action:** decide committed-audit vs provenance-summary pattern; ADR.
+- **Status:** ✅ **CLOSED (2026-10-01, owner ruling — option (c), hash-only provenance manifest).**
+  - **What was built:** `scripts/review_manifest.py` emits `spec/machine-readable/review_manifest.json`, carrying per reviewed record: id, kind, relpath, declared provenance (`writer`/`reviewer`/`reviewed_at`), the ordered `promotion_history`, and a `sha256` of the record file. Nothing else — no definition text, no source excerpts.
+  - **Why this option:** committing the raw trail (option a) depended on the `OPS-001` ruling; accepting local-state provenance (option b) would have *narrowed* the trust claim rather than fixing it. The manifest makes the **review claim portable** while staying committable under any licensing position.
+  - **Gate-enforced:** `verify_all.py` runs `review_manifest.py` then `--check`, so a review claim can no longer go stale silently. A post-review edit to a canonical record fails CI, naming the record.
+  - **What a fresh clone can now answer:** *which* records were reviewed, *by whom*, *when*, through *which ordered stages* — and whether each reviewed artifact is still byte-identical to the state that was reviewed.
+  - **Non-vacuity proven:** editing `metre.md` after review turns `--check` red (`content changed after review … the review claim is stale`); restoring returns exit 0. `tests/repo/test_review_manifest.py` (8 tests) asserts the excerpt-free property, the binding property, determinism, and that the generator reads canonical records only — sabotaging the generator to read `workflow/` turns 3 of them red.
+  - **Scope note, stated plainly:** this makes the review *claim* portable. It does not make the raw audit trail portable, and never claimed to.
 - **Update (2026-10-01, verification of HITL-001/002):** this is no longer only an integrity-portability concern — it is the reason the HITL gate cannot be verified at all. `hitl_check.py --check-workflow` (the chain's own invocation) audits an empty, git-ignored `workflow/` and exits 0 with "nothing to check" (EVID-STEMMA-HITL-003). See the new **UNRES-STEMMA-HITL-002** below; the two are entangled, because resolving either without the other still leaves HITL unverifiable on a fresh clone.
 
 ## UNRES-STEMMA-HITL-002 — HITL enforcement is vacuous in CI and violated in the corpus
@@ -65,7 +97,7 @@ authoritative external source. Machine copy: `spec/machine-readable/` conflicts
 - **Update (2026-10-01, verification of EXP-004):** the premise has **moved**. The question was raised when the corpus was all-draft and the learninghub export was consequently empty. The corpus is now **1 canonical / 8 drafts** (after the HITL ruling demoted the 6 LLM-written entities), and the learninghub export contains that **1 canonical entity with all 8 drafts excluded** — verified by building the bundle under every policy (`all` → 9 entities incl. all drafts; `reviewed`/`trusted`/`canonical` → 1, `{canonical}` only; EVID-STEMMA-EXP-017). So this is no longer a question about an *empty* export (although a canonical-only export over a 1-entity corpus is nearly so) but about whether a **canonical-only** export is the intended consumer contract. The verification of EXP-004 AC1 does not depend on the answer; AC2 does, which is why EXP-004 stayed UNVERIFIED until the owner ruled.
 - **Resolution (2026-10-01):** the owner confirmed the canonical-only contract as intended. Because the corpus now holds a canonical entity, the adopted criterion is exercised live rather than answered only in the abstract: the canonical-only export yields that entity, not an empty bundle. This closes the record and flips `REQ-STEMMA-EXP-004` to VERIFIED. The earlier "0 entities" premise is recorded as changed, not silently overwritten. Assertion test added: `tests/repo/test_export_consumers.py::test_review_policy_filter_excludes_drafts_and_widens_monotonically`.
 
-## UNRES-STEMMA-INTEG-001 — Cross-repo consumer interface ownership unassigned
+## UNRES-STEMMA-INTEG-001 — Cross-repo consumer interface ownership unassigned — **CLOSED (2026-10-01, consumers marked prospective)**
 
 - **Question:** Who owns the consumer-side contract for LearningHub and PROFESSOR-J (schema evolution, compatibility expectations, change coordination)?
 - **Why unresolved:** Consumers are named in registry/docs (EVID-STEMMA-INTEG-002) but no counterpart owner exists; STEMMA side is Sajan.
@@ -74,14 +106,17 @@ authoritative external source. Machine copy: `spec/machine-readable/` conflicts
 - **Authority required:** CROSS_REPOSITORY / HUMAN_DECISION.
 - **Status:** OPEN · **Next action:** assign owner per consumer or mark consumers "prospective".
 
-## UNRES-STEMMA-RAG-001 — Deterministic-fake embeddings as shipped reference
+## UNRES-STEMMA-RAG-001 — Deterministic-fake embeddings as shipped reference — **CLOSED (2026-10-01, fallback sanctioned)**
 
 - **Question:** Is the deterministic hash-based embedding fallback (labeled with a real model name + `type: faiss` in meta.json) acceptable as the shipped reference implementation behavior, or must CI require a real model for the reference path?
 - **Why unresolved:** Behavior exists (EVID-STEMMA-EXP-004/-005); acceptability is a product/spec decision; mislabeled type recorded as CONFLICT-STEMMA-EXP-001.
 - **Blocking?** NO. · **Owner / Authority required:** Sajan / REPOSITORY_LOCAL.
-- **Status:** OPEN · **Next action:** decide policy; either document as sanctioned demo behavior or gate on real model presence.
+- **Status:** ✅ **CLOSED (2026-10-01, owner ruling — option (a)).** The hash fallback is **sanctioned pilot behaviour** and the metadata mislabel is fixed.
+  - **Sanctioned, not smuggled.** The fallback is opt-in (`--placeholder`), self-labelling (`model: stemma:placeholder-hash`, `placeholder: true`), and **refused otherwise** — `generate_embeddings_local` raises `EmbeddingUnavailable` rather than silently substituting a hash vector, so it can never be mistaken for a real embedding. It must never be committed or published as a real index.
+  - **Label fixed independently.** `meta.json` asserted `type: faiss` while no FAISS index existed; `scripts/embed.py` now records the store actually written (`numpy-flat` | `json-flat`). That half needed no policy ruling, and was fixed as `CONFLICT-STEMMA-EXP-001` truthfulness half (EVID-STEMMA-EXP-019) with a guard in `tests/repo/test_vector_store_type_truthfulness.py`.
+  - **Scope boundary, not an open defect.** Derived-layer semantics for *real* vectors remain out of pilot scope, deferred to a second pilot on the derived layer. CI does not require a model download; the guarantee is that a placeholder store is never silently mistaken for a real one.
 
-## UNRES-STEMMA-OPS-001 — Rights review for textbook-derived extraction
+## UNRES-STEMMA-OPS-001 — Rights review for textbook-derived extraction — **CLOSED (2026-10-01, excerpt-free metadata only)**
 
 - **Question:** What is the licensing position for definition text extracted from commercial textbooks (HRW, Campbell, CLRS, Atkins, Carroll) during ingestion, and what evidence may be retained/committed (e.g., verbatim excerpts in HITL trail)?
 - **Why unresolved:** XC-3 sweep: PDFs intentionally stay out of git; retention rules for excerpts/metadata undecided.

@@ -51,8 +51,8 @@ Implemented in webapp/static/app.js FRONTIER_MODELS for LLM + embedding models l
 
 ## Vector store configuration
 
-- **Type:** faiss (default) — flat index, cosine metric, local, deterministic
-- **Path:** exports/vector_store/ — meta.json + vectors.json (or vectors.json if numpy not available) + ids.json
+- **Type:** numpy-flat or json-flat — whatever `scripts/embed.py` actually wrote (`vectors.npy` vs `vectors.json`), recorded in `meta.json` as `type`. Flat, cosine metric, local, deterministic. *(Historically this said "faiss (default)"; no FAISS index is written and FAISS is not a pinned dependency — see CONFLICT-STEMMA-EXP-001.)*
+- **Path:** exports/vector_store/ — meta.json + vectors.npy (or vectors.json if numpy not available) + ids.json
 - **Alternatives:** chroma (exports/chroma/), qdrant (local), pinecone (cloud)
 - **Index type:** flat (simple, deterministic, good for mediocre 400-800 entities), alternatives: ivf, hnsw for larger
 - **Metric:** cosine
@@ -93,7 +93,7 @@ python3 scripts/embed.py --model BAAI/bge-large-en-v1.5 --domain physics --limit
 
 **Output:**
 - `exports/embeddings.jsonl` — JSONL per entity: {entity_id, model, dimensions, vector, content, content_hash}
-- `exports/vector_store/meta.json` — {model, dimensions, content_hash, entity_count, created_at deterministic no wall clock, version 1.0.0, type faiss, index_type flat, metric cosine}
+- `exports/vector_store/meta.json` — {model, dimensions, content_hash, entity_count, created_at deterministic no wall clock, version 1.0.0, type numpy-flat|json-flat (the store actually written), index_type flat, metric cosine}
 - `exports/vector_store/vectors.json` — numpy array if numpy available, else vectors.json
 - `exports/vector_store/ids.json` — entity IDs
 

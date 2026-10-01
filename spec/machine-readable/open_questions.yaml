@@ -1,19 +1,30 @@
 open_questions:
 - id: UNRES-STEMMA-CORE-001
   question: IRI base for entity/conn URIs unresolved (stemma:* vs domain-bound http/https).
-  status: OPEN
+  status: CLOSED
   blocking: false
-  disposition: 'PARTIALLY RESOLVED (ADR-0053 + Amendment 0001, 2026-09-22): canonical stemma: URN identity and publisher (individual Sajan) reaffirmed binding; published-PID /resolution base (w3id.org proposed) UNDER REVIEW after owner-directed slow research (docs/PERSISTENT-IDENTIFIER-BRIEF.md) and DEFERRED to the R6 projection-publication stage — reversible pre-publication. Non-actions: no slug claim, no ID changes, no resolution infra. Status trail: OPEN -> CLOSED (quick ruling) -> OPEN/DEFERRED (amended).'
+  disposition: 'Owner ratified closure 2026-10-01. The question was already decided; the machine registry had simply
+    not been synced when the ruling was taken. Publisher of record = individual Sajan; canonical identity = immutable
+    stemma: URNs (binding, ADR-0053 + Amendment 0001). The published-PID portion was deferred to R6, then closed
+    at R6 as stemma-urn-only (docs/decisions/r6-identifier-base.md, decided_by human:curator.001); publication_gate.py
+    flipped BLOCKED -> OPEN. Status trail: OPEN -> CLOSED -> RE-OPENED/DEFERRED -> CLOSED at R6.'
   proposed_resolution: 'At R6: owner reaffirms/amends/supersedes ADR-0053(b).'
   authority_required: SOLE_OWNER
   related:
   - ADR-0002
   - ADR-0027
   - EVID-STEMMA-CORE-002
+  resolution: 'CLOSED as stemma-urn-only: STEMMA publishes under its own stemma: URNs with no external resolution
+    base for now. w3id.org remains the recorded INTENDED base, to be adopted when the conditions in docs/decisions/r6-identifier-base.md
+    section 6 are met (a one-line @context change; no canonical or consumer change). Noted consequence: FAIR F1/A1
+    resolvability is deliberately not satisfied for now, recorded openly. Validator and prose now agree; CONFLICT-free.'
+  closed_date: '2026-10-01'
+  closed_by: human:curator.001
 - id: UNRES-STEMMA-HITL-001
-  question: HITL audit trail (workflow/) is git-ignored — review evidence not repository-portable; provenance relies on local state + declared metadata.
-  status: OPEN
-  blocking: true
+  question: HITL audit trail (workflow/) is git-ignored — review evidence not repository-portable; provenance relies
+    on local state + declared metadata.
+  status: CLOSED
+  blocking: false
   blocking_impact: Trust claim non-verifiable on fresh clone — affects REQ-STEMMA-HITL-001 verification
   proposed_resolution: 'Owner decides: commit workflow/ (with redaction rules), or accept local-state provenance.'
   authority_required: SOLE_OWNER
@@ -21,6 +32,24 @@ open_questions:
   - EVID-STEMMA-HITL-002
   - REQ-STEMMA-HITL-001
   - ADR-0043
+  disposition: 'Owner ruled 2026-10-01 (option (c) of spec/UNRES-DECISIONS.md section 2): COMMIT A SIGNED PROVENANCE
+    SUMMARY (hash-only manifest). Chosen over (a) committing the redacted trail — which would depend on the UNRES-STEMMA-OPS-001
+    ruling — and over (b) accepting local-state provenance, which narrows the trust claim instead of fixing it.
+    scripts/review_manifest.py emits spec/machine-readable/review_manifest.json containing, per reviewed record:
+    the id, kind, relpath, declared provenance (writer/reviewer/reviewed_at), the ordered promotion history, and
+    a sha256 of the record file. It emits no definition text and no source excerpts, so it is committable under
+    any licensing position (see the XC-3 amendment). Ruled together with UNRES-STEMMA-OPS-001.'
+  resolution: 'CLOSED. A fresh clone can now verify the review claim without the git-ignored workflow/ trail: it
+    can see WHICH records were reviewed, BY WHOM, WHEN, and through which ordered stages, and it can confirm each
+    reviewed artifact is still byte-identical to the state that was reviewed. Generated then verified in the gate
+    (scripts/verify_all.py runs review_manifest.py then review_manifest.py --check), so a post-review edit to a
+    canonical record fails CI rather than silently invalidating the claim. Non-vacuity proven: editing a reviewed
+    record turns --check red naming the record; restoring returns exit 0. tests/repo/test_review_manifest.py (8
+    tests) asserts the excerpt-free property, the binding property, determinism, and that the generator reads canonical
+    records only. Scope note: this makes the review CLAIM portable; it does not make the raw audit trail portable,
+    which was never the goal.'
+  closed_date: '2026-10-01'
+  closed_by: human:curator.001
 - id: UNRES-STEMMA-EXP-001
   question: Consumer learninghub export has 0 entities — behavior is structurally correct given all-draft corpus, but intended behavior is only CLAIMed.
   status: CLOSED
@@ -37,8 +66,9 @@ open_questions:
   - EVID-STEMMA-CORE-004
   - REQ-STEMMA-EXP-004
 - id: UNRES-STEMMA-INTEG-001
-  question: 'Consumer convergence: which consumers remain concrete/strawman vs implemented-integrations; LearningHub semantic-web/RDF import unresolved (ADR-0044).'
-  status: OPEN
+  question: 'Consumer convergence: which consumers remain concrete/strawman vs implemented-integrations; LearningHub
+    semantic-web/RDF import unresolved (ADR-0044).'
+  status: CLOSED
   blocking: false
   proposed_resolution: 'Post-pilot: owner designates integration owners outside recovery scope.'
   authority_required: SOLE_OWNER
@@ -46,41 +76,118 @@ open_questions:
   - EVID-STEMMA-INTEG-001
   - EVID-STEMMA-INTEG-002
   - ADR-0044
+  disposition: 'Owner ruled 2026-10-01 (option (a) of spec/UNRES-DECISIONS.md section 4): MARK CONSUMERS PROSPECTIVE.
+    schema/consumer-registry.yaml v1.1.0 now carries a maturity field per consumer: learninghub and professor-j
+    are prospective (no counterpart owner; declared intent only, no compatibility promise owed until a real integration
+    exists); stemma-explorer is concrete (implemented, CI-gated, REQ-STEMMA-INTEG-001 VERIFIED 2026-10-01); general
+    is concrete by construction (counterparty-free — its obligation is the published export contract itself, not
+    a named integration). A maturity_legend is recorded in the registry so the field is self-describing.'
+  resolution: 'CLOSED. The one-sided-contract problem is removed by not claiming a contract that has no counterparty:
+    the two external consumers are named as intent, not as obligations. The STEMMA side therefore owes no compatibility
+    promise to learninghub or professor-j, and the declared contract discipline is honest rather than fictional.
+    Revisit trigger: when a real counterpart owner appears for either consumer, promote it to concrete and record
+    the owner. The registry change is additive (a new per-consumer field plus a legend) and does not alter export
+    behaviour — verified by regenerating the consumer bundles and running the full gate.'
+  closed_date: '2026-10-01'
+  closed_by: human:curator.001
 - id: UNRES-STEMMA-RAG-001
-  question: Fake/hash-fallback embedding determinism accepted? Environment lacks model downloads; derived-layer semantics for real vectors undefined at pilot scope.
-  status: OPEN
+  question: Fake/hash-fallback embedding determinism accepted? Environment lacks model downloads; derived-layer
+    semantics for real vectors undefined at pilot scope.
+  status: CLOSED
   blocking: false
   proposed_resolution: Second pilot scope on derived layer; not blocking foundation slice.
   authority_required: SOLE_OWNER
   related:
   - EVID-STEMMA-EXP-003
   - CONFLICT-STEMMA-EXP-001
+  disposition: 'Owner ruled 2026-10-01 (option (a) of spec/UNRES-DECISIONS.md section 5): the deterministic hash
+    fallback is SANCTIONED as explicit pilot behaviour, and the metadata mislabel is fixed. Two halves were being
+    treated as one. (1) Determinism of the fallback: acceptable as a declared, clearly-labelled pilot behaviour
+    — it is emitted only under the explicit --placeholder flag, is labelled stemma:placeholder-hash (never the requested
+    model id), and carries placeholder: true; generate_embeddings_local REFUSES (EmbeddingUnavailable) rather than
+    silently substituting a hash vector, so no consumer can mistake it for a real embedding. (2) Truthfulness of
+    the metadata: meta.json asserted type: faiss while no FAISS index existed — fixed independently (scripts/embed.py
+    now records numpy-flat|json-flat; CONFLICT-STEMMA-EXP-001 truthfulness half RESOLVED, EVID-STEMMA-EXP-019),
+    and the stale claim was swept from four living docs.'
+  resolution: 'CLOSED. The fake-embedding fallback is sanctioned PILOT BEHAVIOUR, not a shipped reference vector
+    store: it is opt-in (--placeholder), self-labelling (stemma:placeholder-hash + placeholder: true), refused-otherwise
+    (real model absence is an error, never a silent fallback), and must never be committed or published as a real
+    index. Derived-layer semantics for REAL vectors remain out of pilot scope and are deferred to a second pilot
+    on the derived layer — a scope boundary, not an open defect. CI does NOT require a model download (the pilot
+    is offline by constraint); the guarantee is instead that a placeholder store is never silently mistaken for
+    a real one.'
+  closed_date: '2026-10-01'
+  closed_by: human:curator.001
 - id: UNRES-STEMMA-OPS-001
-  question: Does any rights/licensing review exist for book*-textbook source bodies (excerpt scale, attribution, licence)?
-  status: OPEN
+  question: Does any rights/licensing review exist for book*-textbook source bodies (excerpt scale, attribution,
+    licence)?
+  status: CLOSED
   blocking: false
-  proposed_resolution: Owner supplies rights documentation or marks acceptable-risk; license-compliance then an XC amendment.
+  proposed_resolution: Owner supplies rights documentation or marks acceptable-risk; license-compliance then an
+    XC amendment.
   authority_required: SOLE_OWNER
   related:
   - EVID-STEMMA-CORE-005
   - XC-6
+  disposition: 'Owner ruled 2026-10-01 (option (b) of spec/UNRES-DECISIONS.md section 3): EXCERPT-FREE METADATA
+    ONLY. Recorded as an XC-3 amendment in spec/EXTERNAL_CONSTRAINTS.md. Committable from a copyrighted textbook:
+    (1) citation metadata only (title, authors, year, publisher, edition, ISBN, URL, language, source_role, locator)
+    — what sources/*.yaml already holds; (2) re-expressed definitions written in STEMMA''s own voice (facts/ideas
+    are not copyrightable; expression is). Never committable: source PDFs, verbatim passages however short, and
+    anything under workflow/. Ruled together with UNRES-STEMMA-HITL-001 because committing audit material could
+    pull excerpts into git; the hash-only manifest chosen there is excerpt-free by construction, so the two are
+    jointly satisfied.'
+  resolution: 'CLOSED. This is a conservative owner POLICY position, not external legal advice: by holding no verbatim
+    reproduction at all, the project relies on no fair-use/fair-dealing defence, which would vary by jurisdiction.
+    Enforcement is structural, not aspirational: sources/*.yaml carry citation metadata with no body-text field;
+    scripts/review_manifest.py is hash-only and tests/repo/test_review_manifest.py asserts no definition fragment
+    and no text-bearing key appears in it. Residual recorded: if short quotations are ever wanted for audit fidelity,
+    that is a NEW decision requiring explicit attribution terms and a numeric excerpt cap. Consequence for REQ-STEMMA-OPS-005:
+    citation-complete sources/*.yaml satisfy the source-registry obligation; no derived-text distribution occurs,
+    so no derived-span licensing review is outstanding.'
+  closed_date: '2026-10-01'
+  closed_by: human:curator.001
 - id: UNRES-STEMMA-SCH-001
-  question: Should the export gain a dataset-scoped, declarative validation layer (entities+connections+sidecars together) beyond per-object JSON Schema?
-  status: OPEN
+  question: Should the export gain a dataset-scoped, declarative validation layer (entities+connections+sidecars
+    together) beyond per-object JSON Schema?
+  status: DEFERRED
   blocking: false
-  proposed_resolution: Noted, not actioned (owner ruling 2026-10-01, SOTA F4); revisit when the export gains a second real consumer or SHACL-DS-style tooling matures.
+  proposed_resolution: Noted, not actioned (owner ruling 2026-10-01, SOTA F4); revisit when the export gains a second
+    real consumer or SHACL-DS-style tooling matures.
   authority_required: SOLE_OWNER
   related:
   - REQ-STEMMA-SCH-001
   - REQ-STEMMA-EXP-002
   - EVID-STEMMA-SCH-005
+  disposition: 'Owner reclassified OPEN -> DEFERRED 2026-10-01. The question was already ruled on 2026-10-01 (SOTA-COMPARISON-2026-10-01
+    F4): non-blocking, and explicitly no requirement added at this time. DEFERRED states that ruling more precisely
+    than OPEN: a deferred record is a RULED record, whereas an open one invites re-litigation.'
+  deferred_date: '2026-10-01'
+  deferred_by: human:curator.001
+  revisit_trigger: Revisit when EITHER (a) the export gains a second real consumer, OR (b) dataset-scoped validation
+    tooling matures to the point where it can be adopted without new infrastructure (e.g. SHACL-DS). No target date;
+    the trigger is the signal.
 - id: UNRES-STEMMA-CORE-002
-  question: Should the generality guard (test_generality.py SCOPING_FIELDS) drop its ^...$ anchors so it also rejects prefixed/suffixed scoping keys (grade_level, grade_band, curriculum_scope, target_grade)?
+  question: Should the generality guard (test_generality.py SCOPING_FIELDS) drop its ^...$ anchors so it also rejects
+    prefixed/suffixed scoping keys (grade_level, grade_band, curriculum_scope, target_grade)?
   status: CLOSED
   blocking: false
-  disposition: 'RESOLVED (owner ruling 2026-10-01): option (c) — WIDEN the guard, then mutation-test it. Implemented the same day. SCOPING_FIELDS (the ^...$-anchored regex) was replaced by a token-based matcher: `_scoping_tokens` splits an identifier on separators/camelCase/digits, `_joined_token_forms` restores contiguous n-grams so multi-word names (key_stage, learning_objectives) match in either spelling, and `_is_scoping_field` matches whole tokens (never substrings, so upgrade_notes/multigrade stay legitimate). `level` is handled specially: only an education-qualified level (edu_level, grade_level) is a scoping claim; trophic_level/energy_level/sea_level are not. The guard now catches 28 formerly-missed variants. Three new tests: catches_prefixed_variants, does_not_overreach (negative control), and widened_guard_is_enforced_end_to_end. Non-vacuity proven by mutation — reverting the matcher to the anchored form turns exactly those tests red (EVID-STEMMA-CORE-010). REQ-STEMMA-CORE-004
-    re-verified: FAILED -> VERIFIED.'
-  proposed_resolution: 'Executor finding, 2026-10-01 (EVID-STEMMA-CORE-006/007): the guard is ^...$-anchored and therefore matches only exact key names. The gap is defence-in-depth only — concept.schema.json''s additionalProperties:false still rejects such keys at the validator (exit 1), so no violation can ship. Fixing the guard is an owner decision; the executor may execute verification and record results but not self-approve a code change and then mark it VERIFIED. Options: (a) widen the pattern to a prefix match; (b) leave it, relying on the schema layer; (c) widen and add a permanent mutation test that asserts the guard itself rejects prefixed keys.'
+  disposition: 'RESOLVED (owner ruling 2026-10-01): option (c) — WIDEN the guard, then mutation-test it. Implemented
+    the same day. SCOPING_FIELDS (the ^...$-anchored regex) was replaced by a token-based matcher: `_scoping_tokens`
+    splits an identifier on separators/camelCase/digits, `_joined_token_forms` restores contiguous n-grams so multi-word
+    names (key_stage, learning_objectives) match in either spelling, and `_is_scoping_field` matches whole tokens
+    (never substrings, so upgrade_notes/multigrade stay legitimate). `level` is handled specially: only an education-qualified
+    level (edu_level, grade_level) is a scoping claim; trophic_level/energy_level/sea_level are not. The guard now
+    catches 28 formerly-missed variants. Three new tests: catches_prefixed_variants, does_not_overreach (negative
+    control), and widened_guard_is_enforced_end_to_end. Non-vacuity proven by mutation — reverting the matcher to
+    the anchored form turns exactly those tests red (EVID-STEMMA-CORE-010). REQ-STEMMA-CORE-004 re-verified: FAILED
+    -> VERIFIED.'
+  proposed_resolution: 'Executor finding, 2026-10-01 (EVID-STEMMA-CORE-006/007): the guard is ^...$-anchored and
+    therefore matches only exact key names. The gap is defence-in-depth only — concept.schema.json''s additionalProperties:false
+    still rejects such keys at the validator (exit 1), so no violation can ship. Fixing the guard is an owner decision;
+    the executor may execute verification and record results but not self-approve a code change and then mark it
+    VERIFIED. Options: (a) widen the pattern to a prefix match; (b) leave it, relying on the schema layer; (c) widen
+    and add a permanent mutation test that asserts the guard itself rejects prefixed keys.'
   authority_required: SOLE_OWNER
   related:
   - REQ-STEMMA-CORE-004
@@ -88,12 +195,28 @@ open_questions:
   - EVID-STEMMA-CORE-007
   - EVID-STEMMA-CORE-010
 - id: UNRES-STEMMA-GATE-001
-  question: 'The all-green merge gate is not a required status check on main: should ''Full Test Suite (pytest)'' and ''All Checks Green — Nothing Bad Gets Merged'' be added to the repository''s required checks so a red suite actually blocks a merge?'
+  question: 'The all-green merge gate is not a required status check on main: should ''Full Test Suite (pytest)''
+    and ''All Checks Green — Nothing Bad Gets Merged'' be added to the repository''s required checks so a red suite
+    actually blocks a merge?'
   status: CLOSED
   blocking: false
-  disposition: 'RESOLVED (owner action 2026-10-01, same day). The owner added both contexts to the required status checks. Re-inspection of the active main ruleset (22215824) now shows 7 required checks, including ''All Checks Green — Nothing Bad Gets Merged'' and ''Full Test Suite (pytest)'', with strict_required_status_checks_policy = true. Each required context was compared byte-for-byte against the status names CI actually reports (run 36316235760) and both EXACT MATCH (including the em-dash), so the checks bind rather than silently never matching. The failure path was already fail-closed: all-green does ''exit 1'' on any non-success dependency including test-suite, so a red suite now genuinely blocks a merge. REQ-STEMMA-GATE-003 re-verified: FAILED -> VERIFIED (EVID-STEMMA-GATE-018).'
-  blocking_impact: 'Was blocking REQ-STEMMA-GATE-003. Note for the record: the repo''s legacy branch-protection endpoint (branches/main/protection) does NOT reflect ruleset-based rules — it still lists only the original five. The authoritative source is the effective-rules endpoint (repos/.../rules/branches/main), which is what a future verifier should query.'
-  proposed_resolution: 'Owner action in repository settings (the executor has no authority to change branch protection, and changing it is a governance act, not a code change): add ''Full Test Suite (pytest)'' and ''All Checks Green — Nothing Bad Gets Merged'' to the required status checks for main. Adding all-green alone is sufficient once it is the single aggregate gate, since it already asserts every other job''s result; adding the pytest job as well keeps the failure legible when the suite is the cause. After the change, re-verify GATE-003 by inspection of the required-check list.'
+  disposition: 'RESOLVED (owner action 2026-10-01, same day). The owner added both contexts to the required status
+    checks. Re-inspection of the active main ruleset (22215824) now shows 7 required checks, including ''All Checks
+    Green — Nothing Bad Gets Merged'' and ''Full Test Suite (pytest)'', with strict_required_status_checks_policy
+    = true. Each required context was compared byte-for-byte against the status names CI actually reports (run 36316235760)
+    and both EXACT MATCH (including the em-dash), so the checks bind rather than silently never matching. The failure
+    path was already fail-closed: all-green does ''exit 1'' on any non-success dependency including test-suite,
+    so a red suite now genuinely blocks a merge. REQ-STEMMA-GATE-003 re-verified: FAILED -> VERIFIED (EVID-STEMMA-GATE-018).'
+  blocking_impact: 'Was blocking REQ-STEMMA-GATE-003. Note for the record: the repo''s legacy branch-protection
+    endpoint (branches/main/protection) does NOT reflect ruleset-based rules — it still lists only the original
+    five. The authoritative source is the effective-rules endpoint (repos/.../rules/branches/main), which is what
+    a future verifier should query.'
+  proposed_resolution: 'Owner action in repository settings (the executor has no authority to change branch protection,
+    and changing it is a governance act, not a code change): add ''Full Test Suite (pytest)'' and ''All Checks Green
+    — Nothing Bad Gets Merged'' to the required status checks for main. Adding all-green alone is sufficient once
+    it is the single aggregate gate, since it already asserts every other job''s result; adding the pytest job as
+    well keeps the failure legible when the suite is the cause. After the change, re-verify GATE-003 by inspection
+    of the required-check list.'
   authority_required: SOLE_OWNER
   related:
   - REQ-STEMMA-GATE-003
@@ -101,12 +224,24 @@ open_questions:
   - EVID-STEMMA-GATE-017
   - EVID-STEMMA-GATE-018
 - id: UNRES-STEMMA-HITL-002
-  question: 'HITL enforcement is vacuous in CI and violated in the corpus: `hitl_check.py --check-workflow` (the chain''s own invocation, verify_all.py:31) audits a git-ignored, empty workflow/ directory and exits 0 with ''nothing to check'', while 6 of 9 canonical entities declare an LLM writer. `hitl_check.py --all` returns exit 1 with ''9/9 entities fail HITL''. How should human review be enforced?'
+  question: 'HITL enforcement is vacuous in CI and violated in the corpus: `hitl_check.py --check-workflow` (the
+    chain''s own invocation, verify_all.py:31) audits a git-ignored, empty workflow/ directory and exits 0 with
+    ''nothing to check'', while 6 of 9 canonical entities declare an LLM writer. `hitl_check.py --all` returns exit
+    1 with ''9/9 entities fail HITL''. How should human review be enforced?'
   status: CLOSED
   blocking: false
-  blocking_impact: Blocks REQ-STEMMA-HITL-001 and REQ-STEMMA-HITL-002. The claim 'AI-drafted content remains draft until a named human reviews it' is currently not backed by any gate that runs in CI over content/.
-  proposed_resolution: 'Owner decision, three separable parts. (1) SCOPE: should the chain run hitl_check in a mode that covers content/ (e.g. --all), not only workflow/? Note this would currently FAIL the build, so it needs a migration plan. (2) EXISTING ENTITIES: 6 canonical entities (conservation-energy, force, length, mass, newtons-second-law, time) carry writer=llm:coding-agent.001. Either they were in fact human-reviewed and the metadata is wrong (then correct the metadata and record the review), or they were not reviewed and should be demoted to draft until they are. Deciding this is a governance act reserved to the owner — the executor will not rewrite provenance unilaterally. (3) ENFORCEMENT LAYER: validate.py''s human-reviewer rule (check_connection_agents) applies only to connections/, never to content/; should the analogous rule be added for canonical content entities? Related: UNRES-STEMMA-HITL-001 (audit-trail portability) must be resolved too, otherwise any HITL evidence stays
-    non-verifiable on a fresh clone.'
+  blocking_impact: Blocks REQ-STEMMA-HITL-001 and REQ-STEMMA-HITL-002. The claim 'AI-drafted content remains draft
+    until a named human reviews it' is currently not backed by any gate that runs in CI over content/.
+  proposed_resolution: 'Owner decision, three separable parts. (1) SCOPE: should the chain run hitl_check in a mode
+    that covers content/ (e.g. --all), not only workflow/? Note this would currently FAIL the build, so it needs
+    a migration plan. (2) EXISTING ENTITIES: 6 canonical entities (conservation-energy, force, length, mass, newtons-second-law,
+    time) carry writer=llm:coding-agent.001. Either they were in fact human-reviewed and the metadata is wrong (then
+    correct the metadata and record the review), or they were not reviewed and should be demoted to draft until
+    they are. Deciding this is a governance act reserved to the owner — the executor will not rewrite provenance
+    unilaterally. (3) ENFORCEMENT LAYER: validate.py''s human-reviewer rule (check_connection_agents) applies only
+    to connections/, never to content/; should the analogous rule be added for canonical content entities? Related:
+    UNRES-STEMMA-HITL-001 (audit-trail portability) must be resolved too, otherwise any HITL evidence stays non-verifiable
+    on a fresh clone.'
   authority_required: SOLE_OWNER
   related:
   - REQ-STEMMA-HITL-001
@@ -115,24 +250,96 @@ open_questions:
   - EVID-STEMMA-HITL-004
   - EVID-STEMMA-HITL-005
   - UNRES-STEMMA-HITL-001
-  resolution: 'Owner ruling 2026-10-01 (sole owner, human:curator.001). Three parts, all executed. (1) SCOPE: HITL scope is ALL data — content/ and every entity type, not only connections/. The chain now runs `hitl_check.py --all` (verify_all.py step 8), which audits content/ + connections/, replacing the vacuous `--check-workflow` over the git-ignored workflow/ dir. (2) EXISTING ENTITIES: the 6 LLM-written canonical entities (conservation-energy, force, length, mass, newtons-second-law, time) were demoted to draft and their unsupported human-review claims (reviewer/reviewed_at) removed; conn.000157 (canonical, LLM-asserted, citing two now-draft endpoints) was demoted to unreviewed. Corpus: 1 canonical (metre) / 8 clean drafts. (3) ENFORCEMENT: validate.py now enforces a content-layer human-writer+reviewer rule (check_entity_agents) plus canonical-endpoint coupling for connections — the validator validates everything it is given. All gates mutation-proven non-vacuous; verify_all.py exit
-    0, docs.py check PASS, 289 tests pass. REQ-STEMMA-HITL-001 and REQ-STEMMA-HITL-002 flipped FAILED->VERIFIED. Residual: UNRES-STEMMA-HITL-001 (audit-trail portability) remains OPEN.'
+  resolution: 'Owner ruling 2026-10-01 (sole owner, human:curator.001). Three parts, all executed. (1) SCOPE: HITL
+    scope is ALL data — content/ and every entity type, not only connections/. The chain now runs `hitl_check.py
+    --all` (verify_all.py step 8), which audits content/ + connections/, replacing the vacuous `--check-workflow`
+    over the git-ignored workflow/ dir. (2) EXISTING ENTITIES: the 6 LLM-written canonical entities (conservation-energy,
+    force, length, mass, newtons-second-law, time) were demoted to draft and their unsupported human-review claims
+    (reviewer/reviewed_at) removed; conn.000157 (canonical, LLM-asserted, citing two now-draft endpoints) was demoted
+    to unreviewed. Corpus: 1 canonical (metre) / 8 clean drafts. (3) ENFORCEMENT: validate.py now enforces a content-layer
+    human-writer+reviewer rule (check_entity_agents) plus canonical-endpoint coupling for connections — the validator
+    validates everything it is given. All gates mutation-proven non-vacuous; verify_all.py exit 0, docs.py check
+    PASS, 289 tests pass. REQ-STEMMA-HITL-001 and REQ-STEMMA-HITL-002 flipped FAILED->VERIFIED. Residual: UNRES-STEMMA-HITL-001
+    (audit-trail portability) remains OPEN.'
   closed_date: '2026-10-01'
   closed_by: human:curator.001
 - id: UNRES-STEMMA-CORE-003
-  question: 'Canonical status is time-relative: an entity may be legitimately canonicalized before the corpus contains enough entities for meaningful connections, but once more entities exist that *should* connect to it, it owes those connections and must be re-validated. How is this ''canonical now, revalidation owed later'' debt modelled, and how do the validation METHODS themselves evolve as the corpus grows from tens to millions/billions of entities?'
+  question: 'Canonical status is time-relative: an entity may be legitimately canonicalized before the corpus contains
+    enough entities for meaningful connections, but once more entities exist that *should* connect to it, it owes
+    those connections and must be re-validated. How is this ''canonical now, revalidation owed later'' debt modelled,
+    and how do the validation METHODS themselves evolve as the corpus grows from tens to millions/billions of entities?'
   status: OPEN
   blocking: false
-  blocking_impact: 'NOT an immediate precondition. This is a real open question about the meaning of canonical at scale, but it does not block current work: the corpus is a pilot (tens of entities), the gate is executable today, and the parts already ruled (PART 1 debt, PART 3 upgrade path) are implemented and enforced. The conditions this record describes — connection-incompleteness as the graph grows, and method cost at 10^6-10^9 entities — are conditions we cannot yet see from here. Owner ruling 2026-10-01: method change is probabilistic, not deterministic; change happens when the need becomes visible, and we cannot plan what we cannot see. Therefore this record is tracked, not scheduled, and is NOT marked as a prerequisite for L5 or for corpus-scale claims at this time.'
-  owner_reasoning_2026_10_01: 'Recorded verbatim from the owner: ''should connect predicate is hard, i cannot make decision now, i need to do some calculation before i make decision, keep it open for now. also tier threshold also need some time before i make decisions, these are real issues, connection in itself is hard question especially when entity grows and needs completion criteria. It is one of the things i am actively researching, keep it open as well. Debt clearing concept is just new for now, and since connection in itself is hard to master, debt clearance is as well. It is a revision really, addition, so schema also needs to be flexible here and it also needs time. Every decision needs time.'' Consequences for this record: (i) all four remaining items stay OPEN with no target date; (ii) debt clearance is a REVISION (an addition), so the schema must stay flexible there rather than being frozen now; (iii) no urgency framing is attached to any part.'
-  live_observation_2026_10_01: 'Follow-on owner ruling the same day, feeding PART 2 empirically: ''for debt at this small scale, actually block it fully until it is updated and validated. At starting phases, i can handle it, lets see how much entity it takes for debt to cause problem.'' Encoded as ENF-STEMMA-HITL-002.pilot_scale_block {active:true, block_mode:full, relaxes_to:forward_only}. The gate now invalidates any reviewed record carrying outstanding debt, at pilot scale, so the corpus size at which full blocking becomes a burden can be measured directly. That measurement — not a guess made now — is the intended input to the PART 2 tier thresholds; relaxing the block back to forward_only is a one-value owner edit in the enforcement registry. No threshold is set here.'
-  context: 'Owner observation 2026-10-01: ''the canonicalized entity can be upgraded specially in connection because in early entity addition, there might not be enough entity to have connection information but as entity gets added to millions to billions, all entities must get updated, and they must be validated as well by the validator, that means validating towards end or when entities becomes more is more difficult and methods will evolve as well along the way.'' The live corpus illustrates the seed of the problem: conn.000157 (force -> mass) was canonical-worthy only while both endpoints were canonical; the HITL ruling (UNRES-STEMMA-HITL-002) demoted the endpoints and the connection followed. Nothing in the protocol expressed that dependency as a *debt* — it was caught only because a validator rule happened to exist.'
+  blocking_impact: 'NOT an immediate precondition. This is a real open question about the meaning of canonical at
+    scale, but it does not block current work: the corpus is a pilot (tens of entities), the gate is executable
+    today, and the parts already ruled (PART 1 debt, PART 3 upgrade path) are implemented and enforced. The conditions
+    this record describes — connection-incompleteness as the graph grows, and method cost at 10^6-10^9 entities
+    — are conditions we cannot yet see from here. Owner ruling 2026-10-01: method change is probabilistic, not deterministic;
+    change happens when the need becomes visible, and we cannot plan what we cannot see. Therefore this record is
+    tracked, not scheduled, and is NOT marked as a prerequisite for L5 or for corpus-scale claims at this time.'
+  owner_reasoning_2026_10_01: 'Recorded verbatim from the owner: ''should connect predicate is hard, i cannot make
+    decision now, i need to do some calculation before i make decision, keep it open for now. also tier threshold
+    also need some time before i make decisions, these are real issues, connection in itself is hard question especially
+    when entity grows and needs completion criteria. It is one of the things i am actively researching, keep it
+    open as well. Debt clearing concept is just new for now, and since connection in itself is hard to master, debt
+    clearance is as well. It is a revision really, addition, so schema also needs to be flexible here and it also
+    needs time. Every decision needs time.'' Consequences for this record: (i) all four remaining items stay OPEN
+    with no target date; (ii) debt clearance is a REVISION (an addition), so the schema must stay flexible there
+    rather than being frozen now; (iii) no urgency framing is attached to any part.'
+  live_observation_2026_10_01: 'Follow-on owner ruling the same day, feeding PART 2 empirically: ''for debt at this
+    small scale, actually block it fully until it is updated and validated. At starting phases, i can handle it,
+    lets see how much entity it takes for debt to cause problem.'' Encoded as ENF-STEMMA-HITL-002.pilot_scale_block
+    {active:true, block_mode:full, relaxes_to:forward_only}. The gate now invalidates any reviewed record carrying
+    outstanding debt, at pilot scale, so the corpus size at which full blocking becomes a burden can be measured
+    directly. That measurement — not a guess made now — is the intended input to the PART 2 tier thresholds; relaxing
+    the block back to forward_only is a one-value owner edit in the enforcement registry. No threshold is set here.'
+  context: 'Owner observation 2026-10-01: ''the canonicalized entity can be upgraded specially in connection because
+    in early entity addition, there might not be enough entity to have connection information but as entity gets
+    added to millions to billions, all entities must get updated, and they must be validated as well by the validator,
+    that means validating towards end or when entities becomes more is more difficult and methods will evolve as
+    well along the way.'' The live corpus illustrates the seed of the problem: conn.000157 (force -> mass) was canonical-worthy
+    only while both endpoints were canonical; the HITL ruling (UNRES-STEMMA-HITL-002) demoted the endpoints and
+    the connection followed. Nothing in the protocol expressed that dependency as a *debt* — it was caught only
+    because a validator rule happened to exist.'
   scope_parts:
-  - 'PART 1 (revalidation debt): when entity E reaches canonical, record the corpus state (or graph state) at approval. As new entities arrive that should connect to E (same domain/subdomain, relation domain/range satisfied, etc.), E accrues explicit, trackable ''revalidation owed'' debt. E stays canonical but flagged. Debt must be cleared — or explicitly deferred by the owner with a recorded reason — before the next baseline. DECISION TAKEN (owner, 2026-10-01): provisional canonical + revalidation debt, NOT auto-demote-on-new-entity (a single new entity must not cascade into thousands of demotions).'
-  - 'PART 2 (method evolution): validation methods tier by corpus size, with declared thresholds (e.g. exhaustive per-entity below a threshold; sampled + statistical confidence above it; locality/graph-consistency based above a larger threshold). Which tier runs is a function of the measured corpus size and is recorded. The tier thresholds and definitions are themselves governed by ADR so they cannot drift silently. STATUS: OPEN (owner 2026-10-01) — the principle of tiered, ADR-governed methods is accepted in shape, but NO numeric thresholds are fixed and no tier ADR is written. Method change is probabilistic, not deterministic: it will be taken up when the need is visible, not planned in advance. Kept OPEN indefinitely.'
-  - 'PART 3 (upgrade path): an entity canonicalized with no connections must have a defined route to gain connections and be re-validated without being demoted and re-created — i.e. an additive, supersede-don''t-edit-compatible promotion of its connection-completeness, with the new connections themselves HITL-reviewed. DECISION TAKEN (owner, 2026-10-01): the upgrade path is additive via the promotion chain, no demotion or re-creation. What remains OPEN is the definition of connection-complete itself (see item (c) below).'
-  what_is_NOT_decided: 'PART 1 (debt data model): RULED 2026-10-01 — debt lives in record frontmatter (revalidation_debt), visible to the gate, enforced per ADR-0057; implemented (EVID-STEMMA-HITL-009/010). PART 3 (upgrade path): RULED — additive; an entity gains connection-completeness through the promotion chain without demotion or re-creation. STILL OPEN — all four explicitly kept OPEN by owner ruling 2026-10-01, no target date, no urgency: (a) the exact should-connect predicate (candidate generation at scale; naive all-pairs is O(N^2)) — owner needs calculation before deciding; (b) the numeric tier thresholds for PART 2 (method evolution) — fixing a number now would violate the principle that change happens when the need is visible; (c) whether connection-complete is a per-entity boolean, a coverage ratio, or a graph-level invariant — connection completeness is itself hard, especially as entities grow, and is under active research; (d) how a debt-clearing edit interacts with supersede-don''t-edit — debt clearance is genuinely a REVISION (an addition), so the schema must remain flexible here and this needs time.'
-  proposed_resolution: 'PART 1 and PART 3 ruled and implemented 2026-10-01 (ADR-0057, REQ-STEMMA-HITL-003, EVID-STEMMA-HITL-009/010): revalidation debt is a frontmatter object on all canonical datasets, blocks forward promotion, and is surfaced by name during validation; the upgrade path is additive via the promotion chain. NO FURTHER WORK IS SCHEDULED on this record. The four remaining items (a) should-connect predicate, (b) PART 2 tier thresholds, (c) definition of connection-complete, (d) debt-clearing-as-revision — stay OPEN indefinitely, to be taken up when the owner judges the need visible. Each requires owner calculation and time; none is an executor task. The executor may add supporting requirements, an ADR, or a detector ONLY when the owner rules on that specific item. Because (d) is an addition/revision, the schema deliberately keeps revalidation_debt extensible rather than closed to change.'
+  - 'PART 1 (revalidation debt): when entity E reaches canonical, record the corpus state (or graph state) at approval.
+    As new entities arrive that should connect to E (same domain/subdomain, relation domain/range satisfied, etc.),
+    E accrues explicit, trackable ''revalidation owed'' debt. E stays canonical but flagged. Debt must be cleared
+    — or explicitly deferred by the owner with a recorded reason — before the next baseline. DECISION TAKEN (owner,
+    2026-10-01): provisional canonical + revalidation debt, NOT auto-demote-on-new-entity (a single new entity must
+    not cascade into thousands of demotions).'
+  - 'PART 2 (method evolution): validation methods tier by corpus size, with declared thresholds (e.g. exhaustive
+    per-entity below a threshold; sampled + statistical confidence above it; locality/graph-consistency based above
+    a larger threshold). Which tier runs is a function of the measured corpus size and is recorded. The tier thresholds
+    and definitions are themselves governed by ADR so they cannot drift silently. STATUS: OPEN (owner 2026-10-01)
+    — the principle of tiered, ADR-governed methods is accepted in shape, but NO numeric thresholds are fixed and
+    no tier ADR is written. Method change is probabilistic, not deterministic: it will be taken up when the need
+    is visible, not planned in advance. Kept OPEN indefinitely.'
+  - 'PART 3 (upgrade path): an entity canonicalized with no connections must have a defined route to gain connections
+    and be re-validated without being demoted and re-created — i.e. an additive, supersede-don''t-edit-compatible
+    promotion of its connection-completeness, with the new connections themselves HITL-reviewed. DECISION TAKEN
+    (owner, 2026-10-01): the upgrade path is additive via the promotion chain, no demotion or re-creation. What
+    remains OPEN is the definition of connection-complete itself (see item (c) below).'
+  what_is_NOT_decided: 'PART 1 (debt data model): RULED 2026-10-01 — debt lives in record frontmatter (revalidation_debt),
+    visible to the gate, enforced per ADR-0057; implemented (EVID-STEMMA-HITL-009/010). PART 3 (upgrade path): RULED
+    — additive; an entity gains connection-completeness through the promotion chain without demotion or re-creation.
+    STILL OPEN — all four explicitly kept OPEN by owner ruling 2026-10-01, no target date, no urgency: (a) the exact
+    should-connect predicate (candidate generation at scale; naive all-pairs is O(N^2)) — owner needs calculation
+    before deciding; (b) the numeric tier thresholds for PART 2 (method evolution) — fixing a number now would violate
+    the principle that change happens when the need is visible; (c) whether connection-complete is a per-entity
+    boolean, a coverage ratio, or a graph-level invariant — connection completeness is itself hard, especially as
+    entities grow, and is under active research; (d) how a debt-clearing edit interacts with supersede-don''t-edit
+    — debt clearance is genuinely a REVISION (an addition), so the schema must remain flexible here and this needs
+    time.'
+  proposed_resolution: 'PART 1 and PART 3 ruled and implemented 2026-10-01 (ADR-0057, REQ-STEMMA-HITL-003, EVID-STEMMA-HITL-009/010):
+    revalidation debt is a frontmatter object on all canonical datasets, blocks forward promotion, and is surfaced
+    by name during validation; the upgrade path is additive via the promotion chain. NO FURTHER WORK IS SCHEDULED
+    on this record. The four remaining items (a) should-connect predicate, (b) PART 2 tier thresholds, (c) definition
+    of connection-complete, (d) debt-clearing-as-revision — stay OPEN indefinitely, to be taken up when the owner
+    judges the need visible. Each requires owner calculation and time; none is an executor task. The executor may
+    add supporting requirements, an ADR, or a detector ONLY when the owner rules on that specific item. Because
+    (d) is an addition/revision, the schema deliberately keeps revalidation_debt extensible rather than closed to
+    change.'
   authority_required: SOLE_OWNER
   related:
   - REQ-STEMMA-HITL-001
@@ -144,4 +351,16 @@ open_questions:
   related_adr_files:
   - docs/decisions/0045-value-slot.md
   - docs/decisions/0056-adoption-provenance.md
-  domain_note: 'Filed under CORE: the lifecycle of canonical status is a property of the canonical corpus (identity/history), not a new governance domain.'
+  domain_note: 'Filed under CORE: the lifecycle of canonical status is a property of the canonical corpus (identity/history),
+    not a new governance domain.'
+  owner_ruling_2026_10_01_second_pass: 'Owner accepted the statement of this record as correct: it is the one record
+    where OPEN is the intended state. Owner directive: TAKE NO ACTION. The parts that could be ruled are already
+    ruled and implemented (PART 1 revalidation debt via ADR-0057/REQ-STEMMA-HITL-003/EVID-HITL-009/010; PART 3 additive
+    upgrade path; live instrument ENF-STEMMA-HITL-002.pilot_scale_block). The four remaining items (should-connect
+    predicate, PART 2 tier thresholds, definition of connection-complete, debt-clearing-as-revision) are OWNER CALCULATIONS,
+    not executor tasks, and the owner is actively researching them. It is explicitly NOT a prerequisite for L5 or
+    for corpus-scale claims. Closing it would destroy the record of open research; reclassifying it DEFERRED would
+    misstate an active investigation as a shelved one. It is tracked, not scheduled.'
+  executor_note_2026_10_01: No executor work is scheduled on this record. Per Constraint D the executor acts only
+    when the owner rules on a SPECIFIC item (then it may add the supporting requirement, ADR, or detector). Nothing
+    in this drive changes it.

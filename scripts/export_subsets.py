@@ -8,6 +8,8 @@ import json
 import pathlib
 import sys
 
+from atomic_write import write_text_atomic  # sibling script module (scripts/ on sys.path)
+
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 EXPORT_BASE = ROOT / "exports" / "knowledge.json"
 
@@ -22,7 +24,7 @@ def load_base() -> dict:
 def write_export(name: str, payload: dict) -> None:
     path = ROOT / f"exports/knowledge.{name}.json"
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n")
+    write_text_atomic(path, json.dumps(payload, indent=2, ensure_ascii=False) + "\n")
     print(f"OK: {name} -> {payload['entity_count']} entities, {payload['connection_count']} connections -> {path.relative_to(ROOT)}")
 
 

@@ -103,9 +103,9 @@ def check_registries():
         print(f"\nconsumer-registry: version {version} — {len(consumers)} consumers")
         for cid, meta in consumers.items():
             print(f"  - {cid}: {meta.get('label')} — domains={meta.get('domains')} embedding={meta.get('embedding_model')} rag top_k={meta.get('rag',{}).get('top_k')}")
-        assert version == "1.0.0"
+        assert version, "consumer-registry has no version"
         assert "learninghub" in consumers and "professor-j" in consumers
-        print("OK: consumer-registry v1.0.0 — 4 consumers LearningHub PROFESSOR-J general explorer")
+        print(f"OK: consumer-registry v{version} — {len(consumers)} consumers {', '.join(sorted(consumers))}")
     else:
         print("FAIL: consumer-registry.yaml missing")
         return 1

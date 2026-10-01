@@ -70,8 +70,9 @@ def consumer_payload() -> list[tuple[str, str]]:
     """One bundle per consumer in schema/consumer-registry.yaml (sorted)."""
     sys.path.insert(0, str(ROOT / "scripts"))
     import export_consumers as _ec  # noqa: E402  (aliased: no shadowing)
+    consumers, _registry_version = _ec.load_registry()
     out = []
-    for cid in sorted(_ec.load_registry()):
+    for cid in sorted(consumers):
         rel = f"exports/consumers/{cid}/knowledge.{cid}.json"
         if not (ROOT / rel).exists():
             raise BundleError(f"missing consumer bundle {rel} (run scripts/export_consumers.py --all)")

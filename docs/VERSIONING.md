@@ -141,7 +141,7 @@ editing this section's sources, never by a bot PR.
 
 - **exports/knowledge.json:** deterministic `content_hash` (no wall clock), `export_version` 2.2.0; current values are in the file itself and in each release `manifest.json` (see §4 above)
 - **exports/embeddings.jsonl:** content_hash per embedding = sha256(text + model_id + knowledge.json content_hash)[:16], deterministic same content + model → same embeddings, versioned via knowledge.json content_hash + model id, 1 embeddings now
-- **exports/vector_store/:** meta.json with model, dimensions, content_hash, entity_count, created_at deterministic no wall clock, version 1.0.0, type faiss, index_type flat, metric cosine, vectors.npy + ids.json, versioned via content_hash + model id, deterministic
+- **exports/vector_store/:** meta.json with model, dimensions, content_hash, entity_count, created_at deterministic no wall clock, version 1.0.0, type (numpy-flat|json-flat: the store actually written), index_type flat, metric cosine, vectors.npy + ids.json, versioned via content_hash + model id, deterministic
 - **exports/consumers/<consumer>/knowledge.<consumer>.json:** filtered by consumer domains/review_policy/entity_types, content_hash same as main export, deterministic, versioned
 
 ## Version literals forbidden — must read from VERSION.yaml

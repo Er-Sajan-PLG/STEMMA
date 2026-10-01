@@ -18,6 +18,8 @@ import sys
 
 import yaml
 
+from atomic_write import write_text_atomic  # readers never see a partial README
+
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 README = ROOT / "README.md"
 START = "<!-- status-truth:start -->"
@@ -65,7 +67,7 @@ def main() -> int:
             text = pattern.sub(lambda _: block(counts), text, count=1)
         else:
             text = text.rstrip("\n") + "\n\n" + block(counts) + "\n"
-        README.write_text(text, encoding="utf-8")
+        write_text_atomic(README, text)
         print(f"README status block written from live counts: {counts}")
         return 0
 

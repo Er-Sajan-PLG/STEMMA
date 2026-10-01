@@ -230,6 +230,26 @@ default a missing writer to a human id. `hitl_check.py` and `validate.py` reject
 
 ## Quick Start
 
+**A fresh clone is not ready to work in.** Git does not clone `.git/hooks`, and
+`requirements-dev.txt` is separate from `requirements.txt`. Without this setup your pushes are
+**ungated** (the whole gate lives in the pre-push hook) and **18 promotion/debt guards silently
+do not run** — the chain still exits 0, so nothing else warns you:
+
+```bash
+# 0. One-time setup for a fresh clone. Use a venv: a bare `pip install` fails on
+#    PEP 668 systems, and the pre-push hook resolves its interpreter from VIRTUAL_ENV.
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt -r requirements-dev.txt
+python3 scripts/install_hooks.py
+python3 scripts/verify_all.py          # expect exit 0, 0 FAIL
+```
+
+> A cold clone reports **39 OK** where a warm tree reports 42. That gap is **not** a setup
+> problem — three checks are informational and need git-ignored derived artifacts
+> (embeddings, `proposals/`, vector store) that a fresh clone does not have. **`FAIL` is the
+> signal; `OK` is not comparable across environments.**
+
 ```bash
 # 1. Read governance
 cat docs/ARCHITECTURE-V2.md
@@ -252,6 +272,8 @@ python3 tests/repo/test_independence.py
 python3 tests/curation/test_generality.py
 python3 tests/metadata/test_metadata_semantics.py
 ```
+
+See `state/ARCHITECTURE.md` → "Cold start" for what each skipped step costs you.
 
 ---
 
@@ -297,13 +319,79 @@ Prose rules → Schemas → Validation → Tests → CI enforcement
 
 ---
 
+## Multi-Agent Coordination (MACP)
+
+This repository implements the **Multi-Agent Coordination Protocol** (currently **v1.1** —
+the owner-supplied v1.0 text plus **Amendment 1**, appended at the end of the file). The
+canonical protocol text is [`state/PROTOCOL.md`](state/PROTOCOL.md); the coordination state
+lives in [`state/`](state/INDEX.md). Read `state/DASHBOARD.md` and `state/REGISTRY.md` before
+touching the working tree.
+
+**Amendment 1** is worth reading before your first shutdown: it adds the stop-work-first rule
+(A1), a terminal verification loop (A2), the re-open transition (A3), an event-driven
+state-file ownership table (A4), the reproducible-claims principle (A5), and a required
+session-file header schema (A6). A7 (machine-checked drift) is deliberately **deferred**.
+
+**What `state/` is:** coordination memory — current state, who owns what, coordination
+decisions, debt, blockers. It exists so an agent whose context was compacted can recover
+the project's state from the repository instead of from chat history.
+
+**What `state/` is NOT:** a source of specification truth. The boundary is binding:
+
+| Tier | Files | Authority |
+|---|---|---|
+| **1 — coordination** | everything under `state/` | Agents may write freely. |
+| **2 — specification** | `content/`, `connections/`, `sources/`, `spec/`, and **every requirement status** | **Owner only** (`human:curator.001`). |
+
+`state/DECISIONS.md` records *coordination* decisions and must never restate, replace, or
+paraphrase a specification ruling — where a ruling motivates a coordination decision, link
+to it. A requirement status, a `UNRES-` closure, or an `INFERENCE → FACT` promotion is
+recorded **only** in `spec/`, by the owner, per
+[`spec/ROLES_AND_AUTHORITY.md`](spec/ROLES_AND_AUTHORITY.md) **Constraint D**. `state/` is
+never cited as evidence in `spec/`.
+
+The boundary and its reasoning are recorded in
+[`state/conflicts/CONFLICT-001-state-tier2-boundary.md`](state/conflicts/CONFLICT-001-state-tier2-boundary.md).
+
+**Conventions you must follow** (all from `state/PROTOCOL.md`):
+
+- Agent id: **4 alphanumeric characters** (e.g. `A7F3`). Register in `state/REGISTRY.md`.
+- Session file: `state/sessions/YYYYMMDD-HHMM-<AGENT-ID>-<slug>.md`, append-only. It MUST open
+  with the **header schema** — Agent, Session ID, Started, Status, Branch, **Base commit** —
+  and those fields must match your `REGISTRY.md` row (Amendment 1 §A6; enforced by
+  `tests/repo/test_state_tree.py`).
+- **Sessions are closed by the owner, not the agent** (DEC-007). Finish a work unit by logging
+  it and reconciling `DASHBOARD.md`, then keep `status: active` and keep appending. Never write
+  `[END]` on your own initiative.
+- Plan file: `state/plans/agent-<AGENT-ID>-<slug>.md` — **deleted** when complete.
+- **Write isolation:** while working, write only to your own session file. `DASHBOARD.md`,
+  `REGISTRY.md`, and `INDEX.md` are written at registration and at shutdown, not during work.
+- Log with **event tags** (`[START]`, `[DISCOVERY]`, `[DECISION]`, `[DEBT]`, `[BLOCKER]`, …)
+  so sessions stay greppable via `state/INDEX.md`.
+- Check `DASHBOARD.md`'s **Last Reconciled** stamp: `< 24 h` trust it · `24–48 h` verify ·
+  `> 48 h` reconcile before working.
+
+**Always end clean.** At shutdown: finish the session log, update `DASHBOARD.md` (including
+its Last Reconciled stamp), add your row to `state/INDEX.md`, release `files_owned` in
+`state/REGISTRY.md`, delete your plan if complete, and commit the state changes. Never leave
+uncommitted changes.
+
+`tests/repo/test_state_tree.py` enforces all of the above mechanically, and — most
+importantly — that `state/DASHBOARD.md`'s counts still equal the live registries. A
+dashboard that disagrees with `spec/` is worse than no dashboard.
+
+---
+
 ## Session Protocol
 
 1. Read `AGENTS.md`, `docs/ARCHITECTURE-V2.md`, `docs/GOVERNANCE.md`
-2. Classify work: NOW / SEAM / LATER / OUT
-3. State short plan before changing anything
-4. Run `python3 scripts/validate.py`
-5. Finish with summary and flag human decisions
+2. Read `state/DASHBOARD.md`, `state/REGISTRY.md`, `state/BLOCKERS.md`, then `state/INDEX.md`
+   to navigate further (MACP §6)
+3. Classify work: NOW / SEAM / LATER / OUT
+4. State short plan before changing anything
+5. Run `python3 scripts/validate.py`
+6. Finish with summary and flag human decisions
+7. Close the documentation loop (`docs.py impact → sync → check`) and end clean per MACP §3
 
 ---
 
