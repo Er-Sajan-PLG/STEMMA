@@ -96,7 +96,7 @@
 2. **Owner:** decide `tmp/fix-release-exports` (BLK-006). It is the only unmerged branch; cutting
    a release is not cleanup, so it was left alone.
 3. **Then:** `UNRES-STEMMA-CORE-003` and `REQ-STEMMA-OPS-002` both resolve at **release time**.
-4. **Candidate work with no blocker:** `DEBT.md` holds **2 open** (003, 004) and **7 resolved**. DEBT-003 is an accepted residual (an ordering property; atomicity
+4. **Candidate work with no blocker:** `DEBT.md` holds **2 open** (003, 004) and **8 resolved**. DEBT-003 is an accepted residual (an ordering property; atomicity
    cannot fix it). DEBT-004 is **not a defect** — nothing in-repo reads the vector-store files.
 
 ## Environment Facts (re-verified by inspection 2026-10-01, not assumed)

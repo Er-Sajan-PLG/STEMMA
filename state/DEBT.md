@@ -425,3 +425,50 @@ documented test counts, or sanction a narrow guard.
 
 **Verified:** the documented count now matches (`16/16`); the cold-start steps were re-run
 end-to-end against `main` and pass (see the session log, 2026-10-01T15:03Z).
+
+---
+
+## DEBT-010 — A test file could not run in isolation; it depended on another module's import order (RESOLVED)
+
+**Found:** 2026-10-01 by `A7F3` · **Resolved:** same session
+**Severity:** medium — a latent failure that would have surfaced as an unrelated-looking error
+
+**What was wrong.** `tests/repo/test_docs_engine.py` loads `scripts/docs.py` at module level via
+`importlib`. `docs.py` does a bare `from atomic_write import write_text_atomic`, which resolves
+only when `scripts/` is on `sys.path`. **Ten other test modules insert it for exactly that
+reason; this one did not.**
+
+Consequence, measured:
+
+```
+$ pytest tests/repo/test_docs_engine.py
+ModuleNotFoundError: No module named 'atomic_write'
+no tests collected, 1 error
+```
+
+```
+$ pytest tests/          # full suite
+365 passed               # ...and test_docs_engine's 23 tests are collected and pass
+```
+
+**Why the full suite hid it.** pytest collects `tests/provenance/*` before `tests/repo/*`, and
+`tests/provenance/test_agents_external_ids.py` does `sys.path.insert(0, str(ROOT / "scripts"))`.
+By the time `test_docs_engine.py` is imported, the path is already there. The file was passing
+**because of another module's side effect**, not on its own merits.
+
+**Why that is worse than a broken test.** The dependency was invisible and unowned. Had
+`tests/provenance/` been moved, renamed, or reordered — or had the file simply been run alone
+while iterating — it would have failed with `ModuleNotFoundError` inside `scripts/docs.py`, a
+message pointing at a file the test only *loads*. The obvious response would have been to debug
+`docs.py`, which is correct as a script.
+
+**Fix.** `sys.path.insert(0, str(ROOT / "scripts"))` before loading `docs.py`, matching the
+pattern the other ten modules use. Verified: the file alone now runs **23 passed**; the full
+suite is **365 passed**.
+
+**Found by** sweeping for test files with a `__main__` runner but no pytest-collectable tests.
+The sweep produced two false positives first (files using `sys.exit(main())`, which my grep
+missed) and one wrong intermediate conclusion (that five files never run — four of them do, and
+my `^def test_` grep was simply unreliable). **The empirical check — `pytest --collect-only` —
+was right where my greps were wrong**; worth remembering that a heuristic that finds *nothing*
+may be a broken heuristic rather than a clean repository.
