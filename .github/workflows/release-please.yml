@@ -3,6 +3,12 @@ on:
     branches:
       - main
 
+# The default GITHUB_TOKEN cannot open release PRs here: the STEMORG2026 org
+# policy forbids Actions from creating or approving pull requests, and the
+# repo-level `can_approve_pull_request_reviews` flag cannot override it
+# (PUT .../actions/permissions/workflow returns 409). So release-please is
+# handed a fine-grained PAT instead. `contents: write` + `pull-requests: write`
+# stay declared for the fallback path; the PAT carries its own grants.
 permissions:
   contents: write
   pull-requests: write
@@ -13,8 +19,29 @@ jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
+      # RELEASE_PLEASE_TOKEN is a fine-grained PAT with `contents: write` and
+      # `pull-requests: write` on this repository. It MUST NOT fall back to the
+      # built-in token silently: that path fails with a 403 at the very last
+      # step (PR creation) after the release branch has already been rewritten,
+      # which leaves an orphaned `release-please--branches--main` branch behind
+      # and masks the real cause. Fail fast with an actionable message instead.
+      - name: Require the release PAT
+        env:
+          RELEASE_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${RELEASE_TOKEN:-}" ]; then
+            echo "FAIL: the RELEASE_PLEASE_TOKEN secret is not set." >&2
+            echo "      The org (STEMORG2026) forbids Actions from creating pull" >&2
+            echo "      requests, so the built-in GITHUB_TOKEN cannot open release PRs." >&2
+            echo "      Create a fine-grained PAT with contents:write + pull-requests:write" >&2
+            echo "      on this repo and store it as the RELEASE_PLEASE_TOKEN secret:" >&2
+            echo "        gh secret set RELEASE_PLEASE_TOKEN --repo STEMORG2026/STEMMA" >&2
+            exit 1
+          fi
+
       - uses: googleapis/release-please-action@v5
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
