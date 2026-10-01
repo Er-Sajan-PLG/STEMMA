@@ -45,7 +45,12 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install deps
-        run: pip install -r requirements.txt
+        # requirements-dev.txt includes -r requirements.txt and adds pytest:
+        # scripts/verify_all.py runs tests/repo/test_promotion_chain.py via pytest
+        # (ADR-0057), so the release verification step needs pytest installed, not
+        # just the runtime deps. Tagging v3.0.0-rc2 was the first release to hit
+        # this: v3.0.0-rc1 predates the promotion chain being wired into the gate.
+        run: pip install -r requirements-dev.txt
 
       - name: Classify tag and check it matches VERSION
         id: tag
