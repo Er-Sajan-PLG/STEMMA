@@ -160,11 +160,29 @@ def test_legacy_compat_view_during_co_release_window():
 
 
 if __name__ == "__main__":
-    test_version_source_exists_and_matches_export()
-    test_no_version_literals_in_exporters()
-    test_export_regeneration_is_byte_identical()
-    test_report_regeneration_is_byte_identical()
-    test_content_hash_tracks_canonical_content()
-    test_export_contract_required_members()
-    test_legacy_compat_view_during_co_release_window()
-    print("ALL DETERMINISTIC EXPORT TESTS PASS")
+    # Propagate failure: a runner that prints a banner and exits 0 regardless
+    # would defeat the gate when this file is invoked directly by
+    # scripts/verify_all.py (it used to do exactly that — a green check for a
+    # test file that did not necessarily pass). Mirrors test_gate_fail_closed.py.
+    _checks = [
+        test_version_source_exists_and_matches_export,
+        test_no_version_literals_in_exporters,
+        test_export_regeneration_is_byte_identical,
+        test_report_regeneration_is_byte_identical,
+        test_content_hash_tracks_canonical_content,
+        test_export_contract_required_members,
+        test_legacy_compat_view_during_co_release_window,
+    ]
+    _failed = 0
+    for _fn in _checks:
+        try:
+            _fn()
+            print(f"PASS: {_fn.__name__}")
+        except Exception:
+            import traceback
+            _failed += 1
+            print(f"FAIL: {_fn.__name__}")
+            traceback.print_exc()
+    print(f"{'FAIL' if _failed else 'PASS'}: deterministic export tests "
+          f"({len(_checks) - _failed}/{len(_checks)} checks)")
+    sys.exit(1 if _failed else 0)
