@@ -38,6 +38,10 @@ def main() -> int:
     # A downloaded release extracted anywhere (cwd-relative) or release/<bundle> (repo-relative).
     given = pathlib.Path(args.bundle_dir)
     bundle = given if given.is_absolute() or given.exists() else ROOT / given
+    # Resolve to absolute before use: gpg is invoked with cwd=bundle, so a
+    # relative --output/input path would be resolved against the bundle dir
+    # (e.g. `sign-v3.0.0/SHA256SUMS.txt` -> `sign-v3.0.0/sign-v3.0.0/...`).
+    bundle = bundle.resolve()
     sums = bundle / "SHA256SUMS.txt"
     sig = bundle / "SHA256SUMS.sig"
     if not bundle.exists() or not sums.exists():

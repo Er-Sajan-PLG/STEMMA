@@ -25,6 +25,13 @@ exports/vector_store/
 # legacy R6 bundles already tracked stay tracked.
 release/R6-bundle-*/
 
+# Owner-signing staging (docs/API.md "Owner signature"):
+# `gh release download $TAG -D "sign-$TAG" ...` creates ./sign-<tag>/ holding the
+# downloaded bundle plus the locally produced SHA256SUMS.sig. It is working state,
+# never published and never committed — the .sig is uploaded to the release, not
+# to git.
+sign-*/
+
 # editable installs (pip install -e adapters/python)
 *.egg-info/
 
