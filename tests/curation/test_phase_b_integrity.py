@@ -126,8 +126,18 @@ def _write_fixture(tmp: pathlib.Path) -> pathlib.Path:
     root = tmp / f"repo-{len(list(tmp.glob('repo-*')))}"
     (root / "schema").mkdir(parents=True)
     (root / "content" / "physics").mkdir(parents=True)
+    (root / "spec" / "machine-readable").mkdir(parents=True)
     (root / "schema" / "agent-registry.yaml").write_text(
-        "version: '0.1'\nagents:\n- id: human:reviewer.test\n  class: human\n  display_name: Test reviewer\n  external_id: null\n  status: active\n  note: test fixture\n",
+        "version: '0.1'\nagents:\n- id: human:reviewer.test\n  class: human\n  display_name: Test reviewer\n  external_id: null\n  status: active\n  roles: [validator, independent_validator]\n  note: test fixture\n",
+        encoding="utf-8")
+    # review_entity.py resolves the required chain and the debt block mode from the
+    # enforcement registry; the fixture must supply one so the CLI can run.
+    (root / "spec" / "machine-readable" / "enforcement_rules.yaml").write_text(
+        "rules_version: 1\nrules:\n"
+        "- id: ENF-STEMMA-HITL-001\n  rule: {kind: min_stage_gap, min_days: 1}\n"
+        "- id: ENF-STEMMA-HITL-002\n  rule: {kind: debt_blocks_status, block_mode: full}\n"
+        "- id: ENF-STEMMA-HITL-003\n  rule: {kind: independence_or_waiver}\n"
+        "  board_waiver: {active: true, required_stages_while_waived: [validator, independent_validator]}\n",
         encoding="utf-8")
     (root / "content" / "physics" / "test-concept.md").write_text(
         "---\nid: stemma:phys.test-concept\ntype: concept\nname: Test Concept\ndomain: physics\nstatus: draft\ndefinition: A test concept.\nprovenance:\n  ai_drafted: true\n---\n\nBody.\n",
@@ -145,6 +155,13 @@ def test_entity_review_transitions(tmp_path: pathlib.Path):
         assert "final canonicalizer" in str(exc) or "single step" in str(exc)
     else:
         raise AssertionError("single-act canonicalize must be forbidden")
+    # The board stage is waived: `--stage board` is refused outright.
+    try:
+        promote(root, "stemma:phys.test-concept", "human:reviewer.test", stage="board")
+    except ValueError as exc:
+        assert "not part of the current chain" in str(exc) or "waived" in str(exc)
+    else:
+        raise AssertionError("board stage must be refused while the board waiver holds")
     # Stage 1 (validator) — day 1.
     e = promote(root, "stemma:phys.test-concept", "human:reviewer.test", when="2026-09-07T00:00:00+00:00")
     assert e["status"] == "validator_validated"
@@ -156,20 +173,23 @@ def test_entity_review_transitions(tmp_path: pathlib.Path):
         assert "TIME GATE" in str(exc)
     else:
         raise AssertionError("same-day consecutive stages must be forbidden")
-    # Day 2 — independent validator.
+    # Day 2 — independent validator, which is the terminal stage under the waiver,
+    # so the status is canonical.
     e = promote(root, "stemma:phys.test-concept", "human:reviewer.test", when="2026-09-08T00:00:00+00:00")
-    assert e["status"] == "independently_validated"
-    # Day 3 — board (records the interim waiver + a board member).
-    e = promote(root, "stemma:phys.test-concept", "human:reviewer.test", when="2026-09-09T00:00:00+00:00")
-    assert e["status"] == "board_approved"
-    board = e["provenance"]["promotion_history"][-1]
-    assert board["stage"] == "board"
-    assert board["board_members"] == ["human:reviewer.test"]
-    assert board["independence_waiver"]["sanctioned_by"]
+    assert e["status"] == "canonical"
+    last = e["provenance"]["promotion_history"][-1]
+    assert last["stage"] == "independent_validator"
+    # The chain is complete: a further stage is refused.
+    try:
+        promote(root, "stemma:phys.test-concept", "human:reviewer.test", when="2026-09-09T00:00:00+00:00")
+    except ValueError as exc:
+        assert "already completed" in str(exc)
+    else:
+        raise AssertionError("a completed chain must not accept another stage")
     # No helper/underscore leakage into the file.
     raw = (root / "content" / "physics" / "test-concept.md").read_text(encoding="utf-8")
     assert "_file" not in raw
-    print("PASS: entity review transitions (staged chain + time gate)")
+    print("PASS: entity review transitions (waived chain + time gate)")
 
 
 def test_entity_review_rejects_non_human_reviewer(tmp_path: pathlib.Path):
