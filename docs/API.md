@@ -107,9 +107,12 @@ Builds are reproducible: rebuilding a tag with
 `SOURCE_DATE_EPOCH=$(git log -1 --format=%ct) python3 scripts/build_release_bundle.py --release-tag <tag>`
 yields byte-identical assets.
 
-**Status:** until the owner records `docs/decisions/r6-identifier-base.md`
-(Amendment 0001), only pre-releases (`-rcN`) publish, marked
-`PENDING-PUBLICATION`; a final tag fails at `scripts/publication_gate.py`.
+**Status:** the owner has recorded `docs/decisions/r6-identifier-base.md`
+(Amendment 0001), so `manifest.release_status` reads
+`PUBLISHABLE (identifier-base decision recorded)`. Both pre-releases and final
+releases carry that status — the status follows the *decision record*, not the
+tag type. What a final tag adds is `scripts/publication_gate.py`: it must pass
+for `vX.Y.Z`, and a pre-release skips it.
 
 **Owner signature (manual, second layer).** `-rcN` tags are **CI-attested
 only** (Sigstore) and carry no owner signature. A **final** tag is never
