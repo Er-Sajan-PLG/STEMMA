@@ -1,7 +1,7 @@
 {
   "export_version": "2.2.0",
   "schema_version": "1.3.0",
-  "content_hash": "sha256:cbf17acdb11cb78dfa15171580dabe1000731a4f9ae4d3e6f11c4b910903e157",
+  "content_hash": "sha256:8d3315d0f50b81722c23cc5d43e0a475b73341ade62922baec121335e26caab7",
   "kernel_version": "3.0.0",
   "relation_registry_version": "1.0.0",
   "relation_registry": {
@@ -1071,7 +1071,7 @@
       "name": "Conservation of Energy",
       "domain": "physics",
       "subdomain": "mechanics",
-      "status": "canonical",
+      "status": "draft",
       "definition": "Conservation of energy: for an isolated system the total energy — summed over all forms (kinetic, potential, thermal, chemical, nuclear, ...) — remains constant in time; energy transforms between forms but is neither created nor destroyed. Historical line: Mayer (1842), Joule (1843), Helmholtz (1847, 'Über die Erhaltung der Kraft'); standard statement per Halliday, Resnick, Walker 12th ed., Ch 8.",
       "symbol": "E_total = const",
       "same_dimensional_quantities": null,
@@ -1086,9 +1086,7 @@
         "source": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 8 (potential energy and conservation of energy in isolated systems).",
         "link": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511",
         "original_author": "Mayer, Joule, Helmholtz",
-        "retrieved_at": "2026-09-22",
-        "reviewer": "human:curator.001",
-        "reviewed_at": "2026-09-23T04:35:20.283368+00:00"
+        "retrieved_at": "2026-09-22"
       },
       "source_refs": [
         "stemma:src.halliday-resnick-walker-12th"
@@ -1125,7 +1123,7 @@
       "name": "Force",
       "domain": "physics",
       "subdomain": "mechanics",
-      "status": "canonical",
+      "status": "draft",
       "definition": "Force is the derived physical quantity of mechanical interaction: the net force on a body equals the time rate of change of its linear momentum, F = dp/dt (Newton, Principia Lex II); for constant mass this reduces to F = m a. Force is a vector quantity — it has magnitude and direction and adds by vector addition (net force = vector sum). SI derived unit: the newton, N = kg m s-2. Reference: Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5; Newton, Principia (1687), Lex II.",
       "quantity_kind": "derived",
       "tensor_character": "vector",
@@ -1151,9 +1149,7 @@
         "source": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5: net force ΣF = m a; Principia (1687), Lex II: mutationem motus proportionalem esse vi motrici impressae.",
         "link": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511",
         "original_author": "Halliday, Resnick, Walker",
-        "retrieved_at": "2026-09-22",
-        "reviewer": "human:curator.001",
-        "reviewed_at": "2026-09-23T04:35:19.890893+00:00"
+        "retrieved_at": "2026-09-22"
       },
       "source_refs": [
         "stemma:src.halliday-resnick-walker-12th",
@@ -1214,7 +1210,7 @@
       "name": "Length",
       "domain": "physics",
       "subdomain": "measurement-units",
-      "status": "canonical",
+      "status": "draft",
       "definition": "Length is the SI base physical quantity of spatial extent — the measure of one-dimensional distance between two points in space. The metre is the unit in which length is expressed: 1 m = the length of the path travelled by light in vacuum during 1/299,792,458 of a second (c fixed exact). Agreed per BIPM SI Brochure 9th ed. (2019), base quantities table; §2.3.1.",
       "symbol": "L",
       "unit": "metre (m)",
@@ -1239,9 +1235,7 @@
         "source": "BIPM SI Brochure 9th ed. (2019): among the seven SI base quantities, length with base unit metre; metre defined by fixed numerical value of c in vacuum (2.3.1).",
         "link": "https://www.bipm.org/en/publications/si-brochure",
         "original_author": "BIPM",
-        "retrieved_at": "2026-09-22",
-        "reviewer": "human:curator.001",
-        "reviewed_at": "2026-09-23T04:35:19.964859+00:00"
+        "retrieved_at": "2026-09-22"
       },
       "source_refs": [
         "stemma:src.nist-si-brochure-9th"
@@ -1261,7 +1255,7 @@
       "name": "Mass",
       "domain": "physics",
       "subdomain": "measurement-units",
-      "status": "canonical",
+      "status": "draft",
       "definition": "Mass is the SI base physical quantity measuring a body's inertia and its quantity of matter. Its SI unit, the kilogram, is defined by taking the fixed numerical value of the Planck constant h to be exactly 6.62607015e-34 when expressed in J s = kg m2 s-1, with the metre and second as separately defined (SI 2019 redefinition). Agreed per BIPM SI Brochure 9th ed. (2019) §2.3.1.",
       "symbol": "M",
       "unit": "kilogram (kg)",
@@ -1283,9 +1277,7 @@
         "source": "BIPM SI Brochure 9th ed. (2019): mass among the seven SI base quantities; kilogram defined by fixed h = 6.62607015e-34 kg m2 s-1 (2.3.1).",
         "link": "https://www.bipm.org/en/publications/si-brochure",
         "original_author": "BIPM",
-        "retrieved_at": "2026-09-22",
-        "reviewer": "human:curator.001",
-        "reviewed_at": "2026-09-23T04:35:20.044882+00:00"
+        "retrieved_at": "2026-09-22"
       },
       "source_refs": [
         "stemma:src.nist-si-brochure-9th"
@@ -1363,7 +1355,7 @@
       "name": "Newton's Second Law",
       "domain": "physics",
       "subdomain": "mechanics",
-      "status": "canonical",
+      "status": "draft",
       "definition": "Newton's second law of motion: the net external force on a system equals the time rate of change of its total linear momentum, ΣF = dp/dt; for constant mass this reduces to F = m a. Valid in classical (non-relativistic) mechanics in inertial reference frames. Stated by Isaac Newton as Lex II in Philosophiae Naturalis Principia Mathematica (1687); standard modern formulation per Halliday, Resnick, Walker 12th ed., Ch 5.",
       "symbol": "F_net = m a",
       "same_dimensional_quantities": null,
@@ -1378,9 +1370,7 @@
         "source": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5 (Newton second law, force and momentum); Principia (1687), Lex II.",
         "link": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511",
         "original_author": "Isaac Newton",
-        "retrieved_at": "2026-09-22",
-        "reviewer": "human:curator.001",
-        "reviewed_at": "2026-09-23T04:35:20.201837+00:00"
+        "retrieved_at": "2026-09-22"
       },
       "source_refs": [
         "stemma:src.halliday-resnick-walker-12th",
@@ -1459,7 +1449,7 @@
       "name": "Time",
       "domain": "physics",
       "subdomain": "measurement-units",
-      "status": "canonical",
+      "status": "draft",
       "definition": "Time is the SI base physical quantity of duration and temporal sequence. Its SI unit, the second, is defined by taking the fixed numerical value of the caesium frequency ΔνCs — the unperturbed ground-state hyperfine transition frequency of the caesium-133 atom — to be exactly 9,192,631,770 hertz (Hz = s-1): one second is the duration of 9,192,631,770 periods of the radiation corresponding to that transition. Exact per BIPM SI Brochure 9th ed. (2019) §2.3.1.",
       "symbol": "T",
       "unit": "second (s)",
@@ -1482,9 +1472,7 @@
         "source": "BIPM SI Brochure 9th ed. (2019): time among the seven SI base quantities; second defined by fixed ΔνCs = 9,192,631,770 Hz (2.3.1).",
         "link": "https://www.bipm.org/en/publications/si-brochure",
         "original_author": "BIPM",
-        "retrieved_at": "2026-09-22",
-        "reviewer": "human:curator.001",
-        "reviewed_at": "2026-09-23T04:35:20.127988+00:00"
+        "retrieved_at": "2026-09-22"
       },
       "source_refs": [
         "stemma:src.nist-si-brochure-9th"
@@ -1608,7 +1596,7 @@
         "status": "active",
         "type": "asserted",
         "review": {
-          "status": "canonical"
+          "status": "unreviewed"
         },
         "confidence": 1.0,
         "confidence_basis": "expert_review"
@@ -1680,6 +1668,13 @@
             "reviewer": "human:curator.001",
             "at": "2026-09-23T04:35:35.389605+00:00",
             "reason": "pilot canonicalization"
+          },
+          {
+            "from": "canonical",
+            "to": "unreviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-10-01T00:00:00+00:00",
+            "reason": "Demoted per owner ruling 2026-10-01 (UNRES-STEMMA-HITL-002): endpoints stemma:phys.force and stemma:phys.mass are LLM-written (llm:coding-agent.001) and were demoted to draft. A canonical connection may not cite draft entities (validate.py HITL coupling). Restore to canonical once both endpoints are human-reviewed."
           }
         ]
       },

@@ -1,83 +1,116 @@
-# Canonical open-question records — mirrors spec/OPEN_QUESTIONS.md
 open_questions:
-  - id: UNRES-STEMMA-CORE-001
-    question: "IRI base for entity/conn URIs unresolved (stemma:* vs domain-bound http/https)."
-    status: OPEN
-    blocking: false
-    disposition: "PARTIALLY RESOLVED (ADR-0053 + Amendment 0001, 2026-09-22): canonical
-      stemma: URN identity and publisher (individual Sajan) reaffirmed binding; published-PID
-     /resolution base (w3id.org proposed) UNDER REVIEW after owner-directed slow research
-      (docs/PERSISTENT-IDENTIFIER-BRIEF.md) and DEFERRED to the R6 projection-publication
-      stage — reversible pre-publication. Non-actions: no slug claim, no ID changes, no
-      resolution infra. Status trail: OPEN -> CLOSED (quick ruling) -> OPEN/DEFERRED (amended)."
-    proposed_resolution: "At R6: owner reaffirms/amends/supersedes ADR-0053(b)."
-    authority_required: SOLE_OWNER
-    related: [ADR-0002, ADR-0027, EVID-STEMMA-CORE-002]
-  - id: UNRES-STEMMA-HITL-001
-    question: "HITL audit trail (workflow/) is git-ignored — review evidence not repository-portable; provenance relies on local state + declared metadata."
-    status: OPEN
-    blocking: true
-    blocking_impact: "Trust claim non-verifiable on fresh clone — affects REQ-STEMMA-HITL-001 verification"
-    proposed_resolution: "Owner decides: commit workflow/ (with redaction rules), or accept local-state provenance."
-    authority_required: SOLE_OWNER
-    related: [EVID-STEMMA-HITL-002, REQ-STEMMA-HITL-001, ADR-0043]
-  - id: UNRES-STEMMA-EXP-001
-    question: "Consumer learninghub export has 0 entities — behavior is structurally correct given all-draft corpus, but intended behavior is only CLAIMed."
-    status: OPEN
-    blocking: false
-    proposed_resolution: "Owner confirms emptiness as expected behavior with review-policy contract; add assertion test thereafter."
-    authority_required: SOLE_OWNER
-    related: [EVID-STEMMA-EXP-006, EVID-STEMMA-CORE-004, REQ-STEMMA-EXP-004]
-  - id: UNRES-STEMMA-INTEG-001
-    question: "Consumer convergence: which consumers remain concrete/strawman vs implemented-integrations; LearningHub semantic-web/RDF import unresolved (ADR-0044)."
-    status: OPEN
-    blocking: false
-    proposed_resolution: "Post-pilot: owner designates integration owners outside recovery scope."
-    authority_required: SOLE_OWNER
-    related: [EVID-STEMMA-INTEG-001, EVID-STEMMA-INTEG-002, ADR-0044]
-  - id: UNRES-STEMMA-RAG-001
-    question: "Fake/hash-fallback embedding determinism accepted? Environment lacks model downloads; derived-layer semantics for real vectors undefined at pilot scope."
-    status: OPEN
-    blocking: false
-    proposed_resolution: "Second pilot scope on derived layer; not blocking foundation slice."
-    authority_required: SOLE_OWNER
-    related: [EVID-STEMMA-EXP-003, CONFLICT-STEMMA-EXP-001]
-  - id: UNRES-STEMMA-OPS-001
-    question: "Does any rights/licensing review exist for book*-textbook source bodies (excerpt scale, attribution, licence)?"
-    status: OPEN
-    blocking: false
-    proposed_resolution: "Owner supplies rights documentation or marks acceptable-risk; license-compliance then an XC amendment."
-    authority_required: SOLE_OWNER
-    related: [EVID-STEMMA-CORE-005, XC-6]
-  - id: UNRES-STEMMA-SCH-001
-    question: "Should the export gain a dataset-scoped, declarative validation layer (entities+connections+sidecars together) beyond per-object JSON Schema?"
-    status: OPEN
-    blocking: false
-    proposed_resolution: "Noted, not actioned (owner ruling 2026-10-01, SOTA F4); revisit when the export gains a second real consumer or SHACL-DS-style tooling matures."
-    authority_required: SOLE_OWNER
-    related: [REQ-STEMMA-SCH-001, REQ-STEMMA-EXP-002, EVID-STEMMA-SCH-005]
-  - id: UNRES-STEMMA-CORE-002
-    question: "Should the generality guard (test_generality.py SCOPING_FIELDS) drop its ^...$ anchors so it also rejects prefixed/suffixed scoping keys (grade_level, grade_band, curriculum_scope, target_grade)?"
-    status: CLOSED
-    blocking: false
-    disposition: "RESOLVED (owner ruling 2026-10-01): option (c) — WIDEN the guard, then mutation-test it. Implemented the same day. SCOPING_FIELDS (the ^...$-anchored regex) was replaced by a token-based matcher: `_scoping_tokens` splits an identifier on separators/camelCase/digits, `_joined_token_forms` restores contiguous n-grams so multi-word names (key_stage, learning_objectives) match in either spelling, and `_is_scoping_field` matches whole tokens (never substrings, so upgrade_notes/multigrade stay legitimate). `level` is handled specially: only an education-qualified level (edu_level, grade_level) is a scoping claim; trophic_level/energy_level/sea_level are not. The guard now catches 28 formerly-missed variants. Three new tests: catches_prefixed_variants, does_not_overreach (negative control), and widened_guard_is_enforced_end_to_end. Non-vacuity proven by mutation — reverting the matcher to the anchored form turns exactly those tests red (EVID-STEMMA-CORE-010). REQ-STEMMA-CORE-004 re-verified: FAILED -> VERIFIED."
-    proposed_resolution: "Executor finding, 2026-10-01 (EVID-STEMMA-CORE-006/007): the guard is ^...$-anchored and therefore matches only exact key names. The gap is defence-in-depth only — concept.schema.json's additionalProperties:false still rejects such keys at the validator (exit 1), so no violation can ship. Fixing the guard is an owner decision; the executor may execute verification and record results but not self-approve a code change and then mark it VERIFIED. Options: (a) widen the pattern to a prefix match; (b) leave it, relying on the schema layer; (c) widen and add a permanent mutation test that asserts the guard itself rejects prefixed keys."
-    authority_required: SOLE_OWNER
-    related: [REQ-STEMMA-CORE-004, EVID-STEMMA-CORE-006, EVID-STEMMA-CORE-007, EVID-STEMMA-CORE-010]
-  - id: UNRES-STEMMA-GATE-001
-    question: "The all-green merge gate is not a required status check on main: should 'Full Test Suite (pytest)' and 'All Checks Green — Nothing Bad Gets Merged' be added to the repository's required checks so a red suite actually blocks a merge?"
-    status: CLOSED
-    blocking: false
-    disposition: "RESOLVED (owner action 2026-10-01, same day). The owner added both contexts to the required status checks. Re-inspection of the active main ruleset (22215824) now shows 7 required checks, including 'All Checks Green — Nothing Bad Gets Merged' and 'Full Test Suite (pytest)', with strict_required_status_checks_policy = true. Each required context was compared byte-for-byte against the status names CI actually reports (run 36316235760) and both EXACT MATCH (including the em-dash), so the checks bind rather than silently never matching. The failure path was already fail-closed: all-green does 'exit 1' on any non-success dependency including test-suite, so a red suite now genuinely blocks a merge. REQ-STEMMA-GATE-003 re-verified: FAILED -> VERIFIED (EVID-STEMMA-GATE-018)."
-    blocking_impact: "Was blocking REQ-STEMMA-GATE-003. Note for the record: the repo's legacy branch-protection endpoint (branches/main/protection) does NOT reflect ruleset-based rules — it still lists only the original five. The authoritative source is the effective-rules endpoint (repos/.../rules/branches/main), which is what a future verifier should query."
-    proposed_resolution: "Owner action in repository settings (the executor has no authority to change branch protection, and changing it is a governance act, not a code change): add 'Full Test Suite (pytest)' and 'All Checks Green — Nothing Bad Gets Merged' to the required status checks for main. Adding all-green alone is sufficient once it is the single aggregate gate, since it already asserts every other job's result; adding the pytest job as well keeps the failure legible when the suite is the cause. After the change, re-verify GATE-003 by inspection of the required-check list."
-    authority_required: SOLE_OWNER
-    related: [REQ-STEMMA-GATE-003, EVID-STEMMA-GATE-016, EVID-STEMMA-GATE-017, EVID-STEMMA-GATE-018]
-  - id: UNRES-STEMMA-HITL-002
-    question: "HITL enforcement is vacuous in CI and violated in the corpus: `hitl_check.py --check-workflow` (the chain's own invocation, verify_all.py:31) audits a git-ignored, empty workflow/ directory and exits 0 with 'nothing to check', while 6 of 9 canonical entities declare an LLM writer. `hitl_check.py --all` returns exit 1 with '9/9 entities fail HITL'. How should human review be enforced?"
-    status: OPEN
-    blocking: true
-    blocking_impact: "Blocks REQ-STEMMA-HITL-001 and REQ-STEMMA-HITL-002. The claim 'AI-drafted content remains draft until a named human reviews it' is currently not backed by any gate that runs in CI over content/."
-    proposed_resolution: "Owner decision, three separable parts. (1) SCOPE: should the chain run hitl_check in a mode that covers content/ (e.g. --all), not only workflow/? Note this would currently FAIL the build, so it needs a migration plan. (2) EXISTING ENTITIES: 6 canonical entities (conservation-energy, force, length, mass, newtons-second-law, time) carry writer=llm:coding-agent.001. Either they were in fact human-reviewed and the metadata is wrong (then correct the metadata and record the review), or they were not reviewed and should be demoted to draft until they are. Deciding this is a governance act reserved to the owner — the executor will not rewrite provenance unilaterally. (3) ENFORCEMENT LAYER: validate.py's human-reviewer rule (check_connection_agents) applies only to connections/, never to content/; should the analogous rule be added for canonical content entities? Related: UNRES-STEMMA-HITL-001 (audit-trail portability) must be resolved too, otherwise any HITL evidence stays non-verifiable on a fresh clone."
-    authority_required: SOLE_OWNER
-    related: [REQ-STEMMA-HITL-001, REQ-STEMMA-HITL-002, EVID-STEMMA-HITL-003, EVID-STEMMA-HITL-004, EVID-STEMMA-HITL-005, UNRES-STEMMA-HITL-001]
+- id: UNRES-STEMMA-CORE-001
+  question: IRI base for entity/conn URIs unresolved (stemma:* vs domain-bound http/https).
+  status: OPEN
+  blocking: false
+  disposition: 'PARTIALLY RESOLVED (ADR-0053 + Amendment 0001, 2026-09-22): canonical stemma: URN identity and publisher (individual Sajan) reaffirmed binding; published-PID /resolution base (w3id.org proposed) UNDER REVIEW after owner-directed slow research (docs/PERSISTENT-IDENTIFIER-BRIEF.md) and DEFERRED to the R6 projection-publication stage — reversible pre-publication. Non-actions: no slug claim, no ID changes, no resolution infra. Status trail: OPEN -> CLOSED (quick ruling) -> OPEN/DEFERRED (amended).'
+  proposed_resolution: 'At R6: owner reaffirms/amends/supersedes ADR-0053(b).'
+  authority_required: SOLE_OWNER
+  related:
+  - ADR-0002
+  - ADR-0027
+  - EVID-STEMMA-CORE-002
+- id: UNRES-STEMMA-HITL-001
+  question: HITL audit trail (workflow/) is git-ignored — review evidence not repository-portable; provenance relies on local state + declared metadata.
+  status: OPEN
+  blocking: true
+  blocking_impact: Trust claim non-verifiable on fresh clone — affects REQ-STEMMA-HITL-001 verification
+  proposed_resolution: 'Owner decides: commit workflow/ (with redaction rules), or accept local-state provenance.'
+  authority_required: SOLE_OWNER
+  related:
+  - EVID-STEMMA-HITL-002
+  - REQ-STEMMA-HITL-001
+  - ADR-0043
+- id: UNRES-STEMMA-EXP-001
+  question: Consumer learninghub export has 0 entities — behavior is structurally correct given all-draft corpus, but intended behavior is only CLAIMed.
+  status: OPEN
+  blocking: false
+  proposed_resolution: Owner confirms emptiness as expected behavior with review-policy contract; add assertion test thereafter.
+  authority_required: SOLE_OWNER
+  related:
+  - EVID-STEMMA-EXP-006
+  - EVID-STEMMA-CORE-004
+  - REQ-STEMMA-EXP-004
+- id: UNRES-STEMMA-INTEG-001
+  question: 'Consumer convergence: which consumers remain concrete/strawman vs implemented-integrations; LearningHub semantic-web/RDF import unresolved (ADR-0044).'
+  status: OPEN
+  blocking: false
+  proposed_resolution: 'Post-pilot: owner designates integration owners outside recovery scope.'
+  authority_required: SOLE_OWNER
+  related:
+  - EVID-STEMMA-INTEG-001
+  - EVID-STEMMA-INTEG-002
+  - ADR-0044
+- id: UNRES-STEMMA-RAG-001
+  question: Fake/hash-fallback embedding determinism accepted? Environment lacks model downloads; derived-layer semantics for real vectors undefined at pilot scope.
+  status: OPEN
+  blocking: false
+  proposed_resolution: Second pilot scope on derived layer; not blocking foundation slice.
+  authority_required: SOLE_OWNER
+  related:
+  - EVID-STEMMA-EXP-003
+  - CONFLICT-STEMMA-EXP-001
+- id: UNRES-STEMMA-OPS-001
+  question: Does any rights/licensing review exist for book*-textbook source bodies (excerpt scale, attribution, licence)?
+  status: OPEN
+  blocking: false
+  proposed_resolution: Owner supplies rights documentation or marks acceptable-risk; license-compliance then an XC amendment.
+  authority_required: SOLE_OWNER
+  related:
+  - EVID-STEMMA-CORE-005
+  - XC-6
+- id: UNRES-STEMMA-SCH-001
+  question: Should the export gain a dataset-scoped, declarative validation layer (entities+connections+sidecars together) beyond per-object JSON Schema?
+  status: OPEN
+  blocking: false
+  proposed_resolution: Noted, not actioned (owner ruling 2026-10-01, SOTA F4); revisit when the export gains a second real consumer or SHACL-DS-style tooling matures.
+  authority_required: SOLE_OWNER
+  related:
+  - REQ-STEMMA-SCH-001
+  - REQ-STEMMA-EXP-002
+  - EVID-STEMMA-SCH-005
+- id: UNRES-STEMMA-CORE-002
+  question: Should the generality guard (test_generality.py SCOPING_FIELDS) drop its ^...$ anchors so it also rejects prefixed/suffixed scoping keys (grade_level, grade_band, curriculum_scope, target_grade)?
+  status: CLOSED
+  blocking: false
+  disposition: 'RESOLVED (owner ruling 2026-10-01): option (c) — WIDEN the guard, then mutation-test it. Implemented the same day. SCOPING_FIELDS (the ^...$-anchored regex) was replaced by a token-based matcher: `_scoping_tokens` splits an identifier on separators/camelCase/digits, `_joined_token_forms` restores contiguous n-grams so multi-word names (key_stage, learning_objectives) match in either spelling, and `_is_scoping_field` matches whole tokens (never substrings, so upgrade_notes/multigrade stay legitimate). `level` is handled specially: only an education-qualified level (edu_level, grade_level) is a scoping claim; trophic_level/energy_level/sea_level are not. The guard now catches 28 formerly-missed variants. Three new tests: catches_prefixed_variants, does_not_overreach (negative control), and widened_guard_is_enforced_end_to_end. Non-vacuity proven by mutation — reverting the matcher to the anchored form turns exactly those tests red (EVID-STEMMA-CORE-010). REQ-STEMMA-CORE-004
+    re-verified: FAILED -> VERIFIED.'
+  proposed_resolution: 'Executor finding, 2026-10-01 (EVID-STEMMA-CORE-006/007): the guard is ^...$-anchored and therefore matches only exact key names. The gap is defence-in-depth only — concept.schema.json''s additionalProperties:false still rejects such keys at the validator (exit 1), so no violation can ship. Fixing the guard is an owner decision; the executor may execute verification and record results but not self-approve a code change and then mark it VERIFIED. Options: (a) widen the pattern to a prefix match; (b) leave it, relying on the schema layer; (c) widen and add a permanent mutation test that asserts the guard itself rejects prefixed keys.'
+  authority_required: SOLE_OWNER
+  related:
+  - REQ-STEMMA-CORE-004
+  - EVID-STEMMA-CORE-006
+  - EVID-STEMMA-CORE-007
+  - EVID-STEMMA-CORE-010
+- id: UNRES-STEMMA-GATE-001
+  question: 'The all-green merge gate is not a required status check on main: should ''Full Test Suite (pytest)'' and ''All Checks Green — Nothing Bad Gets Merged'' be added to the repository''s required checks so a red suite actually blocks a merge?'
+  status: CLOSED
+  blocking: false
+  disposition: 'RESOLVED (owner action 2026-10-01, same day). The owner added both contexts to the required status checks. Re-inspection of the active main ruleset (22215824) now shows 7 required checks, including ''All Checks Green — Nothing Bad Gets Merged'' and ''Full Test Suite (pytest)'', with strict_required_status_checks_policy = true. Each required context was compared byte-for-byte against the status names CI actually reports (run 36316235760) and both EXACT MATCH (including the em-dash), so the checks bind rather than silently never matching. The failure path was already fail-closed: all-green does ''exit 1'' on any non-success dependency including test-suite, so a red suite now genuinely blocks a merge. REQ-STEMMA-GATE-003 re-verified: FAILED -> VERIFIED (EVID-STEMMA-GATE-018).'
+  blocking_impact: 'Was blocking REQ-STEMMA-GATE-003. Note for the record: the repo''s legacy branch-protection endpoint (branches/main/protection) does NOT reflect ruleset-based rules — it still lists only the original five. The authoritative source is the effective-rules endpoint (repos/.../rules/branches/main), which is what a future verifier should query.'
+  proposed_resolution: 'Owner action in repository settings (the executor has no authority to change branch protection, and changing it is a governance act, not a code change): add ''Full Test Suite (pytest)'' and ''All Checks Green — Nothing Bad Gets Merged'' to the required status checks for main. Adding all-green alone is sufficient once it is the single aggregate gate, since it already asserts every other job''s result; adding the pytest job as well keeps the failure legible when the suite is the cause. After the change, re-verify GATE-003 by inspection of the required-check list.'
+  authority_required: SOLE_OWNER
+  related:
+  - REQ-STEMMA-GATE-003
+  - EVID-STEMMA-GATE-016
+  - EVID-STEMMA-GATE-017
+  - EVID-STEMMA-GATE-018
+- id: UNRES-STEMMA-HITL-002
+  question: 'HITL enforcement is vacuous in CI and violated in the corpus: `hitl_check.py --check-workflow` (the chain''s own invocation, verify_all.py:31) audits a git-ignored, empty workflow/ directory and exits 0 with ''nothing to check'', while 6 of 9 canonical entities declare an LLM writer. `hitl_check.py --all` returns exit 1 with ''9/9 entities fail HITL''. How should human review be enforced?'
+  status: CLOSED
+  blocking: false
+  blocking_impact: Blocks REQ-STEMMA-HITL-001 and REQ-STEMMA-HITL-002. The claim 'AI-drafted content remains draft until a named human reviews it' is currently not backed by any gate that runs in CI over content/.
+  proposed_resolution: 'Owner decision, three separable parts. (1) SCOPE: should the chain run hitl_check in a mode that covers content/ (e.g. --all), not only workflow/? Note this would currently FAIL the build, so it needs a migration plan. (2) EXISTING ENTITIES: 6 canonical entities (conservation-energy, force, length, mass, newtons-second-law, time) carry writer=llm:coding-agent.001. Either they were in fact human-reviewed and the metadata is wrong (then correct the metadata and record the review), or they were not reviewed and should be demoted to draft until they are. Deciding this is a governance act reserved to the owner — the executor will not rewrite provenance unilaterally. (3) ENFORCEMENT LAYER: validate.py''s human-reviewer rule (check_connection_agents) applies only to connections/, never to content/; should the analogous rule be added for canonical content entities? Related: UNRES-STEMMA-HITL-001 (audit-trail portability) must be resolved too, otherwise any HITL evidence stays
+    non-verifiable on a fresh clone.'
+  authority_required: SOLE_OWNER
+  related:
+  - REQ-STEMMA-HITL-001
+  - REQ-STEMMA-HITL-002
+  - EVID-STEMMA-HITL-003
+  - EVID-STEMMA-HITL-004
+  - EVID-STEMMA-HITL-005
+  - UNRES-STEMMA-HITL-001
+  resolution: 'Owner ruling 2026-10-01 (sole owner, human:curator.001). Three parts, all executed. (1) SCOPE: HITL scope is ALL data — content/ and every entity type, not only connections/. The chain now runs `hitl_check.py --all` (verify_all.py step 8), which audits content/ + connections/, replacing the vacuous `--check-workflow` over the git-ignored workflow/ dir. (2) EXISTING ENTITIES: the 6 LLM-written canonical entities (conservation-energy, force, length, mass, newtons-second-law, time) were demoted to draft and their unsupported human-review claims (reviewer/reviewed_at) removed; conn.000157 (canonical, LLM-asserted, citing two now-draft endpoints) was demoted to unreviewed. Corpus: 1 canonical (metre) / 8 clean drafts. (3) ENFORCEMENT: validate.py now enforces a content-layer human-writer+reviewer rule (check_entity_agents) plus canonical-endpoint coupling for connections — the validator validates everything it is given. All gates mutation-proven non-vacuous; verify_all.py exit
+    0, docs.py check PASS, 289 tests pass. REQ-STEMMA-HITL-001 and REQ-STEMMA-HITL-002 flipped FAILED->VERIFIED. Residual: UNRES-STEMMA-HITL-001 (audit-trail portability) remains OPEN.'
+  closed_date: '2026-10-01'
+  closed_by: human:curator.001

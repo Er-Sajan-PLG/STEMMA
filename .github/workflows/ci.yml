@@ -136,6 +136,12 @@ jobs:
         run: |
           test -f scripts/hitl_check.py
           grep -q "human:" webapp/core.py
+          # Scope = all data (owner ruling 2026-10-01, UNRES-STEMMA-HITL-002): the
+          # gate audits content/ (every entity type) + connections/, not only the
+          # git-ignored workflow/ staging dir. This is a real check, not a
+          # file-existence probe: a canonical entity with an LLM writer or a
+          # missing human reviewer makes it exit non-zero.
+          python3 scripts/hitl_check.py --all
           echo "HITL OK"
       - name: Check template registry v2.0.0 comprehensive
         run: |

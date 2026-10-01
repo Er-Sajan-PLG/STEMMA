@@ -146,7 +146,7 @@ def check_entity_agents(entity: dict, agents: dict[str, dict], errors: list) -> 
     here = f"{entity.get('_file', '<entity>')}:"
     prov = entity.get("provenance")
     if not isinstance(prov, dict):
-        return
+        prov = {}
     for field in ("writer", "reviewer", "drafted_by"):
         aid = prov.get(field)
         if aid is None:
@@ -159,6 +159,29 @@ def check_entity_agents(entity: dict, agents: dict[str, dict], errors: list) -> 
             errors.append(f"{here} provenance.reviewer must be a human agent (found {aid!r})")
         if field == "drafted_by" and cls not in ("llm", "process"):
             errors.append(f"{here} provenance.drafted_by must be an llm:/process: agent (found {aid!r})")
+
+    # Status-coupled human-review rule (owner ruling 2026-10-01,
+    # UNRES-STEMMA-HITL-002 part 3): the connection layer already requires a
+    # human reviewer (check_connection_agents); content entities had no such
+    # rule, so an entity could be `canonical` with an LLM writer and no human
+    # reviewer. A canonical/human_reviewed entity must carry a registered
+    # human writer AND a registered human reviewer. Drafts are exempt.
+    status = entity.get("status")
+    if status in REVIEWED_STATUSES:
+        writer = prov.get("writer")
+        if not isinstance(writer, str) or writer not in agents:
+            errors.append(
+                f"{here} status '{status}' requires provenance.writer to be a registered "
+                f"agent (found {writer!r}) — HITL: canonical content must be human-written")
+        elif agents.get(writer, {}).get("class") != "human":
+            errors.append(
+                f"{here} status '{status}' but provenance.writer '{writer}' is not a human agent "
+                f"— an LLM-written entity may not be canonical (HITL, UNRES-STEMMA-HITL-002)")
+        reviewer = prov.get("reviewer")
+        if not isinstance(reviewer, str) or reviewer not in agents:
+            errors.append(
+                f"{here} status '{status}' requires provenance.reviewer to be a registered human "
+                f"agent (found {reviewer!r}) — HITL: canonical content must carry a human reviewer")
 
 
 def _agent_refs(conn: dict) -> list[tuple[str, str]]:
@@ -649,6 +672,21 @@ def _relation_semantics(raw: Any, info: dict) -> tuple[list, list]:
     )
 
 
+def _connection_review_status(conn: dict) -> str | None:
+    """Effective review status of a connection: assertion.review.status if set,
+    else the top-level `status`. Connections carry review state under
+    assertion.review (connection.schema.json); some migrated records use a plain
+    top-level `status`. Returns None when neither is present (unreviewed)."""
+    assertion = conn.get("assertion")
+    if isinstance(assertion, dict):
+        review = assertion.get("review")
+        if isinstance(review, dict) and isinstance(review.get("status"), str):
+            return review["status"]
+    if isinstance(conn.get("status"), str):
+        return conn["status"]
+    return None
+
+
 def validate_connection(conn: dict, entities: dict, sources: dict, errors: list) -> None:
     """Validate a first-class connection (ADR-011 / connection.schema.json)."""
     here = f"{conn.get('_file', '<connection>')}:"
@@ -673,6 +711,24 @@ def validate_connection(conn: dict, entities: dict, sources: dict, errors: list)
             errors.append(f"{here} target must be omitted when value is present (target XOR value; ARCH-V2 3.2)")
     elif not isinstance(tgt, str) or tgt not in entities:
         errors.append(f"{here} target does not resolve to a canonical entity: {tgt!r}")
+
+    # Endpoint STATUS coupling (owner ruling 2026-10-01, UNRES-STEMMA-HITL-002):
+    # the message above says "canonical entity", but historically the code tested
+    # only ID membership — a canonical connection could cite draft endpoints and
+    # the gate stayed green (recorded defect). Enforce the real invariant: a
+    # connection that itself claims review status may only cite canonical
+    # entities. A proposed/draft connection may legitimately reference drafts.
+    conn_status = _connection_review_status(conn)
+    if conn_status in REVIEWED_STATUSES:
+        for label, ep in (("source", src), ("target", tgt)):
+            if not isinstance(ep, str) or ep not in entities:
+                continue  # already reported as unresolved above
+            ep_status = entities.get(ep, {}).get("status")
+            if ep_status not in REVIEWED_STATUSES:
+                errors.append(
+                    f"{here} {label} '{ep}' has status '{ep_status}', but this connection is "
+                    f"'{conn_status}' — a reviewed connection may only cite canonical entities "
+                    f"(HITL coupling; ARCH-V2 3.2)")
 
     rel = conn.get("relation")
     registry = load_relation_registry().get("relations", {})

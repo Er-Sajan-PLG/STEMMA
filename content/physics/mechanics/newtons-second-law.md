@@ -4,7 +4,7 @@ type: law
 name: Newton's Second Law
 domain: physics
 subdomain: mechanics
-status: canonical
+status: draft
 definition: 'Newton''s second law of motion: the net external force on a system equals
   the time rate of change of its total linear momentum, ΣF = dp/dt; for constant mass
   this reduces to F = m a. Valid in classical (non-relativistic) mechanics in inertial
@@ -25,8 +25,6 @@ provenance:
   link: https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511
   original_author: Isaac Newton
   retrieved_at: '2026-09-22'
-  reviewer: human:curator.001
-  reviewed_at: '2026-09-23T04:35:20.201837+00:00'
 source_refs:
 - stemma:src.halliday-resnick-walker-12th
 - stemma:src.newton-principia-1687

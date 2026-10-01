@@ -28,12 +28,18 @@ steps = [
     [sys.executable, str(ROOT / "scripts/status_truth.py")],
     [sys.executable, str(ROOT / "scripts/physics_core_profile_check.py")],
     [sys.executable, str(ROOT / "scripts/physics_governing_check.py")],
-    [sys.executable, str(ROOT / "scripts/hitl_check.py"), "--check-workflow"],
+    [sys.executable, str(ROOT / "scripts/hitl_check.py"), "--all"],
     [sys.executable, str(ROOT / "scripts/graph_analysis.py")],
     [sys.executable, str(ROOT / "scripts/export_review_aware.py")],
     # Subset exports are published by Pages (exports/knowledge*.json); regenerate so
     # CI's freshness diff catches staleness (they had drifted since the R4 canon tier).
     [sys.executable, str(ROOT / "scripts/export_subsets.py")],
+    # Consumer bundles (LearningHub, PROFESSOR-J, general, explorer) are derived
+    # artifacts too. Previously only an INFO line — they could be stale and the
+    # chain stayed green (recorded gap, 2026-10-01). Now fail-closed: regenerate
+    # then verify freshness so a frozen consumer bundle breaks CI.
+    [sys.executable, str(ROOT / "scripts/export_consumers.py"), "--all"],
+    [sys.executable, str(ROOT / "scripts/export_consumers.py"), "--check", "--all"],
     [sys.executable, str(ROOT / "tests/registry/test_registry_coherence.py")],
     [sys.executable, str(ROOT / "tests/registry/test_domain_identity.py")],
     [sys.executable, str(ROOT / "tests/versioning/test_validation_report.py")],

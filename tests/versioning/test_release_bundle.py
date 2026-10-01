@@ -34,8 +34,11 @@ class TestReleaseBundleAndGate(unittest.TestCase):
             self.assertTrue((bundle / f).exists(), f)
         self._run("build_release_bundle.py", "--verify", str(bundle))
         m = json.loads((bundle / "manifest.json").read_text(encoding="utf-8"))
-        self.assertEqual(m["entity_count"], 7)
-        self.assertEqual(m["assertion_count"], 2)
+        # Corpus state 2026-10-01 (UNRES-STEMMA-HITL-002): the 6 LLM-written
+        # entities were demoted to draft and conn.000157 to unreviewed, so only
+        # the human-written metre + human-reviewed conn.000156 are canonical.
+        self.assertEqual(m["entity_count"], 1)
+        self.assertEqual(m["assertion_count"], 1)
         self.assertIn("BLOCKED", m["amendment_0001_gate"])
 
     def test_shacl_shapes_validate(self):
