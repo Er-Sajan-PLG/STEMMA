@@ -132,6 +132,20 @@ verifying its content is present in `main`. This one is genuinely unmerged, and 
 so cutting a version is an owner decision, not cleanup. Deleting the branch would discard it;
 merging it would ship a release. Neither is the executor's call.
 
+**Machinery verified working (2026-10-01, dry run).** Before deciding, the release path itself was
+exercised — locally, with no tag and no push, so nothing was published:
+
+- `build_release_bundle.py --out <tmp> --release-tag v3.0.0-dryrun` builds and self-verifies
+  (`OK: bundle verified`).
+- It is **deterministic**: two independent builds produced the identical bundle name
+  `R6-bundle-88d1e4fba77e`, which also matches a previously staged bundle.
+- The manifest's `schema_version` / `export_version` / `relation_registry_version` agree with
+  `schema/VERSION.yaml`, and `release_status` reads "PUBLISHABLE (identifier-base decision
+  recorded)" — consistent with the publication gate being open.
+
+So the blocker is a **decision**, not a broken toolchain. `release.yml` fires on any tag push, so
+the dry run deliberately did not tag.
+
 **Owner options:** merge it, delete it, or leave it. If it is stale, delete; if the 4.0.0 release
 is still wanted, it needs the normal release path.
 
