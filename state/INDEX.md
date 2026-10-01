@@ -13,9 +13,10 @@
 | Session ID | Agent | Date | Title | Files touched | Status | Branch |
 |---|---|---|---|---|---|---|
 | `20261001-1123-A7F3-race-fix-bootstrap` | `A7F3` | 2026-10-01 | Export read/write race fixed; MACP adopted and `state/` bootstrapped from a full repository audit | `scripts/atomic_write.py`, `scripts/{validate,export_jsonld,export_subsets,export_review_aware,graph_analysis,export_consumers,status_truth,docs}.py`, `tests/repo/test_atomic_artifact_writes.py`, `tests/repo/test_state_tree.py`, `AGENTS.md`, `docs/docs-contract.yaml`, `state/**` | ended | `docs/owner-rulings-unverified` |
+| `20261001-1153-A7F3-debt-cleanup` | `A7F3` | 2026-10-01 | Closed DEBT-001 (stale `PROGRESS.md` block, fixed structurally) and DEBT-002 (retired repo name broke `gh attestation verify` — severity corrected upward); raised BLK-004 | `PROGRESS.md`, `docs/API.md`, `adapters/python/README.md`, `schema/api.yaml`, `README.md`, `explorer/src/services/feedback.ts`, `state/{DEBT,BLOCKERS,DASHBOARD,INDEX,REGISTRY}.md` | ended | `docs/owner-rulings-unverified` |
 
-**Bootstrap:** no prior sessions. This log was created on 2026-10-01 by `A7F3` as part of
-the Section 7 bootstrap; the single row above is the first session recorded.
+**Bootstrap:** the log was created on 2026-10-01 by `A7F3` as part of the Section 7 bootstrap.
+Two sessions are recorded so far.
 
 ---
 

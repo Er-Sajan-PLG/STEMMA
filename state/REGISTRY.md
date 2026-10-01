@@ -11,6 +11,7 @@
 | agent_id | session_id | started_at | task | files_owned | status |
 |---|---|---|---|---|---|
 | `A7F3` | `20261001-1123-A7F3-race-fix-bootstrap` | 2026-10-01T11:23Z | Fix the export read/write race; adopt MACP and bootstrap `state/` | — | **ended** |
+| `A7F3` | `20261001-1153-A7F3-debt-cleanup` | 2026-10-01T11:53Z | Close the two unblocked documentation debt items (DEBT-001, DEBT-002) | — | **ended** |
 
 No agent is currently active. `files_owned` is empty for every row, so any file is free to
 claim.

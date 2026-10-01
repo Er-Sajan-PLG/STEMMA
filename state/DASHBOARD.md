@@ -2,7 +2,7 @@
 
 > **Current state only.** What IS, not what happened. History lives in `sessions/`.
 
-**Last Reconciled:** 2026-10-01T11:23Z
+**Last Reconciled:** 2026-10-01T11:59Z
 **Reconciled by:** `A7F3`
 **Protocol:** MACP v1.0 (`state/PROTOCOL.md`)
 
@@ -69,11 +69,16 @@
 ## Next Actions
 
 1. **Owner:** merge PR #66 (all checks green, no conflicts) — BLK-001.
-2. **Then:** the open `UNRES-STEMMA-CORE-003` and `REQ-STEMMA-OPS-002` both resolve at
+2. **Owner:** decide the three stale repo-name references under `spec/` — BLK-004. One of
+   them (`spec/ROLES_AND_AUTHORITY.md:4`) cites a commit and may be a historical record that
+   is correct as written; that judgement is Tier 2.
+3. **Then:** the open `UNRES-STEMMA-CORE-003` and `REQ-STEMMA-OPS-002` both resolve at
    **release time** — neither can progress before a release lands. Do not start them.
-3. **Candidate work with no blocker:** the four open items in `DEBT.md`. DEBT-001 (stale
-   `PROGRESS.md` block) and DEBT-002 (retired repo path in live docs) are the most
-   user-visible and are pure documentation fixes. DEBT-005 is **resolved**.
+4. **Candidate work with no blocker:** `DEBT.md` now holds **2 open** (003, 004) and
+   **3 resolved** (001, 002, 005). DEBT-003 is a documented, accepted residual (an ordering
+   property, not fixable by atomicity). DEBT-004 needs a **decision**, not a fix: either add
+   `numpy` to `requirements.txt` or document the JSON fallback as the reference path — right
+   now the behaviour silently depends on which interpreter runs `embed.py`.
 
 ## Environment Facts (verified by inspection, not assumed)
 

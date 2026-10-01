@@ -4,13 +4,13 @@
 > agent cannot clear by itself. If an agent *can* clear it, it is not a blocker — it is
 > a task.
 >
-> **Current count: 1 actionable · 2 parked · 0 technical.**
+> **Current count: 2 actionable · 2 parked · 0 technical.**
 
 ---
 
 ## BLK-001 — PR #66 requires the owner to merge
 
-**Raised:** 2026-10-01 by `coding-agent.001`
+**Raised:** 2026-10-01 by `A7F3`
 **Status:** **OPEN — awaiting owner**
 **Blocking:** landing the UNRES rulings, the pre-push gate fixes, and the atomic-write fix
 
@@ -28,6 +28,38 @@ owner rulings…`, and `spec` is not an accepted commit type (the allowed set in
 `docs`). It was reworded to `docs(spec): …` by replaying the six later commits onto the
 reworded base and re-creating the merge — verified **tree-identical** to the pre-rewrite
 tip, so only the message changed.
+
+---
+
+## BLK-004 — Three stale repo-name references in `spec/` need an owner edit
+
+**Raised:** 2026-10-01 by `A7F3`
+**Status:** **OPEN — awaiting owner**
+**Blocking:** nothing (inert metadata), but it is a wrong value in Tier-2 files
+
+**What is needed.** Three files under `spec/` still carry the retired repo name
+`Er-Sajan-PLG/STEMMA`:
+
+| Location | Content |
+|---|---|
+| `spec/ROLES_AND_AUTHORITY.md:4` | `Repository: Er-Sajan-PLG/STEMMA @ fb66dd9 (arena/01a0c5b1-stemma)` |
+| `spec/PILOT_CHARTER.md:6` | `\| Repository \| Er-Sajan-PLG/STEMMA (\`/home/user/STEMMA\`) \|` |
+| `spec/machine-readable/authority.yaml:2` | `repository: Er-Sajan-PLG/STEMMA` |
+
+**Why an agent cannot clear it.** `spec/` is **Tier 2** — owner-only under Constraint D.
+The executor may identify the defect and record it, but must not edit a specification file on
+its own authority. This is the boundary working as intended, not a gap.
+
+**Impact: low.** Verified that no gate reads these values — `validate_recovery.py` does not
+inspect the `repository` field, and nothing else loads `authority.yaml`. So this is a
+correctness/clarity issue in Tier-2 records, not a broken command. (Contrast DEBT-002, where
+the same stale name in `docs/` **did** break `gh attestation verify`.)
+
+**Nuance for the owner.** `spec/ROLES_AND_AUTHORITY.md:4` cites the repo *and a commit*
+(`@ fb66dd9`) as the provenance of the authority model. If that line is a historical record
+of where the model was established, it may be **correct as written** and should be left alone
+— in which case only `PILOT_CHARTER.md` and `authority.yaml` need a decision. The agent is
+not positioned to judge that; it is a Tier-2 call.
 
 ---
 

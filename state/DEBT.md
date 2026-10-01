@@ -6,47 +6,76 @@
 
 ---
 
-## DEBT-001 — `PROGRESS.md` "Current State" block is stale
+## DEBT-001 — `PROGRESS.md` "Current State" block was stale (RESOLVED)
 
-**Found:** 2026-10-01 by `A7F3`
-**Severity:** medium — it is a status document, so a wrong status is actively misleading
-**Location:** `PROGRESS.md` lines 6–14
+**Found:** 2026-10-01 by `A7F3` · **Resolved:** 2026-10-01 by `A7F3` (session `20261001-1153-A7F3-debt-cleanup`)
+**Severity was:** medium — it is a status document, so a wrong status is actively misleading
 
-**What is wrong.** The block is headed *"Current State (verified 2026-09-22)"* and states:
+**What was wrong.** The block, headed *"Current State (verified 2026-09-22)"*, stated
+*"1 entity (metre, `draft`), 0 connections"* (metre is now **canonical** with **2**
+connections) and *"24 requirements **PROPOSED** awaiting owner approval"* (now **24
+VERIFIED / 1 UNVERIFIED**).
 
-- *"Canonical corpus: 1 entity (metre, `draft`), 0 connections, 3 source records"* — metre is
-  now **canonical** (human-written + human-reviewed) and there are **2** connections.
-- *"24 requirements **PROPOSED** awaiting owner approval; nothing self-approved"* — the
-  requirements are now **24 VERIFIED / 1 UNVERIFIED**.
+**Why it mattered.** The file's own preamble *and* its "Ground rules for this file" section
+both say it tracks *work, not corpus counts*, and that counts live in the README status-truth
+block. The docs contract says the same (`note: "work tracker; counts owned by status_truth"`).
+The block was violating the file's own rule.
 
-**Why it matters.** The file's own preamble says it tracks *work, not corpus counts, to
-avoid drift* — yet the block that drifted is the corpus/verification summary. A reader
-trusting it would conclude the project is at an earlier stage than it is.
+**Fix — structural, not a refresh.** The block now holds **no machine-owned values**; it is a
+table pointing at each single source (`state/DASHBOARD.md`, the README status block,
+`spec/machine-readable/verification.yaml`, `spec/CONFLICTS.md`, `docs/ARCHITECTURE-V2.md`,
+`.github/workflows/ci.yml`). Refreshing the numbers would only have reset the drift clock.
 
-**Fix.** Either re-verify and update the block, or delete the counts from it and point at
-`state/DASHBOARD.md` / the README status block as the single source. The second is
-preferable: it removes the drift surface rather than resetting it.
+**Verified:** `docs.py check` PASS (PROGRESS.md is link-scoped, so its new links are
+resolved), `verify_all.py` 42 OK / 0 FAIL, `pytest` 360 passed.
 
 ---
 
-## DEBT-002 — Retired repo path `Er-Sajan-PLG/STEMMA` in live, user-facing docs
+## DEBT-002 — Retired repo path in live docs broke attestation verification (RESOLVED)
 
-**Found:** 2026-10-01 by `A7F3`
-**Severity:** low–medium — commands still work via GitHub redirect, but they teach the wrong path
-**Locations (live, non-archive):**
+**Found:** 2026-10-01 by `A7F3` · **Resolved:** 2026-10-01 by `A7F3` (session `20261001-1153-A7F3-debt-cleanup`)
+**Severity was:** **higher than first recorded** — see the correction below
 
-| Location | Content |
-|---|---|
-| `docs/API.md:92` | `gh attestation verify knowledge.learninghub.json --repo Er-Sajan-PLG/STEMMA` |
-| `adapters/python/README.md:52` | `Stemma.from_release("Er-Sajan-PLG/STEMMA", "v3.0.0-rc1", …)` |
+**Correction to the original entry.** This was first written as *"low–medium — commands still
+work via GitHub redirect"*. **That was wrong, and it was wrong in the dangerous direction.**
+Verified empirically against the real release:
 
-**Context.** The repository is now `STEMORG2026/STEMMA`; `Er-Sajan-PLG/STEMMA` is a pure
-redirect. The correct name is used elsewhere (`docs/API.md` also cites the new path in the
-signing procedure), so the codebase is internally inconsistent.
+```
+gh release download v3.0.0 -R STEMORG2026/STEMMA -p manifest.json
+gh attestation verify manifest.json --repo STEMORG2026/STEMMA   # exit 0  ✅
+gh attestation verify manifest.json --repo Er-Sajan-PLG/STEMMA  # exit 1  ❌
+                                                                # "Error: verifying with issuer sigstore.dev"
+```
 
-**Not debt:** `adapters/python/tests/*` deliberately use the old name — they test
-redirect/fork/symlink handling and arbitrary repo strings. `archive/**` is historical by
-design. Do not "fix" either.
+The redirect covers git and API operations but **not** attestation verification. The
+documented command was **broken**, and a reader following it would see a verification failure
+and could reasonably conclude the release was untrustworthy. That is a security-relevant
+documentation defect.
+
+**Scope was also understated.** A sweep found **six** live files, not the two originally
+listed. Four were in `docs/API.md` and are the *same broken procedure* — including
+`expected_repository="Er-Sajan-PLG/STEMMA"`, a security parameter that fails closed (the right
+direction, but it still breaks a documented safety check).
+
+**Fixed** (8 occurrences across 4 files): `docs/API.md` (4), `schema/api.yaml` (1),
+`README.md` (1), `explorer/src/services/feedback.ts` (1). Verified first that nothing depended
+on the old values: no gate reads `authority.yaml`'s `repository` field, and no test pins the
+feedback URL. Explorer re-verified after the change — `npm run verify` 10 PASS, `npm run
+typecheck` clean, `verify-grounded-chat.mjs` PASS.
+
+**Deliberately NOT fixed — three are Tier 2 (owner-only).** `spec/ROLES_AND_AUTHORITY.md:4`,
+`spec/PILOT_CHARTER.md:6` and `spec/machine-readable/authority.yaml:2` still carry the old
+name. `spec/` is owner-only under Constraint D, so the executor must not edit them. Raised as
+**BLK-004** for the owner.
+
+**Correctly left alone:** `.github/workflows/pages.yml:6` (a historical explanation, accurate
+as written), `adapters/python/tests/**` (deliberately exercise redirect/fork/symlink handling
+with arbitrary repo strings), `archive/**` (historical by definition).
+
+**Lesson.** "It still works via redirect" is a claim to **test**, not to assume. The redirect
+is real for git and the API but does not extend to attestation verification — and a broken
+*verification* command is worse than a broken link, because its failure looks like a
+trust problem rather than a typo.
 
 ---
 
