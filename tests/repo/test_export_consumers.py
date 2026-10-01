@@ -103,3 +103,38 @@ def test_every_registry_consumer_has_a_fresh_committed_bundle() -> None:
     proc = subprocess.run([sys.executable, str(ROOT / "scripts" / "export_consumers.py"), "--all", "--check"],
                           capture_output=True, text=True)
     assert proc.returncode == 0, proc.stderr
+
+
+def test_review_policy_filter_excludes_drafts_and_widens_monotonically() -> None:
+    """REQ-STEMMA-EXP-004 AC1: a consumer export honors its declared review_policy.
+
+    Asserts the *relationship*, not hardcoded counts, so a corpus change cannot make
+    this brittle — while a broken filter, or a draft leaking into a canonical-only
+    export, still fails. Guards the drift that produced stale numbers in
+    EVID-STEMMA-EXP-017: the filter's effect must track the live corpus.
+    """
+    base = json.loads((ROOT / "exports" / "knowledge.json").read_text(encoding="utf-8"))
+    canonical = {e["id"] for e in base["entities"]
+                 if (e.get("review_status") or e.get("status")) == "canonical"}
+    all_ids = {e["id"] for e in base["entities"]}
+
+    counts = {}
+    for policy in ("all", "reviewed", "trusted", "canonical"):
+        bundle = ec.build_consumer_export("t", {}, base, VERSIONS, review_policy=policy)
+        ids = {e["id"] for e in bundle["entities"]}
+        statuses = {e.get("review_status") or e.get("status") for e in bundle["entities"]}
+        counts[policy] = len(ids)
+        if policy != "all":
+            assert not (ids - canonical), f"{policy}: non-canonical entity leaked: {sorted(ids - canonical)}"
+            assert statuses <= {"canonical"}, f"{policy}: unexpected statuses {statuses}"
+
+    # Monotonic: widening the policy never yields fewer entities than a stricter one.
+    assert counts["all"] >= counts["canonical"]
+    assert counts["canonical"] <= counts["reviewed"] <= counts["all"]
+    # 'all' must include every entity, drafts included — else the filter is untestable.
+    assert counts["all"] == len(all_ids)
+    # The filter must be non-vacuous whenever the corpus has both classes.
+    if canonical and canonical != all_ids:
+        assert counts["all"] > counts["canonical"], (
+            "a mixed corpus must produce a strictly smaller canonical-only export — "
+            "otherwise the policy filter is vacuous")
