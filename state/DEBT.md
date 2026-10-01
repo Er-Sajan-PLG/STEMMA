@@ -259,98 +259,50 @@ The test **passed 5/5 when run directly**. The hook log carried the real cause:
   [".../spec/machine-readable/enforcement_rules.yaml"] ...}
 ```
 
-**Root cause.** `test_missing_enforcement_registry_fails_closed` removes the **real, tracked**
-`spec/machine-readable/enforcement_rules.yaml` and restores it in `finally`. This environment
-intercepts file deletion — `unlink()` is routed through a trash-move helper which emits
-`[safe-delete]` messages, and **raises** when it cannot complete the move
-(`SAFE_DELETE_FAIL_CLOSED`), or when a per-turn delete budget is exceeded
-(`SAFE_DELETE_BULK_CONFIRM_REQUIRED`, threshold 50). When the removal is blocked, the registry
-stays in place, `validate.py` then *succeeds*, and the test fails on
-`assert r.returncode != 0` — a message that points at the gate rather than at the blocked
-setup step.
+**Root cause — and my first diagnosis of it was wrong.** The mechanism is a
+`sitecustomize.py` shim injected by the environment. It intercepts `Path.unlink` via
+`_safe_path_unlink` and routes deletion through a trash-move helper. When a per-turn delete
+budget is exceeded it calls `_exit_bulk_guard_control`, which **raises `SystemExit(1)`**:
 
-**Why this is a real repo defect and not just an environment quirk.** Two properties are wrong
-on the repository's side of the line:
+```
+.../cli/vendor/shim/sitecustomize.py:826: SystemExit
+```
 
-1. **It mutates a tracked file to test a behaviour.** A crash or an interrupt between
-   `unlink()` and the `finally` leaves the repository without a registry that every gate reads.
-   That is the same class as DEBT-005, which was also a test mutating real state.
-2. **A blocked setup step fails as if the *code* regressed.** Nothing distinguished "the
-   fail-closed behaviour is broken" from "we could not set up the scenario".
+`SystemExit` derives from **`BaseException`**, not `Exception`. My first mitigation caught
+`Exception`, so it never fired and the test still failed — I had to re-read the traceback to
+see why. Two wrong turns before that: I first assumed a network fault (the *initial* push
+failure really was a network timeout, but the retry was the guard), and wrapping the push in
+`| tail -4` hid the reason entirely and cost two extra attempts.
 
-**Mitigation applied.** The test now:
-- catches an exception from `unlink()` and **skips** with the exception text, and
-- verifies the file is actually gone before asserting, and **skips** with a reason if a guard
-  intercepted the removal.
+**Mitigation applied — remove the file without deleting it.** The registry is **renamed aside**
+(`enforcement_rules.yaml.parked`) instead of unlinked. `rename` is **not** intercepted (verified
+directly) and is atomic, so:
 
-Verified both ways: normal path **passes**; with the directory made read-only the test
-**skips** (1 skipped) instead of failing, and the registry is left byte-identical.
+- the delete guard never triggers, so the test runs at full strength here instead of skipping;
+- there is no window in which the repository lacks a registry every gate reads;
+- the parked name ends in `.yaml.parked`, which matches no `*.yaml` glob.
 
-**Residual fragility — not fixed.** The test still touches the real tree. The clean fix is a
-**shadow tree**, the pattern already used by `tests/repo/test_gate_fail_closed.py`: copy the
+The removal is still verified before the behaviour is asserted, and an unexpected block skips
+with a reason (`(Exception, SystemExit)` caught) rather than reporting a false regression.
+
+Verified: the test passes 3/3, the module passes 18/18, no `.parked` file is left behind, the
+registry is byte-identical, and `git status spec/` is clean.
+
+**Residual fragility — not fixed.** The test still touches the real tree. The clean fix remains
+a **shadow tree**, the pattern already used by `tests/repo/test_gate_fail_closed.py`: copy the
 minimal tree into `tmp_path` and break it there, so nothing real is mutated. That requires
-`validate.py` to resolve the registry path relative to the tree root it is run from, which is a
-larger change than this defect justifies on its own. Recorded as the recommended follow-up.
+`validate.py` to resolve the registry path relative to the tree root it is run from — a larger
+change than this defect justifies on its own. Recorded as the recommended follow-up.
 
-**Lesson.** A test whose *setup* mutates tracked state cannot distinguish "the behaviour
-regressed" from "the environment stopped me". Verify the setup took effect, and say which of
-the two happened.
+**Lesson.** Two, and the second is the sharper one:
+
+1. A test whose *setup* mutates tracked state cannot distinguish "the behaviour regressed" from
+   "the environment stopped me". Verify the setup took effect, and say which of the two
+   happened.
+2. **Catch the right base class.** `except Exception` does not catch `SystemExit` or
+   `KeyboardInterrupt`. When an environment shim "fails closed" it may exit the process rather
+   than raise an ordinary error — read the traceback before writing the handler, and prefer
+   *avoiding* the hazardous operation to catching its failure.
 
 ---
 
-## DEBT-007 — A test deletes a tracked file, so it is environment-sensitive (mitigated)
-
-**Found:** 2026-10-01 by `A7F3`, when a pre-push run failed and blocked a push
-**Severity:** medium — it produced a *false* regression signal and blocked delivery
-**Status:** mitigated (the failure is now diagnosable; the underlying fragility remains)
-
-**What happened.** A push was blocked by the pre-push hook:
-
-```
-FAILED tests/repo/test_promotion_chain.py::test_missing_enforcement_registry_fails_closed
-1 failed, 17 passed in 3.09s
-```
-
-The test **passed 5/5 when run directly**. The hook log carried the real cause:
-
-```
-[safe-delete][SAFE_DELETE_BULK_CONFIRM_REQUIRED] {... "targets":
-  [".../spec/machine-readable/enforcement_rules.yaml"] ...}
-```
-
-**Root cause.** `test_missing_enforcement_registry_fails_closed` removes the **real, tracked**
-`spec/machine-readable/enforcement_rules.yaml` and restores it in `finally`. This environment
-intercepts file deletion — `unlink()` is routed through a trash-move helper which emits
-`[safe-delete]` messages, and **raises** when it cannot complete the move
-(`SAFE_DELETE_FAIL_CLOSED`), or when a per-turn delete budget is exceeded
-(`SAFE_DELETE_BULK_CONFIRM_REQUIRED`, threshold 50). When the removal is blocked, the registry
-stays in place, `validate.py` then *succeeds*, and the test fails on
-`assert r.returncode != 0` — a message that points at the gate rather than at the blocked
-setup step.
-
-**Why this is a real repo defect and not just an environment quirk.** Two properties are wrong
-on the repository's side of the line:
-
-1. **It mutates a tracked file to test a behaviour.** A crash or an interrupt between
-   `unlink()` and the `finally` leaves the repository without a registry that every gate reads.
-   That is the same class as DEBT-005, which was also a test mutating real state.
-2. **A blocked setup step fails as if the *code* regressed.** Nothing distinguished "the
-   fail-closed behaviour is broken" from "we could not set up the scenario".
-
-**Mitigation applied.** The test now:
-- catches an exception from `unlink()` and **skips** with the exception text, and
-- verifies the file is actually gone before asserting, and **skips** with a reason if a guard
-  intercepted the removal.
-
-Verified both ways: normal path **passes**; with the directory made read-only the test
-**skips** (1 skipped) instead of failing, and the registry is left byte-identical.
-
-**Residual fragility — not fixed.** The test still touches the real tree. The clean fix is a
-**shadow tree**, the pattern already used by `tests/repo/test_gate_fail_closed.py`: copy the
-minimal tree into `tmp_path` and break it there, so nothing real is mutated. That requires
-`validate.py` to resolve the registry path relative to the tree root it is run from, which is a
-larger change than this defect justifies on its own. Recorded as the recommended follow-up.
-
-**Lesson.** A test whose *setup* mutates tracked state cannot distinguish "the behaviour
-regressed" from "the environment stopped me". Verify the setup took effect, and say which of
-the two happened.
