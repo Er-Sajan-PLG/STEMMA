@@ -34,6 +34,7 @@ import hashlib
 import json
 import re
 import sys
+from datetime import datetime
 from pathlib import Path
 from typing import Any, cast
 
@@ -71,7 +72,14 @@ EXPORT_SCHEMA = SCHEMA / "export.schema.json"
 ID_RE = re.compile(r"^stemma:[a-z][a-z0-9-]*\.[a-z0-9][a-z0-9-]*$")
 CONN_ID_RE = re.compile(r"^stemma:conn\.[0-9]{6}$")
 SRC_ID_RE = re.compile(r"^stemma:src\.[a-z0-9][a-z0-9-]*$")
-STATUSES = {"draft", "machine_validated", "human_reviewed", "canonical", "deprecated", "superseded"}
+# Status ladder (ADR-0057). `human_reviewed` is retained as a legacy alias of
+# `validator_validated` — pre-ADR-0057 records used it for a single review pass.
+STATUSES = {
+    "draft", "machine_validated",
+    "validator_validated", "independently_validated", "board_approved",
+    "human_reviewed",
+    "canonical", "deprecated", "superseded",
+}
 # Entity types — must match the enum in concept.schema.json (v0.3 adds
 # phenomenon/model/experiment per ADR-0021; check_registry_coherence reads the
 # schema enum as the authoritative list and falls back to this set).
@@ -82,7 +90,102 @@ SOURCE_KINDS = {
     "human-authored", "textbook", "academic-or-research", "institutional",
     "standards-or-specification", "ai-assisted-draft", "other",
 }
-REVIEWED_STATUSES = {"human_reviewed", "canonical"}
+REVIEWED_STATUSES = {
+    "human_reviewed", "validator_validated", "independently_validated",
+    "board_approved", "canonical",
+}
+# Stages of the promotion chain, in order (ADR-0057). `human_reviewed` is the
+# legacy spelling of the first stage.
+STAGE_ORDER = ("validator", "independent_validator", "board")
+STAGE_STATUS = {
+    "validator": "validator_validated",
+    "independent_validator": "independently_validated",
+    "board": "board_approved",
+}
+# Minimum separation between two consecutive promotion stages of the SAME
+# record. Loaded from the enforcement registry (spec/machine-readable/
+# enforcement_rules.yaml) so the rule is data, not prose: the owner cannot
+# "break" it by editing an ADR — the gate re-reads the registry each run and
+# fails closed if it is missing (owner directive 2026-10-01).
+ENFORCEMENT_RULES = ROOT / "spec" / "machine-readable" / "enforcement_rules.yaml"
+_DEFAULT_STAGE_GAP_DAYS = 1
+
+
+def load_enforcement_rules() -> dict:
+    """Load the machine-readable enforcement registry.
+
+    Fail-closed: a missing or unreadable registry is a gate failure, never a
+    silent fallback — otherwise deleting the file would waive every rule."""
+    if not ENFORCEMENT_RULES.exists():
+        raise SystemExit(
+            f"error: missing {ENFORCEMENT_RULES.relative_to(ROOT)} — enforcement rules "
+            f"cannot be waived by deletion (ADR-0057)")
+    data = yaml.safe_load(ENFORCEMENT_RULES.read_text(encoding="utf-8")) or {}
+    return data if isinstance(data, dict) else {}
+
+
+def _stage_gap_days(rules: dict) -> int:
+    for rule in rules.get("rules") or []:
+        spec = rule.get("rule") if isinstance(rule, dict) else None
+        if isinstance(spec, dict) and spec.get("kind") == "min_stage_gap":
+            value = spec.get("min_days")
+            if isinstance(value, int) and value >= 0:
+                return value
+    return _DEFAULT_STAGE_GAP_DAYS
+
+
+def _debt_block_mode(rules: dict) -> str:
+    """How outstanding debt blocks: 'full' (any reviewed status) or
+    'forward_only' (only the next forward promotion). Read from ENF-002's
+    pilot_scale_block; fail-closed to 'full' — the stricter reading — if the
+    registry does not say otherwise."""
+    for rule in rules.get("rules") or []:
+        spec = rule.get("rule") if isinstance(rule, dict) else None
+        if not isinstance(spec, dict) or spec.get("kind") != "debt_blocks_status":
+            continue
+        block = rule.get("pilot_scale_block")
+        if isinstance(block, dict) and block.get("active"):
+            mode = spec.get("block_mode")
+            if mode in ("full", "forward_only"):
+                return mode
+            return "full"
+        mode = spec.get("block_mode")
+        if mode in ("full", "forward_only"):
+            return mode
+    return "full"
+
+
+def _board_waiver(rules: dict) -> dict | None:
+    """The active board waiver (ENF-003.board_waiver), or None. When active the
+    required promotion chain drops the board stage: validator ->
+    independent_validator, with canonical reachable from stage 2."""
+    for rule in rules.get("rules") or []:
+        if not isinstance(rule, dict):
+            continue
+        spec = rule.get("rule")
+        if not isinstance(spec, dict) or spec.get("kind") != "independence_or_waiver":
+            continue
+        waiver = rule.get("board_waiver")
+        if isinstance(waiver, dict) and waiver.get("active"):
+            return waiver
+    return None
+
+
+def _required_stages(rules: dict) -> tuple[str, ...]:
+    """The promotion chain currently required for canonical, honouring the board
+    waiver. Full chain: validator -> independent_validator -> board. Waived:
+    validator -> independent_validator."""
+    waiver = _board_waiver(rules)
+    if waiver:
+        stages = waiver.get("required_stages_while_waived")
+        if isinstance(stages, list) and stages:
+            ordered = [s for s in STAGE_ORDER if s in stages]
+            if ordered:
+                return tuple(ordered)
+    return tuple(STAGE_ORDER)
+
+
+PROMOTION_MIN_STAGE_GAP_DAYS = _DEFAULT_STAGE_GAP_DAYS
 EXTENSION_REGISTRY = ROOT / "schema" / "extension-registry.yaml"
 AGENT_REGISTRY = SCHEMA / "agent-registry.yaml"
 AGENT_ID_RE = re.compile(r"^(human|process|llm|unknown):[A-Za-z0-9][A-Za-z0-9._/@-]*$")
@@ -146,7 +249,7 @@ def check_entity_agents(entity: dict, agents: dict[str, dict], errors: list) -> 
     here = f"{entity.get('_file', '<entity>')}:"
     prov = entity.get("provenance")
     if not isinstance(prov, dict):
-        return
+        prov = {}
     for field in ("writer", "reviewer", "drafted_by"):
         aid = prov.get(field)
         if aid is None:
@@ -159,6 +262,339 @@ def check_entity_agents(entity: dict, agents: dict[str, dict], errors: list) -> 
             errors.append(f"{here} provenance.reviewer must be a human agent (found {aid!r})")
         if field == "drafted_by" and cls not in ("llm", "process"):
             errors.append(f"{here} provenance.drafted_by must be an llm:/process: agent (found {aid!r})")
+
+    # Status-coupled human-review rule (owner ruling 2026-10-01,
+    # UNRES-STEMMA-HITL-002 part 3): the connection layer already requires a
+    # human reviewer (check_connection_agents); content entities had no such
+    # rule, so an entity could be `canonical` with an LLM writer and no human
+    # reviewer. A canonical/human_reviewed entity must carry a registered
+    # human writer AND a registered human reviewer. Drafts are exempt.
+    status = entity.get("status")
+    if status in REVIEWED_STATUSES:
+        writer = prov.get("writer")
+        if not isinstance(writer, str) or writer not in agents:
+            errors.append(
+                f"{here} status '{status}' requires provenance.writer to be a registered "
+                f"agent (found {writer!r}) — HITL: canonical content must be human-written")
+        elif agents.get(writer, {}).get("class") != "human":
+            errors.append(
+                f"{here} status '{status}' but provenance.writer '{writer}' is not a human agent "
+                f"— an LLM-written entity may not be canonical (HITL, UNRES-STEMMA-HITL-002)")
+        reviewer = prov.get("reviewer")
+        if not isinstance(reviewer, str) or reviewer not in agents:
+            errors.append(
+                f"{here} status '{status}' requires provenance.reviewer to be a registered human "
+                f"agent (found {reviewer!r}) — HITL: canonical content must carry a human reviewer")
+
+
+# --------------------------------------------------------------------------
+# Revalidation debt (ADR-0057). Applies to EVERY canonical dataset — content
+# entities and connections alike. Debt is a first-class, frontmatter-visible
+# obligation: when it is outstanding the validator cannot complete, and the
+# message names the debt so whoever validates the record sees it immediately.
+# --------------------------------------------------------------------------
+DEBT_STATUSES = {"outstanding", "cleared", "deferred"}
+DEBT_CLEAR_STAGES = {"validator", "independent_validator", "board"}
+
+
+def _connection_review_status(conn: dict) -> str | None:
+    """Effective review status of a connection: assertion.review.status if set,
+    else the top-level `status`. Connections carry review state under
+    assertion.review (connection.schema.json); some migrated records use a plain
+    top-level `status`. Returns None when neither is present (unreviewed)."""
+    assertion = conn.get("assertion")
+    if isinstance(assertion, dict):
+        review = assertion.get("review")
+        if isinstance(review, dict) and isinstance(review.get("status"), str):
+            return review["status"]
+    if isinstance(conn.get("status"), str):
+        return conn["status"]
+    return None
+
+
+def _record_kind(record: dict) -> str:
+    return "connection" if record.get("type") == "connection" else "entity"
+
+
+def check_revalidation_debt(record: dict, errors: list, here: str, warnings: list | None = None,
+                            block_mode: str = "full") -> None:
+    """Outstanding revalidation debt blocks the record (ENF-STEMMA-HITL-002).
+
+    Owner ruling 2026-10-01 (pilot scale): debt blocks FULLY — a record holding
+    any reviewed status (validator_validated, independently_validated,
+    board_approved, human_reviewed, canonical) with outstanding debt is a gate
+    FAILURE. The owner chose the strict reading deliberately, at this small
+    scale, to observe at what corpus size the block becomes a burden; relaxing
+    to forward-only blocking is an owner act recorded in the enforcement
+    registry (pilot_scale_block). When block_mode is 'forward_only' only the
+    next forward promotion is blocked and the debt is surfaced as a warning.
+    """
+    debt = record.get("revalidation_debt")
+    status = effective_status(record)
+    if debt is None:
+        return
+    kind = _record_kind(record)
+    if not isinstance(debt, dict):
+        errors.append(f"{here} revalidation_debt must be an object")
+        return
+    dstatus = debt.get("status")
+    if dstatus not in DEBT_STATUSES:
+        errors.append(f"{here} revalidation_debt.status illegal: {dstatus!r} (outstanding|cleared|deferred)")
+        return
+    for req_field in ("reason", "incurred_at"):
+        if not debt.get(req_field):
+            errors.append(f"{here} revalidation_debt.{req_field} is required")
+
+    if dstatus == "outstanding":
+        owed = debt.get("items") or []
+        owed_txt = f" (owed: {', '.join(str(x) for x in owed)})" if owed else ""
+        last_stage = _last_promotion_stage(record)
+        must_block = (
+            block_mode == "full" and status in REVIEWED_STATUSES
+        ) or (
+            block_mode != "full" and status in REVIEWED_STATUSES and _is_forward_of(status, last_stage)
+        )
+        if must_block:
+            errors.append(
+                f"{here} DEBT BLOCKS VALIDATION: revalidation_debt.status is "
+                f"'outstanding'{owed_txt} — reason: {debt.get('reason')!r}. This {kind} holds "
+                f"reviewed status '{status}' but at pilot scale an outstanding debt makes the "
+                f"record invalid until the debt is cleared AND the record re-validated "
+                f"(ENF-STEMMA-HITL-002, block_mode={block_mode}). Clear the debt or have the "
+                f"owner defer it.")
+        else:
+            # Debt is real and must be seen by whoever validates this record.
+            note = (f"{here} REVALIDATION DEBT (outstanding): {debt.get('reason')!r}"
+                    f"{owed_txt} incurred {debt.get('incurred_at')} — this {kind} holds status "
+                    f"'{status}' but may not be promoted further until the debt is cleared")
+            (warnings if warnings is not None else errors).append(note)
+    if dstatus == "cleared":
+        if not debt.get("cleared_by") or debt.get("cleared_stage") not in DEBT_CLEAR_STAGES:
+            errors.append(
+                f"{here} revalidation_debt cleared but not attributable — requires cleared_by "
+                f"(registered human) and cleared_stage in {sorted(DEBT_CLEAR_STAGES)}")
+    if dstatus == "deferred":
+        if not debt.get("deferred_by") or not debt.get("deferred_until"):
+            errors.append(
+                f"{here} revalidation_debt deferred requires deferred_by (SOLE_OWNER) and deferred_until")
+
+
+def _last_promotion_stage(record: dict) -> str | None:
+    """The most advanced stage recorded in provenance.promotion_history."""
+    prov = record.get("provenance")
+    if not isinstance(prov, dict):
+        return None
+    stages = [
+        e.get("stage") for e in (prov.get("promotion_history") or [])
+        if isinstance(e, dict) and e.get("stage") in STAGE_ORDER
+    ]
+    if not stages:
+        return None
+    return max(stages, key=lambda s: STAGE_ORDER.index(s))
+
+
+# A review status maps to the promotion stage that produces it. `canonical` is
+# the terminal state after the board stage.
+_STATUS_STAGE = {
+    "human_reviewed": "validator",
+    "validator_validated": "validator",
+    "independently_validated": "independent_validator",
+    "board_approved": "board",
+    "canonical": "board",
+}
+
+
+def _is_forward_of(status: str, last_stage: str | None) -> bool:
+    """True if `status` represents a stage beyond `last_stage`."""
+    target = _STATUS_STAGE.get(status)
+    if target is None:
+        return False
+    if last_stage is None:
+        return True
+    return STAGE_ORDER.index(target) > STAGE_ORDER.index(last_stage)
+
+
+def _stage_actor(entry: dict) -> str | None:
+    actor = entry.get("actor")
+    return actor if isinstance(actor, str) else None
+
+
+def _board_members(entry: dict) -> list[str]:
+    members = entry.get("board_members")
+    if isinstance(members, list):
+        return [m for m in members if isinstance(m, str)]
+    actor = _stage_actor(entry)
+    return [actor] if actor else []
+
+
+def _parse_iso(value: Any) -> "datetime | None":
+    if not isinstance(value, str) or not value.strip():
+        return None
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+
+
+def effective_status(record: dict) -> str | None:
+    """Review status of a record regardless of dataset: entities use top-level
+    `status`; connections use `assertion.review.status` with a top-level
+    `status` fallback (see _connection_review_status)."""
+    if record.get("type") == "connection":
+        return _connection_review_status(record)
+    s = record.get("status")
+    return s if isinstance(s, str) else None
+
+
+def check_promotion_chain(record: dict, agents: dict[str, dict], errors: list, here: str,
+                          min_gap_days: int = _DEFAULT_STAGE_GAP_DAYS,
+                          warnings: list | None = None,
+                          required_stages: tuple[str, ...] | None = None,
+                          board_waived: bool = False) -> None:
+    """Multi-stage promotion chain gate (ADR-0057 §1b, §2, §3).
+
+    The validator is NOT the final canonicalizer: canonical is reachable only
+    through an ordered chain. The full chain is validator ->
+    independent_validator -> board, with distinct actors and a >=2-member human
+    board. While the board waiver is active (ENF-STEMMA-HITL-003 board_waiver)
+    `required_stages` is the shorter validator -> independent_validator chain and
+    `board_waived` is True, so a record need not carry a board stage. Runs apply
+    on DISTINCT days: the same actor may not take two stages of one record on the
+    same calendar day (ENF-STEMMA-HITL-001).
+    """
+    if required_stages is None:
+        required_stages = tuple(STAGE_ORDER)
+    prov = record.get("provenance")
+    if not isinstance(prov, dict):
+        return
+    history = prov.get("promotion_history")
+    status = effective_status(record)
+
+    chain_desc = " -> ".join(required_stages)
+    if not history:
+        if status in REVIEWED_STATUSES:
+            errors.append(
+                f"{here} status '{status}' but provenance.promotion_history is empty — a reviewed "
+                f"status is reachable only via the promotion chain {chain_desc} (ADR-0057)")
+        return
+    if not isinstance(history, list):
+        errors.append(f"{here} provenance.promotion_history must be a list")
+        return
+
+    stages_seen: list[str] = []
+    for idx, entry in enumerate(history):
+        if not isinstance(entry, dict):
+            errors.append(f"{here} promotion_history[{idx}] must be an object")
+            continue
+        stage = entry.get("stage")
+        if stage not in STAGE_ORDER:
+            errors.append(f"{here} promotion_history[{idx}].stage illegal: {stage!r}")
+            continue
+        actor = entry.get("actor")
+        if not isinstance(actor, str) or actor not in agents:
+            errors.append(
+                f"{here} promotion_history[{idx}].actor {actor!r} not in schema/agent-registry.yaml")
+        elif agents.get(actor, {}).get("class") != "human":
+            errors.append(f"{here} promotion_history[{idx}].actor '{actor}' must be a human agent")
+        if not entry.get("at"):
+            errors.append(f"{here} promotion_history[{idx}].at (timestamp) is required")
+        if stage == "board":
+            if board_waived:
+                errors.append(
+                    f"{here} promotion_history[{idx}] records a board stage but the board stage is "
+                    f"currently waived (ENF-STEMMA-HITL-003 board_waiver) — the required chain is "
+                    f"{chain_desc}")
+            members = _board_members(entry)
+            board_waived_entry = isinstance(entry.get("independence_waiver"), dict)
+            if len(set(members)) < 2 and not board_waived_entry:
+                errors.append(
+                    f"{here} promotion_history[{idx}] board stage requires board_members with >=2 "
+                    f"distinct humans (found {members!r}) — or an owner-sanctioned independence_waiver "
+                    f"for the interim single-actor state (ENF-STEMMA-HITL-003)")
+            elif len(set(members)) < 2:
+                (warnings if warnings is not None else errors).append(
+                    f"{here} board stage approved by a single human under an independence_waiver — "
+                    f"legal only while the waiver holds (ENF-STEMMA-HITL-003)")
+            for m in members:
+                if m not in agents:
+                    errors.append(f"{here} promotion_history[{idx}] board member {m!r} not in agent registry")
+        stages_seen.append(stage)
+
+    # Order & completeness: for a record claiming a staged status, every required
+    # stage must be present, in order, exactly once. Under an active board waiver
+    # the required chain is the shorter one; a waived chain must contain no board
+    # stage, and must contain no board stage even as an extra.
+    if status in REVIEWED_STATUSES:
+        if board_waived:
+            relevant = [s for s in stages_seen if s in required_stages]
+            violations = [s for s in stages_seen if s not in required_stages]
+            if relevant != list(required_stages) or violations:
+                errors.append(
+                    f"{here} promotion_history stages {stages_seen} do not match the required "
+                    f"ordered chain {list(required_stages)} (board stage waived by "
+                    f"ENF-STEMMA-HITL-003) for a '{status}' record (ADR-0057)")
+        elif stages_seen != list(required_stages):
+            errors.append(
+                f"{here} promotion_history stages {stages_seen} do not match the required ordered "
+                f"chain {list(required_stages)} for a '{status}' record (ADR-0057)")
+
+    # Independence: consecutive stages must be distinct humans — OR carry an
+    # owner-sanctioned waiver (the interim single-actor state, ADR-0057 §1a).
+    by_stage = {e.get("stage"): e for e in history if isinstance(e, dict)}
+    waiver_present = any(
+        isinstance(e, dict) and isinstance(e.get("independence_waiver"), dict) for e in history
+    )
+    non_distinct = False
+    for a, b in zip(required_stages, required_stages[1:]):
+        ea, eb = by_stage.get(a), by_stage.get(b)
+        if not ea or not eb:
+            continue
+        act_a, act_b = _stage_actor(ea), _stage_actor(eb)
+        if act_a and act_b and act_a == act_b:
+            non_distinct = True
+    if non_distinct and not waiver_present:
+        errors.append(
+            f"{here} promotion_history has repeated actors across stages but no independence_waiver "
+            f"— stage N+1 must be a different human than stage N, or an owner-sanctioned waiver "
+            f"must be recorded (ADR-0057 §1a)")
+    if waiver_present:
+        for idx, entry in enumerate(history):
+            if not isinstance(entry, dict):
+                continue
+            w = entry.get("independence_waiver")
+            if w is None:
+                continue
+            if not isinstance(w, dict) or not w.get("sanctioned_by") or not w.get("reason"):
+                errors.append(
+                    f"{here} promotion_history[{idx}].independence_waiver requires sanctioned_by and reason")
+            if not w.get("retire_when"):
+                errors.append(
+                    f"{here} promotion_history[{idx}].independence_waiver requires retire_when "
+                    f"(the interim waiver must state when it stops applying)")
+
+    # Time separation: apply stages on DISTINCT days (ADR-0057 §1b).
+    _check_stage_time_gaps(history, errors, here, min_gap_days)
+
+
+def _check_stage_time_gaps(history: list, errors: list, here: str,
+                           min_gap_days: int = _DEFAULT_STAGE_GAP_DAYS) -> None:
+    """No two stages of one record may share a calendar day (owner ruling)."""
+    times: list[tuple[str, "datetime"]] = []
+    for entry in history:
+        if not isinstance(entry, dict):
+            continue
+        stage, at = entry.get("stage"), _parse_iso(entry.get("at"))
+        if stage in STAGE_ORDER and at is not None:
+            times.append((stage, at))
+    times.sort(key=lambda t: t[1])
+    for (s1, t1), (s2, t2) in zip(times, times[1:]):
+        delta_days = (t2.date() - t1.date()).days
+        if delta_days < min_gap_days:
+            errors.append(
+                f"{here} promotion stages '{s1}' ({t1.date()}) and '{s2}' ({t2.date()}) fall on the "
+                f"same day — the validator, independent validator and board must act on separate "
+                f"days (>= {min_gap_days} day apart) or the canonicalization is "
+                f"biased (ENF-STEMMA-HITL-001; owner-enforced rule)")
 
 
 def _agent_refs(conn: dict) -> list[tuple[str, str]]:
@@ -205,6 +641,34 @@ def check_connection_agents(conn: dict, agents: dict[str, dict], errors: list) -
     asserted = prov.get("asserted_by") or {}
     if method != "migration" and isinstance(asserted, dict) and str(asserted.get("id", "")).startswith("unknown:"):
         errors.append(f"{here} non-migrated assertion attributed to an unknown: agent — forbidden (E4.2)")
+
+    # Status-coupled human-review rule for connections (owner ruling 2026-10-01,
+    # UNRES-STEMMA-HITL-002): a connection claiming a reviewed status must carry a
+    # registered human reviewer, exactly like a content entity. `reviewed_by` may
+    # list humans; a `review_history` entry with a human reviewer also satisfies it.
+    cstatus = _connection_review_status(conn)
+    if cstatus in REVIEWED_STATUSES:
+        humans = [
+            obj.get("id") for obj in (prov.get("reviewed_by") or [])
+            if isinstance(obj, dict) and isinstance(obj.get("id"), str)
+            and str(obj.get("type")) == "human"
+        ]
+        hist_humans = [
+            h.get("reviewer") for h in (prov.get("review_history") or [])
+            if isinstance(h, dict) and isinstance(h.get("reviewer"), str)
+            and h["reviewer"].startswith("human:")
+        ]
+        if not humans and not hist_humans:
+            errors.append(
+                f"{here} review status '{cstatus}' requires a registered human reviewer in "
+                f"provenance.reviewed_by or a human review_history entry (HITL, UNRES-STEMMA-HITL-002)")
+
+
+def check_revalidation_debt_record(record: dict, errors: list,
+                                   block_mode: str = "full") -> None:
+    """Dataset-agnostic wrapper: names the record in the debt diagnosis."""
+    here = f"{record.get('_file', '<record>')}:"
+    check_revalidation_debt(record, errors, here, block_mode=block_mode)
 
 
 def check_external_ids(obj: dict, errors: list, here: str) -> None:
@@ -335,6 +799,77 @@ def check_historical(data: dict, errors: list, here: str) -> None:
                     errors.append(f"{here} historical.timeline[] requires an event string")
                 if ev.get("by") is not None and not isinstance(ev.get("by"), str):
                     errors.append(f"{here} historical.timeline[].by must be a string")
+
+
+ADOPTION_RELATIONS = {
+    "exact_match",
+    "close_match",
+    "broad_match",
+    "narrow_match",
+    "reidentification",
+    "merge",
+}
+
+# Closed key set for one adoption record (kept in lockstep with concept.schema.json).
+ADOPTED_FROM_KEYS = {
+    "external_id",
+    "relation",
+    "source_external_ids",
+    "note",
+    "adopted_at",
+    "authority",
+}
+
+
+def check_adopted_from(data: dict, errors: list, here: str) -> None:
+    """Validate the optional adoption-provenance field (ADR-0056 / REQ-STEMMA-EXP-002).
+
+    When `adopted_from` is present it must carry a `external_id` (non-empty string) and a
+    `relation` from the closed adoption-relation set. Optional `source_external_ids`
+    (mapping), `note`/`adopted_at` (strings), `authority` (internal|delegated). Absent-field
+    is fine — most entities are not adoptions, and an absent adoption record must never be
+    fabricated. Criterion 4 of REQ-STEMMA-EXP-002 holds that every entity WITH an adoption
+    history exposes this record; the schema's `additionalProperties: false` plus this check
+    are what make the record real rather than an unenforced convention.
+    """
+    adopted = data.get("adopted_from")
+    if adopted is None:
+        return
+    if not isinstance(adopted, dict):
+        errors.append(f"{here} adopted_from must be an object")
+        return
+
+    ext = adopted.get("external_id")
+    if not isinstance(ext, str) or not ext.strip():
+        errors.append(f"{here} adopted_from.external_id is required and must be a non-empty string")
+
+    rel = adopted.get("relation")
+    if rel not in ADOPTION_RELATIONS:
+        errors.append(
+            f"{here} adopted_from.relation {rel!r} is not one of {sorted(ADOPTION_RELATIONS)}"
+        )
+
+    src = adopted.get("source_external_ids")
+    if src is not None and not isinstance(src, dict):
+        errors.append(f"{here} adopted_from.source_external_ids must be a mapping")
+
+    for key in ("note", "adopted_at"):
+        v = adopted.get(key)
+        if v is not None and not isinstance(v, str):
+            errors.append(f"{here} adopted_from.{key} must be a string")
+
+    authority = adopted.get("authority")
+    if authority is not None and authority not in {"internal", "delegated"}:
+        errors.append(f"{here} adopted_from.authority must be 'internal' or 'delegated' (ADR-0049)")
+
+    # Defence in depth: the schema already closes this object (additionalProperties: false),
+    # but a malformed key must be caught here too so the reason is legible and the check
+    # survives a caller that validates without the schema pass.
+    unknown = sorted(set(adopted) - ADOPTED_FROM_KEYS)
+    if unknown:
+        errors.append(
+            f"{here} adopted_from has unknown key(s) {unknown}; allowed: {sorted(ADOPTED_FROM_KEYS)}"
+        )
 
 
 def load_schema() -> Any:
@@ -602,6 +1137,24 @@ def validate_connection(conn: dict, entities: dict, sources: dict, errors: list)
             errors.append(f"{here} target must be omitted when value is present (target XOR value; ARCH-V2 3.2)")
     elif not isinstance(tgt, str) or tgt not in entities:
         errors.append(f"{here} target does not resolve to a canonical entity: {tgt!r}")
+
+    # Endpoint STATUS coupling (owner ruling 2026-10-01, UNRES-STEMMA-HITL-002):
+    # the message above says "canonical entity", but historically the code tested
+    # only ID membership — a canonical connection could cite draft endpoints and
+    # the gate stayed green (recorded defect). Enforce the real invariant: a
+    # connection that itself claims review status may only cite canonical
+    # entities. A proposed/draft connection may legitimately reference drafts.
+    conn_status = _connection_review_status(conn)
+    if conn_status in REVIEWED_STATUSES:
+        for label, ep in (("source", src), ("target", tgt)):
+            if not isinstance(ep, str) or ep not in entities:
+                continue  # already reported as unresolved above
+            ep_status = entities.get(ep, {}).get("status")
+            if ep_status not in REVIEWED_STATUSES:
+                errors.append(
+                    f"{here} {label} '{ep}' has status '{ep_status}', but this connection is "
+                    f"'{conn_status}' — a reviewed connection may only cite canonical entities "
+                    f"(HITL coupling; ARCH-V2 3.2)")
 
     rel = conn.get("relation")
     registry = load_relation_registry().get("relations", {})
@@ -1162,6 +1715,7 @@ def main(argv: list[str] | None = None) -> int:
         check_entity_domain_identity(entity, id_domain_map, vocab_domains, errors)
         check_extensions(entity, "entity", errors, f"{entity['_file']}:")
         check_historical(entity, errors, f"{entity['_file']}:")
+        check_adopted_from(entity, errors, f"{entity['_file']}:")
         check_external_ids(entity, errors, f"{entity['_file']}:")
         _id = entity.get("id")
         if isinstance(_id, str):
@@ -1201,8 +1755,18 @@ def main(argv: list[str] | None = None) -> int:
     }
     warnings: list = []
     agents = load_agent_registry()
+    # Enforcement registry is authoritative over prose (owner ruling 2026-10-01).
+    # Missing file => SystemExit (fail closed), not a default.
+    _enf_rules = load_enforcement_rules()
+    _gap_days = _stage_gap_days(_enf_rules)
+    _debt_mode = _debt_block_mode(_enf_rules)
+    _chain = _required_stages(_enf_rules)
+    _board_waived = _board_waiver(_enf_rules) is not None
     for _entity in entities.values():
         check_entity_agents(_entity, agents, errors)
+        check_revalidation_debt(_entity, errors, f"{_entity['_file']}:", warnings, _debt_mode)
+        check_promotion_chain(_entity, agents, errors, f"{_entity['_file']}:", _gap_days, warnings,
+                              _chain, _board_waived)
     if not agents:
         errors.append("schema/agent-registry.yaml missing or empty (plan v2 E4.2: every provenance agent must resolve)")
     check_agent_registry_shape(agents, errors)
@@ -1214,6 +1778,9 @@ def main(argv: list[str] | None = None) -> int:
                 specific_pairs.add(frozenset((src, tgt)))
     for conn in connections.values():
         check_connection_agents(conn, agents, errors)
+        check_revalidation_debt(conn, errors, f"{conn.get('_file', '<connection>')}:", warnings, _debt_mode)
+        check_promotion_chain(conn, agents, errors, f"{conn.get('_file', '<connection>')}:", _gap_days, warnings,
+                              _chain, _board_waived)
         check_connection_context(conn, vocab, errors)
         check_assertion_epistemics(conn, errors, warnings)
         check_lifecycle_pointers(conn, connections, errors)

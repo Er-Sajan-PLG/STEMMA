@@ -88,7 +88,7 @@ vertical slice ahead of R4. Evidence → as-built → requirements → specifica
 recovered; implementation treated as evidence, not authority.
 
 - Charter `../spec/PILOT_CHARTER.md`, slice recorded as ADR-STEMMA-SPEC-001 (`../spec/DECISIONS/`)
-- 37 classified evidence records; 22 requirements (full §8.6 schema) **ALL PROPOSED** — owner approval pending (SOLE_OWNER Sajan; agent had no approval power)
+- 41 classified evidence records; 24 requirements (full §8.6 schema) **ALL APPROVED 2026-10-01** by owner (Sajan / human:curator.001; agent had no approval power); maturity L3, verification (L4) next
 - 2 interfaces (export knowledge.json 2.2.0; verify_all CLI), 6 UNRES, 2 CONFLICT (1 OPEN: vector-store `meta.json` type label), assumptions, two-tier gap analysis
 - Machine-readable canonical set `../spec/machine-readable/` + minimum validator (9/9 checks, fails closed)
 - Baseline `../spec/BASELINE.md`, maturity **L2 slice-scoped** — L3 blocked on owner approval, L4 blocked per §9.1 (no VERIFIED pre-APPROVED)
@@ -141,6 +141,8 @@ slow-research evaluation docs/PERSISTENT-IDENTIFIER-BRIEF.md):
 R4 proceeds unchanged (never depended on the gate).
 
 ## R6 — Projection Publication (Roadmap R4 After Phase 5) Days — 🔄 STARTED 2026-09-23 (increment 1: knowledge.jsonld projection + validation + determinism, PID-agnostic)
+
+**Identifier base DECIDED 2026-10-01: `stemma-urn-only`** — ADR-0053(b) settled at this stage per Amendment 0001: STEMMA publishes under its own `stemma:` URNs with **no external resolution base** (`docs/decisions/r6-identifier-base.md`); the projection keeps `"stemma": "stemma:"`. `publication_gate.py` is now OPEN. Deferred deliberately until the corpus, the review process, and the identifier policy are proven (upgrade conditions in that record §6); w3id remains the *intended* base, adopted later via a one-line `@context` change. `docs/IDENTIFIER-POLICY.md` records the semantic guarantees that carry persistence in the meantime. This decision requires no owner infrastructure action.
 
 exports/knowledge.jsonld + SKOS mapping + context file + SHACL shapes learn-from + signed release bundle + integrity manifest pluggable BFO schema.org
 

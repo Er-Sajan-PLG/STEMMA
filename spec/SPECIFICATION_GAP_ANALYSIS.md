@@ -1,8 +1,11 @@
 # SPECIFICATION GAP ANALYSIS — CORE-GATE-EXPORT slice
 
-Protocol §21. All requirements are PROPOSED (unapproved) → findings below are
-**preliminary observations** (§21.1); nothing here declares authoritative
-nonconformance.
+Protocol §21. The requirement set was **APPROVED on 2026-10-01** (Sajan /
+`human:curator.001`; spec/BASELINE.md, maturity L3). Approval removes §21.1's
+"preliminary observation" qualifier: findings below are now authoritative
+conformance judgments *to the extent they are verified* — and no verification
+execution has yet been run (spec/VERIFICATION.md), so findings remain
+**stated-gap observations awaiting verification**, not confirmed nonconformance.
 
 ## Tier 1 — Deep pilot findings (inside slice)
 

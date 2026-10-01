@@ -52,7 +52,7 @@ def test_manifest_fields(bundle):
     assert m["license"] == "CC-BY-4.0" and m["license_url"].startswith("https://creativecommons.org/licenses/by/4.0")
     assert m["generated_at"] == "2026-09-21T14:13:20Z"  # SOURCE_DATE_EPOCH, not the wall clock
     assert m["release_tag"] == "v0.0.0-test"
-    assert m["release_status"].startswith("PENDING-PUBLICATION")  # no identifier-base decision yet
+    assert m["release_status"].startswith("PUBLISHABLE")  # R6 identifier base decided 2026-10-01 (stemma-urn-only)
     listed = dict(line.split("  ")[::-1] for line in (bundle / "SHA256SUMS.txt").read_text().splitlines())
     assert set(m["files"]) == set(listed)
     for name, meta in m["files"].items():

@@ -5,6 +5,37 @@ knowledge foundation. Every contribution keeps the foundation
 **curriculum-agnostic, product-independent, identity-stable, and honest about
 provenance**.
 
+> ## ⚠️ Contributor intake is CLOSED — frozen until the owner decides otherwise
+>
+> STEMMA is **not accepting external contributions at this time**. This is a
+> deliberate, owner-ruled freeze (recorded 2026-10-01), **not** a signal that the
+> project is closed. The project is single-maintainer by design during the pilot
+> period.
+>
+> **Why:** the canonical corpus and the review process are not yet at the
+> maturity that accepting public contributions would require. There are no
+> professional reviewers in the loop yet; verification is human-directed,
+> AI-assisted (see `docs/CURATION-PROTOCOL.md`). Accepting contributions before
+> the review chain can do them justice would put unverified material into a
+> permanent, identifier-stable layer.
+>
+> **Until when:** until the owner decides to open intake. The owner's decision is
+> the only thing that lifts this freeze; there is no date attached yet, on
+> purpose — declaring a date would invite contributions the review chain cannot
+> yet absorb. The exit condition parallels the R6 identifier-base upgrade
+> conditions (`docs/decisions/r6-identifier-base.md` §6): a reviewed process at
+> meaningful scale.
+>
+> **What this means for you:** the repository remains **readable and forkable**
+> under CC BY 4.0 / MIT (see Licensing below). Issues that report genuine
+> errors are welcome. Pull requests from non-owners will not be merged while the
+> freeze is in force.
+>
+> **Exit condition recorded:** intake opens when the owner rules that the review
+> process is real and repeatable at scale (second reviewers registered, or the
+> AI-assisted verification workflow documented and demonstrably exercised).
+> Owner: Sajan (SOLE_OWNER).
+
 Start here: [docs/VISION.md](VISION.md) ·
 [docs/GOVERNANCE.md](GOVERNANCE.md) ·
 [docs/CONTRIBUTING.md](CONTRIBUTING.md) (detailed guide).
@@ -50,6 +81,9 @@ npm --prefix explorer run verify
   process and the human-review gates.
 
 ## Adding knowledge
+
+*While intake is frozen, this section describes the owner-operator workflow. It
+becomes the contributor workflow when the freeze lifts.*
 
 - **Entity**: `content/<domain>/<subdomain>/<slug>.md`, YAML frontmatter per
   `docs/SCHEMA-SPECIFICATION.md` §3, `status: draft`, honest provenance.

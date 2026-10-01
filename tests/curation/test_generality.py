@@ -23,15 +23,103 @@ import yaml
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 
-# --- Fields that whose very presence asserts applicability-dependency ---
+# --- Fields whose very presence asserts applicability-dependency ---
 # (structured metadata, not prose). The plan's invariant: fail atomically if a canonical
 # entity carries a frontmatter key that declares a grade/curriculum/country/product scope.
 # Per ADR-0047 L7 refinement: learning_objectives instructional_sequencing removed entirely,
 # real_world_applications common_misconceptions allowed ONLY when evidenced as ValueClaims not as entity frontmatter.
-SCOPING_FIELDS = re.compile(
-    r"^(grade|curriculum|syllabus|level|course_level|countr[ay]_scope|school_system|board|exam_scope|learning_objectives|instructional_sequencing|real_world_applications|common_misconceptions)$",
-    re.I,
+#
+# WIDENED 2026-10-01 (owner ruling on UNRES-STEMMA-CORE-002). The original form was
+# `^(<tokens>)$` — anchored at both ends to the exact key. That caught `grade` but missed
+# every *prefixed/suffixed variant* of the same claim: `grade_level`, `grade_band`,
+# `target_grade`, `unit_grade`, `grade_level_scope`, `curriculum_scope`, `edu_level`,
+# `key_stage`, ... An exact-key anchor is the wrong shape for a *claim detector*: the
+# invariant is "no key declares a grade/curriculum scoping meaning", and a scoper that
+# merely renames the key to `grade_level` has not stopped declaring it.
+#
+# The widened form matches a scoping TOKEN anywhere in a `_`/`-`-delimited identifier, so
+# `grade`, `grade_level`, `target_grade`, `grade_band` all fire. `_is_scoping_field` still
+# normalises separators and compares whole tokens (never substrings), which is what keeps
+# legitimate identifiers such as `upgrade_notes` or `multigrade` from being flagged.
+SCOPING_TOKENS = (
+    "grade",
+    "grades",
+    "curriculum",
+    "syllabus",
+    "course_level",
+    "courselevel",
+    "key_stage",
+    "keystage",
+    "school_system",
+    "schoolsystem",
+    "exam_scope",
+    "examscope",
+    "board",
+    "stream",
+    "learning_objectives",
+    "instructional_sequencing",
+    "real_world_applications",
+    "common_misconceptions",
 )
+# `level` needs special handling: it is BOTH a scoping claim (`level`, `edu_level`,
+# `grade_level`) AND a legitimate scientific word we must never reject (`trophic_level`,
+# `energy_level`, `sea_level`). Bare `level` also has no science use as a *key*.
+# Suffixes that turn a bare `level` into an unambiguous education-scoping claim:
+_SCOPING_LEVEL_PREFIXES = ("edu", "education", "grade", "class", "academic", "school", "study")
+
+
+def _scoping_tokens(key: str) -> list[str]:
+    """Split an identifier into lowercase word tokens on `_`, `-`, `.`, camelCase, digits.
+
+    `grade_level` -> ['grade','level'] ; `targetGrade` -> ['target','grade'] ;
+    `grade10Scope` -> ['grade','10','scope']. Tokenisation (not substring search) is what
+    lets us widen to variants without also matching `upgrade` (one token) or `multigrade`.
+    """
+    # camelCase -> camel Case, then split non-alphanumerics.
+    spaced = re.sub(r"(?<=[a-z0-9])(?=[A-Z])", " ", key)
+    return [t for t in re.split(r"[^a-z0-9]+", spaced.lower()) if t]
+
+
+def _joined_token_forms(key: str) -> set[str]:
+    """All contiguous token n-grams, both space- and underscore-joined.
+
+    Needed because multi-word scoping tokens (`learning_objectives`, `key_stage`,
+    `course_level`) split apart under tokenisation: `key_stage` -> ['key','stage'] would
+    never equal the single token 'key_stage'. Joining windows restores both spellings so a
+    key is matched whether the author wrote `key_stage`, `keyStage` or `key stage`.
+    """
+    tokens = _scoping_tokens(key)
+    forms: set[str] = set(tokens)
+    for i in range(len(tokens)):
+        for j in range(i + 1, len(tokens) + 1):
+            window = tokens[i:j]
+            forms.add("_".join(window))
+            forms.add(" ".join(window))
+    return forms
+
+
+def _is_scoping_field(key: str) -> bool:
+    """True when a frontmatter KEY declares a grade/curriculum/country/product scope.
+
+    Widened 2026-10-01: matches a scoping token ANYWHERE in the identifier, so prefixed
+    and suffixed variants (`grade_level`, `target_grade`, `curriculum_scope`) are caught —
+    see UNRES-STEMMA-CORE-002. Whole-token (and token-window) comparison, never substring,
+    so `upgrade_notes` and `multigrade` stay legitimate.
+    """
+    tokens = _scoping_tokens(key)
+    if not tokens:
+        return False
+    forms = _joined_token_forms(key)
+    # `level` only counts when qualified as an education level, never as bare science level.
+    if "level" in tokens:
+        qualified = any(t in _SCOPING_LEVEL_PREFIXES for t in tokens if t != "level")
+        if qualified:
+            return True
+    # Single-token and multi-word scoping names, in either separator spelling.
+    for name in SCOPING_TOKENS:
+        if name in forms or name.replace("_", " ") in forms:
+            return True
+    return False
 
 # --- Precision patterns: these match a SCOPING CLAIM, not a scientific token. ---
 # They fire only when content literally claims it belongs to a grade/curriculum/syllabus.
@@ -47,10 +135,8 @@ SCOPING_CLAIMS = re.compile(
     re.I | re.X,
 )
 
-# Forbidden SCOPING-FIELD keys matched (case-insensitive substring on the field name), so we
-# report the offending key clearly rather than fail through transparency.
-def _is_scoping_field(key: str) -> bool:
-    return bool(SCOPING_FIELDS.match(key))
+# Forbidden SCOPING-FIELD keys are matched by `_is_scoping_field` above (widened 2026-10-01),
+# which reports the offending key clearly rather than failing through transparency.
 
 
 def _frontmatter(path: pathlib.Path) -> dict:
@@ -125,6 +211,101 @@ def test_no_brittle_blacklist_rejection():
     print("PASS: legitimate science prose not flagged")
 
 
+def test_scoping_field_guard_catches_prefixed_variants():
+    """MUTATION TEST (UNRES-STEMMA-CORE-002): the widened guard MUST catch renamed variants.
+
+    Before 2026-10-01 the guard was `^(...)$`-anchored and matched ONLY the exact key. Every
+    case below was a live bypass: `grade_level: 10` passed the guard entirely. A guard that
+    only catches the *spelling* you happened to write is not a guard — so each formerly-missed
+    variant is pinned here as a must-catch.
+    """
+    must_catch = [
+        "grade_level", "grade_band", "grade_range", "grade_scope", "target_grade",
+        "unit_grade", "grade_level_scope", "gradeLevel", "Grade", "grades",
+        "curriculum_scope", "curriculum_id", "syllabus_code",
+        "course_level_scope", "course_level", "key_stage", "school_system",
+        "exam_scope", "exam_board", "board", "stream",
+        "edu_level", "education_level", "academic_level",
+        "learning_objectives", "instructional_sequencing",
+        "real_world_applications", "common_misconceptions",
+    ]
+    missed = [k for k in must_catch if not _is_scoping_field(k)]
+    assert not missed, (
+        "widened scoping guard MISSED renamed variants (UNRES-STEMMA-CORE-002 regression): "
+        f"{missed}"
+    )
+    print(f"PASS: {len(must_catch)} scoping-key variants caught (incl. prefixed/suffixed)")
+
+
+def test_scoping_field_guard_does_not_overreach():
+    """NEGATIVE CONTROL: widening must not turn the guard into a substring blacklist.
+
+    This is the other half of the mutation test — the guard has to go red on the variants
+    above WITHOUT going red on legitimate identifiers that merely contain a scoping-ish word.
+    `upgrade_notes` contains "grade"; `multigrade` contains "grade"; `trophic_level` contains
+    "level". A widening that flags those would break real content.
+    """
+    must_allow = [
+        "upgrade_notes",       # contains the substring 'grade'
+        "multigrade",          # ditto
+        "downgrade_reason",    # ditto
+        "trophic_level",       # science level, not education level
+        "energy_level",
+        "sea_level",
+        "confidence_level",
+        "definition",           # control: ordinary key
+        "domain",
+        "same_dimensional_quantities",
+        "subdomain",
+    ]
+    overreached = [k for k in must_allow if _is_scoping_field(k)]
+    assert not overreached, (
+        "widened scoping guard OVERREACHED onto legitimate identifiers: "
+        f"{overreached}"
+    )
+    print(f"PASS: {len(must_allow)} legitimate keys not flagged (widening is token-precise)")
+
+
+def test_widened_guard_is_enforced_end_to_end(tmp_path):
+    """END-TO-END MUTATION: an injected 'grade_level' key in a real content tree must fail.
+
+    The two tests above pin the matcher in isolation. This one proves the *whole guard*
+    (glob -> frontmatter -> key check) rejects an injected variant, i.e. the fix is wired in
+    and not merely defined. Runs against a temp copy so the working tree is never touched.
+    """
+    import shutil
+    content = tmp_path / "content" / "physics"
+    content.mkdir(parents=True)
+    src = sorted(ROOT.glob("content/**/*.md"))
+    if not src:
+        print("SKIP: no canonical content to copy (empty knowledge base)")
+        return
+    # Start from a real entity so the frontmatter is valid in every other respect; the
+    # scoping key is the ONLY thing wrong.
+    sample = content / src[0].name
+    shutil.copy(src[0], sample)
+    text = sample.read_text()
+    injected = text.split("---", 2)
+    injected[1] = injected[1].rstrip() + "\ngrade_level: 10\n"
+    sample.write_text("---".join(injected))
+
+    original_root = ROOT
+    try:
+        globals()["ROOT"] = tmp_path
+        try:
+            test_no_curriculum_grade_country_metadata_fields()
+        except AssertionError as exc:
+            assert "grade_level" in str(exc), f"guard failed but did not name the key: {exc}"
+            print("PASS: injected 'grade_level' key rejected by the end-to-end guard")
+            return
+        raise AssertionError(
+            "MUTATION NOT DETECTED: injected 'grade_level' key passed the guard — "
+            "UNRES-STEMMA-CORE-002 has regressed"
+        )
+    finally:
+        globals()["ROOT"] = original_root
+
+
 def test_provenance_attribution_allowed():
     """provenance.source/source_kind/historical are attribution (SOURCES.md), not curriculum.
 
@@ -177,6 +358,8 @@ if __name__ == "__main__":
     test_no_curriculum_grade_country_metadata_fields()
     test_no_scoping_claims_in_definition_or_notes()
     test_no_brittle_blacklist_rejection()
+    test_scoping_field_guard_catches_prefixed_variants()
+    test_scoping_field_guard_does_not_overreach()
     test_provenance_attribution_allowed()
     test_no_upstream_coupling()
     print("ALL GENERALITY TESTS PASS")

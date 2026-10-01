@@ -2,7 +2,7 @@
   "export_version": "2.2.0",
   "schema_version": "1.3.0",
   "policy": "type:law",
-  "content_hash": "sha256:cbf17acdb11cb78dfa15171580dabe1000731a4f9ae4d3e6f11c4b910903e157",
+  "content_hash": "sha256:df7943c4e08e53620f6169cce4b58f99b6371f362d1833b355d32fd5656944f9",
   "source": "content/ + connections/ + sources/ (canonical)",
   "entity_count": 2,
   "connection_count": 0,
@@ -13,7 +13,7 @@
       "name": "Conservation of Energy",
       "domain": "physics",
       "subdomain": "mechanics",
-      "status": "canonical",
+      "status": "draft",
       "definition": "Conservation of energy: for an isolated system the total energy — summed over all forms (kinetic, potential, thermal, chemical, nuclear, ...) — remains constant in time; energy transforms between forms but is neither created nor destroyed. Historical line: Mayer (1842), Joule (1843), Helmholtz (1847, 'Über die Erhaltung der Kraft'); standard statement per Halliday, Resnick, Walker 12th ed., Ch 8.",
       "symbol": "E_total = const",
       "same_dimensional_quantities": null,
@@ -28,9 +28,7 @@
         "source": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 8 (potential energy and conservation of energy in isolated systems).",
         "link": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511",
         "original_author": "Mayer, Joule, Helmholtz",
-        "retrieved_at": "2026-09-22",
-        "reviewer": "human:curator.001",
-        "reviewed_at": "2026-09-23T04:35:20.283368+00:00"
+        "retrieved_at": "2026-09-22"
       },
       "source_refs": [
         "stemma:src.halliday-resnick-walker-12th"
@@ -67,7 +65,7 @@
       "name": "Newton's Second Law",
       "domain": "physics",
       "subdomain": "mechanics",
-      "status": "canonical",
+      "status": "draft",
       "definition": "Newton's second law of motion: the net external force on a system equals the time rate of change of its total linear momentum, ΣF = dp/dt; for constant mass this reduces to F = m a. Valid in classical (non-relativistic) mechanics in inertial reference frames. Stated by Isaac Newton as Lex II in Philosophiae Naturalis Principia Mathematica (1687); standard modern formulation per Halliday, Resnick, Walker 12th ed., Ch 5.",
       "symbol": "F_net = m a",
       "same_dimensional_quantities": null,
@@ -82,9 +80,7 @@
         "source": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5 (Newton second law, force and momentum); Principia (1687), Lex II.",
         "link": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511",
         "original_author": "Isaac Newton",
-        "retrieved_at": "2026-09-22",
-        "reviewer": "human:curator.001",
-        "reviewed_at": "2026-09-23T04:35:20.201837+00:00"
+        "retrieved_at": "2026-09-22"
       },
       "source_refs": [
         "stemma:src.halliday-resnick-walker-12th",

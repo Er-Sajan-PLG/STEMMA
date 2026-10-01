@@ -67,14 +67,16 @@ test (ADR-0052).
 Specification Recovery Protocol v3.1 (pilot edition) over the CORE–GATE–EXPORT
 vertical slice (2026-09-22, ahead of the R4 content acceptance test):
 
-- **22 requirements** (full schema, evidence-traced) — **all PROPOSED**; none are
-  normative until the owner approves them. The recovery agent had no approval power.
+- **24 requirements** (full schema, evidence-traced) — **all APPROVED 2026-10-01**
+  by the owner (`human:curator.001`); the recovery agent had no approval power.
+  Verification (L4) has begun: **2 of 24 VERIFIED 2026-10-01** (GATE-001
+  fail-closed gate, OPS-001 clean-clone reproducibility); the rest await execution.
 - **2 interface contracts** (`exports/knowledge.json` 2.2.0; `verify_all.py` CLI),
-  37 classified evidence records, 6 open questions, 2 conflict records,
+  45 classified evidence records, 7 open questions, 2 conflict records,
   two-tier gap analysis, machine-readable registries + a minimum validator
   (`python3 spec/machine-readable/validate_recovery.py`, 9/9 checks).
-- Baseline `spec/BASELINE.md` — maturity **L2 (slice-scoped only)**; approval and
-  verification are the owner's next steps. Entry points: `spec/REQUIREMENTS.md`,
+- Baseline `spec/BASELINE.md` — maturity **L3 (approved baseline)**; verification
+  (L4) is in progress. Entry points: `spec/REQUIREMENTS.md`,
   `spec/OPEN_QUESTIONS.md`; process review: `SPECIFICATION_PROCESS_REVIEW.md`.
 
 ## Status
@@ -85,8 +87,8 @@ vertical slice (2026-09-22, ahead of the R4 content acceptance test):
 Machine-checkable live counts — `scripts/status_truth.py` (CI) fails if this
 block drifts from canonical content (audit F2: status honesty is a gate):
 
-- Entities: **9** — human-reviewed/canonical: **7**, draft: **2**
-- Connections (first-class assertions): **2** — review-canonical: **2** (100.0%), unreviewed: **0**
+- Entities: **9** — human-reviewed/canonical: **1**, draft: **8**
+- Connections (first-class assertions): **2** — review-canonical: **1** (50.0%), unreviewed: **1**
 - Canonical source records: **3**
 <!-- status-truth:end -->
 
