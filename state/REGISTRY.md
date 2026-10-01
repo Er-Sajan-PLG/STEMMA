@@ -12,7 +12,7 @@
 |---|---|---|---|---|---|
 | `A7F3` | `20261001-1123-A7F3-race-fix-bootstrap` | 2026-10-01T11:23Z | Fix the export read/write race; adopt MACP and bootstrap `state/` | — | **ended** |
 | `A7F3` | `20261001-1153-A7F3-debt-cleanup` | 2026-10-01T11:53Z | Close the two unblocked documentation debt items (DEBT-001, DEBT-002) | — | **ended** |
-| `A7F3` | `20261001-1434-A7F3-shadow-tree` | 2026-10-01T14:34Z | Eliminate real-tree mutation from `test_promotion_chain.py` via a shadow tree (DEBT-007 residual) | `tests/repo/test_promotion_chain.py` | **active** |
+| `A7F3` | `20261001-1434-A7F3-shadow-tree` | 2026-10-01T14:34Z | Eliminate real-tree mutation from `test_promotion_chain.py` via a shadow tree (DEBT-007 residual) | `tests/repo/test_promotion_chain.py`, `tests/repo/test_state_tree.py`, `state/**` | **active** |
 | `A7F3` | `20261001-1215-A7F3-cold-start-handoff` | 2026-10-01T12:15Z | Verify a cold clone can continue from `state/`, fix the cold-start gaps, sweep the chain for sibling silent-skip paths, incorporate MACP Amendment 1, and correct the FAISS mislabel | — | **ended** |
 
 No agent is currently active. `files_owned` is empty for every row, so any file is free to
