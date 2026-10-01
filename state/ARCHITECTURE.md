@@ -9,7 +9,7 @@
 ## Cold start (do this before your first gate run)
 
 A **fresh clone is not ready to work in.** Git does not clone `.git/hooks`, and
-`requirements-dev.txt` is separate from `requirements.txt`. Verified by cloning the branch
+`requirements-dev.txt` is separate from `requirements.txt`. Verified by cloning `main`
 cold and following these steps literally.
 
 ```bash
@@ -18,7 +18,7 @@ source .venv/bin/activate                                 # or export VIRTUAL_EN
 pip install -r requirements.txt -r requirements-dev.txt
 python3 scripts/install_hooks.py                          # installs pre-commit + pre-push
 python3 scripts/verify_all.py                             # expect exit 0
-python3 tests/repo/test_state_tree.py                     # expect 12/12
+python3 tests/repo/test_state_tree.py                     # expect 16/16
 ```
 
 > **Use a venv.** A bare `pip install` fails on PEP 668 systems
