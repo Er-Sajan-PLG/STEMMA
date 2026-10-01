@@ -27,3 +27,12 @@ release/R6-bundle-*/
 
 # editable installs (pip install -e adapters/python)
 *.egg-info/
+
+# ── Key material safety net ──────────────────────────────────────────────────
+# The owner's GPG private key and revocation certificate must NEVER be committed
+# (docs/API.md "Owner signature"; docs/keys/README.md). The PUBLIC key at
+# docs/keys/stemma-owner-pubkey.asc is intentionally tracked, so the negation
+# below re-includes it after the broad *.asc rule.
+*.asc
+*.rev
+!docs/keys/stemma-owner-pubkey.asc
