@@ -236,3 +236,121 @@ exits 1. Workflow YAML still parses.
 **Lesson.** A path filter on a freshness check is a hand-maintained allow-list of "places things
 get written", and it silently goes stale when a new generated artifact appears elsewhere. Where
 the invariant is "nothing changed", say exactly that.
+
+---
+
+## DEBT-007 — A test deletes a tracked file, so it is environment-sensitive (mitigated)
+
+**Found:** 2026-10-01 by `A7F3`, when a pre-push run failed and blocked a push
+**Severity:** medium — it produced a *false* regression signal and blocked delivery
+**Status:** mitigated (the failure is now diagnosable; the underlying fragility remains)
+
+**What happened.** A push was blocked by the pre-push hook:
+
+```
+FAILED tests/repo/test_promotion_chain.py::test_missing_enforcement_registry_fails_closed
+1 failed, 17 passed in 3.09s
+```
+
+The test **passed 5/5 when run directly**. The hook log carried the real cause:
+
+```
+[safe-delete][SAFE_DELETE_BULK_CONFIRM_REQUIRED] {... "targets":
+  [".../spec/machine-readable/enforcement_rules.yaml"] ...}
+```
+
+**Root cause.** `test_missing_enforcement_registry_fails_closed` removes the **real, tracked**
+`spec/machine-readable/enforcement_rules.yaml` and restores it in `finally`. This environment
+intercepts file deletion — `unlink()` is routed through a trash-move helper which emits
+`[safe-delete]` messages, and **raises** when it cannot complete the move
+(`SAFE_DELETE_FAIL_CLOSED`), or when a per-turn delete budget is exceeded
+(`SAFE_DELETE_BULK_CONFIRM_REQUIRED`, threshold 50). When the removal is blocked, the registry
+stays in place, `validate.py` then *succeeds*, and the test fails on
+`assert r.returncode != 0` — a message that points at the gate rather than at the blocked
+setup step.
+
+**Why this is a real repo defect and not just an environment quirk.** Two properties are wrong
+on the repository's side of the line:
+
+1. **It mutates a tracked file to test a behaviour.** A crash or an interrupt between
+   `unlink()` and the `finally` leaves the repository without a registry that every gate reads.
+   That is the same class as DEBT-005, which was also a test mutating real state.
+2. **A blocked setup step fails as if the *code* regressed.** Nothing distinguished "the
+   fail-closed behaviour is broken" from "we could not set up the scenario".
+
+**Mitigation applied.** The test now:
+- catches an exception from `unlink()` and **skips** with the exception text, and
+- verifies the file is actually gone before asserting, and **skips** with a reason if a guard
+  intercepted the removal.
+
+Verified both ways: normal path **passes**; with the directory made read-only the test
+**skips** (1 skipped) instead of failing, and the registry is left byte-identical.
+
+**Residual fragility — not fixed.** The test still touches the real tree. The clean fix is a
+**shadow tree**, the pattern already used by `tests/repo/test_gate_fail_closed.py`: copy the
+minimal tree into `tmp_path` and break it there, so nothing real is mutated. That requires
+`validate.py` to resolve the registry path relative to the tree root it is run from, which is a
+larger change than this defect justifies on its own. Recorded as the recommended follow-up.
+
+**Lesson.** A test whose *setup* mutates tracked state cannot distinguish "the behaviour
+regressed" from "the environment stopped me". Verify the setup took effect, and say which of
+the two happened.
+
+---
+
+## DEBT-007 — A test deletes a tracked file, so it is environment-sensitive (mitigated)
+
+**Found:** 2026-10-01 by `A7F3`, when a pre-push run failed and blocked a push
+**Severity:** medium — it produced a *false* regression signal and blocked delivery
+**Status:** mitigated (the failure is now diagnosable; the underlying fragility remains)
+
+**What happened.** A push was blocked by the pre-push hook:
+
+```
+FAILED tests/repo/test_promotion_chain.py::test_missing_enforcement_registry_fails_closed
+1 failed, 17 passed in 3.09s
+```
+
+The test **passed 5/5 when run directly**. The hook log carried the real cause:
+
+```
+[safe-delete][SAFE_DELETE_BULK_CONFIRM_REQUIRED] {... "targets":
+  [".../spec/machine-readable/enforcement_rules.yaml"] ...}
+```
+
+**Root cause.** `test_missing_enforcement_registry_fails_closed` removes the **real, tracked**
+`spec/machine-readable/enforcement_rules.yaml` and restores it in `finally`. This environment
+intercepts file deletion — `unlink()` is routed through a trash-move helper which emits
+`[safe-delete]` messages, and **raises** when it cannot complete the move
+(`SAFE_DELETE_FAIL_CLOSED`), or when a per-turn delete budget is exceeded
+(`SAFE_DELETE_BULK_CONFIRM_REQUIRED`, threshold 50). When the removal is blocked, the registry
+stays in place, `validate.py` then *succeeds*, and the test fails on
+`assert r.returncode != 0` — a message that points at the gate rather than at the blocked
+setup step.
+
+**Why this is a real repo defect and not just an environment quirk.** Two properties are wrong
+on the repository's side of the line:
+
+1. **It mutates a tracked file to test a behaviour.** A crash or an interrupt between
+   `unlink()` and the `finally` leaves the repository without a registry that every gate reads.
+   That is the same class as DEBT-005, which was also a test mutating real state.
+2. **A blocked setup step fails as if the *code* regressed.** Nothing distinguished "the
+   fail-closed behaviour is broken" from "we could not set up the scenario".
+
+**Mitigation applied.** The test now:
+- catches an exception from `unlink()` and **skips** with the exception text, and
+- verifies the file is actually gone before asserting, and **skips** with a reason if a guard
+  intercepted the removal.
+
+Verified both ways: normal path **passes**; with the directory made read-only the test
+**skips** (1 skipped) instead of failing, and the registry is left byte-identical.
+
+**Residual fragility — not fixed.** The test still touches the real tree. The clean fix is a
+**shadow tree**, the pattern already used by `tests/repo/test_gate_fail_closed.py`: copy the
+minimal tree into `tmp_path` and break it there, so nothing real is mutated. That requires
+`validate.py` to resolve the registry path relative to the tree root it is run from, which is a
+larger change than this defect justifies on its own. Recorded as the recommended follow-up.
+
+**Lesson.** A test whose *setup* mutates tracked state cannot distinguish "the behaviour
+regressed" from "the environment stopped me". Verify the setup took effect, and say which of
+the two happened.

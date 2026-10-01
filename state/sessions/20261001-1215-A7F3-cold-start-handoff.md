@@ -429,3 +429,49 @@ user-induced protocol violation, protocol version drift, and the "boring update"
 Gate: **363 pytest · verify_all 42 OK / 0 FAIL · docs PASS · state tree 14/14.**
 
 **Work unit complete — session remains ACTIVE.**
+
+## [BUG FOUND] 2026-10-01T13:20Z — a push was blocked by a false regression signal (DEBT-007)
+
+**Symptom.** `git push` failed. First attempt reported a network timeout
+(`Recv failure: Connection timed out`); the retry failed *fast* and the `tail` I had wrapped
+around it hid the reason. Re-running with full logging gave it:
+
+```
+FAILED tests/repo/test_promotion_chain.py::test_missing_enforcement_registry_fails_closed
+1 failed, 17 passed
+```
+
+**Diagnosis, in order.** The test passed **5/5** when run directly, and the whole module
+passed 5/5 — so not a code regression. The hook log carried the real cause:
+`[safe-delete][SAFE_DELETE_BULK_CONFIRM_REQUIRED]` naming
+`spec/machine-readable/enforcement_rules.yaml`.
+
+**Root cause.** The test removes the **real, tracked** enforcement registry to exercise the
+fail-closed path. This environment intercepts `unlink()` — it routes deletion through a
+trash-move helper that **raises** when it cannot complete the move
+(`SAFE_DELETE_FAIL_CLOSED`) or when a per-turn delete budget is exceeded. When the removal is
+blocked, the registry stays, `validate.py` succeeds, and the test fails on
+`assert r.returncode != 0` — pointing at the gate instead of at the blocked setup step.
+
+**Why it is a repo defect, not just an environment quirk.** (1) The test mutates tracked state
+to test a behaviour — the same class as DEBT-005; an interrupt between `unlink()` and `finally`
+leaves the repo without a registry every gate reads. (2) A blocked *setup* step fails as if the
+*code* regressed, which is a misleading signal.
+
+**Mitigation.** The test now catches an exception from `unlink()` and skips with the exception
+text, and verifies the file is actually gone before asserting (skipping with a reason if a
+guard intercepted it). Verified both ways: normal path passes; with the directory read-only it
+**skips** rather than fails, and the registry is left byte-identical.
+
+**Residual, recorded not hidden:** the test still touches the real tree. The clean fix is a
+shadow tree (the pattern in `test_gate_fail_closed.py`), which needs `validate.py` to resolve
+the registry path relative to its tree root — larger than this defect justifies alone.
+
+**[PROCESS] Two of my own habits made this slower than it needed to be.** Wrapping the push in
+`| tail -4` **hid the failure reason** and cost two extra attempts; capture full output to a
+file when a command can fail. And the first "failure" I reported was a genuine network timeout
+that I nearly mis-attributed to the gate.
+
+Gate: **363 pytest · verify_all 42 OK / 0 FAIL · state tree 14/14.**
+
+**Work unit complete — session remains ACTIVE.**
