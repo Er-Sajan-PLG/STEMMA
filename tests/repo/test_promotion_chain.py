@@ -56,16 +56,65 @@ def _rules() -> dict:
     return yaml.safe_load(ENFORCEMENT.read_text(encoding="utf-8"))
 
 
+# Derived artifacts that `scripts/validate.py` rewrites from canonical content.
+# Every test in this module that runs validate.py can leave these computed from a
+# mutated canonical state, so the module must guarantee it puts them back.
+_DERIVED_ARTIFACTS = (
+    ROOT / "exports" / "knowledge.json",
+    ROOT / "reports" / "validation-report.json",
+)
+
+
+def _snapshot(paths) -> dict:
+    return {p: (p.read_bytes() if p.exists() else None) for p in paths}
+
+
+def _restore(backups: dict) -> None:
+    for path, data in backups.items():
+        if data is None:
+            path.unlink(missing_ok=True)
+        else:
+            path.write_bytes(data)
+
+
+@pytest.fixture(scope="module", autouse=True)
+def _restore_derived_artifacts_at_module_end():
+    """Guarantee this module leaves the derived artifacts exactly as it found them.
+
+    Three tests here call `validate.py` without `restore_records`
+    (`test_baseline_gate_is_green`, `test_missing_enforcement_registry_fails_closed`,
+    `test_board_waiver_retire_turns_chain_back_on`), and a failing assertion can skip
+    a per-test restore anyway. A module-scoped snapshot closes every path at once, so
+    this module can never dirty the working tree — or leave a stale export for the
+    next run to trip over.
+    """
+    backups = _snapshot(_DERIVED_ARTIFACTS)
+    yield
+    _restore(backups)
+
+
 @pytest.fixture()
 def restore_records():
-    """Snapshot the two promoted records and restore them afterwards."""
-    backups = {
-        METRE: METRE.read_text(encoding="utf-8"),
-        CONN: CONN.read_text(encoding="utf-8"),
-    }
+    """Snapshot the two promoted records AND the derived artifacts, then restore.
+
+    These tests mutate the *real* canonical records and then run `validate.py`,
+    which regenerates `exports/knowledge.json` and `reports/validation-report.json`
+    from whatever canonical state it finds. Restoring only the canonical records
+    leaves those derived artifacts computed from the **mutated** state, which then:
+
+    * dirties the working tree, so the pre-push `exports not fresh` gate fails on an
+      otherwise clean run; and
+    * makes `test_versioning_policy.py::test_content_hash_covers_exactly_the_canonical_sources`
+      fail on the **next** run — that test reads `exports/knowledge.json` at import
+      time, so it compares the stale export against the restored canonical layer.
+
+    The second symptom is order-dependent (it depends on which test last ran
+    validate), which is why it presented as a rare intermittent rather than a
+    reproducible failure. Snapshotting the derived artifacts too removes both.
+    """
+    backups = _snapshot((METRE, CONN, *_DERIVED_ARTIFACTS))
     yield
-    for path, text in backups.items():
-        path.write_text(text, encoding="utf-8")
+    _restore(backups)
 
 
 # ---------------------------------------------------------------- baseline ---
