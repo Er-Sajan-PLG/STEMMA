@@ -137,6 +137,21 @@ def check_semantic_pipeline():
 
 def main() -> int:
     print("COMPREHENSIVE ALL-STEM, MEDIOCRE COVERAGE, HITL, EVOLVABLE, FRONTIER, EMBEDDINGS, RAG, CONSUMER EXPORT — verification chain for all-STEM v2 with primary PDF ingestion, deterministic scales, evolvable templates v2.0.0, model selector like DeepSeek harness (local + frontier models), embeddings with model selector like DeepSeek harness (local + frontier models), RAG with citations, consumer export for LearningHub, PROFESSOR-J")
+
+    # Preflight: the chain runs tests/repo/test_promotion_chain.py via pytest
+    # (ADR-0057). Fail with an actionable message rather than a bare
+    # "No module named pytest" from the middle of the chain.
+    try:
+        import pytest  # noqa: F401
+    except ModuleNotFoundError:
+        print(
+            "FAIL: pytest is required by the gate (ADR-0057 promotion-chain suite) but is not "
+            "installed in this interpreter.\n"
+            "      Install the dev requirements:  pip install -r requirements-dev.txt\n"
+            "      (requirements.txt alone is the runtime set and does not include pytest.)",
+            file=sys.stderr)
+        return 1
+
     for cmd in steps:
         print(f"RUN: {' '.join(cmd)}")
         r = subprocess.run(cmd)
