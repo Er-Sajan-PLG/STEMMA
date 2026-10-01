@@ -99,6 +99,17 @@
 4. **Candidate work with no blocker:** `DEBT.md` holds **2 open** (003, 004) and **10 resolved**. DEBT-003 is an accepted residual (an ordering property; atomicity
    cannot fix it). DEBT-004 is **not a defect** — nothing in-repo reads the vector-store files.
 
+> **Corpus — checked 2026-10-01, so the next agent need not redo it.** Every entity under
+> `content/` passes `schema/concept.schema.json` with **0 errors**. The non-canonical drafts are
+> therefore **structurally ready**: nothing about their front matter blocks promotion. Their only
+> blocker is **HITL review**, and that is not delegable — `scripts/review_entity.py` refuses any
+> actor that is not an active `human:` in `schema/agent-registry.yaml`, and ADR-0057 requires
+> consecutive promotion stages on separate days. `review_entity.py list` already emits exactly the
+> fields a reviewer needs, so no extra report is warranted.
+>
+> Counts are deliberately not restated here — the generated README status block owns them
+> (REQ-STEMMA-OPS-002).
+
 ## Environment Facts (re-verified by inspection 2026-10-01, not assumed)
 
 | | |
