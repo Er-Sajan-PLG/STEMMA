@@ -230,6 +230,26 @@ default a missing writer to a human id. `hitl_check.py` and `validate.py` reject
 
 ## Quick Start
 
+**A fresh clone is not ready to work in.** Git does not clone `.git/hooks`, and
+`requirements-dev.txt` is separate from `requirements.txt`. Without this setup your pushes are
+**ungated** (the whole gate lives in the pre-push hook) and **18 promotion/debt guards silently
+do not run** — the chain still exits 0, so nothing else warns you:
+
+```bash
+# 0. One-time setup for a fresh clone. Use a venv: a bare `pip install` fails on
+#    PEP 668 systems, and the pre-push hook resolves its interpreter from VIRTUAL_ENV.
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt -r requirements-dev.txt
+python3 scripts/install_hooks.py
+python3 scripts/verify_all.py          # expect exit 0, 0 FAIL
+```
+
+> A cold clone reports **39 OK** where a warm tree reports 42. That gap is **not** a setup
+> problem — three checks are informational and need git-ignored derived artifacts
+> (embeddings, `proposals/`, vector store) that a fresh clone does not have. **`FAIL` is the
+> signal; `OK` is not comparable across environments.**
+
 ```bash
 # 1. Read governance
 cat docs/ARCHITECTURE-V2.md
@@ -252,6 +272,8 @@ python3 tests/repo/test_independence.py
 python3 tests/curation/test_generality.py
 python3 tests/metadata/test_metadata_semantics.py
 ```
+
+See `state/ARCHITECTURE.md` → "Cold start" for what each skipped step costs you.
 
 ---
 
