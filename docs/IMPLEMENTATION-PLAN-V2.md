@@ -134,7 +134,7 @@ Early work from sandbox start to fea770a:
 - Evolvable templates frontier model selector DeepSeek harness deterministic scales LLM fallback only when needed
 - Comprehensive all-STEM mediocre 8 domains 97 subdomains 12 entity types
 - Explicit separation canonical vs derived vs consumer, embedding and RAG as connection layer file/API/SDK content_hash, whose job is embedding and RAG consumer's job not STEMMA's reference implementation, guideline to build embedder and RAG imports consistently sample in derived
-- Strong CI + explorer + ingestion pipeline nothing bad gets pushed/merged 10 jobs all-green final gate
+- Strong CI + explorer + ingestion pipeline nothing bad gets pushed/merged all jobs green final gate
 - Semantic acquisition pipeline 16 stages evidence first-class char_offsets surrounding_context AI output must be proposal NOT canonical independent verification deterministic 7 checks + Verifier Model B separate + source corroboration conflict explicit P=10 vs P=12 do not force average human review final authority llm-registry 5 roles 13 models
 
 Tasks integrating early work:

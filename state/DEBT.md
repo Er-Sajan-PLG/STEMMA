@@ -366,6 +366,18 @@ own store:
 
 That distinction matters: over-reaching would repeat the original error in the other direction.
 
+**[CORRECTION 2026-10-01]** Three of those 78 replacements were in **immutable ADRs**
+(`docs/decisions/0044-integrated-foundation-v2.md`, `…-0044-proposal-…`) and have been
+**reverted**. `AGENTS.md:47` states plainly that both decision layers "are immutable once
+recorded" — an ADR is a historical record of what was decided, not a live claim about the
+system, and a decision record that has been silently edited is worth less than one that is
+known to be stale. The FAISS label in those ADRs is therefore **correct as history**, and the
+correction lives where it belongs: in `CONFLICT-STEMMA-EXP-001` and in this entry.
+
+So the accurate figure is **75 replacements across 17 living documents**. The original sweep
+filtered out `spec/`, `archive/` and `state/` but not `docs/decisions/` — the omission was
+mine, and it is the same mistake this entry warns about, made in the opposite direction.
+
 **Verified:** `docs/EMBEDDINGS.md` now has 0 `vector_store/ FAISS` occurrences and its one honest
 line; only the 2 legitimate consumer-option mentions remain repo-wide; `docs.py check` PASS,
 `verify_all.py` 42 OK / 0 FAIL, 365 pytest, state tree 16/16.
@@ -472,3 +484,42 @@ missed) and one wrong intermediate conclusion (that five files never run — fou
 my `^def test_` grep was simply unreliable). **The empirical check — `pytest --collect-only` —
 was right where my greps were wrong**; worth remembering that a heuristic that finds *nothing*
 may be a broken heuristic rather than a clean repository.
+
+---
+
+## DEBT-011 — "strong CI 10 jobs all-green" was stale in 7 living documents (RESOLVED)
+
+**Found:** 2026-10-01 by `A7F3` · **Resolved:** same session
+**Severity:** low — but it is a machine-owned count hardcoded in living docs, which
+REQ-STEMMA-OPS-002 exists to prevent
+
+**What was wrong.** Five living documents claimed the CI was *"10 jobs all-green"* — 10
+occurrences across `docs/README.md`, `docs/ROADMAP.md`, `docs/IMPLEMENTATION-STATUS.md`,
+`docs/IMPLEMENTATION-PLAN-V2.md` and `docs/SEMANTIC-ACQUISITION-PIPELINE.md`.
+
+`.github/workflows/ci.yml` defines **13 jobs**: verify-knowledge-base, security, verify-docs,
+explorer-build, webapp-ingestion, embeddings-rag-consumer, no-wall-clock,
+id-immutability-registry, test-suite, adapter-verify, check-branching, check-conventional-commits,
+all-green.
+
+**Fix — the number was removed, not corrected.** The phrase is now *"all jobs green"*. Correcting
+`10` → `13` would only reset the same time bomb: the count goes stale the moment a job is added,
+and REQ-STEMMA-OPS-002 says living documents **should not** hardcode machine-owned counts. A
+claim that cannot be wrong is better than a claim that is currently right.
+
+**Not extended to the audit instrument, deliberately.** `scripts/audit_prose_owned_values.py`
+measures prose-owned counts but targets `<n> entities | <n> connections | <n> sources` from the
+README status block. The owner ruled on 2026-10-01 that its instrument is a **per-release probe,
+not a gate**; extending its scope is the owner's call, not a unilateral one. Same reasoning as
+DEBT-009.
+
+**Scope note — an ADR is not a living document.** The sweep initially also rewrote
+"10 jobs all-green" in `docs/decisions/0044-proposal-integrated-architecture-v2.md` and
+`…-0052-content-acceptance-test.md`. Both were **reverted**: `AGENTS.md:47` states that both
+decision layers "are immutable once recorded", so an ADR records what was decided at the time and
+is *supposed* to carry the then-current count. Editing it would destroy the history that makes it
+useful. (The same mistake had already been made in the FAISS sweep — see the correction in
+DEBT-008.)
+
+**Verified:** no `[0-9]+ jobs` claim remains anywhere under `docs/`; the five living documents now
+read "all jobs green"; both ADRs are byte-identical to their recorded text.

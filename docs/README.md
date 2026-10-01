@@ -101,7 +101,7 @@ SEMANTIC-ACQUISITION-PIPELINE.md (acquisition), METADATA-SPECIFICATION.md
 - Evolvable templates deterministic scales LLM fallback → L4 deterministic template-registry v2.0.0 8 domains
 - Comprehensive all-STEM mediocre 8 domains 97 subdomains 12 entity types → Scale architecture 10^2–10^6 consumer-registry
 - Explicit separation canonical vs derived vs consumer embeddings RAG consumer's job reference implementation guideline 81KB sample in derived → L6 derived ≠ canonical Part 5 producer vs consumer separation export mechanism LearningHub PROFESSOR-J via API
-- Strong CI nothing bad gets pushed 10 jobs all-green final gate → Verification Plan standing gates verify_all green git diff exports reports
+- Strong CI nothing bad gets pushed all jobs green final gate → Verification Plan standing gates verify_all green git diff exports reports
 - Semantic acquisition pipeline evidence first-class char_offsets surrounding_context AI output must be proposal NOT canonical independent verification conflict explicit P=10 vs P=12 → L1-L3 Part 2 primitives Part 3 data model Part 8 AI curation
 
 **Constitutional Laws L1-L8 refined:**
@@ -123,7 +123,7 @@ SEMANTIC-ACQUISITION-PIPELINE.md (acquisition), METADATA-SPECIFICATION.md
 - AI-accelerated curation 16 stages calibration report review-queue routing no producer-side training
 - Consumption contract deterministic export content-hash consumer views prerequisites misconceptions formulations centrality changelog explorer clean 3D
 
-**Verification:** make quick-verify PASS — 1 entity metre via HITL, 0 connections, 3 sources, embeddings deterministic content_hash sha256:2c007fc6..., RAG vector search metre 0.2874 citations, semantic pipeline evidence first-class conflict demo P=10 vs P=12, explorer clean small nodes thin lines manual legend centered zoom 8 domains, webapp HITL PDF primary model selector DeepSeek harness, strong CI 10 jobs all-green.
+**Verification:** make quick-verify PASS — 1 entity metre via HITL, 0 connections, 3 sources, embeddings deterministic content_hash sha256:2c007fc6..., RAG vector search metre 0.2874 citations, semantic pipeline evidence first-class conflict demo P=10 vs P=12, explorer clean small nodes thin lines manual legend centered zoom 8 domains, webapp HITL PDF primary model selector DeepSeek harness, strong CI all jobs green.
 
 ## New docs for architecture v2
 
