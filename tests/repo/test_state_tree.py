@@ -225,6 +225,58 @@ def test_tier_boundary_stays_documented() -> None:
         assert "Tier 2" in text, f"{name} no longer documents the Tier 1/Tier 2 boundary"
 
 
+def test_index_status_matches_the_registry() -> None:
+    """INDEX.md and REGISTRY.md must agree on whether a session is active or ended.
+
+    Both files carry a per-session status, so they can disagree. They did: the INDEX
+    row for the in-flight session said `ended` while REGISTRY still had it `active`,
+    because the row was written during an earlier (wrong) attempt to close the
+    session. That is the same class of defect as a drifted DASHBOARD — two state
+    files, two answers, and the reader has to guess which one is true.
+
+    Deliberately asserts non-vacuity: if the table shape changes so no rows parse,
+    this fails loudly instead of passing by finding nothing.
+    """
+    def rows(text: str) -> list[list[str]]:
+        out = []
+        for line in text.splitlines():
+            if line.startswith("|") and "`" in line:
+                cells = [c.strip() for c in line.strip().strip("|").split("|")]
+                if len(cells) >= 6:
+                    out.append(cells)
+        return out
+
+    def unquote(cell: str) -> str:
+        return cell.strip().strip("*").strip().strip("`").strip()
+
+    registry_status: dict[str, str] = {}
+    for cells in rows((STATE / "REGISTRY.md").read_text(encoding="utf-8")):
+        agent_id, session_id = unquote(cells[0]), unquote(cells[1])
+        if AGENT_ID_RE.match(agent_id) and session_id.startswith("20"):
+            registry_status[session_id] = unquote(cells[5]).lower()
+
+    index_status: dict[str, str] = {}
+    for cells in rows((STATE / "INDEX.md").read_text(encoding="utf-8")):
+        session_id = unquote(cells[0])
+        if session_id.startswith("20") and "-" in session_id:
+            index_status[session_id] = unquote(cells[5]).lower()
+
+    # Non-vacuity: both parses must actually have found rows.
+    assert registry_status, "parsed no agent rows from REGISTRY.md — table shape changed?"
+    assert index_status, "parsed no session rows from INDEX.md — table shape changed?"
+
+    disagreements = {
+        sid: (index_status[sid], registry_status[sid])
+        for sid in index_status.keys() & registry_status.keys()
+        if index_status[sid] != registry_status[sid]
+    }
+    assert not disagreements, (
+        "INDEX.md and REGISTRY.md disagree on session status "
+        f"(session: (INDEX, REGISTRY)): {disagreements}. "
+        "Per DEC-007 a session stays `active` until the owner declares it over."
+    )
+
+
 def test_commitlint_accepts_the_protocol_commit_type() -> None:
     """CONFLICT-002 / DEC-006: the protocol's shutdown commit format must stay valid.
 
@@ -270,6 +322,7 @@ if __name__ == "__main__":  # self-hosting runner, matching tests/repo/test_gate
         test_dashboard_unres_counts_match_the_registry,
         test_tier_boundary_stays_documented,
         test_commitlint_accepts_the_protocol_commit_type,
+        test_index_status_matches_the_registry,
     ]
     failures = 0
     for fn in checks:

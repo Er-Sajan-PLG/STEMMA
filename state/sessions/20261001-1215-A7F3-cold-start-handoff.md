@@ -293,3 +293,87 @@ untracked files. So a non-empty diff now means genuinely stale or mutated conten
 parses. Gate: 361 pytest · verify_all 42 OK / 0 FAIL · docs PASS · state tree 12/12.
 
 **Work unit complete — session remains ACTIVE.**
+
+## [DISCOVERY] 2026-10-01T12:46Z — asked "is it merged and logged?" — verified, and found 3 state defects
+
+Owner asked whether MACP and the rest is **merged** and **logged in state**. Checked rather
+than answered from memory.
+
+**Merged: NO.** `PR #66` → `state: OPEN`, `mergedAt: None`. `origin/main` has **0** `state/`
+directories and **0** MACP mentions in `AGENTS.md`. So everything below exists only on
+`docs/owner-rulings-unverified`. This is BLK-001 and only the owner can clear it.
+
+**Logged: YES, and pushed** — tree clean, branch in sync with origin. 15 tracked files under
+`state/`: 6 `DEBT` entries, 7 `DECISIONS`, 2 `conflicts`, 4 `BLK`s, 3 session logs.
+
+**But the check found three defects in the state itself** — which is the point of asking:
+
+1. **`INDEX.md` said the in-flight session was `ended`** while `REGISTRY.md` said `active` and
+   `DEC-007` says sessions close only on the owner's word. Two state files, two answers. The
+   row was written during an earlier (wrong) attempt to close the session and never corrected.
+2. **The same INDEX row's file list was stale** — it did not include the DEBT-006 work or the
+   `.github/workflows/{ci,release}.yml` changes.
+3. **`DASHBOARD.md` claimed "360 passed"** when the suite is **361**. The state-tree guard
+   cross-checks this file's *registry-derived* counts (requirements, `UNRES`) but nothing
+   checked the pytest count — it has no derivable source.
+
+**Fixes.**
+
+- INDEX row corrected to `active` with a current file list, plus a note explaining why it is
+  live rather than historical.
+- DASHBOARD gate table now stamped **"measured 2026-10-01T12:46Z"**, with a note that gate
+  results are measurements, not standing truths. Stamping is the honest fix: the pytest count
+  cannot be derived by a gate, so pretending it is a standing fact is what made it drift.
+- **New guard: `test_index_status_matches_the_registry`** (state tree now **13/13**). It parses
+  both tables and fails if they disagree on any session's status — the same cross-file class as
+  the existing DASHBOARD↔registry check, extended to the pair that actually drifted.
+  Sabotage-proven: putting `ended` back fails it with a named message; restoring passes.
+
+**Lesson.** The existing guard checked the drift I had *thought about*; the drift that actually
+happened was in the pair nobody was watching. Cross-file invariants are only as good as the
+pair you enumerate — and the way to find the missing pair is to ask "what else records this
+same fact?" (Here: session status is recorded twice.)
+
+**Work unit complete — session remains ACTIVE.**
+
+## [DISCOVERY] 2026-10-01T12:46Z — asked "is it merged and logged?" — verified, and found 3 state defects
+
+Owner asked whether MACP and the rest is **merged** and **logged in state**. Checked rather
+than answered from memory.
+
+**Merged: NO.** `PR #66` → `state: OPEN`, `mergedAt: None`. `origin/main` has **0** `state/`
+directories and **0** MACP mentions in `AGENTS.md`. So everything below exists only on
+`docs/owner-rulings-unverified`. This is BLK-001 and only the owner can clear it.
+
+**Logged: YES, and pushed** — tree clean, branch in sync with origin. 15 tracked files under
+`state/`: 6 `DEBT` entries, 7 `DECISIONS`, 2 `conflicts`, 4 `BLK`s, 3 session logs.
+
+**But the check found three defects in the state itself** — which is the point of asking:
+
+1. **`INDEX.md` said the in-flight session was `ended`** while `REGISTRY.md` said `active` and
+   `DEC-007` says sessions close only on the owner's word. Two state files, two answers. The
+   row was written during an earlier (wrong) attempt to close the session and never corrected.
+2. **The same INDEX row's file list was stale** — it did not include the DEBT-006 work or the
+   `.github/workflows/{ci,release}.yml` changes.
+3. **`DASHBOARD.md` claimed "360 passed"** when the suite is **361**. The state-tree guard
+   cross-checks this file's *registry-derived* counts (requirements, `UNRES`) but nothing
+   checked the pytest count — it has no derivable source.
+
+**Fixes.**
+
+- INDEX row corrected to `active` with a current file list, plus a note explaining why it is
+  live rather than historical.
+- DASHBOARD gate table now stamped **"measured 2026-10-01T12:46Z"**, with a note that gate
+  results are measurements, not standing truths. Stamping is the honest fix: the pytest count
+  cannot be derived by a gate, so pretending it is a standing fact is what made it drift.
+- **New guard: `test_index_status_matches_the_registry`** (state tree now **13/13**). It parses
+  both tables and fails if they disagree on any session's status — the same cross-file class as
+  the existing DASHBOARD↔registry check, extended to the pair that actually drifted.
+  Sabotage-proven: putting `ended` back fails it with a named message; restoring passes.
+
+**Lesson.** The existing guard checked the drift I had *thought about*; the drift that actually
+happened was in the pair nobody was watching. Cross-file invariants are only as good as the
+pair you enumerate — and the way to find the missing pair is to ask "what else records this
+same fact?" (Here: session status is recorded twice.)
+
+**Work unit complete — session remains ACTIVE.**

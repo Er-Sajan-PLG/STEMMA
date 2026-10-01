@@ -27,14 +27,20 @@
 
 ## Gate Status — ALL GREEN
 
-| Gate | Result |
+| Gate | Result (measured 2026-10-01T12:49Z) |
 |---|---|
-| `pytest tests/ -q` | **360 passed** |
+| `pytest tests/ -q` | **362 passed** |
 | `scripts/verify_all.py` | **42 OK / 0 FAIL** (exit 0) |
 | `scripts/docs.py check` | **PASS** |
 | `spec/machine-readable/validate_recovery.py` | **PASS** — 9/9 checks |
 | `scripts/verify_strong.py --quick` | exit 0 |
-| `tests/repo/test_state_tree.py` | **PASS — 12/12** (structure, naming, reconciliation stamp, INDEX coverage, dashboard↔registry drift, protocol commit type) |
+| `tests/repo/test_state_tree.py` | **PASS — 13/13** (structure, naming, reconciliation stamp, INDEX coverage, dashboard↔registry drift, INDEX↔registry session status, protocol commit type) |
+
+> Gate results are **measurements, not standing truths** — the timestamp above is when they
+> were last run, and the test count changes with almost every commit. The
+> `test_state_tree.py` guard cross-checks this file's *registry-derived* counts
+> (requirements, `UNRES`) automatically; the pytest count has no derivable source, so it is
+> stamped instead. Do not read a stale-looking count as drift without re-running.
 
 > Running the suite leaves the working tree **clean** — `exports/` and `reports/` included.
 > That is now guaranteed rather than incidental: `test_promotion_chain.py` mutates real
