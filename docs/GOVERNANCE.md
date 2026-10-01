@@ -21,10 +21,38 @@
 
 ## Specification Governance — Recovery Pilot (NEW 2026-09-22)
 
-- A recovered specification baseline exists at `spec/` (recovery protocol v3.1, pilot CORE-GATE-EXPORT): evidence register, 22 requirements, 2 interface contracts, conflicts, open questions, machine-readable registries, minimum validator.
+- A recovered specification baseline exists at `spec/` (recovery protocol v3.1, pilot CORE-GATE-EXPORT): evidence register, 24 requirements, 2 interface contracts, conflicts, open questions, machine-readable registries, minimum validator.
 - Authority model: `spec/ROLES_AND_AUTHORITY.md` — SOLE_OWNER = repository owner (Sajan); recovery agent = provisional executor with no approval power. Approval workflow: DRAFT → PROPOSED → owner review → APPROVED / REJECTED / DEFERRED. Only APPROVED requirements count for conformance; a requirement must be APPROVED before it can be VERIFIED.
-- All recovered requirements are currently PROPOSED (review material, not normative). Baseline approval PENDING: `spec/BASELINE.md` (maturity L2, slice-scoped).
+- All 24 recovered requirements are **APPROVED** (2026-10-01, owner `human:curator.001`) and normative. Baseline **APPROVED**: `spec/BASELINE.md` (maturity **L3**, slice-scoped) — verification (L4) in progress.
 - Non-response is not approval; self-approval is forbidden and machine-detectable (validator check on approval metadata).
+
+## Continuity of approval authority (REQ-STEMMA-OPS-003 — SOTA-COMPARISON-2026-10-01 F2)
+
+STEMMA is a **single-maintainer** project: `SOLE_OWNER` holds the approval key, every
+requirement carries `approver: null`, and the verification gate is **fail-closed**. The
+consequence is explicit: if the sole approver is unavailable, **canonical progress stops
+entirely** — no entity can move from `draft` to `canonical`. Bus-factor research (Avelino
+et al., 133 popular projects; and the xz-utils CVE-2024-3094 post-mortems) shows that this
+concentration is a first-class risk that is invisible until it triggers.
+
+**Recorded, accepted risk (dated 2026-10-01).** The owner knowingly accepts single-maintainer
+operation for the pilot period. This is recorded here rather than left implicit, so that a
+later reader can see the risk was chosen, not overlooked.
+
+**Recoverable capability, not tribal knowledge.** The approval procedure SHALL be documented
+well enough that a designated successor can execute it:
+
+1. The approval act is `spec/ROLES_AND_AUTHORITY.md` §approval workflow: a requirement moves
+   PROPOSED → APPROVED only by an owner edit to the `approver` field (`human:<name>`), and
+   the validator re-checks that metadata.
+2. Canonical content is approved in the same way: a named `human:*` writer plus an explicit
+   human markdown edit recorded in the HITL audit trail (`hitl_check.py` enforces this).
+3. **Successor path.** If the owner cannot act, authority is transferred by recording a new
+   `approver`/`writer` identity in the same fields — no code change, no undocumented step.
+   The transfer itself is an owner-authorized decision record under `docs/decisions/`.
+4. **Exit condition.** This risk is retired when either (a) a second active approver is
+   registered, or (b) contributor intake opens (see `CONTRIBUTING.md`). Until then, the
+   single-maintainer risk stands as accepted.
 
 ## Scope
 

@@ -1,10 +1,12 @@
 # REQUIREMENTS — CORE-GATE-EXPORT slice
 
 Canonical records: `spec/machine-readable/requirements.yaml` (full §8.6 schema).
-This file is the readable summary. **Status of every requirement: `PROPOSED`** —
-the executor has no approval authority (Constraint D). Approval owner: Sajan
-(SOLE_OWNER). Only APPROVED requirements authorize conformance judgments
-(§21.1); until then all gap findings are preliminary observations.
+This file is the readable summary. **Status of every requirement: `APPROVED`** —
+owner-approved 2026-10-01 by Sajan (`human:curator.001`), per
+`spec/ROLES_AND_AUTHORITY.md`. The recovery executor self-approved nothing. Only
+APPROVED requirements authorize conformance judgments (§21.1). Verification
+(§9.1) is the *next* gate: an APPROVED requirement may now be VERIFIED, but
+approval alone does not assert verification.
 
 Legend — validation_status: `SUPPORTED` (evidence-backed intent),
 `PARTIALLY_SUPPORTED` (intent partly claim-level), `NEEDS_AUTHORITY` (approval
@@ -25,15 +27,18 @@ path the only missing piece).
 | REQ-STEMMA-GATE-004 | CONSTRAINT | P1 | SHALL | RECOVERED | SUPPORTED | UNIT_TEST (docs consistency) | EVID-GATE-007 |
 | REQ-STEMMA-GATE-005 | CONSTRAINT | P1 | SHALL | RECOVERED | SUPPORTED | UNIT_TEST (independence) | EVID-GATE-008 |
 | REQ-STEMMA-EXP-001 | BEHAVIORAL | P0 | SHALL | RECOVERED | SUPPORTED | UNIT_TEST + CI (byte-identical, no wall clock) | EVID-EXP-002 |
-| REQ-STEMMA-EXP-002 | INTERFACE | P0 | SHALL | RECOVERED | SUPPORTED | UNIT_TEST (registry+vocab sidecar, VERSION match) | EVID-EXP-001, SCH-001 |
+| REQ-STEMMA-EXP-002 | INTERFACE | P0 | SHALL | RECOVERED | SUPPORTED | UNIT_TEST (registry+vocab sidecar, VERSION match, adopted-from) | EVID-EXP-001, SCH-001, EXP-008 |
 | REQ-STEMMA-EXP-003 | BEHAVIORAL | P1 | SHALL | RECOVERED | SUPPORTED | INTEGRATION_TEST (CI freshness diff) | EVID-GATE-005 |
 | REQ-STEMMA-EXP-004 | INTERFACE | P1 | SHOULD | RECOVERED | PARTIALLY_SUPPORTED | INTEGRATION_TEST (consumer filter run) | EVID-EXP-006/-007, UNRES-STEMMA-EXP-001 |
 | REQ-STEMMA-HITL-001 | SECURITY | P0 | SHALL | RECOVERED | SUPPORTED | INTEGRATION_TEST (hitl_check in gate) | EVID-HITL-001/-002, UNRES-STEMMA-HITL-001 |
 | REQ-STEMMA-HITL-002 | CONSTRAINT | P1 | SHALL NOT | RECOVERED | SUPPORTED | INTEGRATION_TEST (hitl_check) | EVID-HITL-001 |
+| REQ-STEMMA-HITL-003 | SECURITY | P0 | SHALL | PROPOSED (owner) | SUPPORTED | INTEGRATION_TEST (staged promotion + day gate + board waiver + full debt block) | EVID-HITL-009/-010/-011, ADR-0057 |
 | REQ-STEMMA-SEC-001 | SECURITY | P1 | SHALL | RECOVERED | SUPPORTED | STATIC_ANALYSIS (gitleaks + grep CI) | EVID-SEC-001 |
 | REQ-STEMMA-SEC-002 | SECURITY | P2 | SHALL NOT | EXTERNAL (XC-5) | NEEDS_AUTHORITY | INSPECTION (webapp key handling) | XC-5; webapp NOT_YET_ASSESSED |
 | REQ-STEMMA-OPS-001 | OPERATIONAL | P1 | SHALL | DERIVED (from GATE-009) | SUPPORTED | MEASUREMENT (clean-env install+run) | EVID-GATE-004 |
 | REQ-STEMMA-OPS-002 | OPERATIONAL | P2 | SHOULD | PROPOSED | NEEDS_AUTHORITY | INSPECTION (drift pattern) | EVID-OPS-004 (INFERENCE) |
+| REQ-STEMMA-OPS-003 | OPERATIONAL | P1 | SHALL | PROPOSED (SOTA F2) | NEEDS_AUTHORITY | INSPECTION (governance review) | EVID-OPS-005 (INFERENCE) |
+| REQ-STEMMA-INTEG-001 | INTERFACE | P1 | SHALL | PROPOSED (owner) | PARTIALLY_SUPPORTED | INTEGRATION_TEST (explorer verify + chat) | EVID-INTEG-004, INTEG-002 |
 
 ## Requirement texts (normative statements)
 
@@ -70,7 +75,9 @@ path the only missing piece).
 - **REQ-STEMMA-EXP-002:** The export contract SHALL be versioned
   (`export_version`, currently 2.2.0) and evolve additively within a major
   version; the export SHALL carry relation-registry and vocabulary sidecars so
-  consumers can introspect without cloning the producer.
+  consumers can introspect without cloning the producer; and entities that adopt
+  or re-identify an external entity SHALL carry an explicit adopted-from
+  provenance record (OBO Principle 8 precedent; SOTA F3).
 - **REQ-STEMMA-EXP-003:** Committed derived artifacts (`exports/`, `reports/`)
   SHALL be fresh: CI regenerates and diffs them.
 - **REQ-STEMMA-EXP-004:** Consumer exports SHOULD honor each consumer's
@@ -81,6 +88,22 @@ path the only missing piece).
 - **REQ-STEMMA-HITL-002:** No object SHALL become canonical without an explicit
   human markdown edit recorded in the audit trail. Limitation:
   UNRES-STEMMA-HITL-001 (audit locality).
+- **REQ-STEMMA-HITL-003:** No single act SHALL set a canonical record. A record
+  is promoted only through the ordered chain of the **currently required** stages,
+  recorded in `provenance.promotion_history`; consecutive stages must land on
+  **separate calendar days** (≥1) and be performed by **distinct humans** — or under
+  a named, time-boxed owner `independence_waiver`. The required chain is resolved
+  from the enforcement registry at run time: by default
+  `validator → independent_validator → board`, but while the **owner board waiver**
+  is active (`ENF-003.board_waiver`, sole validator) the board stage is omitted and
+  the chain is `validator → independent_validator`, with `canonical` reachable from
+  the independent validator stage. A record with `revalidation_debt.status:
+  outstanding` SHALL NOT hold any reviewed status: at pilot scale
+  (`ENF-002.pilot_scale_block`, `block_mode=full`) the record is invalid outright
+  until the debt is cleared and the record re-validated. Applies to **all canonical
+  datasets — entities and connections alike**. The day-gap rule and both waivers are
+  machine-readable data (`spec/machine-readable/enforcement_rules.yaml`), not prose,
+  so they cannot be waived by editing an ADR. ADR-0057.
 - **REQ-STEMMA-SEC-001:** The canonical layer SHALL be free of secrets;
   machine-checked on every change.
 - **REQ-STEMMA-SEC-002:** Provider API keys SHALL NOT be committed; key
@@ -89,6 +112,15 @@ path the only missing piece).
   installing declared dependencies only.
 - **REQ-STEMMA-OPS-002:** Living documents SHOULD NOT hardcode machine-owned
   counts/versions; single sources (status_truth, VERSION.yaml) own them.
+- **REQ-STEMMA-OPS-003:** The sole-owner approval authority SHALL be recorded as
+  a recoverable capability, not an undocumented single point of failure: the
+  approval procedure and a designated successor path SHALL be documented so
+  canonical progress can resume after the owner is unavailable (SOTA F2).
+- **REQ-STEMMA-INTEG-001:** The reference explorer SHALL remain a working
+  consumer that renders the derived graph export, and SHALL provide an AI chat
+  whose answers are grounded in the STEMMA export (citing entity ids + source
+  refs), reading derived artifacts only — never canonical markdown. It doubles
+  as the reference consumer conformance test.
 
 ## Gate 3 checklist (§31)
 
@@ -99,4 +131,4 @@ path the only missing piece).
 - [x] acceptance criteria present
 - [x] verification methods identified (none left permanently NOT_YET_DETERMINED;
       REQ-STEMMA-SEC-002 method = INSPECTION, scope-flagged)
-- [x] requirement status correct (all PROPOSED; nothing silently APPROVED)
+- [x] requirement status correct (all APPROVED 2026-10-01 by owner; nothing self-approved)

@@ -52,8 +52,12 @@ consumers:
     example_query: "Explain photosynthesis and its relation to cellular respiration"
 
   stemma-explorer:
-    label: STEMMA Explorer (Reference 3D Graph)
-    description: Reference 3D graph explorer — visualizes knowledge graph, needs all entities, connections, small nodes thin lines, manual legend, centered zoom
+    label: STEMMA Explorer (Reference 3D Graph + AI Chat)
+    description: >
+      Reference 3D graph explorer AND AI chat — the PRODUCT layer built on STEMMA
+      (ADR-0055). Visualizes the knowledge graph (all entities, connections, small
+      nodes thin lines, manual legend, centered zoom) and answers questions via AI
+      chat. As a consumer it depends on the core; the core never depends on it.
     domains: all
     review_policy: all
     entity_types: all
@@ -62,7 +66,14 @@ consumers:
     api_access:
       enabled: false
     rag:
-      enabled: false
+      enabled: true
+      top_k: 5
+      model: null   # owner selects; local or frontier via the model selector
+      notes: >
+        Chat answers MUST be grounded in the STEMMA export (citations to entity
+        ids + source_refs), not in model prior knowledge. Reads derived exports
+        only — never canonical markdown (REQ-STEMMA-CORE-001). Serves as the
+        reference conformance test for the consumer surface (REQ-STEMMA-INTEG-001).
 
   general:
     label: General Consumer

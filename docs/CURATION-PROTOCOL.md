@@ -27,6 +27,53 @@ HITL (Human In The Loop) before canonical — mandatory for both primary PDF and
 
 No legacy, this is beginning clean with HITL.
 
+## Promotion chain — canonical is never a single act (ADR-0057, 2026-10-01)
+
+An object does **not** go from draft to canonical in one step. Promotion is a
+pipeline of recorded stages, applied one at a time:
+
+```text
+draft → machine_validated → validator_validated → independently_validated → board_approved → canonical
+```
+
+**While the board waiver is active** (the owner is the only validator —
+`ENF-STEMMA-HITL-003.board_waiver`) the board stage is **omitted**, not faked, and the
+chain shortens:
+
+```text
+draft → machine_validated → validator_validated → independently_validated → canonical
+```
+
+Rules (all machine-enforced; see `spec/machine-readable/enforcement_rules.yaml`,
+`ENF-STEMMA-HITL-001`..`004`):
+
+- **One stage per act.** `python3 scripts/review_entity.py stage <id> --actor human:*`
+  advances exactly one stage of the *currently required* chain. `canonicalize` is
+  refused outright — the validator is not the final canonicalizer. Writing a board
+  stage while the waiver holds is refused.
+- **Separate days.** Consecutive stages of the same record MUST land on different
+  calendar days (≥1). The CLI refuses a same-day second stage in real time and the
+  gate re-checks every history, so this cannot be shortcut by hand-editing
+  frontmatter. The rule is **data** (`enforcement_rules.yaml`); deleting that file
+  fails the gate closed rather than waiving the rule.
+- **Distinct humans — or a recorded waiver.** Stage 2 must be a different human than
+  stage 1, and (when present) the board must name ≥2 humans. While a single owner
+  holds the roles, promotions MUST carry an owner-sanctioned
+  `independence_waiver {sanctioned_by, reason, retire_when}`; the gate fails if the
+  actors are not distinct and the waiver is absent.
+- **Revalidation debt blocks the record outright (pilot scale).** A record carrying
+  `revalidation_debt.status: outstanding` is **invalid** while it holds any reviewed
+  status — not merely barred from advancing. The gate reports the debt **by name** for
+  the record being validated. Clear it (`review_entity.py clear-debt`) or have the
+  owner defer it (`defer-debt`). The owner chose the full block deliberately at this
+  small scale, to observe when it starts to bite; relaxing to forward-only is a
+  registry edit (`ENF-STEMMA-HITL-002.pilot_scale_block`), not a code change.
+- **Applies to all canonical datasets** — entities **and** connections.
+
+"Canonical" is therefore a claim with a machine-checked chain behind it: who
+validated it, when, and whether an independent human was involved. Where that chain
+rests on one person, or is shorter than the full three stages, the artifact says so.
+
 ## Standard Scientific Definition (Added 2026-09-21, Updated 2026-09-21 with evolvable + frontier)
 
 Every entity must have standard agreed definition, not general, with exact SI constants and reference:

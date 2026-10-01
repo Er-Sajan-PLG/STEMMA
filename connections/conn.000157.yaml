@@ -7,7 +7,7 @@ assertion:
   status: active
   type: asserted
   review:
-    status: canonical
+    status: unreviewed
   confidence: 1.0
   confidence_basis: expert_review
 context:
@@ -59,3 +59,8 @@ provenance:
     reviewer: human:curator.001
     at: '2026-09-23T04:35:35.389605+00:00'
     reason: pilot canonicalization
+  - from: canonical
+    to: unreviewed
+    reviewer: human:curator.001
+    at: '2026-10-01T00:00:00+00:00'
+    reason: 'Demoted per owner ruling 2026-10-01 (UNRES-STEMMA-HITL-002): endpoints stemma:phys.force and stemma:phys.mass are LLM-written (llm:coding-agent.001) and were demoted to draft. A canonical connection may not cite draft entities (validate.py HITL coupling). Restore to canonical once both endpoints are human-reviewed.'

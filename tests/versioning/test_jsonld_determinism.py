@@ -38,27 +38,29 @@ class TestJsonldProjection(unittest.TestCase):
 
     def test_quantity_firm_fields_projected(self):
         d = json.loads((ROOT / "exports" / "knowledge.jsonld").read_text(encoding="utf-8"))
-        force = next(n for n in d["@graph"] if n["@id"] == "stemma:phys.force")
-        self.assertEqual(force["quantityKind"], "derived")
-        self.assertEqual(force["tensorCharacter"], "vector")
-        self.assertIn("weight", force["sameDimensionalQuantities"])
+        # Corpus state (2026-10-01, UNRES-STEMMA-HITL-002): only the human-written
+        # `metre` is canonical, so it is the only entity the canonical-only
+        # projection emits. Assertion is on projection FIELDS, not corpus size.
         metre = next(n for n in d["@graph"] if n["@id"] == "stemma:phys.metre")
         self.assertIn("qudt:Unit", metre["@type"])
+        self.assertIn("sameDimensionalQuantities", metre)
 
     def test_value_slot_connection_projects_value(self):
         d = json.loads((ROOT / "exports" / "knowledge.jsonld").read_text(encoding="utf-8"))
         conn = next(n for n in d["@graph"] if n["@id"] == "stemma:conn.000156")
         self.assertIsNone(conn.get("object"))
         self.assertIsNotNone(conn.get("value"))
-        rel = next(n for n in d["@graph"] if n["@id"] == "stemma:conn.000157")
-        self.assertEqual(rel["object"], "stemma:phys.mass")
-        self.assertEqual(rel["predicate"], "mathematically_requires")
 
-    def test_wikidata_external_ids_as_iris(self):
+    def test_draft_entities_are_not_projected(self):
+        """Canonical-only invariant: draft entities must NOT appear in the
+        canonical projection (ADR-0007; ADR-0053). This is the fresh proof that
+        the demotion actually removed them from the published graph."""
         d = json.loads((ROOT / "exports" / "knowledge.jsonld").read_text(encoding="utf-8"))
-        length = next(n for n in d["@graph"] if n["@id"] == "stemma:phys.length")
-        self.assertEqual(length["externalIds"]["wikidata"],
-                         "http://www.wikidata.org/entity/Q11433")
+        emitted = {n["@id"] for n in d["@graph"]}
+        self.assertNotIn("stemma:phys.force", emitted)
+        self.assertNotIn("stemma:phys.length", emitted)
+        self.assertNotIn("stemma:conn.000157", emitted)  # unreviewed connection
+        self.assertIn("stemma:phys.metre", emitted)
 
 
 if __name__ == "__main__":

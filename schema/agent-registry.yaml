@@ -18,6 +18,13 @@
 #                  policy (ORCID-backed recommended) is gate G-D (plan v2 E6.5).
 #   status       — active | retired | test | revoked | suspended
 #   note         — free text (why this agent exists, scope, caveats)
+#   roles        — OPTIONAL (ADR-0057): which multi-stage promotion roles this human
+#                  may fill: validator | independent_validator | board. Absent = none.
+#                  Used by the promotion chain; a role may be exercised only by an
+#                  active individual human. When the chain's actors are not all
+#                  distinct, the promotion must carry an owner-sanctioned
+#                  independence_waiver (ADR-0057 s1a) — the roles field makes the
+#                  single-actor interim state visible instead of implicit.
 #
 # Fields for institution (delegated authority v2 ADR-0049):
 #   id           — human:institution.<slug> e.g., human:institution.wikidata-community
@@ -49,7 +56,13 @@ agents:
   display_name: Repository curator (pseudonymous)
   external_id: null
   status: active
-  note: Primary maintainer; authored the 12 manually-created connections (phase B/E curation).
+  roles: [validator, independent_validator, board]
+  note: >-
+    Primary maintainer and SOLE_OWNER; authored the 12 manually-created connections
+    (phase B/E curation). Per ADR-0057 s1a, until further notice the owner fills all
+    three promotion roles (validator, independent_validator, board) while no second
+    reviewer exists. Promotions that use this single actor MUST carry an
+    owner-sanctioned independence_waiver so the fact is visible in the artifact.
 - id: human:reviewer.physics-001
   class: human
   display_name: Physics reviewer 001 (pseudonymous)

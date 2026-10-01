@@ -52,18 +52,24 @@
       "properties": {
         "domains": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "subdomains": {
           "type": "object"
         },
         "regimes": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "scales": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         }
       },
       "additionalProperties": true
@@ -100,6 +106,124 @@
           "id": {
             "type": "string",
             "pattern": "^stemma:"
+          },
+          "adopted_from": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "description": "ADR-0056 / REQ-STEMMA-EXP-002: adoption provenance exposed to consumers — the external identifier + relation by which this entity adopted or re-identified a term originating elsewhere (OBO Foundry Principle 8). Absent for non-adoptions.",
+            "required": [
+              "external_id",
+              "relation"
+            ],
+            "properties": {
+              "external_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "relation": {
+                "type": "string",
+                "enum": [
+                  "exact_match",
+                  "close_match",
+                  "broad_match",
+                  "narrow_match",
+                  "reidentification",
+                  "merge"
+                ]
+              },
+              "source_external_ids": {
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "note": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "adopted_at": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "authority": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "internal",
+                  "delegated",
+                  null
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          "revalidation_debt": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "Revalidation debt (ADR-0057): obligations an entity owes because it was promoted before the corpus satisfied them. An entity with status 'outstanding' may not hold a review status.",
+            "required": [
+              "status",
+              "reason",
+              "incurred_at"
+            ],
+            "properties": {
+              "status": {
+                "enum": [
+                  "outstanding",
+                  "cleared",
+                  "deferred"
+                ],
+                "description": "outstanding = blocks review status; cleared = satisfied, attributable; deferred = owner-sanctioned postponement"
+              },
+              "reason": {
+                "type": "string",
+                "minLength": 1
+              },
+              "incurred_at": {
+                "type": "string",
+                "description": "ISO date the debt was incurred"
+              },
+              "items": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Specific obligations owed (connection ids, entities to reconcile)"
+              },
+              "cleared_by": {
+                "type": "string",
+                "description": "registered human who cleared it (validator / independent validator / board member)"
+              },
+              "cleared_at": {
+                "type": "string"
+              },
+              "cleared_stage": {
+                "enum": [
+                  "validator",
+                  "independent_validator",
+                  "board"
+                ]
+              },
+              "clearance_evidence": {
+                "type": "string"
+              },
+              "deferred_by": {
+                "type": "string",
+                "description": "SOLE_OWNER who deferred it"
+              },
+              "deferred_until": {
+                "type": "string",
+                "description": "condition or date the deferral ends"
+              }
+            }
           }
         }
       }
@@ -119,8 +243,26 @@
         "allOf": [
           {
             "oneOf": [
-              {"required": ["target"], "not": {"required": ["value"]}},
-              {"required": ["value"], "not": {"required": ["target"]}}
+              {
+                "required": [
+                  "target"
+                ],
+                "not": {
+                  "required": [
+                    "value"
+                  ]
+                }
+              },
+              {
+                "required": [
+                  "value"
+                ],
+                "not": {
+                  "required": [
+                    "target"
+                  ]
+                }
+              }
             ],
             "description": "Value-slot XOR target/value per ADR-0045 — either relational (target) or valued (value) claim"
           }
@@ -138,12 +280,28 @@
           "value": {
             "type": "object",
             "description": "Value-slot per ADR-0045 — structured value amount + bounds + unit",
-            "required": ["amount"],
+            "required": [
+              "amount"
+            ],
             "properties": {
-              "amount": {"type": "string"},
-              "lowerBound": {"type": ["string", "null"]},
-              "upperBound": {"type": ["string", "null"]},
-              "unit": {"type": "string"}
+              "amount": {
+                "type": "string"
+              },
+              "lowerBound": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "upperBound": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "unit": {
+                "type": "string"
+              }
             },
             "additionalProperties": false
           },
@@ -166,14 +324,35 @@
                   "status"
                 ],
                 "properties": {
-                  "status": {"type": "string"},
-                  "authority": {"type": "string", "enum": ["internal", "delegated"], "description": "Per ADR-0049 delegated authority v2"}
+                  "status": {
+                    "type": "string"
+                  },
+                  "authority": {
+                    "type": "string",
+                    "enum": [
+                      "internal",
+                      "delegated"
+                    ],
+                    "description": "Per ADR-0049 delegated authority v2"
+                  }
                 },
                 "additionalProperties": true
               },
               "confidence_basis": {
-                "type": ["string", "null"],
-                "enum": ["expert_review", "experimental", "theoretical", "derived", "definitional", "axiomatic", "model_based", null],
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "expert_review",
+                  "experimental",
+                  "theoretical",
+                  "derived",
+                  "definitional",
+                  "axiomatic",
+                  "model_based",
+                  null
+                ],
                 "description": "Warrant axis per ADR-0046"
               }
             },
@@ -187,8 +366,19 @@
                 "items": {
                   "type": "object",
                   "properties": {
-                    "authority": {"type": "string", "enum": ["internal", "delegated"]},
-                    "delegated_provenance": {"type": ["object", "null"]}
+                    "authority": {
+                      "type": "string",
+                      "enum": [
+                        "internal",
+                        "delegated"
+                      ]
+                    },
+                    "delegated_provenance": {
+                      "type": [
+                        "object",
+                        "null"
+                      ]
+                    }
                   },
                   "additionalProperties": true
                 }
@@ -198,9 +388,36 @@
                 "items": {
                   "type": "object",
                   "properties": {
-                    "authority": {"type": "string", "enum": ["internal", "delegated"]},
-                    "correction_class": {"type": ["string", "null"], "enum": ["factual_error", "category_error", "relationship_error", "provenance_error", "incompleteness", "hallucination", "format_error", "dangling_ref", null]},
-                    "delegated_provenance": {"type": ["object", "null"]}
+                    "authority": {
+                      "type": "string",
+                      "enum": [
+                        "internal",
+                        "delegated"
+                      ]
+                    },
+                    "correction_class": {
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "factual_error",
+                        "category_error",
+                        "relationship_error",
+                        "provenance_error",
+                        "incompleteness",
+                        "hallucination",
+                        "format_error",
+                        "dangling_ref",
+                        null
+                      ]
+                    },
+                    "delegated_provenance": {
+                      "type": [
+                        "object",
+                        "null"
+                      ]
+                    }
                   },
                   "additionalProperties": true
                 }

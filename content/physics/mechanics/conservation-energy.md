@@ -4,7 +4,7 @@ type: law
 name: Conservation of Energy
 domain: physics
 subdomain: mechanics
-status: canonical
+status: draft
 definition: 'Conservation of energy: for an isolated system the total energy — summed
   over all forms (kinetic, potential, thermal, chemical, nuclear, ...) — remains constant
   in time; energy transforms between forms but is neither created nor destroyed. Historical
@@ -24,8 +24,6 @@ provenance:
   link: https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511
   original_author: Mayer, Joule, Helmholtz
   retrieved_at: '2026-09-22'
-  reviewer: human:curator.001
-  reviewed_at: '2026-09-23T04:35:20.283368+00:00'
 source_refs:
 - stemma:src.halliday-resnick-walker-12th
 external_ids:

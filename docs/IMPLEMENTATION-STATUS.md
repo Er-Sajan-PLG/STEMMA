@@ -161,7 +161,7 @@ Phase 8 Scale Readiness Days benchmark git performance at 10^4 entities design c
 - 7297c6c strong CI explorer semantic pipeline final integrating early work
 - 0df87ff fix status truth 1 entity 3 sources
 - Now new docs new ADRs 0045-0052 roadmaps updated to architecture v2 ideal order
-- 2026-09-22 specification recovery pilot (protocol v3.1): CORE-GATE-EXPORT slice baseline at spec/ — 22 requirements PROPOSED awaiting owner approval, maturity L2, validator 9/9 — process review at repo root (pre-R4 work)
+- 2026-09-22 specification recovery pilot (protocol v3.1): CORE-GATE-EXPORT slice baseline at spec/ — 24 requirements APPROVED 2026-10-01 by owner, maturity L3, validator 9/9 — process review at repo root (pre-R4 work)
 
 Verification: make quick-verify PASS — 1 entity metre via HITL, 0 connections, 3 sources, embeddings deterministic content_hash sha256:2c007fc6..., RAG vector search metre 0.2874 citations, semantic pipeline evidence first-class conflict demo P=10 vs P=12, explorer clean small nodes thin lines manual legend centered zoom 8 domains, webapp HITL PDF primary model selector DeepSeek harness, strong CI 10 jobs all-green.
 

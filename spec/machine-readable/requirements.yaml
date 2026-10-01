@@ -1,5 +1,7 @@
 # Canonical requirement records — mirrors spec/REQUIREMENTS.md
-# ALL status: PROPOSED — executor has no approval authority (approver: null = pending SOLE_OWNER).
+# ALL status: APPROVED — owner-approved 2026-10-01 (Sajan / human:curator.001).
+# Approval path: DRAFT -> PROPOSED -> owner review -> APPROVED (spec/ROLES_AND_AUTHORITY.md).
+# The recovery executor self-approved NOTHING; the approver recorded here is the owner.
 schema_note: "Full section-8.6 schema. supersedes: null everywhere (v1 revision series)."
 requirements:
   - id: REQ-STEMMA-CORE-001
@@ -8,7 +10,7 @@ requirements:
     statement: "Canonical knowledge SHALL live only in content/, connections/, sources/; everything else is regenerable derived output or tooling."
     type: FUNCTIONAL
     origin: RECOVERED
-    status: PROPOSED
+    status: APPROVED
     priority: P0
     normative_strength: SHALL
     rationale: "Consumers and agents must have one unambiguous source of truth; derived copies invite forked truth (architecture L6)."
@@ -20,7 +22,8 @@ requirements:
       - "Derived artifacts regenerate from canonical via the gate"
     verification_method: INSPECTION
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: []
     related_spec: ["spec/SPECIFICATION.md#4.1"]
@@ -35,7 +38,7 @@ requirements:
     statement: "Canonical IDs SHALL match the stemma: schema patterns and SHALL never be reused or reassigned; corrections are supersessions, never edits in place."
     type: DATA
     origin: RECOVERED
-    status: PROPOSED
+    status: APPROVED
     priority: P0
     normative_strength: SHALL
     rationale: "Knowledge-graph consumers join on IDs; reuse silently corrupts meaning (L5)."
@@ -47,7 +50,8 @@ requirements:
       - "check_id_immutability guards history: no deletion/rename across git history"
     verification_method: STATIC_ANALYSIS
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: []
     related_spec: ["spec/SPECIFICATION.md#4.1", "spec/SPECIFICATION.md#4.4"]
@@ -62,7 +66,7 @@ requirements:
     statement: "Canonical data SHALL NOT contain embeddings, vectors, or RAG artifacts; those are derived-layer only."
     type: CONSTRAINT
     origin: RECOVERED
-    status: PROPOSED
+    status: APPROVED
     priority: P0
     normative_strength: SHALL NOT
     rationale: "Vectors are model-specific, non-reviewable, non-time-invariant; canonical purity keeps human review meaningful (L6)."
@@ -72,7 +76,8 @@ requirements:
     acceptance_criteria: ["CI step fails if content/ contains vector material"]
     verification_method: STATIC_ANALYSIS
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: []
     related_spec: ["spec/SPECIFICATION.md#4.1"]
@@ -87,7 +92,7 @@ requirements:
     statement: "Canonical data SHALL NOT contain curriculum, grade, course, country, or product semantics."
     type: CONSTRAINT
     origin: RECOVERED
-    status: PROPOSED
+    status: APPROVED
     priority: P0
     normative_strength: SHALL NOT
     rationale: "Reusability across curricula and products (L7 refined by ADR-0047)."
@@ -97,7 +102,8 @@ requirements:
     acceptance_criteria: ["test_generality rejects pedagogical keys; allows evidenced knowledge claims"]
     verification_method: UNIT_TEST
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: []
     related_spec: ["spec/SPECIFICATION.md#4.1"]
@@ -112,7 +118,7 @@ requirements:
     statement: "Every canonical object SHALL validate against its JSON Schema (concept/connection/source) within the gate."
     type: DATA
     origin: RECOVERED
-    status: PROPOSED
+    status: APPROVED
     priority: P0
     normative_strength: SHALL
     rationale: "Contract-first data; schema is the parseable definition of the object model."
@@ -122,7 +128,8 @@ requirements:
     acceptance_criteria: ["validate.py exits non-zero on any schema violation"]
     verification_method: UNIT_TEST
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: [REQ-STEMMA-SCH-002]
     related_spec: ["spec/SPECIFICATION.md#4.2"]
@@ -137,7 +144,7 @@ requirements:
     statement: "All version literals in derived artifacts SHALL originate from schema/VERSION.yaml; hardcoded export/schema versions in producers are forbidden."
     type: INTERFACE
     origin: RECOVERED
-    status: PROPOSED
+    status: APPROVED
     priority: P1
     normative_strength: SHALL
     rationale: "Observed drift mechanism: prose/literals duplicating machine-owned values desynchronize (EVID-STEMMA-OPS-004)."
@@ -149,7 +156,8 @@ requirements:
       - "docs-consistency check enforces VERSION.yaml keys"
     verification_method: UNIT_TEST
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: []
     related_spec: ["spec/SPECIFICATION.md#4.3"]
@@ -164,7 +172,7 @@ requirements:
     statement: "The relation registry SHALL remain coherent: named inverses mutual and mirrored, symmetric relations carry no inverse, domain/range reference known entity types."
     type: DATA
     origin: RECOVERED
-    status: PROPOSED
+    status: APPROVED
     priority: P1
     normative_strength: SHALL
     rationale: "Derived graph projections emit inverse names; incoherence would produce illegal edges for consumers."
@@ -174,7 +182,8 @@ requirements:
     acceptance_criteria: ["test_registry_coherence passes in the gate chain"]
     verification_method: UNIT_TEST
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: []
     related_spec: ["spec/SPECIFICATION.md#4.2"]
@@ -189,7 +198,7 @@ requirements:
     statement: "The verification chain SHALL fail closed: any failed step terminates the chain with a non-zero exit; nothing ships on a red gate."
     type: BEHAVIORAL
     origin: RECOVERED
-    status: PROPOSED
+    status: APPROVED
     priority: P0
     normative_strength: SHALL
     rationale: "A gate that reports failure but exits zero is worse than no gate."
@@ -199,7 +208,8 @@ requirements:
     acceptance_criteria: ["verify_all.py exits non-zero when any FAIL-level step fails (observed EVID-STEMMA-GATE-002)", "permanent CI negative-path test exists"]
     verification_method: INTEGRATION_TEST
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: []
     related_spec: ["spec/SPECIFICATION.md#4.2", "spec/INTERFACES/IFACE-STEMMA-GATE-001-verification-chain-cli.md"]
@@ -214,7 +224,7 @@ requirements:
     statement: "The README status block SHALL be machine-generated from live canonical counts; drift SHALL fail CI."
     type: BEHAVIORAL
     origin: RECOVERED
-    status: PROPOSED
+    status: APPROVED
     priority: P0
     normative_strength: SHALL
     rationale: "Status honesty was itself an audit finding (F2); trust requires the headline numbers to be provable."
@@ -224,7 +234,8 @@ requirements:
     acceptance_criteria: ["status_truth.py exits non-zero when the README block diverges from canonical"]
     verification_method: UNIT_TEST
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: []
     related_spec: ["spec/SPECIFICATION.md#4.2"]
@@ -239,7 +250,7 @@ requirements:
     statement: "CI SHALL execute the full pytest suite and the all-green merge gate SHALL require its success."
     type: OPERATIONAL
     origin: RECOVERED
-    status: PROPOSED
+    status: APPROVED
     priority: P1
     normative_strength: SHALL
     rationale: "Full-suite failures were invisible to CI pre-2026-09-22 (16 silent failures while main was green, EVID-STEMMA-GATE-009)."
@@ -249,7 +260,8 @@ requirements:
     acceptance_criteria: ["test-suite job runs pytest tests/ -q", "all-green job lists test-suite in needs"]
     verification_method: INSPECTION
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: []
     related_spec: ["spec/SPECIFICATION.md#4.2"]
@@ -264,7 +276,7 @@ requirements:
     statement: "The authoritative doc set SHALL be one document per subject; docs/README.md SHALL index exactly the docs that exist; no living doc shall link a retired doc."
     type: CONSTRAINT
     origin: RECOVERED
-    status: PROPOSED
+    status: APPROVED
     priority: P1
     normative_strength: SHALL
     rationale: "Duplicate/parallel doc sets were the largest measured divergence source in this repository."
@@ -274,7 +286,8 @@ requirements:
     acceptance_criteria: ["tests/repo/test_docs_consistency.py exits 0 and is wired into CI"]
     verification_method: UNIT_TEST
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: []
     related_spec: ["spec/SPECIFICATION.md#4.2"]
@@ -289,7 +302,7 @@ requirements:
     statement: "Tracked living files SHALL NOT reference retired docs, ecosystem controllers, or the retired ID namespace outside history."
     type: CONSTRAINT
     origin: RECOVERED
-    status: PROPOSED
+    status: APPROVED
     priority: P1
     normative_strength: SHALL
     rationale: "Cross-repo coupling via naming was a real historical failure mode (namespace replaced per ADR-0027)."
@@ -299,7 +312,8 @@ requirements:
     acceptance_criteria: ["tests/repo/test_independence.py exits 0 and is wired into CI"]
     verification_method: UNIT_TEST
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: []
     related_spec: ["spec/SPECIFICATION.md#4.2"]
@@ -314,7 +328,7 @@ requirements:
     statement: "Derived exports SHALL be deterministic: byte-identical regeneration, content-hash stamped, no wall clock."
     type: BEHAVIORAL
     origin: RECOVERED
-    status: PROPOSED
+    status: APPROVED
     priority: P0
     normative_strength: SHALL
     rationale: "Content-hash equivalence is the cache/validity signal for all consumers (file/API/SDK connections)."
@@ -324,7 +338,8 @@ requirements:
     acceptance_criteria: ["Two consecutive gate runs produce byte-identical exports", "content_hash present as sha256:*"]
     verification_method: UNIT_TEST
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: [REQ-STEMMA-SCH-002]
     related_spec: ["spec/SPECIFICATION.md#4.3", "spec/INTERFACES/IFACE-STEMMA-EXP-001-knowledge-json.md"]
@@ -334,29 +349,30 @@ requirements:
     history: []
     supersedes: null
   - id: REQ-STEMMA-EXP-002
-    revision: 1
+    revision: 3
     title: Versioned additive export contract with introspection sidecars
-    statement: "The export contract SHALL be versioned (export_version, currently 2.2.0) and evolve additively within a major version; the export SHALL carry relation-registry and vocabulary sidecars."
+    statement: "The export contract SHALL be versioned (export_version, currently 2.2.0) and evolve additively within a major version; the export SHALL carry relation-registry and vocabulary sidecars; entities that adopt or re-identify an external entity SHALL carry an explicit adopted-from provenance record in the export."
     type: INTERFACE
     origin: RECOVERED
-    status: PROPOSED
+    status: APPROVED
     priority: P0
     normative_strength: SHALL
-    rationale: "Consumers must introspect semantics without cloning the producer (ADR-0032) and must never receive breaking changes silently (ADR-0050)."
-    source: [EVID-STEMMA-EXP-001, EVID-STEMMA-SCH-001]
-    validation_basis: [implemented_behavior, contract_history]
+    rationale: "Consumers must introspect semantics without cloning the producer (ADR-0032) and must never receive breaking changes silently (ADR-0050). Adoption provenance recorded explicitly at export satisfies OBO Foundry Principle 8 (strengthened 2026: rdfs:isDefinedBy when a term is adopted under a new identifier) and the 2026 finding that provenance is a required, not optional, metadata element. SOTA-COMPARISON-2026-10-01 F3."
+    source: [EVID-STEMMA-EXP-001, EVID-STEMMA-SCH-001, EVID-STEMMA-EXP-008]
+    validation_basis: [implemented_behavior, contract_history, sota_comparison]
     validation_status: SUPPORTED
-    acceptance_criteria: ["export_version equals VERSION.yaml", "relation_registry + vocabularies present and registry-coherent", "jsonschema validation of export passes"]
+    acceptance_criteria: ["export_version equals VERSION.yaml", "relation_registry + vocabularies present and registry-coherent", "jsonschema validation of export passes", "every entity with a merge/adoption history entry exposes an adopted-from provenance field (external identifier + relation) in the export"]
     verification_method: UNIT_TEST
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: [REQ-STEMMA-EXP-001, REQ-STEMMA-SCH-003]
     related_spec: ["spec/INTERFACES/IFACE-STEMMA-EXP-001-knowledge-json.md"]
-    related_adr: [ADR-0032, ADR-0050]
-    related_implementation: ["scripts/validate.py", "schema/export.schema.json"]
-    related_verification: ["tests/versioning/test_deterministic_export.py"]
-    history: []
+    related_adr: [ADR-0032, ADR-0050, ADR-0056]
+    related_implementation: ["scripts/validate.py", "schema/concept.schema.json", "schema/export.schema.json"]
+    related_verification: ["tests/versioning/test_deterministic_export.py", "tests/metadata/test_adoption_provenance.py"]
+    history: [{revision: 1, date: "2026-10-01", change: "acceptance criteria extended with adopted-from provenance (SOTA F3, owner ruling)"}, {revision: 3, date: "2026-10-01", change: "criterion 4 implemented: adopted_from added to concept + export schemas, enforced by check_adopted_from, mutation-tested (ADR-0056, owner ruling)"}]
     supersedes: null
   - id: REQ-STEMMA-EXP-003
     revision: 1
@@ -364,7 +380,7 @@ requirements:
     statement: "Committed derived artifacts (exports/, reports/) SHALL be fresh: CI regenerates them and fails on diff."
     type: BEHAVIORAL
     origin: RECOVERED
-    status: PROPOSED
+    status: APPROVED
     priority: P1
     normative_strength: SHALL
     rationale: "Stale committed exports silently contradict canonical data."
@@ -374,7 +390,8 @@ requirements:
     acceptance_criteria: ["verify-knowledge-base job runs git diff --exit-code -- exports reports"]
     verification_method: INTEGRATION_TEST
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: [REQ-STEMMA-EXP-001]
     related_spec: ["spec/SPECIFICATION.md#4.3"]
@@ -389,7 +406,7 @@ requirements:
     statement: "Consumer exports SHOULD honor each consumer's declared review_policy (e.g., learninghub = canonical-only)."
     type: INTERFACE
     origin: RECOVERED
-    status: PROPOSED
+    status: APPROVED
     priority: P1
     normative_strength: SHOULD
     rationale: "Consumers filter by review status; an all-draft corpus yields an empty canonical export."
@@ -399,7 +416,8 @@ requirements:
     acceptance_criteria: ["learninghub export excludes draft entities", "behavior documented and owner-confirmed (UNRES-STEMMA-EXP-001)"]
     verification_method: INTEGRATION_TEST
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: [REQ-STEMMA-EXP-001]
     related_spec: ["spec/SPECIFICATION.md#4.3"]
@@ -414,7 +432,7 @@ requirements:
     statement: "AI-drafted content SHALL remain draft until a named human reviews it; canonical objects declare writer: human:* and are gated by hitl_check."
     type: SECURITY
     origin: RECOVERED
-    status: PROPOSED
+    status: APPROVED
     priority: P0
     normative_strength: SHALL
     rationale: "Human accountability is the trust boundary of the foundation (L2/L8)."
@@ -424,7 +442,8 @@ requirements:
     acceptance_criteria: ["hitl_check present in gate chain", "every canonical entity carries human writer + review metadata", "audit evidence verifiable (see UNRES-STEMMA-HITL-001 limitation)"]
     verification_method: INTEGRATION_TEST
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: [REQ-STEMMA-HITL-002]
     related_spec: ["spec/SPECIFICATION.md#4.1", "spec/SPECIFICATION.md#7"]
@@ -439,7 +458,7 @@ requirements:
     statement: "No object SHALL become canonical without an explicit human markdown edit recorded in the HITL audit trail."
     type: CONSTRAINT
     origin: RECOVERED
-    status: PROPOSED
+    status: APPROVED
     priority: P1
     normative_strength: SHALL NOT
     rationale: "Even LLM-assisted drafts require human-authored final text; rubber-stamping is forbidden by design."
@@ -449,7 +468,8 @@ requirements:
     acceptance_criteria: ["hitl_check requires candidate_edited events by human:*"]
     verification_method: INTEGRATION_TEST
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: []
     related_spec: ["spec/SPECIFICATION.md#4.1"]
@@ -458,13 +478,47 @@ requirements:
     related_verification: ["gate: hitl_check step"]
     history: []
     supersedes: null
+  - id: REQ-STEMMA-HITL-003
+    revision: 2
+    title: Staged promotion chain with day-separated stages, board waiver, and visible revalidation debt
+    statement: "No single act SHALL set a canonical record: a record SHALL be promoted only through the ordered chain of the currently required stages, recorded in provenance.promotion_history, with consecutive stages performed on separate calendar days and by distinct humans (or under a named, time-boxed owner independence_waiver). The required chain SHALL be resolved from spec/machine-readable/enforcement_rules.yaml at run time: by default validator -> independent_validator -> board, but while the owner board waiver (ENF-STEMMA-HITL-003.board_waiver) is active the board stage is omitted and the chain is validator -> independent_validator with canonical reachable from the independent validator stage. A record carrying revalidation_debt.status 'outstanding' SHALL NOT hold any reviewed status: at pilot scale (ENF-STEMMA-HITL-002.pilot_scale_block, block_mode=full) the record is invalid outright until the debt is cleared and the record re-validated. Applies to ALL canonical datasets, entities and connections alike."
+    type: SECURITY
+    origin: PROPOSED
+    status: APPROVED
+    priority: P0
+    normative_strength: SHALL
+    rationale: "Owner directive 2026-10-01: 'the validator is not the final canonicalizer, it will be verified by another validator and it will finally reach board where multiple validators will finally validate it'; 'real time gate the validation, do not let me validate, independent validate and board validate at the same time, keep 1 day time different and I cannot break it'; 'revalidation must be on all datasets, not just on entities, all datasets including connection.' Two later rulings the same day refine it: 'waive the board for now as I am the only validator' (the >=2-human panel does not exist, so the stage is omitted not faked), and 'for debt at this small scale, actually block it fully until it is updated and validated … let's see how much entity it takes for debt to cause problem' (the pilot-scale full block is a deliberate measurement phase, relaxable to forward-only). The day-gap rule and both waivers are recorded as machine-readable data (spec/machine-readable/enforcement_rules.yaml) rather than prose, so they cannot be waived by editing an ADR. The interim single-actor state is legal only when made visible via an owner-sanctioned independence_waiver (ADR-0057 §1a) or an owner board_waiver (ADR-0057 §1c)."
+    source: [EVID-STEMMA-HITL-009, EVID-STEMMA-HITL-010, EVID-STEMMA-HITL-011]
+    validation_basis: [owner_directive, implemented_behavior, gate_enforcement, mutation_test]
+    validation_status: SUPPORTED
+    acceptance_criteria:
+      - "validate.py fails when a record holds a reviewed status without the complete ordered history of the currently required chain"
+      - "validate.py fails when consecutive stages share a calendar day (>=1 day required)"
+      - "validate.py fails when a board stage is recorded while the board waiver is active, and fails when a board stage names <2 humans without an owner independence_waiver once the waiver is retired"
+      - "validate.py fails at pilot scale (block_mode=full) when revalidation_debt.status is outstanding and the record holds any reviewed status"
+      - "review_entity.py advances exactly one stage of the active chain, refuses a same-day second stage, and refuses a board stage while the waiver holds"
+      - "the required chain, the debt block mode, and the day gap are all read from spec/machine-readable/enforcement_rules.yaml; deleting the registry fails closed"
+      - "retiring the board waiver (active:false) makes the gate require the three-stage chain again"
+      - "every guard is mutation-tested: injected violation -> non-zero exit; restore -> zero"
+    verification_method: INTEGRATION_TEST
+    owner: Sajan
+    approver: human:curator.001
+    approval_date: 2026-10-01
+    parent: null
+    dependencies: [REQ-STEMMA-HITL-001]
+    related_spec: ["spec/SPECIFICATION.md#4.1", "spec/ROLES_AND_AUTHORITY.md"]
+    related_adr: [ADR-0057]
+    related_implementation: ["scripts/validate.py", "scripts/review_entity.py", "scripts/migrate_board_waiver.py", "spec/machine-readable/enforcement_rules.yaml", "schema/concept.schema.json", "schema/connection.schema.json"]
+    related_verification: ["tests/repo/test_promotion_chain.py"]
+    history: [{revision: 1, date: "2026-10-01", change: "Created from owner directive: multi-stage promotion chain, day-separated stages, revalidation debt on all datasets (ADR-0057)"}, {revision: 2, date: "2026-10-01", change: "Board waiver (ENF-003.board_waiver: chain resolves to validator -> independent_validator while sole validator) and pilot-scale full debt block (ENF-002 block_mode=full, relaxable to forward_only)"}]
+    supersedes: null
   - id: REQ-STEMMA-SEC-001
     revision: 1
     title: Secret-free canonical layer
     statement: "The canonical layer SHALL be free of secrets; machine-checked on every change (gitleaks + content greps)."
     type: SECURITY
     origin: RECOVERED
-    status: PROPOSED
+    status: APPROVED
     priority: P1
     normative_strength: SHALL
     rationale: "Public knowledge repo with API-key-bearing tooling nearby; leak blast radius is git-permanent."
@@ -474,7 +528,8 @@ requirements:
     acceptance_criteria: ["gitleaks action + no-secrets grep run in CI security job"]
     verification_method: STATIC_ANALYSIS
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: []
     related_spec: ["spec/SPECIFICATION.md#7"]
@@ -489,7 +544,7 @@ requirements:
     statement: "Provider API keys SHALL NOT be committed; key material lives only in runtime configuration or credential stores."
     type: SECURITY
     origin: EXTERNAL
-    status: PROPOSED
+    status: APPROVED
     priority: P2
     normative_strength: SHALL NOT
     rationale: "XC-5: model-provider terms + credential safety for the webapp model selector."
@@ -499,7 +554,8 @@ requirements:
     acceptance_criteria: ["git history contains no provider keys", "webapp key handling reviewed in second pilot"]
     verification_method: INSPECTION
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: [REQ-STEMMA-SEC-001]
     related_spec: ["spec/SPECIFICATION.md#7", "spec/EXTERNAL_CONSTRAINTS.md"]
@@ -514,7 +570,7 @@ requirements:
     statement: "A clean clone SHALL run the full gate after installing only the declared dependencies (requirements.txt)."
     type: OPERATIONAL
     origin: DERIVED
-    status: PROPOSED
+    status: APPROVED
     priority: P1
     normative_strength: SHALL
     rationale: "Fresh-clone gate exited 2 pre-requirements.txt (ROADMAP R0 finding, observed during recovery)."
@@ -524,7 +580,8 @@ requirements:
     acceptance_criteria: ["fresh venv + pip install -r requirements.txt + verify_all.py -> exit 0"]
     verification_method: MEASUREMENT
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: []
     related_spec: ["spec/SPECIFICATION.md#5"]
@@ -539,7 +596,7 @@ requirements:
     statement: "Living documents SHOULD NOT hardcode machine-owned counts or versions; single sources (status_truth, VERSION.yaml) own them."
     type: OPERATIONAL
     origin: PROPOSED
-    status: PROPOSED
+    status: APPROVED
     priority: P2
     normative_strength: SHOULD
     rationale: "EVID-STEMMA-OPS-004 (INFERENCE): prose-embedded values produced the measured drift class."
@@ -549,12 +606,72 @@ requirements:
     acceptance_criteria: ["docs drift incidents of this class trend to zero across releases"]
     verification_method: INSPECTION
     owner: Sajan
-    approver: null
+    approver: human:curator.001
+    approval_date: 2026-10-01
     parent: null
     dependencies: [REQ-STEMMA-GATE-002]
     related_spec: ["spec/SPECIFICATION.md#4.2"]
     related_adr: []
     related_implementation: ["scripts/status_truth.py", "schema/VERSION.yaml"]
     related_verification: ["inspection: recurring doc drift review"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-OPS-003
+    revision: 1
+    title: Continuity of approval authority
+    statement: "The sole-owner approval authority SHALL be recorded as a recoverable capability, not an undocumented single point of failure: the approval procedure, and a designated successor path, SHALL be documented so that canonical progress can resume after the owner is unavailable."
+    type: OPERATIONAL
+    origin: PROPOSED
+    status: APPROVED
+    priority: P1
+    normative_strength: SHALL
+    rationale: "STEMMA is single-maintainer (SOLE_OWNER, approver: null everywhere) behind a fail-closed gate; if the sole approver is unavailable, canonical progress stops entirely. Bus-factor research (2026) and the xz-utils precedent treat single-maintainer concentration as a first-class, tracked risk. SOTA-COMPARISON-2026-10-01 F2."
+    source: [EVID-STEMMA-OPS-005]
+    validation_basis: [sota_comparison, governance_review]
+    validation_status: NEEDS_AUTHORITY
+    acceptance_criteria:
+      - "docs/GOVERNANCE.md documents the approval procedure and a successor path"
+      - "the single-maintainer risk is explicitly accepted and dated, not left implicit"
+      - "no canonical progress depends on undocumented, non-transferable knowledge"
+    verification_method: INSPECTION
+    owner: Sajan
+    approver: human:curator.001
+    approval_date: 2026-10-01
+    parent: null
+    dependencies: []
+    related_spec: ["spec/SPECIFICATION.md#7", "spec/ROLES_AND_AUTHORITY.md"]
+    related_adr: []
+    related_implementation: ["docs/GOVERNANCE.md", "spec/ROLES_AND_AUTHORITY.md"]
+    related_verification: ["inspection: governance review"]
+    history: []
+    supersedes: null
+  - id: REQ-STEMMA-INTEG-001
+    revision: 1
+    title: Reference explorer preserves the graph and adds grounded AI chat
+    statement: "The reference explorer SHALL remain a working consumer that renders the derived graph export, and SHALL provide an AI chat whose answers are grounded in the STEMMA export (with citations to entity ids and source refs), reading derived artifacts only — never canonical markdown."
+    type: INTERFACE
+    origin: PROPOSED
+    status: APPROVED
+    priority: P1
+    normative_strength: SHALL
+    rationale: "The explorer is the reference consumer and therefore the closest thing STEMMA has to an executable conformance test of its export; a grounded chat exercises retrieval + citation behaviour that no other check currently covers. Owner-raised 2026-10-01 (SOTA report §7)."
+    source: [EVID-STEMMA-INTEG-004, EVID-STEMMA-INTEG-002]
+    validation_basis: [owner_directive, existing_implementation]
+    validation_status: PARTIALLY_SUPPORTED
+    acceptance_criteria:
+      - "explorer renders every live connection from the export (existing verify-graph-projection.mjs passes)"
+      - "explorer is wired into CI and required by the all-green gate (existing explorer-build job)"
+      - "AI chat answers cite the entity id and source refs used, and decline when the export has no grounding"
+      - "chat reads only derived exports; a check fails if it reads canonical markdown"
+    verification_method: INTEGRATION_TEST
+    owner: Sajan
+    approver: human:curator.001
+    approval_date: 2026-10-01
+    parent: null
+    dependencies: [REQ-STEMMA-CORE-001, REQ-STEMMA-EXP-002]
+    related_spec: ["spec/INTERFACES"]
+    related_adr: [ADR-0055]
+    related_implementation: ["explorer/", "explorer/scripts/verify-graph-projection.mjs", "schema/consumer-registry.yaml"]
+    related_verification: ["cmd: npm --prefix explorer run verify", "ci: explorer-build job"]
     history: []
     supersedes: null
