@@ -15,6 +15,17 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
+# `scripts/docs.py` does a bare `from atomic_write import write_text_atomic`, which
+# resolves only when `scripts/` is on sys.path. Ten other test modules insert it for
+# exactly this reason; this one did not.
+#
+# Consequence: collected alone it died with
+#   ModuleNotFoundError: No module named 'atomic_write'  (collection error, 0 tests)
+# and it only worked in the full suite because `tests/provenance/*` sorts earlier and
+# inserts `scripts/` first. A silent dependency on another module's import order — the
+# test would have started failing if those modules were ever moved or renamed, and the
+# failure would have looked unrelated to this file.
+sys.path.insert(0, str(ROOT / "scripts"))
 spec = importlib.util.spec_from_file_location("docs_engine", ROOT / "scripts" / "docs.py")
 docs = importlib.util.module_from_spec(spec)
 sys.modules.setdefault("docs_engine", docs)
