@@ -327,6 +327,44 @@ def test_session_headers_match_the_schema_and_registry() -> None:
     assert not problems, "session header schema violations: " + "; ".join(problems)
 
 
+def test_no_duplicate_record_ids() -> None:
+    """DEBT/DEC/CONFLICT/BLK ids must be unique within their register.
+
+    A duplicated entry makes the register ambiguous — two records, one id, and a
+    reader cannot tell which is authoritative. It happened for real: a DEBT-007
+    append ran twice and the file carried the entry at two places, identical except
+    for the separator. Nothing caught it; it was found by accident while editing the
+    same file.
+
+    Cheap to check, and it is the kind of thing that only ever gets harder to spot
+    as a register grows.
+    """
+    registers = {
+        "DEBT.md": r"^## (DEBT-\d+)",
+        "DECISIONS.md": r"^## (DEC-\d+)",
+        "BLOCKERS.md": r"^#{2,3} (BLK-\d+)",
+        "INDEX.md": None,  # no id column of its own
+    }
+    duplicates: dict[str, list[str]] = {}
+    for name, pattern in registers.items():
+        if pattern is None:
+            continue
+        text = (STATE / name).read_text(encoding="utf-8")
+        ids = re.findall(pattern, text, re.MULTILINE)
+        assert ids, f"found no record ids in {name} — heading shape changed?"
+        repeated = sorted({i for i in ids if ids.count(i) > 1})
+        if repeated:
+            duplicates[name] = repeated
+    assert not duplicates, f"duplicate record ids (a register became ambiguous): {duplicates}"
+
+    # Conflict files are keyed by filename.
+    conflict_ids = sorted(p.stem.split("-")[1] for p in (STATE / "conflicts").glob("CONFLICT-*.md"))
+    assert conflict_ids, "found no conflict files — glob shape changed?"
+    assert len(conflict_ids) == len(set(conflict_ids)), (
+        f"duplicate conflict numbers: {conflict_ids}"
+    )
+
+
 def test_commitlint_accepts_the_protocol_commit_type() -> None:
     """CONFLICT-002 / DEC-006: the protocol's shutdown commit format must stay valid.
 
@@ -374,6 +412,7 @@ if __name__ == "__main__":  # self-hosting runner, matching tests/repo/test_gate
         test_commitlint_accepts_the_protocol_commit_type,
         test_index_status_matches_the_registry,
         test_session_headers_match_the_schema_and_registry,
+        test_no_duplicate_record_ids,
     ]
     failures = 0
     for fn in checks:

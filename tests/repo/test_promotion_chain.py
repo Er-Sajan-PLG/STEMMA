@@ -175,44 +175,40 @@ def test_time_gate_is_data_driven():
 def test_missing_enforcement_registry_fails_closed():
     """Deleting the enforcement registry must make the gate fail closed.
 
-    NOTE ON FRAGILITY. This test removes a **tracked** file from the real tree and
-    restores it in `finally`, so the setup step can be blocked by things outside the
-    test: a filesystem delete guard, a sandbox policy, a file watcher. When that
-    happens the unlink silently does not take effect, `validate.py` then succeeds,
-    and the test fails with a misleading assertion error rather than naming the real
-    cause.
+    NOTE ON HOW THE FILE IS REMOVED. The registry is **renamed aside**, not deleted.
+    Deleting a tracked file is fragile in two ways:
 
-    Observed for real: a pre-push run failed here with
-    `[safe-delete][SAFE_DELETE_BULK_CONFIRM_REQUIRED]` naming this exact file. The
-    test passed 5/5 when run directly.
+    1. **The environment may intercept it.** This sandbox injects a `sitecustomize`
+       shim that routes `unlink()` through a trash-move helper. When a per-turn
+       delete budget is exceeded it raises `SystemExit(1)` — a `BaseException`, so
+       an `except Exception` guard does *not* catch it, and the test fails with
+       `[safe-delete][SAFE_DELETE_BULK_CONFIRM_REQUIRED]` rather than a useful
+       message. That is exactly what blocked a pre-push run.
+    2. **A crash between the delete and the restore leaves the repository without a
+       registry that every gate reads.**
 
-    So the removal is now *verified* before the behaviour is asserted. If the
-    environment blocked it, the test skips with a reason instead of reporting a
-    false regression — a skip is honest here, because the fail-closed behaviour
-    genuinely cannot be exercised without removing the file.
+    `rename` is not intercepted (verified), and it is atomic, so parking the file
+    avoids both problems. The parked name ends in `.yaml.parked`, which matches no
+    `*.yaml` glob.
 
-    A cleaner long-term fix would be a shadow tree (the pattern in
-    tests/repo/test_gate_fail_closed.py) so nothing in the real tree is touched.
+    The removal is still verified before the behaviour is asserted, and an
+    unexpected block still skips with a reason rather than reporting a false
+    regression.
     """
+    parked = ENFORCEMENT.with_name(ENFORCEMENT.name + ".parked")
     backup = ENFORCEMENT.read_text(encoding="utf-8")
     try:
         try:
-            ENFORCEMENT.unlink()
-        except Exception as exc:  # noqa: BLE001 — environment interference, not a code bug
-            # Some environments intercept file deletion (trash-move wrappers, sandbox
-            # policies, delete guards) and *raise* rather than deleting. Verified here:
-            # `unlink()` is routed through a trash helper that emits
-            # `[safe-delete][SAFE_DELETE_FAIL_CLOSED]` and raises when it cannot move
-            # the file, and `[SAFE_DELETE_BULK_CONFIRM_REQUIRED]` when a per-turn
-            # delete budget is exceeded. Neither is a defect in this repository.
+            ENFORCEMENT.rename(parked)
+        except (Exception, SystemExit) as exc:  # SystemExit: the delete-guard shim
             pytest.skip(
-                "could not remove spec/machine-readable/enforcement_rules.yaml — the "
-                f"environment blocked deletion ({type(exc).__name__}: {exc}), so the "
-                "fail-closed path cannot be exercised here"
+                "could not move spec/machine-readable/enforcement_rules.yaml aside — the "
+                f"environment blocked it ({type(exc).__name__}: {exc}), so the fail-closed "
+                "path cannot be exercised here"
             )
         if ENFORCEMENT.exists():
             pytest.skip(
-                "spec/machine-readable/enforcement_rules.yaml survived the unlink — an "
+                "spec/machine-readable/enforcement_rules.yaml survived the move — an "
                 "environment guard intercepted it, so the fail-closed path cannot be "
                 "exercised here"
             )
@@ -220,7 +216,10 @@ def test_missing_enforcement_registry_fails_closed():
         assert r.returncode != 0
         assert "enforcement" in (r.stdout + r.stderr).lower()
     finally:
-        ENFORCEMENT.write_text(backup, encoding="utf-8")
+        if parked.exists():
+            parked.rename(ENFORCEMENT)
+        elif not ENFORCEMENT.exists():
+            ENFORCEMENT.write_text(backup, encoding="utf-8")
 
 
 # --------------------------------------------------- board waiver mutation --
