@@ -151,3 +151,36 @@ tag vocabulary, and the reconciliation duty for the last active agent.
   the repository checks `state/`.
 - DEC-001 is **not** edited, per Rule 4. Its reconstruction clause is superseded by this
   decision; the rest of DEC-001 (adopting MACP, and the Tier boundary) stands.
+
+---
+
+## DEC-006 — `state` is an accepted commit type in this repository
+
+**Date:** 2026-10-01
+**Decided by:** `A7F3`
+**Supersedes:** —
+
+**Decision.** `commitlint.config.cjs` adds `state` to its `type-enum`. The protocol's
+shutdown commit format (`state: <agent-id> session <session-id>`, §Shutdown step 6) is
+therefore valid and passes the required `Conventional Commits (commitlint)` status check.
+
+**Context.** The protocol mandates that commit format; the repo's lint list did not include
+`state`, and commitlint is one of seven **required** status checks on `main`. Following the
+protocol produced a commit that failed a required check (CI run `36859282799`, commit
+`8d4d74a`). The protocol says it wins over conflicting instructions, but "winning" by
+breaking a required gate would simply block the merge.
+
+**Alternatives considered.** Keep the lint list untouched and have MACP commits use
+`chore(state): …`. Rejected: the protocol's format is owner-specified and the owner directed
+it be followed, so deviating on every session would be a silent permanent divergence from an
+explicit instruction. The chosen change is additive and narrow — one new type; no existing
+rule relaxed.
+
+**Consequences.**
+- Resolves the already-pushed commit without rewriting history.
+- The invariant is **guarded**, not just documented:
+  `tests/repo/test_state_tree.py::test_commitlint_accepts_the_protocol_commit_type` fails if
+  `state` is removed from the enum. Removing it would otherwise break every future MACP
+  shutdown commit, at a distance from the change that caused it.
+- Recorded as `conflicts/CONFLICT-002-protocol-commit-type.md`, kept live rather than
+  archived — see the standing-invariant note in that file and in CONFLICT-001.

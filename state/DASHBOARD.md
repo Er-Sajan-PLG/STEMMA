@@ -30,7 +30,7 @@
 | `scripts/docs.py check` | **PASS** |
 | `spec/machine-readable/validate_recovery.py` | **PASS** — 9/9 checks |
 | `scripts/verify_strong.py --quick` | exit 0 |
-| `tests/repo/test_state_tree.py` | **PASS — 11/11** (structure, naming, reconciliation stamp, INDEX coverage, dashboard↔registry drift) |
+| `tests/repo/test_state_tree.py` | **PASS — 12/12** (structure, naming, reconciliation stamp, INDEX coverage, dashboard↔registry drift, protocol commit type) |
 
 > Running the suite leaves the working tree **clean** — `exports/` and `reports/` included.
 > That is now guaranteed rather than incidental: `test_promotion_chain.py` mutates real
