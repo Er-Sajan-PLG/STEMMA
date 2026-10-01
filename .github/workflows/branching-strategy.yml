@@ -38,12 +38,6 @@ jobs:
             exit 0
           fi
 
-          # Allow release-please
-          if echo "$BRANCH" | grep -qE "^release-please"; then
-            echo "✓ Release branch: $BRANCH"
-            exit 0
-          fi
-
           # Allow GitHub merge refs (PR merge previews)
           if echo "$BRANCH" | grep -qE "^[0-9]+/merge$"; then
             echo "✓ GitHub merge ref: $BRANCH"
@@ -57,5 +51,5 @@ jobs:
           fi
 
           echo "✗ Branch name does not match required pattern: $BRANCH"
-          echo "Allowed: feat/*, fix/*, chore/*, docs/*, style/*, refactor/*, perf/*, test/*, build/*, ci/*, revert/*, dependabot/*, release-please*, arena/*"
+          echo "Allowed: feat/*, fix/*, chore/*, docs/*, style/*, refactor/*, perf/*, test/*, build/*, ci/*, revert/*, dependabot/*, arena/*"
           exit 1
