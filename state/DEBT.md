@@ -306,3 +306,55 @@ change than this defect justifies on its own. Recorded as the recommended follow
 
 ---
 
+
+---
+
+## DEBT-008 — The FAISS mislabel persisted in 78 places; the conflict record said it was synced (RESOLVED)
+
+**Found:** 2026-10-01 by `A7F3` · **Resolved:** 2026-10-01 (same session)
+**Severity was:** medium — a Tier-2 record asserted a completed fix that was ~10% done
+
+**How it was found.** Chasing DEBT-004 (the numpy/store-type question). That investigation
+turned up nothing wrong with the *behaviour* — nothing in-repo reads `vectors.npy` /
+`vectors.json`, so the store form varying by interpreter is harmless — but a grep for the old
+label found it still all over the live docs.
+
+**What was wrong.** `spec/CONFLICTS.md` (CONFLICT-STEMMA-EXP-001, resolution 1) states:
+
+> *"**Fixed** (`scripts/embed.py` now records `numpy-flat` / `json-flat` …; **the living docs
+> that repeated the claim were synced**)."*
+
+The metadata half was indeed fixed and guarded. **The docs half was not.** A sweep found **78
+occurrences across 19 files** still asserting STEMMA's own derived store is FAISS — including
+`AGENTS.md`, `docs/ARCHITECTURE-V2.md`, `docs/EMBEDDINGS.md`, `docs/TESTING.md`, `docs/VERSIONING.md`,
+`docs/GOVERNANCE.md`, `docs/VISION.md`, two ADRs, and the webapp's user-facing HTML.
+
+Worst instance: **`docs/EMBEDDINGS.md` contradicted itself** — line 54 correctly said
+"numpy-flat or json-flat … no FAISS index is written", while lines 136/189/190 said
+"vector_store/ FAISS". A reader could not tell which was true.
+
+**Why it matters beyond the label.** The claim in the conflict record was the reason nobody
+looked again: a record that says "the docs were synced" closes the question. That is the same
+failure mode this session keeps surfacing — an assertion recorded without being verified — and
+this time it was in a **Tier-2** record, which the executor cannot correct.
+
+**Fix.** 78 replacements across 19 files (two passes; the first missed parenthesised and
+standalone variants). Deliberately **not** touched, because they are not claims about STEMMA's
+own store:
+
+- `vector_store FAISS/Chroma/Qdrant local` — lists *consumer* options (2 occurrences remain).
+- `FAISS built externally out of STEMMA` / `FAISS out of STEMMA` — describes what a **consumer**
+  builds; FAISS is a legitimate choice there.
+
+That distinction matters: over-reaching would repeat the original error in the other direction.
+
+**Verified:** `docs/EMBEDDINGS.md` now has 0 `vector_store/ FAISS` occurrences and its one honest
+line; only the 2 legitimate consumer-option mentions remain repo-wide; `docs.py check` PASS,
+`verify_all.py` 42 OK / 0 FAIL, 365 pytest, state tree 16/16.
+
+**Raised as BLK-005:** the conflict record itself still carries the inaccurate claim, and `spec/`
+is Tier 2 — owner-only.
+
+**Lesson.** "The docs were synced" is a claim, not a completion. It needed the same treatment as
+every other claim in this repository: a command that counts, run before the sentence was
+written. The sentence was written from memory of a partial sweep.

@@ -605,3 +605,47 @@ until the residual failures are known.
 Gate: **365 pytest · verify_all 42 OK / 0 FAIL · docs PASS · state tree 16/16.**
 
 **Work unit complete — session remains ACTIVE.**
+
+## [BUG FOUND] 2026-10-01T13:56Z — a Tier-2 record claimed a sync that had not happened
+
+Chasing DEBT-004 (the numpy / store-type question). The behaviour turned out to be **fine** —
+nothing in-repo reads `vectors.npy` / `vectors.json`, so the store form varying by interpreter is
+harmless, and the docs already describe the type as honest either way. But a grep for the old
+label found it still all over the live docs.
+
+**`spec/CONFLICTS.md` (CONFLICT-STEMMA-EXP-001, resolution 1) says:**
+
+> *"**Fixed** (… **the living docs that repeated the claim were synced**)."*
+
+The metadata half was fixed and guarded. **The docs half was not.** A sweep found **78
+occurrences across 19 files** asserting STEMMA's own store is FAISS — including `AGENTS.md`,
+`docs/ARCHITECTURE-V2.md`, `docs/EMBEDDINGS.md`, `docs/TESTING.md`, `docs/VERSIONING.md`,
+`docs/VISION.md`, two ADRs, and the webapp's user-facing HTML.
+
+**Worst instance:** `docs/EMBEDDINGS.md` **contradicted itself** — line 54 correctly said
+"numpy-flat or json-flat … no FAISS index is written", while lines 136/189/190 said
+"vector_store/ FAISS". A reader could not tell which was true.
+
+**Why it matters more than the label.** The record said the docs were synced, which is *why*
+nobody looked again. That is the same failure this session keeps surfacing — an assertion
+recorded without being verified — and this time it sat in a **Tier-2** record the executor
+cannot correct.
+
+**Fix.** 78 replacements across 19 files, in two passes (the first missed parenthesised and
+standalone variants). Deliberately **not** touched, because they are not claims about STEMMA's
+own store: `vector_store FAISS/Chroma/Qdrant local` (consumer options, 2 remain) and
+`FAISS built externally out of STEMMA` (describes what a *consumer* builds). Over-reaching would
+repeat the original error in the other direction.
+
+**Verified:** `EMBEDDINGS.md` has 0 false occurrences; only the 2 legitimate consumer-option
+mentions remain repo-wide; docs PASS · verify_all 42 OK / 0 FAIL · 365 pytest · state tree 16/16.
+
+**Raised as BLK-005** for the owner: the Tier-2 record still carries the inaccurate claim.
+
+**[BUG FOUND] in my own habit — repeated.** While reconciling `DASHBOARD.md` I stamped
+"Last Reconciled" as **14:00Z** when the clock read **13:56Z**. That is the *exact* error I
+recorded earlier today (stamping 12:50Z at 12:49Z) and explicitly wrote a lesson about. Writing
+the lesson did not prevent the repetition. The lesson needs a mechanism, not a note: **read the
+clock immediately before writing any timestamp, never from memory or rounding.**
+
+**Work unit complete — session remains ACTIVE.**
