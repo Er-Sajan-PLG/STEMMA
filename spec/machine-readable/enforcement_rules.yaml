@@ -1,0 +1,126 @@
+# STEMMA enforcement rules — machine-readable, authoritative over prose.
+#
+# WHY THIS FILE EXISTS (owner ruling 2026-10-01):
+#   "real time gate the validation, do not let me validate, independent validate
+#    and board validate at the same time, keep 1 day time different and I cannot
+#    break it ... Keep it in record, not in ADR — a strong enough place to enforce it."
+#
+# An ADR is a narrative artifact; narrative is not enforcement. Rules that the
+# owner must NOT be able to bypass live here, as data, and are read byte-for-byte
+# by scripts/validate.py (the fail-closed gate) and by scripts/review_entity.py
+# (the promotion CLI). Changing a rule means changing this file, which the gate
+# then re-reads on the next run — there is no second source to drift from.
+#
+# Each rule carries: id, statement, enforcing_script, enforcement_point and a
+# machine-readable `rule:` block. The gate refuses on violation; the CLI refuses
+# to record a promotion that would violate one.
+rules_version: 1
+rules:
+  - id: ENF-STEMMA-HITL-001
+    title: Promotion stages must not share a calendar day
+    statement: >-
+      The initial validator, the independent validator and the board must not act
+      on the same record on the same day. Consecutive promotion stages of one
+      record SHALL be separated by at least one full calendar day. A canonical
+      decision reached in one sitting is biased and SHALL NOT be recorded.
+    applies_to: [entity, connection]
+    normative_strength: SHALL NOT
+    enforced_by: []          # populated below; declared for traceability
+    rule:
+      kind: min_stage_gap
+      min_days: 1
+      stages: [validator, independent_validator, board]
+      compare: consecutive_stages_of_same_record
+    enforcement_point:
+      gate: "scripts/validate.py:check_promotion_chain -> _check_stage_time_gaps"
+      cli: "scripts/review_entity.py:promote (refuses same-day stage advance)"
+    rationale: >-
+      Owner directive 2026-10-01. The owner currently holds all three roles; if
+      all three acts land on one day the chain is a formality, not a review.
+    related_adr: ADR-0057
+    related_requirement: REQ-STEMMA-HITL-003
+    owner: Sajan
+    recorded_by: executor
+    recorded_at: "2026-10-01"
+
+  - id: ENF-STEMMA-HITL-002
+    title: Outstanding revalidation debt blocks every promotion status
+    statement: >-
+      A record with revalidation_debt.status 'outstanding' SHALL NOT hold any
+      promotion or review status (validator_validated, independently_validated,
+      board_approved, human_reviewed, canonical). The validator MUST be told
+      which record carries debt at the moment it is validated.
+    applies_to: [entity, connection]
+    normative_strength: SHALL NOT
+    rule:
+      kind: debt_blocks_status
+      debt_status: outstanding
+      blocked_statuses: [human_reviewed, validator_validated, independently_validated, board_approved, canonical]
+      report_debt_identity: true
+    enforcement_point:
+      gate: "scripts/validate.py:check_revalidation_debt"
+      cli: "scripts/review_entity.py:promote (refuses while debt outstanding)"
+    rationale: >-
+      Owner directive 2026-10-01: debt must be visible in frontmatter and the
+      validator cannot complete validation until the debt is fixed.
+    related_adr: ADR-0057
+    related_requirement: REQ-STEMMA-HITL-003
+    owner: Sajan
+    recorded_by: executor
+    recorded_at: "2026-10-01"
+
+  - id: ENF-STEMMA-HITL-003
+    title: Independence or a recorded owner waiver
+    statement: >-
+      Consecutive promotion stages of one record SHALL be performed by distinct
+      human agents, and a board stage SHALL name at least two distinct human
+      members. When the performers are not all distinct, the promotion SHALL
+      carry an owner-sanctioned independence_waiver naming sanctioned_by and
+      retire_when. Absence of either is a gate failure.
+    applies_to: [entity, connection]
+    normative_strength: SHALL
+    rule:
+      kind: independence_or_waiver
+      stages: [validator, independent_validator, board]
+      distinct_within: consecutive
+      board_min_members: 2
+      waiver_fields_required: [sanctioned_by, reason, retire_when]
+    enforcement_point:
+      gate: "scripts/validate.py:check_promotion_chain"
+      cli: "scripts/review_entity.py:promote"
+    rationale: >-
+      Independence is the point of the chain (spec/ROLES_AND_AUTHORITY.md
+      SOLE_OWNER limitation record). The interim single-actor reality is legal
+      only when made visible and time-boxed.
+    related_adr: ADR-0057
+    related_requirement: REQ-STEMMA-HITL-003
+    owner: Sajan
+    recorded_by: executor
+    recorded_at: "2026-10-01"
+
+  - id: ENF-STEMMA-HITL-004
+    title: The validator is not the final canonicalizer
+    statement: >-
+      No single act MAY set a record to 'canonical'. Canonical SHALL be
+      reachable only after an ordered chain validator -> independent_validator
+      -> board, all recorded in provenance.promotion_history. Jumping straight
+      from draft (or any single review) to canonical SHALL fail the gate.
+    applies_to: [entity, connection]
+    normative_strength: SHALL
+    rule:
+      kind: staged_ladder
+      required_stages: [validator, independent_validator, board]
+      terminal_status: canonical
+      allow_direct_jump: false
+    enforcement_point:
+      gate: "scripts/validate.py:check_promotion_chain"
+      cli: "scripts/review_entity.py:promote (advances exactly one stage)"
+    rationale: >-
+      Owner directive 2026-10-01: "the validator is not the final canonicalizer,
+      it will be verified by another validator and it will finally reach board
+      where multiple validators will finally validate it."
+    related_adr: ADR-0057
+    related_requirement: REQ-STEMMA-HITL-003
+    owner: Sajan
+    recorded_by: executor
+    recorded_at: "2026-10-01"

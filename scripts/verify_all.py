@@ -42,6 +42,11 @@ steps = [
     [sys.executable, str(ROOT / "scripts/export_consumers.py"), "--check", "--all"],
     [sys.executable, str(ROOT / "tests/registry/test_registry_coherence.py")],
     [sys.executable, str(ROOT / "tests/registry/test_domain_identity.py")],
+    # ADR-0057 / ENF-STEMMA-HITL-001..004: staged promotion chain, day-separated
+    # stages, and revalidation debt (owner-enforced; applies to entities AND
+    # connections). Mutation-tested — every guard can go red. Run via pytest
+    # because the suite uses fixtures.
+    [sys.executable, "-m", "pytest", str(ROOT / "tests/repo/test_promotion_chain.py"), "-q"],
     [sys.executable, str(ROOT / "tests/versioning/test_validation_report.py")],
     [sys.executable, str(ROOT / "tests/versioning/test_deterministic_export.py")],
     # Semantic acquisition pipeline — evidence first-class, AI output must be proposal, independent verification, conflict analysis

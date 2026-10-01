@@ -5,7 +5,7 @@
 - **Repository commit at freeze:** `fb66dd9` (working tree = `fb66dd9` + uncommitted `spec/` additions only; zero modifications to code, schema, docs, content, or CI)
 - **Date:** 2026-09-22
 - **Scope:** pilot slice CORE–GATE–EXPORT only (charter `spec/PILOT_CHARTER.md`). Non-slice maturity MUST NOT be generalized from this document.
-- **Approval status:** ✅ **APPROVED — 2026-10-01** by the SOLE_OWNER (Sajan, `human:curator.001`) for all 24 requirements. The recovery executor is PROVISIONAL and approved nothing; the approval was entered by the owner. Non-response was not treated as approval.
+- **Approval status:** ✅ **APPROVED — 2026-10-01** by the SOLE_OWNER (Sajan, `human:curator.001`) for all 25 requirements. The recovery executor is PROVISIONAL and approved nothing; the approval was entered by the owner. Non-response was not treated as approval.
 
 ## §25 minimum viable baseline checklist
 
@@ -19,12 +19,12 @@
 | 6 | External constraints | spec/EXTERNAL_CONSTRAINTS.md | ✅ XC-1..XC-7 |
 | 7 | Open questions | spec/OPEN_QUESTIONS.md | ✅ 11 UNRES (8 OPEN / 3 CLOSED — UNRES-CORE-002, UNRES-GATE-001 and UNRES-HITL-002 closed by owner ruling; **UNRES-CORE-003 added 2026-10-01, blocking** — canonical is time-relative: revalidation debt + evolving validation methods); none closed by executor |
 | 8 | Conflict records | spec/CONFLICTS.md | ✅ 1 OPEN (CONFLICT-STEMMA-EXP-001) / 1 RESOLVED with authority level; no free interpretation field |
-| 9 | Requirements (full §8.6 schema) | spec/REQUIREMENTS.md | ✅ 24 records, **ALL APPROVED 2026-10-01** — owner-approved; nothing self-approved |
+| 9 | Requirements (full §8.6 schema) | spec/REQUIREMENTS.md | ✅ 25 records, **ALL APPROVED 2026-10-01** — owner-approved; nothing self-approved |
 | 10 | Recovered specification | spec/SPECIFICATION.md | ✅ v0.1.0-pilot.CORE-GATE-EXPORT (see SPECIFICATION.md for approval marks) |
 | 11 | Interface contracts | spec/INTERFACES/ | ✅ IFACE-STEMMA-EXP-001 (knowledge.json 2.2.0), IFACE-STEMMA-GATE-001 (verify_all CLI) |
 | 12 | Decision records | spec/DECISIONS/ + docs/decisions/ | ✅ ADR-STEMMA-SPEC-001 (recovery layer); historical ADR-0040..0052 cross-linked, 0001–0039 located in archive/old-design/ |
 | 13 | Assumptions | spec/ASSUMPTIONS.md | ✅ 5 ASM records |
-| 14 | Verification mapping | spec/VERIFICATION.md | ✅ **21 VERIFIED · 0 FAILED · 3 UNVERIFIED** (2026-10-01) — CORE-004, EXP-002 criterion 4, GATE-003 and EXP-003 were repaired and re-verified; SEC-002 verified by a full-history key scan with a non-vacuity control (6245 objects, zero keys, EVID-SEC-004/005). **The round-3 HITL finding is resolved:** the owner ruled on **UNRES-STEMMA-HITL-002** (scope = all data; demote the 6 LLM-written entities; validator validates everything), and REQ-STEMMA-HITL-001/002 flipped **FAILED → VERIFIED** with mutation controls (EVID-HITL-006/007/008). The 3 remaining UNVERIFIED are recorded at **AC granularity**: EXP-004 AC1 PASS (only AC2 open, needs owner confirmation via UNRES-EXP-001); INTEG-001 AC1/AC2/AC4 PASS with AC3 unmet (no grounded AI chat implemented); OPS-002 alone is blocked purely on a precondition (no tagged releases) |
+| 14 | Verification mapping | spec/VERIFICATION.md | ✅ **22 VERIFIED · 0 FAILED · 3 UNVERIFIED** (2026-10-01) — CORE-004, EXP-002 criterion 4, GATE-003 and EXP-003 were repaired and re-verified; SEC-002 verified by a full-history key scan with a non-vacuity control (6245 objects, zero keys, EVID-SEC-004/005). **The round-3 HITL finding is resolved:** the owner ruled on **UNRES-STEMMA-HITL-002** (scope = all data; demote the 6 LLM-written entities; validator validates everything), and REQ-STEMMA-HITL-001/002 flipped **FAILED → VERIFIED** with mutation controls (EVID-HITL-006/007/008). The 3 remaining UNVERIFIED are recorded at **AC granularity**: EXP-004 AC1 PASS (only AC2 open, needs owner confirmation via UNRES-EXP-001); INTEG-001 AC1/AC2/AC4 PASS with AC3 unmet (no grounded AI chat implemented); OPS-002 alone is blocked purely on a precondition (no tagged releases) |
 | 15 | Gap analysis (two tiers) | spec/SPECIFICATION_GAP_ANALYSIS.md | ✅ Tier-1 deep slice findings + Tier-2 ASSESSED/NOT_YET_ASSESSED/OUT_OF_SCOPE inventory |
 | 16 | Machine-readable canonical set | spec/machine-readable/*.yaml | ✅ 8 canonical registries + 2 derived mirrors, single representation per datum |
 | 17 | Minimum validator (§22.2) | spec/machine-readable/validate_recovery.py | ✅ 9/9 checks PASS; negative-path tested (fails closed) |
@@ -38,14 +38,14 @@ Checklist verdict: **minimum viable baseline COMPLETE and APPROVED (2026-10-01).
 **Declared level: L3 — approved specification baseline, scoped to the pilot slice.**
 
 *History: declared **L2** (evidence-backed, unapproved) on 2026-09-22. Raised to **L3** on
-2026-10-01 when the SOLE_OWNER approved all 24 requirements and this baseline.*
+2026-10-01 when the SOLE_OWNER approved all 25 requirements and this baseline.*
 
 | Attribute | Value |
 |---|---|
-| Scope | CORE–GATE–EXPORT pilot slice only (24 requirements, 2 interfaces). Repo-wide maturity is **not claimed**; Tier-2 explicitly marks webapp/adapters-internals/explorer-product-layer/ingestion/RAG internals NOT_YET_ASSESSED |
+| Scope | CORE–GATE–EXPORT pilot slice only (25 requirements, 2 interfaces). Repo-wide maturity is **not claimed**; Tier-2 explicitly marks webapp/adapters-internals/explorer-product-layer/ingestion/RAG internals NOT_YET_ASSESSED |
 | Assessor | Recovery executor (self-assessment). **Limitation: assessor is not independent** — sole-owner context, see spec/ROLES_AND_AUTHORITY.md |
 | Evidence | EVIDENCE_REGISTER.md (41 locatable records, classified); validate_recovery.py PASS 9/9 with the APPROVED path exercised; `verify_all.py` gate green; validator negative-path test fails closed |
-| Approval | **APPROVED 2026-10-01** by Sajan (`human:curator.001`) — approver + approval_date present on all 24 records (validator check 6); verification method named on all 24 (check 7) |
+| Approval | **APPROVED 2026-10-01** by Sajan (`human:curator.001`) — approver + approval_date present on all 25 records (validator check 6); verification method named on all 25 (check 7) |
 | Blocking levels | **L4 (verified) now UNBLOCKED**: §9.1 prohibits VERIFIED before APPROVED; approval has been given, so verification executions may begin. L5/L6 (enforced / converged) remain out of pilot scope |
 
 **What L3 does mean:** every requirement in the slice is owner-approved and carries
@@ -63,6 +63,6 @@ re-proposed through the same workflow.
 ## Freeze conditions for the next step
 
 1. ~~Owner reviews `spec/`~~ — done; entry points were REQUIREMENTS.md, OPEN_QUESTIONS.md, CONFLICTS.md, and the pre-approval SOTA comparison (`spec/SOTA-COMPARISON-2026-10-01.md`).
-2. ~~Owner approves/rejects/defers each requirement~~ — **done 2026-10-01: all 24 APPROVED.** Only APPROVED counts for conformance.
+2. ~~Owner approves/rejects/defers each requirement~~ — **done 2026-10-01: all 25 APPROVED.** Only APPROVED counts for conformance.
 3. **Next: begin VERIFICATION** from spec/VERIFICATION.md (L3 → L4). §9.1's blocking condition is satisfied; approved requirements may now be executed against their named methods. The validator's approval-path checks (6, 7) are live and passing.
 4. Post-pilot queue unchanged: **R5** (org/domain/IRI-base decision, human — UNRES-STEMMA-CORE-001; settled for now as `stemma-urn-only` at R6) → **R4** content acceptance test per ADR-0052. Recovery does not reorder these.

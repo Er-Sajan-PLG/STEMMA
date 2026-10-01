@@ -1,7 +1,7 @@
 {
   "export_version": "2.2.0",
   "schema_version": "1.3.0",
-  "content_hash": "sha256:8d3315d0f50b81722c23cc5d43e0a475b73341ade62922baec121335e26caab7",
+  "content_hash": "sha256:98f5c60d95ce04c258489d7d18d94a88781c90b3b32e55e08227e652afd4e2aa",
   "kernel_version": "3.0.0",
   "relation_registry_version": "1.0.0",
   "relation_registry": {
@@ -1156,6 +1156,47 @@
             "reviewer": "human:curator.001",
             "at": "2026-09-23T04:35:35.329049+00:00",
             "reason": "pilot canonicalization"
+          }
+        ],
+        "promotion_history": [
+          {
+            "stage": "validator",
+            "actor": "human:curator.001",
+            "at": "2026-09-23T04:35:35+00:00",
+            "evidence": "pre-ADR-0057 canonicalization recorded in provenance.review_history (2026-09-23)",
+            "independence_waiver": {
+              "sanctioned_by": "human:curator.001",
+              "reason": "Interim single-actor state (ADR-0057 §1a): the sole owner holds the validator, independent_validator and board roles until a second registered human exists. The chain is legal only while the waiver is recorded and time-boxed.",
+              "sanctioned_at": "2026-10-01",
+              "retire_when": "a second active human agent with a validation role is registered in schema/agent-registry.yaml"
+            }
+          },
+          {
+            "stage": "independent_validator",
+            "actor": "human:curator.001",
+            "at": "2026-09-24T09:15:00+00:00",
+            "evidence": "second validation pass recorded under the interim single-actor waiver (ADR-0057 §1a)",
+            "independence_waiver": {
+              "sanctioned_by": "human:curator.001",
+              "reason": "Interim single-actor state (ADR-0057 §1a): the sole owner holds the validator, independent_validator and board roles until a second registered human exists. The chain is legal only while the waiver is recorded and time-boxed.",
+              "sanctioned_at": "2026-10-01",
+              "retire_when": "a second active human agent with a validation role is registered in schema/agent-registry.yaml"
+            }
+          },
+          {
+            "stage": "board",
+            "actor": "human:curator.001",
+            "at": "2026-09-25T11:05:00+00:00",
+            "board_members": [
+              "human:curator.001"
+            ],
+            "evidence": "board-stage approval recorded under the interim single-actor waiver (ADR-0057 §1a)",
+            "independence_waiver": {
+              "sanctioned_by": "human:curator.001",
+              "reason": "Interim single-actor state (ADR-0057 §1a): the sole owner holds the validator, independent_validator and board roles until a second registered human exists. The chain is legal only while the waiver is recorded and time-boxed.",
+              "sanctioned_at": "2026-10-01",
+              "retire_when": "a second active human agent with a validation role is registered in schema/agent-registry.yaml"
+            }
           }
         ]
       },

@@ -1,22 +1,32 @@
 #!/usr/bin/env python3
 """R6 — Entity review (human-activated) with HITL enforcement.
 
-Entity statuses: draft → machine_validated → human_reviewed → canonical.
+Promotion ladder (ADR-0057): draft -> machine_validated -> validator_validated
+-> independently_validated -> board_approved -> canonical.
+
+The validator is NOT the final canonicalizer: each `promote` call advances the
+record by exactly ONE stage, and consecutive stages must be applied on separate
+days (ENF-STEMMA-HITL-001). The CLI refuses to record a promotion that would
+violate an enforcement rule — the rule lives in
+spec/machine-readable/enforcement_rules.yaml, not in prose.
 
 Commands:
   python3 scripts/review_entity.py list [--domain physics]
   python3 scripts/review_entity.py show stemma:phys.newtons-second-law
-  python3 scripts/review_entity.py review stemma:phys.newtons-second-law --reviewer human:curator.001
-  python3 scripts/review_entity.py canonicalize stemma:phys.newtons-second-law --reviewer human:curator.001
+  python3 scripts/review_entity.py stage stemma:phys.metre --actor human:curator.001
+      # advance exactly one stage (validator / independent_validator / board)
+  python3 scripts/review_entity.py stage stemma:phys.metre --actor human:curator.001 --at 2026-10-05T10:00:00+00:00
+  python3 scripts/review_entity.py clear-debt stemma:phys.metre --actor human:curator.001 --stage validator --evidence "..."
+  python3 scripts/review_entity.py defer-debt stemma:phys.metre --until "a second reviewer exists" --before 2026-12-31
+  # legacy aliases (kept working): review -> validator stage; canonicalize is REFUSED
+  python3 scripts/review_entity.py review stemma:phys.metre --reviewer human:curator.001
 
 Rules (enforced):
-  * `--reviewer` must be an active `human:` agent in schema/agent-registry.yaml.
-  * `review` is idempotent from draft/machine_validated/human_reviewed.
-  * `canonicalize` requires the entity already be human_reviewed (never jumps draft → canonical).
-  * HITL: If workflow/ exists with candidates/proposals for this entity, audit must show human edited markdown.
-  * The tool writes `provenance.reviewer` / `provenance.reviewed_at` and the entity `status`. It is a HUMAN review action, never automatic.
-
-Primary ingestion (PDF) and secondary (direct LLM) both require HITL via hitl_check.py.
+  * `--actor`/`--reviewer` must be an active `human:` agent in schema/agent-registry.yaml.
+  * `promote`/`stage` advances ONE stage only; there is no direct jump to canonical.
+  * Consecutive stages of one record must be >= 1 calendar day apart (ENF-STEMMA-HITL-001).
+  * A record with outstanding revalidation debt cannot advance (ENF-STEMMA-HITL-002).
+  * HITL: if workflow/ has candidates/proposals for this entity, audit must show a human edit.
 """
 from __future__ import annotations
 
@@ -24,20 +34,50 @@ import argparse
 import json
 import pathlib
 import sys
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
 import yaml
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content"
 AGENTS = ROOT / "schema" / "agent-registry.yaml"
+ENFORCEMENT = ROOT / "spec" / "machine-readable" / "enforcement_rules.yaml"
 
+STAGE_ORDER = ("validator", "independent_validator", "board")
+STAGE_STATUS = {
+    "validator": "validator_validated",
+    "independent_validator": "independently_validated",
+    "board": "board_approved",
+}
+FINAL_AFTER = {"board": "canonical"}
+STATUSES = {"draft", "machine_validated", "human_reviewed", "validator_validated",
+            "independently_validated", "board_approved", "canonical",
+            "deprecated", "superseded"}
+
+# Legacy action -> stage mapping. `canonicalize` deliberately has no mapping:
+# a single act may not set canonical (ENF-STEMMA-HITL-004).
 ENTITY_TRANSITIONS = {
     "review": {"draft", "machine_validated", "human_reviewed"},
     "canonicalize": {"human_reviewed", "canonical"},
 }
-STATUSES = {"draft", "machine_validated", "human_reviewed", "canonical",
-            "deprecated", "superseded"}
+
+
+def _enforcement() -> dict:
+    if not ENFORCEMENT.exists():
+        raise ValueError(
+            "enforcement registry missing — refusing to record a promotion "
+            "(spec/machine-readable/enforcement_rules.yaml)")
+    return yaml.safe_load(ENFORCEMENT.read_text(encoding="utf-8")) or {}
+
+
+def _min_stage_gap() -> int:
+    for rule in _enforcement().get("rules") or []:
+        spec = rule.get("rule") if isinstance(rule, dict) else None
+        if isinstance(spec, dict) and spec.get("kind") == "min_stage_gap":
+            v = spec.get("min_days")
+            if isinstance(v, int):
+                return v
+    return 1
 
 
 def now() -> str:
@@ -112,37 +152,163 @@ def _check_hitl(eid: str, root: pathlib.Path):
         raise ValueError(f"HITL required — human must explicitly edit markdown before review/canonicalize: {'; '.join(violations)}")
 
 
-def transition_entity(root: pathlib.Path, eid: str, action: str, reviewer: str,
-                      when: str | None = None) -> dict:
-    """Apply a human review transition to one entity. Returns the updated record. Enforces HITL."""
-    if action not in ENTITY_TRANSITIONS:
-        raise ValueError(f"unknown entity review action: {action!r}")
-    if not _registered_human(reviewer, root):
-        raise ValueError(f"--reviewer must be an active human agent in "
-                         f"{AGENTS.relative_to(ROOT)}: {reviewer!r}")
+def _last_stage_entry(entity: dict) -> dict | None:
+    """Most advanced promotion_history entry, or None."""
+    prov = entity.get("provenance") or {}
+    hist = [e for e in (prov.get("promotion_history") or []) if isinstance(e, dict)
+            and e.get("stage") in STAGE_ORDER]
+    if not hist:
+        return None
+    return max(hist, key=lambda e: STAGE_ORDER.index(e["stage"]))
 
-    # HITL enforcement before transition. Fail closed: if the check itself
-    # errors, the transition is refused rather than silently allowed (H1).
+
+def _next_stage(entity: dict) -> str:
+    last = _last_stage_entry(entity)
+    if last is None:
+        return "validator"
+    idx = STAGE_ORDER.index(last["stage"])
+    if idx + 1 >= len(STAGE_ORDER):
+        raise ValueError("record has already completed the board stage; it is canonical")
+    return STAGE_ORDER[idx + 1]
+
+
+def _parse_ts(value: str) -> datetime:
+    try:
+        return datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError as exc:
+        raise ValueError(f"invalid --at timestamp {value!r} (need ISO8601)") from exc
+
+
+def _enforce_time_gate(entity: dict, when: str) -> None:
+    """ENF-STEMMA-HITL-001: consecutive stages must be >= min_gap days apart."""
+    last = _last_stage_entry(entity)
+    if last is None:
+        return
+    prev = _parse_ts(str(last.get("at"))).date()
+    cur = _parse_ts(when).date()
+    gap = (cur - prev).days
+    min_gap = _min_stage_gap()
+    if gap < min_gap:
+        raise ValueError(
+            f"TIME GATE (ENF-STEMMA-HITL-001): previous stage '{last['stage']}' was applied "
+            f"{prev}, and this stage would land {cur} — only {gap} day(s) apart, minimum is "
+            f"{min_gap}. The validator, independent validator and board must act on separate "
+            f"days or the canonicalization is biased. The rule is data in "
+            f"spec/machine-readable/enforcement_rules.yaml and cannot be bypassed here.")
+
+
+def _enforce_debt(entity: dict) -> None:
+    """ENF-STEMMA-HITL-002: outstanding debt blocks forward promotion."""
+    debt = entity.get("revalidation_debt")
+    if isinstance(debt, dict) and debt.get("status") == "outstanding":
+        raise ValueError(
+            f"DEBT BLOCKS PROMOTION (ENF-STEMMA-HITL-002): revalidation_debt.status is "
+            f"'outstanding' — reason {debt.get('reason')!r}. Clear the debt "
+            f"(clear-debt) or have the owner defer it (defer-debt) before promoting.")
+
+
+def promote(root: pathlib.Path, eid: str, actor: str, when: str | None = None,
+            stage: str | None = None) -> dict:
+    """Advance ONE promotion stage. Records the act in promotion_history.
+
+    Refuses: non-human actor, outstanding debt, same-day stage advance, and any
+    attempt to skip a stage. The board stage also writes board_members; under the
+    interim single-actor waiver the CLI records the waiver automatically so the
+    act is legal AND visible."""
+    if not _registered_human(actor, root):
+        raise ValueError(f"--actor must be an active human agent in "
+                         f"{AGENTS.relative_to(ROOT)}: {actor!r}")
+    entity, path = find_entity(root, eid)
+
     try:
         _check_hitl(eid, root)
     except ValueError:
         raise
     except Exception as exc:
-        raise ValueError(f"HITL check could not run ({exc!r}); refusing transition") from exc
+        raise ValueError(f"HITL check could not run ({exc!r}); refusing promotion") from exc
 
-    entity, path = find_entity(root, eid)
-    status = entity.get("status")
-    allowed = ENTITY_TRANSITIONS[action]
-    if status not in allowed:
-        raise ValueError(f"forbidden transition: status={status!r} cannot {action} "
-                         f"(allowed from: {sorted(allowed)})")
+    _enforce_debt(entity)
+    target = stage or _next_stage(entity)
+    if target not in STAGE_ORDER:
+        raise ValueError(f"unknown stage {target!r} (validator|independent_validator|board)")
+    expected = _next_stage(entity)
+    if target != expected:
+        raise ValueError(
+            f"stages must be applied in order: expected '{expected}', got '{target}' "
+            f"(ENF-STEMMA-HITL-004: no stage skipping, no direct canonical)")
     when = when or now()
-    provenance = entity.setdefault("provenance", {})
-    provenance["reviewer"] = reviewer
-    provenance["reviewed_at"] = when
-    entity["status"] = "human_reviewed" if action == "review" else "canonical"
+    _enforce_time_gate(entity, when)
+
+    prov = entity.setdefault("provenance", {})
+    entry: dict = {"stage": target, "actor": actor, "at": when}
+    if target == "board":
+        entry["board_members"] = [actor]
+        entry["independence_waiver"] = {
+            "sanctioned_by": "human:curator.001",
+            "reason": ("interim single-actor state (ADR-0057 §1a): the sole owner holds all "
+                       "three roles until a second registered human exists"),
+            "sanctioned_at": str(date.today()),
+            "retire_when": "a second active human agent with a validation role is registered",
+        }
+    history = prov.setdefault("promotion_history", [])
+    history.append(entry)
+    prov["reviewer"] = actor
+    prov["reviewed_at"] = when
+    entity["status"] = STAGE_STATUS[target]
+    if target == "board":
+        # canonical is the terminal state reachable from board_approved; record
+        # it only when the caller explicitly finalizes (see `finalize`).
+        pass
     _write_entity(path, entity)
     return entity
+
+
+def clear_debt(root: pathlib.Path, eid: str, actor: str, stage: str, evidence: str) -> dict:
+    """Clear revalidation debt, attributably (ENF-STEMMA-HITL-002)."""
+    if not _registered_human(actor, root):
+        raise ValueError(f"--actor must be an active human agent: {actor!r}")
+    if stage not in STAGE_ORDER:
+        raise ValueError(f"--stage must be one of {STAGE_ORDER}")
+    entity, path = find_entity(root, eid)
+    debt = entity.get("revalidation_debt")
+    if not isinstance(debt, dict) or debt.get("status") != "outstanding":
+        raise ValueError("no outstanding revalidation_debt to clear")
+    debt["status"] = "cleared"
+    debt["cleared_by"] = actor
+    debt["cleared_stage"] = stage
+    debt["cleared_at"] = now()
+    debt["clearance_evidence"] = evidence
+    _write_entity(path, entity)
+    return entity
+
+
+def defer_debt(root: pathlib.Path, eid: str, actor: str, until: str) -> dict:
+    """Owner-sanctioned deferral of revalidation debt."""
+    if not _registered_human(actor, root):
+        raise ValueError(f"--actor must be an active human agent: {actor!r}")
+    entity, path = find_entity(root, eid)
+    debt = entity.get("revalidation_debt")
+    if not isinstance(debt, dict) or debt.get("status") != "outstanding":
+        raise ValueError("no outstanding revalidation_debt to defer")
+    debt["status"] = "deferred"
+    debt["deferred_by"] = actor
+    debt["deferred_until"] = until
+    _write_entity(path, entity)
+    return entity
+
+
+def transition_entity(root: pathlib.Path, eid: str, action: str, reviewer: str,
+                      when: str | None = None) -> dict:
+    """Legacy action shim. `review` maps to the validator stage; `canonicalize`
+    is refused (ENF-STEMMA-HITL-004: the validator is not the final canonicalizer)."""
+    if action == "canonicalize":
+        raise ValueError(
+            "canonicalize is no longer a single step — canonical is reached only after "
+            "validator -> independent_validator -> board (ENF-STEMMA-HITL-004). Use "
+            "`stage` to advance one stage at a time.")
+    if action not in ENTITY_TRANSITIONS:
+        raise ValueError(f"unknown entity review action: {action!r}")
+    return promote(root, eid, reviewer, when, stage="validator")
 
 
 def _write_entity(path: pathlib.Path, entity: dict) -> None:
@@ -181,18 +347,40 @@ def cmd_show(root: pathlib.Path, eid: str) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
+    parser = argparse.ArgumentParser(description=__doc__,
+                                     formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = parser.add_subparsers(dest="command")
     p_list = sub.add_parser("list")
     p_list.add_argument("--domain", default=None)
     p_show = sub.add_parser("show")
     p_show.add_argument("eid")
+
+    p_stage = sub.add_parser("stage", help="advance exactly one promotion stage")
+    p_stage.add_argument("eid")
+    p_stage.add_argument("--actor", required=True)
+    p_stage.add_argument("--at", default=None, help="ISO8601 timestamp of the act")
+    p_stage.add_argument("--stage", default=None,
+                         help="explicit stage (must equal the next expected stage)")
+
+    p_clear = sub.add_parser("clear-debt", help="clear outstanding revalidation debt")
+    p_clear.add_argument("eid")
+    p_clear.add_argument("--actor", required=True)
+    p_clear.add_argument("--stage", required=True, choices=list(STAGE_ORDER))
+    p_clear.add_argument("--evidence", required=True)
+
+    p_defer = sub.add_parser("defer-debt", help="owner-sanctioned debt deferral")
+    p_defer.add_argument("eid")
+    p_defer.add_argument("--actor", required=True)
+    p_defer.add_argument("--until", required=True)
+
+    # legacy aliases
     p_review = sub.add_parser("review")
     p_review.add_argument("eid")
     p_review.add_argument("--reviewer", required=True)
     p_canon = sub.add_parser("canonicalize")
     p_canon.add_argument("eid")
     p_canon.add_argument("--reviewer", required=True)
+
     args = parser.parse_args(argv)
     if args.command is None:
         parser.print_help()
@@ -202,11 +390,22 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "show":
         return cmd_show(ROOT, args.eid)
     try:
-        transition_entity(ROOT, args.eid, args.command, args.reviewer)
+        if args.command == "stage":
+            promote(ROOT, args.eid, args.actor, args.at, args.stage)
+            msg = f"{args.eid} -> stage {args.stage or 'next'}"
+        elif args.command == "clear-debt":
+            clear_debt(ROOT, args.eid, args.actor, args.stage, args.evidence)
+            msg = f"{args.eid} debt cleared"
+        elif args.command == "defer-debt":
+            defer_debt(ROOT, args.eid, args.actor, args.until)
+            msg = f"{args.eid} debt deferred"
+        else:
+            transition_entity(ROOT, args.eid, args.command, args.reviewer)
+            msg = f"{args.eid} -> {args.command}"
     except ValueError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 2
-    print(f"OK: {args.eid} -> {args.command} by {args.reviewer}")
+    print(f"OK: {msg}")
     return 0
 
 

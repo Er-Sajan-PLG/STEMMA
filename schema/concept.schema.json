@@ -32,7 +32,7 @@
         "model",
         "experiment"
       ],
-      "description": "Entity type. v0.3 (ADR-0021): adds phenomenon, model, experiment \u2014 types the relation registry already referenced in domain/range (audit F3/R20). Additive; type changes on existing entities remain forbidden."
+      "description": "Entity type. v0.3 (ADR-0021): adds phenomenon, model, experiment — types the relation registry already referenced in domain/range (audit F3/R20). Additive; type changes on existing entities remain forbidden."
     },
     "name": {
       "type": "string"
@@ -46,6 +46,9 @@
         "draft",
         "machine_validated",
         "human_reviewed",
+        "validator_validated",
+        "independently_validated",
+        "board_approved",
         "canonical",
         "deprecated",
         "superseded"
@@ -64,7 +67,7 @@
     },
     "definition": {
       "type": "string",
-      "description": "Scientific definition exactly as meter example with reference \u2014 claim with warrant definitional + evidence per L1, not mere orientation, must show agreed status and source reference per ADR-0044"
+      "description": "Scientific definition exactly as meter example with reference — claim with warrant definitional + evidence per L1, not mere orientation, must show agreed status and source reference per ADR-0044"
     },
     "examples": {
       "type": "array",
@@ -120,7 +123,7 @@
         "type": "string",
         "pattern": "^stemma:src\\.[a-z0-9][a-z0-9-]*$"
       },
-      "description": "Canonical source records that support this entity definition \u2014 dual verification with embedded provenance (ADR-0043). At least 1 required for physics-core."
+      "description": "Canonical source records that support this entity definition — dual verification with embedded provenance (ADR-0043). At least 1 required for physics-core."
     },
     "governed_by": {
       "type": [
@@ -131,7 +134,7 @@
         "type": "string",
         "pattern": "^stemma:phys\\.[a-z0-9][a-z0-9-]*$"
       },
-      "description": "Governing laws that govern this entity \u2014 deterministic placement without LLM reasoning. Every physics entity must have at least one (see PHYSICS-GOVERNING-LAWS.md and physics-governing-registry.yaml). At least 1 required for physics-core v2."
+      "description": "Governing laws that govern this entity — deterministic placement without LLM reasoning. Every physics entity must have at least one (see PHYSICS-GOVERNING-LAWS.md and physics-governing-registry.yaml). At least 1 required for physics-core v2."
     },
     "provenance": {
       "type": "object",
@@ -167,7 +170,7 @@
             "null"
           ],
           "default": null,
-          "description": "Agent id who wrote this entity file, e.g. human:curator.001 \u2014 for audit trail and double verification (ADR-0043)."
+          "description": "Agent id who wrote this entity file, e.g. human:curator.001 — for audit trail and double verification (ADR-0043)."
         },
         "drafted_by": {
           "type": [
@@ -176,7 +179,7 @@
           ],
           "default": null,
           "pattern": "^(llm|process):[a-z0-9][a-z0-9._-]*$",
-          "description": "Machine agent (llm:* or process:*) that produced the original draft, when a human is the writer. Origin is preserved, never rewritten (CURATION-PROTOCOL \u00a76, H1). Must resolve in schema/agent-registry.yaml."
+          "description": "Machine agent (llm:* or process:*) that produced the original draft, when a human is the writer. Origin is preserved, never rewritten (CURATION-PROTOCOL §6, H1). Must resolve in schema/agent-registry.yaml."
         },
         "original_author": {
           "type": [
@@ -184,7 +187,7 @@
             "null"
           ],
           "default": null,
-          "description": "Who originally stated the science (distinct from writer) \u2014 e.g., Halliday et al (ADR-0043)."
+          "description": "Who originally stated the science (distinct from writer) — e.g., Halliday et al (ADR-0043)."
         },
         "link": {
           "type": [
@@ -215,6 +218,70 @@
             "null"
           ],
           "default": null
+        },
+        "promotion_history": {
+          "type": "array",
+          "description": "Append-only staged promotion records (ADR-0057): validator -> independent_validator -> board -> canonical.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "stage",
+              "actor",
+              "at"
+            ],
+            "properties": {
+              "stage": {
+                "enum": [
+                  "validator",
+                  "independent_validator",
+                  "board"
+                ]
+              },
+              "actor": {
+                "type": "string",
+                "description": "registered human agent id who acted at this stage"
+              },
+              "at": {
+                "type": "string"
+              },
+              "evidence": {
+                "type": "string"
+              },
+              "board_members": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "required when stage=board: >=2 registered humans"
+              },
+              "independence_waiver": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "sanctioned_by",
+                  "reason",
+                  "retire_when"
+                ],
+                "description": "Present only when the chain's actors are not all distinct. Makes the single-actor case legal and visible (ADR-0057 s1a). The interim waiver must state when it stops applying.",
+                "properties": {
+                  "sanctioned_by": {
+                    "type": "string",
+                    "description": "the SOLE_OWNER who sanctioned the waiver"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "sanctioned_at": {
+                    "type": "string"
+                  },
+                  "retire_when": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
         }
       },
       "additionalProperties": false
@@ -255,7 +322,7 @@
           }
         ]
       },
-      "description": "ADR-0016 (implemented by ADR-0021): namespaced external anchor identifiers, e.g. external_ids: {wd: Q11402, qudt: unit-MeterPerSecondSquared}. Multi-valued per scheme. STEMMA stays independently authoritative \u2014 external IDs link and anchor, never import content."
+      "description": "ADR-0016 (implemented by ADR-0021): namespaced external anchor identifiers, e.g. external_ids: {wd: Q11402, qudt: unit-MeterPerSecondSquared}. Multi-valued per scheme. STEMMA stays independently authoritative — external IDs link and anchor, never import content."
     },
     "rights": {
       "type": [
@@ -440,6 +507,66 @@
         "type": "string"
       },
       "description": "Quantity names sharing this entity's SI dimension class (for unit entities: quantities expressible in this unit). REQUIRED non-empty when type=quantity|unit; explicit null for types where the notion does not apply (law etc.). Owner directive 2026-09-22."
+    },
+    "revalidation_debt": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Revalidation debt (ADR-0057): obligations an entity owes because it was promoted before the corpus satisfied them. An entity with status 'outstanding' may not hold a review status.",
+      "required": [
+        "status",
+        "reason",
+        "incurred_at"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "outstanding",
+            "cleared",
+            "deferred"
+          ],
+          "description": "outstanding = blocks review status; cleared = satisfied, attributable; deferred = owner-sanctioned postponement"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "incurred_at": {
+          "type": "string",
+          "description": "ISO date the debt was incurred"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Specific obligations owed (connection ids, entities to reconcile)"
+        },
+        "cleared_by": {
+          "type": "string",
+          "description": "registered human who cleared it (validator / independent validator / board member)"
+        },
+        "cleared_at": {
+          "type": "string"
+        },
+        "cleared_stage": {
+          "enum": [
+            "validator",
+            "independent_validator",
+            "board"
+          ]
+        },
+        "clearance_evidence": {
+          "type": "string"
+        },
+        "deferred_by": {
+          "type": "string",
+          "description": "SOLE_OWNER who deferred it"
+        },
+        "deferred_until": {
+          "type": "string",
+          "description": "condition or date the deferral ends"
+        }
+      }
     }
   },
   "additionalProperties": false

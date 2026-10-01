@@ -30,6 +30,30 @@ machine gates (CI, validator, docs-consistency and independence invariants)
 and this artifact set's explicit evidence/confidence classification. This
 limitation is part of the baseline record, not a defect to hide.
 
+## Interim three-role waiver — promotion chain (ADR-0057 §1a)
+
+The promotion chain is `validator → independent_validator → board`, and each
+stage must be performed by a **different human** on a **different calendar day**
+(`ENF-STEMMA-HITL-001`..`004`, `spec/machine-readable/enforcement_rules.yaml`).
+
+**Current interim state (owner directive 2026-10-01):** the owner — Sajan,
+`human:curator.001` — acts as **all three roles** "for now, until I say so."
+This is a deliberate, temporary deviation from the independence rule, and it is
+made machine-visible rather than silently permitted:
+
+- `schema/agent-registry.yaml` records
+  `human:curator.001` with `roles: [validator, independent_validator, board]`.
+- Every promotion completed under this state MUST carry a
+  `provenance.promotion_history[].independence_waiver` naming
+  `sanctioned_by`, `reason` and `retire_when` (ADR-0057 §1a). The gate fails if
+  the actors are not distinct and the waiver is absent.
+- The day-gap rule is **not** waivable. Acting as all three roles on one day is
+  refused in real time by `scripts/review_entity.py` and by the gate — the owner
+  has explicitly asked that this be impossible to break.
+- **Retires when:** a second active human agent with a validation role is
+  registered. Until then, any canonicalization is measurably *biased* — that is
+  the recorded, accepted cost of the interim state.
+
 ## What the executor did NOT do (Constraint D)
 
 - Did not set any requirement status above `PROPOSED`. *(The 2026-10-01 transition to

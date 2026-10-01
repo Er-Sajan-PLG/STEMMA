@@ -32,6 +32,7 @@ path the only missing piece).
 | REQ-STEMMA-EXP-004 | INTERFACE | P1 | SHOULD | RECOVERED | PARTIALLY_SUPPORTED | INTEGRATION_TEST (consumer filter run) | EVID-EXP-006/-007, UNRES-STEMMA-EXP-001 |
 | REQ-STEMMA-HITL-001 | SECURITY | P0 | SHALL | RECOVERED | SUPPORTED | INTEGRATION_TEST (hitl_check in gate) | EVID-HITL-001/-002, UNRES-STEMMA-HITL-001 |
 | REQ-STEMMA-HITL-002 | CONSTRAINT | P1 | SHALL NOT | RECOVERED | SUPPORTED | INTEGRATION_TEST (hitl_check) | EVID-HITL-001 |
+| REQ-STEMMA-HITL-003 | SECURITY | P0 | SHALL | PROPOSED (owner) | SUPPORTED | INTEGRATION_TEST (staged promotion + day gate + debt) | EVID-HITL-009/-010, ADR-0057 |
 | REQ-STEMMA-SEC-001 | SECURITY | P1 | SHALL | RECOVERED | SUPPORTED | STATIC_ANALYSIS (gitleaks + grep CI) | EVID-SEC-001 |
 | REQ-STEMMA-SEC-002 | SECURITY | P2 | SHALL NOT | EXTERNAL (XC-5) | NEEDS_AUTHORITY | INSPECTION (webapp key handling) | XC-5; webapp NOT_YET_ASSESSED |
 | REQ-STEMMA-OPS-001 | OPERATIONAL | P1 | SHALL | DERIVED (from GATE-009) | SUPPORTED | MEASUREMENT (clean-env install+run) | EVID-GATE-004 |
@@ -87,6 +88,16 @@ path the only missing piece).
 - **REQ-STEMMA-HITL-002:** No object SHALL become canonical without an explicit
   human markdown edit recorded in the audit trail. Limitation:
   UNRES-STEMMA-HITL-001 (audit locality).
+- **REQ-STEMMA-HITL-003:** No single act SHALL set a canonical record. A record
+  is promoted only through `validator → independent_validator → board`, recorded
+  in `provenance.promotion_history`; consecutive stages must land on **separate
+  calendar days** (≥1) and be performed by **distinct humans** — or under a
+  named, time-boxed owner `independence_waiver`. A record with
+  `revalidation_debt.status: outstanding` SHALL NOT advance further, and the
+  debt is reported by name to whoever validates it. Applies to **all canonical
+  datasets — entities and connections alike**. The day-gap rule is machine-
+  readable data (`spec/machine-readable/enforcement_rules.yaml`), not prose, so
+  it cannot be waived by editing an ADR. ADR-0057.
 - **REQ-STEMMA-SEC-001:** The canonical layer SHALL be free of secrets;
   machine-checked on every change.
 - **REQ-STEMMA-SEC-002:** Provider API keys SHALL NOT be committed; key

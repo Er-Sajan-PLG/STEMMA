@@ -250,6 +250,34 @@
             },
             "additionalProperties": false
           }
+        },
+        "promotion_history": {
+          "type": "array",
+          "description": "Append-only staged promotion records (ADR-0057) for this connection: validator -> independent_validator -> board -> canonical. Same mechanism as a content entity — revalidation and the multi-stage chain apply to ALL canonical datasets.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["stage", "actor", "at"],
+            "properties": {
+              "stage": { "enum": ["validator", "independent_validator", "board"] },
+              "actor": { "type": "string", "description": "registered human agent id who acted at this stage" },
+              "at": { "type": "string" },
+              "evidence": { "type": "string" },
+              "board_members": { "type": "array", "items": { "type": "string" }, "description": "required when stage=board: >=2 registered humans" },
+              "independence_waiver": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": ["sanctioned_by", "reason", "retire_when"],
+                "description": "Present only when the chain's actors are not all distinct (ADR-0057 s1a).",
+                "properties": {
+                  "sanctioned_by": { "type": "string" },
+                  "reason": { "type": "string" },
+                  "sanctioned_at": { "type": "string" },
+                  "retire_when": { "type": "string" }
+                }
+              }
+            }
+          }
         }
       },
       "additionalProperties": false
@@ -275,6 +303,24 @@
       "type": "object",
       "additionalProperties": true,
       "description": "Adaptive metadata seam (ADR-0017). Open at schema level; validator enforces registry membership per connection."
+    },
+    "revalidation_debt": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Revalidation debt (ADR-0057): obligations this connection owes because it was promoted before the corpus satisfied them. An outstanding debt blocks every promotion/review status. Applies to ALL canonical datasets, connections included.",
+      "required": ["status", "reason", "incurred_at"],
+      "properties": {
+        "status": { "enum": ["outstanding", "cleared", "deferred"] },
+        "reason": { "type": "string", "minLength": 1 },
+        "incurred_at": { "type": "string" },
+        "items": { "type": "array", "items": { "type": "string" } },
+        "cleared_by": { "type": "string" },
+        "cleared_at": { "type": "string" },
+        "cleared_stage": { "enum": ["validator", "independent_validator", "board"] },
+        "clearance_evidence": { "type": "string" },
+        "deferred_by": { "type": "string" },
+        "deferred_until": { "type": "string" }
+      }
     }
   },
   "additionalProperties": false

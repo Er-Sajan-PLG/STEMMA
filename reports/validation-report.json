@@ -6,14 +6,52 @@
   "export_version": "2.2.0",
   "relation_registry_version": "1.0.0",
   "kernel_version": "3.0.0",
-  "content_hash": "sha256:8d3315d0f50b81722c23cc5d43e0a475b73341ade62922baec121335e26caab7",
+  "content_hash": "sha256:98f5c60d95ce04c258489d7d18d94a88781c90b3b32e55e08227e652afd4e2aa",
   "severity_counts": {
     "ERROR": 0,
-    "WARNING": 0,
+    "WARNING": 3,
     "INFO": 0
   },
-  "results": [],
+  "results": [
+    {
+      "severity": "WARNING",
+      "rule": "validator",
+      "focus": "content/physics/measurement-units/metre.md",
+      "message": "REVALIDATION DEBT (outstanding): 'connection_obligations_pending' incurred 2026-10-01 — this entity holds status 'canonical' but may not be promoted further until the debt is cleared"
+    },
+    {
+      "severity": "WARNING",
+      "rule": "validator",
+      "focus": "content/physics/measurement-units/metre.md",
+      "message": "board stage approved by a single human under an independence_waiver — legal only while the waiver holds (ENF-STEMMA-HITL-003)"
+    },
+    {
+      "severity": "WARNING",
+      "rule": "validator",
+      "focus": "connections/conn.000156.yaml",
+      "message": "board stage approved by a single human under an independence_waiver — legal only while the waiver holds (ENF-STEMMA-HITL-003)"
+    }
+  ],
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    {
+      "severity": "WARNING",
+      "rule": "validator",
+      "focus": "content/physics/measurement-units/metre.md",
+      "message": "REVALIDATION DEBT (outstanding): 'connection_obligations_pending' incurred 2026-10-01 — this entity holds status 'canonical' but may not be promoted further until the debt is cleared"
+    },
+    {
+      "severity": "WARNING",
+      "rule": "validator",
+      "focus": "content/physics/measurement-units/metre.md",
+      "message": "board stage approved by a single human under an independence_waiver — legal only while the waiver holds (ENF-STEMMA-HITL-003)"
+    },
+    {
+      "severity": "WARNING",
+      "rule": "validator",
+      "focus": "connections/conn.000156.yaml",
+      "message": "board stage approved by a single human under an independence_waiver — legal only while the waiver holds (ENF-STEMMA-HITL-003)"
+    }
+  ],
   "info": []
 }

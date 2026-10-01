@@ -96,3 +96,7 @@ traces:
     evidence: [EVID-STEMMA-INTEG-004, EVID-STEMMA-INTEG-002, EVID-STEMMA-INTEG-005, EVID-STEMMA-INTEG-006, EVID-STEMMA-INTEG-007]
     implementations: [explorer/, explorer/scripts/verify-graph-projection.mjs, schema/consumer-registry.yaml]
     verification: UNVERIFIED
+  - requirement: REQ-STEMMA-HITL-003
+    evidence: [EVID-STEMMA-HITL-009, EVID-STEMMA-HITL-010]
+    implementations: [scripts/validate.py, scripts/review_entity.py, spec/machine-readable/enforcement_rules.yaml, tests/repo/test_promotion_chain.py]
+    verification: VERIFIED
