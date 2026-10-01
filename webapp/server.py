@@ -284,13 +284,13 @@ class _Handler(BaseHTTPRequestHandler):
             if str(ROOT / "scripts") not in sys.path:
                 sys.path.insert(0, str(ROOT / "scripts"))
             import export_consumers as _ec
-            registry = _ec.load_registry()
+            registry, registry_version = _ec.load_registry()
             if consumer not in registry:
                 raise WebappError(f"unknown consumer {consumer!r}; known: {', '.join(sorted(registry))}")
             base = json.loads((ROOT / "exports" / "knowledge.json").read_text(encoding="utf-8"))
             versions = yaml.safe_load((ROOT / "schema" / "VERSION.yaml").read_text(encoding="utf-8"))
             try:
-                bundle = _ec.build_consumer_export(consumer, registry[consumer], base, versions)
+                bundle = _ec.build_consumer_export(consumer, registry[consumer], base, versions, registry_version)
             except _ec.ConsumerExportError as exc:
                 raise WebappError(str(exc)) from None
             return 200, {
