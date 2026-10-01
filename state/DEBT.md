@@ -239,7 +239,7 @@ the invariant is "nothing changed", say exactly that.
 
 ---
 
-## DEBT-007 — A test deletes a tracked file, so it is environment-sensitive (mitigated)
+## DEBT-007 — A test deletes a tracked file, so it is environment-sensitive (RESOLVED)
 
 **Found:** 2026-10-01 by `A7F3`, when a pre-push run failed and blocked a push
 **Severity:** medium — it produced a *false* regression signal and blocked delivery
@@ -288,11 +288,29 @@ with a reason (`(Exception, SystemExit)` caught) rather than reporting a false r
 Verified: the test passes 3/3, the module passes 18/18, no `.parked` file is left behind, the
 registry is byte-identical, and `git status spec/` is clean.
 
-**Residual fragility — not fixed.** The test still touches the real tree. The clean fix remains
-a **shadow tree**, the pattern already used by `tests/repo/test_gate_fail_closed.py`: copy the
-minimal tree into `tmp_path` and break it there, so nothing real is mutated. That requires
-`validate.py` to resolve the registry path relative to the tree root it is run from — a larger
-change than this defect justifies on its own. Recorded as the recommended follow-up.
+**Residual fragility — now FIXED (2026-10-01, session `20261001-1434-A7F3-shadow-tree`).** The
+test no longer touches the real tree at all: it runs in a **shadow tree**, the pattern already
+used by `tests/repo/test_gate_fail_closed.py`.
+
+The earlier note said this needed `validate.py` to resolve the registry path relative to its tree
+root — *"a larger change than this defect justifies"*. **Checked rather than assumed, and that was
+wrong.** `validate.py` already resolves *everything* from
+`ROOT = Path(__file__).resolve().parent.parent`, so copying it to `<tmp>/scripts/validate.py`
+makes `ROOT` = `<tmp>` with **no production change at all**. The tree it needs is ~544 KB
+(`content/`, `connections/`, `sources/`, `schema/`, one file from `spec/machine-readable/`), so
+copying it per-test is cheap.
+
+**Removal is now by omission, not deletion.** `_shadow_tree(tmp_path, omit=("enforcement_rules.yaml",))`
+simply never copies the registry in — nothing is deleted, in the real tree or the shadow one, so
+the delete-guard hazard is gone rather than worked around. The `rename`-aside trick is no longer
+needed.
+
+**Both directions asserted**, so it cannot pass vacuously: the same shadow tree *with* the
+registry must validate cleanly (positive control), and *without* it must fail naming
+`enforcement`. Only the registry differs between the two runs. Sabotage-proven: replacing the
+fail-closed `raise SystemExit` in `load_enforcement_rules()` with a silent `return {}` turns the
+test red; restoring gives 1 passed. The real `spec/machine-readable/enforcement_rules.yaml` is
+byte-identical after the run and `git status` is clean.
 
 **Lesson.** Two, and the second is the sharper one:
 
