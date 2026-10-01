@@ -60,12 +60,21 @@ class ConsumerExportError(RuntimeError):
     pass
 
 
-def load_registry() -> dict[str, dict[str, Any]]:
+def load_registry() -> tuple[dict[str, dict[str, Any]], str]:
+    """Return (consumers, registry_version).
+
+    The version travels with the bundles so a consumer export can state which
+    registry shape produced it, and verify_strong.py can assert the committed
+    exports were not built against a stale registry.
+    """
     data = yaml.safe_load(CONSUMER_REGISTRY_PATH.read_text(encoding="utf-8")) or {}
     consumers = data.get("consumers") or {}
     if not consumers:
         raise ConsumerExportError(f"no consumers defined in {CONSUMER_REGISTRY_PATH.relative_to(ROOT)}")
-    return consumers
+    version = str(data.get("version") or "")
+    if not version:
+        raise ConsumerExportError(f"{CONSUMER_REGISTRY_PATH.relative_to(ROOT)} has no version")
+    return consumers, version
 
 
 def _as_filter(value: Any) -> set[str] | None:
@@ -113,7 +122,8 @@ def _payload_sha256(entities: list, connections: list, sources: list) -> str:
 
 
 def build_consumer_export(consumer_id: str, profile: dict[str, Any], base: dict[str, Any],
-                          versions: dict[str, Any], review_policy: str | None = None) -> dict[str, Any]:
+                          versions: dict[str, Any], registry_version: str,
+                          review_policy: str | None = None) -> dict[str, Any]:
     policy = review_policy or profile.get("review_policy") or "all"
     if policy not in POLICIES:
         raise ConsumerExportError(f"{consumer_id}: unknown review_policy {policy!r} (expected one of {POLICIES})")
@@ -140,6 +150,7 @@ def build_consumer_export(consumer_id: str, profile: dict[str, Any], base: dict[
     bundle: dict[str, Any] = {
         "export_version": versions["export_version"],
         "schema_version": versions["schema_version"],
+        "consumer_registry_version": registry_version,
         "content_hash": base["content_hash"],  # canonical snapshot this bundle derives from
         "payload_sha256": _payload_sha256(entities, connections, sources),
         "consumer": consumer_id,
@@ -184,7 +195,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     try:
-        registry = load_registry()
+        registry, registry_version = load_registry()
         if args.all:
             ids = sorted(registry)
         elif args.consumer:
@@ -201,7 +212,7 @@ def main(argv: list[str] | None = None) -> int:
         versions = yaml.safe_load(VERSION_PATH.read_text(encoding="utf-8"))
         stale: list[str] = []
         for cid in ids:
-            bundle = build_consumer_export(cid, registry[cid], base, versions, args.review_policy)
+            bundle = build_consumer_export(cid, registry[cid], base, versions, registry_version, args.review_policy)
             text = render(bundle)
             path = bundle_path(cid)
             rel = path.relative_to(ROOT)
