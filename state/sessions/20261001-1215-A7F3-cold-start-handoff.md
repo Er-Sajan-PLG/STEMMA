@@ -219,3 +219,77 @@ defensible.
    because "the chain is green" does **not** mean "no derived artifact is corrupt".
 
 **Work unit complete — session remains ACTIVE.**
+
+## [PROGRESS] 2026-10-01T12:35Z — sibling sweep found a real CI blind spot (DEBT-006)
+
+Continuing the sweep by pattern rather than by instance: **a check that reads a state something
+else already normalised cannot detect drift in that state.** That pattern was already fixed once
+(`verify_strong.check_consumer_registry`). Looking for siblings found one.
+
+**Found:** `spec/machine-readable/review_manifest.json` — a committed, generated artifact whose
+staleness **no CI gate could detect**:
+
+- The chain runs `review_manifest.py` (write) then `review_manifest.py --check`, so the check
+  compares the file against what the chain wrote moments earlier. **Vacuous.** Verified:
+  tampering with the manifest → chain **exit 0**, tampering **overwritten** (0 marker
+  occurrences after).
+- CI's freshness diff was path-filtered to `-- exports reports`; the manifest is under `spec/`.
+  Verified directly: with a `spec/` file modified, the filtered diff returns **0** (blind) and
+  the unfiltered diff returns **1**.
+
+Only the local pre-push hook protected it. Hooks are not cloned, so a contributor without hooks
+— or a web-UI commit — could land a stale manifest with CI green.
+
+**Control that makes this specific rather than a general complaint:** `export_jsonld.py --check`
+was tested identically and **does** fail correctly (exit 1, named step), because nothing
+regenerates `knowledge.jsonld` before it.
+
+**Fix — the class, not the instance.** The path filter encoded a weaker invariant than intended.
+The real invariant is *"after the generators run, no tracked file is modified."* Four sites had
+the filter (three in `ci.yml`, one in `release.yml`); all four now diff the whole tree.
+
+**Safety verified before applying, not assumed:** on a clean checkout, the chain, the full pytest
+suite, and the adapter suite each leave a blanket `git diff --exit-code` at **exit 0** with no
+untracked files. So a non-empty diff now means genuinely stale or mutated content.
+
+**Post-fix:** old command exits 0 on a stale `spec/` artifact, new one exits 1. Workflow YAML
+parses. Gate: 361 pytest · verify_all 42 OK / 0 FAIL · docs PASS · state tree 12/12.
+
+**Work unit complete — session remains ACTIVE.**
+
+## [PROGRESS] 2026-10-01T12:35Z — sibling sweep found a real CI blind spot (DEBT-006)
+
+Continuing the sweep by pattern rather than by instance: **a check that reads a state something
+else already normalised cannot detect drift in that state.** That pattern was already fixed once
+(`verify_strong.check_consumer_registry`). Looking for siblings found one.
+
+**Found:** `spec/machine-readable/review_manifest.json` — a committed, generated artifact whose
+staleness **no CI gate could detect**:
+
+- The chain runs `review_manifest.py` (write) then `review_manifest.py --check`, so the check
+  compares the file against what the chain wrote moments earlier. **Vacuous.** Verified:
+  tampering with the manifest → chain **exit 0**, tampering **overwritten** (0 marker
+  occurrences after).
+- CI's freshness diff was path-filtered to `-- exports reports`; the manifest is under `spec/`.
+  Verified directly: with a `spec/` file modified, the filtered diff returns **0** (blind) and
+  the unfiltered diff returns **1**.
+
+Only the local pre-push hook protected it. Hooks are not cloned, so a contributor without hooks
+— or a web-UI commit — could land a stale manifest with CI green.
+
+**Control that makes this specific rather than a general complaint:** `export_jsonld.py --check`
+was tested identically and **does** fail correctly (exit 1, named step), because nothing
+regenerates `knowledge.jsonld` before it.
+
+**Fix — the class, not the instance.** The path filter encoded a weaker invariant than intended.
+The real invariant is *"after the generators run, no tracked file is modified."* Four sites had
+the filter (three in `ci.yml`, one in `release.yml`); all four now diff the whole tree.
+
+**Safety verified before applying, not assumed:** on a clean checkout, the chain, the full pytest
+suite, and the adapter suite each leave a blanket `git diff --exit-code` at **exit 0** with no
+untracked files. So a non-empty diff now means genuinely stale or mutated content.
+
+**Post-fix:** old command exits 0 on a stale `spec/` artifact, new one exits 1. Workflow YAML
+parses. Gate: 361 pytest · verify_all 42 OK / 0 FAIL · docs PASS · state tree 12/12.
+
+**Work unit complete — session remains ACTIVE.**

@@ -180,3 +180,59 @@ mutating *derived* artifacts too, and must restore all of them. Restoring the in
 the outputs leaves a stale artifact that the next run reads. When a hash-mismatch assertion
 fails intermittently, look for a test that writes the artifact rather than for a concurrent
 process.
+
+---
+
+## DEBT-006 — A generated artifact was invisible to CI (RESOLVED)
+
+**Found:** 2026-10-01 by `A7F3` · **Resolved:** 2026-10-01 (same session)
+**Severity was:** medium — a committed stale artifact could pass CI
+
+**How it was found.** By sweeping for the *siblings* of a pattern already fixed once, rather
+than treating it as a one-off: **a check that reads a state something else has already
+normalised cannot detect drift in that state.** The earlier instance was
+`verify_strong.check_consumer_registry`, which read a tree the chain had just regenerated.
+
+**The defect.** `spec/machine-readable/review_manifest.json` is a committed, generated artifact
+whose staleness no CI gate could detect:
+
+1. Its in-chain guard is **vacuous**. The chain runs `review_manifest.py` (write) and then
+   `review_manifest.py --check` — so the check compares the file against the version the chain
+   wrote moments earlier. Verified: tampering with the committed manifest leaves the chain at
+   **exit 0**, and the tampering is silently **overwritten** (0 occurrences of the marker
+   afterwards).
+2. CI's freshness diff was **path-filtered** to `-- exports reports`, and the manifest lives
+   under `spec/`. Verified directly: with a `spec/` file modified, the filtered diff returns
+   **0** (blind) while the unfiltered diff returns **1**.
+
+So the only thing protecting it was the **local pre-push hook**, whose blanket
+`git diff --exit-code` does see it. Hooks are not cloned, so a contributor without hooks — or a
+commit made through the web UI — could land a stale manifest with CI green.
+
+**Control.** `export_jsonld.py --check` was tested the same way and **does** fail correctly
+(exit 1, named step), because nothing regenerates `knowledge.jsonld` before it. That contrast is
+what makes the finding specific rather than a general complaint about `--check`.
+
+**Fix — the class, not the instance.** The path filter expressed a weaker invariant than
+intended. The real invariant is *"after the generators run, no tracked file is modified."* Four
+sites carried the filter; all four now diff the whole tree:
+
+| Site | Was |
+|---|---|
+| `ci.yml` — verify-knowledge-base, chain freshness | `-- exports reports` |
+| `ci.yml` — test-suite, "tests mutated derived artifacts" | `-- exports reports` |
+| `ci.yml` — adapter-verify, same | `-- exports reports` |
+| `release.yml` — chain + artifacts fresh at tag | `-- exports reports` |
+
+Broadening is **safe**, and that was verified before applying it rather than assumed: on a clean
+checkout the chain, the full pytest suite, and the adapter suite each leave a blanket
+`git diff --exit-code` at **exit 0** with no untracked files. So a non-empty diff now means
+genuinely stale or mutated content, and it covers every generated artifact rather than a
+hand-maintained list — the same fragility that made this possible.
+
+**Verified after the fix:** with a `spec/` file modified, the old command exits 0 and the new one
+exits 1. Workflow YAML still parses.
+
+**Lesson.** A path filter on a freshness check is a hand-maintained allow-list of "places things
+get written", and it silently goes stale when a new generated artifact appears elsewhere. Where
+the invariant is "nothing changed", say exactly that.

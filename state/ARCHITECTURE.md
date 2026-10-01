@@ -93,13 +93,18 @@ with one step stubbed to exit non-zero must produce a named `FAIL`, non-zero exi
 
 Two verified caveats. Both were found by running things, not by reading them.
 
-**1. Green does not mean no derived artifact is corrupt.** The chain runs each exporter in
-*write* mode before its `--check` mode, so a corrupted artifact is silently **regenerated** and
-the comparison then passes against what the chain just wrote. Verified: setting
-`entity_count: 9999` in `exports/consumers/general/knowledge.general.json` and running the chain
-gives **exit 0**. Detection of *committed* drift lives in the CI freshness diff
-(`git diff --exit-code -- exports reports`) and the pre-push hook — not here. This is the same
-shape as a check that reads a state the chain itself normalises.
+**1. Green does not mean no derived artifact is corrupt — the chain *repairs* rather than
+detects.** The chain runs each exporter in *write* mode before its `--check` mode, so a
+corrupted artifact is silently **regenerated** and the comparison then passes against what the
+chain just wrote. Verified: setting `entity_count: 9999` in
+`exports/consumers/general/knowledge.general.json`, or tampering with
+`spec/machine-readable/review_manifest.json`, each leave the chain at **exit 0** with the
+tampering overwritten. **Detection of committed staleness therefore lives in the diffs, not in
+the chain**: CI's chain-freshness step and the pre-push hook, both of which now diff the
+**whole tree** (unfiltered) — see DEBT-006 for why the path filter they used to carry was a
+defect. Corollary: an in-chain `--check` is only meaningful when nothing regenerates its
+artifact first, which is why `export_jsonld.py --check` *does* fail correctly while
+`review_manifest.py --check` cannot.
 
 **2. Four steps cannot fail, by construction.** `check_embeddings`, `check_rag`,
 `check_consumer_export` and `check_semantic_pipeline` are *informational*: every path returns
