@@ -20,9 +20,11 @@ Never shipped: embeddings / vector stores / placeholder vectors (ADR-0054) —
 the builder refuses them, and refuses consumer bundles that are stale relative
 to knowledge.json.
 
-status is PENDING-PUBLICATION until the Amendment-0001 identifier-base
-decision exists (docs/decisions/r6-identifier-base.md, human:* record);
-scripts/publication_gate.py enforces that mechanically.
+manifest.release_status follows the Amendment-0001 identifier-base decision
+(docs/decisions/r6-identifier-base.md, human:* record) rather than the tag type:
+"PUBLISHABLE (identifier-base decision recorded)" once that record exists, else
+"PENDING-PUBLICATION". scripts/publication_gate.py enforces the same decision
+mechanically, and is what distinguishes a final tag from a pre-release.
 
 Deterministic: no wall clock, no randomness. manifest.generated_at is the
 source commit time (SOURCE_DATE_EPOCH if set, else `git log -1 %ct`), so a

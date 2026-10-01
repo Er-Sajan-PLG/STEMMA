@@ -148,3 +148,31 @@ def test_release_workflow_never_publishes_unsigned_finals():
                 assert all(l.lstrip().startswith("#") for l in text.splitlines() if needle in l), path
                 continue
             assert needle not in text, f"{path.name}: {needle}"
+
+
+def test_release_status_follows_the_decision_record_not_the_tag_type(bundle):
+    """release_status is derived from docs/decisions/r6-identifier-base.md, so the
+    two states must track the record. Files in the distribution plane describe this
+    status; if the record is ever removed they must not still claim PUBLISHABLE.
+
+    Guards the drift class where prose says PENDING-PUBLICATION while the builder
+    stamps PUBLISHABLE (the identifier-base decision was recorded 2026-10-01)."""
+    import re
+
+    import build_release_bundle as B
+
+    status = _manifest(bundle)["release_status"]
+    if B.DECISION_RECORD.exists():
+        assert status.startswith("PUBLISHABLE"), status
+        # No distribution-plane file may present the pre-decision status as current.
+        # Normalise whitespace so wrapped/markdown-decorated wording is still caught
+        # (e.g. "marked\n`PENDING-PUBLICATION`").
+        for rel in (".github/workflows/release.yml", "docs/API.md", "docs/VERSIONING.md"):
+            flat = re.sub(r"\s+", " ", (ROOT / rel).read_text(encoding="utf-8"))
+            flat = flat.replace("`", "")
+            assert "PENDING-PUBLICATION" not in flat, (
+                f"{rel} still presents the pre-decision status as current, but "
+                f"docs/decisions/r6-identifier-base.md exists (builder stamps {status!r})"
+            )
+    else:
+        assert status.startswith("PENDING-PUBLICATION"), status

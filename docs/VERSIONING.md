@@ -111,7 +111,9 @@ editing this section's sources, never by a bot PR.
   fixed with a new `-rcN` or a new version. Protect `v*` tags with a
   repository tag ruleset (owner setting).
 - **`vX.Y.Z-rcN` (D)**: CI publishes a GitHub pre-release with the Sigstore
-  build attestation only; manifest status `PENDING-PUBLICATION`.
+  build attestation only. The publication gate is skipped, but
+  `manifest.release_status` still follows the identifier-base decision record
+  (currently `PUBLISHABLE (identifier-base decision recorded)`), not the tag type.
 - **`vX.Y.Z` (D)**: requires `scripts/publication_gate.py` (the identifier-base
   decision in `docs/decisions/r6-identifier-base.md`). CI creates it as a
   **draft**; the owner signs `SHA256SUMS.txt` locally, uploads only
