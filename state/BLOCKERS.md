@@ -4,14 +4,14 @@
 > agent cannot clear by itself. If an agent *can* clear it, it is not a blocker — it is
 > a task.
 >
-> **Current count: 3 actionable · 2 parked · 0 technical.**
+> **Current count: 3 actionable · 2 parked · 0 technical.**  (BLK-001 cleared 2026-10-01.)
 
 ---
 
 ## BLK-001 — PR #66 requires the owner to merge
 
 **Raised:** 2026-10-01 by `A7F3`
-**Status:** **OPEN — awaiting owner**
+**Status:** **CLEARED 2026-10-01** — owner merged it (and #67)
 **Blocking:** landing the UNRES rulings, the pre-push gate fixes, and the atomic-write fix
 
 **What is needed.** `PR #66` (*Execute owner rulings on the 7 open UNRES records + unstick
@@ -84,6 +84,32 @@ the same session as DEBT-008, and that the original claim was written from a par
 Whether to record the overstatement at all is the owner's judgement.
 
 **Not urgent:** the underlying defect is fixed; this is about the record being honest.
+
+---
+
+## BLK-006 — `tmp/fix-release-exports` proposes a release that `main` does not have
+
+**Raised:** 2026-10-01 by `A7F3`, during the owner-directed git cleanup
+**Status:** **OPEN — awaiting owner**
+**Blocking:** nothing; it is the only unmerged branch left
+
+**What it is.** The branch carries two commits proposing a **4.0.0** release:
+
+```
+4ee3115 chore(main): release 4.0.0
+7cf79eb chore(release): regenerate derived exports for kernel_version 4.0.0
+```
+
+`VERSION` on `main` is **3.0.0**.
+
+**Why it was not cleaned up with the others.** Every other branch was deleted only after
+verifying its content is present in `main`. This one is genuinely unmerged, and it is a
+**release** — `docs/VERSIONING.md` makes `VERSION` the single version source and tags immutable,
+so cutting a version is an owner decision, not cleanup. Deleting the branch would discard it;
+merging it would ship a release. Neither is the executor's call.
+
+**Owner options:** merge it, delete it, or leave it. If it is stale, delete; if the 4.0.0 release
+is still wanted, it needs the normal release path.
 
 ---
 

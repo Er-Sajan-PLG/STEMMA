@@ -2,13 +2,13 @@
 
 > **Current state only.** What IS, not what happened. History lives in `sessions/`.
 
-**Last Reconciled:** 2026-10-01T13:56Z
+**Last Reconciled:** 2026-10-01T14:20Z
 **Reconciled by:** `A7F3`
 **Protocol:** MACP v1.0 (`state/PROTOCOL.md`)
 
-> **An agent is currently active** — `A7F3`, session `20261001-1215-A7F3-cold-start-handoff`.
-> Per DEC-007 the session stays open until the owner says otherwise, so `files_owned` may be
-> populated in `REGISTRY.md` even though the last work unit finished.
+> **No agent is active.** The owner declared the session over on 2026-10-01, so
+> `20261001-1215-A7F3-cold-start-handoff` is closed (`status: ended`, `files_owned` released).
+> A new session may start freely; nothing is claimed.
 
 > **Staleness policy (protocol §6 step 3):** `< 24 h` → trustworthy · `24–48 h` → verify key
 > claims before relying on them · `> 48 h` → **STALE**, you must reconcile before working.
@@ -20,8 +20,8 @@
 | | |
 |---|---|
 | Repo | `STEMORG2026/STEMMA` (`Er-Sajan-PLG/STEMMA` is a pure redirect) |
-| Branch | `docs/owner-rulings-unverified` |
-| HEAD | `08cecb3` — `fix(exports): write gate-compared artifacts atomically` |
+| Branch | `main` (everything merged) |
+| HEAD | `d329992` — `Complete #66: A4 protocol row, the FAISS mislabel fix, and DEBT-008/BLK-005 (#67)` |
 | Version | `VERSION` = **3.0.0** · schema `1.3.0` · export `2.2.0` · relation registry `1.0.0` |
 | Owner | Sajan (`human:curator.001`, `SOLE_OWNER`) |
 
@@ -68,32 +68,39 @@
 
 | Item | State |
 |---|---|
-| **PR #66** — *Execute owner rulings on the 7 open UNRES records + unstick the pre-push gate* | **OPEN · MERGEABLE · CLEAN · 30 checks pass · 0 fail** — awaiting owner merge (BLK-001) |
+| **PR #66** — *Execute owner rulings on the 7 open UNRES records + unstick the pre-push gate* | **MERGED** |
+| **PR #67** — *Complete #66: the squash merge captured an earlier snapshot* | **MERGED** |
 | Publication gate | **OPEN** — `docs/decisions/r6-identifier-base.md` = `stemma-urn-only`; w3id deferred, not rejected |
 
-> **Handoff note.** A cold clone of this branch can continue from `state/` alone — verified by
-> cloning it fresh and following the startup sequence. Two setup steps are needed and are
-> documented in `state/ARCHITECTURE.md` → "Cold start" (venv + `install_hooks.py`); without
-> them the gate is skipped and pushes are ungated, and neither failure is loud.
+> **Handoff note.** `main` now carries everything — `state/`, the MACP section in `AGENTS.md`,
+> the protocol (v1.1), the atomic-write helper, the gate repairs and the FAISS correction. A
+> cold clone of `main` can continue from `state/` alone; the two setup steps are in
+> `state/ARCHITECTURE.md` → "Cold start" (venv + `install_hooks.py`), and without them the gate
+> silently skips and pushes are ungated.
 >
-> **The one thing that blocks a *cold* start: `main` has no `state/` at all.** Everything here
-> is on `docs/owner-rulings-unverified`; until BLK-001 is merged, an agent starting from `main`
-> would not find the protocol, `DASHBOARD.md`, or this note.
+> **What was nearly lost:** #66 was squash-merged and the squash captured an earlier snapshot
+> than the branch tip — five commits, including the 78-place FAISS correction, never landed.
+> Detected during shutdown by comparing `main`'s tree to the branch, recovered via #67. Nothing
+> reported it: not CI, not the merge.
 
-## Nothing Is Blocked
+## Blocked — owner action
 
-`BLOCKERS.md` has no items requiring human action beyond the PR #66 merge. See
-`BLOCKERS.md` for the one owner-action item.
+`BLOCKERS.md` holds **3 open** items, all requiring the owner. None is technical:
+
+- **BLK-004** — three stale repo-name references under `spec/` (Tier 2).
+- **BLK-005** — `spec/CONFLICTS.md` claims a docs sync that had not happened (Tier 2).
+- **BLK-006** — `tmp/fix-release-exports` proposes a **4.0.0** release while `main` is `3.0.0`.
 
 ## Next Actions
 
-1. **Owner:** merge PR #66 (all checks green, no conflicts) — BLK-001.
-2. **Owner:** decide the three stale repo-name references under `spec/` — BLK-004. One of
-   them (`spec/ROLES_AND_AUTHORITY.md:4`) cites a commit and may be a historical record that
-   is correct as written; that judgement is Tier 2.
-3. **Then:** the open `UNRES-STEMMA-CORE-003` and `REQ-STEMMA-OPS-002` both resolve at
-   **release time** — neither can progress before a release lands. Do not start them.
-4. **Candidate work with no blocker:** `DEBT.md` now holds **2 open** (003, 004), **1 mitigated** (007) and **5 resolved** (001, 002, 005, 006, 008). DEBT-003 is a documented, accepted residual (an ordering property, not fixable by atomicity). DEBT-004 turned out **not to be a defect**: nothing in-repo reads `vectors.npy` / `vectors.json`, so the store form varying by interpreter is harmless, and the docs already describe the type as honest either way. What it did surface was DEBT-008.
+1. **Owner:** decide the Tier-2 records — BLK-004 and BLK-005. Both are `spec/` edits.
+2. **Owner:** decide `tmp/fix-release-exports` (BLK-006). It is the only unmerged branch; cutting
+   a release is not cleanup, so it was left alone.
+3. **Then:** `UNRES-STEMMA-CORE-003` and `REQ-STEMMA-OPS-002` both resolve at **release time**.
+4. **Candidate work with no blocker:** `DEBT.md` holds **2 open** (003, 004), **1 mitigated**
+   (007) and **5 resolved**. DEBT-003 is an accepted residual (an ordering property; atomicity
+   cannot fix it). DEBT-004 is **not a defect** — nothing in-repo reads the vector-store files.
+   DEBT-007's residual is the shadow-tree refactor of `test_promotion_chain.py`.
 
 ## Environment Facts (verified by inspection, not assumed)
 

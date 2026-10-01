@@ -390,8 +390,13 @@ def test_active_session_files_owned_covers_what_it_changed() -> None:
         r"^\|\s*`[A-Za-z0-9]{4}`\s*\|\s*`([^`]+)`\s*\|[^|]*\|[^|]*\|\s*([^|]*?)\s*\|\s*\*{0,2}(\w+)\*{0,2}\s*\|",
         registry, re.MULTILINE,
     )
+    # Zero active sessions is the NORMAL post-shutdown state, not a parse failure.
+    # An earlier version asserted `active` was non-empty to avoid vacuity, which
+    # broke the very shutdown sequence this guard belongs to. The parse is still
+    # verified separately, so an empty result here means "nobody is working", not
+    # "the table shape changed".
+    assert rows, "parsed no agent rows from REGISTRY.md — table shape changed?"
     active = [(sid, owned) for sid, owned, status in rows if status.lower() == "active"]
-    assert active, "no active session in REGISTRY.md — nothing to check (or the table shape changed)"
 
     problems: list[str] = []
     for sid, owned in active:
