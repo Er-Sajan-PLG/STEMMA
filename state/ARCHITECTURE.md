@@ -6,6 +6,59 @@
 
 ---
 
+## Cold start (do this before your first gate run)
+
+A **fresh clone is not ready to work in.** Git does not clone `.git/hooks`, and
+`requirements-dev.txt` is separate from `requirements.txt`. Verified by cloning the branch
+cold and following these steps literally.
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate                                 # or export VIRTUAL_ENV=$PWD/.venv
+pip install -r requirements.txt -r requirements-dev.txt
+python3 scripts/install_hooks.py                          # installs pre-commit + pre-push
+python3 scripts/verify_all.py                             # expect exit 0
+python3 tests/repo/test_state_tree.py                     # expect 12/12
+```
+
+> **Use a venv.** A bare `pip install` fails on PEP 668 systems
+> (`error: externally-managed-environment`). Activating the venv also matters for the
+> pre-push hook, which resolves its interpreter as
+> `"${VIRTUAL_ENV:+$VIRTUAL_ENV/bin/python}"` and falls back to the ambient `python3` —
+> so an *inactive* venv means the hook runs pytest-less.
+
+**What happens if you skip a step — none of it fails loudly:**
+
+| Skipped | Symptom | Why it matters |
+|---|---|---|
+| `requirements-dev.txt` | `verify_all.py` prints `SKIP: promotion-chain guards — no interpreter with pytest` and still exits **0** | **18 promotion/debt guards do not execute at all.** The chain is green, so nothing else tells you. |
+| `install_hooks.py` | nothing — pushes are simply not gated | The chain, strong checks, exports freshness and docs checks run *only* from the hook. An ungated push can land a broken tree. |
+
+Both are deliberate, not defects: the chain must not fail on a pytest-less interpreter (a bare
+`python3` is the normal hook environment), and hooks are not version-controlled. But neither is
+discoverable from the failure, which is why this section exists.
+
+### Do not read the `OK` count as a health score
+
+A cold clone reports **39 OK** where a warm tree reports **42**. That difference has **nothing
+to do with the setup steps** — three checks are *informational* and only report when
+git-ignored derived artifacts exist:
+
+| Missing check | Needs | Ignored by |
+|---|---|---|
+| `OK: embeddings exist …` | `exports/embeddings.jsonl`, `exports/vector_store/` | `.gitignore` (ADR-0054: embeddings are never committed) |
+| `OK: Evidence first-class …` | `proposals/` | `.gitignore` (ingestion staging) |
+| `OK: RAG vector search works …` | the vector store | same as embeddings |
+
+They are regenerable and absent by design in a fresh clone. **`FAIL` count is the signal;
+`OK` count is not comparable across environments.**
+
+**Already present in a cold clone:** `pyyaml` and `jsonschema` are usually in the system
+interpreter, so `validate.py` and most of the chain run immediately. `pytest` is the one
+normally missing.
+
+---
+
 ## What STEMMA Is
 
 An open, version-controlled, machine-readable knowledge graph of STEM concepts,

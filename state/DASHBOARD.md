@@ -2,7 +2,7 @@
 
 > **Current state only.** What IS, not what happened. History lives in `sessions/`.
 
-**Last Reconciled:** 2026-10-01T11:59Z
+**Last Reconciled:** 2026-10-01T12:18Z
 **Reconciled by:** `A7F3`
 **Protocol:** MACP v1.0 (`state/PROTOCOL.md`)
 
@@ -60,6 +60,15 @@
 |---|---|
 | **PR #66** — *Execute owner rulings on the 7 open UNRES records + unstick the pre-push gate* | **OPEN · MERGEABLE · CLEAN · 30 checks pass · 0 fail** — awaiting owner merge (BLK-001) |
 | Publication gate | **OPEN** — `docs/decisions/r6-identifier-base.md` = `stemma-urn-only`; w3id deferred, not rejected |
+
+> **Handoff note.** A cold clone of this branch can continue from `state/` alone — verified by
+> cloning it fresh and following the startup sequence. Two setup steps are needed and are
+> documented in `state/ARCHITECTURE.md` → "Cold start" (venv + `install_hooks.py`); without
+> them the gate is skipped and pushes are ungated, and neither failure is loud.
+>
+> **The one thing that blocks a *cold* start: `main` has no `state/` at all.** Everything here
+> is on `docs/owner-rulings-unverified`; until BLK-001 is merged, an agent starting from `main`
+> would not find the protocol, `DASHBOARD.md`, or this note.
 
 ## Nothing Is Blocked
 
