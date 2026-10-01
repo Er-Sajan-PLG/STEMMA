@@ -523,3 +523,34 @@ DEBT-008.)
 
 **Verified:** no `[0-9]+ jobs` claim remains anywhere under `docs/`; the five living documents now
 read "all jobs green"; both ADRs are byte-identical to their recorded text.
+
+---
+
+## DEBT-012 — `AGENTS.md` cited a stale export-contract version (RESOLVED)
+
+**Found:** 2026-10-01 by `A7F3` · **Resolved:** same session
+**Severity:** low
+
+**What was wrong.** `AGENTS.md` said `knowledge.json v2.1.0` in four places, describing the
+current derived export. `schema/VERSION.yaml` — the single authoritative source — has
+`export_version: '2.2.0'`. The version was correct when written and was not updated when the
+contract moved (ADR-0050).
+
+**Fix — corrected, not removed.** `2.1.0` → `2.2.0` in all four places.
+
+**Why not removed, given DEBT-011 removed a stale count.** Because the repo has *already ruled* on
+version literals and put them **outside** this class. `scripts/audit_prose_owned_values.py`'s
+docstring records that a first cut matched version literals and was **discarded**: the same string
+appears as `kernel_version`, `pipeline_version`, third-party lockfile entries and adapter tags, so
+96 "hits" were overwhelmingly noise. REQ-STEMMA-OPS-002 therefore covers *counts*, not versions.
+Removing these would be extending a rule on my own authority — the same over-reach that put two
+immutable ADRs in the FAISS sweep (DEBT-008) and the ADR edits in DEBT-011.
+
+**A near-miss avoided.** The first sweep flagged ~20 `v2.0.0` hits across eight living docs.
+Checking the context showed they are all `template-registry v2.0.0` / `templates v2.0.0` — a
+**different, current** version (`schema/template-registry.yaml` says `version: '2.0.0'`). Correct
+as written; not touched. **This is exactly the noise the audit script's docstring warns about**, and
+it is why the context was read before any edit.
+
+**Verified:** 0 stale `knowledge.json v2.1.0` remain; 4 now read `2.2.0`; the template-registry
+references are untouched.
