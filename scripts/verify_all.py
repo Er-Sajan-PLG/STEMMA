@@ -138,20 +138,15 @@ def check_semantic_pipeline():
 def main() -> int:
     print("COMPREHENSIVE ALL-STEM, MEDIOCRE COVERAGE, HITL, EVOLVABLE, FRONTIER, EMBEDDINGS, RAG, CONSUMER EXPORT — verification chain for all-STEM v2 with primary PDF ingestion, deterministic scales, evolvable templates v2.0.0, model selector like DeepSeek harness (local + frontier models), embeddings with model selector like DeepSeek harness (local + frontier models), RAG with citations, consumer export for LearningHub, PROFESSOR-J")
 
-    # Preflight: the chain runs tests/repo/test_promotion_chain.py via pytest
-    # (ADR-0057). Fail with an actionable message rather than a bare
-    # "No module named pytest" from the middle of the chain.
-    try:
-        import pytest  # noqa: F401
-    except ModuleNotFoundError:
-        print(
-            "FAIL: pytest is required by the gate (ADR-0057 promotion-chain suite) but is not "
-            "installed in this interpreter.\n"
-            "      Install the dev requirements:  pip install -r requirements-dev.txt\n"
-            "      (requirements.txt alone is the runtime set and does not include pytest.)",
-            file=sys.stderr)
-        return 1
-
+    # NOTE: this chain is intentionally *not* preflighted for pytest. The
+    # docs-contract check `gate-fail-closed` (docs/docs-contract.yaml) runs
+    # `tests/repo/test_gate_fail_closed.py` under an interpreter that installs
+    # requirements.txt but NOT pytest — that file is written to work without it
+    # (`try: import pytest / except ImportError: pytest = None`, plus a
+    # hand-rolled `__main__` runner). A pytest preflight here would make the
+    # chain fail *before* reaching the stub step, so the negative-path test
+    # would see a FAIL line naming pytest instead of the forced-failure step,
+    # and the fail-closed assertion would break for the wrong reason.
     for cmd in steps:
         print(f"RUN: {' '.join(cmd)}")
         r = subprocess.run(cmd)

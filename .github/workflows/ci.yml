@@ -104,8 +104,12 @@ jobs:
           echo "Guideline OK"
       - name: Documentation contract gate (single canonical command; covers required docs, ADR-0029/0027 invariants, links, recovery registries)
         run: |
-          pip install -r requirements.txt -q
-          python3 -m pip install -q pyyaml
+          # requirements-dev.txt includes -r requirements.txt and adds pytest.
+          # The `gate-fail-closed` contract check spawns scripts/verify_all.py in a
+          # shadow tree; that chain runs the ADR-0057 promotion suite via pytest,
+          # so pytest must be importable here too. (The check itself is written to
+          # run without pytest, but the chain it drives is not.)
+          pip install -r requirements-dev.txt -q
           python3 scripts/docs.py sync
           git diff --exit-code
           python3 scripts/docs.py check
