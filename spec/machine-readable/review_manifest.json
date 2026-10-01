@@ -1,0 +1,81 @@
+{
+  "_note": "Hash-only HITL provenance (UNRES-STEMMA-HITL-001 option (c)). Ids, declared provenance, promotion history, and content digests only — NO definition text and NO source excerpts. Safe to commit under any licensing position. Regenerate with scripts/review_manifest.py; verify with --check.",
+  "entries": [
+    {
+      "content_hash": "sha256:352ad512ab937a93e25f1c6536b54e30cf6203ecc1c9292400a8443e8f6f021d",
+      "id": "stemma:conn.000156",
+      "kind": "connection",
+      "promotion_history": [
+        {
+          "actor": "human:curator.001",
+          "at": "2026-09-23T04:35:35+00:00",
+          "evidence": "pre-ADR-0057 canonicalization recorded in provenance.review_history (2026-09-23)",
+          "independence_waiver": {
+            "reason": "Interim single-actor state (ADR-0057 §1a): the sole owner holds the validator, independent_validator and board roles until a second registered human exists. The chain is legal only while the waiver is recorded and time-boxed.",
+            "retire_when": "a second active human agent with a validation role is registered in schema/agent-registry.yaml",
+            "sanctioned_at": "2026-10-01",
+            "sanctioned_by": "human:curator.001"
+          },
+          "stage": "validator"
+        },
+        {
+          "actor": "human:curator.001",
+          "at": "2026-09-24T09:15:00+00:00",
+          "board_waived": true,
+          "board_waived_reason": "board stage retired 2026-10-01 under the owner board waiver (ENF-STEMMA-HITL-003 board_waiver) — the owner is the sole validator, so the required chain is validator -> independent_validator; the earlier board entry was a formality and is removed, not re-dated",
+          "evidence": "second validation pass recorded under the interim single-actor waiver (ADR-0057 §1a)",
+          "independence_waiver": {
+            "reason": "Interim single-actor state (ADR-0057 §1a): the sole owner holds the validator, independent_validator and board roles until a second registered human exists. The chain is legal only while the waiver is recorded and time-boxed.",
+            "retire_when": "a second active human agent with a validation role is registered in schema/agent-registry.yaml",
+            "sanctioned_at": "2026-10-01",
+            "sanctioned_by": "human:curator.001"
+          },
+          "stage": "independent_validator"
+        }
+      ],
+      "relpath": "connections/conn.000156.yaml",
+      "status": null,
+      "writer": null
+    },
+    {
+      "content_hash": "sha256:02502c1b9826268c14c91b6be8b58c2a44f6de7bf9117659792cf6cbd4c16d6d",
+      "id": "stemma:phys.metre",
+      "kind": "entity",
+      "promotion_history": [
+        {
+          "actor": "human:curator.001",
+          "at": "2026-09-23T04:35:19+00:00",
+          "evidence": "pre-ADR-0057 human review recorded in provenance.reviewed_at (EVID-STEMMA-HITL-001)",
+          "independence_waiver": {
+            "reason": "Interim single-actor state (ADR-0057 §1a): the sole owner holds the validator, independent_validator and board roles until a second registered human exists. The chain is legal only while the waiver is recorded and time-boxed.",
+            "retire_when": "a second active human agent with a validation role is registered in schema/agent-registry.yaml",
+            "sanctioned_at": "2026-10-01",
+            "sanctioned_by": "human:curator.001"
+          },
+          "stage": "validator"
+        },
+        {
+          "actor": "human:curator.001",
+          "at": "2026-09-24T09:10:00+00:00",
+          "board_waived": true,
+          "board_waived_reason": "board stage retired 2026-10-01 under the owner board waiver (ENF-STEMMA-HITL-003 board_waiver) — the owner is the sole validator, so the required chain is validator -> independent_validator; the earlier board entry was a formality and is removed, not re-dated",
+          "evidence": "second validation pass recorded under the interim single-actor waiver (ADR-0057 §1a)",
+          "independence_waiver": {
+            "reason": "Interim single-actor state (ADR-0057 §1a): the sole owner holds the validator, independent_validator and board roles until a second registered human exists. The chain is legal only while the waiver is recorded and time-boxed.",
+            "retire_when": "a second active human agent with a validation role is registered in schema/agent-registry.yaml",
+            "sanctioned_at": "2026-10-01",
+            "sanctioned_by": "human:curator.001"
+          },
+          "stage": "independent_validator"
+        }
+      ],
+      "relpath": "content/physics/measurement-units/metre.md",
+      "reviewed_at": "2026-09-23T04:35:19.817235+00:00",
+      "reviewer": "human:curator.001",
+      "status": "canonical",
+      "writer": "human:curator.001"
+    }
+  ],
+  "entry_count": 2,
+  "manifest_version": "1.0.0"
+}

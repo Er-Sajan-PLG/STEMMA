@@ -29,6 +29,12 @@ steps = [
     [sys.executable, str(ROOT / "scripts/physics_core_profile_check.py")],
     [sys.executable, str(ROOT / "scripts/physics_governing_check.py")],
     [sys.executable, str(ROOT / "scripts/hitl_check.py"), "--all"],
+    # UNRES-STEMMA-HITL-001 (owner ruling, option (c)): HITL review evidence is not
+    # repository-resident, so a fresh clone cannot verify the review claim. This
+    # regenerates the hash-only manifest and verifies no reviewed record changed
+    # after review — making the claim portable without committing excerpts.
+    [sys.executable, str(ROOT / "scripts/review_manifest.py")],
+    [sys.executable, str(ROOT / "scripts/review_manifest.py"), "--check"],
     [sys.executable, str(ROOT / "scripts/graph_analysis.py")],
     [sys.executable, str(ROOT / "scripts/export_review_aware.py")],
     # Subset exports are published by Pages (exports/knowledge*.json); regenerate so

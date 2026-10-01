@@ -1,7 +1,11 @@
 # The eight `UNRES` records — owner decision sheet
 
 Prepared: 2026-10-01 · For: Sajan (`human:curator.001`, SOLE_OWNER)
-Status: **7 OPEN · 4 CLOSED** in the registry · **8 records requiring owner action**
+Status: **EXECUTED 2026-10-01.** The owner accepted every recommendation below and the executor carried them out. Registry now **9 CLOSED · 1 DEFERRED · 1 OPEN** of 11.
+
+> **RULED AND EXECUTED 2026-10-01 (second pass).** Each section's `> **RULED:**` line records the outcome. Outcomes: §1 `CORE-001` → **CLOSED** (registry ratified to match the prose). §2 `HITL-001` → **CLOSED** option (c), hash-only provenance manifest. §3 `OPS-001` → **CLOSED** option (b), excerpt-free metadata only (XC-3 amendment). §4 `INTEG-001` → **CLOSED** option (a), external consumers marked `prospective`. §5 `RAG-001` → **CLOSED** option (a), fallback sanctioned + label fixed. §6 `SCH-001` → **DEFERRED**, its already-ruled state stated precisely. §7 `CORE-003` → **left OPEN by owner directive** (active research; no action).
+>
+> Executed under Constraint D: the owner ruled; the executor implemented and recorded. The executor did not itself approve, reject, or close any record.
 
 This sheet exists for the same reason as `spec/UNVERIFIED-DECISIONS.md`: these
 records are not waiting on verification work. Each is waiting on something only
@@ -17,15 +21,17 @@ to a `FACT` without owner review. **Nothing in this sheet changes a status.**
 
 ## Summary — eight records, four different situations
 
-| # | Record | Kind | Blocking? | What is actually needed |
-|---|--------|------|-----------|-------------------------|
-| 1 | `UNRES-STEMMA-CORE-001` | **Divergence** | no | Ratify the closure the prose already records |
-| 2 | `UNRES-STEMMA-HITL-001` | Policy | **YES** | Decide committed-audit vs local-state provenance |
-| 3 | `UNRES-STEMMA-OPS-001` | Policy (external) | **YES** (for any excerpt) | Rights position on textbook excerpts |
-| 4 | `UNRES-STEMMA-INTEG-001` | Designation | no now / yes later | Name counterpart owners, or mark consumers prospective |
-| 5 | `UNRES-STEMMA-RAG-001` | Policy | no | Sanction the fake-embedding fallback, or gate on a real model |
-| 6 | `UNRES-STEMMA-SCH-001` | Scope ruling | no | Already ruled "not now" — record it or leave it |
-| 7 | `UNRES-STEMMA-CORE-003` | Research (owner-held) | no | No action; owner is actively researching. Keep open |
+| # | Record | Ruled | Outcome |
+|---|--------|-------|---------|
+| 1 | `UNRES-STEMMA-CORE-001` | (a) ratify closure | **CLOSED** — registry synced to the prose |
+| 2 | `UNRES-STEMMA-HITL-001` | (c) hash-only manifest | **CLOSED** — `scripts/review_manifest.py`, gate-enforced |
+| 3 | `UNRES-STEMMA-OPS-001` | (b) excerpt-free metadata | **CLOSED** — XC-3 amendment |
+| 4 | `UNRES-STEMMA-INTEG-001` | (a) consumers prospective | **CLOSED** — registry v1.1.0 `maturity` field |
+| 5 | `UNRES-STEMMA-RAG-001` | (a) sanction + fix label | **CLOSED** — fallback sanctioned, `type` fixed |
+| 6 | `UNRES-STEMMA-SCH-001` | (b) reclassify | **DEFERRED** — already ruled "not now" |
+| 7 | `UNRES-STEMMA-CORE-003` | no action | **OPEN** — owner research in progress, by directive |
+
+Registry after: **9 CLOSED · 1 DEFERRED · 1 OPEN** of 11.
 
 **Note on the count.** The registry holds **7** `OPEN` records and **4** `CLOSED`.
 The "8" in circulation counts 7 open records plus the extra `UNRES-` identifier
@@ -65,7 +71,7 @@ when the decision was taken. There is no live question here; there is a stale ro
 - **(c) Leave both as-is.** The divergence persists; the next reader cannot tell
   which document is authoritative.
 
-> **RULED:** _pending_
+> **RULED: (a) — RATIFY CLOSURE (2026-10-01). EXECUTED.** `UNRES-STEMMA-CORE-001` set to `CLOSED` with `disposition`, `resolution`, `closed_date: 2026-10-01`, `closed_by: human:curator.001`, mirroring the `EXP-001` closure. The registry had read `OPEN` only because it was never synced when the R6 ruling was taken — this was a bookkeeping divergence, not a live question. Registry and prose now agree. Open count drops to 6.
 
 ---
 
@@ -116,7 +122,7 @@ These two should be ruled together, not independently.
   construction.
 - **(d) Leave OPEN.** The gate is green today; the portability gap persists.
 
-> **RULED:** _pending_
+> **RULED: (c) — HASH-ONLY PROVENANCE MANIFEST (2026-10-01). EXECUTED.** `scripts/review_manifest.py` emits `spec/machine-readable/review_manifest.json`: per reviewed record, its id, kind, relpath, declared provenance, ordered `promotion_history`, and a `sha256` of the file — and no text of any kind. `verify_all.py` runs it then `--check`, so a post-review edit fails CI naming the record. 8 tests in `tests/repo/test_review_manifest.py` assert the excerpt-free property, the binding property, determinism, and that the generator reads canonical records only (sabotaging it to read `workflow/` turns 3 red). Ruled jointly with §3.
 
 ---
 
@@ -153,7 +159,7 @@ review). The executor cannot resolve it and should not guess.
   extracted definitions under an accepted-risk position, with a revisit trigger
   before any public release.
 
-> **RULED:** _pending_
+> **RULED: (b) — EXCERPT-FREE METADATA ONLY (2026-10-01). EXECUTED.** Recorded as the XC-3 amendment in `spec/EXTERNAL_CONSTRAINTS.md`: committable are citation metadata (`sources/*.yaml`) and re-expressed definitions in STEMMA's own voice; never committable are source PDFs, verbatim passages however short, and anything under `workflow/`. By reproducing nothing verbatim the project relies on no fair-use defence. Enforced structurally — `sources/*.yaml` carry no body-text field, and the §2 manifest is excerpt-free by construction. Ruled jointly with §2.
 
 ---
 
@@ -184,7 +190,7 @@ grounded chat, now `VERIFIED`). Same numeric suffix, unrelated subject.
 - **(c) Defer to a post-pilot integration phase** with a recorded rationale and a
   revisit trigger (first real consumer pull), keeping the record OPEN.
 
-> **RULED:** _pending_
+> **RULED: (a) — MARK CONSUMERS PROSPECTIVE (2026-10-01). EXECUTED.** `schema/consumer-registry.yaml` v1.1.0 adds a `maturity` field (`prospective` for learninghub and professor-j; `concrete` for stemma-explorer and general) plus a `maturity_legend`. The one-sided-contract problem is removed by not claiming a contract with no counterparty. Consumer bundles regenerated and the full gate re-run to confirm export behaviour is unchanged.
 
 ---
 
@@ -222,7 +228,7 @@ has no FAISS and stores plain `vectors.json`.
   `type: faiss` mislabel as its own defect to fix regardless — which is what
   `CONFLICT-STEMMA-EXP-001` is already tracking.
 
-> **RULED:** _pending_
+> **RULED: (a) — SANCTION IT, AND FIX THE LABEL (2026-10-01). EXECUTED.** The hash fallback is declared sanctioned pilot behaviour: opt-in (`--placeholder`), self-labelling (`stemma:placeholder-hash`), and refused otherwise (`EmbeddingUnavailable`), so it can never be mistaken for a real embedding. The `type: faiss` mislabel was fixed independently — `scripts/embed.py` now records `numpy-flat`/`json-flat` — with a guard in `tests/repo/test_vector_store_type_truthfulness.py` and EVID-STEMMA-EXP-019.
 
 ---
 
@@ -252,7 +258,7 @@ declared contract.
 - **(c) Re-open as a requirement.** Add a `REQ-` for dataset-scoped validation.
   Not recommended at a 9-entity corpus with one real consumer.
 
-> **RULED:** _pending_
+> **RULED: (b) — RECLASSIFY `DEFERRED` (2026-10-01). EXECUTED.** The record was already ruled "not now" (SOTA F4); `DEFERRED` states that precisely and stops it inviting re-litigation. A `revisit_trigger` is recorded: a second real consumer, or dataset-scoped tooling maturing to adoption without new infrastructure.
 
 ---
 
@@ -299,7 +305,7 @@ claims. The only thing the executor can do is keep it visible — and it already
 is. Ruling it closed would destroy the record of open research; ruling it
 `DEFERRED` could be argued, but the owner has said "keep it open."
 
-> **RULED:** _pending_
+> **RULED: NO ACTION — KEEP OPEN (2026-10-01).** The owner confirmed this is the one record where `OPEN` is the intended state. The four remaining items are owner calculations under active research; closing would destroy the record of open research and `DEFERRED` would misstate an active investigation as a shelved one. Annotated in the registry with the owner directive and an executor note that no work is scheduled.
 
 ---
 
