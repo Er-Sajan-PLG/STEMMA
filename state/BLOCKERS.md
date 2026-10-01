@@ -4,7 +4,7 @@
 > agent cannot clear by itself. If an agent *can* clear it, it is not a blocker — it is
 > a task.
 >
-> **Current count: 2 actionable · 2 parked · 0 technical.**
+> **Current count: 3 actionable · 2 parked · 0 technical.**
 
 ---
 
@@ -60,6 +60,30 @@ the same stale name in `docs/` **did** break `gh attestation verify`.)
 of where the model was established, it may be **correct as written** and should be left alone
 — in which case only `PILOT_CHARTER.md` and `authority.yaml` need a decision. The agent is
 not positioned to judge that; it is a Tier-2 call.
+
+---
+
+## BLK-005 — `spec/CONFLICTS.md` claims a docs sync that did not happen
+
+**Raised:** 2026-10-01 by `A7F3`
+**Status:** **OPEN — awaiting owner**
+**Blocking:** nothing functional, but a Tier-2 record is inaccurate
+
+**What is needed.** `spec/CONFLICTS.md`, CONFLICT-STEMMA-EXP-001 resolution 1, states that
+"the living docs that repeated the claim were synced". A sweep found **78 occurrences across 19
+files** still asserting STEMMA's own store is FAISS. The docs have since been fixed (DEBT-008),
+so the sentence is now true — but it was false when written, and the record should say so rather
+than read as though the sync happened at the time.
+
+**Why an agent cannot clear it.** `spec/` is **Tier 2** — owner-only under Constraint D. The
+executor may identify the inaccuracy and record it, but must not edit a specification record on
+its own authority.
+
+**Suggested minimal edit (owner's call):** note that the docs sync was completed 2026-10-01 in
+the same session as DEBT-008, and that the original claim was written from a partial sweep.
+Whether to record the overstatement at all is the owner's judgement.
+
+**Not urgent:** the underlying defect is fixed; this is about the record being honest.
 
 ---
 

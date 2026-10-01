@@ -2,7 +2,7 @@
 
 > **Current state only.** What IS, not what happened. History lives in `sessions/`.
 
-**Last Reconciled:** 2026-10-01T12:25Z
+**Last Reconciled:** 2026-10-01T13:56Z
 **Reconciled by:** `A7F3`
 **Protocol:** MACP v1.0 (`state/PROTOCOL.md`)
 
@@ -93,11 +93,7 @@
    is correct as written; that judgement is Tier 2.
 3. **Then:** the open `UNRES-STEMMA-CORE-003` and `REQ-STEMMA-OPS-002` both resolve at
    **release time** — neither can progress before a release lands. Do not start them.
-4. **Candidate work with no blocker:** `DEBT.md` now holds **2 open** (003, 004) and
-   **3 resolved** (001, 002, 005). DEBT-003 is a documented, accepted residual (an ordering
-   property, not fixable by atomicity). DEBT-004 needs a **decision**, not a fix: either add
-   `numpy` to `requirements.txt` or document the JSON fallback as the reference path — right
-   now the behaviour silently depends on which interpreter runs `embed.py`.
+4. **Candidate work with no blocker:** `DEBT.md` now holds **2 open** (003, 004), **1 mitigated** (007) and **5 resolved** (001, 002, 005, 006, 008). DEBT-003 is a documented, accepted residual (an ordering property, not fixable by atomicity). DEBT-004 turned out **not to be a defect**: nothing in-repo reads `vectors.npy` / `vectors.json`, so the store form varying by interpreter is harmless, and the docs already describe the type as honest either way. What it did surface was DEBT-008.
 
 ## Environment Facts (verified by inspection, not assumed)
 

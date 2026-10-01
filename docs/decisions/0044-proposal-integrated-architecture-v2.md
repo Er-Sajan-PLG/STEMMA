@@ -133,7 +133,7 @@ REVIEW ← named human OR delegated institution v2 with audit, forward-only
   ▼
 CANONICAL ← human-only write L2
   ▼
-DERIVED EXPORT ← deterministic, content-hashed L6 exports/knowledge.json v2.1.0 content_hash sha256 no wall-clock byte-identical embeddings.jsonl vector_store FAISS content_hash versioned
+DERIVED EXPORT ← deterministic, content-hashed L6 exports/knowledge.json v2.1.0 content_hash sha256 no wall-clock byte-identical embeddings.jsonl vector_store content_hash versioned
   ▼
 CONSUMER ← file/API/SDK content_hash invalidation subset exports views LearningHub PROFESSOR-J explorer
 ```

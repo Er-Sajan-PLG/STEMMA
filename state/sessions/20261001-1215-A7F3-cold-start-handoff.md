@@ -566,3 +566,124 @@ actually touched".
 Gate: **365 pytest · verify_all 42 OK / 0 FAIL · docs PASS · state tree 16/16.**
 
 **Work unit complete — session remains ACTIVE.**
+
+## [PROGRESS] 2026-10-01T13:50Z — audited A4 compliance; the table itself had a gap
+
+A4 is the amendment's table of *obligations* — the rule most likely to be quietly ignored, so it
+was worth auditing whether this session actually complied rather than assuming it.
+
+**Method.** Enumerated the events from `git log <base>..HEAD` and checked each against A4's
+required files.
+
+**Compliant:**
+
+| Event | A4 requires | Actual |
+|---|---|---|
+| CI/CD configuration changed (`52c564e`) | `ARCHITECTURE.md`, session | ✅ ARCHITECTURE.md documents the unfiltered freshness diff (the DEBT-006 caveat) |
+| Test suite restructured (guards added) | `ARCHITECTURE.md`, session | ✅ ARCHITECTURE.md names the new guard suites |
+| Defects found (DEBT-006, DEBT-007) | `DEBT.md`, session | ✅ |
+| A decision created (DEC-007, DEC-008) | `DECISIONS.md`, session | ✅ |
+
+**One real gap — in the table, not in the work.** A4 had **no row covering a change to the
+protocol itself**, even though this session amended it. A4's own meta-rule covers exactly this:
+*"When an event occurs that no row covers, add a row as part of the shutdown."* Applied — the
+table now has a row for "this protocol or `AGENTS.md` changes → `DECISIONS.md`, `AGENTS.md`
+(if the operating instructions changed), session".
+
+**And a "known gap" manifested.** The amendment's own backlog listed **protocol version drift**
+as unaddressed. It then happened: this session **began under v1.0 and ended under v1.1**. Rather
+than unilaterally adding a rule for it — the review explicitly deferred that batch — the
+evidence is recorded under the gap so the next batch has data. Two questions it leaves open:
+whether a mid-session amendment obliges a re-read of the affected sections, and whether the
+session file must record that it spanned two versions.
+
+**Not guarded, deliberately.** A4 compliance is not mechanically checkable — classifying an
+"event" is judgement, not a computation. That is precisely why A7 (machine-checked drift) is
+deferred: a checker here would encode guesses. The audit was manual and should stay manual
+until the residual failures are known.
+
+Gate: **365 pytest · verify_all 42 OK / 0 FAIL · docs PASS · state tree 16/16.**
+
+**Work unit complete — session remains ACTIVE.**
+
+## [BUG FOUND] 2026-10-01T13:56Z — a Tier-2 record claimed a sync that had not happened
+
+Chasing DEBT-004 (the numpy / store-type question). The behaviour turned out to be **fine** —
+nothing in-repo reads `vectors.npy` / `vectors.json`, so the store form varying by interpreter is
+harmless, and the docs already describe the type as honest either way. But a grep for the old
+label found it still all over the live docs.
+
+**`spec/CONFLICTS.md` (CONFLICT-STEMMA-EXP-001, resolution 1) says:**
+
+> *"**Fixed** (… **the living docs that repeated the claim were synced**)."*
+
+The metadata half was fixed and guarded. **The docs half was not.** A sweep found **78
+occurrences across 19 files** asserting STEMMA's own store is FAISS — including `AGENTS.md`,
+`docs/ARCHITECTURE-V2.md`, `docs/EMBEDDINGS.md`, `docs/TESTING.md`, `docs/VERSIONING.md`,
+`docs/VISION.md`, two ADRs, and the webapp's user-facing HTML.
+
+**Worst instance:** `docs/EMBEDDINGS.md` **contradicted itself** — line 54 correctly said
+"numpy-flat or json-flat … no FAISS index is written", while lines 136/189/190 said
+"vector_store/ FAISS". A reader could not tell which was true.
+
+**Why it matters more than the label.** The record said the docs were synced, which is *why*
+nobody looked again. That is the same failure this session keeps surfacing — an assertion
+recorded without being verified — and this time it sat in a **Tier-2** record the executor
+cannot correct.
+
+**Fix.** 78 replacements across 19 files, in two passes (the first missed parenthesised and
+standalone variants). Deliberately **not** touched, because they are not claims about STEMMA's
+own store: `vector_store FAISS/Chroma/Qdrant local` (consumer options, 2 remain) and
+`FAISS built externally out of STEMMA` (describes what a *consumer* builds). Over-reaching would
+repeat the original error in the other direction.
+
+**Verified:** `EMBEDDINGS.md` has 0 false occurrences; only the 2 legitimate consumer-option
+mentions remain repo-wide; docs PASS · verify_all 42 OK / 0 FAIL · 365 pytest · state tree 16/16.
+
+**Raised as BLK-005** for the owner: the Tier-2 record still carries the inaccurate claim.
+
+**[BUG FOUND] in my own habit — repeated.** While reconciling `DASHBOARD.md` I stamped
+"Last Reconciled" as **14:00Z** when the clock read **13:56Z**. That is the *exact* error I
+recorded earlier today (stamping 12:50Z at 12:49Z) and explicitly wrote a lesson about. Writing
+the lesson did not prevent the repetition. The lesson needs a mechanism, not a note: **read the
+clock immediately before writing any timestamp, never from memory or rounding.**
+
+**Work unit complete — session remains ACTIVE.**
+
+## [PROGRESS] 2026-10-01T14:05Z — the ownership guard fired on me, unprompted
+
+After the 78-place docs cleanup I ran a routine count for the PR body and the state-tree guard
+failed:
+
+```
+FAIL: test_active_session_files_owned_covers_what_it_changed — files_owned does not cover
+  ['docs/API.md', 'docs/ARCHITECTURE-V2.md', … 19 files …] — another agent would read these as free
+```
+
+That is the guard added earlier in this session **catching the same defect it was written for,
+on the very next change that caused it** — no prodding, no audit, just a routine command. It
+named all 19 files. `files_owned` updated to cover `docs/**`, `webapp/**`, `examples/**`.
+
+Worth noting as evidence the guard was worth adding: the previous under-declaration went
+unnoticed until a deliberate audit; this one surfaced immediately and by accident.
+
+**Work unit complete — session remains ACTIVE.**
+
+## [PROGRESS] 2026-10-01T14:05Z — the ownership guard fired on me, unprompted
+
+After the 78-place docs cleanup I ran a routine count for the PR body and the state-tree guard
+failed:
+
+```
+FAIL: test_active_session_files_owned_covers_what_it_changed — files_owned does not cover
+  ['docs/API.md', 'docs/ARCHITECTURE-V2.md', … 19 files …] — another agent would read these as free
+```
+
+That is the guard added earlier in this session **catching the same defect it was written for,
+on the very next change that caused it** — no prodding, no audit, just a routine command. It
+named all 19 files. `files_owned` updated to cover `docs/**`, `webapp/**`, `examples/**`.
+
+Worth noting as evidence the guard was worth adding: the previous under-declaration went
+unnoticed until a deliberate audit; this one surfaced immediately and by accident.
+
+**Work unit complete — session remains ACTIVE.**

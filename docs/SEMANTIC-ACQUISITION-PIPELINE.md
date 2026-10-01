@@ -57,7 +57,7 @@ Explicit canonicalization (review_entity.py accept + canonicalize, human reviewe
   ↓
 STEMMA canonical knowledge (content/<domain>/<subdomain>/*.md with exact definitions dual verification governed_by history triple verification link+source_refs+external_ids)
   ↓
-Deterministic Exports / Indexes (exports/knowledge.json v2.2.0 deterministic content_hash sha256, no wall-clock, byte-identical on rerun, embeddings.jsonl + vector_store/ FAISS meta.json content_hash versioned, consumers/)
+Deterministic Exports / Indexes (exports/knowledge.json v2.2.0 deterministic content_hash sha256, no wall-clock, byte-identical on rerun, embeddings.jsonl + vector_store/ meta.json content_hash versioned, consumers/)
 ```
 
 The LLM is therefore an **extractor/interpreter**, not an authority.
@@ -264,7 +264,7 @@ text extraction
 
 Embeddings are useful for semantic retrieval, similarity search, finding related passages, locating supporting evidence, candidate entity matching, retrieval augmentation. But embedding does not itself constitute explicit STEMMA fact.
 
-Implementation: Already have explicit separation Layer1 Canonical NO embeddings/RAG whole STEMMA, Layer2 Derived YES embeddings derived regenerable deterministic content_hash exports/embeddings.jsonl vector_store FAISS, Layer3 Consumer+RAG YES RAG as consumer mechanism can be out of STEMMA. CI checks no embeddings in canonical.
+Implementation: Already have explicit separation Layer1 Canonical NO embeddings/RAG whole STEMMA, Layer2 Derived YES embeddings derived regenerable deterministic content_hash exports/embeddings.jsonl vector_store, Layer3 Consumer+RAG YES RAG as consumer mechanism can be out of STEMMA. CI checks no embeddings in canonical.
 
 ## 7. Evidence Must Be First-Class — Accepted with Amendment
 

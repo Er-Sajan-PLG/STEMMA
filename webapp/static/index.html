@@ -264,7 +264,7 @@
       <h4>📚 How RAG works — YES needed in STEMMA</h4>
       <ol>
         <li><b>Ingestion:</b> PDF → deterministic extraction via template-registry v2.0.0 (8 domains, 12 entity types, regex + exact constants) → entity markdown → human edits (HITL) → canonical → knowledge.json deterministic content-hash</li>
-        <li><b>Embedding:</b> Entity → chunking entity strategy max_tokens 512 → embedding via embedding model (local free All-MiniLM 384 fast, BGE Large SOTA 1024 best for RAG, frontier OpenAI Large 3072 best quality, NVIDIA NV-Embed SOTA 4096 free) → embeddings.jsonl + vector_store/ FAISS meta.json + vectors.npy + ids.json versioned via content_hash + model id</li>
+        <li><b>Embedding:</b> Entity → chunking entity strategy max_tokens 512 → embedding via embedding model (local free All-MiniLM 384 fast, BGE Large SOTA 1024 best for RAG, frontier OpenAI Large 3072 best quality, NVIDIA NV-Embed SOTA 4096 free) → embeddings.jsonl + vector_store/ meta.json + vectors.npy + ids.json versioned via content_hash + model id</li>
         <li><b>Vector store:</b> FAISS flat cosine local deterministic, path exports/vector_store/, alternatives Chroma, Qdrant, Pinecone</li>
         <li><b>Retriever:</b> Question → embedding via same model → vector search cosine similarity top_k → retrieved entities with scores + content</li>
         <li><b>Generator:</b> Retrieved → build context definitions + connections + sources + source_refs + links → LLM prompt context + question → call LLM frontier selector (DeepSeek R1 free, Claude 3.5 Sonnet, GPT-4o, Gemini 2.5 Pro, Llama 3.3, custom via OpenRouter) → answer with citations</li>
@@ -296,7 +296,7 @@
         <li><b>Proposal Generation</b> — proposals/proposal-*.yaml with evidence first-class source_id document_hash page section text_span char_offsets surrounding_context + extraction model model_version pipeline_version prompt_version + verification status pending — NOT canonical STEMMA knowledge</li>
         <li><b>Human Review</b> — final authority, HITL mandatory human:curator.001 explicitly edits markdown, audit trail workflow/audit/audit.jsonl candidate_edited by human:*</li>
         <li><b>Explicit Canonicalization</b> — review_entity.py accept + canonicalize with human reviewer</li>
-        <li><b>Deterministic Exports / Indexes</b> — exports/knowledge.json v2.1.0 deterministic content_hash sha256 no wall-clock byte-identical, embeddings.jsonl + vector_store/ FAISS meta.json content_hash versioned, consumers/</li>
+        <li><b>Deterministic Exports / Indexes</b> — exports/knowledge.json v2.1.0 deterministic content_hash sha256 no wall-clock byte-identical, embeddings.jsonl + vector_store/ meta.json content_hash versioned, consumers/</li>
       </ol>
       <p><b>LLM is extractor/interpreter, not authority. Embeddings are NOT replacement for semantic extraction.</b></p>
     </div>
@@ -397,14 +397,14 @@
 
   <section class="card">
     <h2>📦 Consumer Export — LearningHub, PROFESSOR-J, General, Explorer (file, API, SDK)</h2>
-    <p class="hint">Export mechanism via file (knowledge.json deterministic content-hash v2.1.0, embeddings.jsonl, vector_store/ FAISS, consumers/<consumer>/knowledge.<consumer>.json filtered), API (adapter v0.2.0 endpoints /v2/entities, /v2/embeddings, /v2/rag/search, /v2/rag/query POST, /v2/export?consumer=..., /openapi.yaml OpenAPI 3.0.3), SDK (Python Stemma.from_file + StemmaRAG), for LearningHub (canonical physics/chem/bio/math, OpenAI embeddings, GPT-4o RAG), PROFESSOR-J (reviewed all 8 domains mediocre, BGE Large offline SOTA, FAISS, DeepSeek R1 free RAG), general, explorer.</p>
+    <p class="hint">Export mechanism via file (knowledge.json deterministic content-hash v2.1.0, embeddings.jsonl, vector_store/, consumers/<consumer>/knowledge.<consumer>.json filtered), API (adapter v0.2.0 endpoints /v2/entities, /v2/embeddings, /v2/rag/search, /v2/rag/query POST, /v2/export?consumer=..., /openapi.yaml OpenAPI 3.0.3), SDK (Python Stemma.from_file + StemmaRAG), for LearningHub (canonical physics/chem/bio/math, OpenAI embeddings, GPT-4o RAG), PROFESSOR-J (reviewed all 8 domains mediocre, BGE Large offline SOTA, FAISS, DeepSeek R1 free RAG), general, explorer.</p>
     <div class="grid" style="grid-template-columns: 1fr 1fr; gap:1rem">
       <div>
         <h3>File-based exports</h3>
         <ul>
           <li><code>exports/knowledge.json</code> — main deterministic content-hash v2.1.0, 1 entity now, will grow to 400-800 mediocre all-domain</li>
           <li><code>exports/embeddings.jsonl</code> — embeddings per entity with model id, dimensions, vector, content_hash</li>
-          <li><code>exports/vector_store/</code> — FAISS meta.json + vectors.npy + ids.json versioned via content_hash + model id</li>
+          <li><code>exports/vector_store/</code> — meta.json + vectors.npy + ids.json versioned via content_hash + model id</li>
           <li><code>exports/consumers/learninghub/knowledge.learninghub.json</code> — LearningHub canonical physics/chem/bio/math filtered</li>
           <li><code>exports/consumers/professor-j/knowledge.professor-j.json</code> — PROFESSOR-J reviewed all 8 domains mediocre filtered</li>
           <li><code>schema/api.yaml</code> — OpenAPI 3.0.3 schema</li>

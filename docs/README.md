@@ -23,7 +23,7 @@ All early work from start included as implementation of new architecture, not pr
 7. **[PIPELINES.md](PIPELINES.md)** — 16 stages DOCUMENT→OBSERVATION→EVIDENCE WINDOWS→CANDIDATE→ENTITY RESOLUTION threshold 0.85→CLAIM→NORMALIZATION→DETERMINISTIC VALIDATION→INDEPENDENT VERIFICATION Verifier Model B→CONFLICT ANALYSIS explicit P=10 vs P=12→PROPOSAL→REVIEW→CANONICAL→DERIVED EXPORT→CONSUMER never PDF→LLM→canonical
 8. **[GOVERNANCE.md](GOVERNANCE.md)** — invariants L1-L8, HITL, deterministic, identity immutable, derived ≠ canonical, no curriculum refined boundary, materialization chain constitutional
 9. **[CONSUMERS.md](CONSUMERS.md)** — LearningHub canonical physics/chem/bio/math OpenAI Large 3072 GPT-4o top_k5, PROFESSOR-J reviewed all 8 domains mediocre BGE Large 1024 offline DeepSeek R1 free top_k10, general, explorer 3D clean small nodes thin lines manual legend centered zoom
-10. **[EMBEDDINGS.md](EMBEDDINGS.md)** — embedding model needed YES, 11 models local free + frontier API, model selector DeepSeek harness, deterministic content_hash versioned vector_store FAISS
+10. **[EMBEDDINGS.md](EMBEDDINGS.md)** — embedding model needed YES, 11 models local free + frontier API, model selector DeepSeek harness, deterministic content_hash versioned vector_store
 11. **[RAG.md](RAG.md)** — RAG system needed YES, retrieval + generation + citations, flow question → embedding → vector search top_k → context → LLM frontier selector → answer with citations, API /v2/rag/search + /v2/rag/query POST, webapp RAG playground
 12. **[API.md](API.md)** — export mechanism via api schema link/api YES, OpenAPI 3.0.3 schema/api.yaml, adapter v0.2.0 endpoints /v2/entities /v2/embeddings /v2/rag/search /v2/rag/query POST /v2/export?consumer=... /openapi.yaml file/API/SDK content_hash
 13. **[GUIDELINE-EMBEDDER-RAG.md](GUIDELINE-EMBEDDER-RAG.md)** — 81KB guideline how to build embedder and RAG that imports from STEMMA consistently via file/API/SDK + content_hash, sample in derived inside and out of STEMMA, direction and future plans
@@ -145,7 +145,7 @@ SEMANTIC-ACQUISITION-PIPELINE.md (acquisition), METADATA-SPECIFICATION.md
 - **INGESTION-PRIMARY.md** — PDF primary ingestion with HITL markdown explicit edit
 - **AGENT.md** — deterministic protocol HITL + PDF primary + evolvable templates v2.0.0 + model selector like DeepSeek harness + embeddings + RAG + consumer export
 - **RESET-AND-HITL-GUIDE.md** — beginning clean PDF primary human is you
-- **EMBEDDINGS.md** — YES embedding model needed 11 models local free + frontier API model selector DeepSeek harness deterministic content_hash vector_store FAISS
+- **EMBEDDINGS.md** — YES embedding model needed 11 models local free + frontier API model selector DeepSeek harness deterministic content_hash vector_store
 - **RAG.md** — YES RAG system needed retrieval + generation + citations flow question → embedding → vector search top_k → context → LLM frontier selector → answer with citations API /v2/rag/search + /v2/rag/query POST webapp RAG playground
 - **API.md** — YES export mechanism via api schema link/api needed OpenAPI 3.0.3 schema/api.yaml adapter v0.2.0 endpoints /v2/entities /v2/embeddings /v2/rag/search /v2/rag/query POST /v2/export?consumer=... /openapi.yaml file/API/SDK content_hash
 

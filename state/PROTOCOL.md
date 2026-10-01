@@ -749,6 +749,7 @@ checkable. Ownerless files rot — that is the predicted outcome, not an acciden
 
 | Event | Files that MUST be updated in the same session |
 |---|---|
+| **This protocol or `AGENTS.md` changes** | `DECISIONS.md` (an amendment is a decision), `AGENTS.md` (if the operating instructions changed), session |
 | Structural change (module/dir added, removed, moved) | `ARCHITECTURE.md`, session |
 | Dependency added / removed / upgraded | `ARCHITECTURE.md` (if the stack changed), `DEBT.md` (if risk changed), session |
 | Test suite restructured | `ARCHITECTURE.md`, session |
@@ -857,6 +858,16 @@ Not addressed by A1–A6. Recorded here so they are not lost:
    (refuse / comply / comply-and-document).
 3. **Protocol version drift.** If this file or `AGENTS.md` changes mid-session, the agent is
    operating under a different protocol than it started with. No rule covers that.
+
+   > **Evidence — this gap has already manifested once.** Session `20261001-1215-A7F3-cold-start-handoff`
+   > began under v1.0 and ended under v1.1: the agent incorporated Amendment 1 mid-session and
+   > then continued working under it. What happened in practice, so the next batch has data:
+   > the agent re-read the amendment it had just written, applied it to the state (running §A2's
+   > verification loop against the repository), and logged the version change in the session log.
+   > Nothing *required* any of that — it was judgement. Two things were not covered by any rule
+   > and are worth deciding: (a) whether a mid-session amendment obliges a re-read of the
+   > affected sections, and (b) whether the session file must record that it spanned two
+   > protocol versions.
 4. **The "boring update" skip.** For a one-line fix, agents will skip state updates as
    disproportionate, and then fail to re-engage for substantial work. Needs a **minimum viable
    session record** for small changes.
