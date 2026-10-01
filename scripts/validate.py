@@ -52,6 +52,11 @@ except ImportError:  # pragma: no cover
     Draft202012Validator = None
     HAVE_JSONSCHEMA = False
 
+# Derived artifacts are written atomically: Path.write_text truncates the target
+# first, so a reader running concurrently with a regeneration can observe a
+# partial file (this caused a spurious pytest failure — see scripts/atomic_write.py).
+from atomic_write import write_text_atomic  # noqa: E402  (sibling script module)
+
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content"
 CONNECTIONS = ROOT / "connections"
@@ -1598,9 +1603,9 @@ def write_validation_report(
     }
     report_path = ROOT / "reports" / "validation-report.json"
     report_path.parent.mkdir(parents=True, exist_ok=True)
-    report_path.write_text(
+    write_text_atomic(
+        report_path,
         json.dumps(report, indent=2, ensure_ascii=False) + "\n",
-        encoding="utf-8",
     )
     return report
 
@@ -1892,9 +1897,9 @@ def main(argv: list[str] | None = None) -> int:
                 print(json.dumps(report, indent=2, ensure_ascii=False, sort_keys=True))
             return 1
     EXPORT.parent.mkdir(parents=True, exist_ok=True)
-    EXPORT.write_text(
+    write_text_atomic(
+        EXPORT,
         json.dumps(payload, indent=2, ensure_ascii=False) + "\n",
-        encoding="utf-8",
     )
     if emit_json:
         print(f"OK: {len(entities)} entities valid; export written to {EXPORT.relative_to(ROOT)}", file=sys.stderr)

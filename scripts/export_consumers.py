@@ -39,6 +39,7 @@ import yaml
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "scripts"))
 from graph_policy import should_include_connection  # noqa: E402  (single policy source)
+from atomic_write import write_text_atomic  # noqa: E402  (readers never see a partial bundle)
 
 EXPORT_PATH = ROOT / "exports" / "knowledge.json"
 VERSION_PATH = ROOT / "schema" / "VERSION.yaml"
@@ -221,7 +222,7 @@ def main(argv: list[str] | None = None) -> int:
                     stale.append(str(rel))
                 continue
             path.parent.mkdir(parents=True, exist_ok=True)
-            path.write_text(text, encoding="utf-8")
+            write_text_atomic(path, text)
             print(f"OK: {rel} — policy {bundle['consumer_profile']['review_policy']}, "
                   f"{bundle['entity_count']} entities, {bundle['connection_count']} connections, "
                   f"{bundle['source_count']} sources, {bundle['payload_sha256'][:19]}…")

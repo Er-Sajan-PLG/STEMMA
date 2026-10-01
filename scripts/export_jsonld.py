@@ -38,6 +38,8 @@ CONNECTIONS = ROOT / "connections"
 
 import yaml  # pinned via /tmp/stemma-venv (repo-wide convention)
 
+from atomic_write import write_text_atomic  # readers never see a partial export
+
 
 def _frontmatter(path: pathlib.Path) -> dict:
     parts = path.read_text(encoding="utf-8").split("\n---\n", 1)
@@ -190,7 +192,7 @@ def main() -> int:
             return 1
         print("OK: exports/knowledge.jsonld deterministic")
         return 0
-    out.write_text(text, encoding="utf-8")
+    write_text_atomic(out, text)
     nodes = payload["@graph"]
     n_ent = sum(1 for n in nodes if not isinstance(n.get("@type"), str))
     print(f"OK: wrote exports/knowledge.jsonld ({n_ent} entities, {len(nodes) - n_ent} assertions)")

@@ -43,3 +43,10 @@ sign-*/
 *.asc
 *.rev
 !docs/keys/stemma-owner-pubkey.asc
+
+# Atomic-write staging (scripts/atomic_write.py). Derived artifacts are written
+# to a dot-prefixed sibling temp file and renamed over the target, so a reader
+# never sees a partial file. The rename removes the temp file; this rule covers
+# the crash case, where a stranded staging file must not show up as an untracked
+# change and trip the `git diff --exit-code -- exports reports` freshness gate.
+.*.tmp

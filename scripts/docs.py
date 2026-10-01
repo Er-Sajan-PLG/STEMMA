@@ -26,6 +26,8 @@ from pathlib import Path
 
 import yaml
 
+from atomic_write import write_text_atomic  # readers never see a partial doc
+
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACT_PATH = Path("docs/docs-contract.yaml")
 TAXONOMY_PATH = Path("docs/meta/doc-taxonomy.yaml")
@@ -242,7 +244,7 @@ def run_generator(gen_id: str, gen: dict, write: bool) -> list[str]:
         if rendered != cur:
             changed_or_dirty.append(str(COVERAGE_PATH))
             if want:
-                (ROOT / COVERAGE_PATH).write_text(rendered, encoding="utf-8")
+                write_text_atomic(ROOT / COVERAGE_PATH, rendered)
         return changed_or_dirty
     before = {o: ((ROOT / o).read_bytes() if (ROOT / o).exists() else None) for o in gen.get("outputs", [])}
     r = _run_declared(write_cmd)
@@ -494,7 +496,7 @@ def main(argv: list[str]) -> int:
         cur = (ROOT / COVERAGE_PATH).read_text(encoding="utf-8") if (ROOT / COVERAGE_PATH).exists() else None
         if "--write" in rest:
             if rendered != cur:
-                (ROOT / COVERAGE_PATH).write_text(rendered, encoding="utf-8")
+                write_text_atomic(ROOT / COVERAGE_PATH, rendered)
                 print(f"coverage: wrote {COVERAGE_PATH}")
             else:
                 print("coverage: already fresh")
