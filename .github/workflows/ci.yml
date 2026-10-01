@@ -33,9 +33,18 @@ jobs:
         run: pip install -r requirements-dev.txt
       - name: Run authoritative verification chain
         run: python3 scripts/verify_all.py
-      - name: Check derived exports are fresh and deterministic
+      - name: Check every generated artifact is fresh (no path filter — deliberate)
         run: |
-          git diff --exit-code -- exports reports || (echo "FAIL: exports/ or reports/ not fresh"; git diff -- exports reports | head -n 100; exit 1)
+          # Deliberately NO `-- exports reports` filter. The chain also regenerates
+          # spec/machine-readable/review_manifest.json, which lives outside those two
+          # trees: a path filter was blind to it, and its in-chain
+          # `review_manifest.py --check` is vacuous because the chain regenerates the
+          # file immediately *before* checking it (verified: tampering with the
+          # committed manifest leaves the chain at exit 0 and the tampering silently
+          # overwritten). Diffing the whole tree is safe — on a clean checkout the
+          # chain leaves nothing modified — so a non-empty diff here means a
+          # generated artifact was committed stale. DEBT-006.
+          git diff --exit-code || { echo "FAIL: a generated artifact is not fresh"; git diff --stat | head -n 40; exit 1; }
       - name: Check derived export exists and valid
         run: |
           test -f exports/knowledge.json
@@ -336,9 +345,13 @@ jobs:
         env:
           STEMMA_FORBID_SIGSTORE: "1"
         run: python3 -m pytest adapters/python/tests -q
-      - name: Check exports/reports untouched by tests
+      - name: Check no tracked file was mutated by tests (no path filter — deliberate)
         run: |
-          git diff --exit-code -- exports reports || { echo "FAIL: tests mutated derived artifacts"; exit 1; }
+          # Unfiltered for the same reason as the chain-freshness step: tests here
+          # mutate *real* canonical records and run the real generator
+          # (tests/repo/test_promotion_chain.py), so a leak can land anywhere, not
+          # only under exports/ and reports/. Verified clean after the full suite.
+          git diff --exit-code || { echo "FAIL: tests mutated tracked files"; git diff --stat | head -n 40; exit 1; }
 
   adapter-verify:
     name: Adapter SDK — attestation verification (offline)
@@ -355,8 +368,8 @@ jobs:
         env:
           STEMMA_REQUIRE_SIGSTORE: "1"
         run: python3 -m pytest adapters/python/tests -q
-      - name: Check exports/reports untouched by tests
-        run: git diff --exit-code -- exports reports
+      - name: Check no tracked file was mutated by adapter tests (no path filter — deliberate)
+        run: git diff --exit-code
 
   check-branching:
     name: Branching Strategy

@@ -71,11 +71,14 @@ jobs:
           if [[ -n "$suffix" ]]; then echo "prerelease=true" >> "$GITHUB_OUTPUT"; else echo "prerelease=false" >> "$GITHUB_OUTPUT"; fi
           echo "epoch=$(git log -1 --format=%ct)" >> "$GITHUB_OUTPUT"
 
-      - name: Verification chain + exports fresh
+      - name: Verification chain + generated artifacts fresh
         run: |
           set -euo pipefail
           python3 scripts/verify_all.py
-          git diff --exit-code -- exports reports || { echo "FAIL: exports/ or reports/ not fresh at $TAG"; exit 1; }
+          # Unfiltered: the chain also regenerates
+          # spec/machine-readable/review_manifest.json, outside exports/ and reports/.
+          # See the same step in ci.yml and DEBT-006.
+          git diff --exit-code || { echo "FAIL: a generated artifact is not fresh at $TAG"; git diff --stat | head -n 40; exit 1; }
           python3 scripts/export_consumers.py --all --check
 
       - name: Publication gate (final releases only)
