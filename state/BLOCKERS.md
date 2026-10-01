@@ -103,9 +103,32 @@ than read as though the sync happened at the time.
 executor may identify the inaccuracy and record it, but must not edit a specification record on
 its own authority.
 
-**Suggested minimal edit (owner's call):** note that the docs sync was completed 2026-10-01 in
-the same session as DEBT-008, and that the original claim was written from a partial sweep.
-Whether to record the overstatement at all is the owner's judgement.
+**Paste-ready proposal (executor may propose, not apply).** `spec/` is Tier 2, so this is wording
+for you to apply or reject. The current text reads:
+
+```
+     `numpy-flat` / `json-flat` per the store it writes, with a `type_note`; the
+     living docs that repeated the claim were synced). A guard,
+```
+
+Proposed replacement of the parenthetical clause only:
+
+```
+     `numpy-flat` / `json-flat` per the store it writes, with a `type_note`; the
+     living docs that repeated the claim were synced — completed 2026-10-01. An
+     earlier revision of this sentence stated the sync as already done when only a
+     partial sweep had been performed). A guard,
+```
+
+**A constraint that shapes the wording.** MACP's scope rule forbids `state/` being cited as
+evidence in `spec/` ("`state/` is never cited as evidence in `spec/`"), so the edit must be
+self-contained — it cannot say "see DEBT-008". That is why the dates and the admission are written
+into the sentence itself rather than referenced.
+
+**If you prefer to record less.** The minimal alternative is to change only `were synced)` to
+`were synced — completed 2026-10-01)`, which makes the sentence true without narrating the
+overstatement. Both are defensible; recording the correction is the more honest of the two, and
+the cheaper option is the one that leaves the record shorter. Your call.
 
 **Not urgent:** the underlying defect is fixed; this is about the record being honest.
 
