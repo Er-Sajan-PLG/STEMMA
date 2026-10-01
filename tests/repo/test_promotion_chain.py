@@ -19,6 +19,7 @@ be read from the enforcement registry, not hardcoded.
 """
 from __future__ import annotations
 
+import shutil
 import subprocess
 import sys
 from pathlib import Path
@@ -54,6 +55,42 @@ def _write_md(path: Path, data: dict, body: str) -> None:
 
 def _rules() -> dict:
     return yaml.safe_load(ENFORCEMENT.read_text(encoding="utf-8"))
+
+
+# --- shadow tree -------------------------------------------------------------
+# `validate.py` resolves every path from `Path(__file__).resolve().parent.parent`, so
+# copying it into `<tmp>/scripts/validate.py` makes ROOT = `<tmp>` with no production
+# change. That lets a test break the tree without touching the real one — the pattern
+# `tests/repo/test_gate_fail_closed.py` already uses.
+_SHADOW_DIRS = ("content", "connections", "sources", "schema")
+_SHADOW_FILES = ("scripts/validate.py", "scripts/atomic_write.py")
+_SHADOW_SPEC_FILES = ("enforcement_rules.yaml",)
+
+
+def _shadow_tree(tmp_path: Path, *, omit: tuple[str, ...] = ()) -> Path:
+    """Copy the minimal tree `validate.py` needs into ``tmp_path``.
+
+    ``omit`` names files under ``spec/machine-readable/`` to leave out. **Omitting is how
+    a test removes something** — the file is simply never copied, so nothing is deleted
+    in the real tree or the shadow one. That matters: deleting a tracked file is what
+    caused DEBT-007, because the sandbox routes `unlink()` through a trash-move helper
+    that raises `SystemExit(1)` once a per-turn delete budget is exceeded.
+    """
+    for rel in _SHADOW_DIRS:
+        shutil.copytree(ROOT / rel, tmp_path / rel)
+    for rel in _SHADOW_FILES:
+        dest = tmp_path / rel
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(ROOT / rel, dest)
+    spec_dst = tmp_path / "spec" / "machine-readable"
+    spec_dst.mkdir(parents=True, exist_ok=True)
+    for name in _SHADOW_SPEC_FILES:
+        if name in omit:
+            continue
+        src = ROOT / "spec" / "machine-readable" / name
+        if src.exists():
+            shutil.copy2(src, spec_dst / name)
+    return tmp_path
 
 
 # Derived artifacts that `scripts/validate.py` rewrites from canonical content.
@@ -172,54 +209,51 @@ def test_time_gate_is_data_driven():
     assert gaps == [1]
 
 
-def test_missing_enforcement_registry_fails_closed():
-    """Deleting the enforcement registry must make the gate fail closed.
+def test_missing_enforcement_registry_fails_closed(tmp_path: Path) -> None:
+    """The gate must fail closed when the enforcement registry is absent.
 
-    NOTE ON HOW THE FILE IS REMOVED. The registry is **renamed aside**, not deleted.
-    Deleting a tracked file is fragile in two ways:
+    **Runs entirely in a shadow tree — nothing in the real repository is touched.**
 
-    1. **The environment may intercept it.** This sandbox injects a `sitecustomize`
-       shim that routes `unlink()` through a trash-move helper. When a per-turn
-       delete budget is exceeded it raises `SystemExit(1)` — a `BaseException`, so
-       an `except Exception` guard does *not* catch it, and the test fails with
-       `[safe-delete][SAFE_DELETE_BULK_CONFIRM_REQUIRED]` rather than a useful
-       message. That is exactly what blocked a pre-push run.
-    2. **A crash between the delete and the restore leaves the repository without a
-       registry that every gate reads.**
+    This is the fix for DEBT-007. The test used to remove the *real, tracked*
+    `spec/machine-readable/enforcement_rules.yaml` and restore it in `finally`, which
+    was fragile in two ways: the sandbox routes `unlink()` through a trash-move helper
+    that raises `SystemExit(1)` once a per-turn delete budget is exceeded (that blocked
+    a pre-push run), and a crash between the removal and the restore would leave the
+    repository without a registry every gate reads.
 
-    `rename` is not intercepted (verified), and it is atomic, so parking the file
-    avoids both problems. The parked name ends in `.yaml.parked`, which matches no
-    `*.yaml` glob.
+    `validate.py` resolves every path from `Path(__file__).resolve().parent.parent`, so
+    copying it into `<tmp>/scripts/validate.py` makes `ROOT` = `<tmp>` with **no
+    production change**. The registry is then simply never copied in — no deletion, in
+    the real tree or the shadow one.
 
-    The removal is still verified before the behaviour is asserted, and an
-    unexpected block still skips with a reason rather than reporting a false
-    regression.
+    Both directions are asserted, so the test cannot pass vacuously: without the
+    registry the gate must fail and name `enforcement`; with it, the same shadow tree
+    must validate cleanly. Only the registry differs between the two runs.
     """
-    parked = ENFORCEMENT.with_name(ENFORCEMENT.name + ".parked")
-    backup = ENFORCEMENT.read_text(encoding="utf-8")
-    try:
-        try:
-            ENFORCEMENT.rename(parked)
-        except (Exception, SystemExit) as exc:  # SystemExit: the delete-guard shim
-            pytest.skip(
-                "could not move spec/machine-readable/enforcement_rules.yaml aside — the "
-                f"environment blocked it ({type(exc).__name__}: {exc}), so the fail-closed "
-                "path cannot be exercised here"
-            )
-        if ENFORCEMENT.exists():
-            pytest.skip(
-                "spec/machine-readable/enforcement_rules.yaml survived the move — an "
-                "environment guard intercepted it, so the fail-closed path cannot be "
-                "exercised here"
-            )
-        r = _run_validate()
-        assert r.returncode != 0
-        assert "enforcement" in (r.stdout + r.stderr).lower()
-    finally:
-        if parked.exists():
-            parked.rename(ENFORCEMENT)
-        elif not ENFORCEMENT.exists():
-            ENFORCEMENT.write_text(backup, encoding="utf-8")
+    # Positive control: the same shadow tree WITH the registry validates cleanly.
+    with_registry = _shadow_tree(tmp_path / "with")
+    ok = subprocess.run([sys.executable, str(with_registry / "scripts" / "validate.py")],
+                        cwd=with_registry, capture_output=True, text=True)
+    assert ok.returncode == 0, (
+        "the shadow-tree fixture is broken — a complete shadow tree should validate.\n"
+        f"stdout:\n{ok.stdout}\nstderr:\n{ok.stderr}"
+    )
+
+    # The scenario: identical tree, registry absent.
+    without = _shadow_tree(tmp_path / "without", omit=("enforcement_rules.yaml",))
+    registry = without / "spec" / "machine-readable" / "enforcement_rules.yaml"
+    assert not registry.exists(), "the shadow tree should not contain the registry"
+
+    r = subprocess.run([sys.executable, str(without / "scripts" / "validate.py")],
+                       cwd=without, capture_output=True, text=True)
+    assert r.returncode != 0, (
+        "the gate did NOT fail closed with the registry absent\n"
+        f"stdout:\n{r.stdout}\nstderr:\n{r.stderr}"
+    )
+    assert "enforcement" in (r.stdout + r.stderr).lower(), (
+        "the gate failed, but did not name the enforcement registry\n"
+        f"stdout:\n{r.stdout}\nstderr:\n{r.stderr}"
+    )
 
 
 # --------------------------------------------------- board waiver mutation --

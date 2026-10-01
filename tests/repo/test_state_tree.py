@@ -406,12 +406,27 @@ def test_active_session_files_owned_covers_what_it_changed() -> None:
         if not base:
             problems.append(f"{sid}: no Base commit in the header, cannot measure its footprint")
             continue
-        changed = subprocess.run(
+        # Committed since the session's base commit, PLUS uncommitted working-tree
+        # changes. Including the latter matters: this guard originally looked only at
+        # commits, so it passed vacuously on a dirty tree and only fired after the
+        # commit had been made and pushed — the one moment it is too late to matter.
+        committed = subprocess.run(
             ["git", "diff", "--name-only", f"{base.group(1)}..HEAD"],
             cwd=ROOT, capture_output=True, text=True,
-        ).stdout.split()
+        ).stdout.split("\n")
+        # `git status --porcelain` prefixes each path with a 2-char status code and a
+        # space, so strip exactly that (and nothing from the plain diff output above).
+        dirty = [
+            line[3:].strip()
+            for line in subprocess.run(
+                ["git", "status", "--porcelain"],
+                cwd=ROOT, capture_output=True, text=True,
+            ).stdout.split("\n")
+            if len(line) > 3 and line[2] == " "
+        ]
+        changed = sorted({p for p in (committed + dirty) if p.strip()})
         if not changed:
-            continue  # nothing committed yet this session
+            continue  # nothing committed or staged yet this session
         globs = [g.strip().strip("`") for g in owned.split(",") if g.strip() and g.strip() != "—"]
         uncovered = [f for f in changed if not any(fnmatch.fnmatch(f, g) for g in globs)]
         if uncovered:
