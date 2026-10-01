@@ -103,7 +103,7 @@ REVIEW named human OR delegated institution v2 with audit forward-only
   ▼
 CANONICAL human-only write L2
   ▼
-DERIVED EXPORT deterministic content-hashed L6 exports/knowledge.json v2.2.0 content_hash sha256 no wall-clock byte-identical embeddings.jsonl vector_store FAISS content_hash versioned
+DERIVED EXPORT deterministic content-hashed L6 exports/knowledge.json v2.2.0 content_hash sha256 no wall-clock byte-identical embeddings.jsonl vector_store content_hash versioned
   ▼
 CONSUMER file/API/SDK content_hash invalidation subset exports views LearningHub PROFESSOR-J explorer
 ```
@@ -390,7 +390,7 @@ Export contract exposes authority field consumers filter:
 Per L6 canonical never contains embeddings/RAG. Derived exports/ provides:
 
 - exports/embeddings.jsonl deterministic content_hash versioned model all-MiniLM 384 dim etc
-- exports/vector_store/ FAISS or vectors.json meta.json content_hash versioned
+- exports/vector_store/ or vectors.json meta.json content_hash versioned
 - exports/knowledge.json deterministic content_hash sha256 no wall-clock byte-identical
 
 Embedding-registry v1.0.0 11 models local+frontier model selector like DeepSeek harness all-MiniLM 384 fast local free default BGE Large SOTA 1024 local OpenAI Large 3072 frontier NVIDIA NV-Embed 4096 SOTA frontier embedding model selection via workflow/config/llm.json git-ignored not canonical model selector like DeepSeek harness search bar category tabs All/Frontier/Reasoning/Vision/Free/Custom/Local/SOTA Fast FREE/FRONTIER/REASONING badges custom input embeddings NOT replacement for semantic extraction pipeline has both branches.

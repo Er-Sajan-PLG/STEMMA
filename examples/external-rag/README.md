@@ -14,7 +14,7 @@ This example shows how embedding and RAG can be **out of STEMMA**, as connection
 ## Embedding and RAG out of STEMMA — connection layer, NOT whole STEMMA
 
 - **Embedding:** Does NOT contain whole STEMMA — contains vectors DERIVED from STEMMA definitions, e.g., metre chunk → All-MiniLM 384 dim → vector [0.12, -0.34, ...] — semantic fingerprint for similarity search, stored in embeddings.jsonl as {entity_id, model, dimensions, vector, content, content_hash} — regenerable, deterministic, NOT whole STEMMA
-- **Vector store:** Does NOT contain whole STEMMA — FAISS index of vectors + ids.json + meta.json — just index for fast cosine similarity, NOT whole STEMMA, just connection layer
+- **Vector store:** Does NOT contain whole STEMMA — flat index of vectors + ids.json + meta.json — just index for fast cosine similarity, NOT whole STEMMA, just connection layer
 - **RAG:** Does NOT contain whole STEMMA — retrieval logic + generation logic — grounded in STEMMA but doesn't contain whole STEMMA, only references entity IDs as context, whole STEMMA remains in STEMMA repo
 
 ## How connect? 3 ways — file, API, SDK — via content_hash
