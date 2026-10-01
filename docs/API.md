@@ -130,8 +130,12 @@ gh release edit "$TAG" --draft=false --latest             # publish
 
 The signer also annotates the *local* `manifest.json`; never re-upload it (the
 published manifest is the attested one). Consumers verify with
-`gpg --verify SHA256SUMS.sig SHA256SUMS.txt` against the owner's published key.
+`gpg --verify SHA256SUMS.sig SHA256SUMS.txt` against the owner's published key —
+**`docs/keys/stemma-owner-pubkey.asc`** (fingerprint
+`7C36 937F CC01 8442 637E BA74 4705 983D 407D EB9C`; see `docs/keys/README.md`).
 `release/` is local staging only (git-ignored); bundles are not committed.
+Private key material is never committed; `.gitignore` enforces it (`*.asc` /
+`*.rev`, negated only for the public key).
 
 ## SDK
 
