@@ -365,6 +365,59 @@ def test_no_duplicate_record_ids() -> None:
     )
 
 
+def test_active_session_files_owned_covers_what_it_changed() -> None:
+    """A session's `files_owned` must cover every file it actually changed.
+
+    `files_owned` is the ownership claim other agents read before editing. If it
+    under-declares, another agent sees a file as free and can edit it while the
+    session is still working there — the exact conflict the field exists to prevent.
+
+    Found by running the protocol's own verification loop (Amendment 1 §A2) against
+    this repository's state: the active row claimed `state/**` and `AGENTS.md` while
+    the session had also changed four files outside that claim
+    (`.github/workflows/{ci,release}.yml`, `tests/repo/test_promotion_chain.py`,
+    `tests/repo/test_state_tree.py`).
+
+    Only ACTIVE rows are checked: an ended session's claim is deliberately cleared.
+    The comparison is `git diff --name-only <base>..HEAD`, using the `Base commit`
+    from the session header — so it measures the session's real footprint.
+    """
+    import fnmatch
+    import subprocess
+
+    registry = (STATE / "REGISTRY.md").read_text(encoding="utf-8")
+    rows = re.findall(
+        r"^\|\s*`[A-Za-z0-9]{4}`\s*\|\s*`([^`]+)`\s*\|[^|]*\|[^|]*\|\s*([^|]*?)\s*\|\s*\*{0,2}(\w+)\*{0,2}\s*\|",
+        registry, re.MULTILINE,
+    )
+    active = [(sid, owned) for sid, owned, status in rows if status.lower() == "active"]
+    assert active, "no active session in REGISTRY.md — nothing to check (or the table shape changed)"
+
+    problems: list[str] = []
+    for sid, owned in active:
+        header = STATE / "sessions" / f"{sid}.md"
+        assert header.is_file(), f"active session {sid} has no session file"
+        base = re.search(r"^\*\*Base commit:\*\*\s*`?([0-9a-f]{7,40})`?", header.read_text(encoding="utf-8"), re.MULTILINE)
+        if not base:
+            problems.append(f"{sid}: no Base commit in the header, cannot measure its footprint")
+            continue
+        changed = subprocess.run(
+            ["git", "diff", "--name-only", f"{base.group(1)}..HEAD"],
+            cwd=ROOT, capture_output=True, text=True,
+        ).stdout.split()
+        if not changed:
+            continue  # nothing committed yet this session
+        globs = [g.strip().strip("`") for g in owned.split(",") if g.strip() and g.strip() != "—"]
+        uncovered = [f for f in changed if not any(fnmatch.fnmatch(f, g) for g in globs)]
+        if uncovered:
+            problems.append(
+                f"{sid}: files_owned does not cover {uncovered} (declared: {globs}) — "
+                "another agent would read these as free"
+            )
+
+    assert not problems, "ownership claim under-declares: " + "; ".join(problems)
+
+
 def test_commitlint_accepts_the_protocol_commit_type() -> None:
     """CONFLICT-002 / DEC-006: the protocol's shutdown commit format must stay valid.
 
@@ -413,6 +466,7 @@ if __name__ == "__main__":  # self-hosting runner, matching tests/repo/test_gate
         test_index_status_matches_the_registry,
         test_session_headers_match_the_schema_and_registry,
         test_no_duplicate_record_ids,
+        test_active_session_files_owned_covers_what_it_changed,
     ]
     failures = 0
     for fn in checks:
