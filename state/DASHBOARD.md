@@ -85,21 +85,19 @@
 
 ## Blocked — owner action
 
-`BLOCKERS.md` holds **3 open** items, all requiring the owner. None is technical:
+`BLOCKERS.md` holds **2 open** items, both requiring the owner. Neither is technical:
 
-- **BLK-004** — three stale repo-name references under `spec/` (Tier 2).
 - **BLK-005** — `spec/CONFLICTS.md` claims a docs sync that had not happened (Tier 2).
 - **BLK-006** — `tmp/fix-release-exports` proposes a **4.0.0** release while `main` is `3.0.0`.
 
 ## Next Actions
 
-1. **Owner:** decide the Tier-2 records — BLK-004 and BLK-005. Both are `spec/` edits.
+1. **Owner:** decide the Tier-2 record — BLK-005. (BLK-004 was cleared: its three `spec/` repo-name references are historical provenance tied to baseline commit `fb66dd9`, not stale values.)
 2. **Owner:** decide `tmp/fix-release-exports` (BLK-006). It is the only unmerged branch; cutting
    a release is not cleanup, so it was left alone.
 3. **Then:** `UNRES-STEMMA-CORE-003` and `REQ-STEMMA-OPS-002` both resolve at **release time**.
 4. **Candidate work with no blocker:** `DEBT.md` holds **2 open** (003, 004) and **6 resolved**. DEBT-003 is an accepted residual (an ordering property; atomicity
    cannot fix it). DEBT-004 is **not a defect** — nothing in-repo reads the vector-store files.
-   DEBT-007's residual is the shadow-tree refactor of `test_promotion_chain.py`.
 
 ## Environment Facts (re-verified by inspection 2026-10-01, not assumed)
 
