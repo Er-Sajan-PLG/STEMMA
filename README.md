@@ -69,11 +69,12 @@ vertical slice (2026-09-22, ahead of the R4 content acceptance test):
 
 - **25 requirements** (full schema, evidence-traced) — **all APPROVED 2026-10-01**
   by the owner (`human:curator.001`); the recovery agent had no approval power.
-  Verification (L4): **23 of 25 VERIFIED · 0 FAILED · 2 UNVERIFIED** (2026-10-01).
-  The two remaining are not awaiting verification work: `OPS-002` is a trend
-  criterion whose first data point is `v3.0.0` (owner ruled: audit per release),
-  and `INTEG-001` AC3 is an implementation gap — the grounded AI chat is not yet
-  built. See `spec/UNVERIFIED-DECISIONS.md` for the owner's recorded rulings.
+  Verification (L4): **24 of 25 VERIFIED · 0 FAILED · 1 UNVERIFIED** (2026-10-01).
+  The one remaining is not awaiting verification work: `OPS-002` is a trend
+  criterion whose first data point is `v3.0.0` (owner ruled: audit per release).
+  `INTEG-001` AC3 (grounded AI chat) was implemented and verified this round and
+  is now gated in CI. See `spec/UNVERIFIED-DECISIONS.md` for the owner's
+  recorded rulings.
 - **2 interface contracts** (`exports/knowledge.json` 2.2.0; `verify_all.py` CLI),
   45 classified evidence records, 7 open questions, 2 conflict records,
   two-tier gap analysis, machine-readable registries + a minimum validator

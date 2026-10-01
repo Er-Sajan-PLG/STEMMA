@@ -1,6 +1,6 @@
 verification_set_note: >-
-  Execution round 2026-10-01 (owner rulings applied): 23 VERIFIED, 0 FAILED,
-  2 UNVERIFIED of 25. This round the owner (human:curator.001, SOLE_OWNER) ruled
+  Execution round 2026-10-01 (owner rulings applied): 24 VERIFIED, 0 FAILED,
+  1 UNVERIFIED of 25. This round the owner (human:curator.001, SOLE_OWNER) ruled
   on all three then-UNVERIFIED requirements in one pass via
   spec/UNVERIFIED-DECISIONS.md. (1) EXP-004 AC2 CONFIRMED: the canonical-only
   consumer contract is intended, adopting the criterion that emptiness is
@@ -11,9 +11,13 @@ verification_set_note: >-
   requirement deliberately REMAINS UNVERIFIED until a second release completes
   the pair, and EVID-STEMMA-OPS-004 is NOT promoted from INFERENCE to FACT.
   (3) INTEG-001: the owner ordered AC3 implemented (grounded AI chat with
-  citations and refusal); AC1/AC2/AC4 already PASS, so the requirement stays
-  UNVERIFIED pending that implementation. The executor executed the rulings and
-  set only the status the owner authorized, per Constraint D
+  citations and refusal). AC3 was implemented (explorer/src/services/
+  grounded-chat.ts, grounded-chat-panel.ts) and verified by
+  explorer/scripts/verify-grounded-chat.mjs — 35 PASS against the real export,
+  with refusal and connection-citation sabotages each producing failures — so
+  INTEG-001 -> VERIFIED (AC1/AC2/AC4 already held; the verifier is now a step in
+  the CI explorer-build job). The executor executed the rulings and set only the
+  status the owner authorized, per Constraint D
   (spec/ROLES_AND_AUTHORITY.md). Prior rounds: the two FAILED records HITL-001
   and HITL-002 became VERIFIED after UNRES-STEMMA-HITL-002 (HITL scope is ALL
   data; the 6 LLM-written canonical entities demoted; corpus now 1 canonical
@@ -252,14 +256,16 @@ verification_records:
   result: PASS - all four elements present (GOVERNANCE.md:29-56). The risk is recorded as chosen and dated 2026-10-01, with a stated exit condition.
 - requirement: REQ-STEMMA-INTEG-001
   method: INTEGRATION_TEST
-  status: UNVERIFIED
+  status: VERIFIED
+  verified_date: 2026-10-01
   evidence:
   - EVID-STEMMA-INTEG-004
   - EVID-STEMMA-INTEG-005
   - EVID-STEMMA-INTEG-006
   - EVID-STEMMA-INTEG-007
+  - EVID-STEMMA-INTEG-008
   procedure: 'AC1: run npm --prefix explorer run verify (graph rendering). AC2: confirm the explorer job is wired into CI and required by all-green. AC3: exercise the AI chat against a known export and assert answers cite entity ids + source refs and refuse when ungrounded. AC4: assert the chat reads exports/ only.'
-  result: 'AC1 PASS, AC2 PASS, AC4 PASS-for-the-graph-viewer, AC3 NOT SATISFIED. AC1 — `verify-graph-projection.mjs` exits 0 with 10 PASS incl. ''every live connection is drawn (1 links / 1 live connections)''; the verifier is non-vacuous (it rejects an export lacking connections[]). AC2 — ci.yml:87-116 defines explorer-build and ci.yml:331,339 fails all-green if it is not success. AC4 — no reference to content/ or *.md exists anywhere in explorer/src or explorer/scripts; the sole data input is sync-export.mjs, which copies exports/knowledge.json. AC3 — NO grounded AI chat exists: explorer/src/components/ contains only accessible-list-view, concept-inspector-view, graph-legend, graph-view, search-filter-bar, with zero citation/grounding/refusal logic. The chat-dependent criteria (AC3, and AC4 as it applies to a chat surface) remain unmet, so the requirement cannot be VERIFIED. This is a genuine implementation gap, not a verification-owed one.'
+  result: 'AC1 PASS, AC2 PASS, AC3 PASS, AC4 PASS. AC1 — `verify-graph-projection.mjs` exits 0 with 10 PASS incl. ''every live connection is drawn (1 links / 1 live connections)''; the verifier is non-vacuous (it rejects an export lacking connections[]). AC2 — ci.yml defines explorer-build and the all-green job fails if it is not success; the grounded-chat verifier is now a step in that job, so AC3 is gate-enforced, not merely present. AC3 — `explorer/scripts/verify-grounded-chat.mjs` bundles the REAL `src/services/grounded-chat.ts` with esbuild and runs it against the REAL export (9 entities / 2 connections): 35 checks PASS. GROUNDED (a corpus answer is grounded and cites records), CITED (every citation names a real export id — entities AND connections — carries source refs, and is a subset of the grounding set; `citationsAreGrounded()` REJECTS a doctored answer citing an id absent from the export), REFUSES (an off-corpus question returns refused with zero citations and no invented content; the empty question refuses rather than throwing), DERIVED-ONLY (comment/literal-stripped source scan of the service and panel finds no content/ or *.md reference; the service issues no fetch of its own). Non-vacuity is proven by two sabotages: disabling the refusal branch yields exactly 3 FAIL; fabricating the connection citation id yields exactly 5 FAIL. AC4 — the chat surface inherits the graph viewer''s rule: no reference to content/ or *.md in explorer/src or explorer/scripts; its sole input is the injected `exports/knowledge.json`. Owner ruling (spec/UNVERIFIED-DECISIONS.md, 2026-10-01) ordered AC3 implemented; the executor implemented and executed the verification and set only this status, per Constraint D.'
 - requirement: REQ-STEMMA-HITL-003
   method: INTEGRATION_TEST
   status: VERIFIED

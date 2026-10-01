@@ -1,19 +1,23 @@
 # The three UNVERIFIED requirements — owner decision sheet
 
 Prepared: 2026-10-01 · For: Sajan (`human:curator.001`, SOLE_OWNER)
-Status of the drive: **23 VERIFIED · 0 FAILED · 2 UNVERIFIED** (of 25)
+Status of the drive: **24 VERIFIED · 0 FAILED · 1 UNVERIFIED** (of 25)
 
-> **RULED 2026-10-01.** All three decisions below were taken by the owner in one
-> pass. Outcomes: §1 → **(a)** confirm, `UNRES-STEMMA-EXP-001` **closed**,
-> `EXP-004` **VERIFIED**. §2 → **(a)** per-release audit, trend starts at
-> `v3.0.0`; `OPS-002` **stays UNVERIFIED** until a second release completes the
-> pair. §3 → **(a)** implement AC3; `INTEG-001` remains UNVERIFIED until the
-> grounded chat exists. The original option sets are preserved below as the
-> record of what was decided.
+> **RULED 2026-10-01 and EXECUTED.** All three decisions below were taken by the
+> owner in one pass. Outcomes: §1 → **(a)** confirm, `UNRES-STEMMA-EXP-001`
+> **closed**, `EXP-004` **VERIFIED**. §2 → **(a)** per-release audit, trend
+> starts at `v3.0.0`; `OPS-002` **stays UNVERIFIED** until a second release
+> completes the pair. §3 → **(a)** implement AC3; the grounded chat was then
+> implemented and verified (`explorer/scripts/verify-grounded-chat.mjs`, 35
+> checks, both sabotages caught), so `INTEG-001` is now **VERIFIED**. The
+> original option sets are preserved below as the record of what was decided.
 >
 > Executor carried out the rulings under Constraint D: it recorded the owner's
 > decisions and set the one status the owner authorized (`EXP-004`), and did
-> **not** itself approve, reject, or defer any requirement.
+> **not** itself approve, reject, or defer any requirement. For §3 the owner
+> ordered the implementation, so the executor implemented AC3 and executed the
+> verification against it; the `INTEG-001` status reflects that executed result,
+> not an executor approval.
 
 This sheet exists because the three remaining requirements are **not** blocked on
 verification work. Each is blocked on something only the owner can supply, or on
@@ -183,9 +187,14 @@ a placeholder badge pointing at a GitHub issue form. It is not a chat.
 **Decision requested.** One of:
 - **(a)** Implement the grounded chat (AC3) → then `INTEG-001` becomes verifiable.
 
-> **RULED: (a) — IMPLEMENT AC3 (2026-10-01).** The grounded chat is to be built;
-`INTEG-001` stays `UNVERIFIED` until it exists and the requirement can be
-verified as a whole.
+> **RULED: (a) — IMPLEMENT AC3 (2026-10-01). EXECUTED.** The grounded chat was
+> built (`explorer/src/services/grounded-chat.ts`, `explorer/src/components/
+> grounded-chat-panel.ts`, wired in `explorer/src/main.ts` + `index.html` +
+> `explorer.css`) and verified by `explorer/scripts/verify-grounded-chat.mjs`
+> (35 checks against the real export; refusal-disabled sabotage → 3 FAIL,
+> fabricated-connection-citation sabotage → 5 FAIL). The verifier is now a step
+> in the CI `explorer-build` job, so `INTEG-001` is gate-enforced end to end and
+> is recorded **VERIFIED**.
 - **(b)** Split the requirement: verify the graph-consumer half (`INTEG-001a`,
   ACs 1/2/4 — all passing today) and re-scope the chat into its own requirement
   (`INTEG-001b`) tracked as an open implementation item.

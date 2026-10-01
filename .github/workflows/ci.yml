@@ -148,6 +148,12 @@ jobs:
       - name: Verify graph projection
         working-directory: explorer
         run: npm run verify
+      - name: Verify grounded chat (INTEG-001 AC3)
+        # The chat must cite real export ids and refuse when ungrounded. Runs
+        # against the export just synced above, so a regression in either
+        # retrieval or citation integrity fails the job rather than shipping.
+        working-directory: explorer
+        run: node scripts/verify-grounded-chat.mjs
       - name: Check clean viewer requirements
         run: |
           grep -q "SphereGeometry(0.45" explorer/src/components/graph-view.ts
