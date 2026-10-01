@@ -519,3 +519,50 @@ fact, and whether anything checks that the two agree.**
 Gate: **364 pytest · verify_all 42 OK / 0 FAIL · docs PASS · state tree 15/15.**
 
 **Work unit complete — session remains ACTIVE.**
+
+## [PROGRESS] 2026-10-01T13:44Z — ran the new protocol's own verification loop on itself
+
+Amendment 1 §A2 defines a terminal verification loop: re-read the record, compare it to
+reality, classify discrepancies, fix, re-verify. Having just written it, the honest thing was
+to **run it** rather than assume the state complied.
+
+**Method.** Enumerated the record's checkable claims and compared each to reality. The
+state-tree guard already covers most of them (structure, naming, INDEX coverage,
+dashboard↔registry counts, INDEX↔registry status, header schema, duplicate ids, links,
+placeholders, tier boundary, commitlint) — so I deliberately checked the claims **outside** that
+coverage.
+
+**Iteration 1 found one real discrepancy — a *reality* error, not a record error.**
+
+`REGISTRY.md` declared the active session's `files_owned` as `state/**`, `AGENTS.md`. The
+session had actually changed **four more files**:
+
+```
+.github/workflows/ci.yml
+.github/workflows/release.yml
+tests/repo/test_promotion_chain.py
+tests/repo/test_state_tree.py
+```
+
+That is not cosmetic. `files_owned` is the ownership claim another agent reads before editing;
+under-declaring means a second agent sees those files as free and can edit them while this
+session is still working in them — the precise conflict the field exists to prevent.
+
+**Fix + guard.** The claim was corrected, and a new guard prevents recurrence:
+`test_active_session_files_owned_covers_what_it_changed` (state tree **16/16**) takes the
+session's `Base commit` from its header, computes `git diff --name-only <base>..HEAD`, and
+requires every changed file to match at least one declared glob. Only ACTIVE rows are checked
+(an ended session's claim is cleared by design). Sabotage-proven: shrinking `files_owned` back
+to the old value turns it red naming exactly those four files.
+
+**Iteration 2: no discrepancies.** `BLOCKERS.md`'s "2 actionable · 2 parked" matches its
+entries, and the PR claim ("30 checks pass · 0 fail") matches `gh pr checks`.
+
+**This is the fourth time this session** that a cross-file invariant nobody was watching was
+the gap. The question that keeps finding them: *what else records this same fact, and does
+anything check the two agree?* Here the two records were "what I said I own" and "what I
+actually touched".
+
+Gate: **365 pytest · verify_all 42 OK / 0 FAIL · docs PASS · state tree 16/16.**
+
+**Work unit complete — session remains ACTIVE.**
