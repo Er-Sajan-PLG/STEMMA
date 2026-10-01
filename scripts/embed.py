@@ -247,9 +247,24 @@ def main():
             f.write(json.dumps(record) + '\n')
     print(f"OK: Wrote {len(embeddings)} embeddings to {output_path} — model {model_id} {model_info.get('dimensions')} dim, content_hash {content_hash}")
 
-    # Write vector store metadata (FAISS placeholder)
+    # Write vector store metadata.
+    #
+    # `type` records the store actually written, NOT a label for the reader the
+    # project aspires to use. It previously said 'faiss' unconditionally, which
+    # described neither branch below: FAISS is absent from the environment and
+    # from the pinned dependencies, and this loop writes plain numpy/json. That
+    # was CONFLICT-STEMMA-EXP-001 — a wrong-kind metadata claim about the derived
+    # layer. Correct under any embedding policy (UNRES-STEMMA-RAG-001), so it is
+    # fixed independently of whether the hash fallback is later sanctioned.
     vs_path = ROOT / args.vector_store
     vs_path.mkdir(parents=True, exist_ok=True)
+    # Determine the store form first so meta.json can describe what was written.
+    try:
+        import numpy as np
+        have_numpy = True
+    except ImportError:
+        have_numpy = False
+    store_type = 'numpy-flat' if have_numpy else 'json-flat'
     meta = {
         'model': written_model,
         'placeholder': bool(args.placeholder),
@@ -258,24 +273,25 @@ def main():
         'entity_count': len(embeddings),
         'created_at': 'deterministic, no wall clock',
         'version': '1.0.0',
-        'type': 'faiss',
+        'type': store_type,
         'index_type': 'flat',
         'metric': 'cosine',
+        # Retained so a reader expecting the historical label can see the change
+        # is deliberate, not a dropped field.
+        'type_note': 'actual store written by scripts/embed.py; "faiss" was a hardcoded label (CONFLICT-STEMMA-EXP-001)',
     }
     (vs_path / 'meta.json').write_text(json.dumps(meta, indent=2), encoding='utf-8')
-    # For demo, also write vectors as numpy if available, else json
-    try:
-        import numpy as np
+    # Write vectors as numpy if available, else json
+    if have_numpy:
         vectors = np.array([e['vector'] for e in embeddings], dtype='float32')
         np.save(vs_path / 'vectors.npy', vectors)
         ids = [e['entity_id'] for e in embeddings]
         (vs_path / 'ids.json').write_text(json.dumps(ids, indent=2), encoding='utf-8')
-        print(f"OK: Wrote vector store to {vs_path} — vectors.npy {vectors.shape}, ids.json")
-    except ImportError:
-        # Fallback: write vectors.json
+        print(f"OK: Wrote vector store to {vs_path} — vectors.npy {vectors.shape}, ids.json (type: {store_type})")
+    else:
         (vs_path / 'vectors.json').write_text(json.dumps([e['vector'] for e in embeddings]), encoding='utf-8')
         (vs_path / 'ids.json').write_text(json.dumps([e['entity_id'] for e in embeddings]), encoding='utf-8')
-        print(f"OK: Wrote vector store to {vs_path} — vectors.json (numpy not available)")
+        print(f"OK: Wrote vector store to {vs_path} — vectors.json (numpy not available, type: {store_type})")
 
     return 0
 

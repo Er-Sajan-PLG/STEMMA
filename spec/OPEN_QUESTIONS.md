@@ -5,6 +5,12 @@ Do not silently close: `RESOLVED` requires the designated authority or an
 authoritative external source. Machine copy: `spec/machine-readable/` conflicts
 + these records are mirrored in `requirements.yaml`-adjacent tooling only as IDs.
 
+> **Open records awaiting an owner ruling:** see **`spec/UNRES-DECISIONS.md`** —
+> a one-pass decision sheet covering every `OPEN`/divergent `UNRES-` record, in the
+> same shape as `spec/UNVERIFIED-DECISIONS.md`. It records the *state* of each
+> record and the options; it changes no status. Closed by owner ruling 2026-10-01:
+> `CORE-002`, `GATE-001`, `HITL-002` (and `EXP-001`, earlier the same day).
+
 ---
 
 ## UNRES-STEMMA-CORE-001 — Organization / IRI base for published IRIs — **RESOLVED (published-PID portion closed 2026-10-01)**

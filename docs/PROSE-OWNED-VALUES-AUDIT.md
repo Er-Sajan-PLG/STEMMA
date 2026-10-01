@@ -6,6 +6,14 @@ trend starts at **`v3.0.0`** as its first data point. This file is that
 instrument's record. `REQ-STEMMA-OPS-002` therefore **remains `UNVERIFIED`** —
 correctly — until a second release completes the pair.
 
+> **Deferral ruling (owner, 2026-10-01, second pass).** The owner directed that
+> `OPS-002` be **parked to release time**: work on it resumes when the next
+> release lands, because that is the earliest moment a second data point can
+> exist. No further action is taken on `OPS-002` before then. The instrument and
+> its first point are complete and committed; nothing about this requirement is
+> blocking, and it is explicitly out of scope for the current drive, which turns
+> to the open `UNRES-` records.
+
 ## Instrument
 
 `scripts/audit_prose_owned_values.py` (offline, read-only; reads the local git

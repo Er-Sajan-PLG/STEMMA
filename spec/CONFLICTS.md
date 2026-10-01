@@ -15,7 +15,25 @@ silently resolved. Machine copy: `spec/machine-readable/conflicts.yaml`.
 - **Observed behavior (INFERENCE — not an authoritative resolution):** the JSON fallback is intentional demo behavior; the `faiss` label is aspirational/default-written regardless of actual backend.
 - **Authority level required:** REPOSITORY_LOCAL (owner decides: honest `type` field vs FAISS-only store).
 - **Impact:** LOW — consumer guidance may mislead; meta.json consumers may branch on a wrong type.
-- **Resolution status:** OPEN · **Resolution authority:** Sajan · **Decision reference:** pending.
+- **Resolution status:** **RESOLVED — truthfulness half fixed 2026-10-01; policy half open.**
+
+  The conflict had two halves that were being treated as one:
+
+  1. **The metadata was untrue** — `meta.json` asserted `type: faiss` while no FAISS
+     index existed. This needed no policy ruling: writing the *actual* store type is
+     correct under every possible policy. **Fixed** (`scripts/embed.py` now records
+     `numpy-flat` / `json-flat` per the store it writes, with a `type_note`; the
+     living docs that repeated the claim were synced). A guard,
+     `tests/repo/test_vector_store_type_truthfulness.py`, runs the real writer and
+     asserts the label matches the file on disk; reverting the writer to the
+     hardcoded label turns it red (2 failed), restoring gives 3 passed.
+  2. **Whether the hash fallback is *acceptable*** — a genuine product/spec
+     decision. **Still open**, tracked as **`UNRES-STEMMA-RAG-001`**.
+
+  The mislabel is therefore no longer a conflict; what remains is a policy
+  question, which lives in the `UNRES-` record rather than here.
+- **Decision reference:** EVID-STEMMA-EXP-019 (label fix + guard); policy half →
+  `spec/OPEN_QUESTIONS.md` § `UNRES-STEMMA-RAG-001`.
 
 ## CONFLICT-STEMMA-SCH-001 — "related_to forbidden" vs registry adopting `related_to` (RESOLVED — scope rule)
 

@@ -73,6 +73,7 @@ artifacts:
   - {path: spec/BASELINE.md, cat: A2, tier: 2, kind: CANONICAL, sources: [spec/]}
   - {path: spec/SPECIFICATION_GAP_ANALYSIS.md, cat: A2, tier: 2, kind: CANONICAL, sources: [spec/]}
   - {path: spec/OPEN_QUESTIONS.md, cat: A2, tier: 2, kind: CANONICAL, sources: [spec/machine-readable/open_questions.yaml]}
+  - {path: spec/UNRES-DECISIONS.md, cat: A14, tier: 3, kind: CANONICAL, sources: [spec/machine-readable/open_questions.yaml, spec/OPEN_QUESTIONS.md]}
   - {path: spec/CONFLICTS.md, cat: A2, tier: 2, kind: CANONICAL, sources: [spec/machine-readable/conflicts.yaml]}
   - {path: spec/ASSUMPTIONS.md, cat: A2, tier: 2, kind: CANONICAL, sources: []}
   - {path: spec/AS_BUILT.md, cat: A2, tier: 2, kind: CANONICAL, sources: [spec/machine-readable/evidence.yaml]}
