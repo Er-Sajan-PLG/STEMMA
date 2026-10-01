@@ -1,0 +1,85 @@
+# DASHBOARD — STEMMA
+
+> **Current state only.** What IS, not what happened. History lives in `sessions/`.
+
+**Last Reconciled:** 2026-10-01T11:23Z
+**Reconciled by:** `A7F3`
+**Protocol:** MACP v1.0 (`state/PROTOCOL.md`)
+
+> **Staleness policy (protocol §6 step 3):** `< 24 h` → trustworthy · `24–48 h` → verify key
+> claims before relying on them · `> 48 h` → **STALE**, you must reconcile before working.
+
+---
+
+## Repository
+
+| | |
+|---|---|
+| Repo | `STEMORG2026/STEMMA` (`Er-Sajan-PLG/STEMMA` is a pure redirect) |
+| Branch | `docs/owner-rulings-unverified` |
+| HEAD | `08cecb3` — `fix(exports): write gate-compared artifacts atomically` |
+| Version | `VERSION` = **3.0.0** · schema `1.3.0` · export `2.2.0` · relation registry `1.0.0` |
+| Owner | Sajan (`human:curator.001`, `SOLE_OWNER`) |
+
+## Gate Status — ALL GREEN
+
+| Gate | Result |
+|---|---|
+| `pytest tests/ -q` | **360 passed** |
+| `scripts/verify_all.py` | **42 OK / 0 FAIL** (exit 0) |
+| `scripts/docs.py check` | **PASS** |
+| `spec/machine-readable/validate_recovery.py` | **PASS** — 9/9 checks |
+| `scripts/verify_strong.py --quick` | exit 0 |
+| `tests/repo/test_state_tree.py` | **PASS — 11/11** (structure, naming, reconciliation stamp, INDEX coverage, dashboard↔registry drift) |
+
+> Running the suite leaves the working tree **clean** — `exports/` and `reports/` included.
+> That is now guaranteed rather than incidental: `test_promotion_chain.py` mutates real
+> canonical records, so it snapshots and restores the derived artifacts it causes to be
+> regenerated (DEBT-005).
+
+> Both `verify_all.py` and `pytest` are green under **both** `/usr/bin/python3` and
+> `.venv/bin/python`. The chain routes its one pytest-dependent step to whichever
+> interpreter owns pytest, and skips it with a visible line if none does.
+
+## Verification State
+
+| Metric | Value |
+|---|---|
+| Requirements | **24 VERIFIED · 0 FAILED · 1 UNVERIFIED** of 25 |
+| Unverified | `REQ-STEMMA-OPS-002` — **parked to release time** by owner ruling |
+| Evidence records | **88** |
+| Interfaces | 2 · Decision records 1 · Conflicts 2 |
+| `UNRES` records | **9 CLOSED · 1 DEFERRED · 1 OPEN** of 11 |
+| — open | `UNRES-STEMMA-CORE-003` — **deliberately left OPEN** by owner directive |
+| — deferred | `UNRES-STEMMA-SCH-001` (`revisit_trigger` recorded) |
+| Corpus | **1 canonical** (`stemma:phys.metre`, human-written + human-reviewed) / **8 drafts** |
+
+## Open Work
+
+| Item | State |
+|---|---|
+| **PR #66** — *Execute owner rulings on the 7 open UNRES records + unstick the pre-push gate* | **OPEN · MERGEABLE · CLEAN · 30 checks pass · 0 fail** — awaiting owner merge (BLK-001) |
+| Publication gate | **OPEN** — `docs/decisions/r6-identifier-base.md` = `stemma-urn-only`; w3id deferred, not rejected |
+
+## Nothing Is Blocked
+
+`BLOCKERS.md` has no items requiring human action beyond the PR #66 merge. See
+`BLOCKERS.md` for the one owner-action item.
+
+## Next Actions
+
+1. **Owner:** merge PR #66 (all checks green, no conflicts) — BLK-001.
+2. **Then:** the open `UNRES-STEMMA-CORE-003` and `REQ-STEMMA-OPS-002` both resolve at
+   **release time** — neither can progress before a release lands. Do not start them.
+3. **Candidate work with no blocker:** the four open items in `DEBT.md`. DEBT-001 (stale
+   `PROGRESS.md` block) and DEBT-002 (retired repo path in live docs) are the most
+   user-visible and are pure documentation fixes. DEBT-005 is **resolved**.
+
+## Environment Facts (verified by inspection, not assumed)
+
+| | |
+|---|---|
+| Filesystem | `/home/sajan/Projects` is a **persistent** ext4 volume on physical NVMe (not overlayfs, not a container) |
+| Owner signing key | GPG `4705983D407DEB9C` (rsa4096, no expiry) in `~/.gnupg`, backed up in Bitwarden + `~/stemma-key-backup/` |
+| Python | system `3.14.7`; `.venv` present and owns `pytest` |
+| `numpy` | present in `/usr/bin/python3`, **absent** in `.venv` — relevant to the `embed.py` store-type path |

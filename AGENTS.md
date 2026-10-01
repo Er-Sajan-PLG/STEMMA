@@ -297,13 +297,67 @@ Prose rules → Schemas → Validation → Tests → CI enforcement
 
 ---
 
+## Multi-Agent Coordination (MACP)
+
+This repository implements the **Multi-Agent Coordination Protocol**. The canonical
+protocol text is [`state/PROTOCOL.md`](state/PROTOCOL.md); the coordination state lives in
+[`state/`](state/INDEX.md). Read `state/DASHBOARD.md` and `state/REGISTRY.md` before
+touching the working tree.
+
+**What `state/` is:** coordination memory — current state, who owns what, coordination
+decisions, debt, blockers. It exists so an agent whose context was compacted can recover
+the project's state from the repository instead of from chat history.
+
+**What `state/` is NOT:** a source of specification truth. The boundary is binding:
+
+| Tier | Files | Authority |
+|---|---|---|
+| **1 — coordination** | everything under `state/` | Agents may write freely. |
+| **2 — specification** | `content/`, `connections/`, `sources/`, `spec/`, and **every requirement status** | **Owner only** (`human:curator.001`). |
+
+`state/DECISIONS.md` records *coordination* decisions and must never restate, replace, or
+paraphrase a specification ruling — where a ruling motivates a coordination decision, link
+to it. A requirement status, a `UNRES-` closure, or an `INFERENCE → FACT` promotion is
+recorded **only** in `spec/`, by the owner, per
+[`spec/ROLES_AND_AUTHORITY.md`](spec/ROLES_AND_AUTHORITY.md) **Constraint D**. `state/` is
+never cited as evidence in `spec/`.
+
+The boundary and its reasoning are recorded in
+[`state/conflicts/CONFLICT-001-state-tier2-boundary.md`](state/conflicts/CONFLICT-001-state-tier2-boundary.md).
+
+**Conventions you must follow** (all from `state/PROTOCOL.md`):
+
+- Agent id: **4 alphanumeric characters** (e.g. `A7F3`). Register in `state/REGISTRY.md`.
+- Session file: `state/sessions/YYYYMMDD-HHMM-<AGENT-ID>-<slug>.md`, append-only.
+- Plan file: `state/plans/agent-<AGENT-ID>-<slug>.md` — **deleted** when complete.
+- **Write isolation:** while working, write only to your own session file. `DASHBOARD.md`,
+  `REGISTRY.md`, and `INDEX.md` are written at registration and at shutdown, not during work.
+- Log with **event tags** (`[START]`, `[DISCOVERY]`, `[DECISION]`, `[DEBT]`, `[BLOCKER]`, …)
+  so sessions stay greppable via `state/INDEX.md`.
+- Check `DASHBOARD.md`'s **Last Reconciled** stamp: `< 24 h` trust it · `24–48 h` verify ·
+  `> 48 h` reconcile before working.
+
+**Always end clean.** At shutdown: finish the session log, update `DASHBOARD.md` (including
+its Last Reconciled stamp), add your row to `state/INDEX.md`, release `files_owned` in
+`state/REGISTRY.md`, delete your plan if complete, and commit the state changes. Never leave
+uncommitted changes.
+
+`tests/repo/test_state_tree.py` enforces all of the above mechanically, and — most
+importantly — that `state/DASHBOARD.md`'s counts still equal the live registries. A
+dashboard that disagrees with `spec/` is worse than no dashboard.
+
+---
+
 ## Session Protocol
 
 1. Read `AGENTS.md`, `docs/ARCHITECTURE-V2.md`, `docs/GOVERNANCE.md`
-2. Classify work: NOW / SEAM / LATER / OUT
-3. State short plan before changing anything
-4. Run `python3 scripts/validate.py`
-5. Finish with summary and flag human decisions
+2. Read `state/DASHBOARD.md`, `state/REGISTRY.md`, `state/BLOCKERS.md`, then `state/INDEX.md`
+   to navigate further (MACP §6)
+3. Classify work: NOW / SEAM / LATER / OUT
+4. State short plan before changing anything
+5. Run `python3 scripts/validate.py`
+6. Finish with summary and flag human decisions
+7. Close the documentation loop (`docs.py impact → sync → check`) and end clean per MACP §3
 
 ---
 

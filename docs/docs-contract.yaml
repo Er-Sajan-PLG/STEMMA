@@ -95,6 +95,15 @@ artifacts:
   - {path: .github/PULL_REQUEST_TEMPLATE.md, cat: A11, tier: 1, kind: CANONICAL, sources: [scripts/verify_all.py, scripts/docs.py]}
   - {path: .github/ISSUE_TEMPLATE/bug_report.md, cat: A11, tier: 1, kind: CANONICAL, sources: []}
   - {path: .github/ISSUE_TEMPLATE/feature_request.md, cat: A11, tier: 1, kind: CANONICAL, sources: []}
+  # ---- state/ (MACP agent coordination) ----
+  # Only the protocol text is a *document*. The volatile state files (DASHBOARD.md,
+  # REGISTRY.md, INDEX.md, ARCHITECTURE.md, DECISIONS.md, DEBT.md, BLOCKERS.md and
+  # everything under sessions/ plans/ conflicts/ archive/) change every session by
+  # design, so classifying them would either create permanent drift or force
+  # meaningless churn. Left unclassified deliberately; the exception is recorded in
+  # state/DECISIONS.md DEC-003, and state/PROTOCOL.md §"Tier System" defines the
+  # boundary between coordination state (agent-owned) and specification (owner-only).
+  - {path: state/PROTOCOL.md, cat: A14, tier: 3, kind: CANONICAL, sources: [state/]}
 generators:
   readme-status-block:
     write: "python3 scripts/status_truth.py --write"

@@ -1,0 +1,251 @@
+#!/usr/bin/env python3
+"""MACP state tree — structural invariants (state/PROTOCOL.md §7 completion criteria).
+
+The `state/` directory is the shared memory every agent reads before touching the
+working tree. Its failure mode is not a crash: it is a file that *looks* like state
+and is wrong. A confidently incorrect DASHBOARD is the most expensive artefact in
+the protocol, because every later session trusts it and nothing downstream re-checks
+it against reality.
+
+This file was **rewritten** after the authoritative protocol text replaced an earlier
+truncated copy. The first version encoded the agent's own assumptions about naming —
+a date-only session filename, an agent id like `coding-agent.001`, and `INDEX.md` as
+a navigation file. The protocol specifies otherwise (§2, §6), so these tests now
+enforce the specification rather than the guess.
+
+What is asserted, and why each one earns its place:
+
+* the §2 structure exists in full — a missing file invites an agent to invent a
+  differently-named one, which is how two sources of truth start;
+* session filenames follow `YYYYMMDD-HHMM-<AGENT-ID>-<slug>.md` and agent ids are 4
+  alphanumeric characters, so the log stays sortable and greppable;
+* `DASHBOARD.md` carries a parseable **Last Reconciled** timestamp — without it the
+  §6 staleness policy (24 h / 48 h) cannot be applied at all;
+* every session file appears in `INDEX.md`, or targeted history silently misses it;
+* no placeholder text — a file containing a bare `TODO` is worse than an absent file;
+* every relative link resolves, because a broken link in `INDEX.md` is how an agent
+  concludes the state is untrustworthy;
+* **DASHBOARD.md's counts equal the live registries** — the guard against the exact
+  drift MACP exists to prevent. It is not brittle in the way a hardcoded count would
+  be, because it compares against the registries rather than a literal: the numbers
+  may change freely, they just may not disagree.
+"""
+from __future__ import annotations
+
+import pathlib
+import re
+import sys
+
+import yaml
+
+ROOT = pathlib.Path(__file__).resolve().parents[2]
+STATE = ROOT / "state"
+
+# state/PROTOCOL.md §2 — the structure is the contract. Do not invent extra dirs.
+REQUIRED_FILES = (
+    "PROTOCOL.md",
+    "DASHBOARD.md",
+    "REGISTRY.md",
+    "INDEX.md",
+    "ARCHITECTURE.md",
+    "DECISIONS.md",
+    "DEBT.md",
+    "BLOCKERS.md",
+)
+REQUIRED_DIRS = ("sessions", "plans", "conflicts", "archive")
+
+# Protocol §6 step 8 / §Shutdown step 3.
+SESSION_NAME_RE = re.compile(r"^(\d{8})-(\d{4})-([A-Za-z0-9]{4})-([a-z0-9][a-z0-9-]*)\.md$")
+AGENT_ID_RE = re.compile(r"^[A-Za-z0-9]{4}$")
+PLAN_NAME_RE = re.compile(r"^agent-([A-Za-z0-9]{4})-[a-z0-9][a-z0-9-]*\.md$")
+
+# A placeholder is a *marker*, not a mention. Prose that explains the rule ("no
+# placeholder text", "flags `TODO`/`TBD`") must not be flagged, or the check punishes
+# the very documentation that defines it. So a placeholder is recognised only when it
+# is the *first meaningful token on its line* — which is what an unfinished stub
+# actually looks like. Anything mid-sentence is discussion, not a hole.
+PLACEHOLDER_RE = re.compile(
+    r"^[\s>*+\-#]*(?:TODO|TBD|FIXME|XXX|<PLACEHOLDER>|lorem ipsum)\b",
+    re.IGNORECASE | re.MULTILINE,
+)
+
+
+def _state_markdown() -> list[pathlib.Path]:
+    return sorted(STATE.rglob("*.md"))
+
+
+def test_required_structure_exists() -> None:
+    missing_files = [f for f in REQUIRED_FILES if not (STATE / f).is_file()]
+    missing_dirs = [d for d in REQUIRED_DIRS if not (STATE / d).is_dir()]
+    assert not missing_files, f"missing required state files: {missing_files}"
+    assert not missing_dirs, f"missing required state directories: {missing_dirs}"
+
+
+def test_no_placeholder_text() -> None:
+    offenders: dict[str, list[str]] = {}
+    for path in _state_markdown():
+        hits = PLACEHOLDER_RE.findall(path.read_text(encoding="utf-8"))
+        if hits:
+            offenders[str(path.relative_to(ROOT))] = hits
+    assert not offenders, (
+        "placeholder marker at the start of a line in state files — write UNKNOWN and "
+        f"list it in DEBT.md instead: {offenders}"
+    )
+
+
+def test_every_relative_link_resolves() -> None:
+    """A broken link in INDEX.md is how an agent decides the state is untrustworthy."""
+    link_re = re.compile(r"\[[^\]]*\]\(([^)]+)\)")
+    broken: dict[str, list[str]] = {}
+    for path in _state_markdown():
+        text = path.read_text(encoding="utf-8")
+        for target in link_re.findall(text):
+            if target.startswith(("http://", "https://", "mailto:", "#")):
+                continue
+            clean = target.split("#", 1)[0].strip()
+            if not clean:
+                continue
+            if not (path.parent / clean).resolve().exists():
+                broken.setdefault(str(path.relative_to(ROOT)), []).append(target)
+    assert not broken, f"broken relative links in state/: {broken}"
+
+
+# ── Naming conventions (protocol §2, §6 step 8) ──────────────────────────────
+
+def test_session_filenames_follow_the_protocol_convention() -> None:
+    sessions = sorted(p for p in (STATE / "sessions").iterdir() if p.is_file()
+                      and p.name != ".gitkeep")
+    assert sessions, "no session files exist — the protocol requires a log per session"
+    bad = [p.name for p in sessions if not SESSION_NAME_RE.match(p.name)]
+    assert not bad, (
+        "session files must be named YYYYMMDD-HHMM-<AGENT-ID>-<slug>.md "
+        f"(4-alphanumeric agent id): {bad}"
+    )
+
+
+def test_registry_agent_ids_are_four_alphanumeric_characters() -> None:
+    """Protocol §6 step 8: 'Choose an agent ID: 4 alphanumeric characters.'"""
+    registry = (STATE / "REGISTRY.md").read_text(encoding="utf-8")
+    # First column of a data row in the Active Agents table.
+    ids = re.findall(r"^\|\s*`([^`]+)`\s*\|\s*`\d{8}-\d{4}-", registry, re.MULTILINE)
+    assert ids, "REGISTRY.md has no agent rows in the expected shape"
+    bad = [i for i in ids if not AGENT_ID_RE.match(i)]
+    assert not bad, f"agent ids must be 4 alphanumeric characters: {bad}"
+
+
+def test_plan_filenames_follow_the_protocol_convention() -> None:
+    plans = sorted(p for p in (STATE / "plans").iterdir() if p.is_file()
+                   and p.name != ".gitkeep")
+    bad = [p.name for p in plans if not PLAN_NAME_RE.match(p.name)]
+    assert not bad, f"plan files must be named agent-<AGENT-ID>-<slug>.md: {bad}"
+
+
+def test_every_session_file_has_an_index_row() -> None:
+    """Protocol §Shutdown step 3. A session missing from INDEX.md is invisible history."""
+    index = (STATE / "INDEX.md").read_text(encoding="utf-8")
+    sessions = sorted(p.stem for p in (STATE / "sessions").iterdir()
+                      if p.is_file() and p.name != ".gitkeep")
+    missing = [s for s in sessions if s not in index]
+    assert not missing, f"session files with no INDEX.md row: {missing}"
+
+
+def test_dashboard_has_a_parseable_last_reconciled_timestamp() -> None:
+    """Protocol §6 step 3: without this the 24 h / 48 h staleness policy is unenforceable."""
+    text = (STATE / "DASHBOARD.md").read_text(encoding="utf-8")
+    m = re.search(r"\*\*Last Reconciled:\*\*\s*(\S+)", text)
+    assert m, "DASHBOARD.md has no '**Last Reconciled:** <timestamp>' line (protocol §6 step 3)"
+    stamp = m.group(1)
+    assert re.match(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(:\d{2})?Z?$", stamp), (
+        f"Last Reconciled must be an ISO-8601 UTC timestamp, got {stamp!r}"
+    )
+
+
+# ── The guard that matters: DASHBOARD must not drift from the registries ─────
+
+def _dashboard_counts() -> dict[str, tuple[int, ...]]:
+    text = (STATE / "DASHBOARD.md").read_text(encoding="utf-8")
+    req = re.search(r"\*\*(\d+) VERIFIED · (\d+) FAILED · (\d+) UNVERIFIED\*\* of (\d+)", text)
+    unres = re.search(r"\*\*(\d+) CLOSED · (\d+) DEFERRED · (\d+) OPEN\*\* of (\d+)", text)
+    assert req, (
+        "DASHBOARD.md no longer states requirements as "
+        "'**N VERIFIED · N FAILED · N UNVERIFIED** of N' — keep the machine-readable shape"
+    )
+    assert unres, (
+        "DASHBOARD.md no longer states UNRES as "
+        "'**N CLOSED · N DEFERRED · N OPEN** of N' — keep the machine-readable shape"
+    )
+    return {
+        "requirements": tuple(int(g) for g in req.groups()),
+        "unres": tuple(int(g) for g in unres.groups()),
+    }
+
+
+def test_dashboard_requirement_counts_match_the_registry() -> None:
+    """MACP Rule 3: DASHBOARD shows what IS. If it disagrees with the registry, it lies."""
+    data = yaml.safe_load((ROOT / "spec/machine-readable/verification.yaml").read_text(encoding="utf-8"))
+    records = data["verification_records"]
+    verified = sum(1 for r in records if r["status"] == "VERIFIED")
+    failed = sum(1 for r in records if r["status"] == "FAILED")
+    unverified = sum(1 for r in records if r["status"] not in ("VERIFIED", "FAILED"))
+
+    stated = _dashboard_counts()["requirements"]
+    expected = (verified, failed, unverified, len(records))
+    assert stated == expected, (
+        f"DASHBOARD.md says VERIFIED/FAILED/UNVERIFIED/total = {stated} but "
+        f"spec/machine-readable/verification.yaml says {expected}"
+    )
+
+
+def test_dashboard_unres_counts_match_the_registry() -> None:
+    data = yaml.safe_load((ROOT / "spec/machine-readable/open_questions.yaml").read_text(encoding="utf-8"))
+    questions = data["open_questions"]
+    closed = sum(1 for q in questions if q["status"] == "CLOSED")
+    deferred = sum(1 for q in questions if q["status"] == "DEFERRED")
+    open_ = sum(1 for q in questions if q["status"] == "OPEN")
+
+    stated = _dashboard_counts()["unres"]
+    expected = (closed, deferred, open_, len(questions))
+    assert stated == expected, (
+        f"DASHBOARD.md says CLOSED/DEFERRED/OPEN/total = {stated} but "
+        f"spec/machine-readable/open_questions.yaml says {expected}"
+    )
+
+
+def test_tier_boundary_stays_documented() -> None:
+    """CONFLICT-001: state/ must never read as a source of specification rulings.
+
+    DECISIONS.md is where coordination decisions live; it must point at spec/ rather
+    than restating a ruling. This asserts the boundary is documented, so a future
+    agent that reads only state/ still learns that Tier 2 is not theirs.
+    """
+    decisions = (STATE / "DECISIONS.md").read_text(encoding="utf-8")
+    protocol = (STATE / "PROTOCOL.md").read_text(encoding="utf-8")
+    for name, text in (("DECISIONS.md", decisions), ("PROTOCOL.md", protocol)):
+        assert "Constraint D" in text, f"{name} no longer names the owner's authority constraint"
+        assert "Tier 2" in text, f"{name} no longer documents the Tier 1/Tier 2 boundary"
+
+
+if __name__ == "__main__":  # self-hosting runner, matching tests/repo/test_gate_fail_closed.py
+    checks = [
+        test_required_structure_exists,
+        test_no_placeholder_text,
+        test_every_relative_link_resolves,
+        test_session_filenames_follow_the_protocol_convention,
+        test_registry_agent_ids_are_four_alphanumeric_characters,
+        test_plan_filenames_follow_the_protocol_convention,
+        test_every_session_file_has_an_index_row,
+        test_dashboard_has_a_parseable_last_reconciled_timestamp,
+        test_dashboard_requirement_counts_match_the_registry,
+        test_dashboard_unres_counts_match_the_registry,
+        test_tier_boundary_stays_documented,
+    ]
+    failures = 0
+    for fn in checks:
+        try:
+            fn()
+            print(f"PASS: {fn.__name__}")
+        except Exception as exc:  # noqa: BLE001
+            failures += 1
+            print(f"FAIL: {fn.__name__} — {exc}")
+    print(f"{'FAIL' if failures else 'PASS'}: state tree ({len(checks) - failures}/{len(checks)})")
+    sys.exit(1 if failures else 0)
