@@ -566,3 +566,42 @@ actually touched".
 Gate: **365 pytest · verify_all 42 OK / 0 FAIL · docs PASS · state tree 16/16.**
 
 **Work unit complete — session remains ACTIVE.**
+
+## [PROGRESS] 2026-10-01T13:50Z — audited A4 compliance; the table itself had a gap
+
+A4 is the amendment's table of *obligations* — the rule most likely to be quietly ignored, so it
+was worth auditing whether this session actually complied rather than assuming it.
+
+**Method.** Enumerated the events from `git log <base>..HEAD` and checked each against A4's
+required files.
+
+**Compliant:**
+
+| Event | A4 requires | Actual |
+|---|---|---|
+| CI/CD configuration changed (`52c564e`) | `ARCHITECTURE.md`, session | ✅ ARCHITECTURE.md documents the unfiltered freshness diff (the DEBT-006 caveat) |
+| Test suite restructured (guards added) | `ARCHITECTURE.md`, session | ✅ ARCHITECTURE.md names the new guard suites |
+| Defects found (DEBT-006, DEBT-007) | `DEBT.md`, session | ✅ |
+| A decision created (DEC-007, DEC-008) | `DECISIONS.md`, session | ✅ |
+
+**One real gap — in the table, not in the work.** A4 had **no row covering a change to the
+protocol itself**, even though this session amended it. A4's own meta-rule covers exactly this:
+*"When an event occurs that no row covers, add a row as part of the shutdown."* Applied — the
+table now has a row for "this protocol or `AGENTS.md` changes → `DECISIONS.md`, `AGENTS.md`
+(if the operating instructions changed), session".
+
+**And a "known gap" manifested.** The amendment's own backlog listed **protocol version drift**
+as unaddressed. It then happened: this session **began under v1.0 and ended under v1.1**. Rather
+than unilaterally adding a rule for it — the review explicitly deferred that batch — the
+evidence is recorded under the gap so the next batch has data. Two questions it leaves open:
+whether a mid-session amendment obliges a re-read of the affected sections, and whether the
+session file must record that it spanned two versions.
+
+**Not guarded, deliberately.** A4 compliance is not mechanically checkable — classifying an
+"event" is judgement, not a computation. That is precisely why A7 (machine-checked drift) is
+deferred: a checker here would encode guesses. The audit was manual and should stay manual
+until the residual failures are known.
+
+Gate: **365 pytest · verify_all 42 OK / 0 FAIL · docs PASS · state tree 16/16.**
+
+**Work unit complete — session remains ACTIVE.**
