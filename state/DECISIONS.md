@@ -224,3 +224,58 @@ real boundary, not a pause.
 - This is an explicit owner override of the protocol, which MACP permits ("If any rule here
   conflicts with other instructions, this protocol wins **unless the user explicitly
   overrides it**"). No amendment to the protocol text is needed; the override is recorded here.
+
+---
+
+## DEC-008 — MACP Amendment 1 (protocol v1.1) incorporated
+
+**Date:** 2026-10-01
+**Decided by:** owner — supplied a review of proposals P1–P7, accepting six of seven with
+refinements
+**Supersedes:** nothing; additive. Where Amendment 1 disagrees with v1.0, Amendment 1 wins.
+
+**Decision.** `state/PROTOCOL.md` is now **v1.1**: the owner-supplied v1.0 text plus
+**Amendment 1** (sections A1–A7), appended. v1.0's sections are left byte-for-byte as
+supplied — amendments are additive so the delta stays reviewable, matching the protocol's own
+Rule 4 (supersede, never edit).
+
+**What was adopted.**
+
+| Amendment | Subject | Status |
+|---|---|---|
+| A1 | Shutdown Step 0 — stop working first; abort-and-restart; 3-restart cap; "user satisfaction is not a completion signal" | adopted with refinements |
+| A2 | Terminal verification loop after shutdown; classify record-error vs reality-error; 3-iteration cap; non-convergence ⇒ `PARTIAL`/`FAILED`, never `COMPLETED` | adopted with refinements |
+| A3 | `COMPLETED → ACTIVE` re-open transition, with a decision rule for re-open vs new session | adopted with refinements |
+| A4 | Event-driven state-file ownership table + "the table is incomplete by design" meta-rule | adopted with refinements |
+| A5 | Reproducible claims — **a principle, not a ban** | adopted as revised |
+| A6 | Record verification in §3 + a required session-file header schema | adopted with schema |
+| A7 | Machine-checked drift | **deferred** |
+
+**Why A5 is a principle rather than a ban.** The proposal as originally framed would have
+banned counts outright. A ban produces *protocol-compliant mush*: agents stop writing anything
+concrete to avoid violating it, and the record becomes technically valid and informationally
+dead. The adopted form is the underlying principle — every claim must be a durable historical
+fact **or** a current-state claim paired with the command and timestamp that reproduces it —
+with counts permitted as deltas and forbidden only as unverified current-state claims.
+
+**Why A7 is deferred.** The sequencing argument is accepted: discipline fixes precede
+mechanical ones, and tooling that enforces undisciplined behaviour produces compliant-looking
+rot. A checker should encode *observed residual failures*, not guesses. Constraints recorded
+for whenever it is implemented: a **completeness** checker (not correctness, which is not
+mechanically decidable), and pre-commit hooks that **warn, not block**.
+
+**Consequences.**
+- The session-file header schema is now **mechanically enforced**:
+  `tests/repo/test_state_tree.py::test_session_headers_match_the_schema_and_registry` requires
+  Agent / Session ID / Started / Status / Branch / Base commit, checks the filename matches the
+  Session ID, and checks the header Status matches `REGISTRY.md`.
+- That guard found a real inconsistency the moment it was written: the in-flight session's
+  header still said `Status: ended` while REGISTRY said `active`.
+- `Base commit` was **backfilled** into the three existing session files. The values were
+  derived from commit timestamps (the commit that was HEAD at each session's start), not
+  guessed: `08cecb3`, `082c2c4`, `d68d582`. Backfilling a newly-required metadata field is a
+  schema migration, not an edit to a session's log content — noted here so it is not mistaken
+  for a Rule 2 violation.
+- The amendment's "Known gaps" section carries four unaddressed failure modes forward rather
+  than losing them: context-window pressure, user-induced protocol violation, protocol version
+  drift, and the "boring update" skip.

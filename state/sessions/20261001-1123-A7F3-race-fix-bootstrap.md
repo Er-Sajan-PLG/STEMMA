@@ -5,6 +5,7 @@
 **Started:** 2026-10-01T11:23Z
 **Status:** ended
 **Branch:** `docs/owner-rulings-unverified`
+**Base commit:** `08cecb3`  <!-- A6 schema, backfilled 2026-10-01 -->
 **Task:** (1) fix the export read/write race; (2) adopt MACP and bootstrap `state/`.
 **Files owned:** `state/**`, `scripts/atomic_write.py`, `tests/repo/test_atomic_artifact_writes.py`, `tests/repo/test_state_tree.py`, `AGENTS.md`, `docs/docs-contract.yaml`
 

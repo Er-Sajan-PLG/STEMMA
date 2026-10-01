@@ -3,8 +3,9 @@
 **Agent:** `A7F3`
 **Session ID:** `20261001-1215-A7F3-cold-start-handoff`
 **Started:** 2026-10-01T12:15Z
-**Status:** ended
+**Status:** active
 **Branch:** `docs/owner-rulings-unverified`
+**Base commit:** `d68d582`  <!-- A6 schema, backfilled 2026-10-01 -->
 **Task:** Verify that a *cold* agent (new session, no context) can continue from `state/`, and fix the cold-start gaps the verification exposed.
 **Files owned:** `state/ARCHITECTURE.md`, `AGENTS.md`
 
@@ -375,5 +376,56 @@ directories and **0** MACP mentions in `AGENTS.md`. So everything below exists o
 happened was in the pair nobody was watching. Cross-file invariants are only as good as the
 pair you enumerate — and the way to find the missing pair is to ask "what else records this
 same fact?" (Here: session status is recorded twice.)
+
+**Work unit complete — session remains ACTIVE.**
+
+## [DECISION] 2026-10-01T13:04Z — MACP Amendment 1 incorporated (protocol v1.1)
+
+Owner supplied a review of proposals P1–P7 and asked for the protocol change. The review
+accepted six of seven **with refinements**, so the refinements are the adopted text — not
+commentary on it.
+
+**How it was applied: additively.** `state/PROTOCOL.md` is now **v1.1** = the v1.0 text
+byte-for-byte, plus **Amendment 1** (A1–A7) appended. Editing v1.0's sections in place would
+have destroyed the ability to review the delta, and would contradict the protocol's own Rule 4
+(supersede, never edit). Recorded as `DEC-008`.
+
+**Adopted:** A1 stop-work-first shutdown · A2 terminal verification loop · A3 re-open
+transition · A4 event-driven ownership table · A5 reproducible-claims **principle** (revised
+from a ban) · A6 record verification + session-header schema. **Deferred:** A7 machine-checked
+drift, per the review's own sequencing argument.
+
+**Two judgement calls worth flagging:**
+
+1. **A5 was adopted as a principle, not a ban.** The original framing would have banned counts
+   outright. That produces *protocol-compliant mush* — agents stop writing anything concrete to
+   avoid violating it, and the record becomes technically valid and informationally dead. The
+   adopted form permits counts as deltas and forbids them only as unverified current-state
+   claims.
+2. **`Base commit` was backfilled** into the three existing session files. The values were
+   **derived from commit timestamps** (which commit was HEAD at each session's start), not
+   guessed: `08cecb3`, `082c2c4`, `d68d582`. Backfilling a newly-required metadata field is a
+   schema migration, not an edit to log content — noted so it is not mistaken for a Rule 2
+   violation.
+
+**A6's guard found a real inconsistency the moment it was written:** the in-flight session's
+header still said `Status: ended` from the earlier (wrong) attempt to close the session, while
+`REGISTRY.md` said `active`. Fixed.
+
+**Guard added:** `test_session_headers_match_the_schema_and_registry` (state tree **14/14**) —
+requires Agent / Session ID / Started / Status / Branch / Base commit, checks the filename
+matches the Session ID, and checks the header Status against `REGISTRY.md`. Sabotage-proven
+both ways: a status mismatch and a removed field each turn it red with a named message.
+
+**[BUG FOUND] in my own tooling, twice.** The sabotage restore used `git checkout <file>`,
+which reverts to the *committed* state and silently discarded the uncommitted backfill — the
+exact pitfall recorded in my own `red-ci-triage` notes ("`git checkout -- <file>` while holding
+an uncommitted fix"). Re-applied. **Restore sabotage state by explicit path copy, never by
+`git checkout`,** and commit the backfill before running destructive restores.
+
+**Known gaps carried forward, not lost** (in the amendment): context-window pressure,
+user-induced protocol violation, protocol version drift, and the "boring update" skip.
+
+Gate: **363 pytest · verify_all 42 OK / 0 FAIL · docs PASS · state tree 14/14.**
 
 **Work unit complete — session remains ACTIVE.**

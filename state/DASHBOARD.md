@@ -27,14 +27,14 @@
 
 ## Gate Status — ALL GREEN
 
-| Gate | Result (measured 2026-10-01T12:49Z) |
+| Gate | Result (measured 2026-10-01T13:04Z) |
 |---|---|
-| `pytest tests/ -q` | **362 passed** |
+| `pytest tests/ -q` | **363 passed** |
 | `scripts/verify_all.py` | **42 OK / 0 FAIL** (exit 0) |
 | `scripts/docs.py check` | **PASS** |
 | `spec/machine-readable/validate_recovery.py` | **PASS** — 9/9 checks |
 | `scripts/verify_strong.py --quick` | exit 0 |
-| `tests/repo/test_state_tree.py` | **PASS — 13/13** (structure, naming, reconciliation stamp, INDEX coverage, dashboard↔registry drift, INDEX↔registry session status, protocol commit type) |
+| `tests/repo/test_state_tree.py` | **PASS — 14/14** (structure, naming, reconciliation stamp, INDEX coverage, dashboard↔registry drift, INDEX↔registry session status, session-header schema, protocol commit type) |
 
 > Gate results are **measurements, not standing truths** — the timestamp above is when they
 > were last run, and the test count changes with almost every commit. The
