@@ -89,7 +89,7 @@ Never included: embeddings / vector stores (ADR-0054) — the builder refuses th
 
 ```bash
 sha256sum -c SHA256SUMS.txt
-gh attestation verify knowledge.learninghub.json --repo Er-Sajan-PLG/STEMMA   # Sigstore build provenance
+gh attestation verify knowledge.learninghub.json --repo STEMORG2026/STEMMA   # Sigstore build provenance
 python -m stemma_adapter validate knowledge.learninghub.json
 ```
 
@@ -98,9 +98,9 @@ attestation with [`sigstore-python`](https://pypi.org/project/sigstore/):
 
 ```bash
 d=$(sha256sum knowledge.learninghub.json | cut -d' ' -f1)
-gh api repos/Er-Sajan-PLG/STEMMA/attestations/sha256:$d --jq '.attestations[0].bundle' > att.json
+gh api repos/STEMORG2026/STEMMA/attestations/sha256:$d --jq '.attestations[0].bundle' > att.json
 sigstore verify github knowledge.learninghub.json --bundle att.json \
-  --repository Er-Sajan-PLG/STEMMA --ref refs/tags/<tag> --trigger push
+  --repository STEMORG2026/STEMMA --ref refs/tags/<tag> --trigger push
 ```
 
 Builds are reproducible: rebuilding a tag with
@@ -184,7 +184,7 @@ Private key material is never committed; `.gitignore` enforces it (`*.asc` /
 from stemma_adapter import Stemma
 
 stemma = Stemma.from_release(
-    "Er-Sajan-PLG/STEMMA", "v3.0.0-rc1",        # explicit tag; "latest" is refused
+    "STEMORG2026/STEMMA", "v3.0.0-rc1",        # explicit tag; "latest" is refused
     file="knowledge.learninghub.json",          # one kind:"export" asset per call
     cache_dir="/var/cache/stemma",              # default: $XDG_CACHE_HOME/stemma-adapter
 )                                               # needs: pip install "./adapters/python[verify]"
@@ -193,7 +193,7 @@ print(stemma.release_info)   # tag, file, sha256, content_hash, verification="si
 # Mirror / CDN: the signer identity comes from you, never from the mirror
 Stemma.from_url("https://cdn.example.org/stemma/v3.0.0-rc1/manifest.json",
                 file="knowledge.json",
-                expected_repository="Er-Sajan-PLG/STEMMA",
+                expected_repository="STEMORG2026/STEMMA",
                 expected_ref="refs/tags/v3.0.0-rc1")
 ```
 

@@ -8,7 +8,7 @@
 **Browse it:** <https://er-sajan-plg.github.io/STEMMA/> — the read-only 3D explorer
 and downloadable exports (`/STEMMA/exports/knowledge.json`). Found a problem?
 Use the **💬 Feedback** button (opens a
-[GitHub feedback form](https://github.com/Er-Sajan-PLG/STEMMA/issues/new?template=feedback.yml)).
+[GitHub feedback form](https://github.com/STEMORG2026/STEMMA/issues/new?template=feedback.yml)).
 
 ## What this is
 

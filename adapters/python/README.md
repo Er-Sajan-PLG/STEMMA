@@ -49,7 +49,7 @@ print(stemma.by_external_id("wd", "Q11402")["id"])
 ### From a published release (verified before use)
 
 ```python
-stemma = Stemma.from_release("Er-Sajan-PLG/STEMMA", "v3.0.0-rc1",
+stemma = Stemma.from_release("STEMORG2026/STEMMA", "v3.0.0-rc1",
                              file="knowledge.learninghub.json", cache_dir="/var/cache/stemma")
 stemma.release_info["verification"]   # "sigstore"
 ```
