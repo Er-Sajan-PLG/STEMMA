@@ -321,10 +321,16 @@ Prose rules → Schemas → Validation → Tests → CI enforcement
 
 ## Multi-Agent Coordination (MACP)
 
-This repository implements the **Multi-Agent Coordination Protocol**. The canonical
-protocol text is [`state/PROTOCOL.md`](state/PROTOCOL.md); the coordination state lives in
-[`state/`](state/INDEX.md). Read `state/DASHBOARD.md` and `state/REGISTRY.md` before
+This repository implements the **Multi-Agent Coordination Protocol** (currently **v1.1** —
+the owner-supplied v1.0 text plus **Amendment 1**, appended at the end of the file). The
+canonical protocol text is [`state/PROTOCOL.md`](state/PROTOCOL.md); the coordination state
+lives in [`state/`](state/INDEX.md). Read `state/DASHBOARD.md` and `state/REGISTRY.md` before
 touching the working tree.
+
+**Amendment 1** is worth reading before your first shutdown: it adds the stop-work-first rule
+(A1), a terminal verification loop (A2), the re-open transition (A3), an event-driven
+state-file ownership table (A4), the reproducible-claims principle (A5), and a required
+session-file header schema (A6). A7 (machine-checked drift) is deliberately **deferred**.
 
 **What `state/` is:** coordination memory — current state, who owns what, coordination
 decisions, debt, blockers. It exists so an agent whose context was compacted can recover
@@ -350,7 +356,13 @@ The boundary and its reasoning are recorded in
 **Conventions you must follow** (all from `state/PROTOCOL.md`):
 
 - Agent id: **4 alphanumeric characters** (e.g. `A7F3`). Register in `state/REGISTRY.md`.
-- Session file: `state/sessions/YYYYMMDD-HHMM-<AGENT-ID>-<slug>.md`, append-only.
+- Session file: `state/sessions/YYYYMMDD-HHMM-<AGENT-ID>-<slug>.md`, append-only. It MUST open
+  with the **header schema** — Agent, Session ID, Started, Status, Branch, **Base commit** —
+  and those fields must match your `REGISTRY.md` row (Amendment 1 §A6; enforced by
+  `tests/repo/test_state_tree.py`).
+- **Sessions are closed by the owner, not the agent** (DEC-007). Finish a work unit by logging
+  it and reconciling `DASHBOARD.md`, then keep `status: active` and keep appending. Never write
+  `[END]` on your own initiative.
 - Plan file: `state/plans/agent-<AGENT-ID>-<slug>.md` — **deleted** when complete.
 - **Write isolation:** while working, write only to your own session file. `DASHBOARD.md`,
   `REGISTRY.md`, and `INDEX.md` are written at registration and at shutdown, not during work.

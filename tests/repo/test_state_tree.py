@@ -277,6 +277,56 @@ def test_index_status_matches_the_registry() -> None:
     )
 
 
+def test_session_headers_match_the_schema_and_registry() -> None:
+    """A6: every session file's metadata block exists and agrees with REGISTRY.md.
+
+    The protocol requires a session file to open with a metadata block (Agent,
+    Session ID, Started, Status, Branch, Base commit, Task, Files owned) and for
+    those fields to match the agent's row in REGISTRY.md. Without the schema the
+    rule "matches REGISTRY" is unenforceable — which is why it was added.
+
+    This immediately found a real inconsistency when it was written: the in-flight
+    session's header still said `Status: ended` from an earlier (wrong) attempt to
+    close the session, while REGISTRY said `active`.
+    """
+    required = ("Agent", "Session ID", "Started", "Status", "Branch", "Base commit")
+    sessions = sorted(p for p in (STATE / "sessions").iterdir()
+                      if p.is_file() and p.name != ".gitkeep")
+    assert sessions, "no session files to check — this test would pass vacuously"
+
+    def field(text: str, name: str) -> str | None:
+        m = re.search(rf"^\*\*{re.escape(name)}:\*\*\s*(.+?)\s*$", text, re.MULTILINE)
+        return m.group(1).replace("`", "").strip() if m else None
+
+    registry = (STATE / "REGISTRY.md").read_text(encoding="utf-8")
+    reg_status = {
+        m.group(1): m.group(2).lower()
+        for m in re.finditer(r"^\|\s*`[A-Za-z0-9]{4}`\s*\|\s*`([^`]+)`\s*\|[^|]*\|[^|]*\|[^|]*\|\s*\*{0,2}(\w+)\*{0,2}\s*\|",
+                             registry, re.MULTILINE)
+    }
+    assert reg_status, "parsed no session statuses from REGISTRY.md — table shape changed?"
+
+    problems: list[str] = []
+    for path in sessions:
+        text = path.read_text(encoding="utf-8")
+        missing = [f for f in required if field(text, f) is None]
+        if missing:
+            problems.append(f"{path.name}: missing header field(s) {missing}")
+            continue
+        sid = field(text, "Session ID")
+        header_status = (field(text, "Status") or "").lower()
+        if sid in reg_status and header_status != reg_status[sid]:
+            problems.append(
+                f"{path.name}: header Status={header_status!r} but REGISTRY says "
+                f"{reg_status[sid]!r} (DEC-007: a session stays active until the owner ends it)"
+            )
+        # The filename must carry the same session id as the header (protocol §2).
+        if sid and path.stem != sid:
+            problems.append(f"{path.name}: filename does not match Session ID {sid!r}")
+
+    assert not problems, "session header schema violations: " + "; ".join(problems)
+
+
 def test_commitlint_accepts_the_protocol_commit_type() -> None:
     """CONFLICT-002 / DEC-006: the protocol's shutdown commit format must stay valid.
 
@@ -323,6 +373,7 @@ if __name__ == "__main__":  # self-hosting runner, matching tests/repo/test_gate
         test_tier_boundary_stays_documented,
         test_commitlint_accepts_the_protocol_commit_type,
         test_index_status_matches_the_registry,
+        test_session_headers_match_the_schema_and_registry,
     ]
     failures = 0
     for fn in checks:
