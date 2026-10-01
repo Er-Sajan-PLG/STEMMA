@@ -225,6 +225,37 @@ def test_tier_boundary_stays_documented() -> None:
         assert "Tier 2" in text, f"{name} no longer documents the Tier 1/Tier 2 boundary"
 
 
+def test_commitlint_accepts_the_protocol_commit_type() -> None:
+    """CONFLICT-002 / DEC-006: the protocol's shutdown commit format must stay valid.
+
+    MACP §Shutdown step 6 mandates `state: <agent-id> session <session-id>`, and
+    `Conventional Commits (commitlint)` is a *required* status check on main. If
+    `state` is ever dropped from the type-enum, every future MACP shutdown commit
+    fails a required check — at a distance from the change that caused it, which is
+    exactly the kind of coupling that should be guarded rather than documented.
+
+    This asserts the coupling mechanically instead of trusting the inline comment in
+    commitlint.config.cjs to survive.
+    """
+    import json
+    import subprocess
+
+    config = ROOT / "commitlint.config.cjs"
+    assert config.is_file(), "commitlint.config.cjs is missing — the commit gate cannot run"
+    # Parse the CJS config through node so we read the real exported value, not a regex guess.
+    out = subprocess.run(
+        ["node", "-e", f"console.log(JSON.stringify(require({json.dumps(str(config))}).rules['type-enum'][2]))"],
+        capture_output=True, text=True, cwd=ROOT,
+    )
+    assert out.returncode == 0, f"could not read commitlint config: {out.stderr}"
+    types = json.loads(out.stdout)
+    assert "state" in types, (
+        "commitlint no longer accepts the `state` type, but MACP §Shutdown step 6 mandates "
+        f"`state: <agent-id> session <session-id>`. Types are: {types}. "
+        "See state/conflicts/CONFLICT-002-protocol-commit-type.md"
+    )
+
+
 if __name__ == "__main__":  # self-hosting runner, matching tests/repo/test_gate_fail_closed.py
     checks = [
         test_required_structure_exists,
@@ -238,6 +269,7 @@ if __name__ == "__main__":  # self-hosting runner, matching tests/repo/test_gate
         test_dashboard_requirement_counts_match_the_registry,
         test_dashboard_unres_counts_match_the_registry,
         test_tier_boundary_stays_documented,
+        test_commitlint_accepts_the_protocol_commit_type,
     ]
     failures = 0
     for fn in checks:
