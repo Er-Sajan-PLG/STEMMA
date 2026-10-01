@@ -29,23 +29,30 @@ DEFERRED requirement can be revised and re-proposed later.
 `validation_status: PARTIALLY_SUPPORTED` · `origin: RECOVERED` · P1 · SHOULD
 
 **The question the recovery agent flagged:** `learninghub` declares `review_policy:
-canonical`. The corpus currently has 7 canonical entities, so the export is *not* empty
-today. But the agent noted a scenario where it would be — hence `UNRES-STEMMA-EXP-001`
+canonical`. At the time of writing (2026-10-01) the corpus had 7 canonical entities, so the
+export was *not* empty then. **Superseded 2026-10-01:** the HITL ruling demoted six
+LLM-written entities, so the corpus is now 1 canonical (metre) / 8 draft and the
+canonical-only export yields 1 entity. This paragraph is a dated snapshot, not a
+live count — the live count is owned by `scripts/status_truth.py`. But the agent noted a scenario where it would be — hence `UNRES-STEMMA-EXP-001`
 "empty `learninghub` consumer export" — and could not confirm whether emptiness was
 intended or a bug.
 
 **Owner direction (2026-10-01), recorded:**
 - STEMMA must be **clean of database and RAG concerns** — those are the *consumer's*
   problem. STEMMA's only job is to produce a **linkable schema** plus canonical content.
-- The content **should not be empty** — verified entities already exist (7 canonical).
+- The content **should not be empty** — verified entities already exist. *(As of the
+  2026-10-01 ruling: 7 canonical; superseded later the same day to 1 canonical after
+the HITL demotion. The criterion, not the count, is what was ruled.)*
 - **If** an export is empty, emptiness is *exceptional and acceptable only at the current
   starting stage*. It must not be a standing condition: if a consumer export is empty
   *after* canonicalization is operating, that is a **signal that entities are not being
   canonicalized** — i.e. a canonicalization failure, not an export policy question.
-- **Engine verification performed (2026-10-01):** canonicalization is working. 7 entities
-  are `status: canonical`; 2 (`second`, `kilogram`) sit at `draft` awaiting owner review —
-  which is correct HITL behavior, not a failure. The export is non-empty. See also the
-  engine defect found in Part C.
+- **Engine verification performed (2026-10-01, as of that date):** canonicalization is
+  working. 7 entities were `status: canonical`; 2 (`second`, `kilogram`) sat at `draft`
+  awaiting owner review — correct HITL behavior, not a failure. The export was
+  non-empty. *(Superseded later the same day: the HITL ruling demoted the 6
+  LLM-written canonical entities; corpus is now 1 canonical / 8 draft. The engine
+  finding stands; the count does not.)* See also the engine defect found in Part C.
 
 **Recommended verdict: APPROVE, with an acceptance-criteria amendment.**
 The requirement's *intent* (exports honor `review_policy`) is sound and is what STEMMA

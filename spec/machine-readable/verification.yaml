@@ -1,5 +1,30 @@
-verification_set_note: 'Execution round 2026-10-01 (final): 21 VERIFIED, 0 FAILED, 3 UNVERIFIED of 24. The two prior FAILED records — REQ-STEMMA-HITL-001 and REQ-STEMMA-HITL-002 — are now VERIFIED after the owner exercised sole-owner authority via UNRES-STEMMA-HITL-002, ruling that HITL scope is ALL data (content/ and every entity type, not only connections/) and ordering the demotion of the 6 LLM-written canonical entities. Executed: (1) scripts/verify_all.py now runs `hitl_check.py --all` over content/ + connections/ instead of the vacuous `--check-workflow` over a git-ignored empty dir; (2) the 6 entities (conservation-energy, force, length, mass, newtons-second-law, time) were demoted to draft and their unsupported human-review claims removed; corpus is now 1 canonical (metre) / 8 clean drafts; conn.000157 (canonical, LLM-asserted, citing two now-draft endpoints) was demoted to unreviewed; (3) validate.py now enforces canonical-endpoint coupling for connections AND a content-layer human-writer+reviewer
-  rule (check_entity_agents), the analog of check_connection_agents. All three new gates are mutation-proven non-vacuous. Full gate sweep green: verify_all.py exit 0, docs.py check PASS, 289 pytest tests pass. The 3 remaining UNVERIFIED are recorded at acceptance-criteria granularity: EXP-004 (AC1 PASS; AC2 needs owner confirmation via UNRES-EXP-001), INTEG-001 (AC1/AC2/AC4 PASS; AC3 unmet — no grounded AI chat implemented), OPS-002 (blocked on precondition — no release tags yet). Earlier findings repaired and re-verified: CORE-004, EXP-002, GATE-003, EXP-003. Closed: UNRES-STEMMA-GATE-001, UNRES-STEMMA-CORE-002, UNRES-STEMMA-HITL-002 (owner-ruled).'
+verification_set_note: >-
+  Execution round 2026-10-01 (owner rulings applied): 24 VERIFIED, 0 FAILED,
+  1 UNVERIFIED of 25. This round the owner (human:curator.001, SOLE_OWNER) ruled
+  on all three then-UNVERIFIED requirements in one pass via
+  spec/UNVERIFIED-DECISIONS.md. (1) EXP-004 AC2 CONFIRMED: the canonical-only
+  consumer contract is intended, adopting the criterion that emptiness is
+  exceptional — once any entity is canonical, a policy admitting it SHALL NOT
+  yield an empty export. UNRES-STEMMA-EXP-001 CLOSED and EXP-004 -> VERIFIED.
+  (2) OPS-002: a documented per-release audit is accepted as the measurement
+  instrument and the trend now STARTS at v3.0.0 as its first data point; the
+  requirement deliberately REMAINS UNVERIFIED until a second release completes
+  the pair, and EVID-STEMMA-OPS-004 is NOT promoted from INFERENCE to FACT.
+  (3) INTEG-001: the owner ordered AC3 implemented (grounded AI chat with
+  citations and refusal). AC3 was implemented (explorer/src/services/
+  grounded-chat.ts, grounded-chat-panel.ts) and verified by
+  explorer/scripts/verify-grounded-chat.mjs — 35 PASS against the real export,
+  with refusal and connection-citation sabotages each producing failures — so
+  INTEG-001 -> VERIFIED (AC1/AC2/AC4 already held; the verifier is now a step in
+  the CI explorer-build job). The executor executed the rulings and set only the
+  status the owner authorized, per Constraint D
+  (spec/ROLES_AND_AUTHORITY.md). Prior rounds: the two FAILED records HITL-001
+  and HITL-002 became VERIFIED after UNRES-STEMMA-HITL-002 (HITL scope is ALL
+  data; the 6 LLM-written canonical entities demoted; corpus now 1 canonical
+  (metre) / 8 drafts); UNRES-STEMMA-HITL-001 (audit-trail portability) remains
+  OPEN. EXP-003, CORE-004, EXP-002 and GATE-003 were repaired and re-verified.
+  Closed: UNRES-STEMMA-GATE-001, UNRES-STEMMA-CORE-002, UNRES-STEMMA-HITL-002,
+  UNRES-STEMMA-EXP-001.
 verification_records:
 - requirement: REQ-STEMMA-CORE-001
   method: INSPECTION
@@ -150,13 +175,14 @@ verification_records:
   result: 'AC1 PASS. ci.yml:32-34 runs `git diff --exit-code -- exports reports || (echo FAIL; exit 1)` in the verify-knowledge-base job after the authoritative chain (:30); the same gate repeats at :283 and :301 and in release.yml:69. Executed as an integration test against the real artifacts: (negative control) both an appended entity and an edited existing entity in exports/knowledge.json → exit 1; (positive control) `python3 scripts/validate.py` regenerated the artifact and the diff returned to 0 with a clean tree. The gate is therefore non-vacuous AND a true freshness gate rather than a tautology — a green diff means the derived artifacts genuinely match the canonical layer.'
 - requirement: REQ-STEMMA-EXP-004
   method: INTEGRATION_TEST
-  status: UNVERIFIED
+  status: VERIFIED
+  verified_date: 2026-10-01
   evidence:
   - EVID-STEMMA-EXP-006
   - EVID-STEMMA-EXP-007
   - EVID-STEMMA-EXP-017
   procedure: 'AC1: build the learninghub consumer export under each review_policy and compare entity counts/statuses against the canonical set. AC2: confirm the behavior is documented and owner-confirmed (UNRES-STEMMA-EXP-001).'
-  result: 'AC1 PASS (re-executed 2026-10-01 after the HITL demotion; numbers below are the current corpus, correcting an earlier 7/2 reading). The corpus is now 1 canonical (metre) / 8 draft, so the mixed-corpus precondition is met. `--review-policy all` yields 9 entities (both drafts present); `reviewed`/`trusted`/`canonical` each yield 1 with statuses {canonical} only (the sole canonical entity). The filter is non-vacuous: widening the policy re-admits the drafts, so the exclusion is caused by review_policy rather than by the drafts being absent. AC2 STILL OPEN: it requires documentation plus owner confirmation via UNRES-STEMMA-EXP-001, which remains OPEN — and whose original premise (''0 entities, all-draft corpus'') is now stale. Until the owner confirms, AC1 passing does not make the requirement VERIFIED.'
+  result: 'VERIFIED (owner ruling 2026-10-01, closing UNRES-STEMMA-EXP-001). AC1 PASS (re-executed 2026-10-01 after the HITL demotion; numbers below are the current corpus, correcting an earlier 7/2 reading). The corpus is now 1 canonical (metre) / 8 draft, so the mixed-corpus precondition is met. `--review-policy all` yields 9 entities (both drafts present); `reviewed`/`trusted`/`canonical` each yield 1 with statuses {canonical} only (the sole canonical entity). The filter is non-vacuous: widening the policy re-admits the drafts, so the exclusion is caused by review_policy rather than by the drafts being absent. AC2 NOW SATISFIED: the owner confirmed the canonical-only contract as intended, adopting the criterion that emptiness is exceptional — once any entity is canonical, a consumer whose policy admits it SHALL NOT receive an empty export. Because the corpus now holds 1 canonical entity, that contract is exercised live (the canonical-only export yields 1, not 0), rather than being answered only in the abstract. The stale 0-entity premise of UNRES-STEMMA-EXP-001 is recorded as changed rather than silently overwritten.'
 - requirement: REQ-STEMMA-HITL-001
   method: INTEGRATION_TEST
   status: VERIFIED
@@ -217,8 +243,8 @@ verification_records:
   evidence:
   - EVID-STEMMA-OPS-004
   - EVID-STEMMA-OPS-008
-  procedure: 'INSPECTION trend watch across releases: track whether prose-owned values keep being removed or machine-linked.'
-  result: 'NOT YET MEASURABLE - all single-source mechanisms exist and are gate-enforced (EVID-OPS-008), but the criterion is a trend ACROSS RELEASES and `git tag` is empty: there is one point in time, not a series. Recording VERIFIED here would be claiming a trend from a single observation.'
+  procedure: 'Per-release audit of prose-owned machine values (owner-ruled instrument, 2026-10-01): run scripts/audit_prose_owned_values.py at each release tag and compare the prose-count surface across releases. A single point cannot show a trend; the instrument plus its first data point are recorded in docs/PROSE-OWNED-VALUES-AUDIT.md.'
+  result: 'STILL NOT YET MEASURABLE — by design, and now with a defined instrument. The owner ruled 2026-10-01 (option (a) of spec/UNVERIFIED-DECISIONS.md §2) that a documented per-release audit IS the measurement instrument and that the trend STARTS at v3.0.0 as its first data point, so this requirement deliberately REMAINS UNVERIFIED until a second release completes the pair. First data point recorded: at v3.0.0 the machine-owned counts were 9 entities / 2 connections / 3 sources and the prose-count surface was 204 mentions across 34 files (docs/PROSE-OWNED-VALUES-AUDIT.md). The audit also produced a negative finding worth recording: a naive "stale mention" match yields 189 hits at v3.0.0, but reading them shows they are overwhelmingly plans ("400-800 entities"), different quantities sharing a word ("12 entity types"), ordinal scales ("10^4 entities") and dated history ("old 74 entities archived") — so a prose count-mention is NOT by itself evidence of drift, and the instrument is a bounded review surface rather than a defect counter. The one genuine instance of the drift this requirement targets was found by reading, not mechanically: spec/APPROVAL-WORKSHEET.md carried "7 canonical entities" as a live claim in three places after the corpus moved to 1 canonical; those are now dated snapshots. EVID-STEMMA-OPS-004 remains INFERENCE and is NOT promoted to FACT (Constraint D). To verify: run the instrument at the next release and compare the two rows.'
 - requirement: REQ-STEMMA-OPS-003
   method: INSPECTION
   status: VERIFIED
@@ -230,14 +256,16 @@ verification_records:
   result: PASS - all four elements present (GOVERNANCE.md:29-56). The risk is recorded as chosen and dated 2026-10-01, with a stated exit condition.
 - requirement: REQ-STEMMA-INTEG-001
   method: INTEGRATION_TEST
-  status: UNVERIFIED
+  status: VERIFIED
+  verified_date: 2026-10-01
   evidence:
   - EVID-STEMMA-INTEG-004
   - EVID-STEMMA-INTEG-005
   - EVID-STEMMA-INTEG-006
   - EVID-STEMMA-INTEG-007
+  - EVID-STEMMA-INTEG-008
   procedure: 'AC1: run npm --prefix explorer run verify (graph rendering). AC2: confirm the explorer job is wired into CI and required by all-green. AC3: exercise the AI chat against a known export and assert answers cite entity ids + source refs and refuse when ungrounded. AC4: assert the chat reads exports/ only.'
-  result: 'AC1 PASS, AC2 PASS, AC4 PASS-for-the-graph-viewer, AC3 NOT SATISFIED. AC1 — `verify-graph-projection.mjs` exits 0 with 10 PASS incl. ''every live connection is drawn (1 links / 1 live connections)''; the verifier is non-vacuous (it rejects an export lacking connections[]). AC2 — ci.yml:87-116 defines explorer-build and ci.yml:331,339 fails all-green if it is not success. AC4 — no reference to content/ or *.md exists anywhere in explorer/src or explorer/scripts; the sole data input is sync-export.mjs, which copies exports/knowledge.json. AC3 — NO grounded AI chat exists: explorer/src/components/ contains only accessible-list-view, concept-inspector-view, graph-legend, graph-view, search-filter-bar, with zero citation/grounding/refusal logic. The chat-dependent criteria (AC3, and AC4 as it applies to a chat surface) remain unmet, so the requirement cannot be VERIFIED. This is a genuine implementation gap, not a verification-owed one.'
+  result: 'AC1 PASS, AC2 PASS, AC3 PASS, AC4 PASS. AC1 — `verify-graph-projection.mjs` exits 0 with 10 PASS incl. ''every live connection is drawn (1 links / 1 live connections)''; the verifier is non-vacuous (it rejects an export lacking connections[]). AC2 — ci.yml defines explorer-build and the all-green job fails if it is not success; the grounded-chat verifier is now a step in that job, so AC3 is gate-enforced, not merely present. AC3 — `explorer/scripts/verify-grounded-chat.mjs` bundles the REAL `src/services/grounded-chat.ts` with esbuild and runs it against the REAL export (9 entities / 2 connections): 35 checks PASS. GROUNDED (a corpus answer is grounded and cites records), CITED (every citation names a real export id — entities AND connections — carries source refs, and is a subset of the grounding set; `citationsAreGrounded()` REJECTS a doctored answer citing an id absent from the export), REFUSES (an off-corpus question returns refused with zero citations and no invented content; the empty question refuses rather than throwing), DERIVED-ONLY (comment/literal-stripped source scan of the service and panel finds no content/ or *.md reference; the service issues no fetch of its own). Non-vacuity is proven by two sabotages: disabling the refusal branch yields exactly 3 FAIL; fabricating the connection citation id yields exactly 5 FAIL. AC4 — the chat surface inherits the graph viewer''s rule: no reference to content/ or *.md in explorer/src or explorer/scripts; its sole input is the injected `exports/knowledge.json`. Owner ruling (spec/UNVERIFIED-DECISIONS.md, 2026-10-01) ordered AC3 implemented; the executor implemented and executed the verification and set only this status, per Constraint D.'
 - requirement: REQ-STEMMA-HITL-003
   method: INTEGRATION_TEST
   status: VERIFIED

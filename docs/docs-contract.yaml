@@ -40,6 +40,7 @@ artifacts:
   - {path: docs/STANDARDS.md, cat: A11, tier: 2, kind: CANONICAL, sources: [schema/]}
   - {path: docs/GOVERNANCE.md, cat: A1, tier: 2, kind: CANONICAL, sources: [spec/ROLES_AND_AUTHORITY.md, spec/BASELINE.md, scripts/hitl_check.py, schema/]}
   - {path: docs/SECURITY-INTEGRITY-PROVENANCE.md, cat: A9, tier: 3, kind: CANONICAL, sources: [.github/workflows/ci.yml, .gitleaks.toml]}
+  - {path: docs/PROSE-OWNED-VALUES-AUDIT.md, cat: A14, tier: 3, kind: CANONICAL, sources: [scripts/audit_prose_owned_values.py, scripts/status_truth.py, spec/UNVERIFIED-DECISIONS.md]}
   - {path: docs/CONSUMERS.md, cat: A10, tier: 3, kind: CANONICAL, sources: [schema/consumer-registry.yaml, scripts/export_consumers.py, exports/consumers/]}
   - {path: docs/VERSIONING.md, cat: A5, tier: 2, kind: CANONICAL, sources: [schema/VERSION.yaml, docs/decisions/0050-contract-update-2.2.0.md]}
   - {path: docs/MIGRATIONS.md, cat: A10, tier: 3, kind: CANONICAL, sources: [schema/, docs/decisions/]}

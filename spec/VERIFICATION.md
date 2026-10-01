@@ -1,11 +1,11 @@
 # VERIFICATION — CORE-GATE-EXPORT slice
 
 Protocol §18. **Rule enforced:** a requirement may not be `VERIFIED` before it
-is `APPROVED` (§9.1). **All 24 requirements were APPROVED on 2026-10-01**
+is `APPROVED` (§9.1). **All 25 requirements were APPROVED on 2026-10-01**
 (owner: Sajan / `human:curator.001`; see spec/BASELINE.md). The §9.1 blocking
 condition is therefore **cleared** and verification executions are underway.
 
-**Current position (2026-10-01): 22 VERIFIED · 0 FAILED · 3 UNVERIFIED.**
+**Current position (2026-10-01): 24 VERIFIED · 0 FAILED · 1 UNVERIFIED.**
 
 The three findings raised earlier in this drive (CORE-004, EXP-002 criterion 4,
 GATE-003) were all repaired and re-verified. A **fourth** finding — HITL
@@ -74,16 +74,16 @@ either executed or is honestly marked as not yet executed.
 
 | REQ-STEMMA-EXP-002 | UNIT_TEST | ✅ **VERIFIED** (2026-10-01, after implementation) | EVID-EXP-009 (the gap) → **EVID-EXP-011/012/013**. `adopted_from` declared in both schemas, enforced by `check_adopted_from`, projected into the export; malformed variants rejected; export byte-identical (additive) | ✅ done — FAILED → VERIFIED (ADR-0056) |
 | REQ-STEMMA-EXP-003 | INTEGRATION_TEST | ✅ **VERIFIED** (2026-10-01) | EVID-EXP-014 (ci.yml:32-34 gate is present, wired after the chain, repeated at :283/:301 and release.yml:69); EVID-EXP-015 (negative control: appended entity **and** edited existing entity → exit 1); EVID-EXP-016 (positive control: `validate.py` regeneration restored the diff to 0) | ✅ done — non-vacuous **and** a true freshness gate, not a tautology |
-| REQ-STEMMA-EXP-004 | INTEGRATION_TEST | ⏳ **AC1 PASS / AC2 OPEN** | EVID-EXP-017 (`--review-policy all` → **9** entities incl. all 8 drafts; `canonical` → **1**, `{canonical}` only — filter is non-vacuous; the whole corpus is now exercised since the demotion widened the draft set from 2 to 8); EVID-EXP-006 (the old 0-entity observation) | **AC2 only**: behavior documented + owner-confirmed via UNRES-EXP-001, which is still OPEN and whose premise (all-draft corpus) is now stale |
+| REQ-STEMMA-EXP-004 | INTEGRATION_TEST | ✅ **VERIFIED** (2026-10-01) | EVID-EXP-017 (`--review-policy all` → **9** entities incl. all 8 drafts; `canonical` → **1**, `{canonical}` only — filter is non-vacuous; the whole corpus is now exercised since the demotion widened the draft set from 2 to 8); EVID-EXP-006 (the old 0-entity observation) | ✅ done — AC2 confirmed by the owner (canonical-only consumer contract is intended); `UNRES-STEMMA-EXP-001` closed |
 | REQ-STEMMA-HITL-001 | INTEGRATION_TEST | ✅ **VERIFIED** (2026-10-01, owner-ruled repair) | EVID-HITL-003/004 (the finding: chain step vacuous, 6/9 canonical entities LLM-written) → **EVID-HITL-006** (chain now runs `--all`; 6 entities demoted; corpus 1 canonical/8 draft) → **EVID-HITL-007** (mutation proof: draft→canonical with LLM writer, and metre's writer→llm, each turn `validate.py` AND `hitl_check --all` red; restore → green) → **EVID-HITL-008** (content-layer writer+reviewer rule added) | ✅ done — FAILED → VERIFIED (UNRES-HITL-002 closed by owner ruling) |
 | REQ-STEMMA-HITL-002 | INTEGRATION_TEST | ✅ **VERIFIED** (2026-10-01, owner-ruled repair) | EVID-HITL-005 (the finding) → **EVID-HITL-006/007/008**. The per-entity human-review requirement is now status-aware (only review-status entities are gated; drafts exempt; staging always writer-gated) and exercised over all data in CI; 15 negative-control tests pass (unregistered/retired/institutional/machine writers, cross-entity edits, substring slugs, fail-closed unreadable registry) | ✅ done — FAILED → VERIFIED; residual UNRES-HITL-001 is evidence *portability*, not behavior |
 | REQ-STEMMA-HITL-003 | INTEGRATION_TEST | ✅ **VERIFIED** (2026-10-01, owner directive + two same-day amendments) | **EVID-HITL-009** (adoption: staged chain + debt enforcement wired into `validate.py`/`review_entity.py`, both schemas extended, chain exit 0) → **EVID-HITL-010** (mutation proof, 8 cases: incomplete waived chain, same-day stages, board stage while waived, empty history, outstanding debt full-block on an entity, the same on a *connection*, connection debt, and deletion of the enforcement registry — each exit 1; restore → exit 0) → **EVID-HITL-011** (board waiver `ENF-003.board_waiver` + pilot-scale full debt block `ENF-002.pilot_scale_block`, both read from the registry at run time; 18 tests pass; retiring the waiver turns the gate red) | ✅ done — non-vacuous; chain shape and debt mode are data-driven and fail closed |
 | REQ-STEMMA-SEC-001 | STATIC_ANALYSIS | **VERIFIED** (2026-10-01) | EVID-SEC-003 — canonical secret-free; gitleaks wired (ci.yml:55) + pre-commit hook | ✅ done |
 | REQ-STEMMA-SEC-002 | INSPECTION | ✅ **VERIFIED** (2026-10-01) | EVID-SEC-004 (all **6245** history objects scanned for 6 key shapes → zero matches; negative control proves the scan fires on a plant); EVID-SEC-005 (`.env.example` template with empty values, `.env` git-ignored, runtime loader at `providers.py:43-51`, gitleaks in CI) | ✅ done — AC1 non-vacuously clean; AC2 boundary enforced (re-review at second pilot is hygiene, not an unmet criterion) |
 | REQ-STEMMA-OPS-001 | MEASUREMENT | **VERIFIED** (2026-10-01) | EVID-OPS-006 (clean clone, exit 0, 4.00 s, 21 steps); EVID-OPS-007 (controlled: bare venv 1/2 → +requirements.txt 0) | ✅ done |
-| REQ-STEMMA-OPS-002 | INSPECTION | UNVERIFIED | EVID-OPS-008 — all single-source mechanisms exist and are gate-enforced | **not yet measurable**: criterion is a trend *across releases*; `git tag` is empty (one point, not a series) |
+| REQ-STEMMA-OPS-002 | INSPECTION | UNVERIFIED | EVID-OPS-008 — all single-source mechanisms exist and are gate-enforced; owner ruled a documented per-release audit as the instrument, trend starts at `v3.0.0` | **not yet measurable**: criterion is a trend *across releases*; the audit is now recorded at `v3.0.0` (one point, not a series) — deliberately stays UNVERIFIED until a second release completes the pair |
 | REQ-STEMMA-OPS-003 | INSPECTION | **VERIFIED** (2026-10-01) | EVID-OPS-009 — procedure + successor path + dated accepted risk + exit condition documented | ✅ done |
-| REQ-STEMMA-INTEG-001 | INTEGRATION_TEST | ⏳ **AC1/AC2/AC4 PASS / AC3 unmet** | EVID-INTEG-005 (`verify-graph-projection.mjs` exit 0, 10 PASS, non-vacuous); EVID-INTEG-007 (explorer-build is an all-green dependency at `ci.yml:331,339`); EVID-INTEG-006 (zero `content/`/`.md` references; sole input `exports/knowledge.json`) | **AC3**: no grounded AI chat exists — no chat component, no citation/refusal logic. Genuine implementation gap, not verification-owed |
+| REQ-STEMMA-INTEG-001 | INTEGRATION_TEST | ✅ **VERIFIED** (2026-10-01) | EVID-INTEG-005 (`verify-graph-projection.mjs` exit 0, 10 PASS, non-vacuous); EVID-INTEG-007 (explorer-build is an all-green dependency); EVID-INTEG-006 (zero `content/`/`.md` references; sole input `exports/knowledge.json`); EVID-INTEG-008 (AC3: `verify-grounded-chat.mjs` 35 PASS, refusal + fabricated-citation sabotages each fail the run) | ✅ done — AC3 grounded chat implemented and gated in CI; citations are subset-of-export and an off-corpus question is refused |
 
 **No `FAILED` record remains** — all three findings (two from round 1, one from
 round 2) were ruled on, fixed, and re-verified (see below).
@@ -183,17 +183,20 @@ The 3 remaining `UNVERIFIED` are **not all equal**, and the matrix now records
 their acceptance-criteria status individually rather than lumping them as
 "execution owed":
 
-- **EXP-004** — AC1 now **PASSES** (the learninghub filter demonstrably excludes
-  both drafts, and widening the policy re-admits them). Only AC2 is unmet, and it
-  needs an owner confirmation, not code.
-- **INTEG-001** — AC1, AC2 and AC4 all **PASS** for the graph viewer. AC3 is a
-  genuine **implementation gap**: no grounded AI chat exists at all.
+- **EXP-004** — AC2 was confirmed by the owner (canonical-only consumer contract
+  is intended); `UNRES-STEMMA-EXP-001` closed, requirement **VERIFIED**.
+- **INTEG-001** — AC1, AC2 and AC4 all **PASS** for the graph viewer, and AC3 is
+  now **implemented and verified**: the grounded chat exists, cites real export
+  ids, and refuses when ungrounded (EVID-INTEG-008). Requirement **VERIFIED**.
 - **OPS-002** — the only one still blocked purely on a precondition: its
-  criterion is a trend *across releases* and no tagged release exists yet.
+  criterion is a trend *across releases*. The owner ruled a documented
+  per-release audit as the instrument; the first data point (`v3.0.0`) is
+  recorded, and a second release is needed to complete the pair.
 
 Stating it this way matters: "UNVERIFIED" hides the difference between *we have
-not looked yet* and *we looked, and it is not built*. Only one of the three is
-the former.
+not looked yet* and *we looked, and it is not built*. Both of those were true of
+this drive at different times — and the third case is *we looked, and the
+evidence needs a second release to exist*.
 
 ### REQ-STEMMA-EXP-003 — derived-artifact freshness, verified by execution
 
@@ -351,10 +354,10 @@ clean-clone measurement recorded 4.00 s over 21 steps — still an observation.)
 | 2026-10-01 | REQ-STEMMA-HITL-001 | INTEGRATION_TEST | **FAIL** (AC1 vacuous, AC2 violated 6/9) | EVID-HITL-003, EVID-HITL-004 |
 | 2026-10-01 | REQ-STEMMA-HITL-002 | INTEGRATION_TEST | **FAIL** (check correct, zero `candidate_edited` events) | EVID-HITL-005 |
 | 2026-10-01 | REQ-STEMMA-SEC-002 | INSPECTION | PASS (**6245 objects scanned, zero keys; non-vacuous via plant**) | EVID-SEC-004, EVID-SEC-005 |
-| 2026-10-01 | REQ-STEMMA-EXP-004 | INTEGRATION_TEST | **AC1 PASS** / AC2 open | EVID-EXP-017 |
+| 2026-10-01 | REQ-STEMMA-EXP-004 | INTEGRATION_TEST | PASS (**owner confirmed AC2; UNRES-EXP-001 closed**) | EVID-EXP-017 |
 | 2026-10-01 | REQ-STEMMA-HITL-001 | INTEGRATION_TEST | PASS (**re-verified after owner-ruled repair**) | EVID-HITL-006, EVID-HITL-007, EVID-HITL-008 |
 | 2026-10-01 | REQ-STEMMA-HITL-002 | INTEGRATION_TEST | PASS (**re-verified after owner-ruled repair**) | EVID-HITL-006, EVID-HITL-007, EVID-HITL-008 |
-| 2026-10-01 | REQ-STEMMA-INTEG-001 | INTEGRATION_TEST | **AC1/AC2/AC4 PASS** / AC3 unmet | EVID-INTEG-005, EVID-INTEG-006, EVID-INTEG-007 |
+| 2026-10-01 | REQ-STEMMA-INTEG-001 | INTEGRATION_TEST | **PASS** (AC3 chat implemented; 35 checks, 2 sabotages caught) | EVID-INTEG-005, EVID-INTEG-006, EVID-INTEG-007, EVID-INTEG-008 |
 | 2026-10-01 | REQ-STEMMA-OPS-003 | INSPECTION | PASS | EVID-OPS-009 |
 
 ## Method notes (recorded, not hidden)
@@ -366,6 +369,9 @@ clean-clone measurement recorded 4.00 s over 21 steps — still an observation.)
   semantics — exit propagation, step naming, termination. It does **not** prove
   that each of the 17 real steps fails correctly under its own failure modes.
 - **OPS-002 is deliberately left UNVERIFIED.** Every single-source mechanism
-  exists (EVID-OPS-008), but the criterion is a *trend across releases* and no
-  tagged releases exist yet. Marking it VERIFIED would be claiming a trend from
-  one observation.
+  exists (EVID-OPS-008), and the owner ruled that a documented per-release audit
+  is the measurement instrument with `v3.0.0` as its first data point, but the
+  criterion is a *trend across releases*. Marking it VERIFIED would be claiming
+  a trend from one observation. (`REQ-STEMMA-EXP-004` and `REQ-STEMMA-INTEG-001`,
+  the other two UNVERIFIED requirements, were both resolved this round — see the
+  owner rulings in `spec/UNVERIFIED-DECISIONS.md`.)

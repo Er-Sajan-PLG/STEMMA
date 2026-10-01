@@ -9,6 +9,7 @@ import { ConceptInspectorView } from './components/concept-inspector-view';
 import { feedbackUrl } from './services/feedback';
 import { SearchFilterBar } from './components/search-filter-bar';
 import { AccessibleListView } from './components/accessible-list-view';
+import { GroundedChatPanel } from './components/grounded-chat-panel';
 
 class ExplorerApp {
   private stateManager: ExplorerStateManager;
@@ -18,6 +19,7 @@ class ExplorerApp {
   private searchFilterBar: SearchFilterBar | null = null;
   private accessibleListView: AccessibleListView | null = null;
   private graphLegend: GraphLegend | null = null;
+  private groundedChat: GroundedChatPanel | null = null;
 
   constructor() {
     this.stateManager = new ExplorerStateManager();
@@ -97,6 +99,16 @@ class ExplorerApp {
       container: listContainer,
       onConceptSelect: (id) => this.stateManager.selectConcept(id)
     });
+
+    // 4b. Init Grounded Chat (INTEG-001 AC3) — reads the same export, nothing else.
+    const chatContainer = document.getElementById('groundedChat');
+    if (chatContainer) {
+      this.groundedChat = new GroundedChatPanel({
+        container: chatContainer,
+        onCitationSelect: (id) => this.stateManager.selectConcept(id)
+      });
+      this.groundedChat.setData(this.exportData);
+    }
 
     // 5. Subscribe to State Changes
     this.stateManager.subscribe(state => this.onStateChange(state));

@@ -48,9 +48,12 @@ Protocol §5. Every substantive claim cites `EVID-` records. Claims about
   says `"type": "faiss"` — label/behavior divergence (CONFLICT-STEMMA-EXP-001).
   Embeddings (1 record, 384-dim) are produced by a deterministic hash fallback
   when real models are absent. [EVID-STEMMA-EXP-004, -005]
-- Consumer exports: `learninghub` 0 entities (policy `canonical`, corpus all
-  draft; intent-justified in docs — CLAIM, UNRES-STEMMA-EXP-001), `general`
-  includes the draft. [EVID-STEMMA-EXP-006, -007]
+- Consumer exports: `learninghub` 1 entity under policy `canonical` (the sole
+  canonical entity, `metre`); corpus is 1 canonical / 8 draft, so the mixed
+  precondition is met. Widening the policy to `all` re-admits all 8 drafts,
+  proving the exclusion comes from `review_policy` and not from absent drafts.
+  Contract owner-confirmed and UNRES-STEMMA-EXP-001 closed 2026-10-01.
+  [EVID-STEMMA-EXP-006, -007, -017]
 
 ## 4. Human-in-the-loop (as evidenced)
 

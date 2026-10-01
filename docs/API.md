@@ -153,6 +153,25 @@ It is read-only (`gh release view`/`list` only) and deliberately **not** part of
 `verify_all.py`, which must stay offline and deterministic. Run it after
 publishing a final release.
 
+**Measuring prose-owned values (`REQ-STEMMA-OPS-002`).** The owner ruled that a
+per-release audit is the measurement instrument for `OPS-002`, with the trend
+starting at `v3.0.0`. `scripts/audit_prose_owned_values.py` implements it:
+offline and read-only, it counts how many prose locations restate a
+machine-owned count (`status_truth.py` / `schema/VERSION.yaml` own them) at a
+given revision, and reads the counts themselves from the gated README status
+block rather than from a second source.
+
+```bash
+python3 scripts/audit_prose_owned_values.py vX.Y.Z       # one release
+python3 scripts/audit_prose_owned_values.py --all-tags --summary
+```
+
+Run it once per release and compare the rows; a single point cannot show a trend,
+which is why `OPS-002` remains `UNVERIFIED` until a second release exists. The
+recorded data point and the instrument's limits are in
+`docs/PROSE-OWNED-VALUES-AUDIT.md`. This is a probe, not a gate — it is not wired
+into `verify_all.py`.
+
 `release/` is local staging only (git-ignored); bundles are not committed.
 Private key material is never committed; `.gitignore` enforces it (`*.asc` /
 `*.rev`, negated only for the public key).

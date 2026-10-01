@@ -67,10 +67,14 @@ test (ADR-0052).
 Specification Recovery Protocol v3.1 (pilot edition) over the CORE–GATE–EXPORT
 vertical slice (2026-09-22, ahead of the R4 content acceptance test):
 
-- **24 requirements** (full schema, evidence-traced) — **all APPROVED 2026-10-01**
+- **25 requirements** (full schema, evidence-traced) — **all APPROVED 2026-10-01**
   by the owner (`human:curator.001`); the recovery agent had no approval power.
-  Verification (L4) has begun: **2 of 24 VERIFIED 2026-10-01** (GATE-001
-  fail-closed gate, OPS-001 clean-clone reproducibility); the rest await execution.
+  Verification (L4): **24 of 25 VERIFIED · 0 FAILED · 1 UNVERIFIED** (2026-10-01).
+  The one remaining is not awaiting verification work: `OPS-002` is a trend
+  criterion whose first data point is `v3.0.0` (owner ruled: audit per release).
+  `INTEG-001` AC3 (grounded AI chat) was implemented and verified this round and
+  is now gated in CI. See `spec/UNVERIFIED-DECISIONS.md` for the owner's
+  recorded rulings.
 - **2 interface contracts** (`exports/knowledge.json` 2.2.0; `verify_all.py` CLI),
   45 classified evidence records, 7 open questions, 2 conflict records,
   two-tier gap analysis, machine-readable registries + a minimum validator

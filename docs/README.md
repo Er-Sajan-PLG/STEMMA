@@ -76,6 +76,7 @@ All early work from start included as implementation of new architecture, not pr
 | Physics governing laws | [PHYSICS-GOVERNING-LAWS.md](PHYSICS-GOVERNING-LAWS.md) |
 | Physics minimal design v2 | [PHYSICS-MINIMAL-DESIGN-V2.md](PHYSICS-MINIMAL-DESIGN-V2.md) |
 | Security/integrity/provenance | [SECURITY-INTEGRITY-PROVENANCE.md](SECURITY-INTEGRITY-PROVENANCE.md) |
+| Prose-owned values audit (OPS-002) | [PROSE-OWNED-VALUES-AUDIT.md](PROSE-OWNED-VALUES-AUDIT.md) |
 | Ingestion & review webapp | [WEBAPP.md](WEBAPP.md) |
 | Contributing | [CONTRIBUTING.md](CONTRIBUTING.md) |
 | Glossary | [GLOSSARY.md](GLOSSARY.md) |

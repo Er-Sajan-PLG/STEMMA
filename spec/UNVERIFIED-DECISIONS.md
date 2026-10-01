@@ -1,7 +1,23 @@
 # The three UNVERIFIED requirements — owner decision sheet
 
 Prepared: 2026-10-01 · For: Sajan (`human:curator.001`, SOLE_OWNER)
-Status of the drive: **22 VERIFIED · 0 FAILED · 3 UNVERIFIED** (of 25)
+Status of the drive: **24 VERIFIED · 0 FAILED · 1 UNVERIFIED** (of 25)
+
+> **RULED 2026-10-01 and EXECUTED.** All three decisions below were taken by the
+> owner in one pass. Outcomes: §1 → **(a)** confirm, `UNRES-STEMMA-EXP-001`
+> **closed**, `EXP-004` **VERIFIED**. §2 → **(a)** per-release audit, trend
+> starts at `v3.0.0`; `OPS-002` **stays UNVERIFIED** until a second release
+> completes the pair. §3 → **(a)** implement AC3; the grounded chat was then
+> implemented and verified (`explorer/scripts/verify-grounded-chat.mjs`, 35
+> checks, both sabotages caught), so `INTEG-001` is now **VERIFIED**. The
+> original option sets are preserved below as the record of what was decided.
+>
+> Executor carried out the rulings under Constraint D: it recorded the owner's
+> decisions and set the one status the owner authorized (`EXP-004`), and did
+> **not** itself approve, reject, or defer any requirement. For §3 the owner
+> ordered the implementation, so the executor implemented AC3 and executed the
+> verification against it; the `INTEG-001` status reflects that executed result,
+> not an executor approval.
 
 This sheet exists because the three remaining requirements are **not** blocked on
 verification work. Each is blocked on something only the owner can supply, or on
@@ -73,6 +89,11 @@ What has **not** happened is the formal closure of `UNRES-STEMMA-EXP-001`
 - **(a)** Confirm the canonical-only consumer contract as intended → close
   `UNRES-STEMMA-EXP-001` with the amended acceptance criterion quoted above, and
   `EXP-004` becomes `VERIFIED`.
+
+> **RULED: (a) — CONFIRMED (2026-10-01).** `UNRES-STEMMA-EXP-001` is closed with
+the amended acceptance criterion quoted above; `REQ-STEMMA-EXP-004` is
+`VERIFIED`. See `spec/machine-readable/open_questions.yaml` for the recorded
+disposition.
 - **(b)** Amend the requirement (e.g. specify a minimum-canonical-count threshold
   before a canonical-only export is meaningful) → requirement is revised, not verified.
 - **(c)** Defer → record why.
@@ -123,6 +144,11 @@ the trend.
   and treat the trend as **starting** at `v3.0.0` (first data point) → `OPS-002`
   stays `UNVERIFIED` until a second release completes the pair, then is verified
   mechanically.
+
+> **RULED: (a) — PER-RELEASE AUDIT (2026-10-01).** A documented per-release audit
+is the measurement instrument; the trend starts at `v3.0.0` as its first data
+point, so `OPS-002` remains `UNVERIFIED` until a second release completes the
+pair. `EVID-STEMMA-OPS-004` is **not** promoted from INFERENCE to FACT.
 - **(b)** Redefine the criterion to something measurable now (e.g. a gate that
   fails on any newly-introduced hardcoded machine-owned value), making the
   requirement verifiable at a single point in time.
@@ -160,6 +186,15 @@ a placeholder badge pointing at a GitHub issue form. It is not a chat.
 
 **Decision requested.** One of:
 - **(a)** Implement the grounded chat (AC3) → then `INTEG-001` becomes verifiable.
+
+> **RULED: (a) — IMPLEMENT AC3 (2026-10-01). EXECUTED.** The grounded chat was
+> built (`explorer/src/services/grounded-chat.ts`, `explorer/src/components/
+> grounded-chat-panel.ts`, wired in `explorer/src/main.ts` + `index.html` +
+> `explorer.css`) and verified by `explorer/scripts/verify-grounded-chat.mjs`
+> (35 checks against the real export; refusal-disabled sabotage → 3 FAIL,
+> fabricated-connection-citation sabotage → 5 FAIL). The verifier is now a step
+> in the CI `explorer-build` job, so `INTEG-001` is gate-enforced end to end and
+> is recorded **VERIFIED**.
 - **(b)** Split the requirement: verify the graph-consumer half (`INTEG-001a`,
   ACs 1/2/4 — all passing today) and re-scope the chat into its own requirement
   (`INTEG-001b`) tracked as an open implementation item.
