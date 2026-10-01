@@ -23,10 +23,15 @@ open_questions:
   - ADR-0043
 - id: UNRES-STEMMA-EXP-001
   question: Consumer learninghub export has 0 entities — behavior is structurally correct given all-draft corpus, but intended behavior is only CLAIMed.
-  status: OPEN
+  status: CLOSED
   blocking: false
+  disposition: 'RESOLVED (owner ruling 2026-10-01, SOLE_OWNER — Sajan, human:curator.001). The owner confirms the canonical-only consumer contract as intended. Criterion, adopted from the owner''s recorded direction in spec/APPROVAL-WORKSHEET.md A1: emptiness is exceptional — once any entity is canonical, a consumer whose policy admits that entity SHALL NOT receive an empty export, so emptiness at that point indicates a canonicalization failure rather than a legitimate filtered result. The original premise of this record ("0 entities, all-draft corpus") is STALE and the resolution is recorded against the changed premise, not as an answer to the 0-entity question: the corpus is now 1 canonical (metre) / 8 draft, so the mixed-corpus condition the criterion requires is actually met and the canonical-only export yields 1 entity, not 0. The confirmation rests on an executed non-vacuity result, not on inspection: widening review_policy from canonical to all re-admits all 8 drafts, so the exclusion is caused by the policy and not by the drafts being absent. REQ-STEMMA-EXP-004 AC1 PASS + AC2 now owner-confirmed -> VERIFIED (EVID-STEMMA-EXP-017).'
+  blocking_impact: 'Was blocking REQ-STEMMA-EXP-004 AC2 only. AC1 was already independently PASS; this ruling supplied the owner confirmation AC2 required.'
   proposed_resolution: Owner confirms emptiness as expected behavior with review-policy contract; add assertion test thereafter.
   authority_required: SOLE_OWNER
+  resolution: 'Owner confirms the canonical-only contract (option (a) of spec/UNVERIFIED-DECISIONS.md §1). Emptiness is exceptional. A guard asserting the relationship rather than hardcoded counts now exists: tests/repo/test_export_consumers.py::test_review_policy_filter_excludes_drafts_and_widens_monotonically, mutation-proven to fail (naming all 8 leaked drafts) when entity_passes is sabotaged to ignore the policy.'
+  closed_date: '2026-10-01'
+  closed_by: human:curator.001
   related:
   - EVID-STEMMA-EXP-006
   - EVID-STEMMA-CORE-004

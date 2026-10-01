@@ -29,7 +29,7 @@ path the only missing piece).
 | REQ-STEMMA-EXP-001 | BEHAVIORAL | P0 | SHALL | RECOVERED | SUPPORTED | UNIT_TEST + CI (byte-identical, no wall clock) | EVID-EXP-002 |
 | REQ-STEMMA-EXP-002 | INTERFACE | P0 | SHALL | RECOVERED | SUPPORTED | UNIT_TEST (registry+vocab sidecar, VERSION match, adopted-from) | EVID-EXP-001, SCH-001, EXP-008 |
 | REQ-STEMMA-EXP-003 | BEHAVIORAL | P1 | SHALL | RECOVERED | SUPPORTED | INTEGRATION_TEST (CI freshness diff) | EVID-GATE-005 |
-| REQ-STEMMA-EXP-004 | INTERFACE | P1 | SHOULD | RECOVERED | PARTIALLY_SUPPORTED | INTEGRATION_TEST (consumer filter run) | EVID-EXP-006/-007, UNRES-STEMMA-EXP-001 |
+| REQ-STEMMA-EXP-004 | INTERFACE | P1 | SHOULD | RECOVERED | SUPPORTED | INTEGRATION_TEST (consumer filter run) | EVID-EXP-006/-007/-017 |
 | REQ-STEMMA-HITL-001 | SECURITY | P0 | SHALL | RECOVERED | SUPPORTED | INTEGRATION_TEST (hitl_check in gate) | EVID-HITL-001/-002, UNRES-STEMMA-HITL-001 |
 | REQ-STEMMA-HITL-002 | CONSTRAINT | P1 | SHALL NOT | RECOVERED | SUPPORTED | INTEGRATION_TEST (hitl_check) | EVID-HITL-001 |
 | REQ-STEMMA-HITL-003 | SECURITY | P0 | SHALL | PROPOSED (owner) | SUPPORTED | INTEGRATION_TEST (staged promotion + day gate + board waiver + full debt block) | EVID-HITL-009/-010/-011, ADR-0057 |
@@ -81,8 +81,9 @@ path the only missing piece).
 - **REQ-STEMMA-EXP-003:** Committed derived artifacts (`exports/`, `reports/`)
   SHALL be fresh: CI regenerates and diffs them.
 - **REQ-STEMMA-EXP-004:** Consumer exports SHOULD honor each consumer's
-  declared `review_policy` (e.g., learninghub = canonical only). Caveat:
-  UNRES-STEMMA-EXP-001 (empty-export intent unconfirmed).
+  declared `review_policy` (e.g., learninghub = canonical only). Owner-confirmed
+  UNRES-STEMMA-EXP-001 (closed 2026-10-01): emptiness is exceptional — once any
+  entity is canonical, a policy that admits it SHALL NOT yield an empty export.
 - **REQ-STEMMA-HITL-001:** AI-drafted content SHALL remain `draft` until a
   named human reviews it; canonical objects declare `writer: human:*`.
 - **REQ-STEMMA-HITL-002:** No object SHALL become canonical without an explicit

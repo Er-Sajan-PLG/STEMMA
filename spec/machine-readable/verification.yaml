@@ -1,5 +1,26 @@
-verification_set_note: 'Execution round 2026-10-01 (final): 21 VERIFIED, 0 FAILED, 3 UNVERIFIED of 24. The two prior FAILED records — REQ-STEMMA-HITL-001 and REQ-STEMMA-HITL-002 — are now VERIFIED after the owner exercised sole-owner authority via UNRES-STEMMA-HITL-002, ruling that HITL scope is ALL data (content/ and every entity type, not only connections/) and ordering the demotion of the 6 LLM-written canonical entities. Executed: (1) scripts/verify_all.py now runs `hitl_check.py --all` over content/ + connections/ instead of the vacuous `--check-workflow` over a git-ignored empty dir; (2) the 6 entities (conservation-energy, force, length, mass, newtons-second-law, time) were demoted to draft and their unsupported human-review claims removed; corpus is now 1 canonical (metre) / 8 clean drafts; conn.000157 (canonical, LLM-asserted, citing two now-draft endpoints) was demoted to unreviewed; (3) validate.py now enforces canonical-endpoint coupling for connections AND a content-layer human-writer+reviewer
-  rule (check_entity_agents), the analog of check_connection_agents. All three new gates are mutation-proven non-vacuous. Full gate sweep green: verify_all.py exit 0, docs.py check PASS, 289 pytest tests pass. The 3 remaining UNVERIFIED are recorded at acceptance-criteria granularity: EXP-004 (AC1 PASS; AC2 needs owner confirmation via UNRES-EXP-001), INTEG-001 (AC1/AC2/AC4 PASS; AC3 unmet — no grounded AI chat implemented), OPS-002 (blocked on precondition — no release tags yet). Earlier findings repaired and re-verified: CORE-004, EXP-002, GATE-003, EXP-003. Closed: UNRES-STEMMA-GATE-001, UNRES-STEMMA-CORE-002, UNRES-STEMMA-HITL-002 (owner-ruled).'
+verification_set_note: >-
+  Execution round 2026-10-01 (owner rulings applied): 23 VERIFIED, 0 FAILED,
+  2 UNVERIFIED of 25. This round the owner (human:curator.001, SOLE_OWNER) ruled
+  on all three then-UNVERIFIED requirements in one pass via
+  spec/UNVERIFIED-DECISIONS.md. (1) EXP-004 AC2 CONFIRMED: the canonical-only
+  consumer contract is intended, adopting the criterion that emptiness is
+  exceptional — once any entity is canonical, a policy admitting it SHALL NOT
+  yield an empty export. UNRES-STEMMA-EXP-001 CLOSED and EXP-004 -> VERIFIED.
+  (2) OPS-002: a documented per-release audit is accepted as the measurement
+  instrument and the trend now STARTS at v3.0.0 as its first data point; the
+  requirement deliberately REMAINS UNVERIFIED until a second release completes
+  the pair, and EVID-STEMMA-OPS-004 is NOT promoted from INFERENCE to FACT.
+  (3) INTEG-001: the owner ordered AC3 implemented (grounded AI chat with
+  citations and refusal); AC1/AC2/AC4 already PASS, so the requirement stays
+  UNVERIFIED pending that implementation. The executor executed the rulings and
+  set only the status the owner authorized, per Constraint D
+  (spec/ROLES_AND_AUTHORITY.md). Prior rounds: the two FAILED records HITL-001
+  and HITL-002 became VERIFIED after UNRES-STEMMA-HITL-002 (HITL scope is ALL
+  data; the 6 LLM-written canonical entities demoted; corpus now 1 canonical
+  (metre) / 8 drafts); UNRES-STEMMA-HITL-001 (audit-trail portability) remains
+  OPEN. EXP-003, CORE-004, EXP-002 and GATE-003 were repaired and re-verified.
+  Closed: UNRES-STEMMA-GATE-001, UNRES-STEMMA-CORE-002, UNRES-STEMMA-HITL-002,
+  UNRES-STEMMA-EXP-001.
 verification_records:
 - requirement: REQ-STEMMA-CORE-001
   method: INSPECTION
@@ -150,13 +171,14 @@ verification_records:
   result: 'AC1 PASS. ci.yml:32-34 runs `git diff --exit-code -- exports reports || (echo FAIL; exit 1)` in the verify-knowledge-base job after the authoritative chain (:30); the same gate repeats at :283 and :301 and in release.yml:69. Executed as an integration test against the real artifacts: (negative control) both an appended entity and an edited existing entity in exports/knowledge.json → exit 1; (positive control) `python3 scripts/validate.py` regenerated the artifact and the diff returned to 0 with a clean tree. The gate is therefore non-vacuous AND a true freshness gate rather than a tautology — a green diff means the derived artifacts genuinely match the canonical layer.'
 - requirement: REQ-STEMMA-EXP-004
   method: INTEGRATION_TEST
-  status: UNVERIFIED
+  status: VERIFIED
+  verified_date: 2026-10-01
   evidence:
   - EVID-STEMMA-EXP-006
   - EVID-STEMMA-EXP-007
   - EVID-STEMMA-EXP-017
   procedure: 'AC1: build the learninghub consumer export under each review_policy and compare entity counts/statuses against the canonical set. AC2: confirm the behavior is documented and owner-confirmed (UNRES-STEMMA-EXP-001).'
-  result: 'AC1 PASS (re-executed 2026-10-01 after the HITL demotion; numbers below are the current corpus, correcting an earlier 7/2 reading). The corpus is now 1 canonical (metre) / 8 draft, so the mixed-corpus precondition is met. `--review-policy all` yields 9 entities (both drafts present); `reviewed`/`trusted`/`canonical` each yield 1 with statuses {canonical} only (the sole canonical entity). The filter is non-vacuous: widening the policy re-admits the drafts, so the exclusion is caused by review_policy rather than by the drafts being absent. AC2 STILL OPEN: it requires documentation plus owner confirmation via UNRES-STEMMA-EXP-001, which remains OPEN — and whose original premise (''0 entities, all-draft corpus'') is now stale. Until the owner confirms, AC1 passing does not make the requirement VERIFIED.'
+  result: 'VERIFIED (owner ruling 2026-10-01, closing UNRES-STEMMA-EXP-001). AC1 PASS (re-executed 2026-10-01 after the HITL demotion; numbers below are the current corpus, correcting an earlier 7/2 reading). The corpus is now 1 canonical (metre) / 8 draft, so the mixed-corpus precondition is met. `--review-policy all` yields 9 entities (both drafts present); `reviewed`/`trusted`/`canonical` each yield 1 with statuses {canonical} only (the sole canonical entity). The filter is non-vacuous: widening the policy re-admits the drafts, so the exclusion is caused by review_policy rather than by the drafts being absent. AC2 NOW SATISFIED: the owner confirmed the canonical-only contract as intended, adopting the criterion that emptiness is exceptional — once any entity is canonical, a consumer whose policy admits it SHALL NOT receive an empty export. Because the corpus now holds 1 canonical entity, that contract is exercised live (the canonical-only export yields 1, not 0), rather than being answered only in the abstract. The stale 0-entity premise of UNRES-STEMMA-EXP-001 is recorded as changed rather than silently overwritten.'
 - requirement: REQ-STEMMA-HITL-001
   method: INTEGRATION_TEST
   status: VERIFIED
