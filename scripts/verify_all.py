@@ -28,14 +28,25 @@ steps = [
     [sys.executable, str(ROOT / "scripts/status_truth.py")],
     [sys.executable, str(ROOT / "scripts/physics_core_profile_check.py")],
     [sys.executable, str(ROOT / "scripts/physics_governing_check.py")],
-    [sys.executable, str(ROOT / "scripts/hitl_check.py"), "--check-workflow"],
+    [sys.executable, str(ROOT / "scripts/hitl_check.py"), "--all"],
     [sys.executable, str(ROOT / "scripts/graph_analysis.py")],
     [sys.executable, str(ROOT / "scripts/export_review_aware.py")],
     # Subset exports are published by Pages (exports/knowledge*.json); regenerate so
     # CI's freshness diff catches staleness (they had drifted since the R4 canon tier).
     [sys.executable, str(ROOT / "scripts/export_subsets.py")],
+    # Consumer bundles (LearningHub, PROFESSOR-J, general, explorer) are derived
+    # artifacts too. Previously only an INFO line — they could be stale and the
+    # chain stayed green (recorded gap, 2026-10-01). Now fail-closed: regenerate
+    # then verify freshness so a frozen consumer bundle breaks CI.
+    [sys.executable, str(ROOT / "scripts/export_consumers.py"), "--all"],
+    [sys.executable, str(ROOT / "scripts/export_consumers.py"), "--check", "--all"],
     [sys.executable, str(ROOT / "tests/registry/test_registry_coherence.py")],
     [sys.executable, str(ROOT / "tests/registry/test_domain_identity.py")],
+    # ADR-0057 / ENF-STEMMA-HITL-001..004: staged promotion chain, day-separated
+    # stages, and revalidation debt (owner-enforced; applies to entities AND
+    # connections). Mutation-tested — every guard can go red. Run via pytest
+    # because the suite uses fixtures.
+    [sys.executable, "-m", "pytest", str(ROOT / "tests/repo/test_promotion_chain.py"), "-q"],
     [sys.executable, str(ROOT / "tests/versioning/test_validation_report.py")],
     [sys.executable, str(ROOT / "tests/versioning/test_deterministic_export.py")],
     # Semantic acquisition pipeline — evidence first-class, AI output must be proposal, independent verification, conflict analysis
@@ -126,6 +137,16 @@ def check_semantic_pipeline():
 
 def main() -> int:
     print("COMPREHENSIVE ALL-STEM, MEDIOCRE COVERAGE, HITL, EVOLVABLE, FRONTIER, EMBEDDINGS, RAG, CONSUMER EXPORT — verification chain for all-STEM v2 with primary PDF ingestion, deterministic scales, evolvable templates v2.0.0, model selector like DeepSeek harness (local + frontier models), embeddings with model selector like DeepSeek harness (local + frontier models), RAG with citations, consumer export for LearningHub, PROFESSOR-J")
+
+    # NOTE: this chain is intentionally *not* preflighted for pytest. The
+    # docs-contract check `gate-fail-closed` (docs/docs-contract.yaml) runs
+    # `tests/repo/test_gate_fail_closed.py` under an interpreter that installs
+    # requirements.txt but NOT pytest — that file is written to work without it
+    # (`try: import pytest / except ImportError: pytest = None`, plus a
+    # hand-rolled `__main__` runner). A pytest preflight here would make the
+    # chain fail *before* reaching the stub step, so the negative-path test
+    # would see a FAIL line naming pytest instead of the forced-failure step,
+    # and the fail-closed assertion would break for the wrong reason.
     for cmd in steps:
         print(f"RUN: {' '.join(cmd)}")
         r = subprocess.run(cmd)

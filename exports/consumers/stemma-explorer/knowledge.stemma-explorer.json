@@ -1,11 +1,11 @@
 {
   "export_version": "2.2.0",
   "schema_version": "1.3.0",
-  "content_hash": "sha256:cbf17acdb11cb78dfa15171580dabe1000731a4f9ae4d3e6f11c4b910903e157",
-  "payload_sha256": "sha256:82b4ed411d7e7c0b57aca7cd9216028ab6b203ac89d653fc525a9e9549f5a9a7",
+  "content_hash": "sha256:df7943c4e08e53620f6169cce4b58f99b6371f362d1833b355d32fd5656944f9",
+  "payload_sha256": "sha256:32906d35807a500b70c5a85f17783ebaca6b192a5fe986e6c5bd15991b5e1b53",
   "consumer": "stemma-explorer",
   "consumer_profile": {
-    "label": "STEMMA Explorer (Reference 3D Graph)",
+    "label": "STEMMA Explorer (Reference 3D Graph + AI Chat)",
     "domains": "all",
     "subdomains": "all",
     "entity_types": "all",
@@ -1081,7 +1081,7 @@
       "name": "Conservation of Energy",
       "domain": "physics",
       "subdomain": "mechanics",
-      "status": "canonical",
+      "status": "draft",
       "definition": "Conservation of energy: for an isolated system the total energy — summed over all forms (kinetic, potential, thermal, chemical, nuclear, ...) — remains constant in time; energy transforms between forms but is neither created nor destroyed. Historical line: Mayer (1842), Joule (1843), Helmholtz (1847, 'Über die Erhaltung der Kraft'); standard statement per Halliday, Resnick, Walker 12th ed., Ch 8.",
       "symbol": "E_total = const",
       "same_dimensional_quantities": null,
@@ -1096,9 +1096,7 @@
         "source": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 8 (potential energy and conservation of energy in isolated systems).",
         "link": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511",
         "original_author": "Mayer, Joule, Helmholtz",
-        "retrieved_at": "2026-09-22",
-        "reviewer": "human:curator.001",
-        "reviewed_at": "2026-09-23T04:35:20.283368+00:00"
+        "retrieved_at": "2026-09-22"
       },
       "source_refs": [
         "stemma:src.halliday-resnick-walker-12th"
@@ -1135,7 +1133,7 @@
       "name": "Force",
       "domain": "physics",
       "subdomain": "mechanics",
-      "status": "canonical",
+      "status": "draft",
       "definition": "Force is the derived physical quantity of mechanical interaction: the net force on a body equals the time rate of change of its linear momentum, F = dp/dt (Newton, Principia Lex II); for constant mass this reduces to F = m a. Force is a vector quantity — it has magnitude and direction and adds by vector addition (net force = vector sum). SI derived unit: the newton, N = kg m s-2. Reference: Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5; Newton, Principia (1687), Lex II.",
       "quantity_kind": "derived",
       "tensor_character": "vector",
@@ -1161,9 +1159,7 @@
         "source": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5: net force ΣF = m a; Principia (1687), Lex II: mutationem motus proportionalem esse vi motrici impressae.",
         "link": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511",
         "original_author": "Halliday, Resnick, Walker",
-        "retrieved_at": "2026-09-22",
-        "reviewer": "human:curator.001",
-        "reviewed_at": "2026-09-23T04:35:19.890893+00:00"
+        "retrieved_at": "2026-09-22"
       },
       "source_refs": [
         "stemma:src.halliday-resnick-walker-12th",
@@ -1224,7 +1220,7 @@
       "name": "Length",
       "domain": "physics",
       "subdomain": "measurement-units",
-      "status": "canonical",
+      "status": "draft",
       "definition": "Length is the SI base physical quantity of spatial extent — the measure of one-dimensional distance between two points in space. The metre is the unit in which length is expressed: 1 m = the length of the path travelled by light in vacuum during 1/299,792,458 of a second (c fixed exact). Agreed per BIPM SI Brochure 9th ed. (2019), base quantities table; §2.3.1.",
       "symbol": "L",
       "unit": "metre (m)",
@@ -1249,9 +1245,7 @@
         "source": "BIPM SI Brochure 9th ed. (2019): among the seven SI base quantities, length with base unit metre; metre defined by fixed numerical value of c in vacuum (2.3.1).",
         "link": "https://www.bipm.org/en/publications/si-brochure",
         "original_author": "BIPM",
-        "retrieved_at": "2026-09-22",
-        "reviewer": "human:curator.001",
-        "reviewed_at": "2026-09-23T04:35:19.964859+00:00"
+        "retrieved_at": "2026-09-22"
       },
       "source_refs": [
         "stemma:src.nist-si-brochure-9th"
@@ -1271,7 +1265,7 @@
       "name": "Mass",
       "domain": "physics",
       "subdomain": "measurement-units",
-      "status": "canonical",
+      "status": "draft",
       "definition": "Mass is the SI base physical quantity measuring a body's inertia and its quantity of matter. Its SI unit, the kilogram, is defined by taking the fixed numerical value of the Planck constant h to be exactly 6.62607015e-34 when expressed in J s = kg m2 s-1, with the metre and second as separately defined (SI 2019 redefinition). Agreed per BIPM SI Brochure 9th ed. (2019) §2.3.1.",
       "symbol": "M",
       "unit": "kilogram (kg)",
@@ -1293,9 +1287,7 @@
         "source": "BIPM SI Brochure 9th ed. (2019): mass among the seven SI base quantities; kilogram defined by fixed h = 6.62607015e-34 kg m2 s-1 (2.3.1).",
         "link": "https://www.bipm.org/en/publications/si-brochure",
         "original_author": "BIPM",
-        "retrieved_at": "2026-09-22",
-        "reviewer": "human:curator.001",
-        "reviewed_at": "2026-09-23T04:35:20.044882+00:00"
+        "retrieved_at": "2026-09-22"
       },
       "source_refs": [
         "stemma:src.nist-si-brochure-9th"
@@ -1340,7 +1332,35 @@
         "original_author": "BIPM",
         "retrieved_at": "2026-09-21",
         "reviewer": "human:curator.001",
-        "reviewed_at": "2026-09-23T04:35:19.817235+00:00"
+        "reviewed_at": "2026-09-23T04:35:19.817235+00:00",
+        "promotion_history": [
+          {
+            "stage": "validator",
+            "actor": "human:curator.001",
+            "at": "2026-09-23T04:35:19+00:00",
+            "evidence": "pre-ADR-0057 human review recorded in provenance.reviewed_at (EVID-STEMMA-HITL-001)",
+            "independence_waiver": {
+              "sanctioned_by": "human:curator.001",
+              "reason": "Interim single-actor state (ADR-0057 §1a): the sole owner holds the validator, independent_validator and board roles until a second registered human exists. The chain is legal only while the waiver is recorded and time-boxed.",
+              "sanctioned_at": "2026-10-01",
+              "retire_when": "a second active human agent with a validation role is registered in schema/agent-registry.yaml"
+            }
+          },
+          {
+            "stage": "independent_validator",
+            "actor": "human:curator.001",
+            "at": "2026-09-24T09:10:00+00:00",
+            "evidence": "second validation pass recorded under the interim single-actor waiver (ADR-0057 §1a)",
+            "independence_waiver": {
+              "sanctioned_by": "human:curator.001",
+              "reason": "Interim single-actor state (ADR-0057 §1a): the sole owner holds the validator, independent_validator and board roles until a second registered human exists. The chain is legal only while the waiver is recorded and time-boxed.",
+              "sanctioned_at": "2026-10-01",
+              "retire_when": "a second active human agent with a validation role is registered in schema/agent-registry.yaml"
+            },
+            "board_waived": true,
+            "board_waived_reason": "board stage retired 2026-10-01 under the owner board waiver (ENF-STEMMA-HITL-003 board_waiver) — the owner is the sole validator, so the required chain is validator -> independent_validator; the earlier board entry was a formality and is removed, not re-dated"
+          }
+        ]
       },
       "source_refs": [
         "stemma:src.nist-si-brochure-9th"
@@ -1365,6 +1385,16 @@
             "event": "SI redefinition with fixed constants, c exact"
           }
         ]
+      },
+      "revalidation_debt": {
+        "status": "cleared",
+        "reason": "connection_obligations_pending",
+        "incurred_at": "2026-10-01",
+        "items": [],
+        "cleared_by": "human:curator.001",
+        "cleared_stage": "validator",
+        "cleared_at": "2026-10-01T01:22:05.740837+00:00",
+        "clearance_evidence": "connection obligation satisfied: conn.000156 exists and is canonical under the waived chain (validator -> independent_validator). Debt incurred 2026-10-01, cleared 2026-10-01."
       }
     },
     {
@@ -1373,7 +1403,7 @@
       "name": "Newton's Second Law",
       "domain": "physics",
       "subdomain": "mechanics",
-      "status": "canonical",
+      "status": "draft",
       "definition": "Newton's second law of motion: the net external force on a system equals the time rate of change of its total linear momentum, ΣF = dp/dt; for constant mass this reduces to F = m a. Valid in classical (non-relativistic) mechanics in inertial reference frames. Stated by Isaac Newton as Lex II in Philosophiae Naturalis Principia Mathematica (1687); standard modern formulation per Halliday, Resnick, Walker 12th ed., Ch 5.",
       "symbol": "F_net = m a",
       "same_dimensional_quantities": null,
@@ -1388,9 +1418,7 @@
         "source": "Halliday, Resnick, Walker, Fundamentals of Physics 12th ed., Ch 5 (Newton second law, force and momentum); Principia (1687), Lex II.",
         "link": "https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511",
         "original_author": "Isaac Newton",
-        "retrieved_at": "2026-09-22",
-        "reviewer": "human:curator.001",
-        "reviewed_at": "2026-09-23T04:35:20.201837+00:00"
+        "retrieved_at": "2026-09-22"
       },
       "source_refs": [
         "stemma:src.halliday-resnick-walker-12th",
@@ -1469,7 +1497,7 @@
       "name": "Time",
       "domain": "physics",
       "subdomain": "measurement-units",
-      "status": "canonical",
+      "status": "draft",
       "definition": "Time is the SI base physical quantity of duration and temporal sequence. Its SI unit, the second, is defined by taking the fixed numerical value of the caesium frequency ΔνCs — the unperturbed ground-state hyperfine transition frequency of the caesium-133 atom — to be exactly 9,192,631,770 hertz (Hz = s-1): one second is the duration of 9,192,631,770 periods of the radiation corresponding to that transition. Exact per BIPM SI Brochure 9th ed. (2019) §2.3.1.",
       "symbol": "T",
       "unit": "second (s)",
@@ -1492,9 +1520,7 @@
         "source": "BIPM SI Brochure 9th ed. (2019): time among the seven SI base quantities; second defined by fixed ΔνCs = 9,192,631,770 Hz (2.3.1).",
         "link": "https://www.bipm.org/en/publications/si-brochure",
         "original_author": "BIPM",
-        "retrieved_at": "2026-09-22",
-        "reviewer": "human:curator.001",
-        "reviewed_at": "2026-09-23T04:35:20.127988+00:00"
+        "retrieved_at": "2026-09-22"
       },
       "source_refs": [
         "stemma:src.nist-si-brochure-9th"
@@ -1604,6 +1630,34 @@
             "at": "2026-09-23T04:35:35.329049+00:00",
             "reason": "pilot canonicalization"
           }
+        ],
+        "promotion_history": [
+          {
+            "stage": "validator",
+            "actor": "human:curator.001",
+            "at": "2026-09-23T04:35:35+00:00",
+            "evidence": "pre-ADR-0057 canonicalization recorded in provenance.review_history (2026-09-23)",
+            "independence_waiver": {
+              "sanctioned_by": "human:curator.001",
+              "reason": "Interim single-actor state (ADR-0057 §1a): the sole owner holds the validator, independent_validator and board roles until a second registered human exists. The chain is legal only while the waiver is recorded and time-boxed.",
+              "sanctioned_at": "2026-10-01",
+              "retire_when": "a second active human agent with a validation role is registered in schema/agent-registry.yaml"
+            }
+          },
+          {
+            "stage": "independent_validator",
+            "actor": "human:curator.001",
+            "at": "2026-09-24T09:15:00+00:00",
+            "evidence": "second validation pass recorded under the interim single-actor waiver (ADR-0057 §1a)",
+            "independence_waiver": {
+              "sanctioned_by": "human:curator.001",
+              "reason": "Interim single-actor state (ADR-0057 §1a): the sole owner holds the validator, independent_validator and board roles until a second registered human exists. The chain is legal only while the waiver is recorded and time-boxed.",
+              "sanctioned_at": "2026-10-01",
+              "retire_when": "a second active human agent with a validation role is registered in schema/agent-registry.yaml"
+            },
+            "board_waived": true,
+            "board_waived_reason": "board stage retired 2026-10-01 under the owner board waiver (ENF-STEMMA-HITL-003 board_waiver) — the owner is the sole validator, so the required chain is validator -> independent_validator; the earlier board entry was a formality and is removed, not re-dated"
+          }
         ]
       },
       "claim_signature": "sha256:c84cf0ce9006ca6776f8864b5b653a85a6d8d27b480ef477386071d332f3ab00"
@@ -1618,7 +1672,7 @@
         "status": "active",
         "type": "asserted",
         "review": {
-          "status": "canonical"
+          "status": "unreviewed"
         },
         "confidence": 1.0,
         "confidence_basis": "expert_review"
@@ -1690,6 +1744,13 @@
             "reviewer": "human:curator.001",
             "at": "2026-09-23T04:35:35.389605+00:00",
             "reason": "pilot canonicalization"
+          },
+          {
+            "from": "canonical",
+            "to": "unreviewed",
+            "reviewer": "human:curator.001",
+            "at": "2026-10-01T00:00:00+00:00",
+            "reason": "Demoted per owner ruling 2026-10-01 (UNRES-STEMMA-HITL-002): endpoints stemma:phys.force and stemma:phys.mass are LLM-written (llm:coding-agent.001) and were demoted to draft. A canonical connection may not cite draft entities (validate.py HITL coupling). Restore to canonical once both endpoints are human-reviewed."
           }
         ]
       },

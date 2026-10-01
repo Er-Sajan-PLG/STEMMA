@@ -2,7 +2,8 @@ name: Pages — family site (explorer + exports)
 
 # Read-only public site for family/testers (ADR-0054): the static 3D explorer
 # plus the published knowledge exports. No server, no keys, no accounts.
-# Served at https://er-sajan-plg.github.io/STEMMA/
+# Served at https://stemorg2026.github.io/STEMMA/ (repo moved from the
+# Er-Sajan-PLG account; Pages was re-enabled at the org on 2026-10-01).
 
 on:
   push:

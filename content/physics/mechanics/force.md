@@ -4,7 +4,7 @@ type: quantity
 name: Force
 domain: physics
 subdomain: mechanics
-status: canonical
+status: draft
 definition: 'Force is the derived physical quantity of mechanical interaction: the
   net force on a body equals the time rate of change of its linear momentum, F = dp/dt
   (Newton, Principia Lex II); for constant mass this reduces to F = m a. Force is
@@ -37,8 +37,6 @@ provenance:
   link: https://www.wiley.com/en-us/Fundamentals+of+Physics%2C+12th+Edition-p-9781119773511
   original_author: Halliday, Resnick, Walker
   retrieved_at: '2026-09-22'
-  reviewer: human:curator.001
-  reviewed_at: '2026-09-23T04:35:19.890893+00:00'
 source_refs:
 - stemma:src.halliday-resnick-walker-12th
 - stemma:src.newton-principia-1687

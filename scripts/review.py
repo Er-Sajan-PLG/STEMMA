@@ -44,12 +44,23 @@ def cmd_list():
     conns = []
     for p in sorted(CONNECTIONS.glob("*.yaml")):
         d = yaml.safe_load(p.read_text())
+        # ADR-0045: a claim is EITHER an entity->entity edge (has `target`) OR a
+        # value-slot claim (has `value`). Never assume `target` exists — see
+        # curation_status.py for the sibling defensive form.
+        if d.get("target") is not None:
+            claim = d["target"]
+        elif d.get("value") is not None:
+            claim = f"value:{d['value']}"
+        else:
+            claim = None
         conns.append(
             {
                 "id": d["id"],
                 "relation": d["relation"],
                 "source": d["source"],
-                "target": d["target"],
+                "target": d.get("target"),
+                "value": d.get("value"),
+                "claim": claim,
                 "review": d["assertion"]["review"]["status"],
                 "type": d["assertion"]["type"],
                 "origin": d["provenance"]["method"]["type"],
@@ -67,19 +78,24 @@ def cmd_show(cid):
         if dd.get("id"):
             ents[dd["id"]] = dd
     src = ents.get(d["source"], {})
-    tgt = ents.get(d["target"], {})
+    tgt = ents.get(d["target"], {}) if d.get("target") else {}
+    payload = {
+        "connection": d["id"],
+        "relation": d["relation"],
+        "relation_family": __import__("yaml").safe_load(open(ROOT / "schema/relation-registry.yaml").read()).get("relations", {}).get(d["relation"], {}).get("family"),
+        "source": {"id": d["source"], "name": src.get("name"), "definition": src.get("definition", "")[:200]},
+        # value-slot claims (ADR-0045) carry `value`, not `target`; project both so
+        # the reviewer sees the claim whichever shape it takes.
+        "target": ({"id": d["target"], "name": tgt.get("name"), "definition": tgt.get("definition", "")[:200]}
+                   if d.get("target") else None),
+        "value": d.get("value"),
+        "assertion": d["assertion"],
+        "context": d.get("context"),
+        "evidence": d.get("evidence"),
+        "provenance": d.get("provenance"),
+    }
     print(yaml.safe_dump(
-        {
-            "connection": d["id"],
-            "relation": d["relation"],
-            "relation_family": __import__("yaml").safe_load(open(ROOT / "schema/relation-registry.yaml").read()).get("relations", {}).get(d["relation"], {}).get("family"),
-            "source": {"id": d["source"], "name": src.get("name"), "definition": src.get("definition", "")[:200]},
-            "target": {"id": d["target"], "name": tgt.get("name"), "definition": tgt.get("definition", "")[:200]},
-            "assertion": d["assertion"],
-            "context": d.get("context"),
-            "evidence": d.get("evidence"),
-            "provenance": d.get("provenance"),
-        },
+        payload,
         sort_keys=False,
         allow_unicode=True,
     ))
