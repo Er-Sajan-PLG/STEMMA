@@ -2,13 +2,13 @@
 
 > **Current state only.** What IS, not what happened. History lives in `sessions/`.
 
-**Last Reconciled:** 2026-10-01T14:20Z
+**Last Reconciled:** 2026-10-01T14:56Z
 **Reconciled by:** `A7F3`
 **Protocol:** MACP v1.0 (`state/PROTOCOL.md`)
 
-> **No agent is active.** The owner declared the session over on 2026-10-01, so
-> `20261001-1215-A7F3-cold-start-handoff` is closed (`status: ended`, `files_owned` released).
-> A new session may start freely; nothing is claimed.
+> **An agent is active** — `A7F3`, session `20261001-1434-A7F3-shadow-tree` (started
+> 2026-10-01T14:34Z). The previous session (`20261001-1215-A7F3-cold-start-handoff`) is
+> closed. Files claimed: see `REGISTRY.md`.
 
 > **Staleness policy (protocol §6 step 3):** `< 24 h` → trustworthy · `24–48 h` → verify key
 > claims before relying on them · `> 48 h` → **STALE**, you must reconcile before working.
@@ -97,8 +97,7 @@
 2. **Owner:** decide `tmp/fix-release-exports` (BLK-006). It is the only unmerged branch; cutting
    a release is not cleanup, so it was left alone.
 3. **Then:** `UNRES-STEMMA-CORE-003` and `REQ-STEMMA-OPS-002` both resolve at **release time**.
-4. **Candidate work with no blocker:** `DEBT.md` holds **2 open** (003, 004), **1 mitigated**
-   (007) and **5 resolved**. DEBT-003 is an accepted residual (an ordering property; atomicity
+4. **Candidate work with no blocker:** `DEBT.md` holds **2 open** (003, 004) and **6 resolved**. DEBT-003 is an accepted residual (an ordering property; atomicity
    cannot fix it). DEBT-004 is **not a defect** — nothing in-repo reads the vector-store files.
    DEBT-007's residual is the shadow-tree refactor of `test_promotion_chain.py`.
 
