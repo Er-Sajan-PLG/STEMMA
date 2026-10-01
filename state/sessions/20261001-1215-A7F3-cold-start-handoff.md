@@ -3,7 +3,7 @@
 **Agent:** `A7F3`
 **Session ID:** `20261001-1215-A7F3-cold-start-handoff`
 **Started:** 2026-10-01T12:15Z
-**Status:** active
+**Status:** ended
 **Branch:** `docs/owner-rulings-unverified`
 **Base commit:** `d68d582`  <!-- A6 schema, backfilled 2026-10-01 -->
 **Task:** Verify that a *cold* agent (new session, no context) can continue from `state/`, and fix the cold-start gaps the verification exposed.
@@ -687,3 +687,67 @@ Worth noting as evidence the guard was worth adding: the previous under-declarat
 unnoticed until a deliberate audit; this one surfaced immediately and by accident.
 
 **Work unit complete — session remains ACTIVE.**
+
+---
+
+## [COORDINATION] 2026-10-01T14:19Z — OWNER DECLARED SHUTDOWN. Session closing.
+
+Owner: *"ok i want you to close the session, and when i say that everything needs to be cleaned
+up git, branches merged, state updated to new session can continue."*
+
+That is the owner-declared end of session required by DEC-007, so the full §Shutdown sequence
+now runs. **A1 step 0: stop working.**
+
+### [DISCOVERY] The merge had silently dropped five commits
+
+Reconnaissance found **PR #66 already merged** — but `main`'s tree was **byte-identical to
+`1a9380e`**, not to the branch tip. The merge was a **squash** (single parent `6a0794c`), and it
+captured an earlier snapshot than the tip.
+
+Verified against `main` directly rather than inferred:
+
+| Checked on `main` | Before | After |
+|---|---|---|
+| `docs/EMBEDDINGS.md` false `vector_store/ FAISS` claims | **3** | 0 |
+| `state/PROTOCOL.md` A4 ownership row | **0** | 1 |
+| `state/DEBT.md` DEBT-008 | **0** | 1 |
+| `state/BLOCKERS.md` BLK-005 | **0** | 1 |
+
+Five commits were missing: `04407c5`, `233ff28`, `589f970`, `ea6f451` (the 78-place FAISS fix),
+`606b4d8`. `git diff main..branch` = 26 files, +290 / −86.
+
+**Recovered without rewriting anything.** A fresh branch was created from `main` and the five
+commits **cherry-picked** onto it — clean, because they are children of the commit whose tree
+`main` matches. The resulting tree was verified **byte-identical** to the original branch, so
+nothing was lost or altered. Opened as PR #67 and merged.
+
+Neither CI nor the merge itself reported anything wrong. **A squash merge captures the PR head at
+merge time, so merging while an agent is still pushing drops commits silently.**
+
+### [PROGRESS] Git cleaned up
+
+Deleted, each after verifying its content is in `main`:
+
+| Branch | Verified by |
+|---|---|
+| `docs/owner-rulings-unverified` | tree byte-identical to `main` |
+| `fix/complete-pr66-merge` | content in `main` (PR #67) |
+| `chore/retire-release-please` | release-please config absent from `main` |
+| `docs/publish-owner-public-key` | `docs/keys/stemma-owner-pubkey.asc` present in `main` |
+| `feat/audit-published-release-signature` | `scripts/audit_release_signature.py` present in `main` |
+| `fix/release-install-pytest` | `release.yml` installs `requirements-dev.txt` in `main` |
+| `docs/release-status-drift` | `release_status` guard present in `main` |
+| `docs/unverified-decisions` | EXP-004 correction present in `main` |
+| `fix/sign-relative-path` | the exact `bundle.resolve()` fix present in `main` |
+
+**Deliberately NOT deleted:** `tmp/fix-release-exports` — it carries two unmerged commits
+proposing a **4.0.0 release** (`4ee3115`, `7cf79eb`) while `VERSION` on `main` is `3.0.0`.
+Cutting a release is an owner decision, not cleanup. Left in place and reported.
+
+Final state: local `main` + `tmp/fix-release-exports`; remote `origin/main` only.
+
+### Outcome
+
+**COMPLETED.** Session closed at the owner's direction. Both declared preconditions met —
+git cleaned up, branches merged — plus one thing the owner did not know was outstanding: the
+squash merge had dropped five commits, now recovered and merged.
