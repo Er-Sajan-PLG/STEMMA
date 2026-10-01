@@ -101,7 +101,7 @@
    cannot fix it). DEBT-004 is **not a defect** — nothing in-repo reads the vector-store files.
    DEBT-007's residual is the shadow-tree refactor of `test_promotion_chain.py`.
 
-## Environment Facts (verified by inspection, not assumed)
+## Environment Facts (re-verified by inspection 2026-10-01, not assumed)
 
 | | |
 |---|---|
