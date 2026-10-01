@@ -207,5 +207,5 @@ tests/        pytest suites (repo/, registry/, versioning/, curation/, webapp/, 
 explorer/     consumer: graph viewer + grounded chat
 webapp/       consumer: ingestion UI (no login)
 adapters/     consumer: python SDK
-state/        MACP agent coordination state (see PROTOCOL.md)
+state/        MACP agent coordination state (see PROTOCOL.md; startup in STARTUP.md)
 ```
