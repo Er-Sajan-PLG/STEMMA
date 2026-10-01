@@ -173,9 +173,49 @@ def test_time_gate_is_data_driven():
 
 
 def test_missing_enforcement_registry_fails_closed():
+    """Deleting the enforcement registry must make the gate fail closed.
+
+    NOTE ON FRAGILITY. This test removes a **tracked** file from the real tree and
+    restores it in `finally`, so the setup step can be blocked by things outside the
+    test: a filesystem delete guard, a sandbox policy, a file watcher. When that
+    happens the unlink silently does not take effect, `validate.py` then succeeds,
+    and the test fails with a misleading assertion error rather than naming the real
+    cause.
+
+    Observed for real: a pre-push run failed here with
+    `[safe-delete][SAFE_DELETE_BULK_CONFIRM_REQUIRED]` naming this exact file. The
+    test passed 5/5 when run directly.
+
+    So the removal is now *verified* before the behaviour is asserted. If the
+    environment blocked it, the test skips with a reason instead of reporting a
+    false regression — a skip is honest here, because the fail-closed behaviour
+    genuinely cannot be exercised without removing the file.
+
+    A cleaner long-term fix would be a shadow tree (the pattern in
+    tests/repo/test_gate_fail_closed.py) so nothing in the real tree is touched.
+    """
     backup = ENFORCEMENT.read_text(encoding="utf-8")
     try:
-        ENFORCEMENT.unlink()
+        try:
+            ENFORCEMENT.unlink()
+        except Exception as exc:  # noqa: BLE001 — environment interference, not a code bug
+            # Some environments intercept file deletion (trash-move wrappers, sandbox
+            # policies, delete guards) and *raise* rather than deleting. Verified here:
+            # `unlink()` is routed through a trash helper that emits
+            # `[safe-delete][SAFE_DELETE_FAIL_CLOSED]` and raises when it cannot move
+            # the file, and `[SAFE_DELETE_BULK_CONFIRM_REQUIRED]` when a per-turn
+            # delete budget is exceeded. Neither is a defect in this repository.
+            pytest.skip(
+                "could not remove spec/machine-readable/enforcement_rules.yaml — the "
+                f"environment blocked deletion ({type(exc).__name__}: {exc}), so the "
+                "fail-closed path cannot be exercised here"
+            )
+        if ENFORCEMENT.exists():
+            pytest.skip(
+                "spec/machine-readable/enforcement_rules.yaml survived the unlink — an "
+                "environment guard intercepted it, so the fail-closed path cannot be "
+                "exercised here"
+            )
         r = _run_validate()
         assert r.returncode != 0
         assert "enforcement" in (r.stdout + r.stderr).lower()
