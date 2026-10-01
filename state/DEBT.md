@@ -376,3 +376,52 @@ is Tier 2 — owner-only.
 **Lesson.** "The docs were synced" is a claim, not a completion. It needed the same treatment as
 every other claim in this repository: a command that counts, run before the sentence was
 written. The sentence was written from memory of a partial sweep.
+
+---
+
+## DEBT-009 — A documented expected test count had gone stale (RESOLVED; no instrument exists)
+
+**Found:** 2026-10-01 by `A7F3` · **Resolved:** same session
+**Severity:** low, but it is the same class as everything else found today
+
+**What was wrong.** `state/ARCHITECTURE.md`'s cold-start steps ended with:
+
+```bash
+python3 tests/repo/test_state_tree.py   # expect 12/12
+```
+
+The suite reports **16/16**. The value was correct when written and was never updated as four
+guards were added. An agent following the documented steps would see `16/16` against a
+documented `12/12` and have to decide which to believe.
+
+The same block also said the cold start was *"Verified by cloning **the branch** cold"* — but that
+branch was merged and deleted on 2026-10-01. Corrected to `main`, which is what was actually
+re-verified.
+
+**Why it matters more than a wrong number.** This is a *documented expectation*. Unlike a stale
+count in prose, it is something a reader is meant to **check against**. A stale expectation is
+worse than no expectation: it makes a correct system look broken.
+
+**How it was found.** Not by a test — by sweeping `state/*.md` for verification-claim language
+(`verified|confirmed|checked|proven|tested`) after the same pattern turned up three times:
+`spec/CONFLICTS.md` claiming a docs sync that hadn't happened, the DASHBOARD claiming its
+environment facts were "verified by inspection" when they had not been re-checked, and BLK-004
+calling correct historical provenance "stale values". **In each case the label was the reason
+nobody looked.**
+
+**Fix.** `12/12` → `16/16`; "the branch" → `main`.
+
+**No instrument exists for this class — and deliberately not added here.** The repo has
+`scripts/audit_prose_owned_values.py` for prose-owned machine *counts*, but it targets
+`<n> entities | <n> connections | <n> sources` from the README status block; it does not cover a
+documented test count.
+
+A guard is feasible — `test_state_tree.py` could parse `expect N/N` from `ARCHITECTURE.md` and
+compare it to its own check count. **It was not added**, because REQ-STEMMA-OPS-002 governs
+hardcoded machine counts in living documents and the owner ruled on 2026-10-01 that its
+instrument is a **per-release probe, not a gate**. Introducing a gate for one such count would
+cut across that ruling. Flagged for the owner instead: either extend the probe to cover
+documented test counts, or sanction a narrow guard.
+
+**Verified:** the documented count now matches (`16/16`); the cold-start steps were re-run
+end-to-end against `main` and pass (see the session log, 2026-10-01T15:03Z).
