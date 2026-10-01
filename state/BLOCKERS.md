@@ -4,7 +4,7 @@
 > agent cannot clear by itself. If an agent *can* clear it, it is not a blocker — it is
 > a task.
 >
-> **Current count: 3 actionable · 2 parked · 0 technical.**  (BLK-001 cleared 2026-10-01.)
+> **Current count: 2 actionable · 2 parked · 0 technical.**  (BLK-001 and BLK-004 cleared 2026-10-01.)
 
 ---
 
@@ -17,6 +17,30 @@
 **What is needed.** `PR #66` (*Execute owner rulings on the 7 open UNRES records + unstick
 the pre-push gate*) is **OPEN · MERGEABLE · CLEAN · 30 checks pass · 0 fail**. It needs a
 merge by the owner.
+
+**Evidence — checked, not assumed.** The blocker was raised as "three stale references",
+which assumed the values were meant to describe the *current* repository. They are not. All
+three are **historical provenance records** tied to the pilot's baseline commit:
+
+| Location | What it actually records |
+|---|---|
+| `spec/ROLES_AND_AUTHORITY.md:4` | A ```text``` provenance header: `Repository: … @ fb66dd9 (arena/01a0c5b1-stemma)`. |
+| `spec/PILOT_CHARTER.md:6` | A table row beside an explicit **"Baseline commit"** row: `fb66dd9` (branch `arena/01a0c5b1-stemma`, 2026-09-22). |
+| `spec/machine-readable/authority.yaml:2` | A file whose first line is *"mirrors spec/ROLES_AND_AUTHORITY.md"*, with `baseline_commit: fb66dd9` on line 3. |
+
+`fb66dd9` is a real commit — *"docs(root): rewrite README/PROGRESS, fix contract-doc drift,
+align versions"*, **2026-09-21** — made when the repository *was* `Er-Sajan-PLG/STEMMA`. The
+rename to `STEMORG2026/STEMMA` happened later, on 2026-10-01.
+
+So the values are correct as written: they record the repository identity **at the time the
+authority model and pilot charter were established**, which is exactly what a provenance
+header is for. Updating them to the current name would **falsify the record** — the pilot
+baseline would then appear to have been established against a repository that did not yet
+exist under that name.
+
+**No owner edit is needed.** Left here rather than deleted so the reasoning is not lost, and
+because the owner may still prefer a different convention (e.g. restoring the history
+elsewhere and making the field live). That is a judgement, not a defect.
 
 **Why an agent cannot clear it.** Merging to `main` is a Tier-2 act. `main` is protected by
 required status checks and the owner is the sole approver. An executor may prepare and
@@ -31,11 +55,11 @@ tip, so only the message changed.
 
 ---
 
-## BLK-004 — Three stale repo-name references in `spec/` need an owner edit
+## BLK-004 — Three `spec/` repo-name references — **not a defect** (CLEARED)
 
 **Raised:** 2026-10-01 by `A7F3`
-**Status:** **OPEN — awaiting owner**
-**Blocking:** nothing (inert metadata), but it is a wrong value in Tier-2 files
+**Status:** **CLEARED 2026-10-01** — investigated; these are historical provenance, not stale values
+**Blocking:** nothing — and there was no defect to block on
 
 **What is needed.** Three files under `spec/` still carry the retired repo name
 `Er-Sajan-PLG/STEMMA`:
