@@ -96,6 +96,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - name: Set up Python
+        # Pin the interpreter/venv so pip resolves from PyPI's TLS-framed
+        # index rather than via the system's dist-packages (which is where the
+        # earlier `ReadTimeoutError: files.pythonhosted.org ... Read timed out`
+        # came from). A network blip here failed an unrelated PR while all 28
+        # other jobs passed.
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
       - name: Check guideline exists and comprehensive
         run: |
           test -f docs/GUIDELINE-EMBEDDER-RAG.md
@@ -259,6 +268,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v7
+      - name: Set up Python
+        # Same reason as verify-docs: never run pip against the bare runner
+        # image. An unpinned pip install is the one step in this job that can
+        # fail for reasons unrelated to the diff (PyPI read timeout).
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.11"
       - name: Check deterministic export byte-identical
         run: |
           pip install -r requirements.txt -q

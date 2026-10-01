@@ -136,6 +136,23 @@ published manifest is the attested one). Consumers verify with
 `gpg --verify SHA256SUMS.sig SHA256SUMS.txt` against the owner's published key —
 **`docs/keys/stemma-owner-pubkey.asc`** (fingerprint
 `7C36 937F CC01 8442 637E BA74 4705 983D 407D EB9C`; see `docs/keys/README.md`).
+
+**Auditing the end state.** `release.yml` can only enforce the *first* step
+(finals are created as drafts); the rest is done by hand, and nothing used to
+check the outcome. `scripts/audit_release_signature.py` closes that:
+a **published final** release must carry both `SHA256SUMS.txt` and
+`SHA256SUMS.sig`, while `-rcN` releases are legitimately layer-2-only and are
+reported as such rather than failed.
+
+```bash
+python3 scripts/audit_release_signature.py --all     # every published release
+python3 scripts/audit_release_signature.py vX.Y.Z    # one tag
+```
+
+It is read-only (`gh release view`/`list` only) and deliberately **not** part of
+`verify_all.py`, which must stay offline and deterministic. Run it after
+publishing a final release.
+
 `release/` is local staging only (git-ignored); bundles are not committed.
 Private key material is never committed; `.gitignore` enforces it (`*.asc` /
 `*.rev`, negated only for the public key).
