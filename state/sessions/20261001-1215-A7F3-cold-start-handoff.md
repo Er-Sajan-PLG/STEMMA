@@ -649,3 +649,41 @@ the lesson did not prevent the repetition. The lesson needs a mechanism, not a n
 clock immediately before writing any timestamp, never from memory or rounding.**
 
 **Work unit complete — session remains ACTIVE.**
+
+## [PROGRESS] 2026-10-01T14:05Z — the ownership guard fired on me, unprompted
+
+After the 78-place docs cleanup I ran a routine count for the PR body and the state-tree guard
+failed:
+
+```
+FAIL: test_active_session_files_owned_covers_what_it_changed — files_owned does not cover
+  ['docs/API.md', 'docs/ARCHITECTURE-V2.md', … 19 files …] — another agent would read these as free
+```
+
+That is the guard added earlier in this session **catching the same defect it was written for,
+on the very next change that caused it** — no prodding, no audit, just a routine command. It
+named all 19 files. `files_owned` updated to cover `docs/**`, `webapp/**`, `examples/**`.
+
+Worth noting as evidence the guard was worth adding: the previous under-declaration went
+unnoticed until a deliberate audit; this one surfaced immediately and by accident.
+
+**Work unit complete — session remains ACTIVE.**
+
+## [PROGRESS] 2026-10-01T14:05Z — the ownership guard fired on me, unprompted
+
+After the 78-place docs cleanup I ran a routine count for the PR body and the state-tree guard
+failed:
+
+```
+FAIL: test_active_session_files_owned_covers_what_it_changed — files_owned does not cover
+  ['docs/API.md', 'docs/ARCHITECTURE-V2.md', … 19 files …] — another agent would read these as free
+```
+
+That is the guard added earlier in this session **catching the same defect it was written for,
+on the very next change that caused it** — no prodding, no audit, just a routine command. It
+named all 19 files. `files_owned` updated to cover `docs/**`, `webapp/**`, `examples/**`.
+
+Worth noting as evidence the guard was worth adding: the previous under-declaration went
+unnoticed until a deliberate audit; this one surfaced immediately and by accident.
+
+**Work unit complete — session remains ACTIVE.**
