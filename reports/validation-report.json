@@ -1,24 +1,18 @@
 {
-  "conforms": false,
-  "valid": false,
-  "ok": false,
+  "conforms": true,
+  "valid": true,
+  "ok": true,
   "schema_version": "1.3.0",
   "export_version": "2.2.0",
   "relation_registry_version": "1.0.0",
   "kernel_version": "3.0.0",
-  "content_hash": null,
+  "content_hash": "sha256:98f5c60d95ce04c258489d7d18d94a88781c90b3b32e55e08227e652afd4e2aa",
   "severity_counts": {
-    "ERROR": 1,
-    "WARNING": 2,
+    "ERROR": 0,
+    "WARNING": 3,
     "INFO": 0
   },
   "results": [
-    {
-      "severity": "ERROR",
-      "rule": "validator",
-      "focus": "connections/conn.000156.yaml",
-      "message": "status 'canonical' but provenance.promotion_history is empty — canonical is reachable only via validator -> independent_validator -> board (ADR-0057)"
-    },
     {
       "severity": "WARNING",
       "rule": "validator",
@@ -30,16 +24,15 @@
       "rule": "validator",
       "focus": "content/physics/measurement-units/metre.md",
       "message": "board stage approved by a single human under an independence_waiver — legal only while the waiver holds (ENF-STEMMA-HITL-003)"
-    }
-  ],
-  "errors": [
+    },
     {
-      "severity": "ERROR",
+      "severity": "WARNING",
       "rule": "validator",
       "focus": "connections/conn.000156.yaml",
-      "message": "status 'canonical' but provenance.promotion_history is empty — canonical is reachable only via validator -> independent_validator -> board (ADR-0057)"
+      "message": "board stage approved by a single human under an independence_waiver — legal only while the waiver holds (ENF-STEMMA-HITL-003)"
     }
   ],
+  "errors": [],
   "warnings": [
     {
       "severity": "WARNING",
@@ -51,6 +44,12 @@
       "severity": "WARNING",
       "rule": "validator",
       "focus": "content/physics/measurement-units/metre.md",
+      "message": "board stage approved by a single human under an independence_waiver — legal only while the waiver holds (ENF-STEMMA-HITL-003)"
+    },
+    {
+      "severity": "WARNING",
+      "rule": "validator",
+      "focus": "connections/conn.000156.yaml",
       "message": "board stage approved by a single human under an independence_waiver — legal only while the waiver holds (ENF-STEMMA-HITL-003)"
     }
   ],
