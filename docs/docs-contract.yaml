@@ -44,7 +44,7 @@ artifacts:
   - {path: docs/VERSIONING.md, cat: A5, tier: 2, kind: CANONICAL, sources: [schema/VERSION.yaml, docs/decisions/0050-contract-update-2.2.0.md]}
   - {path: docs/MIGRATIONS.md, cat: A10, tier: 3, kind: CANONICAL, sources: [schema/, docs/decisions/]}
   - {path: docs/GLOSSARY.md, cat: A2, tier: 2, kind: CANONICAL, sources: [docs/]}
-  - {path: docs/CURATION-PROTOCOL.md, cat: A11, tier: 2, kind: CANONICAL, sources: [scripts/review.py, scripts/hitl_check.py]}
+  - {path: docs/CURATION-PROTOCOL.md, cat: A11, tier: 2, kind: CANONICAL, sources: [scripts/review.py, scripts/hitl_check.py, scripts/review_entity.py, spec/machine-readable/enforcement_rules.yaml]}
   - {path: docs/CONTRIBUTING.md, cat: A11, tier: 0, kind: CANONICAL, sources: [tests/, Makefile]}
   - {path: docs/EMBEDDINGS.md, cat: A3, tier: 3, kind: CANONICAL, sources: [scripts/embed.py, schema/embedding-registry.yaml]}
   - {path: docs/RAG.md, cat: A3, tier: 3, kind: CANONICAL, sources: [scripts/rag.py, schema/llm-registry.yaml]}

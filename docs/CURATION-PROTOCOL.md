@@ -27,6 +27,41 @@ HITL (Human In The Loop) before canonical — mandatory for both primary PDF and
 
 No legacy, this is beginning clean with HITL.
 
+## Promotion chain — canonical is never a single act (ADR-0057, 2026-10-01)
+
+An object does **not** go from draft to canonical in one step. Promotion is a
+pipeline of **three recorded stages**, applied one at a time:
+
+```text
+draft → machine_validated → validator_validated → independently_validated → board_approved → canonical
+```
+
+Rules (all machine-enforced; see `spec/machine-readable/enforcement_rules.yaml`,
+`ENF-STEMMA-HITL-001`..`004`):
+
+- **One stage per act.** `python3 scripts/review_entity.py stage <id> --actor human:*`
+  advances exactly one stage. `canonicalize` is refused outright — the validator is
+  not the final canonicalizer.
+- **Separate days.** Consecutive stages of the same record MUST land on different
+  calendar days (≥1). The CLI refuses a same-day second stage in real time and the
+  gate re-checks every history, so this cannot be shortcut by hand-editing
+  frontmatter. The rule is **data** (`enforcement_rules.yaml`); deleting that file
+  fails the gate closed rather than waiving the rule.
+- **Distinct humans — or a recorded waiver.** Stage 2 must be a different human than
+  stage 1, and the board must name ≥2 humans. While a single owner holds all three
+  roles, each promotion MUST carry an owner-sanctioned
+  `independence_waiver {sanctioned_by, reason, retire_when}`; the gate fails if the
+  actors are not distinct and the waiver is absent.
+- **Revalidation debt blocks forward promotion.** A record carrying
+  `revalidation_debt.status: outstanding` may not advance further. The gate reports
+  the debt **by name** for the record being validated. Clear it
+  (`review_entity.py clear-debt`) or have the owner defer it (`defer-debt`).
+- **Applies to all canonical datasets** — entities **and** connections.
+
+"Canonical" is therefore a claim with a machine-checked chain behind it: who
+validated it, when, and whether an independent human was involved. Where that chain
+rests on one person, the artifact says so.
+
 ## Standard Scientific Definition (Added 2026-09-21, Updated 2026-09-21 with evolvable + frontier)
 
 Every entity must have standard agreed definition, not general, with exact SI constants and reference:

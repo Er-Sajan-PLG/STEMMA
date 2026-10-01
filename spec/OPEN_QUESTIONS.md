@@ -131,9 +131,10 @@ authoritative external source. Machine copy: `spec/machine-readable/` conflicts
   2. **Tiered methods, ADR-governed boundaries.** Validation methods tier by corpus size (exhaustive below a threshold → sampled + statistical confidence → locality/graph-consistency), and the **tier thresholds/definitions are themselves fixed by ADR** so they cannot drift silently.
   3. **Upgrade path required.** An entity canonicalized with no connections must have a defined route to *gain* connections and be re-validated **without** being demoted and re-created — an additive, supersede-don't-edit-compatible promotion of connection-completeness, with the new connections themselves HITL-reviewed.
 - **Still undecided (what the owner must rule on before implementation):**
-  - **Debt data model** — where debt lives: entity frontmatter, a derived index, or a review-queue record.
-  - **The "should connect" predicate** — how candidate connections are generated at scale (this is the hard part; naive all-pairs is *O(N²)*).
-  - **Numeric tier thresholds** — the corpus sizes at which each method tier takes over.
-  - **What "connection-complete" means** — a per-entity boolean, a coverage ratio, or a graph-level invariant.
-  - **Interaction with supersede-don't-edit** — a debt-clearing edit is additive, but is it a new revision?
-- **Status:** OPEN · **Next action:** owner rules on the "still undecided" items. **No implementation before the ruling** — this touches the *meaning* of `canonical`, which is a governance act reserved to the owner (`spec/ROLES_AND_AUTHORITY.md`, Constraint D).
+  - ~~**Debt data model** — where debt lives~~ → **RULED 2026-10-01:** debt lives in record **frontmatter** (`revalidation_debt`), visible to the gate and enforced by it. **Implemented** (ADR-0057, `REQ-STEMMA-HITL-003`, EVID-HITL-009/010).
+  - ~~**Upgrade path**~~ → **RULED 2026-10-01:** additive — connection-completeness is gained through the promotion chain with **no demotion or re-creation**.
+  - **The "should connect" predicate** — how candidate connections are generated at scale (this is the hard part; naive all-pairs is *O(N²)*). **STILL OPEN.**
+  - **Numeric tier thresholds (PART 2)** — the corpus sizes at which each method tier takes over. **STILL OPEN.**
+  - **What "connection-complete" means** — a per-entity boolean, a coverage ratio, or a graph-level invariant. **STILL OPEN.**
+  - **Interaction with supersede-don't-edit** — a debt-clearing edit is additive, but is it a new revision? **STILL OPEN.**
+- **Status:** OPEN (PART 1 and PART 3 ruled + implemented; PART 2 and the "should connect" predicate remain) · **Next action:** owner rules on the remaining items — tier thresholds, the should-connect predicate, the definition of connection-complete. The next tranche still touches the *meaning* of `canonical` at scale, so it stays a governance act reserved to the owner (`spec/ROLES_AND_AUTHORITY.md`, Constraint D).

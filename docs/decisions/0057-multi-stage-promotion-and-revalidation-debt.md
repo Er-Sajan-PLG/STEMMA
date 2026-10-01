@@ -6,8 +6,13 @@ Decided by: Sajan (sole owner), ruling on `UNRES-STEMMA-CORE-003` (canonical is
 time-relative) and extending the HITL model of `UNRES-STEMMA-HITL-002`.
 Relates to: ADR-0043 (mandatory source and history), ADR-0049 (delegated authority
 v2), ADR-0050 (contract 2.2.0), ADR-0056 (additive evolution), REQ-STEMMA-HITL-001,
-REQ-STEMMA-HITL-002, UNRES-STEMMA-CORE-003, spec/ROLES_AND_AUTHORITY.md
+REQ-STEMMA-HITL-002, **REQ-STEMMA-HITL-003**, UNRES-STEMMA-CORE-003,
+spec/ROLES_AND_AUTHORITY.md, spec/machine-readable/enforcement_rules.yaml
 Amended by: nothing yet.
+Enforced by: `scripts/validate.py`, `scripts/review_entity.py`,
+`spec/machine-readable/enforcement_rules.yaml` (ENF-STEMMA-HITL-001..004).
+Verified: EVID-STEMMA-HITL-009 / -010 (2026-10-01); 14 tests +
+7-case mutation suite.
 
 ## Context
 
@@ -105,9 +110,46 @@ This keeps the artifact honest under `SOLE_OWNER` while making the eventual arri
 genuinely independent validators a *mechanical* change: the waiver disappears from new
 promotions and the identity constraint enforces itself.
 
-### 2. Add a `revalidation_debt` object to canonical entities
+#### 1b. Stages must land on separate days — an owner-set, unbreakable rule
 
-Declared in `schema/concept.schema.json` (closed object; `additionalProperties: false`):
+Owner directive 2026-10-01: *"real time gate the validation, do not let me validate,
+independent validate and board validate at the same time, keep 1 day time different
+and I cannot break it … Keep it in record, not in ADR, a strong enough place to
+enforce it."*
+
+Consecutive promotion stages of one record SHALL be applied on **separate calendar
+days** (minimum gap: 1 day, inclusive of the day boundary). Three acts by one person
+on one afternoon are a formality, not a review; a canonicalization reached that way
+is measurably biased.
+
+Unlike the rest of this ADR, the rule does **not** live only in prose. It is recorded
+as machine-readable data in `spec/machine-readable/enforcement_rules.yaml`
+(`ENF-STEMMA-HITL-001`), and enforced in two places:
+
+- **Real time (the CLI):** `scripts/review_entity.py stage` refuses to record a stage
+  that would fall on the same day as the previous one, with a `TIME GATE` error.
+- **The gate:** `scripts/validate.py` re-checks every `promotion_history` at build
+  time and exits 1 on a same-day pair, so a hand-edited frontmatter cannot slip past
+  the CLI.
+
+The whole registry **fails closed**: if `enforcement_rules.yaml` is missing or
+unreadable, the gate exits non-zero rather than falling back to a default. Deleting
+the file therefore does not waive the rule — it breaks the build. This is the
+"strong enough place" the owner asked for: the rule is data, and the data is
+load-bearing.
+
+The **independence** requirement (distinct humans per stage) remains waivable via
+§1a. The **time** requirement is not waivable by the waiver — the two are orthogonal,
+and only the former has a legitimate single-actor justification.
+
+### 2. Add a `revalidation_debt` object to every canonical record
+
+Declared in **both** `schema/concept.schema.json` and `schema/connection.schema.json`
+(closed object; `additionalProperties: false`). Owner directive 2026-10-01:
+*"revalidation must be on all datasets, not just on entities, all datasets including
+connection."* Entities and connections are both first-class canonical datasets, so a
+connection that was promoted before its endpoints were canonical owes debt exactly as
+an entity does.
 
 | Key | Required | Meaning |
 |---|---|---|
@@ -126,14 +168,25 @@ Declared in `schema/concept.schema.json` (closed object; `additionalProperties: 
 
 The central rule, and the one the validator enforces:
 
-> An entity whose `revalidation_debt.status` is `outstanding` **may not hold a
-> review status** (`validator_validated`, `independently_validated`,
-> `board_approved`, `canonical`, or legacy `human_reviewed`).
+> A record (entity **or** connection) whose `revalidation_debt.status` is
+> `outstanding` may not be promoted **past the stage it has already reached** —
+> it may not advance to `validator_validated`, `independently_validated`,
+> `board_approved`, or `canonical`.
 
-The validator must surface the debt **as it validates that entity** — the debt must
-be visible in frontmatter so validation of entity E cannot complete while E owes it.
-An entity with `outstanding` debt and a review status is a **hard error**, not a
-warning.
+Reading, and why it is a *forward* block rather than a retroactive one: a record
+that accrued debt *after* being legitimately promoted is not made illegal by the
+arrival of a new obligation — otherwise every canonical record would become invalid
+the moment the corpus grew, which contradicts the whole point of provisional
+canonical. What debt blocks is **advancement**. It is checked against the last
+recorded promotion stage, so debt accrued at the validator stage blocks the
+independent-validator stage, and so on.
+
+The validator must surface the debt **as it validates that record** — the debt must
+be visible in frontmatter, and the gate reports it **by name** for the exact record
+being validated, so validation of record R cannot pass silently while R owes
+obligations. A forward promotion attempted under `outstanding` debt is a **hard
+error**; the same debt on a record that is not advancing is reported loudly as a
+**warning** on every run, so it can never be forgotten.
 
 Debt is cleared *by the act of satisfying it*, recorded at whichever stage does the
 work:
@@ -212,19 +265,31 @@ remain open in `UNRES-STEMMA-CORE-003` and need their own ruling.
 
 ## Verification
 
-- `revalidation_debt` declared and closed in `concept.schema.json`; valid record
-  survives `validate.py`; malformed variants rejected.
-- A review-status entity with `outstanding` debt → `validate.py` exit 1 (mutation:
-  clear the debt → exit 0).
-- `canonical` without stage-2 and stage-3 records → `validate.py` exit 1 (mutation:
-  add the records → exit 0).
-- Stage-2 actor identical to stage-1 actor → rejected (independence).
-- A promotion whose actors are **not** all distinct, and which carries **no**
-  `independence_waiver` → `validate.py` exit 1.
-- The same promotion **with** an owner-sanctioned `independence_waiver` → accepted
-  (the negative control: the waiver is what makes the single-actor case legal, and its
-  absence is what makes it illegal).
-- Board with fewer than two approvers → rejected.
+Status: **executed and passing (EVID-STEMMA-HITL-009, EVID-STEMMA-HITL-010).**
+Implementation: `scripts/validate.py` (`check_promotion_chain`,
+`check_revalidation_debt`), `scripts/review_entity.py` (`stage`, `clear-debt`,
+`defer-debt`), `spec/machine-readable/enforcement_rules.yaml`. Tests:
+`tests/repo/test_promotion_chain.py` (14 passing, wired into the chain) and the
+mutation suite `scripts/_mutation_test_promotion.sh` (7 cases).
+
+- `revalidation_debt` declared and closed in **both** `concept.schema.json` and
+  `connection.schema.json`; a valid record survives `validate.py`; malformed variants
+  rejected.
+- A record promoted forward while `outstanding` debt is owed → `validate.py` exit 1.
+- An `outstanding` debt on a record that is **not** advancing → reported by name on
+  every run (warning), never silently dropped.
+- `canonical` without stage-2 and stage-3 records → `validate.py` exit 1.
+- **Same-day consecutive stages → `validate.py` exit 1 AND `review_entity.py` refuses
+  the act in real time.** (Mutation M1.)
+- Deleting `enforcement_rules.yaml` → `validate.py` exits non-zero (fail closed),
+  proving the day-gap rule cannot be waived by removing its source. (Mutation M7.)
+- A promotion whose actors are **not** all distinct and which carries **no**
+  `independence_waiver` → `validate.py` exit 1; **with** the waiver → accepted. (M3,
+  the negative control.)
+- Board with fewer than two members and no waiver → rejected; with the owner waiver →
+  accepted and recorded as such. (M3.)
+- The same promotion/chain on a **connection** (`conn.000156`) behaves identically —
+  all-datasets coverage. (M6, and the migrated record itself.)
 - `metre` migrated: still canonical, full three-stage history with waiver, carries
   `outstanding` debt `connection_obligations_pending`; export reflects all of it.
 
@@ -234,6 +299,8 @@ remain open in `UNRES-STEMMA-CORE-003` and need their own ruling.
 - ADR-0049 — delegated authority v2 (the `authority` key the board uses)
 - ADR-0050 — contract 2.2.0 (additive-evolution precedent)
 - ADR-0056 — additive evolution ("evolve additively within a major version")
-- REQ-STEMMA-HITL-001 / REQ-STEMMA-HITL-002 — the review requirements this extends
+- REQ-STEMMA-HITL-001 / -002 / **-003** — the review requirements this extends
+- `spec/machine-readable/enforcement_rules.yaml` — `ENF-STEMMA-HITL-001`..`004`
 - `UNRES-STEMMA-CORE-003` — the revalidation-debt ruling
-- `spec/ROLES_AND_AUTHORITY.md` — the `SOLE_OWNER` limitation this addresses
+- `spec/ROLES_AND_AUTHORITY.md` — the `SOLE_OWNER` limitation and interim three-role
+  waiver record
