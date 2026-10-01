@@ -462,7 +462,7 @@ STEMMA should not be designed around assumption "AI knows STEM." It should be de
 
 ## Implementation Status
 
-- R1 NOW: 1 entity metre via HITL, template-registry v2.0.0 8 domains 97 subdomains 12 entity types, embedding-registry v1.0.0 11 models, consumer-registry v1.0.0 4 consumers, pdf_ingest_primary.py comprehensive, webapp with HITL model selector like DeepSeek harness RAG playground consumer export, explorer clean 8 domains, guideline docs/GUIDELINE-EMBEDDER-RAG.md 81KB, strong CI 10 jobs all-green, verify_strong.py strong verification, Makefile, pre-commit hooks, install_hooks.py
+- R1 NOW: 1 entity metre via HITL, template-registry v2.0.0 8 domains 97 subdomains 12 entity types, embedding-registry v1.0.0 11 models, consumer-registry v1.0.0 4 consumers, pdf_ingest_primary.py comprehensive, webapp with HITL model selector like DeepSeek harness RAG playground consumer export, explorer clean 8 domains, guideline docs/GUIDELINE-EMBEDDER-RAG.md 81KB, strong CI all jobs green, verify_strong.py strong verification, Makefile, pre-commit hooks, install_hooks.py
 - R2: Semantic extraction pipeline — semantic_extract.py, entity_resolution.py enhanced, verify_claim.py independent verification, conflict_analysis.py explicit conflict detection, proposal_generate.py evidence first-class, llm-registry.yaml model roles, semantic-claim.schema.json, evidence windows, normalization, license gate, manifest, document vision
 - R3: Production RAG conflict-aware retrieval, evaluation dataset with deliberately conflicting sources, citation coverage, hosted vector store Qdrant/Pinecone, consistent architecture across all consumers via guideline
 
@@ -509,4 +509,4 @@ make strong-verify
 - docs/TESTING.md — verification chain
 - docs/IMPLEMENTATION-STATUS.md — 1 entity metre via HITL
 - Makefile — strong targets
-- .github/workflows/ci.yml — strong CI 10 jobs all-green
+- .github/workflows/ci.yml — strong CI all jobs green

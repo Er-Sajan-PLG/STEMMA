@@ -113,7 +113,7 @@ Early work integrated:
 - Evolvable templates frontier model selector DeepSeek harness deterministic scales LLM fallback — scripts/evolvable_template.py webapp/
 - Comprehensive all-STEM mediocre 8 domains 97 subdomains 12 entity types — schema/template-registry.yaml
 - Explicit separation canonical vs derived vs consumer embeddings RAG consumer's job reference implementation guideline 81KB sample in derived — schema/embedding-registry.yaml consumer-registry.yaml llm-registry.yaml docs/GUIDELINE-EMBEDDER-RAG.md
-- Strong CI + explorer + ingestion pipeline nothing bad gets pushed/merged 10 jobs all-green final gate — .github/workflows/ci.yml scripts/verify_all.py verify_strong.py
+- Strong CI + explorer + ingestion pipeline nothing bad gets pushed/merged all jobs green final gate — .github/workflows/ci.yml scripts/verify_all.py verify_strong.py
 - Semantic acquisition pipeline 16 stages evidence first-class AI output must be proposal independent verification conflict explicit — scripts/semantic_extract.py verify_claim.py conflict_analysis.py proposal_generate.py entity_resolution.py schema/semantic-claim.schema.json
 
 Tasks:
@@ -167,7 +167,7 @@ Benchmark git performance at 10^4 entities design content-addressed store with M
 - 0df87ff fix status truth 1 entity 3 sources
 - Now new docs new ADRs 0045-0052 roadmaps updated to architecture v2
 
-Verification: make quick-verify PASS — 1 entity metre via HITL, 0 connections, 3 sources, embeddings deterministic content_hash sha256:2c007fc6..., RAG vector search metre 0.2874 citations, semantic pipeline evidence first-class conflict demo P=10 vs P=12, explorer clean small nodes thin lines manual legend centered zoom 8 domains, webapp HITL PDF primary model selector DeepSeek harness, strong CI 10 jobs all-green.
+Verification: make quick-verify PASS — 1 entity metre via HITL, 0 connections, 3 sources, embeddings deterministic content_hash sha256:2c007fc6..., RAG vector search metre 0.2874 citations, semantic pipeline evidence first-class conflict demo P=10 vs P=12, explorer clean small nodes thin lines manual legend centered zoom 8 domains, webapp HITL PDF primary model selector DeepSeek harness, strong CI all jobs green.
 
 ## Not on roadmap — for canonical only
 
