@@ -8,11 +8,13 @@ Relates to: ADR-0043 (mandatory source and history), ADR-0049 (delegated authori
 v2), ADR-0050 (contract 2.2.0), ADR-0056 (additive evolution), REQ-STEMMA-HITL-001,
 REQ-STEMMA-HITL-002, **REQ-STEMMA-HITL-003**, UNRES-STEMMA-CORE-003,
 spec/ROLES_AND_AUTHORITY.md, spec/machine-readable/enforcement_rules.yaml
-Amended by: nothing yet.
+Amended by: §1c (board waiver) and §3 (pilot-scale full debt block), both ruled
+2026-10-01.
 Enforced by: `scripts/validate.py`, `scripts/review_entity.py`,
-`spec/machine-readable/enforcement_rules.yaml` (ENF-STEMMA-HITL-001..004).
-Verified: EVID-STEMMA-HITL-009 / -010 (2026-10-01); 14 tests +
-7-case mutation suite.
+`spec/machine-readable/enforcement_rules.yaml` (ENF-STEMMA-HITL-001..004, including
+`pilot_scale_block` and `board_waiver`).
+Verified: EVID-STEMMA-HITL-009 / -010 (2026-10-01); 18 tests +
+8-case mutation suite.
 
 ## Context
 
@@ -53,7 +55,7 @@ The owner also ruled that debt is cleared **by validation**, at every stage:
 
 ## Decision
 
-### 1. Replace the single-act promotion with a three-stage chain
+### 1. Replace the single-act promotion with a staged chain
 
 New entity status ladder (additive: existing values remain legal):
 
@@ -66,6 +68,13 @@ draft
   → canonical                    (only the board's approval promotes to canonical)
 ```
 
+**While the board waiver is active (§1c) the chain is shortened**: stage 3 is
+skipped, and `canonical` is reached from `independently_validated`:
+
+```
+draft → machine_validated → validator_validated → independently_validated → canonical
+```
+
 Rules:
 
 - Each stage is recorded in `provenance.promotion_history[]` with the acting agent,
@@ -73,7 +82,9 @@ Rules:
 - **Stage 2 must be a different human than stage 1.** Stage 3 (board) must contain
   **at least two** humans, and the board's approvers must be disjoint from the
   stage-1 validator. This is the independence constraint, machine-enforced.
-- `canonical` is only reachable from `board_approved`. No transition may jump a stage.
+- `canonical` is only reachable from the last stage of the active chain — from
+  `board_approved` normally, or from `independently_validated` while the board is
+  waived. No transition may jump a stage.
 - `human_reviewed` is retained as a **legacy alias** for "at least stage 1
   validated" and is deprecated in favour of `validator_validated`; it remains legal so
   existing records do not break (see migration, §4).
@@ -142,6 +153,50 @@ The **independence** requirement (distinct humans per stage) remains waivable vi
 §1a. The **time** requirement is not waivable by the waiver — the two are orthogonal,
 and only the former has a legitimate single-actor justification.
 
+#### 1c. Board waiver while the owner is the only validator
+
+Owner ruling 2026-10-01: *"waive the board for now as I am the only validator."*
+
+The board stage presumes a panel of **at least two** humans whose approval is
+disjoint from the earlier validators. That panel does not exist yet — the owner is the
+sole registered validator. Forcing the stage would produce either an unreachable
+`canonical` or a fiction; the honest move is to **omit** it and say so.
+
+The waiver is recorded as machine-readable data, not prose, in
+`spec/machine-readable/enforcement_rules.yaml` as `ENF-STEMMA-HITL-003.board_waiver`:
+
+```yaml
+board_waiver:
+  active: true
+  required_stages_while_waived: [validator, independent_validator]
+  terminal_status_while_waived: canonical
+  retire_when: a second active human agent with a validation role is registered
+```
+
+Consequences, all machine-enforced:
+
+- The **required chain becomes two stages** (validator → independent_validator).
+  `validate.py` resolves `required_stages` at gate time from the registry, so a
+  record carrying the shorter chain validates and a record carrying a board stage
+  **fails** (`board stage is currently waived`).
+- `canonical` is reachable from `independently_validated`; the CLI's `stage`
+  subcommand resolves the chain from the same registry and therefore will not write a
+  board stage while the waiver holds (`stage 'board' is not part of the current chain`).
+- The two records promoted before the ruling (`metre`, `conn.000156`) were migrated to
+  the waived chain; their terminal entry carries `board_waived: true` with a
+  `board_waived_reason`, so the audit trail explains the missing stage rather than
+  hiding it.
+- **Retiring the waiver restores the three-stage chain mechanically.** Flip
+  `active: false` and the gate once again requires a board stage with ≥2 humans; the
+  records promoted under the waiver then need a board stage before they can be
+  re-validated. This is the owner's `retire_when` condition, expressed as data.
+
+The waiver is **narrower** than §1a's independence waiver and it does not replace it:
+§1a still governs whether a *single* actor may fill consecutive stages that do exist.
+While the board is waived there is no stage 3, so §1a's board-disjointness clause has
+nothing to bind — but stage 1 and stage 2 must still be distinct humans, or carry the
+§1a waiver.
+
 ### 2. Add a `revalidation_debt` object to every canonical record
 
 Declared in **both** `schema/concept.schema.json` and `schema/connection.schema.json`
@@ -164,29 +219,41 @@ an entity does.
 | `deferred_by` | no | owner who deferred it (SOLE_OWNER only) |
 | `deferred_until` | no | condition or date the deferral ends |
 
-### 3. Debt blocks review-status promotion
+### 3. Debt blocks review status — **fully**, at pilot scale
 
 The central rule, and the one the validator enforces:
 
 > A record (entity **or** connection) whose `revalidation_debt.status` is
-> `outstanding` may not be promoted **past the stage it has already reached** —
-> it may not advance to `validator_validated`, `independently_validated`,
-> `board_approved`, or `canonical`.
+> `outstanding` SHALL NOT hold any reviewed status — `validator_validated`,
+> `independently_validated`, `board_approved`, `human_reviewed`, or `canonical`.
+> At pilot scale the record is **invalid outright** until the debt is cleared and
+> the record re-validated.
 
-Reading, and why it is a *forward* block rather than a retroactive one: a record
-that accrued debt *after* being legitimately promoted is not made illegal by the
-arrival of a new obligation — otherwise every canonical record would become invalid
-the moment the corpus grew, which contradicts the whole point of provisional
-canonical. What debt blocks is **advancement**. It is checked against the last
-recorded promotion stage, so debt accrued at the validator stage blocks the
-independent-validator stage, and so on.
+Owner ruling 2026-10-01: *"for debt at this small scale, actually block it fully until
+it is updated and validated. At starting phases, I can handle it; let's see how much
+entity it takes for debt to cause problem."*
+
+**Why full, and why now.** The earlier design (see the superseded note below) blocked
+only *forward* promotion: a record that accrued debt after being legitimately promoted
+was not made illegal, it simply could not advance. That reading is sound *at scale* —
+otherwise the arrival of one new entity would cascade into thousands of invalid
+records, contradicting provisional canonical. At **pilot scale** the trade-off inverts:
+the corpus is small enough that a full block is cheap, and the owner wants to *feel*
+the burden — to measure the corpus size at which full blocking starts to hurt. That
+measurement is a direct input to the still-OPEN method/tier decisions
+(`UNRES-STEMMA-CORE-003`). This is the deliberate "block fully and observe" phase.
+
+The block is therefore data, not a permanent design commitment. `ENF-STEMMA-HITL-002`
+carries a `pilot_scale_block` block and a `block_mode: full` value; the gate reads the
+mode from the registry. Relaxing to the previous `forward_only` behaviour — when the
+owner judges the burden visible — is a one-value owner act in the registry, not a code
+change.
 
 The validator must surface the debt **as it validates that record** — the debt must
 be visible in frontmatter, and the gate reports it **by name** for the exact record
 being validated, so validation of record R cannot pass silently while R owes
-obligations. A forward promotion attempted under `outstanding` debt is a **hard
-error**; the same debt on a record that is not advancing is reported loudly as a
-**warning** on every run, so it can never be forgotten.
+obligations. Under `block_mode: full` any reviewed status with outstanding debt is a
+**hard error**.
 
 Debt is cleared *by the act of satisfying it*, recorded at whichever stage does the
 work:
@@ -195,13 +262,22 @@ work:
   or by confirming the debt was spurious.
 - **Stage 2 (independent validator)** may correct or clear debt the first validator
   missed — a second pair of eyes is exactly where a missed obligation surfaces.
-- **Stage 3 (board)** may correct or clear remaining debt before approving.
+- **Stage 3 (board)** — present only when the board waiver is retired — may correct or
+  clear remaining debt before approving.
 - Only the **owner** may set debt to `deferred`, with a recorded reason and a
   `deferred_until` condition.
 
 A `cleared` debt records who cleared it, at which stage, and on what evidence. A
 `cleared` debt with no `cleared_by`/`cleared_stage`/`clearance_evidence` is rejected —
 clearance must be attributable, or it is not clearance.
+
+> **Superseded reading (2026-10-01, same day).** An earlier draft of this section
+> described the block as *forward-only*: debt blocked advancement past the last
+> recorded stage, and debt on a non-advancing record was a warning. That reading was
+> replaced by the owner's full-block ruling above. It is recorded here because the
+> forward-only behaviour is the intended behaviour **at scale**, and `block_mode:
+> forward_only` remains a legal registry value — the pilot-scale full block is a
+> deliberate, time-boxed deviation, not a reversal of the underlying reasoning.
 
 ### 4. Migration of the current corpus
 
@@ -210,48 +286,61 @@ single-reviewer model by `human:curator.001`, who was both writer and reviewer. 
 this ADR that is **stage 1 only** — there is no independent validator and no board
 record.
 
-`metre` is **not** demoted. Instead it is migrated to the new model with an honest
+`metre` is **not** demoted. Instead it was migrated to the model with an honest
 promotion history: the existing `human:curator.001` review is recorded as **stage 1**,
-and stages 2 and 3 are recorded by the owner acting under the interim single-actor
-waiver (§1a) — `human:curator.001` filling `independent_validator` and `board` — each
-carrying an `independence_waiver` sanctioned by the owner. This makes the
-single-actor fact **visible in the artifact** rather than hidden in the fact that
-only one name appears.
+and stage 2 is recorded by the owner acting under the interim single-actor waiver
+(§1a) — `human:curator.001` filling `independent_validator` — carrying an
+`independence_waiver` sanctioned by the owner. This makes the single-actor fact
+**visible in the artifact** rather than hidden in the fact that only one name appears.
 
-Independently, `metre` carries an `outstanding` revalidation debt of kind
+When the board waiver (§1c) was ruled later the same day, `metre`'s earlier board entry
+was **retired** (`scripts/migrate_board_waiver.py`), leaving the two-stage waived chain;
+the terminal entry carries `board_waived: true` so the audit trail explains the gap.
+`conn.000156` was migrated the same way.
+
+`metre` also carried an `outstanding` revalidation debt of kind
 **`connection_obligations_pending`**: it was canonicalized with only one connection
 (`conn.000156`, its own value-slot assertion) and no cross-entity relations, because
-the corpus was too small at approval. Its `items` name the obligation to acquire the
-connections the now-larger corpus implies. This debt must be cleared by a validation
-stage or owner-deferred before the next baseline.
+the corpus was too small at approval. Under the pilot-scale full block (§3) an
+outstanding debt on a reviewed record is a hard error, so the debt was **cleared**
+attributably once `conn.000156` was canonical under the waived chain — recorded with
+`cleared_by`, `cleared_stage`, `cleared_at`, and `clearance_evidence`.
 
 The 8 drafts carry no debt (debt is a property of promoted entities).
 
 ### 5. Consequences in the gate
 
 - `validate.py` gains: `check_revalidation_debt` (debt blocks review status; cleared
-  debt must be attributable), and `check_promotion_chain` (canonical requires a
-  complete, independent three-stage history).
+  debt must be attributable) and `check_promotion_chain` (canonical requires a
+  complete, independent history of the **currently required** chain — two stages while
+  the board waiver holds, three otherwise).
 - A new promotion CLI records staged promotions; `review_entity.py`'s single
   `canonicalize` is retained but now **refuses** to promote to `canonical` directly —
-  it can only advance one stage.
+  it can only advance one stage of the active chain.
+- Both `check_revalidation_debt` and `check_promotion_chain` resolve their active
+  parameters (`block_mode`, `required_stages`, `board_waived`) from
+  `enforcement_rules.yaml` at run time, so retiring the board waiver or relaxing the
+  debt block is a registry edit the gate honours on its next run.
 
 ## Consequences
 
 **Easier.** Independence becomes structural rather than aspirational. The
 `SOLE_OWNER` limitation is no longer the only barrier: a `canonical` entity now
-carries machine-checked evidence that two or more *different* humans validated it.
-Debt makes the time-relative nature of `canonical` explicit instead of implicit, so
-the corpus-scale problem is visible rather than latent.
+carries machine-checked evidence that the required humans validated it. Debt makes the
+time-relative nature of `canonical` explicit instead of implicit, so the corpus-scale
+problem is visible rather than latent.
 
-**Harder.** Promotion becomes a pipeline, not a command — three recorded acts with
+**Harder.** Promotion becomes a pipeline, not a command — multiple recorded acts with
 identity constraints. That is more work per entity, which is the point: the previous
 model was cheap because it was unverified. The stage-2 independence rule means a
 single maintainer **cannot** promote to `canonical` alone *without an owner-sanctioned
 waiver*; the interim waiver (§1a) is what allows the current single-actor reality to
 proceed, and it is deliberately loud: every promotion that used it exports an
 `independence_waiver` naming the owner who sanctioned it. The day a second reviewer is
-registered, the waiver drops out of new promotions and the rule enforces itself.
+registered, the waiver drops out of new promotions and the rule enforces itself. The
+board waiver (§1c) is the same shape one level up: while no ≥2-human panel exists the
+board stage is omitted, not faked, and retiring the waiver restores the three-stage
+chain mechanically.
 
 **Hard to undo.** Consumers branching on the staged statuses, on `revalidation_debt`,
 or on `independence_waiver` make removal a breaking change. Mitigated by the statuses
@@ -260,38 +349,47 @@ being additive and the objects closed.
 **Explicitly NOT decided here.** The "should connect" predicate at scale (candidate
 generation; naive all-pairs is *O(N²)*), the numeric corpus-size tier thresholds for
 validation methods, whether "connection-complete" is a boolean/ratio/graph invariant,
-and whether a debt-clearing edit is a new revision under supersede-don't-edit. These
-remain open in `UNRES-STEMMA-CORE-003` and need their own ruling.
+and whether a debt-clearing edit is a new revision under supersede-don't-edit. Also
+undecided: the point at which the pilot-scale *full* debt block should relax to
+`forward_only`. These remain open in `UNRES-STEMMA-CORE-003` and the pilot-scale
+observation is the intended way to inform the last one.
 
 ## Verification
 
 Status: **executed and passing (EVID-STEMMA-HITL-009, EVID-STEMMA-HITL-010).**
 Implementation: `scripts/validate.py` (`check_promotion_chain`,
-`check_revalidation_debt`), `scripts/review_entity.py` (`stage`, `clear-debt`,
-`defer-debt`), `spec/machine-readable/enforcement_rules.yaml`. Tests:
-`tests/repo/test_promotion_chain.py` (14 passing, wired into the chain) and the
-mutation suite `scripts/_mutation_test_promotion.sh` (7 cases).
+`check_revalidation_debt`, `_debt_block_mode`, `_required_stages`, `_board_waiver`),
+`scripts/review_entity.py` (`stage`, `clear-debt`, `defer-debt`),
+`spec/machine-readable/enforcement_rules.yaml` (`ENF-STEMMA-HITL-001..004`, including
+`pilot_scale_block` and `board_waiver`). Migration:
+`scripts/migrate_board_waiver.py`. Tests: `tests/repo/test_promotion_chain.py`
+(18 passing, wired into the chain) and the mutation suite
+`scripts/_mutation_test_promotion.sh` (8 cases).
 
 - `revalidation_debt` declared and closed in **both** `concept.schema.json` and
   `connection.schema.json`; a valid record survives `validate.py`; malformed variants
   rejected.
-- A record promoted forward while `outstanding` debt is owed → `validate.py` exit 1.
-- An `outstanding` debt on a record that is **not** advancing → reported by name on
-  every run (warning), never silently dropped.
-- `canonical` without stage-2 and stage-3 records → `validate.py` exit 1.
+- A record holding **any** reviewed status while `outstanding` debt is owed →
+  `validate.py` exit 1 (full block, `block_mode=full`). (Mutation M5.)
+- Clearing the same debt, attributably, returns the record to green.
+- A board stage recorded while the board waiver is active → `validate.py` exit 1.
+  (Mutation M3.)
+- A record carrying the two-stage waived chain → green; flipping
+  `board_waiver.active: false` → red, proving the waiver is data the gate honours.
+- `canonical` without the required chain → `validate.py` exit 1. (Mutation M2.)
 - **Same-day consecutive stages → `validate.py` exit 1 AND `review_entity.py` refuses
   the act in real time.** (Mutation M1.)
 - Deleting `enforcement_rules.yaml` → `validate.py` exits non-zero (fail closed),
-  proving the day-gap rule cannot be waived by removing its source. (Mutation M7.)
+  proving the day-gap rule cannot be waived by removing its source. (Mutation M8.)
 - A promotion whose actors are **not** all distinct and which carries **no**
   `independence_waiver` → `validate.py` exit 1; **with** the waiver → accepted. (M3,
   the negative control.)
 - Board with fewer than two members and no waiver → rejected; with the owner waiver →
-  accepted and recorded as such. (M3.)
+  accepted and recorded as such. (M3, pre-waiver; superseded by §1c.)
 - The same promotion/chain on a **connection** (`conn.000156`) behaves identically —
-  all-datasets coverage. (M6, and the migrated record itself.)
-- `metre` migrated: still canonical, full three-stage history with waiver, carries
-  `outstanding` debt `connection_obligations_pending`; export reflects all of it.
+  all-datasets coverage. (M6, M7, and the migrated record itself.)
+- `metre` and `conn.000156` migrated: still canonical, two-stage waived chain with
+  `board_waived: true`, debt cleared attributably; export reflects all of it.
 
 ## Related
 

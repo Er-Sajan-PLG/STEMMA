@@ -54,14 +54,11 @@ provenance:
     evidence: second validation pass recorded under the interim single-actor waiver
       (ADR-0057 §1a)
     independence_waiver: *id001
-  - stage: board
-    actor: human:curator.001
-    at: '2026-09-25T11:00:00+00:00'
-    board_members:
-    - human:curator.001
-    evidence: board-stage approval recorded under the interim single-actor waiver
-      (ADR-0057 §1a)
-    independence_waiver: *id001
+    board_waived: true
+    board_waived_reason: board stage retired 2026-10-01 under the owner board waiver
+      (ENF-STEMMA-HITL-003 board_waiver) — the owner is the sole validator, so the
+      required chain is validator -> independent_validator; the earlier board entry
+      was a formality and is removed, not re-dated
 source_refs:
 - stemma:src.nist-si-brochure-9th
 external_ids:
@@ -79,10 +76,16 @@ historical:
     by: BIPM
     event: SI redefinition with fixed constants, c exact
 revalidation_debt:
-  status: outstanding
+  status: cleared
   reason: connection_obligations_pending
   incurred_at: '2026-10-01'
   items: []
+  cleared_by: human:curator.001
+  cleared_stage: validator
+  cleared_at: '2026-10-01T01:22:05.740837+00:00'
+  clearance_evidence: 'connection obligation satisfied: conn.000156 exists and is
+    canonical under the waived chain (validator -> independent_validator). Debt incurred
+    2026-10-01, cleared 2026-10-01.'
 ---
 
 The metre (symbol: m) is the base unit of length in the International System of Units (SI). It is scientifically defined as the length of the path travelled by light in a vacuum during a time interval of 1/299,792,458 of a second. Exact: c=299,792,458 m/s. Agreed per BIPM SI Brochure 9th ed. 2019 redefinition, fixing c exact.

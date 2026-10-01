@@ -479,26 +479,27 @@ requirements:
     history: []
     supersedes: null
   - id: REQ-STEMMA-HITL-003
-    revision: 1
-    title: Staged promotion chain with day-separated stages and visible revalidation debt
-    statement: "No single act SHALL set a canonical record: a record SHALL be promoted only through the ordered chain validator -> independent_validator -> board, recorded in provenance.promotion_history, with consecutive stages performed on separate calendar days and by distinct humans (or under a named, time-boxed owner independence_waiver); and a record carrying revalidation_debt.status 'outstanding' SHALL NOT advance to any further promotion status. Applies to ALL canonical datasets, entities and connections alike."
+    revision: 2
+    title: Staged promotion chain with day-separated stages, board waiver, and visible revalidation debt
+    statement: "No single act SHALL set a canonical record: a record SHALL be promoted only through the ordered chain of the currently required stages, recorded in provenance.promotion_history, with consecutive stages performed on separate calendar days and by distinct humans (or under a named, time-boxed owner independence_waiver). The required chain SHALL be resolved from spec/machine-readable/enforcement_rules.yaml at run time: by default validator -> independent_validator -> board, but while the owner board waiver (ENF-STEMMA-HITL-003.board_waiver) is active the board stage is omitted and the chain is validator -> independent_validator with canonical reachable from the independent validator stage. A record carrying revalidation_debt.status 'outstanding' SHALL NOT hold any reviewed status: at pilot scale (ENF-STEMMA-HITL-002.pilot_scale_block, block_mode=full) the record is invalid outright until the debt is cleared and the record re-validated. Applies to ALL canonical datasets, entities and connections alike."
     type: SECURITY
     origin: PROPOSED
     status: APPROVED
     priority: P0
     normative_strength: SHALL
-    rationale: "Owner directive 2026-10-01: 'the validator is not the final canonicalizer, it will be verified by another validator and it will finally reach board where multiple validators will finally validate it'; 'real time gate the validation, do not let me validate, independent validate and board validate at the same time, keep 1 day time different and I cannot break it'; and 'revalidation must be on all datasets, not just on entities, all datasets including connection.' Three independent acts on one day by one person is a formality, not a review. The day-gap rule is recorded as machine-readable data (spec/machine-readable/enforcement_rules.yaml) rather than prose, so it cannot be waived by editing an ADR. The interim single-actor state is legal only when made visible via an owner-sanctioned independence_waiver (ADR-0057 §1a)."
-    source: [EVID-STEMMA-HITL-009, EVID-STEMMA-HITL-010]
+    rationale: "Owner directive 2026-10-01: 'the validator is not the final canonicalizer, it will be verified by another validator and it will finally reach board where multiple validators will finally validate it'; 'real time gate the validation, do not let me validate, independent validate and board validate at the same time, keep 1 day time different and I cannot break it'; 'revalidation must be on all datasets, not just on entities, all datasets including connection.' Two later rulings the same day refine it: 'waive the board for now as I am the only validator' (the >=2-human panel does not exist, so the stage is omitted not faked), and 'for debt at this small scale, actually block it fully until it is updated and validated … let's see how much entity it takes for debt to cause problem' (the pilot-scale full block is a deliberate measurement phase, relaxable to forward-only). The day-gap rule and both waivers are recorded as machine-readable data (spec/machine-readable/enforcement_rules.yaml) rather than prose, so they cannot be waived by editing an ADR. The interim single-actor state is legal only when made visible via an owner-sanctioned independence_waiver (ADR-0057 §1a) or an owner board_waiver (ADR-0057 §1c)."
+    source: [EVID-STEMMA-HITL-009, EVID-STEMMA-HITL-010, EVID-STEMMA-HITL-011]
     validation_basis: [owner_directive, implemented_behavior, gate_enforcement, mutation_test]
     validation_status: SUPPORTED
     acceptance_criteria:
-      - "validate.py fails when a record is canonical without a complete ordered 3-stage promotion_history"
+      - "validate.py fails when a record holds a reviewed status without the complete ordered history of the currently required chain"
       - "validate.py fails when consecutive stages share a calendar day (>=1 day required)"
-      - "validate.py fails when a board stage names <2 humans without an owner independence_waiver"
-      - "validate.py fails (or warns, naming the debt) when revalidation_debt.status is outstanding"
-      - "review_entity.py advances exactly one stage and refuses a same-day second stage"
+      - "validate.py fails when a board stage is recorded while the board waiver is active, and fails when a board stage names <2 humans without an owner independence_waiver once the waiver is retired"
+      - "validate.py fails at pilot scale (block_mode=full) when revalidation_debt.status is outstanding and the record holds any reviewed status"
+      - "review_entity.py advances exactly one stage of the active chain, refuses a same-day second stage, and refuses a board stage while the waiver holds"
+      - "the required chain, the debt block mode, and the day gap are all read from spec/machine-readable/enforcement_rules.yaml; deleting the registry fails closed"
+      - "retiring the board waiver (active:false) makes the gate require the three-stage chain again"
       - "every guard is mutation-tested: injected violation -> non-zero exit; restore -> zero"
-      - "the day-gap value is read from spec/machine-readable/enforcement_rules.yaml; deleting the registry fails closed"
     verification_method: INTEGRATION_TEST
     owner: Sajan
     approver: human:curator.001
@@ -507,9 +508,9 @@ requirements:
     dependencies: [REQ-STEMMA-HITL-001]
     related_spec: ["spec/SPECIFICATION.md#4.1", "spec/ROLES_AND_AUTHORITY.md"]
     related_adr: [ADR-0057]
-    related_implementation: ["scripts/validate.py", "scripts/review_entity.py", "spec/machine-readable/enforcement_rules.yaml", "schema/concept.schema.json", "schema/connection.schema.json"]
+    related_implementation: ["scripts/validate.py", "scripts/review_entity.py", "scripts/migrate_board_waiver.py", "spec/machine-readable/enforcement_rules.yaml", "schema/concept.schema.json", "schema/connection.schema.json"]
     related_verification: ["tests/repo/test_promotion_chain.py"]
-    history: [{revision: 1, date: "2026-10-01", change: "Created from owner directive: multi-stage promotion chain, day-separated stages, revalidation debt on all datasets (ADR-0057)"}]
+    history: [{revision: 1, date: "2026-10-01", change: "Created from owner directive: multi-stage promotion chain, day-separated stages, revalidation debt on all datasets (ADR-0057)"}, {revision: 2, date: "2026-10-01", change: "Board waiver (ENF-003.board_waiver: chain resolves to validator -> independent_validator while sole validator) and pilot-scale full debt block (ENF-002 block_mode=full, relaxable to forward_only)"}]
     supersedes: null
   - id: REQ-STEMMA-SEC-001
     revision: 1

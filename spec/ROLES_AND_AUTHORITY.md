@@ -54,6 +54,28 @@ made machine-visible rather than silently permitted:
   registered. Until then, any canonicalization is measurably *biased* — that is
   the recorded, accepted cost of the interim state.
 
+### Board stage waived while the owner is the sole validator (ADR-0057 §1c)
+
+Owner ruling, later on 2026-10-01: *"waive the board for now as I am the only
+validator."*
+
+The board stage presumes a **≥2-human** panel that does not exist yet. Rather than
+fake a board (which the ≥2 rule would reject anyway) or leave `canonical`
+unreachable, the stage is **omitted** and the omission is recorded as data:
+`ENF-STEMMA-HITL-003.board_waiver {active: true,
+required_stages_while_waived: [validator, independent_validator],
+retire_when: a second active human agent with a validation role is registered}`.
+
+- The **required chain is two stages** while the waiver is active; `validate.py`
+  resolves it from the registry at run time. A record carrying a board stage now
+  fails the gate.
+- `canonical` is reachable from `independently_validated`; the CLI will not write a
+  board stage while the waiver holds.
+- Stage 1 and stage 2 must still be distinct humans, or carry the §1a waiver — the
+  board waiver does not weaken the independence rule for the stages that remain.
+- **Retires when:** a second active human with a validation role is registered.
+  Retiring it restores the three-stage ≥2-human chain mechanically.
+
 ## What the executor did NOT do (Constraint D)
 
 - Did not set any requirement status above `PROPOSED`. *(The 2026-10-01 transition to

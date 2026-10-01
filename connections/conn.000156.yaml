@@ -91,11 +91,8 @@ provenance:
     evidence: second validation pass recorded under the interim single-actor waiver
       (ADR-0057 §1a)
     independence_waiver: *id001
-  - stage: board
-    actor: human:curator.001
-    at: '2026-09-25T11:05:00+00:00'
-    board_members:
-    - human:curator.001
-    evidence: board-stage approval recorded under the interim single-actor waiver
-      (ADR-0057 §1a)
-    independence_waiver: *id001
+    board_waived: true
+    board_waived_reason: board stage retired 2026-10-01 under the owner board waiver
+      (ENF-STEMMA-HITL-003 board_waiver) — the owner is the sole validator, so the
+      required chain is validator -> independent_validator; the earlier board entry
+      was a formality and is removed, not re-dated

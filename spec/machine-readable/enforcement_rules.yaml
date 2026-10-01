@@ -44,25 +44,49 @@ rules:
     recorded_at: "2026-10-01"
 
   - id: ENF-STEMMA-HITL-002
-    title: Outstanding revalidation debt blocks every promotion status
+    title: Outstanding revalidation debt blocks the record outright (pilot scale)
     statement: >-
-      A record with revalidation_debt.status 'outstanding' SHALL NOT hold any
-      promotion or review status (validator_validated, independently_validated,
-      board_approved, human_reviewed, canonical). The validator MUST be told
-      which record carries debt at the moment it is validated.
+      While the corpus is at pilot scale, a record with revalidation_debt.status
+      'outstanding' SHALL NOT be valid at all: holding ANY promotion or review
+      status (validator_validated, independently_validated, board_approved,
+      human_reviewed, canonical) with outstanding debt is a gate FAILURE. Debt
+      must be cleared AND the record re-validated before it may hold a reviewed
+      status. The validator MUST be told which record carries debt at the moment
+      it is validated. See pilot_scale_block below: this full block is a
+      deliberate, time-boxed choice so the owner can observe at what corpus size
+      debt starts to cause trouble, and is expected to relax to forward-only
+      blocking at scale.
     applies_to: [entity, connection]
     normative_strength: SHALL NOT
     rule:
       kind: debt_blocks_status
       debt_status: outstanding
       blocked_statuses: [human_reviewed, validator_validated, independently_validated, board_approved, canonical]
+      block_mode: full          # full | forward_only
       report_debt_identity: true
+    pilot_scale_block:
+      active: true
+      owner: Sajan
+      sanctioned_at: "2026-10-01"
+      reason: >-
+        Owner ruling 2026-10-01: "for debt at this small scale, actually block it
+        fully until it is updated and validated. At starting phases, I can handle
+        it; let's see how much entity it takes for debt to cause problem."
+      observation_goal: >-
+        Measure the corpus size at which full debt blocking becomes a burden —
+        that measurement is an input to the still-OPEN method/tier decisions
+        (UNRES-STEMMA-CORE-003), not a decision in itself.
+      relaxes_to: forward_only
+      retire_when: >-
+        the owner judges the burden visible and rules on the PART 2 tier
+        thresholds (UNRES-STEMMA-CORE-003); relaxing is an owner act
     enforcement_point:
       gate: "scripts/validate.py:check_revalidation_debt"
       cli: "scripts/review_entity.py:promote (refuses while debt outstanding)"
     rationale: >-
       Owner directive 2026-10-01: debt must be visible in frontmatter and the
-      validator cannot complete validation until the debt is fixed.
+      validator cannot complete validation until the debt is fixed. At pilot
+      scale a full block is cheap and makes the debt impossible to ignore.
     related_adr: ADR-0057
     related_requirement: REQ-STEMMA-HITL-003
     owner: Sajan
@@ -76,7 +100,11 @@ rules:
       human agents, and a board stage SHALL name at least two distinct human
       members. When the performers are not all distinct, the promotion SHALL
       carry an owner-sanctioned independence_waiver naming sanctioned_by and
-      retire_when. Absence of either is a gate failure.
+      retire_when. Absence of either is a gate failure. While the owner is the
+      only registered validator, the BOARD stage itself is waved (see
+      board_waiver below): the required chain becomes validator ->
+      independent_validator, and canonical is reachable from the
+      independent_validator stage.
     applies_to: [entity, connection]
     normative_strength: SHALL
     rule:
@@ -85,6 +113,20 @@ rules:
       distinct_within: consecutive
       board_min_members: 2
       waiver_fields_required: [sanctioned_by, reason, retire_when]
+    board_waiver:
+      active: true
+      required_stages_while_waived: [validator, independent_validator]
+      terminal_status_while_waived: canonical
+      owner: Sajan
+      sanctioned_at: "2026-10-01"
+      reason: >-
+        Owner ruling 2026-10-01: "waive the board for now as I am the only
+        validator." The board stage presumes a >=2-human panel that does not yet
+        exist; forcing it would make canonical unreachable or a fiction.
+      retire_when: >-
+        a second active human agent with a validation role is registered
+        (schema/agent-registry.yaml), at which point ENF-STEMMA-HITL-004's full
+        three-stage chain (including board, >=2 humans) applies again
     enforcement_point:
       gate: "scripts/validate.py:check_promotion_chain"
       cli: "scripts/review_entity.py:promote"
@@ -102,9 +144,12 @@ rules:
     title: The validator is not the final canonicalizer
     statement: >-
       No single act MAY set a record to 'canonical'. Canonical SHALL be
-      reachable only after an ordered chain validator -> independent_validator
-      -> board, all recorded in provenance.promotion_history. Jumping straight
-      from draft (or any single review) to canonical SHALL fail the gate.
+      reachable only after an ordered chain, all recorded in
+      provenance.promotion_history. The full chain is validator ->
+      independent_validator -> board; while the board waiver (ENF-STEMMA-HITL-003
+      board_waiver) is active the required chain is validator ->
+      independent_validator, and canonical follows that shorter chain. Jumping
+      straight from draft (or any single review) to canonical SHALL fail the gate.
     applies_to: [entity, connection]
     normative_strength: SHALL
     rule:
@@ -112,13 +157,16 @@ rules:
       required_stages: [validator, independent_validator, board]
       terminal_status: canonical
       allow_direct_jump: false
+      # active chain is resolved at gate time against ENF-STEMMA-HITL-003's
+      # board_waiver: when waived, required_stages becomes the two-stage chain.
     enforcement_point:
       gate: "scripts/validate.py:check_promotion_chain"
       cli: "scripts/review_entity.py:promote (advances exactly one stage)"
     rationale: >-
       Owner directive 2026-10-01: "the validator is not the final canonicalizer,
       it will be verified by another validator and it will finally reach board
-      where multiple validators will finally validate it."
+      where multiple validators will finally validate it." The board stage is
+      waived only because a >=2-human panel does not yet exist.
     related_adr: ADR-0057
     related_requirement: REQ-STEMMA-HITL-003
     owner: Sajan

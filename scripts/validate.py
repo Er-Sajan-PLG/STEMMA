@@ -134,6 +134,57 @@ def _stage_gap_days(rules: dict) -> int:
     return _DEFAULT_STAGE_GAP_DAYS
 
 
+def _debt_block_mode(rules: dict) -> str:
+    """How outstanding debt blocks: 'full' (any reviewed status) or
+    'forward_only' (only the next forward promotion). Read from ENF-002's
+    pilot_scale_block; fail-closed to 'full' — the stricter reading — if the
+    registry does not say otherwise."""
+    for rule in rules.get("rules") or []:
+        spec = rule.get("rule") if isinstance(rule, dict) else None
+        if not isinstance(spec, dict) or spec.get("kind") != "debt_blocks_status":
+            continue
+        block = rule.get("pilot_scale_block")
+        if isinstance(block, dict) and block.get("active"):
+            mode = spec.get("block_mode")
+            if mode in ("full", "forward_only"):
+                return mode
+            return "full"
+        mode = spec.get("block_mode")
+        if mode in ("full", "forward_only"):
+            return mode
+    return "full"
+
+
+def _board_waiver(rules: dict) -> dict | None:
+    """The active board waiver (ENF-003.board_waiver), or None. When active the
+    required promotion chain drops the board stage: validator ->
+    independent_validator, with canonical reachable from stage 2."""
+    for rule in rules.get("rules") or []:
+        if not isinstance(rule, dict):
+            continue
+        spec = rule.get("rule")
+        if not isinstance(spec, dict) or spec.get("kind") != "independence_or_waiver":
+            continue
+        waiver = rule.get("board_waiver")
+        if isinstance(waiver, dict) and waiver.get("active"):
+            return waiver
+    return None
+
+
+def _required_stages(rules: dict) -> tuple[str, ...]:
+    """The promotion chain currently required for canonical, honouring the board
+    waiver. Full chain: validator -> independent_validator -> board. Waived:
+    validator -> independent_validator."""
+    waiver = _board_waiver(rules)
+    if waiver:
+        stages = waiver.get("required_stages_while_waived")
+        if isinstance(stages, list) and stages:
+            ordered = [s for s in STAGE_ORDER if s in stages]
+            if ordered:
+                return tuple(ordered)
+    return tuple(STAGE_ORDER)
+
+
 PROMOTION_MIN_STAGE_GAP_DAYS = _DEFAULT_STAGE_GAP_DAYS
 EXTENSION_REGISTRY = ROOT / "schema" / "extension-registry.yaml"
 AGENT_REGISTRY = SCHEMA / "agent-registry.yaml"
@@ -265,18 +316,18 @@ def _record_kind(record: dict) -> str:
     return "connection" if record.get("type") == "connection" else "entity"
 
 
-def check_revalidation_debt(record: dict, errors: list, here: str, warnings: list | None = None) -> None:
-    """An outstanding debt blocks FORWARD promotion and must be surfaced.
+def check_revalidation_debt(record: dict, errors: list, here: str, warnings: list | None = None,
+                            block_mode: str = "full") -> None:
+    """Outstanding revalidation debt blocks the record (ENF-STEMMA-HITL-002).
 
-    Owner ruling 2026-10-01: "the validator cannot complete validation until
-    debt is fixed as well, validator must know which entity has debt as he is
-    validating an entity."
-
-    Reading (owner-confirmable): debt blocks the NEXT forward promotion, not the
-    status a record already legitimately holds. A record that accrued debt after
-    being promoted is not retroactively illegal — but it may not advance further
-    until the debt is cleared or owner-deferred, and the debt is reported every
-    time the record is validated so it is impossible to miss.
+    Owner ruling 2026-10-01 (pilot scale): debt blocks FULLY — a record holding
+    any reviewed status (validator_validated, independently_validated,
+    board_approved, human_reviewed, canonical) with outstanding debt is a gate
+    FAILURE. The owner chose the strict reading deliberately, at this small
+    scale, to observe at what corpus size the block becomes a burden; relaxing
+    to forward-only blocking is an owner act recorded in the enforcement
+    registry (pilot_scale_block). When block_mode is 'forward_only' only the
+    next forward promotion is blocked and the debt is surfaced as a warning.
     """
     debt = record.get("revalidation_debt")
     status = effective_status(record)
@@ -298,13 +349,19 @@ def check_revalidation_debt(record: dict, errors: list, here: str, warnings: lis
         owed = debt.get("items") or []
         owed_txt = f" (owed: {', '.join(str(x) for x in owed)})" if owed else ""
         last_stage = _last_promotion_stage(record)
-        # Statuses strictly beyond the stage already reached are forward moves.
-        if status in REVIEWED_STATUSES and _is_forward_of(status, last_stage):
+        must_block = (
+            block_mode == "full" and status in REVIEWED_STATUSES
+        ) or (
+            block_mode != "full" and status in REVIEWED_STATUSES and _is_forward_of(status, last_stage)
+        )
+        if must_block:
             errors.append(
-                f"{here} DEBT BLOCKS VALIDATION: status '{status}' is a forward promotion while "
-                f"revalidation_debt.status is 'outstanding'{owed_txt} — reason: {debt.get('reason')!r}. "
-                f"This {kind} cannot advance past '{last_stage or 'none'}' until the debt is cleared "
-                f"or owner-deferred (ENF-STEMMA-HITL-002)")
+                f"{here} DEBT BLOCKS VALIDATION: revalidation_debt.status is "
+                f"'outstanding'{owed_txt} — reason: {debt.get('reason')!r}. This {kind} holds "
+                f"reviewed status '{status}' but at pilot scale an outstanding debt makes the "
+                f"record invalid until the debt is cleared AND the record re-validated "
+                f"(ENF-STEMMA-HITL-002, block_mode={block_mode}). Clear the debt or have the "
+                f"owner defer it.")
         else:
             # Debt is real and must be seen by whoever validates this record.
             note = (f"{here} REVALIDATION DEBT (outstanding): {debt.get('reason')!r}"
@@ -391,27 +448,34 @@ def effective_status(record: dict) -> str | None:
 
 def check_promotion_chain(record: dict, agents: dict[str, dict], errors: list, here: str,
                           min_gap_days: int = _DEFAULT_STAGE_GAP_DAYS,
-                          warnings: list | None = None) -> None:
+                          warnings: list | None = None,
+                          required_stages: tuple[str, ...] | None = None,
+                          board_waived: bool = False) -> None:
     """Multi-stage promotion chain gate (ADR-0057 §1b, §2, §3).
 
     The validator is NOT the final canonicalizer: canonical is reachable only
-    through an ordered chain validator -> independent_validator -> board, with
-    distinct actors, a >=2-member human board, and — since the owner currently
-    holds all three roles — an owner-sanctioned independence_waiver. Runs apply
-    on DISTINCT days: the same actor may not take two stages of one record on
-    the same calendar day.
+    through an ordered chain. The full chain is validator ->
+    independent_validator -> board, with distinct actors and a >=2-member human
+    board. While the board waiver is active (ENF-STEMMA-HITL-003 board_waiver)
+    `required_stages` is the shorter validator -> independent_validator chain and
+    `board_waived` is True, so a record need not carry a board stage. Runs apply
+    on DISTINCT days: the same actor may not take two stages of one record on the
+    same calendar day (ENF-STEMMA-HITL-001).
     """
+    if required_stages is None:
+        required_stages = tuple(STAGE_ORDER)
     prov = record.get("provenance")
     if not isinstance(prov, dict):
         return
     history = prov.get("promotion_history")
     status = effective_status(record)
 
+    chain_desc = " -> ".join(required_stages)
     if not history:
-        if status == "canonical":
+        if status in REVIEWED_STATUSES:
             errors.append(
-                f"{here} status 'canonical' but provenance.promotion_history is empty — canonical is "
-                f"reachable only via validator -> independent_validator -> board (ADR-0057)")
+                f"{here} status '{status}' but provenance.promotion_history is empty — a reviewed "
+                f"status is reachable only via the promotion chain {chain_desc} (ADR-0057)")
         return
     if not isinstance(history, list):
         errors.append(f"{here} provenance.promotion_history must be a list")
@@ -435,9 +499,14 @@ def check_promotion_chain(record: dict, agents: dict[str, dict], errors: list, h
         if not entry.get("at"):
             errors.append(f"{here} promotion_history[{idx}].at (timestamp) is required")
         if stage == "board":
+            if board_waived:
+                errors.append(
+                    f"{here} promotion_history[{idx}] records a board stage but the board stage is "
+                    f"currently waived (ENF-STEMMA-HITL-003 board_waiver) — the required chain is "
+                    f"{chain_desc}")
             members = _board_members(entry)
-            board_waived = isinstance(entry.get("independence_waiver"), dict)
-            if len(set(members)) < 2 and not board_waived:
+            board_waived_entry = isinstance(entry.get("independence_waiver"), dict)
+            if len(set(members)) < 2 and not board_waived_entry:
                 errors.append(
                     f"{here} promotion_history[{idx}] board stage requires board_members with >=2 "
                     f"distinct humans (found {members!r}) — or an owner-sanctioned independence_waiver "
@@ -451,14 +520,23 @@ def check_promotion_chain(record: dict, agents: dict[str, dict], errors: list, h
                     errors.append(f"{here} promotion_history[{idx}] board member {m!r} not in agent registry")
         stages_seen.append(stage)
 
-    # Order & completeness: for a record claiming a staged status, every earlier
-    # stage must be present, in order, exactly once.
+    # Order & completeness: for a record claiming a staged status, every required
+    # stage must be present, in order, exactly once. Under an active board waiver
+    # the required chain is the shorter one; a waived chain must contain no board
+    # stage, and must contain no board stage even as an extra.
     if status in REVIEWED_STATUSES:
-        expected = STAGE_ORDER
-        if stages_seen != list(expected):
+        if board_waived:
+            relevant = [s for s in stages_seen if s in required_stages]
+            violations = [s for s in stages_seen if s not in required_stages]
+            if relevant != list(required_stages) or violations:
+                errors.append(
+                    f"{here} promotion_history stages {stages_seen} do not match the required "
+                    f"ordered chain {list(required_stages)} (board stage waived by "
+                    f"ENF-STEMMA-HITL-003) for a '{status}' record (ADR-0057)")
+        elif stages_seen != list(required_stages):
             errors.append(
                 f"{here} promotion_history stages {stages_seen} do not match the required ordered "
-                f"chain {list(expected)} for a '{status}' record (ADR-0057)")
+                f"chain {list(required_stages)} for a '{status}' record (ADR-0057)")
 
     # Independence: consecutive stages must be distinct humans — OR carry an
     # owner-sanctioned waiver (the interim single-actor state, ADR-0057 §1a).
@@ -467,17 +545,13 @@ def check_promotion_chain(record: dict, agents: dict[str, dict], errors: list, h
         isinstance(e, dict) and isinstance(e.get("independence_waiver"), dict) for e in history
     )
     non_distinct = False
-    for a, b in zip(STAGE_ORDER, STAGE_ORDER[1:]):
+    for a, b in zip(required_stages, required_stages[1:]):
         ea, eb = by_stage.get(a), by_stage.get(b)
         if not ea or not eb:
             continue
         act_a, act_b = _stage_actor(ea), _stage_actor(eb)
         if act_a and act_b and act_a == act_b:
             non_distinct = True
-        if a == "board" or b == "board":
-            continue
-        # stage 2 must differ from stage 1 even if they are the same agent
-        # registered under different ids is impossible — ids are the identity.
     if non_distinct and not waiver_present:
         errors.append(
             f"{here} promotion_history has repeated actors across stages but no independence_waiver "
@@ -590,10 +664,11 @@ def check_connection_agents(conn: dict, agents: dict[str, dict], errors: list) -
                 f"provenance.reviewed_by or a human review_history entry (HITL, UNRES-STEMMA-HITL-002)")
 
 
-def check_revalidation_debt_record(record: dict, errors: list) -> None:
+def check_revalidation_debt_record(record: dict, errors: list,
+                                   block_mode: str = "full") -> None:
     """Dataset-agnostic wrapper: names the record in the debt diagnosis."""
     here = f"{record.get('_file', '<record>')}:"
-    check_revalidation_debt(record, errors, here)
+    check_revalidation_debt(record, errors, here, block_mode=block_mode)
 
 
 def check_external_ids(obj: dict, errors: list, here: str) -> None:
@@ -1684,10 +1759,14 @@ def main(argv: list[str] | None = None) -> int:
     # Missing file => SystemExit (fail closed), not a default.
     _enf_rules = load_enforcement_rules()
     _gap_days = _stage_gap_days(_enf_rules)
+    _debt_mode = _debt_block_mode(_enf_rules)
+    _chain = _required_stages(_enf_rules)
+    _board_waived = _board_waiver(_enf_rules) is not None
     for _entity in entities.values():
         check_entity_agents(_entity, agents, errors)
-        check_revalidation_debt(_entity, errors, f"{_entity['_file']}:", warnings)
-        check_promotion_chain(_entity, agents, errors, f"{_entity['_file']}:", _gap_days, warnings)
+        check_revalidation_debt(_entity, errors, f"{_entity['_file']}:", warnings, _debt_mode)
+        check_promotion_chain(_entity, agents, errors, f"{_entity['_file']}:", _gap_days, warnings,
+                              _chain, _board_waived)
     if not agents:
         errors.append("schema/agent-registry.yaml missing or empty (plan v2 E4.2: every provenance agent must resolve)")
     check_agent_registry_shape(agents, errors)
@@ -1699,8 +1778,9 @@ def main(argv: list[str] | None = None) -> int:
                 specific_pairs.add(frozenset((src, tgt)))
     for conn in connections.values():
         check_connection_agents(conn, agents, errors)
-        check_revalidation_debt(conn, errors, f"{conn.get('_file', '<connection>')}:", warnings)
-        check_promotion_chain(conn, agents, errors, f"{conn.get('_file', '<connection>')}:", _gap_days, warnings)
+        check_revalidation_debt(conn, errors, f"{conn.get('_file', '<connection>')}:", warnings, _debt_mode)
+        check_promotion_chain(conn, agents, errors, f"{conn.get('_file', '<connection>')}:", _gap_days, warnings,
+                              _chain, _board_waived)
         check_connection_context(conn, vocab, errors)
         check_assertion_epistemics(conn, errors, warnings)
         check_lifecycle_pointers(conn, connections, errors)

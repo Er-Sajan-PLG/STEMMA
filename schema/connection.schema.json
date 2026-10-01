@@ -4,12 +4,37 @@
   "title": "STEMMA connection (first-class assertion) — Architecture v2",
   "description": "Schema for one canonical connection — first-class qualified assertion with value-slot XOR target/value, warrant axis definitional axiomatic model_based, correction labels, delegated authority v2 audited federation. See ADR-0044, ADR-0045, ADR-0046, ADR-0047, ADR-0048, ADR-0049. Architecture v2 ideal order.",
   "type": "object",
-  "required": ["id", "type", "source", "relation", "assertion", "provenance"],
+  "required": [
+    "id",
+    "type",
+    "source",
+    "relation",
+    "assertion",
+    "provenance"
+  ],
   "allOf": [
     {
       "oneOf": [
-        {"required": ["target"], "not": {"required": ["value"]}},
-        {"required": ["value"], "not": {"required": ["target"]}}
+        {
+          "required": [
+            "target"
+          ],
+          "not": {
+            "required": [
+              "value"
+            ]
+          }
+        },
+        {
+          "required": [
+            "value"
+          ],
+          "not": {
+            "required": [
+              "target"
+            ]
+          }
+        }
       ],
       "description": "Value-slot XOR target/value per ADR-0045 — either relational (target) or valued (value) claim, not both, not neither"
     }
@@ -20,7 +45,9 @@
       "pattern": "^stemma:conn\\.[0-9]{6}$",
       "description": "Sequential opaque connection ID (stemma:conn.000001), immutable, never reused per L5."
     },
-    "type": { "const": "connection" },
+    "type": {
+      "const": "connection"
+    },
     "source": {
       "type": "string",
       "pattern": "^stemma:[a-z][a-z0-9-]*\\.[a-z0-9][a-z0-9-]*$",
@@ -38,18 +65,26 @@
     "value": {
       "type": "object",
       "description": "Value-slot per ADR-0045 — structured value for measurements, prevalence, typed literals — Wikibase QuantityValue aligned asymmetric bounds explicit unit IRIs dimensionless sentinel 1 interim allowlist QUDT/UCUM/SI symbols",
-      "required": ["amount"],
+      "required": [
+        "amount"
+      ],
       "properties": {
         "amount": {
           "type": "string",
           "description": "Decimal string Wikibase-aligned e.g., 42.0"
         },
         "lowerBound": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Optional lower bound asymmetric"
         },
         "upperBound": {
-          "type": ["string", "null"],
+          "type": [
+            "string",
+            "null"
+          ],
           "description": "Optional upper bound asymmetric"
         },
         "unit": {
@@ -61,29 +96,83 @@
     },
     "assertion": {
       "type": "object",
-      "required": ["status", "type", "review"],
+      "required": [
+        "status",
+        "type",
+        "review"
+      ],
       "properties": {
-        "status": { "enum": ["active", "deprecated", "superseded"] },
-        "type": { "enum": ["asserted", "inferred", "proposed"], "description": "Surgical per ADR-0046 — do NOT expand to derived disputed hypothesized warrant belongs on confidence_basis" },
-        "polarity": { "enum": ["positive", "negative"], "default": "positive", "description": "M2: affirmed vs negated claim (default positive). Rejected != negated." },
+        "status": {
+          "enum": [
+            "active",
+            "deprecated",
+            "superseded"
+          ]
+        },
+        "type": {
+          "enum": [
+            "asserted",
+            "inferred",
+            "proposed"
+          ],
+          "description": "Surgical per ADR-0046 — do NOT expand to derived disputed hypothesized warrant belongs on confidence_basis"
+        },
+        "polarity": {
+          "enum": [
+            "positive",
+            "negative"
+          ],
+          "default": "positive",
+          "description": "M2: affirmed vs negated claim (default positive). Rejected != negated."
+        },
         "review": {
           "type": "object",
-          "required": ["status"],
+          "required": [
+            "status"
+          ],
           "properties": {
-            "status": { "enum": ["unreviewed", "reviewed", "canonical", "rejected"] },
-            "authority": { "enum": ["internal", "delegated"], "description": "Per ADR-0049 delegated authority v2 — internal STEMMA-reviewed vs delegated institution-verified" }
+            "status": {
+              "enum": [
+                "unreviewed",
+                "reviewed",
+                "canonical",
+                "rejected"
+              ]
+            },
+            "authority": {
+              "enum": [
+                "internal",
+                "delegated"
+              ],
+              "description": "Per ADR-0049 delegated authority v2 — internal STEMMA-reviewed vs delegated institution-verified"
+            }
           },
           "additionalProperties": false
         },
         "confidence": {
-          "type": ["number", "null"],
+          "type": [
+            "number",
+            "null"
+          ],
           "minimum": 0.0,
           "maximum": 1.0,
           "description": "Belief that this assertion is correct within its context. Null if unknown."
         },
         "confidence_basis": {
-          "type": ["string", "null"],
-          "enum": ["expert_review", "experimental", "theoretical", "derived", "definitional", "axiomatic", "model_based", null],
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "expert_review",
+            "experimental",
+            "theoretical",
+            "derived",
+            "definitional",
+            "axiomatic",
+            "model_based",
+            null
+          ],
           "description": "Warrant axis per ADR-0046 — how justified, extended with definitional axiomatic model_based, pairs with confidence"
         }
       },
@@ -91,42 +180,112 @@
     },
     "lifecycle": {
       "anyOf": [
-        {"type": "object", "properties": {"reason": { "type": ["string", "null"] }, "replaced_by": { "type": ["string", "null"], "pattern": "^stemma:conn\\.[0-9]{6}$" }}, "additionalProperties": false},
-        {"type": "null"}
+        {
+          "type": "object",
+          "properties": {
+            "reason": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "replaced_by": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^stemma:conn\\.[0-9]{6}$"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
       ]
     },
-    "created_at": { "type": ["string", "null"], "description": "ISO8601 creation time (M3 repository lifecycle) — not in canonical export only workflow audit per L5 content_hash" },
-    "updated_at": { "type": ["string", "null"], "description": "ISO8601 last modification time — not in canonical export only workflow audit" },
+    "created_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "ISO8601 creation time (M3 repository lifecycle) — not in canonical export only workflow audit per L5 content_hash"
+    },
+    "updated_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "ISO8601 last modification time — not in canonical export only workflow audit"
+    },
     "validity": {
       "anyOf": [
-        {"type": "object", "properties": {"valid_from": { "type": ["string", "null"] }, "valid_until": { "type": ["string", "null"] }}, "additionalProperties": false},
-        {"type": "null"}
+        {
+          "type": "object",
+          "properties": {
+            "valid_from": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "valid_until": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "context": {
       "type": "object",
       "properties": {
-        "domain": { "type": "string" },
-        "subdomain": { "type": "string" },
+        "domain": {
+          "type": "string"
+        },
+        "subdomain": {
+          "type": "string"
+        },
         "regime": {
           "type": "array",
-          "items": { "type": "string" },
+          "items": {
+            "type": "string"
+          },
           "description": "Controlled multi-valued regimes (see vocabularies/regimes.yaml)."
         },
-        "scale": { "type": "string" },
+        "scale": {
+          "type": "string"
+        },
         "assumptions": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
         "qualifiers": {
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["type", "value"],
+            "required": [
+              "type",
+              "value"
+            ],
             "properties": {
-              "type": { "type": "string" },
-              "value": { "type": "string" },
-              "unit": { "type": "string" }
+              "type": {
+                "type": "string"
+              },
+              "value": {
+                "type": "string"
+              },
+              "unit": {
+                "type": "string"
+              }
             },
             "additionalProperties": false
           },
@@ -137,26 +296,111 @@
     },
     "assumptions": {
       "type": "array",
-      "items": { "type": "string" },
+      "items": {
+        "type": "string"
+      },
       "description": "Legacy scalar assumptions; prefer context.assumptions."
     },
     "evidence": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["type"],
+        "required": [
+          "type"
+        ],
         "properties": {
-          "type": { "enum": ["definition", "axiom", "mathematical_derivation", "empirical_measurement", "experiment", "observation", "simulation", "review", "textbook", "standard", "dataset", "expert_assessment", "derivation", "other"] },
-          "stance": { "enum": ["supports", "weakly_supports", "contradicts", "qualifies"], "description": "M9: evidence direction, default supports" },
-          "source_ref": { "type": "string", "pattern": "^stemma:src\\." },
-          "locator": { "type": "string" },
-          "locator_struct": {
-            "anyOf": [
-              {"type": "object", "properties": {"page": { "type": ["string", "null"] }, "section": { "type": ["string", "null"] }, "equation": { "type": ["string", "null"] }, "figure": { "type": ["string", "null"] }, "table": { "type": ["string", "null"] }, "dataset": { "type": ["string", "null"] }, "code": { "type": ["string", "null"] }}, "additionalProperties": false},
-              {"type": "null"}
+          "type": {
+            "enum": [
+              "definition",
+              "axiom",
+              "mathematical_derivation",
+              "empirical_measurement",
+              "experiment",
+              "observation",
+              "simulation",
+              "review",
+              "textbook",
+              "standard",
+              "dataset",
+              "expert_assessment",
+              "derivation",
+              "other"
             ]
           },
-          "description": { "type": "string" }
+          "stance": {
+            "enum": [
+              "supports",
+              "weakly_supports",
+              "contradicts",
+              "qualifies"
+            ],
+            "description": "M9: evidence direction, default supports"
+          },
+          "source_ref": {
+            "type": "string",
+            "pattern": "^stemma:src\\."
+          },
+          "locator": {
+            "type": "string"
+          },
+          "locator_struct": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "page": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "section": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "equation": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "figure": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "table": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "dataset": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "code": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "description": {
+            "type": "string"
+          }
         },
         "additionalProperties": false
       },
@@ -164,23 +408,50 @@
     },
     "provenance": {
       "type": "object",
-      "required": ["asserted_by", "generated_by", "method"],
+      "required": [
+        "asserted_by",
+        "generated_by",
+        "method"
+      ],
       "properties": {
         "asserted_by": {
           "type": "object",
-          "required": ["type", "id"],
+          "required": [
+            "type",
+            "id"
+          ],
           "properties": {
-            "type": { "enum": ["human", "llm", "process", "unknown"] },
-            "id": { "type": "string" }
+            "type": {
+              "enum": [
+                "human",
+                "llm",
+                "process",
+                "unknown"
+              ]
+            },
+            "id": {
+              "type": "string"
+            }
           },
           "additionalProperties": false
         },
         "generated_by": {
           "type": "object",
-          "required": ["type", "id"],
+          "required": [
+            "type",
+            "id"
+          ],
           "properties": {
-            "type": { "enum": ["process", "human", "llm"] },
-            "id": { "type": "string" }
+            "type": {
+              "enum": [
+                "process",
+                "human",
+                "llm"
+              ]
+            },
+            "id": {
+              "type": "string"
+            }
           },
           "additionalProperties": false
         },
@@ -188,19 +459,50 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["type", "id"],
+            "required": [
+              "type",
+              "id"
+            ],
             "properties": {
-              "type": { "enum": ["human", "llm"] },
-              "id": { "type": "string" },
-              "authority": { "enum": ["internal", "delegated"], "description": "Per ADR-0049 delegated authority v2 internal vs delegated" },
+              "type": {
+                "enum": [
+                  "human",
+                  "llm"
+                ]
+              },
+              "id": {
+                "type": "string"
+              },
+              "authority": {
+                "enum": [
+                  "internal",
+                  "delegated"
+                ],
+                "description": "Per ADR-0049 delegated authority v2 internal vs delegated"
+              },
               "delegated_provenance": {
-                "type": ["object", "null"],
+                "type": [
+                  "object",
+                  "null"
+                ],
                 "properties": {
-                  "institution_id": { "type": "string" },
-                  "review_standard_url": { "type": "string" },
-                  "review_standard_version": { "type": "string" },
-                  "audit_date": { "type": "string" },
-                  "sample_audit_rate": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+                  "institution_id": {
+                    "type": "string"
+                  },
+                  "review_standard_url": {
+                    "type": "string"
+                  },
+                  "review_standard_version": {
+                    "type": "string"
+                  },
+                  "audit_date": {
+                    "type": "string"
+                  },
+                  "sample_audit_rate": {
+                    "type": "number",
+                    "minimum": 0.0,
+                    "maximum": 1.0
+                  }
                 },
                 "additionalProperties": false,
                 "description": "Per ADR-0049 delegated authority v2 audited federation"
@@ -211,11 +513,24 @@
         },
         "method": {
           "type": "object",
-          "required": ["type"],
+          "required": [
+            "type"
+          ],
           "properties": {
-            "type": { "enum": ["manual", "llm_inference", "rule_inference", "migration"] },
-            "model": { "type": "string" },
-            "prompt_version": { "type": "string" }
+            "type": {
+              "enum": [
+                "manual",
+                "llm_inference",
+                "rule_inference",
+                "migration"
+              ]
+            },
+            "model": {
+              "type": "string"
+            },
+            "prompt_version": {
+              "type": "string"
+            }
           },
           "additionalProperties": false
         },
@@ -223,27 +538,74 @@
           "type": "array",
           "items": {
             "type": "object",
-            "required": ["from", "to", "reviewer", "at"],
+            "required": [
+              "from",
+              "to",
+              "reviewer",
+              "at"
+            ],
             "properties": {
-              "from": { "type": "string" },
-              "to": { "type": "string" },
-              "reviewer": { "type": "string" },
-              "at": { "type": "string" },
-              "reason": { "type": "string" },
-              "authority": { "enum": ["internal", "delegated"], "description": "Per ADR-0049 delegated authority v2" },
+              "from": {
+                "type": "string"
+              },
+              "to": {
+                "type": "string"
+              },
+              "reviewer": {
+                "type": "string"
+              },
+              "at": {
+                "type": "string"
+              },
+              "reason": {
+                "type": "string"
+              },
+              "authority": {
+                "enum": [
+                  "internal",
+                  "delegated"
+                ],
+                "description": "Per ADR-0049 delegated authority v2"
+              },
               "correction_class": {
-                "type": ["string", "null"],
-                "enum": ["factual_error", "category_error", "relationship_error", "provenance_error", "incompleteness", "hallucination", "format_error", "dangling_ref", null],
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "factual_error",
+                  "category_error",
+                  "relationship_error",
+                  "provenance_error",
+                  "incompleteness",
+                  "hallucination",
+                  "format_error",
+                  "dangling_ref",
+                  null
+                ],
                 "description": "Per ADR-0046 correction labels why corrected attaches to review decisions not whole claims per L3"
               },
               "delegated_provenance": {
-                "type": ["object", "null"],
+                "type": [
+                  "object",
+                  "null"
+                ],
                 "properties": {
-                  "institution_id": { "type": "string" },
-                  "review_standard_url": { "type": "string" },
-                  "review_standard_version": { "type": "string" },
-                  "audit_date": { "type": "string" },
-                  "sample_audit_rate": { "type": "number" }
+                  "institution_id": {
+                    "type": "string"
+                  },
+                  "review_standard_url": {
+                    "type": "string"
+                  },
+                  "review_standard_version": {
+                    "type": "string"
+                  },
+                  "audit_date": {
+                    "type": "string"
+                  },
+                  "sample_audit_rate": {
+                    "type": "number"
+                  }
                 },
                 "additionalProperties": false
               }
@@ -257,24 +619,67 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["stage", "actor", "at"],
+            "required": [
+              "stage",
+              "actor",
+              "at"
+            ],
             "properties": {
-              "stage": { "enum": ["validator", "independent_validator", "board"] },
-              "actor": { "type": "string", "description": "registered human agent id who acted at this stage" },
-              "at": { "type": "string" },
-              "evidence": { "type": "string" },
-              "board_members": { "type": "array", "items": { "type": "string" }, "description": "required when stage=board: >=2 registered humans" },
+              "stage": {
+                "enum": [
+                  "validator",
+                  "independent_validator",
+                  "board"
+                ]
+              },
+              "actor": {
+                "type": "string",
+                "description": "registered human agent id who acted at this stage"
+              },
+              "at": {
+                "type": "string"
+              },
+              "evidence": {
+                "type": "string"
+              },
+              "board_members": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "required when stage=board: >=2 registered humans"
+              },
               "independence_waiver": {
                 "type": "object",
                 "additionalProperties": false,
-                "required": ["sanctioned_by", "reason", "retire_when"],
+                "required": [
+                  "sanctioned_by",
+                  "reason",
+                  "retire_when"
+                ],
                 "description": "Present only when the chain's actors are not all distinct (ADR-0057 s1a).",
                 "properties": {
-                  "sanctioned_by": { "type": "string" },
-                  "reason": { "type": "string" },
-                  "sanctioned_at": { "type": "string" },
-                  "retire_when": { "type": "string" }
+                  "sanctioned_by": {
+                    "type": "string"
+                  },
+                  "reason": {
+                    "type": "string"
+                  },
+                  "sanctioned_at": {
+                    "type": "string"
+                  },
+                  "retire_when": {
+                    "type": "string"
+                  }
                 }
+              },
+              "board_waived": {
+                "type": "boolean",
+                "description": "True when this terminal stage concluded the chain under an active board waiver (ENF-STEMMA-HITL-003 board_waiver) — the board stage was retired, not performed."
+              },
+              "board_waived_reason": {
+                "type": "string",
+                "description": "Why the board stage was retired for this record (audit trail for the waived chain)."
               }
             }
           }
@@ -285,18 +690,39 @@
     "inference": {
       "type": "object",
       "properties": {
-        "rule": { "type": "string" },
+        "rule": {
+          "type": "string"
+        },
         "path": {
           "type": "array",
-          "items": { "type": "string", "pattern": "^stemma:" }
+          "items": {
+            "type": "string",
+            "pattern": "^stemma:"
+          }
         }
       },
       "additionalProperties": false
     },
     "rights": {
       "anyOf": [
-        {"type": "object", "properties": {"license": { "type": "string" }, "attribution": { "type": "string" }, "rights_holder": { "type": "string" }}, "additionalProperties": false},
-        {"type": "null"}
+        {
+          "type": "object",
+          "properties": {
+            "license": {
+              "type": "string"
+            },
+            "attribution": {
+              "type": "string"
+            },
+            "rights_holder": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
       ]
     },
     "extensions": {
@@ -308,18 +734,54 @@
       "type": "object",
       "additionalProperties": false,
       "description": "Revalidation debt (ADR-0057): obligations this connection owes because it was promoted before the corpus satisfied them. An outstanding debt blocks every promotion/review status. Applies to ALL canonical datasets, connections included.",
-      "required": ["status", "reason", "incurred_at"],
+      "required": [
+        "status",
+        "reason",
+        "incurred_at"
+      ],
       "properties": {
-        "status": { "enum": ["outstanding", "cleared", "deferred"] },
-        "reason": { "type": "string", "minLength": 1 },
-        "incurred_at": { "type": "string" },
-        "items": { "type": "array", "items": { "type": "string" } },
-        "cleared_by": { "type": "string" },
-        "cleared_at": { "type": "string" },
-        "cleared_stage": { "enum": ["validator", "independent_validator", "board"] },
-        "clearance_evidence": { "type": "string" },
-        "deferred_by": { "type": "string" },
-        "deferred_until": { "type": "string" }
+        "status": {
+          "enum": [
+            "outstanding",
+            "cleared",
+            "deferred"
+          ]
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 1
+        },
+        "incurred_at": {
+          "type": "string"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "cleared_by": {
+          "type": "string"
+        },
+        "cleared_at": {
+          "type": "string"
+        },
+        "cleared_stage": {
+          "enum": [
+            "validator",
+            "independent_validator",
+            "board"
+          ]
+        },
+        "clearance_evidence": {
+          "type": "string"
+        },
+        "deferred_by": {
+          "type": "string"
+        },
+        "deferred_until": {
+          "type": "string"
+        }
       }
     }
   },

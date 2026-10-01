@@ -4,6 +4,11 @@
 Promotion ladder (ADR-0057): draft -> machine_validated -> validator_validated
 -> independently_validated -> board_approved -> canonical.
 
+While the board waiver is active (ENF-STEMMA-HITL-003 board_waiver — the owner is
+the only validator) the required chain is validator -> independent_validator and
+canonical is reachable from the independent_validator stage; the board stage is
+skipped, not faked.
+
 The validator is NOT the final canonicalizer: each `promote` call advances the
 record by exactly ONE stage, and consecutive stages must be applied on separate
 days (ENF-STEMMA-HITL-001). The CLI refuses to record a promotion that would
@@ -14,7 +19,8 @@ Commands:
   python3 scripts/review_entity.py list [--domain physics]
   python3 scripts/review_entity.py show stemma:phys.newtons-second-law
   python3 scripts/review_entity.py stage stemma:phys.metre --actor human:curator.001
-      # advance exactly one stage (validator / independent_validator / board)
+      # advance exactly one stage of the CURRENT chain
+      # (validator / independent_validator; + board when the waiver is retired)
   python3 scripts/review_entity.py stage stemma:phys.metre --actor human:curator.001 --at 2026-10-05T10:00:00+00:00
   python3 scripts/review_entity.py clear-debt stemma:phys.metre --actor human:curator.001 --stage validator --evidence "..."
   python3 scripts/review_entity.py defer-debt stemma:phys.metre --until "a second reviewer exists" --before 2026-12-31
@@ -25,7 +31,9 @@ Rules (enforced):
   * `--actor`/`--reviewer` must be an active `human:` agent in schema/agent-registry.yaml.
   * `promote`/`stage` advances ONE stage only; there is no direct jump to canonical.
   * Consecutive stages of one record must be >= 1 calendar day apart (ENF-STEMMA-HITL-001).
-  * A record with outstanding revalidation debt cannot advance (ENF-STEMMA-HITL-002).
+  * A record with outstanding revalidation debt cannot advance; at pilot scale the
+    debt blocks FULLY — the record is invalid until cleared and re-validated
+    (ENF-STEMMA-HITL-002, block_mode=full).
   * HITL: if workflow/ has candidates/proposals for this entity, audit must show a human edit.
 """
 from __future__ import annotations
@@ -78,6 +86,40 @@ def _min_stage_gap() -> int:
             if isinstance(v, int):
                 return v
     return 1
+
+
+def _board_waived() -> bool:
+    """True while the board stage is waived (ENF-STEMMA-HITL-003 board_waiver)."""
+    for rule in _enforcement().get("rules") or []:
+        spec = rule.get("rule") if isinstance(rule, dict) else None
+        if isinstance(spec, dict) and spec.get("kind") == "independence_or_waiver":
+            w = rule.get("board_waiver")
+            if isinstance(w, dict) and w.get("active"):
+                return True
+    return False
+
+
+def _debt_block_mode() -> str:
+    """'full' or 'forward_only' (ENF-STEMMA-HITL-002). Fail-closed to 'full'."""
+    for rule in _enforcement().get("rules") or []:
+        spec = rule.get("rule") if isinstance(rule, dict) else None
+        if isinstance(spec, dict) and spec.get("kind") == "debt_blocks_status":
+            block = rule.get("pilot_scale_block")
+            if isinstance(block, dict) and block.get("active"):
+                mode = spec.get("block_mode")
+                return mode if mode in ("full", "forward_only") else "full"
+            mode = spec.get("block_mode")
+            return mode if mode in ("full", "forward_only") else "full"
+    return "full"
+
+
+def _stage_order() -> tuple[str, ...]:
+    """The promotion chain currently required. Full: validator ->
+    independent_validator -> board. While the board waiver is active: validator ->
+    independent_validator, with canonical reachable from the last stage."""
+    if _board_waived():
+        return ("validator", "independent_validator")
+    return STAGE_ORDER
 
 
 def now() -> str:
@@ -163,13 +205,21 @@ def _last_stage_entry(entity: dict) -> dict | None:
 
 
 def _next_stage(entity: dict) -> str:
+    order = _stage_order()
     last = _last_stage_entry(entity)
     if last is None:
-        return "validator"
-    idx = STAGE_ORDER.index(last["stage"])
-    if idx + 1 >= len(STAGE_ORDER):
-        raise ValueError("record has already completed the board stage; it is canonical")
-    return STAGE_ORDER[idx + 1]
+        return order[0]
+    if last["stage"] not in order:
+        # A stage recorded under a chain that no longer applies (e.g. a board
+        # stage recorded before the waiver). Refuse rather than guess.
+        raise ValueError(
+            f"record's last stage {last['stage']!r} is not part of the current chain "
+            f"{list(order)} (ENF-STEMMA-HITL-003 board_waiver)")
+    idx = order.index(last["stage"])
+    if idx + 1 >= len(order):
+        raise ValueError(
+            f"record has already completed the chain {list(order)}; it is canonical")
+    return order[idx + 1]
 
 
 def _parse_ts(value: str) -> datetime:
@@ -198,11 +248,15 @@ def _enforce_time_gate(entity: dict, when: str) -> None:
 
 
 def _enforce_debt(entity: dict) -> None:
-    """ENF-STEMMA-HITL-002: outstanding debt blocks forward promotion."""
+    """ENF-STEMMA-HITL-002: outstanding debt blocks promotion. At pilot scale the
+    block is FULL — the record is invalid until debt is cleared and re-validated;
+    the CLI simply refuses to promote."""
     debt = entity.get("revalidation_debt")
     if isinstance(debt, dict) and debt.get("status") == "outstanding":
+        mode = _debt_block_mode()
         raise ValueError(
-            f"DEBT BLOCKS PROMOTION (ENF-STEMMA-HITL-002): revalidation_debt.status is "
+            f"DEBT BLOCKS PROMOTION (ENF-STEMMA-HITL-002, block_mode={mode}): "
+            f"revalidation_debt.status is "
             f"'outstanding' — reason {debt.get('reason')!r}. Clear the debt "
             f"(clear-debt) or have the owner defer it (defer-debt) before promoting.")
 
@@ -228,9 +282,13 @@ def promote(root: pathlib.Path, eid: str, actor: str, when: str | None = None,
         raise ValueError(f"HITL check could not run ({exc!r}); refusing promotion") from exc
 
     _enforce_debt(entity)
+    order = _stage_order()
     target = stage or _next_stage(entity)
-    if target not in STAGE_ORDER:
-        raise ValueError(f"unknown stage {target!r} (validator|independent_validator|board)")
+    if target not in order:
+        raise ValueError(
+            f"stage {target!r} is not part of the current chain {list(order)} "
+            f"(ENF-STEMMA-HITL-003 board_waiver: the board stage is waived while the owner "
+            f"is the only validator)")
     expected = _next_stage(entity)
     if target != expected:
         raise ValueError(
@@ -255,10 +313,10 @@ def promote(root: pathlib.Path, eid: str, actor: str, when: str | None = None,
     prov["reviewer"] = actor
     prov["reviewed_at"] = when
     entity["status"] = STAGE_STATUS[target]
-    if target == "board":
-        # canonical is the terminal state reachable from board_approved; record
-        # it only when the caller explicitly finalizes (see `finalize`).
-        pass
+    if target == order[-1] and _board_waived() and target == "independent_validator":
+        # Board waived: the independent validator is the terminal stage, so
+        # canonical is reachable directly from it (ENF-STEMMA-HITL-003).
+        entity["status"] = "canonical"
     _write_entity(path, entity)
     return entity
 
