@@ -17,7 +17,7 @@
 | 4 | Evidence register (classified) | spec/EVIDENCE_REGISTER.md | ✅ 80 records, FACT/CLAIM/INFERENCE + confidence + locators |
 | 5 | As-built description | spec/AS_BUILT.md | ✅ present-state only, evidence-backed |
 | 6 | External constraints | spec/EXTERNAL_CONSTRAINTS.md | ✅ XC-1..XC-7 |
-| 7 | Open questions | spec/OPEN_QUESTIONS.md | ✅ 10 UNRES (7 OPEN / 3 CLOSED — UNRES-CORE-002, UNRES-GATE-001 and UNRES-HITL-002 closed by owner ruling); none closed by executor |
+| 7 | Open questions | spec/OPEN_QUESTIONS.md | ✅ 11 UNRES (8 OPEN / 3 CLOSED — UNRES-CORE-002, UNRES-GATE-001 and UNRES-HITL-002 closed by owner ruling; **UNRES-CORE-003 added 2026-10-01, blocking** — canonical is time-relative: revalidation debt + evolving validation methods); none closed by executor |
 | 8 | Conflict records | spec/CONFLICTS.md | ✅ 1 OPEN (CONFLICT-STEMMA-EXP-001) / 1 RESOLVED with authority level; no free interpretation field |
 | 9 | Requirements (full §8.6 schema) | spec/REQUIREMENTS.md | ✅ 24 records, **ALL APPROVED 2026-10-01** — owner-approved; nothing self-approved |
 | 10 | Recovered specification | spec/SPECIFICATION.md | ✅ v0.1.0-pilot.CORE-GATE-EXPORT (see SPECIFICATION.md for approval marks) |

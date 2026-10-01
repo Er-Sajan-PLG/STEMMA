@@ -114,3 +114,27 @@ open_questions:
     0, docs.py check PASS, 289 tests pass. REQ-STEMMA-HITL-001 and REQ-STEMMA-HITL-002 flipped FAILED->VERIFIED. Residual: UNRES-STEMMA-HITL-001 (audit-trail portability) remains OPEN.'
   closed_date: '2026-10-01'
   closed_by: human:curator.001
+- id: UNRES-STEMMA-CORE-003
+  question: 'Canonical status is time-relative: an entity may be legitimately canonicalized before the corpus contains enough entities for meaningful connections, but once more entities exist that *should* connect to it, it owes those connections and must be re-validated. How is this ''canonical now, revalidation owed later'' debt modelled, and how do the validation METHODS themselves evolve as the corpus grows from tens to millions/billions of entities?'
+  status: OPEN
+  blocking: true
+  blocking_impact: 'The current protocol treats canonical as a terminal state reached once, gated once. At scale that is unsound in both directions: (a) an early canonical entity can silently become connection-incomplete as the graph grows around it, with no gate that notices; (b) validation methods calibrated for a 9-entity corpus (exhaustive, per-entity, whole-corpus re-run in verify_all) cannot run over 10^6-10^9 entities at acceptable cost, so the gate that currently carries the whole trust claim stops being executable. Blocks a defensible claim that L4 (verified) stays verified as the corpus grows — i.e. it is a precondition for L5 (enforced) and for any corpus-scale claim.'
+  context: 'Owner observation 2026-10-01: ''the canonicalized entity can be upgraded specially in connection because in early entity addition, there might not be enough entity to have connection information but as entity gets added to millions to billions, all entities must get updated, and they must be validated as well by the validator, that means validating towards end or when entities becomes more is more difficult and methods will evolve as well along the way.'' The live corpus illustrates the seed of the problem: conn.000157 (force -> mass) was canonical-worthy only while both endpoints were canonical; the HITL ruling (UNRES-STEMMA-HITL-002) demoted the endpoints and the connection followed. Nothing in the protocol expressed that dependency as a *debt* — it was caught only because a validator rule happened to exist.'
+  scope_parts:
+  - 'PART 1 (revalidation debt): when entity E reaches canonical, record the corpus state (or graph state) at approval. As new entities arrive that should connect to E (same domain/subdomain, relation domain/range satisfied, etc.), E accrues explicit, trackable ''revalidation owed'' debt. E stays canonical but flagged. Debt must be cleared — or explicitly deferred by the owner with a recorded reason — before the next baseline. DECISION TAKEN (owner, 2026-10-01): provisional canonical + revalidation debt, NOT auto-demote-on-new-entity (a single new entity must not cascade into thousands of demotions).'
+  - 'PART 2 (method evolution): validation methods tier by corpus size, with declared thresholds (e.g. exhaustive per-entity below a threshold; sampled + statistical confidence above it; locality/graph-consistency based above a larger threshold). Which tier runs is a function of the measured corpus size and is recorded. The tier thresholds and definitions are themselves governed by ADR so they cannot drift silently. DECISION TAKEN (owner, 2026-10-01): tiered methods, ADR-governed tier boundaries.'
+  - 'PART 3 (upgrade path): an entity canonicalized with no connections must have a defined route to gain connections and be re-validated without being demoted and re-created — i.e. an additive, supersede-don''t-edit-compatible promotion of its connection-completeness, with the new connections themselves HITL-reviewed.'
+  what_is_NOT_decided: The debt data model (where debt lives — entity frontmatter, a derived index, or a review-queue record); the exact 'should connect' predicate (candidate generation strategy at scale); the numeric tier thresholds; whether 'connection-complete' is a per-entity boolean, a coverage ratio, or a graph-level invariant; and how debt interacts with the supersede-don't-edit rule (a debt-clearing edit is additive, but is it a new revision?). These are the questions the owner must rule on before implementation.
+  proposed_resolution: 'Owner rules on the three scope parts (two already decided in principle 2026-10-01) and on the open questions in what_is_NOT_decided. On ruling, the executor will: (a) add the requirement(s) for revalidation debt and tiered validation; (b) write the ADR(s) fixing the tier boundaries; (c) implement a first revalidation-debt detector as a gate; (d) record the migration for the current 1-canonical/8-draft corpus. No implementation before the ruling — this touches the meaning of ''canonical'', which is a governance act reserved to the owner.'
+  authority_required: SOLE_OWNER
+  related:
+  - REQ-STEMMA-HITL-001
+  - REQ-STEMMA-HITL-002
+  - UNRES-STEMMA-HITL-001
+  - UNRES-STEMMA-OPS-001
+  - EVID-STEMMA-HITL-006
+  - EVID-STEMMA-HITL-008
+  related_adr_files:
+  - docs/decisions/0045-value-slot.md
+  - docs/decisions/0056-adoption-provenance.md
+  domain_note: 'Filed under CORE: the lifecycle of canonical status is a property of the canonical corpus (identity/history), not a new governance domain.'
