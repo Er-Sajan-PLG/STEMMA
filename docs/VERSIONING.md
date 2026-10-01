@@ -99,9 +99,11 @@ release version, not `export_version`.
 
 `tests/repo/test_versioning_policy.py` fails if the current export, schema,
 registry or adapter version has no entry here. **(P)** No root `CHANGELOG.md`:
-retire release-please (`.github/workflows/release-please.yml` and its config
-are still present, fail on every push to `main`, and would create a changelog
-that duplicates the ones above).
+release-please is retired (`release-please.yml`, `release-please-config.json`
+and `.release-please-manifest.json` were removed — it created a root changelog
+that duplicated the records above and tripped the ecosystem-independence
+invariant in `tests/repo/test_independence.py`). The version is changed by
+editing this section's sources, never by a bot PR.
 
 ### 7. Tags, release candidates and promotion
 
