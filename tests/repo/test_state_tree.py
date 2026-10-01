@@ -289,7 +289,9 @@ def test_session_headers_match_the_schema_and_registry() -> None:
     session's header still said `Status: ended` from an earlier (wrong) attempt to
     close the session, while REGISTRY said `active`.
     """
-    required = ("Agent", "Session ID", "Started", "Status", "Branch", "Base commit")
+    # Amendment 2 (settled revision) adds `Model`; status vocabulary is
+    # IN-PROGRESS -> COMPLETED.
+    required = ("Agent", "Model", "Session ID", "Started", "Status", "Branch", "Base commit")
     sessions = sorted(p for p in (STATE / "sessions").iterdir()
                       if p.is_file() and p.name != ".gitkeep")
     assert sessions, "no session files to check — this test would pass vacuously"
@@ -301,7 +303,7 @@ def test_session_headers_match_the_schema_and_registry() -> None:
     registry = (STATE / "REGISTRY.md").read_text(encoding="utf-8")
     reg_status = {
         m.group(1): m.group(2).lower()
-        for m in re.finditer(r"^\|\s*`[A-Za-z0-9]{4}`\s*\|\s*`([^`]+)`\s*\|[^|]*\|[^|]*\|[^|]*\|\s*\*{0,2}(\w+)\*{0,2}\s*\|",
+        for m in re.finditer(r"^\|\s*`[A-Za-z0-9]{4}`\s*\|\s*`([^`]+)`\s*\|[^|]*\|[^|]*\|[^|]*\|\s*\*{0,2}([\w-]+)\*{0,2}\s*\|",
                              registry, re.MULTILINE)
     }
     assert reg_status, "parsed no session statuses from REGISTRY.md — table shape changed?"
@@ -387,7 +389,7 @@ def test_active_session_files_owned_covers_what_it_changed() -> None:
 
     registry = (STATE / "REGISTRY.md").read_text(encoding="utf-8")
     rows = re.findall(
-        r"^\|\s*`[A-Za-z0-9]{4}`\s*\|\s*`([^`]+)`\s*\|[^|]*\|[^|]*\|\s*([^|]*?)\s*\|\s*\*{0,2}(\w+)\*{0,2}\s*\|",
+        r"^\|\s*`[A-Za-z0-9]{4}`\s*\|\s*`([^`]+)`\s*\|[^|]*\|[^|]*\|\s*([^|]*?)\s*\|\s*\*{0,2}([\w-]+)\*{0,2}\s*\|",
         registry, re.MULTILINE,
     )
     # Zero active sessions is the NORMAL post-shutdown state, not a parse failure.

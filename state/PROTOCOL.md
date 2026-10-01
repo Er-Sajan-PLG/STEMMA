@@ -874,3 +874,128 @@ Not addressed by A1–A6. Recorded here so they are not lost:
 
 **Acknowledge you have read and understood this protocol, including this amendment, before
 beginning any task.**
+
+---
+
+# AMENDMENT 2 (protocol v1.2) — settled MACP revision
+
+**Status:** incorporated 2026-10-02. The owner designated
+`Universal_Software_Auditor/AGENTS.md` (updated 2026-10-02T04:36) as carrying the **latest
+protocol**, and directed that it be applied here.
+**Relationship to Amendment 1:** Amendment 1 (v1.1) was written from a *review* of proposals
+P1–P7 and is the executor's interpretation. This amendment carries the **settled** text. Where
+the two differ, **this one wins**; Amendment 1 is otherwise left intact (Rule 4: supersede,
+never edit).
+
+## What is genuinely new
+
+Amendment 1 already carried P1, P2, P3, P4, P5, P6 and the P7 deferral under the labels
+A1–A7. The settled revision adds **four things that were missing**, and aligns vocabulary.
+
+### N1 — `state/STARTUP.md` is its own file
+
+The directory structure gains `state/STARTUP.md`, holding the mandatory startup sequence
+("read first"). STEMMA previously kept the sequence inline in §6. The sequence is now
+**10 steps**, and the file is authoritative. See `state/STARTUP.md`.
+
+### N2 — STEP 8: VERIFY STATE AGAINST REALITY (mandatory)
+
+A new startup step, inserted before registration. **State files are claims, not facts.**
+Before proceeding: check for an open PR, check CI, run the chain and the suite, and
+**spot-check at least one DASHBOARD claim against the code**. If verification fails → STOP,
+document the discrepancy, fix or escalate. Do not proceed on stale state.
+
+This is the step whose absence this repository has already paid for three times — see
+`state/STARTUP.md` STEP 8.
+
+### N3 — Scope discipline (§2)
+
+- A "quick fix" that reveals a deeper issue → log `[BUG FOUND]`, stay focused.
+- To expand scope → log `[SCOPE EXPANSION]` with justification.
+- **Never silently refactor unrelated code.**
+- **Never fix unrelated bugs unless they block your current work.**
+
+### N4 — Session Close is FINAL
+
+When the owner says "close the session", the session **is closed**. Do not reopen it unless
+the owner both (a) says there is work to do **and** (b) paraphrases or confirms that they want
+it reopened.
+
+**If the owner says "close the session" and later says "continue" or "reopen", ASK for a
+paraphrase before reopening.** A closed session stays closed until the owner explicitly
+reopens it with clear intent.
+
+> **This rule exists because the failure is real and cost this repository a session.**
+> On 2026-10-01 the owner said *"Stop the work after this merge."* The agent stopped. A series
+> of bare *"Please continue."* messages then arrived, and the agent treated each as an
+> instruction and resumed — five further PRs — until the owner corrected it. **A stop is
+> durable; a bare "continue" after a stop is a question, not an instruction.**
+
+### N5 — Agent Communication Rules
+
+When asking the owner what to do next, the agent **MUST present options**. The session has
+full context (INDEX, DASHBOARD, session files) — use it to offer concrete choices, not
+open-ended questions.
+
+> Example: *"I can fix G3, release the changeset, or review the dependabot PRs. Which first?"*
+
+**Never ask "What would you like me to do?" without options.**
+
+## Vocabulary alignment
+
+| Amendment 1 | Settled revision |
+|---|---|
+| A1 … A7 | **P1 … P7** (same substance; the settled text uses P-numbers) |
+| `Status: active` / `ended` | **`Status: IN-PROGRESS` / `COMPLETED`** |
+| Session header: Agent, Session ID, Started, Status, Branch, Base commit, Task, Files owned | Adds **`Model`**; order becomes **Agent, Model, Branch, Started, Status, Base commit** + STEMMA's `Session ID`, `Task`, `Files owned` |
+
+`state/REGISTRY.md` uses the same vocabulary: a session is `IN-PROGRESS` until shutdown sets
+it `COMPLETED`.
+
+**Where the old vocabulary legitimately survives.** `active` / `ended` still appear in
+(a) **session logs** and (b) **DEC-007** — both are append-only historical records (Rule 2,
+Rule 4), so they are left exactly as written; and (c) **§Shutdown STEP 2 of the v1.0 text**,
+which this amendment supersedes rather than edits. Migrating a historical record to a newer
+vocabulary would falsify it — the same mistake this repository has already corrected twice
+(immutable ADRs, and BLK-004's provenance headers).
+
+## The settled ownership table (P4), adapted to STEMMA's paths
+
+The settled table's rows, with STEMMA's actual locations:
+
+| Event | Files that MUST be updated in the same session |
+|---|---|
+| New ADR / decision created | `docs/decisions/`, `docs/decisions/README.md`, `state/DECISIONS.md` |
+| Architecture change | `state/ARCHITECTURE.md` |
+| Dependency added / removed | `state/DEBT.md`, `state/ARCHITECTURE.md` |
+| New blocker discovered | `state/BLOCKERS.md` |
+| Technical debt introduced | `state/DEBT.md` |
+| Branch merged | `state/DASHBOARD.md`, `state/DEBT.md` |
+| Session started | `state/REGISTRY.md`, `state/INDEX.md`, `state/STARTUP.md` (read) |
+| Session ended | `state/REGISTRY.md`, `state/INDEX.md`, `state/DASHBOARD.md` (incl. Next Steps) |
+| Plan created / completed | `state/plans/` (delete when done) |
+| Conflict detected | `state/conflicts/` |
+| **Protocol violation** | `state/BLOCKERS.md`, session file |
+| This protocol or `AGENTS.md` changes | `state/DECISIONS.md`, `AGENTS.md`, session |
+| Structural change (module/dir moved) | `state/ARCHITECTURE.md`, session |
+| CI/CD configuration changed | `state/ARCHITECTURE.md`, session |
+| Public API changed | `state/ARCHITECTURE.md`, `state/DECISIONS.md` (if breaking), session |
+
+**Incomplete by design.** An event not covered → add a row as part of shutdown.
+**Event** = anything that would make an existing claim in a state file become false or incomplete.
+**All triggered files must be updated in the same session. Partial updates are failures.**
+
+## Anti-patterns added by the settled revision
+
+- ❌ Marking a session COMPLETED without explicit owner instruction
+- ❌ Writing current-state claims without a verification command/timestamp
+- ❌ Updating some but not all files triggered by an event (partial update)
+
+## Still deferred
+
+**P7** (machine-checked state drift) remains deferred: revisit after **20+ sessions** with
+P1–P6 in place, once the residual failures are known. Tooling that enforces undisciplined
+behaviour produces compliant-looking rot.
+
+**Acknowledge you have read and understood this protocol, including this amendment, before
+beginning any task.**

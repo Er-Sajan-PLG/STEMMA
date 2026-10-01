@@ -1,9 +1,10 @@
 # SESSION: 20261001-1123-A7F3-race-fix-bootstrap
 
 **Agent:** `A7F3`
+**Model:** DeepSeek-V4.1-Flash  <!-- backfilled 2026-10-02; the field was introduced by Amendment 2 -->
 **Session ID:** `20261001-1123-A7F3-race-fix-bootstrap`
 **Started:** 2026-10-01T11:23Z
-**Status:** ended
+**Status:** COMPLETED
 **Branch:** `docs/owner-rulings-unverified`
 **Base commit:** `08cecb3`  <!-- A6 schema, backfilled 2026-10-01 -->
 **Task:** (1) fix the export read/write race; (2) adopt MACP and bootstrap `state/`.

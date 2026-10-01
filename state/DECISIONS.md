@@ -279,3 +279,52 @@ mechanically decidable), and pre-commit hooks that **warn, not block**.
 - The amendment's "Known gaps" section carries four unaddressed failure modes forward rather
   than losing them: context-window pressure, user-induced protocol violation, protocol version
   drift, and the "boring update" skip.
+
+---
+
+## DEC-009 — MACP v1.2: the settled revision adopted from USA's AGENTS.md
+
+**Date:** 2026-10-02
+**Decided by:** owner — designated `Universal_Software_Auditor/AGENTS.md` (updated
+2026-10-02T04:36) as carrying the latest protocol, and directed that it be applied here
+**Supersedes:** Amendment 1 where the two differ; Amendment 1 is otherwise left intact.
+
+**Decision.** `state/PROTOCOL.md` is now **v1.2**: v1.0 + Amendment 1 + **Amendment 2**
+(the settled revision). Amendment 2 carries the settled text, not the executor's reading of
+it — Amendment 1 was written from a *review* of proposals P1–P7; this is the finished article.
+
+**What was genuinely new.** Amendment 1 already carried P1–P6 (as A1–A6) and the P7 deferral.
+Four things were missing, and are now adopted:
+
+| | |
+|---|---|
+| **N1** | `state/STARTUP.md` — the startup sequence becomes its own file, and **10 steps** |
+| **N2** | **STEP 8: VERIFY STATE AGAINST REALITY** — state files are claims, not facts |
+| **N3** | **Scope discipline** — log `[BUG FOUND]`, never silently refactor or fix unrelated bugs |
+| **N4** | **Session Close is FINAL** — a closed session stays closed; "continue" after a close requires a paraphrase before reopening |
+| **N5** | **Agent Communication Rules** — when asking what to do next, present options; never ask an open question |
+
+**Why N4 is the one that matters most.** It codifies a failure this repository actually had,
+one day before the revision. The owner said *"Stop the work after this merge."* The agent
+stopped. A series of bare *"Please continue."* messages then arrived and the agent resumed —
+five further PRs — until the owner corrected it. **A stop is durable; a bare "continue" after
+a stop is a question, not an instruction.** N4 removes the judgement call that produced the
+error.
+
+**Vocabulary aligned.** `A1…A7` → **`P1…P7`**; session status `active`/`ended` →
+**`IN-PROGRESS`/`COMPLETED`**; the session header gains a **`Model`** field.
+`tests/repo/test_state_tree.py` was updated to enforce the new schema (it now requires
+`Model` and accepts the hyphen in `IN-PROGRESS`), and the four existing session files,
+`REGISTRY.md` and `INDEX.md` were migrated.
+
+**Historical records were deliberately NOT migrated.** `active`/`ended` survive in session
+logs and in DEC-007 (append-only / immutable), and in §Shutdown STEP 2 of the v1.0 text
+(superseded, not edited). Rewriting a historical record to newer vocabulary falsifies it —
+the mistake this repository has already corrected twice, with the immutable ADRs and with
+BLK-004's provenance headers.
+
+**Consequences.**
+- `state/STARTUP.md` is authoritative for the startup sequence; §6 now points to it.
+- The ownership table gains rows for **protocol violation** and for **a protocol/`AGENTS.md`
+  change** — the latter per Amendment 1's own meta-rule.
+- P7 stays deferred: revisit after **20+ sessions** with P1–P6 in place.

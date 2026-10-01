@@ -321,16 +321,33 @@ Prose rules → Schemas → Validation → Tests → CI enforcement
 
 ## Multi-Agent Coordination (MACP)
 
-This repository implements the **Multi-Agent Coordination Protocol** (currently **v1.1** —
-the owner-supplied v1.0 text plus **Amendment 1**, appended at the end of the file). The
-canonical protocol text is [`state/PROTOCOL.md`](state/PROTOCOL.md); the coordination state
-lives in [`state/`](state/INDEX.md). Read `state/DASHBOARD.md` and `state/REGISTRY.md` before
+This repository implements the **Multi-Agent Coordination Protocol** (currently **v1.2** —
+the owner-supplied v1.0 text, plus **Amendment 1** and the **settled revision** in
+**Amendment 2**, both appended at the end of the file). The canonical protocol text is
+[`state/PROTOCOL.md`](state/PROTOCOL.md); the mandatory startup sequence is
+[`state/STARTUP.md`](state/STARTUP.md); the coordination state lives in
+[`state/`](state/INDEX.md). Read `state/DASHBOARD.md` and `state/REGISTRY.md` before
 touching the working tree.
 
-**Amendment 1** is worth reading before your first shutdown: it adds the stop-work-first rule
-(A1), a terminal verification loop (A2), the re-open transition (A3), an event-driven
-state-file ownership table (A4), the reproducible-claims principle (A5), and a required
-session-file header schema (A6). A7 (machine-checked drift) is deliberately **deferred**.
+**Amendment 1** added the stop-work-first rule (P1), a terminal verification loop (P2), the
+re-open transition (P3), an event-driven state-file ownership table (P4), the
+reproducible-claims principle (P5), and a required session-file header schema (P6). P7
+(machine-checked drift) is **deferred**.
+
+**Amendment 2** carries the settled revision. Four things it adds that matter day to day:
+
+- **Verify state against reality before working** (STARTUP step 8). State files are claims,
+  not facts. Check the PR, CI, the chain, the suite, and spot-check one DASHBOARD claim.
+- **Scope discipline.** A quick fix that uncovers a deeper issue → log `[BUG FOUND]` and stay
+  focused. Never silently refactor unrelated code or fix unrelated bugs.
+- **Session Close is FINAL.** When the owner says "close the session", it is closed. If they
+  later say "continue" or "reopen", **ask for a paraphrase before reopening** — a bare
+  "continue" after a stop is a question, not an instruction.
+- **Agent communication.** When asking what to do next, **present options**. Never ask
+  "What would you like me to do?" without them.
+
+Session status vocabulary is `IN-PROGRESS` → `COMPLETED`, and the session header carries a
+`Model` field.
 
 **What `state/` is:** coordination memory — current state, who owns what, coordination
 decisions, debt, blockers. It exists so an agent whose context was compacted can recover

@@ -4,11 +4,11 @@
 
 **Last Reconciled:** 2026-10-01T14:56Z
 **Reconciled by:** `A7F3`
-**Protocol:** MACP v1.0 (`state/PROTOCOL.md`)
+**Protocol:** MACP **v1.2** (`state/PROTOCOL.md`; startup sequence in `state/STARTUP.md`)
 
-> **An agent is active** — `A7F3`, session `20261001-1434-A7F3-shadow-tree` (started
-> 2026-10-01T14:34Z). The previous session (`20261001-1215-A7F3-cold-start-handoff`) is
-> closed. Files claimed: see `REGISTRY.md`.
+> **No agent is active.** Session `20261001-1434-A7F3-shadow-tree` is `COMPLETED` and its
+> files are released; every earlier session is closed too. A new session may start freely —
+> begin with `state/STARTUP.md`, which is now the authoritative startup sequence (v1.2).
 
 > **Staleness policy (protocol §6 step 3):** `< 24 h` → trustworthy · `24–48 h` → verify key
 > claims before relying on them · `> 48 h` → **STALE**, you must reconcile before working.
