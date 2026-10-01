@@ -152,3 +152,70 @@ Fresh clone, corrected steps followed literally:
 | `python3 tests/repo/test_state_tree.py` | **12/12** |
 
 Warm tree unaffected: 361 pytest, verify_all 42 OK / 0 FAIL, docs PASS, strong exit 0.
+
+---
+
+## [COORDINATION] 2026-10-01T12:25Z — OWNER CORRECTION: this session is NOT closed
+
+The owner directed: *"Main thing the session is not completed until i say so."*
+
+**What I did wrong.** I ended every work unit by running the full §Shutdown sequence —
+`status: ended`, `files_owned` cleared, an `INDEX.md` row, and the line
+`[END] — session closed`. I did that three times today. A work unit finishing is not the same
+as the session ending, and I was making that call unilaterally.
+
+**Correction applied.**
+
+- This session is reopened: `REGISTRY.md` shows `status: **active**` with `files_owned`
+  restored. The `[END]` block above is superseded by this entry — it is left in place because
+  session logs are append-only (§1 Rule 2), not because it is still true.
+- `REGISTRY.md` gained a "Session closure is an OWNER decision" section with the rules, so a
+  future agent does not repeat this.
+- Recorded as `DEC-007`; it is an owner override of MACP §Shutdown step 4, which the protocol
+  explicitly permits.
+
+**Behaviour change from here:** finish a work unit by logging it and reconciling
+`DASHBOARD.md`, then **keep the session active and keep appending**. No `[END]`, no release of
+ownership, until the owner says the session is over.
+
+## [PROGRESS] 2026-10-01T12:25Z — sweep of non-failing paths in the chain (in progress)
+
+Applying the "sweep for siblings" rule rather than fixing the single pytest skip I found.
+Enumerated every path where `verify_all.py` can continue without failing:
+
+| Path | Hides | Verdict |
+|---|---|---|
+| `check_embeddings()` | nothing — embeddings are git-ignored by design (ADR-0054) | legitimate |
+| `check_rag()` | nothing — needs the (git-ignored) vector store | legitimate |
+| `check_consumer_export()` | nothing — redundant with the fail-closed `export_consumers.py --check --all` step | legitimate but see below |
+| `check_semantic_pipeline()` | nothing — redundant with `semantic_extract.py --check-schema` | legitimate |
+| pytest skip | **18 promotion/debt guards do not execute** | already documented in `ARCHITECTURE.md` |
+
+So the pytest skip is the **only** silent path that hides substantive guards. That is the
+useful result: the cold-start documentation targets the right thing, and the other four are
+defensible.
+
+**Two smaller findings, both verified by running them (not by reading):**
+
+1. **The four `check_*` functions can never fail.** `grep -c "return False" scripts/verify_all.py`
+   → **0**. All paths `return True`, and the call sites discard the return value, so the
+   `return True` statements are dead code. The intent is commented for `check_embeddings` only.
+   A future maintainer could reasonably assume `check_consumer_export()` failing would fail the
+   chain. It cannot.
+
+2. **`verify_all.py` cannot detect a corrupted derived artifact — it silently repairs it.**
+   Empirical: set `entity_count: 9999` in `exports/consumers/general/knowledge.general.json`,
+   run the chain → **exit 0**. Because the chain runs `export_consumers.py --all`
+   (regenerate) *before* `--check --all` (compare), the corruption is overwritten, and the
+   comparison then passes against the artifact the chain just wrote.
+
+   This is the same shape as the `verify_strong` vacuity fixed earlier: **a check that reads a
+   state the chain itself has already normalised cannot detect drift in that state.** Detection
+   lives in the CI freshness diff (`git diff --exit-code -- exports reports`) and the pre-push
+   hook, not in the chain.
+
+   Not obviously a defect — the chain's job is to guarantee the artifacts are *correct*, and
+   regeneration does that; CI's diff is what catches committed drift. But it is worth recording
+   because "the chain is green" does **not** mean "no derived artifact is corrupt".
+
+**Work unit complete — session remains ACTIVE.**

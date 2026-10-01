@@ -12,7 +12,7 @@
 |---|---|---|---|---|---|
 | `A7F3` | `20261001-1123-A7F3-race-fix-bootstrap` | 2026-10-01T11:23Z | Fix the export read/write race; adopt MACP and bootstrap `state/` | — | **ended** |
 | `A7F3` | `20261001-1153-A7F3-debt-cleanup` | 2026-10-01T11:53Z | Close the two unblocked documentation debt items (DEBT-001, DEBT-002) | — | **ended** |
-| `A7F3` | `20261001-1215-A7F3-cold-start-handoff` | 2026-10-01T12:15Z | Verify a cold clone can continue from `state/`, and fix the cold-start gaps found | — | **ended** |
+| `A7F3` | `20261001-1215-A7F3-cold-start-handoff` | 2026-10-01T12:15Z | Verify a cold clone can continue from `state/`, fix the cold-start gaps, then sweep the chain for sibling silent-skip paths | `state/**`, `AGENTS.md` | **active** |
 
 No agent is currently active. `files_owned` is empty for every row, so any file is free to
 claim.
@@ -49,6 +49,29 @@ to the canonical records it touched. When you register, add your own row here ma
 4. **During work, write only to your own session file.** `DASHBOARD.md`, `REGISTRY.md`, and
    `INDEX.md` are updated at registration and at shutdown — not while working (protocol §2,
    "Write Isolation During Work").
+
+## Session closure is an OWNER decision
+
+**Do not mark a session `ended` on your own initiative.** The owner (`human:curator.001`)
+declared this explicitly on 2026-10-01: *"the session is not completed until i say so."*
+
+`A7F3` had been closing a session at the end of every work unit — running the §Shutdown
+sequence, setting `status: ended`, clearing `files_owned`, and writing "session closed" into
+the log. That is wrong here. A work unit finishing is **not** the same as the session ending.
+
+Rules:
+
+1. Finish a work unit by **logging it** and updating `DASHBOARD.md` — that part is always
+   right.
+2. **Leave `status: active` and `files_owned` populated** until the owner says the session is
+   over.
+3. Do **not** write `[END] — session closed` into the log. Use a neutral end-of-unit marker
+   instead (e.g. `[PROGRESS] work unit complete`) and keep appending.
+4. Only on the owner's word: run §Shutdown in full — set `status: ended`, clear
+   `files_owned`, add the `INDEX.md` row if not already added, and mark the log closed.
+
+Recorded as `DEC-007`. This is an owner override of MACP §Shutdown step 4, which the protocol
+permits ("unless the user explicitly overrides it").
 
 ## Stale-row policy
 

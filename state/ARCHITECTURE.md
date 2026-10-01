@@ -89,6 +89,30 @@ validation report → deterministic export → semantic pipeline.
 with one step stubbed to exit non-zero must produce a named `FAIL`, non-zero exit, and
 **no further steps executed**.
 
+### What "the chain is green" does NOT mean
+
+Two verified caveats. Both were found by running things, not by reading them.
+
+**1. Green does not mean no derived artifact is corrupt.** The chain runs each exporter in
+*write* mode before its `--check` mode, so a corrupted artifact is silently **regenerated** and
+the comparison then passes against what the chain just wrote. Verified: setting
+`entity_count: 9999` in `exports/consumers/general/knowledge.general.json` and running the chain
+gives **exit 0**. Detection of *committed* drift lives in the CI freshness diff
+(`git diff --exit-code -- exports reports`) and the pre-push hook — not here. This is the same
+shape as a check that reads a state the chain itself normalises.
+
+**2. Four steps cannot fail, by construction.** `check_embeddings`, `check_rag`,
+`check_consumer_export` and `check_semantic_pipeline` are *informational*: every path returns
+`True` (`grep -c "return False" scripts/verify_all.py` → **0**) and the call sites discard the
+return value. Their subjects are either git-ignored derived artifacts (embeddings, vector
+store) or already covered by fail-closed steps (`export_consumers.py --check --all`,
+`semantic_extract.py --check-schema`). The intent is commented for `check_embeddings` only, so
+do not assume a failure there would fail the chain — it would not.
+
+**3. One step can silently not run at all.** The promotion-chain guards need `pytest`; with a
+pytest-less interpreter the step prints `SKIP:` and the chain continues. That is **18 guards
+not executing**. See "Cold start" above.
+
 ## Gate Layers
 
 | Layer | Command | Enforces |

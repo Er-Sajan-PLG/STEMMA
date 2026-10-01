@@ -2,9 +2,13 @@
 
 > **Current state only.** What IS, not what happened. History lives in `sessions/`.
 
-**Last Reconciled:** 2026-10-01T12:18Z
+**Last Reconciled:** 2026-10-01T12:25Z
 **Reconciled by:** `A7F3`
 **Protocol:** MACP v1.0 (`state/PROTOCOL.md`)
+
+> **An agent is currently active** — `A7F3`, session `20261001-1215-A7F3-cold-start-handoff`.
+> Per DEC-007 the session stays open until the owner says otherwise, so `files_owned` may be
+> populated in `REGISTRY.md` even though the last work unit finished.
 
 > **Staleness policy (protocol §6 step 3):** `< 24 h` → trustworthy · `24–48 h` → verify key
 > claims before relying on them · `> 48 h` → **STALE**, you must reconcile before working.

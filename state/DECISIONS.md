@@ -184,3 +184,43 @@ rule relaxed.
   shutdown commit, at a distance from the change that caused it.
 - Recorded as `conflicts/CONFLICT-002-protocol-commit-type.md`, kept live rather than
   archived — see the standing-invariant note in that file and in CONFLICT-001.
+
+---
+
+## DEC-007 — Session closure is an owner decision, not an agent decision
+
+**Date:** 2026-10-01
+**Decided by:** owner (`human:curator.001`) — *"Main thing the session is not completed until
+i say so."*
+**Supersedes:** the agent's own interpretation of MACP §Shutdown step 4
+
+**Decision.** An agent must **not** mark a session `ended`, clear its `files_owned`, or write
+`[END] — session closed` on its own initiative. A session stays `active` until the owner says
+it is over.
+
+**Context.** `A7F3` closed three sessions in one day, each time at the end of a *work unit* —
+running the full §Shutdown sequence, releasing ownership, and adding an `INDEX.md` row. That
+conflates two different things:
+
+| Event | Owner of the decision |
+|---|---|
+| A **work unit** finished (a fix merged, a doc written) | the agent — log it, reconcile `DASHBOARD.md` |
+| The **session** is over (the agent stops working here) | **the owner** |
+
+The agent was making the second call while only having standing for the first.
+
+**Why it matters beyond bookkeeping.** `status: ended` plus cleared `files_owned` is a claim
+that nobody is working in this area and the record is final. If the session is still running,
+that claim is false, and another agent reading `REGISTRY.md` would conclude the files are free
+and the log is closed. It also breaks the append-only history's meaning: `[END]` should mark a
+real boundary, not a pause.
+
+**Consequences.**
+- `REGISTRY.md` gains a "Session closure is an OWNER decision" section stating the rules.
+- Work units end with a neutral marker (`[PROGRESS] work unit complete`) and the session stays
+  `active` with ownership retained.
+- Full §Shutdown — `status: ended`, clear `files_owned`, mark the log closed — runs **only** on
+  the owner's word.
+- This is an explicit owner override of the protocol, which MACP permits ("If any rule here
+  conflicts with other instructions, this protocol wins **unless the user explicitly
+  overrides it**"). No amendment to the protocol text is needed; the override is recorded here.
