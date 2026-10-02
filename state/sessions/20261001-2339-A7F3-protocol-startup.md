@@ -438,10 +438,24 @@ caught before this session.
 | Commit | Subject |
 |---|---|
 | `c02dd5b` | `feat(macp): add state gates and block pushes on session-state drift` |
-| `73a4a51` | `state: A7F3 session 20261001-2339-A7F3-protocol-startup` — the first closure, superseded by the re-open |
+| `73a4a51` | `state: A7F3 session …` — the first closure, superseded by re-open 1 |
+| `87e34a4` | `state: A7F3 session …` — re-open 1's fix, superseded by re-open 2 |
+| `bcada51` | `state: A7F3 session …` — re-open 2's fix |
 
-> The re-open's own commit is HEAD, and is therefore exempt from the sync gate's commit-list
-> check: the commit that writes the list cannot contain its own sha.
+> The tip of `feat/macp-state-gates` is exempt from the sync gate's commit-list check: the commit
+> that writes the list cannot contain its own sha. The consequence is that **every new commit must
+> add the previous tip to this table** — the list has to be current as of the tip, not as of some
+> earlier commit.
+
+**A record error the PR simulation caught before the push.** After committing re-open 2's fix, I
+replayed the *pull_request* context locally — a detached `HEAD` at a synthetic two-parent merge —
+rather than trusting that the `push` context generalised. It failed, and the reason was mine
+rather than the gate's: `87e34a4` (re-open 1's commit) had never been added to this table. Under
+A2 that is a **record error** — reality was fine, the record was incomplete — so it is fixed by
+correcting the record and re-verifying, and it is **not** a fourth shutdown restart. The restart
+count stays at 3 of 3.
+
+## [PROGRESS] work unit complete — session remains open
 
 ## [PROGRESS] — shutdown
 
