@@ -578,6 +578,55 @@ def test_every_live_session_has_a_current_step8_receipt() -> None:
     )
 
 
+def test_every_live_session_phase_b_matches_git() -> None:
+    """Phase B registration must resolve in git — a guessed Branch/Base commit makes the
+    sync gate measure the wrong repository.
+
+    The schema and footprint guards assert Branch/Base commit are *present*; this asserts
+    they are *true* — that the values written from recon actually name a branch and a commit
+    in this repository. The sync gate derives both the changed-file set and the commit list
+    from Base commit, so a stale or mistyped value silently corrupts every downstream guard.
+
+    Found the hard way: a session captured Base commit before recon, then had to correct it
+    after the base moved — the guards had nothing to catch it because presence alone passed.
+    """
+    import subprocess
+
+    # Non-vacuity: prove the resolver actually rejects a ref that cannot exist, so a git
+    # configuration that answers "yes" to everything cannot make this guard pass vacuously.
+    assert subprocess.run(
+        ["git", "rev-parse", "--verify", "--quiet", "no-such-ref-xyz"],
+        cwd=ROOT, capture_output=True,
+    ).returncode != 0, "git ref resolution is vacuous — it accepted a non-existent ref"
+
+    registry = (STATE / "REGISTRY.md").read_text(encoding="utf-8")
+    live = [(sid, status) for sid, _, status in _live_agent_rows(registry)]
+
+    problems: list[str] = []
+    for sid, _status in live:
+        header = STATE / "sessions" / f"{sid}.md"
+        if not header.is_file():
+            problems.append(f"{sid}: live but has no session file")
+            continue
+        text = header.read_text(encoding="utf-8")
+        branch_m = re.search(r"^\*\*Branch:\*\*\s*`?([^\s`]+)`?\s*$", text, re.MULTILINE)
+        base_m = re.search(r"^\*\*Base commit:\*\*\s*`?([0-9a-fA-F]{4,40})`?\s*$", text, re.MULTILINE)
+        if not branch_m or not base_m:
+            continue  # presence is covered by the schema and footprint guards
+        branch, base = branch_m.group(1), base_m.group(1)
+        if subprocess.run(["git", "rev-parse", "--verify", "--quiet", branch],
+                          cwd=ROOT, capture_output=True).returncode != 0:
+            problems.append(f"{sid}: `Branch: {branch}` does not resolve in git")
+        if subprocess.run(["git", "rev-parse", "--verify", "--quiet", base],
+                          cwd=ROOT, capture_output=True).returncode != 0:
+            problems.append(f"{sid}: `Base commit: {base}` does not resolve in git")
+
+    assert not problems, (
+        "live session(s) whose phase B registration does not match git:\n  "
+        + "\n  ".join(problems)
+    )
+
+
 # ── G6: P4's ownership table, mechanised as completeness rules ────────────────
 #
 # The table in PROTOCOL.md ("The settled ownership table (P4)") is prose that nothing
@@ -797,6 +846,7 @@ if __name__ == "__main__":  # self-hosting runner, matching tests/repo/test_gate
         test_every_live_session_has_a_current_step8_receipt,
         test_p4_ownership_table_rows_are_complete,
         test_protocol_version_does_not_drift,
+        test_every_live_session_phase_b_matches_git,
     ]
     failures = 0
     for fn in checks:

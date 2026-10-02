@@ -10,7 +10,7 @@ silently incomplete, and every existing guard would still pass — because they 
 
 | | Property | Gameable? |
 |---|---|---|
-| 1 | State-tree invariants hold (`tests/repo/test_state_tree.py`, 21 checks) | no — structural |
+| 1 | State-tree invariants hold (`tests/repo/test_state_tree.py`, 22 checks) | no — structural |
 | 2 | STEP 8 verification happened this session (`scripts/macp_startup_gate.py`) | no — the stamp is a by-product |
 | 3 | Every file the session changed is **named** in its session log | **yes** — completeness only |
 | 4 | Every commit since `Base commit` is **listed** in its session log | **yes** — completeness only |

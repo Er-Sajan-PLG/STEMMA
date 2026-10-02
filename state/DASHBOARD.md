@@ -57,7 +57,7 @@
 | `scripts/docs.py check` | **PASS** | **PASS** |
 | `spec/machine-readable/validate_recovery.py` | **PASS** | **PASS** — 9/9 checks |
 | `scripts/verify_strong.py --quick` | **PASS** | exit 0 |
-| `tests/repo/test_state_tree.py` | **PASS** | **PASS — 21/21** |
+| `tests/repo/test_state_tree.py` | **PASS** | **PASS — 22/22** |
 <!-- END GENERATED: gate-status -->
 
 

@@ -72,6 +72,7 @@ SCHEMA = "macp-startup-receipt/1"
 LIVE_STATUSES = frozenset({"active", "in-progress"})
 STARTED_RE = re.compile(r"^\*\*Started:\*\*\s*(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z)\s*$", re.MULTILINE)
 BRANCH_RE = re.compile(r"^\*\*Branch:\*\*\s*`?([^\s`]+)`?\s*$", re.MULTILINE)
+BASE_RE = re.compile(r"^\*\*Base commit:\*\*\s*`?([0-9a-fA-F]{4,40})`?\s*$", re.MULTILINE)
 
 # The sandbox's delete-guard marker. Its presence means the environment refused, not that
 # the repository is broken.
@@ -162,6 +163,35 @@ def session_branch(session_id: str) -> str:
     return match.group(1) if match else "main"
 
 
+def phase_b_complete(session_id: str) -> tuple[bool, str]:
+    """Whether the live session has finished registration phase B.
+
+    Phase A (step 1) writes identity only; phase B (step 2) fills ``Branch``,
+    ``Base commit`` and ``files_owned`` from recon. The sync gate derives both the
+    changed-file set and the commit list from ``Base commit``, so a guessed value
+    makes every downstream guard measure the wrong repository. This returns the truth
+    of "phase B is present and resolves in git" plus a reason fit for a refusal.
+    """
+    path = SESSIONS / f"{session_id}.md"
+    if not path.is_file():
+        return False, f"{session_id} has no session file, so phase B cannot exist"
+    text = path.read_text(encoding="utf-8")
+    branch_m = BRANCH_RE.search(text)
+    base_m = BASE_RE.search(text)
+    if not branch_m:
+        return False, f"{session_id}: header has no `Branch` field (phase B not run)"
+    if not base_m:
+        return False, f"{session_id}: header has no `Base commit` field (phase B not run)"
+    branch, base = branch_m.group(1), base_m.group(1)
+    if subprocess.run(["git", "rev-parse", "--verify", "--quiet", branch],
+                      cwd=ROOT, capture_output=True, text=True).returncode != 0:
+        return False, f"{session_id}: `Branch: {branch}` does not resolve in git"
+    if subprocess.run(["git", "rev-parse", "--verify", "--quiet", base],
+                      cwd=ROOT, capture_output=True, text=True).returncode != 0:
+        return False, f"{session_id}: `Base commit: {base}` does not resolve in git"
+    return True, f"{session_id} phase B complete (branch {branch}, base {base})"
+
+
 def status_for(session_id: str, *, now: datetime | None = None) -> tuple[str, str]:
     """(status, reason) for one session: ok | stale | missing | environment_blocked | red.
 
@@ -202,19 +232,6 @@ def main(argv: list[str] | None = None) -> int:
                         help="report whether a current green receipt exists; do not run checks")
     args = parser.parse_args(argv)
 
-    if args.check:
-        target = args.session or (live_session_ids(REGISTRY.read_text(encoding="utf-8")) or [None])[0]
-        if not target:
-            print("OK (no live session): nothing to verify.")
-            return 0
-        status, reason = status_for(target)
-        if status == "ok":
-            print(f"OK: {reason}")
-            return 0
-        print(f"FAIL: {reason}", file=sys.stderr)
-        print("\nFix: python3 scripts/startup_receipt.py", file=sys.stderr)
-        return 1
-
     session_id = args.session or (live_session_ids(REGISTRY.read_text(encoding="utf-8")) or [None])[0]
     if not session_id:
         print("FAIL: no live session in state/REGISTRY.md to attribute a receipt to.\n"
@@ -226,6 +243,26 @@ def main(argv: list[str] | None = None) -> int:
         print(f"FAIL: {session_id} has no session file, so it cannot hold a `Started` stamp.",
               file=sys.stderr)
         return 3
+
+    # Phase B gate. Registration is two-phase: step 1 writes identity only, step 2 runs
+    # recon and fills Branch/Base commit. Verification cannot run until phase B is complete
+    # and the values actually resolve in git — a session that skipped recon cannot obtain a
+    # receipt, and without a receipt nothing downstream accepts its work.
+    ok, reason = phase_b_complete(session_id)
+    if not ok:
+        print(f"FAIL: {reason}", file=sys.stderr)
+        print("Run git recon and fill Branch/Base commit (state/STARTUP.md step 2) "
+              "before verifying.", file=sys.stderr)
+        return 3
+
+    if args.check:
+        status, reason = status_for(session_id)
+        if status == "ok":
+            print(f"OK: {reason}")
+            return 0
+        print(f"FAIL: {reason}", file=sys.stderr)
+        print("\nFix: python3 scripts/startup_receipt.py", file=sys.stderr)
+        return 1
 
     branch = session_branch(session_id)
     ran_at = _now()

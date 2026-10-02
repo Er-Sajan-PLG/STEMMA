@@ -18,7 +18,7 @@ source .venv/bin/activate                                 # or export VIRTUAL_EN
 pip install -r requirements.txt -r requirements-dev.txt
 python3 scripts/install_hooks.py                          # installs pre-commit + pre-push
 python3 scripts/verify_all.py                             # expect exit 0
-python3 tests/repo/test_state_tree.py                     # expect 21/21
+python3 tests/repo/test_state_tree.py                     # expect 22/22
 python3 scripts/startup_receipt.py                        # required before logging/pushing
 ```
 

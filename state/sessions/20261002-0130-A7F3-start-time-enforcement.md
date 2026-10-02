@@ -6,9 +6,9 @@
 **Session ID:** `20261002-0130-A7F3-start-time-enforcement`
 **Started:** 2026-10-02T01:30Z
 **Status:** IN-PROGRESS
-**Branch:** `feat/macp-start-time-enforcement`
-**Base commit:** `e9c3e2d`
-**Task:** P1 — move MACP enforcement from publish time to start time: a STEP 8 verification receipt that gates registration, gated `macp_log.py`, a receipt requirement in the sync gate, and REGISTRATION promoted to step 1 of `state/STARTUP.md`. P2 (G6, G8) if scope allows.
+**Branch:** `docs/macp-protocol-startup-order`
+**Base commit:** `cf69188`
+**Task:** P1/P2 — start-time enforcement + G6/G8 (merged as PR #84, cf69188). Continuation: two-phase registration — amend PROTOCOL §3 (done), restructure STARTUP.md, gate `scripts/startup_receipt.py` on phase B, add a state-tree phase-B git-validity guard.
 **Files owned:** `state/**`, `scripts/startup_receipt.py`, `scripts/macp_log.py`, `scripts/macp_sync_gate.py`, `tests/repo/test_state_tree.py`, `tests/repo/test_atomic_artifact_writes.py`
 
 > Append-only. Do not edit earlier entries. Add new entries at the end.
@@ -74,4 +74,46 @@ P1 built. scripts/startup_receipt.py runs the five STEP 8 checks as separate sub
 P2 done. G6 mechanises four rows of the real P4 ownership table in state/PROTOCOL.md as completeness rules (protocol/AGENTS.md to state/DECISIONS.md; docs/decisions to state/DECISIONS.md; .github/workflows to state/ARCHITECTURE.md; spec/ to state/BLOCKERS.md or state/DEBT.md — the Tier-2 boundary row, which was undetectable before). G8 adds a Protocol: header field validated against the version AGENTS.md declares; historical sessions are validated only if they declare one, because Rule 4 forbids editing them. Both ship with in-test negative controls. Recorded as DEC-011 and DEC-012 in state/DECISIONS.md. state/STARTUP.md, state/ARCHITECTURE.md and state/DASHBOARD.md updated; the documented state-tree count is now 21/21.
 
 **Files touched so far (auto-recorded from git):** `scripts/macp_log.py`, `scripts/macp_sync_gate.py`, `scripts/startup_receipt.py`, `state/ARCHITECTURE.md`, `state/DASHBOARD.md`, `state/DECISIONS.md`, `state/INDEX.md`, `state/REGISTRY.md`, `state/STARTUP.md`, `state/sessions/20261002-0130-A7F3-start-time-enforcement.md`, `state/verification.json`, `tests/repo/test_atomic_artifact_writes.py`, `tests/repo/test_state_tree.py`
+
+
+## [PIVOT] — 2026-10-02T02:04Z
+
+PR #84 merged as cf69188 (tree identical to the branch tip, so nothing was lost in the squash — verified by tree, not by 'merged'). The session header's Branch and Base commit have been updated to docs/macp-protocol-startup-order / cf69188, because leaving them pointing at the merged branch would make every downstream guard measure the wrong base: the sync gate derives changed files and the commit list from Base commit, and the branch recorded in the header is what it resolves the tip from. This is a metadata correction, not a rewrite of history — the log above is untouched. New work unit: the owner has authorised amending PROTOCOL section 3, whose 9-item Startup Sequence still puts registration at step 9 and therefore contradicts STARTUP.md.
+
+**Files touched so far (auto-recorded from git):** `state/sessions/20261002-0130-A7F3-start-time-enforcement.md`
+
+
+## [PROGRESS] — 2026-10-02T02:14Z
+
+Two-phase registration, per the owner's choice (after I recommended it and they picked it over mirroring STARTUP.md verbatim or swapping recon/register order).
+
+- `state/PROTOCOL.md` §3 was already amended to two-phase in the prior turn (identity at step 1, recon + context fill at step 2, VERIFY gated on phase B at step 9). Verified present on disk before touching anything else.
+- `state/STARTUP.md` restructured to two-phase: STEP 1 writes identity only (no `Branch`/`Base commit`/`files_owned`); STEP 2 runs git recon then fills them; STEP 9's verification text now states the script refuses until phase B is complete and resolves in git. Steps 3–10 unchanged (still 10 steps).
+- `scripts/startup_receipt.py` now **refuses to run** until phase B is complete: `phase_b_complete()` checks `Branch` and `Base commit` are present and resolve via `git rev-parse --verify --quiet`, returning a named reason otherwise. This is the start-time half of the gate the owner asked for.
+- `tests/repo/test_state_tree.py` gains `test_every_live_session_phase_b_matches_git` — the schema/footprint guards assert presence only; this asserts the values are *true* (resolve in git). Non-vacuity asserted (a bogus ref is rejected).
+- `state/INDEX.md` row 20 branch corrected `feat/macp-start-time-enforcement` → `docs/macp-protocol-startup-order` (it had not been updated when the session was pivoted to the new branch — a factual inconsistency, not a drift the guards covered).
+
+All touched files were already inside the session's `files_owned` (`state/**`, the three `scripts/macp_*.py`, both `tests/repo/test_*.py`), so the ownership guard stays honest without a mid-work REGISTRY edit.
+
+**Files touched so far (auto-recorded from git):** `state/sessions/20261002-0130-A7F3-start-time-enforcement.md`, `state/PROTOCOL.md`, `state/STARTUP.md`, `state/INDEX.md`, `state/DECISIONS.md`, `state/ARCHITECTURE.md`, `scripts/startup_receipt.py`, `scripts/macp_sync_gate.py`, `tests/repo/test_state_tree.py`, `state/verification.json`
+
+## [PROGRESS] — 2026-10-02T02:23Z
+
+Ran the genuine STEP 8 receipt. It returned **`environment_blocked`** — the turn-scoped
+delete budget (`SAFE_DELETE_BULK_CONFIRM_REQUIRED`) was already spent by the full-suite
+subprocess, so the suite and the in-receipt state-tree subprocess could not run. That is an
+environment artifact, **not a defect in the change**: when the state tree is run directly
+against a green receipt it is 22/22, and the in-receipt subprocess only showed blocked
+because the budget was exhausted earlier in this same turn.
+
+Per the protocol's own rule — *environment_blocked … re-run as the first command of a fresh
+turn* — the pre-push sync gate **correctly refuses** the push on an environment-blocked
+receipt: it is "not green" (so the gate must not pass) but "not red" (so it must not call
+the repository broken). I reverted a premature `receipt_gaps` edit that would have let the
+gate pass on environment_blocked, because that would have contradicted "re-run in a fresh
+turn."
+
+**Push deferred to a fresh turn.** On the next turn, run `python3 scripts/startup_receipt.py`
+as the *first* command (fresh delete budget → green receipt), then commit the updated
+`state/verification.json` and push; the pre-push sync gate will then pass and open the PR.
 

@@ -499,3 +499,44 @@ field was not available. Only sessions started from now on must carry it.
 **Consequences.** Both ship with in-test negative controls (the rule is asserted to fire on
 a synthetic violation and to stay silent once the counterpart is present), because a
 completeness rule that cannot fail is worse than no rule — it reads as covered.
+
+---
+
+## DEC-013 — Registration is two-phase; startup_receipt.py refuses until phase B matches git
+
+**Date:** 2026-10-02
+**Decided by:** `A7F3`, on owner instruction (the owner authorised amending PROTOCOL §3, then
+chose two-phase registration over mirroring STARTUP.md verbatim or swapping recon/register order)
+**Supersedes:** nothing; refines the registration step DEC-011 promoted to step 1
+
+**Decision.** Registration is split into two phases:
+
+- **Phase A (STARTUP step 1):** write *identity only* — the session file, the `REGISTRY.md`
+  row, and the `INDEX.md` row — with `Agent`, `Model`, `Session ID`, `Started`,
+  `Status: IN-PROGRESS`. No `Branch`, `Base commit`, or `files_owned` yet.
+- **Phase B (STARTUP step 2):** run git recon, then fill `Branch`, `Base commit`, and
+  `files_owned` from what recon actually found, in the session header *and* the `REGISTRY.md`
+  row.
+
+`scripts/startup_receipt.py` **refuses to run** until phase B is complete: `phase_b_complete()`
+checks that `Branch` and `Base commit` are present and resolve via `git rev-parse --verify
+--quiet`, and returns a named reason otherwise. `tests/repo/test_state_tree.py` gains
+`test_every_live_session_phase_b_matches_git`, which asserts those values are *true* (resolve
+in git), not merely present — the schema and footprint guards already require presence.
+
+**Why split it.** Phase A needs no information, so it can go first and guarantee every later
+claim has an owner — which is why registration moved off step 9. Phase B needs reconnaissance:
+`Branch` and `Base commit` are facts about the repository that cannot be known before looking at
+it, and the sync gate derives both the changed-file set and the commit list from `Base commit`,
+so a guessed value makes guards measure the wrong repository. Measured: a session that captured
+`Base commit` before recon had to correct it after the base moved — and nothing caught it,
+because presence alone passed.
+
+**Consequences.**
+- `state/PROTOCOL.md` §3 now carries the same two-phase ordering as `state/STARTUP.md`; the
+  divergence note in STARTUP.md is removed (the new STARTUP.md states convergence instead).
+- `test_state_tree.py` goes 21 → **22** checks.
+- **This entry is the G6 counterpart** to the `state/PROTOCOL.md` edit it records — G6 fired on
+  the §3 amendment and stayed red until this entry existed.
+
+---
