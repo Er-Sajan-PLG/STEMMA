@@ -554,6 +554,28 @@ the block will replace this by-hand text entirely.
 not generate it — and it is labelled as such rather than left to look generated. The alternative
 was to leave CI red or to push a block asserting a green run that had not happened.
 
+## [PIVOT] — Re-opened (2nd): 2026-10-02T00:50Z
+
+**Reason.** The fix pushed a moment ago passed the **`push`** event and failed the
+**`pull_request`** event on the *same commit*. Cause: a PR check-out is a **merge commit**, so
+`HEAD` is the merge — and check 4's exemption (added so the commit that writes the list need not
+list itself) therefore exempted the wrong commit and demanded that the branch tip list **itself**.
+
+**Fix.** The exemption now uses the **branch recorded in the session header** (`Branch:`), falling
+back to `HEAD` only when the ref cannot be resolved. `changed_paths` takes the same tip, so the
+session's footprint is measured on the branch rather than on a synthetic merge commit.
+
+**Why it took a second restart to find.** My local run and CI's `push` run both had the tip at
+`HEAD`. Two environments agreed, and both were wrong for the third — the same lesson as the
+`42 OK / 39 OK` failure one restart earlier, arriving through a different door. "It passed when I
+ran it" is a statement about the environments I ran it in.
+
+**Restart count: 3 of 3.** A1 caps shutdown restarts at three, and a fourth would halt the session
+and mark it `PARTIAL`. This is the last restart available, so the verification below is run before
+the commit rather than after the push.
+
+**Outcome: COMPLETED (re-executed, final).**
+
 ## [PROGRESS] work unit complete — session remains open
 
 ## [PROGRESS] — 2026-10-02T00:33Z

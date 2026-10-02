@@ -25,9 +25,12 @@ gate proves the record is complete, not that it is accurate.** The value is that
 silence impossible: the failure this closes is *"substantial work, nothing recorded"*,
 which is exactly what the record exists to prevent.
 
-**Why the HEAD commit is exempt from check 4.** The commit that writes the commit list
-cannot contain its own sha. The gate therefore requires every commit in
-`<base>..HEAD~1`, and says so when it fails.
+**Why the branch tip is exempt from check 4.** The commit that writes the commit list
+cannot contain its own sha, so the tip is exempt and the gate requires every commit in
+`<base>..<tip>~1`. It uses the **branch recorded in the session header**, not `HEAD`: a
+pull-request check-out is a *merge* commit, so `HEAD` is the merge, and exempting it
+demands that the branch tip list itself. Measured — the `push` run of PR #83 passed while
+the `pull_request` run of the same commit failed, on exactly that difference.
 
 **Why this runs pre-push *and* in CI.** Hooks are not cloned, so a contributor without
 them — or a push made through the web UI — is ungated (DEBT-006). The hook gives the
@@ -58,6 +61,7 @@ STAMP_RE = re.compile(r"\*\*Measured:\*\*\s*(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z)")
 RECONCILED_RE = re.compile(r"\*\*Last Reconciled:\*\*\s*(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z)")
 STARTED_RE = re.compile(r"^\*\*Started:\*\*\s*(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z)\s*$", re.MULTILINE)
 BASE_RE = re.compile(r"^\*\*Base commit:\*\*\s*`?([0-9a-f]{7,40})`?\s*$", re.MULTILINE)
+BRANCH_RE = re.compile(r"^\*\*Branch:\*\*\s*`?([^\s`]+)`?\s*$", re.MULTILINE)
 
 NO_AGENT_PHRASE = "No agent is active"
 
@@ -86,12 +90,37 @@ def live_rows(registry_text: str) -> list[str]:
     return out
 
 
-def changed_paths(base: str) -> list[str]:
-    """Committed-since-base plus working-tree changes — the session's real footprint."""
-    committed = _run("git", "diff", "--name-only", f"{base}..HEAD").stdout.split("\n")
+def changed_paths(base: str, tip: str = "HEAD") -> list[str]:
+    """Committed-since-base plus working-tree changes — the session's real footprint.
+
+    `tip` is the branch, not `HEAD`, for the same reason `branch_tip` exists: on a
+    pull-request check-out `HEAD` is a merge commit.
+    """
+    committed = _run("git", "diff", "--name-only", f"{base}..{tip}").stdout.split("\n")
     dirty = [ln[3:].strip() for ln in _run("git", "status", "--porcelain").stdout.split("\n")
              if len(ln) > 3 and ln[2] == " "]
     return sorted({p for p in (committed + dirty) if p.strip()})
+
+
+def branch_tip(text: str) -> str:
+    """The ref the session's commits live on — NOT `HEAD`.
+
+    A pull-request check-out is a **merge commit**, so `HEAD` is the merge, not the
+    branch tip. Exempting `HEAD` from the commit-list check then exempts the wrong
+    commit and demands that the tip list *itself* — which it cannot do, because the
+    commit that writes the list cannot contain its own sha. Measured: the `push` run of
+    PR #83 passed while the `pull_request` run of the same commit failed, on exactly
+    that. The header already records the branch, so use it; fall back to `HEAD` only if
+    the ref cannot be resolved, and say so rather than failing confusingly.
+    """
+    match = BRANCH_RE.search(text)
+    if not match:
+        return "HEAD"
+    name = match.group(1)
+    for candidate in (name, f"origin/{name}"):
+        if _run("git", "rev-parse", "--verify", "--quiet", candidate).stdout.strip():
+            return candidate
+    return "HEAD"
 
 
 def recording_gaps(session_id: str) -> list[str]:
@@ -110,6 +139,7 @@ def recording_gaps(session_id: str) -> list[str]:
     if not base_match:
         return [f"{session_id}: session header lacks a parseable `Base commit`"]
     base = base_match.group(1)
+    tip = branch_tip(text)
     gaps: list[str] = []
 
     # 3: every changed file must be named in the session log's BODY.
@@ -121,7 +151,8 @@ def recording_gaps(session_id: str) -> list[str]:
     # that had recorded nothing about two new scripts. Restricting the search to the body
     # after the append-only notice forces the file to be *discussed*.
     body = text.split("> Append-only", 1)[-1]
-    unrecorded = [p for p in changed_paths(base) if p not in body and Path(p).name not in body]
+    unrecorded = [p for p in changed_paths(base, tip)
+                  if p not in body and Path(p).name not in body]
     if unrecorded:
         gaps.append(
             f"{session_id}: {len(unrecorded)} changed file(s) are not named in the session "
@@ -129,16 +160,18 @@ def recording_gaps(session_id: str) -> list[str]:
             f"{unrecorded[:8]}" + (" …" if len(unrecorded) > 8 else "")
         )
 
-    # 4: every commit except HEAD must be listed. HEAD is exempt because the commit that
-    # writes the list cannot contain its own sha.
-    log = _run("git", "log", "--format=%h %H", f"{base}..HEAD").stdout.split()
+    # 4: every commit except the tip must be listed. The tip is exempt because the commit
+    # that writes the list cannot contain its own sha — and the tip is the *branch* tip,
+    # not HEAD (see branch_tip).
+    log = _run("git", "log", "--format=%h %H", f"{base}..{tip}").stdout.split()
     shas = [(log[i], log[i + 1]) for i in range(0, len(log), 2)]
     unlisted = [short for short, full in shas[1:] if short not in text and full not in text]
     if unlisted:
         gaps.append(
             f"{session_id}: {len(unlisted)} commit(s) since Base commit {base} are not listed "
             f"in the session log: {unlisted[:8]}" + (" …" if len(unlisted) > 8 else "")
-            + " (HEAD is exempt: the commit that writes the list cannot contain its own sha)"
+            + f" (the tip of {tip} is exempt: the commit that writes the list cannot contain "
+              "its own sha)"
         )
     return gaps
 
