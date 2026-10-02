@@ -415,18 +415,24 @@ jobs:
   check-branching:
     name: Branching Strategy
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    # Runs on push AND pull_request — no `if:` that could evaluate false, so the required
+    # "Branching Strategy" check never reports as *skipped*.
     steps:
       - name: Check branch naming
         run: |
-          branch="${{ github.head_ref }}"
-          if [[ ! $branch =~ ^(feat|fix|docs|chore|ci|task|refactor|test|dependabot|arena)/ ]]; then echo "FAIL: Branch must start with feat/|fix/|..."; exit 1; fi
+          # head_ref is populated on pull_request; ref_name on push.
+          branch="${{ github.head_ref || github.ref_name }}"
+          if [ "$branch" = "main" ] || [ "$branch" = "master" ]; then
+            echo "Branch OK (protected branch): $branch"; exit 0
+          fi
+          if [[ ! $branch =~ ^(feat|fix|docs|chore|ci|task|refactor|test|dependabot|arena)/ ]]; then echo "FAIL: Branch must start with feat/|fix/|docs/|chore/|ci/|task/|refactor/|test/|dependabot/|arena/ (got: $branch)"; exit 1; fi
           echo "Branch OK: $branch"
 
   check-conventional-commits:
     name: Conventional Commits (commitlint)
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    # Runs on push AND pull_request — no `if:` that could evaluate false, so the required
+    # "Conventional Commits (commitlint)" check never reports as *skipped*.
     steps:
       - uses: actions/checkout@v7
         with:

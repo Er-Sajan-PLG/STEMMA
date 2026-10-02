@@ -200,6 +200,26 @@ startup check is deliberately **not** a pytest test and **not** in `gate_status.
 list — both would deadlock, since the artifact it checks is produced by the run that would
 have to pass first.
 
+## Required status checks (branch protection)
+
+`main` requires five contexts: `Validate Knowledge Base`, `Security scan`,
+`Verify Governance Docs`, `Branching Strategy`, `Conventional Commits (commitlint)`.
+
+A required check must never report as **skipped**: a skipped required check reads as "not
+enforced", and the point of requiring it is that it always runs. So the two jobs in `ci.yml`
+that produce `Branching Strategy` and `Conventional Commits (commitlint)` are
+**unconditional** — `ci.yml` triggers on push (all branches) and on pull_request, and those
+jobs run on both. `check-branching` resolves the branch from
+`github.head_ref || github.ref_name` (`head_ref` is empty on push); the commitlint job is safe
+on push because `@commitlint/config-conventional` ignores `Merge pull request …` commits and
+the config's `type-enum` includes `merge`.
+
+Earlier both jobs were gated `if: github.event_name == 'pull_request'`, so every push run
+recorded them as `skipped` while the pull_request run recorded them as `success` — the same
+required name appearing twice, once skipped. It did not block (GitHub treats `skipped` as
+satisfying a required check, and a `success` instance existed), but a required check that can be
+skipped is a required check that is not enforced.
+
 ## Release Provenance (two layers)
 
 - `-rcN` tags: **CI-attested only**.
