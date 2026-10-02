@@ -1,0 +1,47 @@
+name: Required Checks
+
+# The two jobs here produce required status checks on `main` (`Branching Strategy`,
+# `Conventional Commits (commitlint)`). They live in their own workflow so the required
+# checks have one clear owner and cannot be silently dropped by a change to the larger
+# ci.yml.
+#
+# They trigger on `pull_request` only — the event that gates a merge — so they are always
+# produced where they are required and never report as *skipped*. Previously they lived in
+# ci.yml (which also runs on every push) gated to `pull_request`, so every push run recorded
+# them as `skipped` while the PR run recorded them `success` — the same required name twice.
+
+on:
+  pull_request:
+    branches: [main, master]
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+
+jobs:
+  check-branching:
+    name: Branching Strategy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch naming
+        run: |
+          # On a pull_request the source branch is github.head_ref (github.ref_name is
+          # "<n>/merge").
+          branch="${{ github.head_ref }}"
+          if [[ ! $branch =~ ^(feat|fix|docs|chore|ci|task|refactor|test|dependabot|arena)/ ]]; then
+            echo "FAIL: Branch must start with feat/|fix/|docs/|chore/|ci/|task/|refactor/|test/|dependabot/|arena/ (got: $branch)"; exit 1
+          fi
+          echo "Branch OK: $branch"
+
+  check-conventional-commits:
+    name: Conventional Commits (commitlint)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Check commit messages
+        uses: wagoid/commitlint-github-action@v6
+        with:
+          configFile: commitlint.config.cjs
+          failOnErrors: true

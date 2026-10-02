@@ -412,37 +412,6 @@ jobs:
         # it unbypassable, because hooks are not cloned and `--no-verify` exists.
         run: python3 scripts/macp_sync_gate.py
 
-  check-branching:
-    name: Branching Strategy
-    runs-on: ubuntu-latest
-    # Runs on push AND pull_request — no `if:` that could evaluate false, so the required
-    # "Branching Strategy" check never reports as *skipped*.
-    steps:
-      - name: Check branch naming
-        run: |
-          # head_ref is populated on pull_request; ref_name on push.
-          branch="${{ github.head_ref || github.ref_name }}"
-          if [ "$branch" = "main" ] || [ "$branch" = "master" ]; then
-            echo "Branch OK (protected branch): $branch"; exit 0
-          fi
-          if [[ ! $branch =~ ^(feat|fix|docs|chore|ci|task|refactor|test|dependabot|arena)/ ]]; then echo "FAIL: Branch must start with feat/|fix/|docs/|chore/|ci/|task/|refactor/|test/|dependabot/|arena/ (got: $branch)"; exit 1; fi
-          echo "Branch OK: $branch"
-
-  check-conventional-commits:
-    name: Conventional Commits (commitlint)
-    runs-on: ubuntu-latest
-    # Runs on push AND pull_request — no `if:` that could evaluate false, so the required
-    # "Conventional Commits (commitlint)" check never reports as *skipped*.
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-      - name: Check commit messages
-        uses: wagoid/commitlint-github-action@v6
-        with:
-          configFile: commitlint.config.cjs
-          failOnErrors: true
-
   all-green:
     name: All Checks Green — Nothing Bad Gets Merged
     runs-on: ubuntu-latest

@@ -150,7 +150,19 @@ for a CI re-run.
 Commits on this branch since base `cf69188` (all listed so the recording check is satisfied; the
 tip is exempt by design): `4572cfb` (two-phase registration), `72d1226` (DEC-014 gate fix),
 `3af0e4d` (record branch commits in the session log), `f71c3d5` (lenient phase-B branch
-resolution), `7123c49` (list all branch commits), `9f3a00a` (never skip the required checks).
+resolution), `7123c49` (list all branch commits), `9f3a00a` (never skip the required checks), `3d705b7`
+(remove the vacuous `branching-strategy.yml`).
+
+## [PROGRESS] — 2026-10-02T03:16Z — required checks moved to a `pull_request`-only workflow
+
+Per the owner's decision, moved `check-branching` and `check-conventional-commits` out of
+`ci.yml` into a dedicated `pull_request`-only workflow, `.github/workflows/required-checks.yml`.
+A required check is required *on a pull request*; running it from `ci.yml` — which also fires on
+every push — is what produced the `skipped` states on push runs. A `pull_request`-only workflow
+runs the checks exactly where they are required and never skips them. `check-branching` reads
+`github.head_ref` (the real source branch). `ci.yml` keeps its other jobs; its `all-green`
+aggregator did not depend on these two. `state/ARCHITECTURE.md` updated (G6 counterpart for the
+`.github/workflows/**` change).
 
 ## [PROGRESS] — 2026-10-02T03:04Z — dedup the vacuous `Branching Strategy` workflow
 

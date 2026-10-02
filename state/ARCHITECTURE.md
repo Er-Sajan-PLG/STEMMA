@@ -205,26 +205,21 @@ have to pass first.
 `main` requires five contexts: `Validate Knowledge Base`, `Security scan`,
 `Verify Governance Docs`, `Branching Strategy`, `Conventional Commits (commitlint)`.
 
-A required check must never report as **skipped**: a skipped required check reads as "not
-enforced", and the point of requiring it is that it always runs. So the two jobs in `ci.yml`
-that produce `Branching Strategy` and `Conventional Commits (commitlint)` are
-**unconditional** — `ci.yml` triggers on push (all branches) and on pull_request, and those
-jobs run on both. `check-branching` resolves the branch from
-`github.head_ref || github.ref_name` (`head_ref` is empty on push); the commitlint job is safe
-on push because `@commitlint/config-conventional` ignores `Merge pull request …` commits and
-the config's `type-enum` includes `merge`.
+The two checks that are *about the pull request itself* — `Branching Strategy` and
+`Conventional Commits (commitlint)` — live in their own workflow,
+`.github/workflows/required-checks.yml`, triggered on **`pull_request` only**. That is the event
+that gates a merge, so the checks are produced exactly where they are required and never report
+as **skipped**. A required check that can be skipped reads as "not enforced", which is why this
+matters: previously both jobs lived in `ci.yml` — which also fires on every push — gated
+`if: github.event_name == 'pull_request'`, so every push run recorded them `skipped` while the
+PR run recorded them `success` (the same required name twice). A `pull_request`-only workflow
+has no push run in which to skip them.
 
-Earlier both jobs were gated `if: github.event_name == 'pull_request'`, so every push run
-recorded them as `skipped` while the pull_request run recorded them as `success` — the same
-required name appearing twice, once skipped. It did not block (GitHub treats `skipped` as
-satisfying a required check, and a `success` instance existed), but a required check that can be
-skipped is a required check that is not enforced.
-
-`Branching Strategy` is now produced by `ci.yml` alone. A separate `branching-strategy.yml`
-used to exist, but it read `GITHUB_REF_NAME`, which on a pull_request is `<n>/merge` and on its
-only push trigger (`main`) is `main` — both allowed, so it could never fail. It was a vacuous
-duplicate of a required check; removed in favour of `ci.yml`'s `check-branching`, which reads
-`github.head_ref` (the real source branch) on pull requests.
+`check-branching` reads `github.head_ref` — the real source branch on a pull request
+(`github.ref_name` there is `<n>/merge`). An earlier separate `branching-strategy.yml` read
+`GITHUB_REF_NAME`, which on a pull request is `<n>/merge` and on its only push trigger (`main`)
+is `main` — both allowed, so it could never fail: a vacuous duplicate of a required check,
+removed.
 
 ## Release Provenance (two layers)
 
