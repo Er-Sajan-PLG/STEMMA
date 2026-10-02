@@ -220,6 +220,12 @@ required name appearing twice, once skipped. It did not block (GitHub treats `sk
 satisfying a required check, and a `success` instance existed), but a required check that can be
 skipped is a required check that is not enforced.
 
+`Branching Strategy` is now produced by `ci.yml` alone. A separate `branching-strategy.yml`
+used to exist, but it read `GITHUB_REF_NAME`, which on a pull_request is `<n>/merge` and on its
+only push trigger (`main`) is `main` — both allowed, so it could never fail. It was a vacuous
+duplicate of a required check; removed in favour of `ci.yml`'s `check-branching`, which reads
+`github.head_ref` (the real source branch) on pull requests.
+
 ## Release Provenance (two layers)
 
 - `-rcN` tags: **CI-attested only**.

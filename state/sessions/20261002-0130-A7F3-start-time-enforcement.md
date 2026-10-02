@@ -9,7 +9,7 @@
 **Branch:** `docs/macp-protocol-startup-order`
 **Base commit:** `cf69188`
 **Task:** P1/P2 — start-time enforcement + G6/G8 (merged as PR #84, cf69188). Continuation: two-phase registration — amend PROTOCOL §3 (done), restructure STARTUP.md, gate `scripts/startup_receipt.py` on phase B, add a state-tree phase-B git-validity guard.
-**Files owned:** `state/**`, `scripts/startup_receipt.py`, `scripts/macp_log.py`, `scripts/macp_sync_gate.py`, `tests/repo/test_state_tree.py`, `tests/repo/test_atomic_artifact_writes.py`, `.github/workflows/ci.yml`
+**Files owned:** `state/**`, `scripts/startup_receipt.py`, `scripts/macp_log.py`, `scripts/macp_sync_gate.py`, `tests/repo/test_state_tree.py`, `tests/repo/test_atomic_artifact_writes.py`, `.github/workflows/**`
 
 > Append-only. Do not edit earlier entries. Add new entries at the end.
 
@@ -150,7 +150,17 @@ for a CI re-run.
 Commits on this branch since base `cf69188` (all listed so the recording check is satisfied; the
 tip is exempt by design): `4572cfb` (two-phase registration), `72d1226` (DEC-014 gate fix),
 `3af0e4d` (record branch commits in the session log), `f71c3d5` (lenient phase-B branch
-resolution), `7123c49` (list all branch commits).
+resolution), `7123c49` (list all branch commits), `9f3a00a` (never skip the required checks).
+
+## [PROGRESS] — 2026-10-02T03:04Z — dedup the vacuous `Branching Strategy` workflow
+
+The `Branching Strategy` context was produced by **three** runs on a PR. Inspecting both
+producers: `branching-strategy.yml` read `GITHUB_REF_NAME`, which on a `pull_request` is
+`<n>/merge` and on its only push trigger (`main`) is `main` — **both allowed**, so it could never
+fail. It was a vacuous duplicate of a required check. Removed it; `Branching Strategy` is now
+produced solely by `ci.yml`'s `check-branching`, which reads `github.head_ref` (the real source
+branch) on PRs and `github.ref_name` on push — genuine enforcement. No other file referenced
+`branching-strategy.yml`. Recorded in `state/ARCHITECTURE.md`.
 
 ## [PROGRESS] — 2026-10-02T02:59Z (owner: "never skip required check, enforce it")
 
