@@ -2,7 +2,7 @@
   "schema": "macp-startup-receipt/1",
   "sessions": {
     "20261002-0130-A7F3-start-time-enforcement": {
-      "ran_at": "2026-10-02T02:18Z",
+      "ran_at": "2026-10-02T02:26Z",
       "branch": "docs/macp-protocol-startup-order",
       "status": "environment_blocked",
       "checks": [
@@ -10,28 +10,28 @@
           "name": "pr-list",
           "command": "gh pr list --state open",
           "exit_code": 0,
-          "duration_s": 0.84,
+          "duration_s": 1.19,
           "status": "ok"
         },
         {
           "name": "ci",
           "command": "gh run list --branch main --limit 5",
           "exit_code": 0,
-          "duration_s": 1.26,
+          "duration_s": 1.98,
           "status": "ok"
         },
         {
           "name": "chain",
           "command": "/usr/bin/python3 scripts/verify_all.py",
           "exit_code": 0,
-          "duration_s": 8.73,
+          "duration_s": 8.89,
           "status": "ok"
         },
         {
           "name": "suite",
           "command": "/home/sajan/Projects/STEMMA/.venv/bin/python -m pytest tests/ -q",
           "exit_code": 1,
-          "duration_s": 32.87,
+          "duration_s": 34.96,
           "status": "environment_blocked"
         },
         {
