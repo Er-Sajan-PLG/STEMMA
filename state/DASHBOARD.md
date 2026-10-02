@@ -2,15 +2,21 @@
 
 > **Current state only.** What IS, not what happened. History lives in `sessions/`.
 
-**Last Reconciled:** 2026-10-02T00:45Z
+**Last Reconciled:** 2026-10-02T01:46Z
 **Reconciled by:** `A7F3`
 **Protocol:** MACP **v1.2** (`state/PROTOCOL.md`; startup sequence in `state/STARTUP.md`)
 
-> **No agent is active.** Session `20261001-2339-A7F3-protocol-startup` is `COMPLETED` and its
-> files are released — closed on the **owner's** instruction (DEC-007, N4). It ran the startup
+> **`A7F3` is active** — session `20261002-0130-A7F3-start-time-enforcement`, branch
+> `feat/macp-start-time-enforcement`. Moving MACP enforcement from publish time to start
+> time: `scripts/startup_receipt.py` runs the five STEP 8 checks and writes
+> `state/verification.json`; logging, the state-tree guard and the push gate all require it.
+> Registration has moved to **step 1** of `state/STARTUP.md`. Full claim set is in
+> `state/REGISTRY.md` — do not edit anything it owns.
+>
+> The previous session, `20261001-2339-A7F3-protocol-startup`, is `COMPLETED` and its files
+> are released — closed on the **owner's** instruction (DEC-007, N4). It ran the startup
 > sequence, found two stale claims in this file and a silently vacuous ownership guard, then
-> designed and implemented the MACP gate set (`DEC-010`) and the session↔state sync gate. A new
-> session may start freely; begin with `state/STARTUP.md`, the authoritative sequence (v1.2).
+> designed and implemented the MACP gate set (`DEC-010`) and the session↔state sync gate.
 
 > **Staleness policy (protocol §6 step 3):** `< 24 h` → trustworthy · `24–48 h` → verify key
 > claims before relying on them · `> 48 h` → **STALE**, you must reconcile before working.
@@ -42,17 +48,18 @@
 > chain's row records its failures and not its step count.
 
 <!-- BEGIN GENERATED: gate-status — do not edit by hand; regenerate with `python3 scripts/gate_status.py` -->
-**Measured:** 2026-10-02T00:18Z · **HEAD:** `6244ba0`
+**Measured:** 2026-10-02T01:49Z · **HEAD:** `e9c3e2d`
 
 | Gate | Status | Result (context, not byte-compared) |
 |---|---|---|
-| `pytest tests/ -q` | **PASS** | 367 passed |
+| `pytest tests/ -q` | **PASS** | **370 passed** |
 | `scripts/verify_all.py` | **PASS** | **0 FAIL** (exit 0) |
 | `scripts/docs.py check` | **PASS** | **PASS** |
 | `spec/machine-readable/validate_recovery.py` | **PASS** | **PASS** — 9/9 checks |
 | `scripts/verify_strong.py --quick` | **PASS** | exit 0 |
-| `tests/repo/test_state_tree.py` | **PASS** | **PASS — 18/18** |
+| `tests/repo/test_state_tree.py` | **PASS** | **PASS — 21/21** |
 <!-- END GENERATED: gate-status -->
+
 
 
 

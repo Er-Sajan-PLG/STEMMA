@@ -57,6 +57,10 @@ ATOMIC_WRITER_FILES = (
     # G2 (MACP gate design): generates the DASHBOARD's Gate Status block, which CI
     # byte-compares via `gate_status.py --check` plus a blanket `git diff --exit-code`.
     "scripts/gate_status.py",
+    # Writes state/verification.json, the STEP 8 receipt. Three consumers read it and
+    # refuse without it (macp_log.py, test_state_tree.py, macp_sync_gate.py), so a torn
+    # read would either spuriously block an agent or — worse — let one through.
+    "scripts/startup_receipt.py",
 )
 
 # Globs the exporters and the CI freshness step use to find their artifacts. A
