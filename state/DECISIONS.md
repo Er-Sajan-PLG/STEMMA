@@ -395,3 +395,107 @@ permits it.
   unresolved proposal. The same file's hardcoded pytest count was removed, not corrected
   (DEBT-011's precedent).
 - No gate mutates canonical data, so none of this touches Tier 2.
+
+---
+
+## DEC-011 — Move MACP enforcement from publish time to start time: the STEP 8 receipt
+
+**Date:** 2026-10-02
+**Decided by:** `A7F3`, on owner instruction (*"you didnot follow the protocal that mean
+the work done in previsous session didnot work. time to make the protocal work"*)
+**Supersedes:** nothing; it adds the start-time half that DEC-010's gates lack
+
+**Decision.** `scripts/startup_receipt.py` runs all five STEP 8 checks **as separate
+subprocesses** and writes `state/verification.json`, recording each check's name, command,
+exit code and duration. Registration and logging are then gated on it:
+
+- `scripts/macp_log.py` **refuses to append** unless a receipt exists whose `ran_at` is at
+  or after the session's `Started`;
+- `tests/repo/test_state_tree.py` gains `test_every_live_session_has_a_current_step8_receipt`;
+- `scripts/macp_sync_gate.py` gains **check 7**, so the start-time and publish-time halves
+  meet;
+- `state/STARTUP.md` moves **REGISTRATION from step 9 to step 1**, and the rest renumber.
+
+**Context — the failure that forced it.** The DEC-010 gates fire at *publish* time: the
+pre-push hook and the `macp-gates` CI job. Nothing runs at *start* time. On 2026-10-02 a
+session did recon, reported numbers it had not measured, and never registered — and **no
+gate fired, because it never pushed.** Specifically: three of STEP 8's five checks ran
+inside `gate_status.py --check` rather than by the agent, `gh pr checks` was substituted for
+`gh run list`, the requirement and UNRES counts were repeated from `DASHBOARD.md` without
+opening `verification.yaml`, and registration was judged not applicable on the reasoning
+that a question is not a work unit. The gates were not broken. They were in the wrong place.
+
+**Why one JSON file, not a directory.** PROTOCOL.md §2 fixes the structure of `state/`. A
+new directory would amend the settled revision; a single `state/verification.json` keyed by
+session id does not. It is also one `open()` for every guard that reads it. Recorded here
+and in `ARCHITECTURE.md` as instructed.
+
+**Why the receipt must be newer than `Started`, not than `Base commit`.** `Base commit` is
+fixed at session start, so the moment the session commits, `HEAD` differs from it and a
+base-bound check fails spuriously for a session doing the right thing — the same reasoning
+that moved G4's binding in DEC-010.
+
+**Environment-blocked is not red.** The sandbox enforces a per-turn delete budget and
+raises `SAFE_DELETE_BULK_CONFIRM_REQUIRED`, which fails the full suite in a turn that has
+already done other work. That is recorded as `environment_blocked` — gates treat it as *not
+green* (so nothing passes on it) without calling the repository red. It is a property of
+the environment, not a defect.
+
+**The honest limit, stated in the code as well as here.** No tool can force an agent to run
+a command, and no hook fires at the moment of starting. What this does is make an
+unverified, unregistered session **FAIL EVERY GATE IT TOUCHES**, rather than making it
+impossible to begin. That converts "STEP 8 was skipped" from silence into a named failure
+at the first enforced surface.
+
+**Consequences.**
+- `state/verification.json` is committed, not ignored: three consumers read it, one of them
+  in CI, and a receipt that is not in the commit is not in the pushed record.
+- `scripts/startup_receipt.py` joins `ATOMIC_WRITER_FILES` (DEC-002) — a torn read would
+  either block an agent spuriously or let one through.
+- `test_state_tree.py` goes 18 → **21** checks; `ARCHITECTURE.md`'s documented count and
+  `macp_sync_gate.py`'s docstring were updated with it.
+- The five checks are now runnable individually, so "five results from one wrapped command"
+  is no longer the only convenient path.
+
+---
+
+## DEC-012 — G6 and G8 implemented; the DEC-010 deferral is lifted
+
+**Date:** 2026-10-02
+**Decided by:** `A7F3`, on owner instruction (P2 of the same brief)
+**Supersedes:** the deferral in DEC-010, *"Why G6/G8 wait"* — and nothing else
+
+**Decision.** Implement **G6** (P4's ownership table as completeness rules) and **G8**
+(protocol-version drift). DEC-010 deferred both pending "observed failures" under P7's
+sequencing; the owner ruled that the condition is now met.
+
+**Why the deferral no longer applies.** P7's argument is that new obligations should encode
+observed failures rather than guesses. Both rows now have one: the same 2026-10-02 session
+changed files and recorded nothing, and no gate noticed — which is precisely the silence
+G6's rows and G8's drift check are meant to close. Note the owner's own ranking: **P2 would
+NOT have prevented that failure**, which is why P1 came first.
+
+**G6 — which rows, and why these.** Mechanised from the *actual* table in PROTOCOL.md
+("The settled ownership table (P4)"), not from the plan's summary of it — the two differ:
+
+| Trigger | Must also change |
+|---|---|
+| `state/PROTOCOL.md` or `AGENTS.md` | `state/DECISIONS.md` |
+| `docs/decisions/**` | `state/DECISIONS.md` |
+| `.github/workflows/**` | `state/ARCHITECTURE.md` |
+| `spec/**` | `state/BLOCKERS.md` or `state/DEBT.md` |
+
+The last row is the sharpest and is not in the table as written: `spec/` is Tier 2,
+owner-only under Constraint D, so an agent editing it without raising a blocker or a debt
+entry has crossed a boundary — and the diff makes that detectable, where before it was not
+detectable at all. Completeness only: it cannot tell you the update was any good.
+
+**G8 — why the field is not retroactively required.** Every session must now carry
+`**Protocol:** vX.Y` in its header, validated against the version `AGENTS.md` declares.
+Historical sessions are validated **if they declare** a version but are not required to
+have one: Rule 4 says supersede, never edit, so rewriting five session headers to add the
+field was not available. Only sessions started from now on must carry it.
+
+**Consequences.** Both ship with in-test negative controls (the rule is asserted to fire on
+a synthetic violation and to stay silent once the counterpart is present), because a
+completeness rule that cannot fail is worse than no rule — it reads as covered.

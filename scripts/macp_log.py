@@ -20,6 +20,18 @@ Rule 2). The timestamp is read from the clock, never composed.
 **Refuses when there is no live session.** Logging into a closed session would falsify a
 boundary the protocol treats as final (N4), so the tool stops and says so.
 
+**Refuses without a current STEP 8 receipt.** This is the start-time half of the
+enforcement moved by PR #83's follow-up: the gates shipped there run at *publish* time, so
+a session that skipped STEP 8 and never pushed failed nothing. Logging is the first enforced
+surface an agent reaches, so verification is required *here* — an agent that wants to record
+anything is forced to run the five checks first::
+
+    python3 scripts/startup_receipt.py
+
+The receipt must be newer than the session's ``Started`` stamp. No tool can force an agent
+to run a command; what this does is make an unverified session fail at the first thing it
+tries to write, instead of failing nothing at all.
+
 Usage:
 
     python3 scripts/macp_log.py TAG "one or more lines of meaning"
@@ -37,6 +49,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 REGISTRY = ROOT / "state" / "REGISTRY.md"
 SESSIONS = ROOT / "state" / "sessions"
+
+# startup_receipt.py is a sibling script, not a package; scripts/ is not on sys.path
+# when this is invoked as `python3 scripts/macp_log.py`.
+sys.path.insert(0, str(ROOT / "scripts"))
 
 LIVE_STATUSES = frozenset({"active", "in-progress"})
 BASE_RE = re.compile(r"^\*\*Base commit:\*\*\s*`?([0-9a-f]{7,40})`?\s*$", re.MULTILINE)
@@ -95,7 +111,7 @@ def main(argv: list[str] | None = None) -> int:
     session_id = live_session_id()
     if not session_id:
         print("FAIL: no live session in state/REGISTRY.md, so there is nowhere to log.\n"
-              "Register a session first (state/STARTUP.md step 9). Logging into a closed\n"
+              "Register a session first (state/STARTUP.md step 1). Logging into a closed\n"
               "session would falsify a boundary the protocol treats as final (N4).",
               file=sys.stderr)
         return 1
@@ -103,6 +119,24 @@ def main(argv: list[str] | None = None) -> int:
     session_path = SESSIONS / f"{session_id}.md"
     if not session_path.is_file():
         print(f"FAIL: {session_id} is live but has no session file at {session_path}",
+              file=sys.stderr)
+        return 1
+
+    # Start-time enforcement: no receipt, no log. This is the gate the skipped-STEP-8
+    # session never met, because everything that could have caught it ran at push time.
+    from startup_receipt import status_for
+
+    receipt_status, receipt_reason = status_for(session_id)
+    if receipt_status != "ok":
+        print(f"FAIL: refusing to log — {receipt_reason}\n"
+              "\n"
+              "STEP 8 (verify state against reality) must be run and recorded before\n"
+              "anything is written to the session log. Run the five checks:\n"
+              "\n"
+              "    python3 scripts/startup_receipt.py\n"
+              "\n"
+              "then log again. The receipt must be newer than this session's `Started`\n"
+              "stamp — a receipt from before the session began does not describe it.",
               file=sys.stderr)
         return 1
 

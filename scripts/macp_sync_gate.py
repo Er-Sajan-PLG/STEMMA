@@ -10,12 +10,20 @@ silently incomplete, and every existing guard would still pass — because they 
 
 | | Property | Gameable? |
 |---|---|---|
-| 1 | State-tree invariants hold (`tests/repo/test_state_tree.py`, 18 checks) | no — structural |
+| 1 | State-tree invariants hold (`tests/repo/test_state_tree.py`, 21 checks) | no — structural |
 | 2 | STEP 8 verification happened this session (`scripts/macp_startup_gate.py`) | no — the stamp is a by-product |
 | 3 | Every file the session changed is **named** in its session log | **yes** — completeness only |
 | 4 | Every commit since `Base commit` is **listed** in its session log | **yes** — completeness only |
 | 5 | The DASHBOARD's agent note agrees with REGISTRY about who is live | no |
 | 6 | The DASHBOARD was **reconciled** during the session (`Last Reconciled` ≥ `Started`) | no |
+| 7 | The session holds a **current STEP 8 receipt** (`state/verification.json`) | no — a by-product |
+
+**Why check 7 exists.** Everything above runs at *publish* time, so a session that skipped
+STEP 8 and never pushed failed nothing — which is exactly what happened on 2026-10-02.
+Check 7 is the publish-time half of the start-time receipt: the receipt is produced when
+the agent runs `scripts/startup_receipt.py`, and this gate refuses a push when the session
+being pushed has none. The two halves meet here, so an unverified session cannot reach
+`main` by simply not having been caught earlier.
 
 **Read the "gameable" column, and read it as a warning.** Checks 3 and 4 are
 *completeness* checks: they force enumeration, and an agent could satisfy them by listing
@@ -54,6 +62,9 @@ REGISTRY = ROOT / "state" / "REGISTRY.md"
 DASHBOARD = ROOT / "state" / "DASHBOARD.md"
 INDEX = ROOT / "state" / "INDEX.md"
 SESSIONS = ROOT / "state" / "sessions"
+
+# startup_receipt.py is a sibling script, not a package.
+sys.path.insert(0, str(ROOT / "scripts"))
 
 LIVE_STATUSES = frozenset({"active", "in-progress"})
 
@@ -121,6 +132,25 @@ def branch_tip(text: str) -> str:
         if _run("git", "rev-parse", "--verify", "--quiet", candidate).stdout.strip():
             return candidate
     return "HEAD"
+
+
+def receipt_gaps(session_id: str) -> list[str]:
+    """Check 7 — *did this session verify, and is the record newer than the session?*
+
+    The receipt is written by `scripts/startup_receipt.py`, which runs the five STEP 8
+    checks itself. Like `recording_gaps`, this is shared by the blocking gate and by
+    `--warn-only`, so the advisory warning and the refusal cannot disagree.
+
+    A receipt older than the session's `Started` does not describe this session: it was
+    produced against a repository that predates the work being pushed.
+    """
+    try:
+        from startup_receipt import status_for
+    except ImportError:  # pragma: no cover - scripts/ is always present in-repo
+        return [f"{session_id}: scripts/startup_receipt.py is not importable, so the "
+                "STEP 8 receipt cannot be checked"]
+    status, reason = status_for(session_id)
+    return [] if status == "ok" else [reason]
 
 
 def recording_gaps(session_id: str) -> list[str]:
@@ -196,7 +226,7 @@ def main(argv: list[str] | None = None) -> int:
         live = live_rows(REGISTRY.read_text(encoding="utf-8"))
         if not live:
             return 0
-        gaps = recording_gaps(live[0])
+        gaps = receipt_gaps(live[0]) + recording_gaps(live[0])
         if gaps:
             print("WARN (advisory — this does NOT block the commit):")
             for gap in gaps:
@@ -291,6 +321,10 @@ def main(argv: list[str] | None = None) -> int:
                 f"{started.strftime('%Y-%m-%dT%H:%MZ')} — the dashboard was never reconciled "
                 "during this session"
             )
+
+        # 7: did this session verify? The start-time half — without this, a session that
+        # skipped STEP 8 and never pushed would fail nothing at all.
+        problems.extend(receipt_gaps(sid))
 
         # 3 + 4: is the work recorded? Shared with --warn-only, so the advisory warning
         # and the blocking refusal cannot disagree about what "recorded" means.

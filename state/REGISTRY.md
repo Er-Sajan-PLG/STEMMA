@@ -15,9 +15,11 @@
 | `A7F3` | `20261001-1434-A7F3-shadow-tree` | 2026-10-01T14:34Z | Shadow-tree fix (DEBT-007), six debt items, BLK-004 cleared, MACP v1.2 adopted | — | **COMPLETED** |
 | `A7F3` | `20261001-1215-A7F3-cold-start-handoff` | 2026-10-01T12:15Z | Verify a cold clone can continue from `state/`, fix the cold-start gaps, sweep the chain for sibling silent-skip paths, incorporate MACP Amendment 1, and correct the FAISS mislabel | — | **COMPLETED** |
 | `A7F3` | `20261001-2339-A7F3-protocol-startup` | 2026-10-01T23:39Z | Startup sequence (steps 1-10); then, on owner instruction, design and implement the MACP gate set and make session-state sync a blocking pre-push gate | — | **COMPLETED** |
+| `A7F3` | `20261002-0130-A7F3-start-time-enforcement` | 2026-10-02T01:30Z | Move MACP enforcement from publish time to start time: a STEP 8 verification receipt that gates registration, gated `macp_log.py`, receipt required by the sync gate, and REGISTRATION promoted to STARTUP step 1 | `state/**`, `scripts/startup_receipt.py`, `scripts/macp_log.py`, `scripts/macp_sync_gate.py`, `tests/repo/test_state_tree.py`, `tests/repo/test_atomic_artifact_writes.py` | **IN-PROGRESS** |
 
-No agent is currently active. `files_owned` is empty for every row, so any file is free to
-claim.
+**`A7F3` is active** on `20261002-0130-A7F3-start-time-enforcement`. It owns `state/**`
+plus the four scripts and two test files above — check this table and claim nothing it
+holds.
 
 > The session above is closed at the **owner's** instruction (DEC-007, N4). It is the most
 > recent session, so `scripts/macp_sync_gate.py` still verifies its record against git —

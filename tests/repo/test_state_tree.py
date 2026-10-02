@@ -533,6 +533,216 @@ def test_files_owned_is_not_a_bare_global() -> None:
     )
 
 
+def test_every_live_session_has_a_current_step8_receipt() -> None:
+    """Every live session must hold a STEP 8 receipt written *during* that session.
+
+    The MACP gates shipped in PR #83 are enforced at PUBLISH time — the pre-push hook
+    and the `macp-gates` CI job. Nothing ran at START time. On 2026-10-02 a session
+    performed recon, reported numbers it had not measured, and never registered, and
+    **no gate fired, because it never pushed.** Three of STEP 8's five checks had been
+    run inside `gate_status.py --check` rather than by the agent, and one was
+    substituted outright.
+
+    So this asserts the property the missing gate would have asserted: a live session
+    has run the five checks *itself* (via `scripts/startup_receipt.py`) and the record
+    of that run is newer than the session's `Started` stamp. An older receipt means the
+    checks predate the session and describe a repository that no longer exists.
+
+    Completeness only, in the same sense as the ownership guard: this proves the checks
+    were run and passed, not that the agent understood the results.
+    """
+    if str(ROOT / "scripts") not in sys.path:
+        sys.path.insert(0, str(ROOT / "scripts"))
+    from startup_receipt import status_for
+
+    registry = (STATE / "REGISTRY.md").read_text(encoding="utf-8")
+    live = [(sid, status) for sid, _, status in _live_agent_rows(registry)]
+
+    # Non-vacuity. A classifier that can only ever answer "ok" would make this guard
+    # pass forever while checking nothing, so assert it can actually fail.
+    assert status_for("20990101-0000-ZZZZ-no-such-session")[0] == "missing", (
+        "status_for() did not report a missing receipt for a session that cannot have "
+        "one — the receipt guard is vacuous"
+    )
+
+    problems: list[str] = []
+    for sid, status in live:
+        receipt_status, reason = status_for(sid)
+        if receipt_status != "ok":
+            problems.append(f"{sid} (status {status}): {reason}")
+
+    assert not problems, (
+        "live session(s) without a current STEP 8 receipt — STEP 8 was skipped:\n  "
+        + "\n  ".join(problems)
+        + "\n\nRun: python3 scripts/startup_receipt.py"
+    )
+
+
+# ── G6: P4's ownership table, mechanised as completeness rules ────────────────
+#
+# The table in PROTOCOL.md ("The settled ownership table (P4)") is prose that nothing
+# reads. Each row below is one of its rows, restated as: *if the trigger changed, at
+# least one counterpart must also have changed in the same session.* Completeness only —
+# it cannot tell you the update was any good.
+
+P4_ROWS: tuple[tuple[tuple[str, ...], tuple[str, ...], str], ...] = (
+    (("state/PROTOCOL.md", "AGENTS.md"), ("state/DECISIONS.md",),
+     "the protocol or the agent instructions changed"),
+    (("docs/decisions/",), ("state/DECISIONS.md",),
+     "a decision record was created"),
+    ((".github/workflows/",), ("state/ARCHITECTURE.md",),
+     "CI configuration changed"),
+    # The sharpest row: `spec/` is Tier 2, owner-only under Constraint D. An agent that
+    # edits it without raising a blocker or a debt entry has crossed a boundary, and the
+    # diff makes that mechanically detectable — it was not detectable at all before.
+    (("spec/",), ("state/BLOCKERS.md", "state/DEBT.md"),
+     "a Tier-2 file changed (owner-only under Constraint D)"),
+)
+
+
+def p4_violations(changed: list[str]) -> list[str]:
+    """P4 rows that a set of changed paths violates. Kept separate so it is testable.
+
+    A trigger ending in ``/`` matches by prefix (a directory); otherwise it is exact.
+    """
+    seen = set(changed)
+    out: list[str] = []
+    for triggers, counterparts, reason in P4_ROWS:
+        hit = [t for t in triggers
+               if any(p == t or (t.endswith("/") and p.startswith(t)) for p in seen)]
+        if not hit:
+            continue
+        if any(c in seen for c in counterparts):
+            continue
+        out.append(f"{reason}: changed {hit} but not {' or '.join(counterparts)}")
+    return out
+
+
+def test_p4_ownership_table_rows_are_complete() -> None:
+    """G6 — P4's ownership table, enforced as completeness rather than left as prose.
+
+    Deferred by DEC-010 pending "observed failures". That condition is now met: on
+    2026-10-02 a session changed no Tier-2 file but also recorded nothing, and no gate
+    noticed — the same class of silence this row is meant to close.
+
+    Scope is the live sessions plus the most recently started one, matching
+    `scripts/macp_sync_gate.py`, so the rule is not vacuous once a session has closed.
+    """
+    import subprocess
+
+    # Non-vacuity, asserted rather than assumed: the rule must fire on a violation and
+    # stay silent once the counterpart is present. A completeness rule that cannot fail
+    # is worse than no rule, because it reads as covered.
+    assert p4_violations(["spec/ROLES_AND_AUTHORITY.md"]), (
+        "P4 rule did not fire on a Tier-2 change with no blocker or debt entry — "
+        "the table is being enforced vacuously"
+    )
+    assert not p4_violations(["spec/ROLES_AND_AUTHORITY.md", "state/BLOCKERS.md"]), (
+        "P4 rule still fires after the counterpart was updated"
+    )
+
+    registry = (STATE / "REGISTRY.md").read_text(encoding="utf-8")
+    live = [sid for sid, _, _ in _live_agent_rows(registry)]
+    sessions = sorted(p.stem for p in (STATE / "sessions").iterdir() if p.suffix == ".md")
+    in_scope = sorted(set(live) | ({sessions[-1]} if sessions else set()))
+
+    problems: list[str] = []
+    for sid in in_scope:
+        text = (STATE / "sessions" / f"{sid}.md").read_text(encoding="utf-8")
+        base = re.search(r"^\*\*Base commit:\*\*\s*`?([0-9a-f]{7,40})`?", text, re.MULTILINE)
+        if not base:
+            continue  # already reported by the footprint guard
+        committed = subprocess.run(
+            ["git", "diff", "--name-only", f"{base.group(1)}..HEAD"],
+            cwd=ROOT, capture_output=True, text=True,
+        ).stdout.split("\n")
+        dirty = [line[3:].strip() for line in subprocess.run(
+            ["git", "status", "--porcelain"], cwd=ROOT, capture_output=True, text=True,
+        ).stdout.split("\n") if len(line) > 3]
+        changed = sorted({p for p in committed + dirty if p.strip()})
+        for violation in p4_violations(changed):
+            problems.append(f"{sid}: {violation}")
+
+    assert not problems, (
+        "P4 ownership-table rows left incomplete (record the counterpart in the same "
+        "session):\n  " + "\n  ".join(problems)
+    )
+
+
+# ── G8: protocol-version drift ────────────────────────────────────────────────
+#
+# PROTOCOL.md lists this as an unaddressed gap: "If this file or AGENTS.md changes
+# mid-session, the agent is ... working from a different protocol than the state files
+# it is writing." No rule covered it.
+
+DECLARED_VERSION_RE = re.compile(r"currently \*\*(v\d+\.\d+)\*\*")
+# Tolerates `v1.2`, **v1.2** and bare v1.2 — the header uses backticks for some fields
+# and not others, and a parser that silently misses one form enforces nothing.
+HEADER_PROTOCOL_RE = re.compile(r"^\*\*Protocol:\*\*\s*[`*]{0,2}(v\d+\.\d+)[`*]{0,2}\s*$",
+                                re.MULTILINE)
+
+
+def declared_protocol_version() -> str | None:
+    """The version AGENTS.md says the repository is on. AGENTS.md is the entry point an
+    agent reads first, so it is where drift would actually be introduced."""
+    match = DECLARED_VERSION_RE.search((ROOT / "AGENTS.md").read_text(encoding="utf-8"))
+    return match.group(1) if match else None
+
+
+def test_protocol_version_does_not_drift() -> None:
+    """G8 — a session must record the protocol version it started under, and it must match.
+
+    Deferred by DEC-010 alongside G6; same lift. The declared version comes from
+    `AGENTS.md`, so bumping the protocol without bumping what agents read is caught here
+    rather than discovered months later in a stale session record.
+
+    Historical sessions are validated **if they declare** a version but are not required
+    to have one — Rule 4 says supersede, never edit, so rewriting five session headers to
+    add the field was not an option. Every session started from now on must carry it.
+    """
+    declared = declared_protocol_version()
+    assert declared, (
+        "could not parse the protocol version from AGENTS.md — the phrase "
+        "\"currently **v1.2**\" changed shape, so this guard is blind"
+    )
+    # Non-vacuity: the header parser must actually read the field it is about to police.
+    for form in (f"**Protocol:** {declared}", f"**Protocol:** `{declared}`",
+                 f"**Protocol:** **{declared}**"):
+        assert HEADER_PROTOCOL_RE.search(form + "\n"), (
+            f"the `Protocol:` header regex does not match {form!r}, the line it enforces"
+        )
+    assert HEADER_PROTOCOL_RE.search("**Protocol:** v9.9\n").group(1) == "v9.9", (
+        "the `Protocol:` header regex silently normalises what it reads"
+    )
+
+    sessions = sorted((STATE / "sessions").iterdir())
+    assert sessions, "no session files found — this guard would be vacuous"
+
+    problems: list[str] = []
+    for path in sessions:
+        text = path.read_text(encoding="utf-8")
+        match = HEADER_PROTOCOL_RE.search(text)
+        if not match:
+            # Only sessions still open, or the most recent one, are required to declare.
+            continue
+        if match.group(1) != declared:
+            problems.append(
+                f"{path.name} declares protocol {match.group(1)} but AGENTS.md says "
+                f"{declared} — the session was written under a different protocol than "
+                "the repository now runs"
+            )
+
+    # Going forward: the newest session must carry the field at all.
+    newest = max(sessions, key=lambda p: p.stem)
+    if not HEADER_PROTOCOL_RE.search(newest.read_text(encoding="utf-8")):
+        problems.append(
+            f"{newest.name} has no `Protocol:` header field. Sessions started now must "
+            f"record the version they began under (currently {declared})."
+        )
+
+    assert not problems, "protocol version drift:\n  " + "\n  ".join(problems)
+
+
 def test_commitlint_accepts_the_protocol_commit_type() -> None:
     """CONFLICT-002 / DEC-006: the protocol's shutdown commit format must stay valid.
 
@@ -584,6 +794,9 @@ if __name__ == "__main__":  # self-hosting runner, matching tests/repo/test_gate
         test_active_session_files_owned_covers_what_it_changed,
         test_the_ownership_guard_recognises_the_live_vocabulary,
         test_files_owned_is_not_a_bare_global,
+        test_every_live_session_has_a_current_step8_receipt,
+        test_p4_ownership_table_rows_are_complete,
+        test_protocol_version_does_not_drift,
     ]
     failures = 0
     for fn in checks:

@@ -18,8 +18,14 @@ source .venv/bin/activate                                 # or export VIRTUAL_EN
 pip install -r requirements.txt -r requirements-dev.txt
 python3 scripts/install_hooks.py                          # installs pre-commit + pre-push
 python3 scripts/verify_all.py                             # expect exit 0
-python3 tests/repo/test_state_tree.py                     # expect 18/18
+python3 tests/repo/test_state_tree.py                     # expect 21/21
+python3 scripts/startup_receipt.py                        # required before logging/pushing
 ```
+
+`startup_receipt.py` runs the five STEP 8 checks and writes `state/verification.json`.
+Until it has been run for the current session, `scripts/macp_log.py` refuses to append and
+`scripts/macp_sync_gate.py` refuses the push — so an agent that skips verification discovers
+it at the first enforced surface rather than never.
 
 > **Use a venv.** A bare `pip install` fails on PEP 668 systems
 > (`error: externally-managed-environment`). Activating the venv also matters for the
