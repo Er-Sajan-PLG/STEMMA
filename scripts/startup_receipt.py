@@ -183,8 +183,7 @@ def phase_b_complete(session_id: str) -> tuple[bool, str]:
     if not base_m:
         return False, f"{session_id}: header has no `Base commit` field (phase B not run)"
     branch, base = branch_m.group(1), base_m.group(1)
-    if subprocess.run(["git", "rev-parse", "--verify", "--quiet", branch],
-                      cwd=ROOT, capture_output=True, text=True).returncode != 0:
+    if not _branch_resolves_in_git(branch):
         return False, f"{session_id}: `Branch: {branch}` does not resolve in git"
     if subprocess.run(["git", "rev-parse", "--verify", "--quiet", base],
                       cwd=ROOT, capture_output=True, text=True).returncode != 0:

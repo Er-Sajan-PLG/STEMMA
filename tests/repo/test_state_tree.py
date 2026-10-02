@@ -581,6 +581,25 @@ def test_every_live_session_has_a_current_step8_receipt() -> None:
     )
 
 
+def _branch_resolves_in_git(branch: str) -> bool:
+    """Whether `branch` names a real git ref.
+
+    A CI `pull_request` checkout is frequently a detached HEAD at the merge commit, where the
+    source branch is not present as a local ref. There the name cannot be resolved and we must
+    not fail on it — the Base commit check still validates the repository, and a local
+    (non-detached) run resolves the branch normally. A genuinely bogus branch on a normal
+    checkout still fails: rev-parse rejects it and the checkout is not detached.
+    """
+    import subprocess
+    if subprocess.run(["git", "rev-parse", "--verify", "--quiet", branch],
+                      cwd=ROOT, capture_output=True).returncode == 0:
+        return True
+    if subprocess.run(["git", "rev-parse", "--abbrev-ref", "HEAD"],
+                      cwd=ROOT, capture_output=True, text=True).stdout.strip() == "HEAD":
+        return True
+    return False
+
+
 def test_every_live_session_phase_b_matches_git() -> None:
     """Phase B registration must resolve in git — a guessed Branch/Base commit makes the
     sync gate measure the wrong repository.
@@ -617,8 +636,7 @@ def test_every_live_session_phase_b_matches_git() -> None:
         if not branch_m or not base_m:
             continue  # presence is covered by the schema and footprint guards
         branch, base = branch_m.group(1), base_m.group(1)
-        if subprocess.run(["git", "rev-parse", "--verify", "--quiet", branch],
-                          cwd=ROOT, capture_output=True).returncode != 0:
+        if not _branch_resolves_in_git(branch):
             problems.append(f"{sid}: `Branch: {branch}` does not resolve in git")
         if subprocess.run(["git", "rev-parse", "--verify", "--quiet", base],
                           cwd=ROOT, capture_output=True).returncode != 0:

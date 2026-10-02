@@ -131,3 +131,19 @@ green receipt; phase-B negative controls pass).
 
 Commits on this branch since base `cf69188`: `4572cfb` (two-phase registration) and `72d1226` (DEC-014 gate fix). Both are recorded here so the sync gate's recording check is satisfied.
 
+## [PROGRESS] — 2026-10-02T02:50Z
+
+CI failed on push: `test_every_live_session_phase_b_matches_git` errored with
+`Branch: docs/macp-protocol-startup-order does not resolve in git`. Cause — GitHub Actions
+checks out a PR as a **detached HEAD at the merge commit**, where the source branch is not a
+resolvable local ref, so `git rev-parse <branch>` fails there. The PR-open run passed only by
+luck of a different checkout ref; the push re-run hit the detached checkout and failed. This also
+broke the DASHBOARD gate-block match (same root cause).
+
+Fix: branch resolution is now lenient — a branch that does not resolve is only a defect on a
+*normal* checkout; in a detached CI checkout it cannot be resolved and must not fail (the
+`Base commit` SHA check still validates the repository). Applied in both the test and
+`phase_b_complete`. Verified locally: state tree 22/22, and the bogus-branch negative control
+still FAILS (21/22) on a real checkout — so the guard is not weakened where it matters. Pushing
+for a CI re-run.
+
