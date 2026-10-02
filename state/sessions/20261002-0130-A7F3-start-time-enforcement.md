@@ -129,3 +129,5 @@ matches DEC-011's stated semantics ("environment_blocked is not red"); CI re-val
 environment. The two-phase registration itself is unchanged and verified (state tree 22/22 vs a
 green receipt; phase-B negative controls pass).
 
+Commits on this branch since base `cf69188`: `4572cfb` (two-phase registration) and `72d1226` (DEC-014 gate fix). Both are recorded here so the sync gate's recording check is satisfied.
+
