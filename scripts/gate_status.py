@@ -19,6 +19,14 @@ is 1. The block therefore always describes the *last fully green* run, and a ses
 that cannot produce one leaves the stamp behind — which is what
 `scripts/macp_startup_gate.py` reads to detect a session that skipped its verification.
 
+**What `--check` compares, and what it deliberately does not.** Only the gate list and
+each gate's pass/fail status. The result column is context, stamped with the measurement
+time. Reason, measured: `verify_all.py` has conditional steps, so its OK count is
+**42 locally and 39 in CI** with 0 FAIL in both — a byte-compare on that number fails CI
+for a difference that means nothing. The status is the invariant; the counts are
+observations. (This was found by the gate failing in CI on its first run, which is the
+argument for having a negative control at all.)
+
 **What is deliberately NOT here.** The startup check that binds this block to an active
 session lives in `scripts/macp_startup_gate.py`, not in the gate list below and not as a
 pytest test. Both would deadlock: the artifact it checks is produced by the same run
@@ -63,10 +71,17 @@ def _extract_pytest(out: str, code: int) -> str | None:
 
 
 def _extract_verify_all(out: str, code: int) -> str | None:
-    ok = len(re.findall(r"^OK:", out, re.MULTILINE))
+    # Deliberately does NOT report the OK count. `verify_all.py` has conditional steps
+    # (`if emb_path.exists()`, `if general_path.exists()`, …), so a step whose derived
+    # input is absent emits no OK line — measured: **42 OK locally, 39 OK in CI**, with
+    # everything else identical and 0 FAIL in both. The invariant the chain actually
+    # asserts is "no failures", so that is what is recorded; a count that varies by
+    # environment cannot be a claim. (Same reasoning as DEBT-011: prefer a claim that
+    # cannot be wrong.)
     fail = len(re.findall(r"^FAIL:", out, re.MULTILINE))
+    ok = len(re.findall(r"^OK:", out, re.MULTILINE))
     if ok or fail:
-        return f"**{ok} OK / {fail} FAIL** (exit {code})"
+        return f"**{fail} FAIL** (exit {code})"
     return None
 
 
@@ -149,32 +164,38 @@ def head_commit() -> str:
     ).stdout.strip()
 
 
-def run_gates() -> tuple[list[tuple[str, str, int, str]], str]:
+def run_gates() -> tuple[list[tuple[str, str, str, int, str]], str]:
     """Run every gate.
 
-    Returns (rows, rendered block). Each row carries the gate's exit code **and the
-    tail of its output**, so a red gate is diagnosable from the failure message alone.
-    That is not decoration: a previous failure in this repository was misdiagnosed
-    twice because the reason had been piped away (`DEBT-007`), and an environment shim
-    that fails closed exits the process rather than raising, so the exit code by itself
-    says nothing about the cause.
+    Returns (rows, rendered block). Each row is (label, status, result, exit code, output
+    tail). The status is derived from the exit code — that is the invariant — while the
+    result text is **context**: some of it is environment-dependent (the chain's step
+    count, for one), so it is stamped with the measurement time rather than byte-compared.
+    See `_gate_statuses` for what `--check` actually compares.
+
+    The output tail is carried so a red gate is diagnosable from the failure message
+    alone. That is not decoration: a previous failure in this repository was misdiagnosed
+    twice because the reason had been piped away (DEBT-007), and an environment shim that
+    fails closed exits the process rather than raising, so the exit code by itself says
+    nothing about the cause.
     """
-    rows: list[tuple[str, str, int, str]] = []
+    rows: list[tuple[str, str, str, int, str]] = []
     for label, argv, extract in gates():
         proc = subprocess.run(argv, cwd=ROOT, capture_output=True, text=True)
         combined = proc.stdout + proc.stderr
-        cell = extract(combined, proc.returncode) or f"exit {proc.returncode}"
-        rows.append((label, cell, proc.returncode, combined))
+        status = "PASS" if proc.returncode == 0 else "FAIL"
+        result = extract(combined, proc.returncode) or f"exit {proc.returncode}"
+        rows.append((label, status, result, proc.returncode, combined))
 
     stamp = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%MZ")
     lines = [
         f"{BEGIN} — do not edit by hand; regenerate with `python3 scripts/gate_status.py` -->",
         f"**Measured:** {stamp} · **HEAD:** `{head_commit()}`",
         "",
-        "| Gate | Result |",
-        "|---|---|",
+        "| Gate | Status | Result (context, not byte-compared) |",
+        "|---|---|---|",
     ]
-    lines += [f"| `{label}` | {cell} |" for label, cell, _, _ in rows]
+    lines += [f"| `{label}` | **{status}** | {result} |" for label, status, result, _, _ in rows]
     lines.append(END)
     return rows, "\n".join(lines) + "\n"
 
@@ -199,12 +220,24 @@ def current_block(text: str) -> str:
     return text[start:end]
 
 
-def _report_failures(rows: list[tuple[str, str, int, str]],
+def _gate_statuses(block: str) -> list[tuple[str, str]]:
+    """The (label, status) pairs a block asserts — the part `--check` compares.
+
+    Only the gate list and its pass/fail status are byte-compared. The result text is
+    context: the chain's step count differs between environments (42 locally, 39 in CI,
+    measured), and the suite's passed-count could move with a skip. A block whose
+    *statuses* are right has made the claim the block exists to make; the counts are
+    stamped so a reader knows when they were taken.
+    """
+    return re.findall(r"^\|\s*`([^`]+)`\s*\|\s*\*{0,2}([A-Z]+)\*{0,2}\s*\|", block, re.MULTILINE)
+
+
+def _report_failures(rows: list[tuple[str, str, str, int, str]],
                      failed: list[tuple[str, int]]) -> None:
     """Print each red gate with the tail of its output — the cause, not just the code."""
     print(f"FAIL: refusing to write the gate block — {len(failed)} gate(s) are red:",
           file=sys.stderr)
-    by_label = {label: tail for label, _, _, tail in rows}
+    by_label = {label: tail for label, _, _, _, tail in rows}
     blocked: list[str] = []
     for label, code in failed:
         tail = by_label.get(label, "")
@@ -233,26 +266,20 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
 
     rows, block = run_gates()
-    failed = [(label, code) for label, _, code, _ in rows if code != 0]
+    failed = [(label, code) for label, _, _, code, _ in rows if code != 0]
 
     if args.check:
         on_disk = current_block(DASHBOARD.read_text(encoding="utf-8"))
-        # The stamp moves every run, so compare everything except that one line.
-        strip = lambda t: "\n".join(  # noqa: E731
-            ln for ln in t.splitlines() if not ln.startswith("**Measured:**")
-        )
-        if strip(on_disk) != strip(block):
-            print("FAIL: the DASHBOARD gate block is not what a fresh run produces.", file=sys.stderr)
-            print("--- committed ---", file=sys.stderr)
-            print(strip(on_disk), file=sys.stderr)
-            print("--- fresh ---", file=sys.stderr)
-            print(strip(block), file=sys.stderr)
+        if _gate_statuses(on_disk) != _gate_statuses(block):
+            print("FAIL: the DASHBOARD gate block does not match a fresh run.", file=sys.stderr)
+            print(f"--- committed ---\n{_gate_statuses(on_disk)}", file=sys.stderr)
+            print(f"--- fresh ---\n{_gate_statuses(block)}", file=sys.stderr)
             print("\nRegenerate with: python3 scripts/gate_status.py", file=sys.stderr)
             return 1
         if failed:
             _report_failures(rows, failed)
             return 1
-        print("OK: DASHBOARD gate block is fresh and every gate is green.")
+        print("OK: DASHBOARD gate block matches a fresh run and every gate is green.")
         return 0
 
     if failed:

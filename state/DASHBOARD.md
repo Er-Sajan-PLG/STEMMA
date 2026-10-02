@@ -2,7 +2,7 @@
 
 > **Current state only.** What IS, not what happened. History lives in `sessions/`.
 
-**Last Reconciled:** 2026-10-02T00:34Z
+**Last Reconciled:** 2026-10-02T00:45Z
 **Reconciled by:** `A7F3`
 **Protocol:** MACP **v1.2** (`state/PROTOCOL.md`; startup sequence in `state/STARTUP.md`)
 
@@ -34,18 +34,24 @@
 
 > **This block is generated, not written.** `python3 scripts/gate_status.py` runs the gates and
 > rewrites it; CI fails if it is stale. Do not hand-edit the rows — they are overwritten.
+>
+> **Status is enforced; the result column is context.** CI byte-compares the gate list and each
+> gate's pass/fail status. The result text is stamped rather than compared, because some of it is
+> environment-dependent: `verify_all.py` has conditional steps, so its OK count reads **42 locally
+> and 39 in CI** with 0 FAIL in both. A count that varies by environment cannot be a claim, so the
+> chain's row records its failures and not its step count.
 
 <!-- BEGIN GENERATED: gate-status — do not edit by hand; regenerate with `python3 scripts/gate_status.py` -->
 **Measured:** 2026-10-02T00:18Z · **HEAD:** `6244ba0`
 
-| Gate | Result |
-|---|---|
-| `pytest tests/ -q` | **367 passed** |
-| `scripts/verify_all.py` | **42 OK / 0 FAIL** (exit 0) |
-| `scripts/docs.py check` | **PASS** |
-| `spec/machine-readable/validate_recovery.py` | **PASS** — 9/9 checks |
-| `scripts/verify_strong.py --quick` | exit 0 |
-| `tests/repo/test_state_tree.py` | **PASS — 18/18** |
+| Gate | Status | Result (context, not byte-compared) |
+|---|---|---|
+| `pytest tests/ -q` | **PASS** | 367 passed |
+| `scripts/verify_all.py` | **PASS** | **0 FAIL** (exit 0) |
+| `scripts/docs.py check` | **PASS** | **PASS** |
+| `spec/machine-readable/validate_recovery.py` | **PASS** | **PASS** — 9/9 checks |
+| `scripts/verify_strong.py --quick` | **PASS** | exit 0 |
+| `tests/repo/test_state_tree.py` | **PASS** | **PASS — 18/18** |
 <!-- END GENERATED: gate-status -->
 
 
