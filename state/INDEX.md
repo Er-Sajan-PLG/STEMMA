@@ -16,6 +16,7 @@
 | `20261001-1153-A7F3-debt-cleanup` | `A7F3` | 2026-10-01 | Closed DEBT-001 (stale `PROGRESS.md` block, fixed structurally) and DEBT-002 (retired repo name broke `gh attestation verify` — severity corrected upward); raised BLK-004 | `PROGRESS.md`, `docs/API.md`, `adapters/python/README.md`, `schema/api.yaml`, `README.md`, `explorer/src/services/feedback.ts`, `state/{DEBT,BLOCKERS,DASHBOARD,INDEX,REGISTRY}.md` | COMPLETED | `docs/owner-rulings-unverified` |
 | `20261001-1434-A7F3-shadow-tree` | `A7F3` | 2026-10-01 | Eliminate real-tree mutation from `test_promotion_chain.py` via a shadow tree (DEBT-007 residual) | `tests/repo/test_promotion_chain.py`, `state/**` | COMPLETED | `main` |
 | `20261001-1215-A7F3-cold-start-handoff` | `A7F3` | 2026-10-01 | Verified a cold clone can continue from `state/`; documented the cold-start setup; swept the chain for sibling silent-skip paths and fixed a CI freshness blind spot (DEBT-006) | `state/ARCHITECTURE.md`, `state/{DASHBOARD,INDEX,REGISTRY,DEBT,DECISIONS}.md`, `state/sessions/**`, `AGENTS.md`, `.github/workflows/{ci,release}.yml` | COMPLETED | `main` (merged as #66 + #67) |
+| `20261001-2339-A7F3-protocol-startup` | `A7F3` | 2026-10-01 | Ran the MACP v1.2 startup sequence end to end (steps 1–10) and stopped before project work; step 8 verification found two stale DASHBOARD claims and a silently vacuous ownership guard | `state/sessions/20261001-2339-A7F3-protocol-startup.md`, `state/plans/agent-A7F3-gate-design.md`, `state/{REGISTRY,INDEX,DASHBOARD,BLOCKERS,ARCHITECTURE,DECISIONS}.md`, `tests/repo/{test_state_tree,test_atomic_artifact_writes}.py`, `scripts/{gate_status,macp_startup_gate}.py`, `.github/workflows/ci.yml` | IN-PROGRESS | `main` |
 
 > **The row above was `IN-PROGRESS` for most of the session.** Per `DEC-007` a session stays open until the
 > owner says otherwise, so this row is a *live* entry: its status and file list are updated as
@@ -25,7 +26,7 @@
 > and the INDEX row was outside that guard's reach.
 
 **Bootstrap:** the log was created on 2026-10-01 by `A7F3` as part of the Section 7 bootstrap.
-Four sessions are recorded so far.
+Five sessions are recorded so far.
 
 ---
 

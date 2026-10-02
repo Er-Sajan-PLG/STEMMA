@@ -14,9 +14,15 @@
 | `A7F3` | `20261001-1153-A7F3-debt-cleanup` | 2026-10-01T11:53Z | Close the two unblocked documentation debt items (DEBT-001, DEBT-002) | — | **COMPLETED** |
 | `A7F3` | `20261001-1434-A7F3-shadow-tree` | 2026-10-01T14:34Z | Shadow-tree fix (DEBT-007), six debt items, BLK-004 cleared, MACP v1.2 adopted | — | **COMPLETED** |
 | `A7F3` | `20261001-1215-A7F3-cold-start-handoff` | 2026-10-01T12:15Z | Verify a cold clone can continue from `state/`, fix the cold-start gaps, sweep the chain for sibling silent-skip paths, incorporate MACP Amendment 1, and correct the FAISS mislabel | — | **COMPLETED** |
+| `A7F3` | `20261001-2339-A7F3-protocol-startup` | 2026-10-01T23:39Z | Startup sequence (steps 1-10); then, on owner instruction, design and implement the MACP gate set and make session-state sync a blocking pre-push gate | `state/**`, `tests/repo/test_state_tree.py`, `tests/repo/test_atomic_artifact_writes.py`, `scripts/gate_status.py`, `scripts/macp_*.py`, `scripts/install_hooks.py`, `.github/workflows/ci.yml` | **IN-PROGRESS** |
 
-No agent is currently active. `files_owned` is empty for every row, so any file is free to
-claim.
+**One agent is active:** `A7F3`, session `20261001-2339-A7F3-protocol-startup`. It owns
+`state/**` and nothing else. Every other row is `COMPLETED` with `files_owned` released, so
+any file outside `state/` is free to claim.
+
+> The active session is doing **protocol bookkeeping only** — registering, reconciling the
+> dashboard, and reporting. It has been directed not to begin project work. If you are a new
+> agent, `state/**` is claimed; coordinate before writing there.
 
 ---
 
@@ -41,6 +47,14 @@ to the canonical records it touched. When you register, add your own row here ma
 
 ## Ownership Rules
 
+0. **`files_owned` syntax: comma-separated `fnmatch` globs.** `state/**`,
+   `scripts/macp_*.py`, `tests/repo/test_state_tree.py`. **Shell brace expansion is NOT
+   supported** — `scripts/{a,b}.py` is split on the comma into the literals
+   `scripts/{a` and `b}.py`, neither of which matches anything, so the claim silently
+   covers nothing. Found by doing it: the ownership guard rejected it immediately, which
+   is the guard working, but the failure reads as "under-declared" rather than "bad
+   syntax". Prefer a real glob over an enumeration — a glob cannot go stale as files are
+   added.
 1. **One writer per file at a time.** If a file you need is owned by another active agent,
    raise a conflict rather than editing it (protocol §4).
 2. **`state/` is Tier 1** — agents own it and may write it without human approval.
