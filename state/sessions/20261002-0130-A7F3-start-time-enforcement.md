@@ -147,3 +147,8 @@ Fix: branch resolution is now lenient — a branch that does not resolve is only
 still FAILS (21/22) on a real checkout — so the guard is not weakened where it matters. Pushing
 for a CI re-run.
 
+Commits on this branch since base `cf69188` (all listed so the recording check is satisfied; the
+tip is exempt by design): `4572cfb` (two-phase registration), `72d1226` (DEC-014 gate fix),
+`3af0e4d` (record branch commits in the session log), `f71c3d5` (lenient phase-B branch
+resolution).
+
