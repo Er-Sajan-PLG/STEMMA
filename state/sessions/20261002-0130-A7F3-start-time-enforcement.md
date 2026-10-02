@@ -5,7 +5,7 @@
 **Protocol:** `v1.2`
 **Session ID:** `20261002-0130-A7F3-start-time-enforcement`
 **Started:** 2026-10-02T01:30Z
-**Status:** IN-PROGRESS
+**Status:** COMPLETED
 **Branch:** `docs/macp-protocol-startup-order`
 **Base commit:** `cf69188`
 **Task:** P1/P2 — start-time enforcement + G6/G8 (merged as PR #84, cf69188). Continuation: two-phase registration — amend PROTOCOL §3 (done), restructure STARTUP.md, gate `scripts/startup_receipt.py` on phase B, add a state-tree phase-B git-validity guard.
@@ -153,27 +153,6 @@ tip is exempt by design): `4572cfb` (two-phase registration), `72d1226` (DEC-014
 resolution), `7123c49` (list all branch commits), `9f3a00a` (never skip the required checks), `3d705b7`
 (remove the vacuous `branching-strategy.yml`).
 
-## [PROGRESS] — 2026-10-02T03:16Z — required checks moved to a `pull_request`-only workflow
-
-Per the owner's decision, moved `check-branching` and `check-conventional-commits` out of
-`ci.yml` into a dedicated `pull_request`-only workflow, `.github/workflows/required-checks.yml`.
-A required check is required *on a pull request*; running it from `ci.yml` — which also fires on
-every push — is what produced the `skipped` states on push runs. A `pull_request`-only workflow
-runs the checks exactly where they are required and never skips them. `check-branching` reads
-`github.head_ref` (the real source branch). `ci.yml` keeps its other jobs; its `all-green`
-aggregator did not depend on these two. `state/ARCHITECTURE.md` updated (G6 counterpart for the
-`.github/workflows/**` change).
-
-## [PROGRESS] — 2026-10-02T03:04Z — dedup the vacuous `Branching Strategy` workflow
-
-The `Branching Strategy` context was produced by **three** runs on a PR. Inspecting both
-producers: `branching-strategy.yml` read `GITHUB_REF_NAME`, which on a `pull_request` is
-`<n>/merge` and on its only push trigger (`main`) is `main` — **both allowed**, so it could never
-fail. It was a vacuous duplicate of a required check. Removed it; `Branching Strategy` is now
-produced solely by `ci.yml`'s `check-branching`, which reads `github.head_ref` (the real source
-branch) on PRs and `github.ref_name` on push — genuine enforcement. No other file referenced
-`branching-strategy.yml`. Recorded in `state/ARCHITECTURE.md`.
-
 ## [PROGRESS] — 2026-10-02T02:59Z (owner: "never skip required check, enforce it")
 
 Owner observed two **skipped** checks on PR #85 that are marked *required*. Diagnosis: `ci.yml`
@@ -190,4 +169,41 @@ push *and* pull_request and never report `skipped`. `check-branching` resolves t
 the commitlint job is safe on push because `@commitlint/config-conventional` ignores
 `Merge pull request …` commits and the config's `type-enum` includes `merge`. Recorded in
 `state/ARCHITECTURE.md` (the G6 counterpart for a `.github/workflows/**` change).
+
+## [PROGRESS] — 2026-10-02T03:04Z — dedup the vacuous `Branching Strategy` workflow
+
+The `Branching Strategy` context was produced by **three** runs on a PR. Inspecting both
+producers: `branching-strategy.yml` read `GITHUB_REF_NAME`, which on a `pull_request` is
+`<n>/merge` and on its only push trigger (`main`) is `main` — **both allowed**, so it could never
+fail. It was a vacuous duplicate of a required check. Removed it; `Branching Strategy` is now
+produced solely by `ci.yml`'s `check-branching`, which reads `github.head_ref` (the real source
+branch) on PRs and `github.ref_name` on push — genuine enforcement. No other file referenced
+`branching-strategy.yml`. Recorded in `state/ARCHITECTURE.md`.
+
+## [PROGRESS] — 2026-10-02T03:16Z — required checks moved to a `pull_request`-only workflow
+
+Per the owner's decision, moved `check-branching` and `check-conventional-commits` out of
+`ci.yml` into a dedicated `pull_request`-only workflow, `.github/workflows/required-checks.yml`.
+A required check is required *on a pull request*; running it from `ci.yml` — which also fires on
+every push — is what produced the `skipped` states on push runs. A `pull_request`-only workflow
+runs the checks exactly where they are required and never skips them. `check-branching` reads
+`github.head_ref` (the real source branch). `ci.yml` keeps its other jobs; its `all-green`
+aggregator did not depend on these two. `state/ARCHITECTURE.md` updated (G6 counterpart for the
+`.github/workflows/**` change).
+
+## [END] — 2026-10-02T03:25Z — session closed on the owner's instruction
+
+**Outcome: COMPLETED.** PR #85 merged as `362682c` — verified by **tree** (the branch tip's tree
+`5bc6a87af8f76eaab6539880595600d8e7ca7ff3` equals `origin/main`'s), not by "the PR is merged".
+Owner instruction, verbatim: *"i merged it, close the session"*. Under DEC-007 the owner closes
+the session; this is that closure.
+
+Delivered over eight commits (`4572cfb`…`8a3b015`): two-phase registration (`PROTOCOL.md` §3,
+`STARTUP.md`, `startup_receipt.py` phase-B gate, the state-tree phase-B git-validity guard →
+**22 checks**, DEC-013); the `environment_blocked` gate semantics (DEC-014); the CI
+detached-checkout fix; and the CI required-check fixes (no-skip, vacuous-workflow removal, the
+`pull_request`-only `required-checks.yml`).
+
+`files_owned` released; session header and `REGISTRY.md` row set to `COMPLETED`. No agent is
+active.
 

@@ -2,21 +2,17 @@
 
 > **Current state only.** What IS, not what happened. History lives in `sessions/`.
 
-**Last Reconciled:** 2026-10-02T01:46Z
+**Last Reconciled:** 2026-10-02T03:25Z
 **Reconciled by:** `A7F3`
 **Protocol:** MACP **v1.2** (`state/PROTOCOL.md`; startup sequence in `state/STARTUP.md`)
 
-> **`A7F3` is active** — session `20261002-0130-A7F3-start-time-enforcement`, branch
-> `feat/macp-start-time-enforcement`. Moving MACP enforcement from publish time to start
-> time: `scripts/startup_receipt.py` runs the five STEP 8 checks and writes
-> `state/verification.json`; logging, the state-tree guard and the push gate all require it.
-> Registration has moved to **step 1** of `state/STARTUP.md`. Full claim set is in
-> `state/REGISTRY.md` — do not edit anything it owns.
->
-> The previous session, `20261001-2339-A7F3-protocol-startup`, is `COMPLETED` and its files
-> are released — closed on the **owner's** instruction (DEC-007, N4). It ran the startup
-> sequence, found two stale claims in this file and a silently vacuous ownership guard, then
-> designed and implemented the MACP gate set (`DEC-010`) and the session↔state sync gate.
+> **No agent is active.** Session `20261002-0130-A7F3-start-time-enforcement` is `COMPLETED` and
+> its files are released — closed on the **owner's** instruction (DEC-007, N4), after PR #85
+> merged (`362682c`). It delivered two-phase registration (`PROTOCOL.md` §3, `STARTUP.md`,
+> `startup_receipt.py` gated on phase B, a state-tree git-validity guard → 22 checks, DEC-013),
+> the `environment_blocked` gate semantics (DEC-014), and the CI fixes (detached-checkout branch
+> resolution; required checks that never skip, in a `pull_request`-only `required-checks.yml`).
+> A new session may start freely; begin with `state/STARTUP.md`, the authoritative sequence (v1.2).
 
 > **Staleness policy (protocol §6 step 3):** `< 24 h` → trustworthy · `24–48 h` → verify key
 > claims before relying on them · `> 48 h` → **STALE**, you must reconcile before working.
