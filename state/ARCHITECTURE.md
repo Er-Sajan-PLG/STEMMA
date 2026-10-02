@@ -18,7 +18,7 @@ source .venv/bin/activate                                 # or export VIRTUAL_EN
 pip install -r requirements.txt -r requirements-dev.txt
 python3 scripts/install_hooks.py                          # installs pre-commit + pre-push
 python3 scripts/verify_all.py                             # expect exit 0
-python3 tests/repo/test_state_tree.py                     # expect 21/21
+python3 tests/repo/test_state_tree.py                     # expect 22/22
 python3 scripts/startup_receipt.py                        # required before logging/pushing
 ```
 
@@ -199,6 +199,27 @@ covered was correct: the guards checked shape, and that table was pure assertion
 startup check is deliberately **not** a pytest test and **not** in `gate_status.py`'s gate
 list — both would deadlock, since the artifact it checks is produced by the run that would
 have to pass first.
+
+## Required status checks (branch protection)
+
+`main` requires five contexts: `Validate Knowledge Base`, `Security scan`,
+`Verify Governance Docs`, `Branching Strategy`, `Conventional Commits (commitlint)`.
+
+The two checks that are *about the pull request itself* — `Branching Strategy` and
+`Conventional Commits (commitlint)` — live in their own workflow,
+`.github/workflows/required-checks.yml`, triggered on **`pull_request` only**. That is the event
+that gates a merge, so the checks are produced exactly where they are required and never report
+as **skipped**. A required check that can be skipped reads as "not enforced", which is why this
+matters: previously both jobs lived in `ci.yml` — which also fires on every push — gated
+`if: github.event_name == 'pull_request'`, so every push run recorded them `skipped` while the
+PR run recorded them `success` (the same required name twice). A `pull_request`-only workflow
+has no push run in which to skip them.
+
+`check-branching` reads `github.head_ref` — the real source branch on a pull request
+(`github.ref_name` there is `<n>/merge`). An earlier separate `branching-strategy.yml` read
+`GITHUB_REF_NAME`, which on a pull request is `<n>/merge` and on its only push trigger (`main`)
+is `main` — both allowed, so it could never fail: a vacuous duplicate of a required check,
+removed.
 
 ## Release Provenance (two layers)
 

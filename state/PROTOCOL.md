@@ -164,17 +164,40 @@ Your session file is your scratchpad AND your log. Use it heavily. Structure ent
 
 ### Startup Sequence
 
+`state/STARTUP.md` holds the authoritative 10-step sequence. This section states the same
+ordering, so the two files cannot drift apart again — they did, and the divergence was
+found by reading rather than by any guard.
+
 When starting work, an agent MUST:
 
-1. **Read** `state/DASHBOARD.md` — current project state
-2. **Read** `state/REGISTRY.md` — who else is working
-3. **Read** `state/INDEX.md` — navigate to relevant files
-4. **Check** `state/BLOCKERS.md` — anything stopping me?
-5. **Check** `state/conflicts/` — unresolved disagreements?
-6. **Read** relevant `state/plans/` — what's the current plan?
-7. **Read** relevant `state/sessions/` — what happened recently?
-8. **Verify** understanding against actual code
-9. **Register** in `state/REGISTRY.md`
+1. **Register — phase A (identity).** Create
+   `state/sessions/YYYYMMDD-HHMM-<AGENT-ID>-<slug>.md` with `Agent`, `Model`, `Session ID`,
+   `Started`, `Status: IN-PROGRESS`, and add the `state/REGISTRY.md` row. Nothing about the
+   repository is known yet, so nothing about the repository is written.
+2. **Reconnaissance** (`git status`, `git branch -vva`, `git log --oneline -10`,
+   `git stash list`, `git fetch --all`), then **register — phase B (context)**: fill
+   `Branch`, `Base commit` and `files_owned` from what recon actually found.
+3. Does `state/` exist? (**No** → Bootstrap Protocol, §7.)
+4. **Read** `state/DASHBOARD.md` — current project state
+5. **Read** `state/REGISTRY.md` — who else is working
+6. **Check** `state/BLOCKERS.md` — anything stopping me?
+7. **Read** relevant `state/plans/` and `state/sessions/`, found via `state/INDEX.md`
+8. **Read** `state/ARCHITECTURE.md` / `state/DECISIONS.md` conditionally
+9. **Verify** understanding against actual code — `python3 scripts/startup_receipt.py`,
+   which **refuses to run** while phase B is incomplete or does not match git
+10. **Plan** (multi-step work only) — `state/plans/agent-<ID>-<slug>.md`
+
+**Why registration is split in two.** Phase A needs no information, so it can go first and
+guarantees that every later claim has an owner — which is why it moved off step 9: a session
+that never registered left its work unattributable. Phase B needs reconnaissance. `Branch`
+and `Base commit` are facts about the repository that cannot be known before looking at it,
+and the sync gate derives both the changed-file set and the commit list from `Base commit`,
+so a guessed value makes guards measure the wrong repository. Measured: a session that
+captured `Base commit` before recon had to correct it after the base moved.
+
+**Why verification is gated on phase B rather than merely ordered after it.** Ordering is a
+rule; the refusal is a gate. An agent that skips phase B cannot obtain a receipt, and
+without a receipt nothing downstream accepts its work.
 
 ### Maintenance
 

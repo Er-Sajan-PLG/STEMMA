@@ -412,31 +412,6 @@ jobs:
         # it unbypassable, because hooks are not cloned and `--no-verify` exists.
         run: python3 scripts/macp_sync_gate.py
 
-  check-branching:
-    name: Branching Strategy
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    steps:
-      - name: Check branch naming
-        run: |
-          branch="${{ github.head_ref }}"
-          if [[ ! $branch =~ ^(feat|fix|docs|chore|ci|task|refactor|test|dependabot|arena)/ ]]; then echo "FAIL: Branch must start with feat/|fix/|..."; exit 1; fi
-          echo "Branch OK: $branch"
-
-  check-conventional-commits:
-    name: Conventional Commits (commitlint)
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    steps:
-      - uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-      - name: Check commit messages
-        uses: wagoid/commitlint-github-action@v6
-        with:
-          configFile: commitlint.config.cjs
-          failOnErrors: true
-
   all-green:
     name: All Checks Green — Nothing Bad Gets Merged
     runs-on: ubuntu-latest

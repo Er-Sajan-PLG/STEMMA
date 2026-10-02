@@ -4,34 +4,42 @@
 > **10-step** procedure and requires it to live in its own file. This is that file.
 > `state/PROTOCOL.md` §6 and Amendment 2 both point here.
 >
-> **Registration moved from step 9 to step 1.** The gates shipped in PR #83 are enforced
-> at PUBLISH time, so a session that skipped verification and never pushed failed nothing.
-> On 2026-10-02 that is exactly what happened: recon was done, numbers were reported that
-> had not been measured, and no session was ever registered — and no gate fired.
-> Registration now comes first so that reconnaissance, and everything after it, is
-> attributable to a session that exists.
+> **Registration is two-phase.** STEP 1 writes *identity only* (session file, `REGISTRY.md`
+> row, `INDEX.md` row) — no repository facts are known yet, so none are written. STEP 2 runs
+> git recon, then fills `Branch`, `Base commit`, and `files_owned` from what recon actually
+> found. Verification (STEP 9) is **gated on phase B**: `scripts/startup_receipt.py` refuses
+> to run while phase B is incomplete or does not match git.
 >
-> **Divergence, recorded not fixed:** `state/PROTOCOL.md` §3 still lists a 9-step sequence
-> with registration at step 9. Amending the settled revision is the owner's call, so it is
-> left as written; **this file is authoritative for ordering.**
+> **Why split it.** Phase A needs no information, so it can go first and guarantee every
+> later claim has an owner — which is why registration moved off step 9: a session that never
+> registered left its work unattributable. Phase B needs reconnaissance. `Branch` and
+> `Base commit` are facts about the repository that cannot be known before looking at it, and
+> the sync gate derives both the changed-file set and the commit list from `Base commit`, so a
+> guessed value makes guards measure the wrong repository. Measured: a session that captured
+> `Base commit` before recon had to correct it after the base moved.
+>
+> `state/PROTOCOL.md` §3 carries the same ordering in compact form; the two files agree. This
+> file is authoritative for detail.
 
 Run these in order. **Do not begin work until all 10 are complete.** You are stateless;
 the repository is not.
 
 ---
 
-## STEP 1 — REGISTER YOURSELF
+## STEP 1 — REGISTER YOURSELF (phase A: identity)
 
-Create `state/sessions/YYYYMMDD-HHMM-<AGENT-ID>-<slug>.md`, beginning with the header
-schema (see `state/PROTOCOL.md` Amendment 2 — `Agent`, `Model`, `Branch`, `Started`,
-`Status: IN-PROGRESS`, `Base commit`, plus STEMMA's `Session ID`, `Task`, `Files owned`).
+Create `state/sessions/YYYYMMDD-HHMM-<AGENT-ID>-<slug>.md`, beginning with the
+**identity** header (Amendment 2 — `Agent`, `Model`, `Session ID`, `Started`,
+`Status: IN-PROGRESS`). Do **not** write `Branch`, `Base commit`, or `files_owned` yet;
+those come from recon in STEP 2.
 
-Add yourself to `state/REGISTRY.md`: agent ID (invent 4 alphanumeric characters), model,
-branch, one-line task, current UTC timestamp, files claimed.
+Add yourself to `state/REGISTRY.md` (agent id, model, session id, started_at, task,
+`Status: IN-PROGRESS`) with `files_owned` left as `—` for now. Add the `state/INDEX.md`
+row.
 
-- [ ] Session file created with a complete header (all seven fields)
-- [ ] REGISTRY row added, `Status: IN-PROGRESS`, `files_owned` declared honestly
-- [ ] `INDEX.md` row added — a session file with no index row fails the state-tree guard
+- [ ] Session file created with the identity header (Agent, Model, Session ID, Started, Status)
+- [ ] REGISTRY row added, `Status: IN-PROGRESS`, `files_owned` = `—`
+- [ ] INDEX.md row added — a session file with no index row fails the state-tree guard
 - [ ] Timestamp read from the clock, never composed from memory
 
 **Why first.** Every later step writes a claim into the record. Registration is what makes
@@ -42,7 +50,7 @@ those claims *somebody's*; unregistered recon is unattributable by construction.
 > the claim silently covers zero files. Prefer a glob to an enumeration: a glob cannot go
 > stale as files are added. Rule 0 in `state/REGISTRY.md`.
 
-## STEP 2 — Git reconnaissance
+## STEP 2 — Git reconnaissance, then register context (phase B)
 
 ```bash
 git status
@@ -58,6 +66,14 @@ Confirm:
 - [ ] You know which branch you are on
 - [ ] No unresolved merge conflicts exist
 - [ ] You have the latest from remote
+
+Then **complete phase B**: fill `Branch`, `Base commit`, and `files_owned` from what recon
+found — in the session header *and* the `REGISTRY.md` row (the ownership guard reads
+`files_owned` from there).
+
+- [ ] Header now carries `Branch` and `Base commit`
+- [ ] `REGISTRY.md` `files_owned` declares honestly what this session will touch
+- [ ] The two `Branch`/`Base commit` values resolve in git (`git rev-parse <value>`)
 
 > **A stale remote-tracking ref looks exactly like a lost merge.** Before concluding that a
 > merged PR dropped commits, run `git fetch --all` — then verify by **tree**
@@ -110,7 +126,7 @@ Reading every session file wastes your context window.
 - Read `DECISIONS.md` only if you are about to make a design choice — someone may have
   already decided it.
 
-## STEP 9 — VERIFY STATE AGAINST REALITY (mandatory)
+## STEP 9 — VERIFY STATE AGAINST REALITY (mandatory, gated on phase B)
 
 **State files are claims, not facts.** Run the five checks and record that you ran them:
 
@@ -118,9 +134,12 @@ Reading every session file wastes your context window.
 python3 scripts/startup_receipt.py
 ```
 
-That runs each check as its own subprocess and writes `state/verification.json` with every
-check's name, command, exit code and timestamp. It is what STEP 8 compliance is measured
-against — running the checks inside some other script does not produce a receipt.
+The script **refuses to run until phase B is complete** — `Branch` and `Base commit` must be
+present and resolve in git (filled at STEP 2 from recon). A session that skipped recon cannot
+obtain a receipt; without one, nothing downstream accepts its work. Once it runs, it executes
+each check as its own subprocess and writes `state/verification.json` with every check's name,
+command, exit code and timestamp. That file is what STEP 8 compliance is measured against —
+running the checks inside some other script does not produce a receipt.
 
 The five checks:
 
