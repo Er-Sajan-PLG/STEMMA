@@ -14,6 +14,8 @@ if find content/ -name "*.md" -exec grep -l "\\"vector\\":" {} \\; 2>/dev/null |
 echo "--- docs impact (affected surface, advisory) ---"
 "$PYTHON_BIN" scripts/docs.py impact || true
 "$PYTHON_BIN" scripts/docs.py validate
+echo "--- MACP: is the session record current? (advisory — does not block) ---"
+"$PYTHON_BIN" scripts/macp_sync_gate.py --warn-only || true
 echo "Pre-commit OK"
 """
 PRE_PUSH = """#!/bin/bash
@@ -27,6 +29,8 @@ if ! git diff --exit-code -- exports reports >/dev/null 2>&1; then echo "FAIL: e
 "$PYTHON_BIN" scripts/docs.py sync
 if ! git diff --exit-code >/dev/null 2>&1; then echo "FAIL: docs sync produced changes (review and commit them)"; git status --porcelain | head -n 10; exit 1; fi
 "$PYTHON_BIN" scripts/docs.py check
+echo "--- MACP: the session record and the state files must be in sync ---"
+"$PYTHON_BIN" scripts/macp_sync_gate.py
 echo "Pre-push OK"
 """
 def main():

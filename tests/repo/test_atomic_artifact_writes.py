@@ -54,6 +54,9 @@ ATOMIC_WRITER_FILES = (
     "scripts/export_consumers.py",
     "scripts/status_truth.py",
     "scripts/docs.py",
+    # G2 (MACP gate design): generates the DASHBOARD's Gate Status block, which CI
+    # byte-compares via `gate_status.py --check` plus a blanket `git diff --exit-code`.
+    "scripts/gate_status.py",
 )
 
 # Globs the exporters and the CI freshness step use to find their artifacts. A

@@ -4,7 +4,8 @@
 > agent cannot clear by itself. If an agent *can* clear it, it is not a blocker — it is
 > a task.
 >
-> **Current count: 2 actionable · 2 parked · 0 technical.**  (BLK-001 and BLK-004 cleared 2026-10-01.)
+> **Current count: 2 actionable · 2 parked · 0 technical.**  (BLK-001 and BLK-004 cleared
+> 2026-10-01; BLK-007 is a closed self-reported protocol violation, kept as a record.)
 
 ---
 
@@ -173,6 +174,49 @@ the dry run deliberately did not tag.
 is still wanted, it needs the normal release path.
 
 ---
+
+## BLK-007 — Protocol violation, self-reported: STEP 8 was run incompletely
+
+**Raised:** 2026-10-01 by `A7F3` (against itself), session `20261001-2339-A7F3-protocol-startup`
+**Status:** **CLOSED — corrected in the same session** (kept as a record, not deleted)
+**Blocking:** nothing; recorded because v1.2's ownership table requires a protocol violation to
+be written to `BLOCKERS.md` and the session file
+
+**What happened.** STEP 8 of `state/STARTUP.md` ("VERIFY STATE AGAINST REALITY") was performed
+partially on the first pass. Of its checklist, four items were run (`gh pr list`,
+`verify_all.py`, `pytest`, `test_state_tree.py`) and the mandatory spot-check was exceeded
+(eight claims). **One item was skipped: "check CI."** It was reasoned away as not applicable
+because no pull request was open — but the step's intent is to check CI, and `gh run list`
+would have answered it in one command.
+
+**Worse than the omission.** `DASHBOARD.md`'s Gate Status table lists three commands
+(`docs.py check`, `validate_recovery.py`, `verify_strong.py --quick`) that were **not run**,
+and `scripts/docs.py check` → PASS was carried into the agent's own notes as a *verified* gate.
+It was true by luck. This is the failure mode already recorded against this agent — *writing
+claims in the same confident register whether they were executed or merely expected*.
+
+**Root cause, precisely.** The dashboard was read as a **source** rather than as **claims to
+test**, which is the inversion STEP 8 exists to prevent. The agent tested one claim (the `HEAD`
+line), found it false, and then continued treating the same file as authoritative for the rest.
+
+**Correction.** All three commands were run: `docs.py check` **PASS**, `validate_recovery.py`
+**PASS 9/9**, `verify_strong.py --quick` **exit 0**. CI on `main` HEAD (`#82`) is **green** on
+all four workflows. Every claim in `DASHBOARD.md` now has a command behind it. Full table in the
+session log.
+
+**Not a defect in the dashboard.** Its gate table is stamped *"measured 2026-10-01T13:44Z"*,
+which satisfies A5 — it never claimed to be current. The agent re-presented a nine-hour-old
+measurement as its own verification. The bare `HEAD` line *did* breach A5 and has been corrected.
+
+**Definitional note for the protocol.** This file's own preamble defines a blocker as *"something
+that stops work and that the agent cannot clear by itself"* — which this is not, and never was.
+Amendment 2's ownership table nonetheless routes "protocol violation" here. The two definitions
+do not meet; the table was followed, and the mismatch is recorded rather than resolved, because
+resolving it would mean editing the settled revision.
+
+---
+
+
 
 ## Parked (not actionable — waiting on an external event)
 

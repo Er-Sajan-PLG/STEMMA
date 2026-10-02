@@ -2,13 +2,15 @@
 
 > **Current state only.** What IS, not what happened. History lives in `sessions/`.
 
-**Last Reconciled:** 2026-10-01T14:56Z
+**Last Reconciled:** 2026-10-02T00:45Z
 **Reconciled by:** `A7F3`
 **Protocol:** MACP **v1.2** (`state/PROTOCOL.md`; startup sequence in `state/STARTUP.md`)
 
-> **No agent is active.** Session `20261001-1434-A7F3-shadow-tree` is `COMPLETED` and its
-> files are released; every earlier session is closed too. A new session may start freely —
-> begin with `state/STARTUP.md`, which is now the authoritative startup sequence (v1.2).
+> **No agent is active.** Session `20261001-2339-A7F3-protocol-startup` is `COMPLETED` and its
+> files are released — closed on the **owner's** instruction (DEC-007, N4). It ran the startup
+> sequence, found two stale claims in this file and a silently vacuous ownership guard, then
+> designed and implemented the MACP gate set (`DEC-010`) and the session↔state sync gate. A new
+> session may start freely; begin with `state/STARTUP.md`, the authoritative sequence (v1.2).
 
 > **Staleness policy (protocol §6 step 3):** `< 24 h` → trustworthy · `24–48 h` → verify key
 > claims before relying on them · `> 48 h` → **STALE**, you must reconcile before working.
@@ -21,23 +23,41 @@
 |---|---|
 | Repo | `STEMORG2026/STEMMA` (`Er-Sajan-PLG/STEMMA` is a pure redirect) |
 | Branch | `main` (everything merged) |
-| HEAD | `d329992` — `Complete #66: A4 protocol row, the FAISS mislabel fix, and DEBT-008/BLK-005 (#67)` |
 | Version | `VERSION` = **3.0.0** · schema `1.3.0` · export `2.2.0` · relation registry `1.0.0` |
 | Owner | Sajan (`human:curator.001`, `SOLE_OWNER`) |
 
-## Gate Status — ALL GREEN
+> `HEAD` is deliberately **not** stated here. It lives in the generated Gate Status block below,
+> read from `git rev-parse` at generation time. It used to be hand-written, and on 2026-10-01 it
+> was found **11 commits stale** — nothing re-derived it, and no guard covered it.
 
-| Gate | Result (measured 2026-10-01T13:44Z) |
-|---|---|
-| `pytest tests/ -q` | **365 passed** |
-| `scripts/verify_all.py` | **42 OK / 0 FAIL** (exit 0) |
-| `scripts/docs.py check` | **PASS** |
-| `spec/machine-readable/validate_recovery.py` | **PASS** — 9/9 checks |
-| `scripts/verify_strong.py --quick` | exit 0 |
-| `tests/repo/test_state_tree.py` | **PASS — 16/16** (structure, naming, reconciliation stamp, INDEX coverage, dashboard↔registry drift, INDEX↔registry session status, session-header schema, protocol commit type, duplicate record ids, ownership coverage) |
+## Gate Status — GENERATED
 
-> Gate results are **measurements, not standing truths** — the timestamp above is when they
-> were last run, and the test count changes with almost every commit. The
+> **This block is generated, not written.** `python3 scripts/gate_status.py` runs the gates and
+> rewrites it; CI fails if it is stale. Do not hand-edit the rows — they are overwritten.
+>
+> **Status is enforced; the result column is context.** CI byte-compares the gate list and each
+> gate's pass/fail status. The result text is stamped rather than compared, because some of it is
+> environment-dependent: `verify_all.py` has conditional steps, so its OK count reads **42 locally
+> and 39 in CI** with 0 FAIL in both. A count that varies by environment cannot be a claim, so the
+> chain's row records its failures and not its step count.
+
+<!-- BEGIN GENERATED: gate-status — do not edit by hand; regenerate with `python3 scripts/gate_status.py` -->
+**Measured:** 2026-10-02T00:18Z · **HEAD:** `6244ba0`
+
+| Gate | Status | Result (context, not byte-compared) |
+|---|---|---|
+| `pytest tests/ -q` | **PASS** | 367 passed |
+| `scripts/verify_all.py` | **PASS** | **0 FAIL** (exit 0) |
+| `scripts/docs.py check` | **PASS** | **PASS** |
+| `spec/machine-readable/validate_recovery.py` | **PASS** | **PASS** — 9/9 checks |
+| `scripts/verify_strong.py --quick` | **PASS** | exit 0 |
+| `tests/repo/test_state_tree.py` | **PASS** | **PASS — 18/18** |
+<!-- END GENERATED: gate-status -->
+
+
+
+> Gate results are **measurements, not standing truths** — the stamp inside the block is when
+> they were last run, and the test count changes with almost every commit. The
 > `test_state_tree.py` guard cross-checks this file's *registry-derived* counts
 > (requirements, `UNRES`) automatically; the pytest count has no derivable source, so it is
 > stamped instead. Do not read a stale-looking count as drift without re-running.
@@ -98,6 +118,17 @@
 3. **Then:** `UNRES-STEMMA-CORE-003` and `REQ-STEMMA-OPS-002` both resolve at **release time**.
 4. **Candidate work with no blocker:** `DEBT.md` holds **2 open** (003, 004) and **10 resolved**. DEBT-003 is an accepted residual (an ordering property; atomicity
    cannot fix it). DEBT-004 is **not a defect** — nothing in-repo reads the vector-store files.
+5. **Queued, not orphaned:** `state/plans/agent-A7F3-gate-design.md` stays **ACTIVE**. It holds
+   the gate design, of which G1–G5 and G7 are implemented (`DEC-010`); **G6** (P4's ownership
+   table as a completeness check) and **G8** (protocol-version drift) are deferred to a future
+   session. The plan is deliberately kept rather than deleted — `PROTOCOL.md` §5 says plans are
+   deleted when *done*, and this one has live scope left.
+6. **Known environment hazard:** the sandbox injects a `sitecustomize.py` shim enforcing a
+   per-turn delete budget, which fails closed by raising `SystemExit(1)`. It makes the full
+   pytest suite unreliable when a turn has already done other work (365/367 passed standalone;
+   2–6 failures inside a longer turn). `gate_status.py` classifies this as
+   **environment-blocked** rather than red. **CI has no such shim.** Re-run a red pytest row
+   before believing it.
 
 > **Corpus — checked 2026-10-01, so the next agent need not redo it.** Every entity under
 > `content/` passes `schema/concept.schema.json` with **0 errors**. The non-canonical drafts are

@@ -18,7 +18,7 @@ source .venv/bin/activate                                 # or export VIRTUAL_EN
 pip install -r requirements.txt -r requirements-dev.txt
 python3 scripts/install_hooks.py                          # installs pre-commit + pre-push
 python3 scripts/verify_all.py                             # expect exit 0
-python3 tests/repo/test_state_tree.py                     # expect 16/16
+python3 tests/repo/test_state_tree.py                     # expect 18/18
 ```
 
 > **Use a venv.** A bare `pip install` fails on PEP 668 systems
@@ -123,11 +123,16 @@ not executing**. See "Cold start" above.
 | Layer | Command | Enforces |
 |---|---|---|
 | Chain | `scripts/verify_all.py` | Everything above |
-| Tests | `pytest tests/ -q` (349) | Unit + integration + mutation guards |
+| Tests | `pytest tests/ -q` | Unit + integration + mutation guards |
 | Docs | `scripts/docs.py check` | Contract integrity, links, generated freshness, recovery registries |
 | Strong | `scripts/verify_strong.py` | Secrets, wall-clock, registries, explorer, webapp |
 | Recovery | `spec/machine-readable/validate_recovery.py` | Cross-registry reference integrity (9 checks) |
+| MACP | `scripts/gate_status.py --check`, `scripts/macp_startup_gate.py` | The DASHBOARD gate block is generated and fresh; every live session ran STEP 8 |
 | Pre-push | `.git/hooks/pre-push` | Chain + strong + exports/reports freshness + docs sync/check |
+
+> The Tests row used to carry a hardcoded test count. It was removed, not corrected — a
+> count in a living document goes stale on the next commit, and a claim that cannot be
+> wrong beats one that is currently right (the same reasoning as DEBT-011).
 
 ## Three Registries, Three Lifecycles
 
@@ -174,6 +179,20 @@ stage in a dot-prefixed sibling temp file, then `os.replace`). Reason: `Path.wri
 truncates before writing, so a concurrent reader can observe a partial file — this
 caused a real spurious test failure. `tests/repo/test_atomic_artifact_writes.py` pins
 the list of writers that must use the helper.
+
+**`DASHBOARD.md`'s Gate Status block is generated, not written.** `scripts/gate_status.py`
+runs the six gate commands and rewrites the block between its marker comments; it refuses
+to write unless every gate is green, so the block always describes the last fully green
+run. CI runs `gate_status.py --check` (does a fresh run reproduce the committed block?)
+and `scripts/macp_startup_gate.py` (did every live session start at or before the block's
+stamp — i.e. did it run STEP 8?). The block also owns `HEAD`, read from `git rev-parse`.
+
+This replaced a hand-written table. On 2026-10-01 its stamp was found ~8.5 h stale and its
+neighbouring `HEAD` row 11 commits stale, while every value in the same file that a guard
+covered was correct: the guards checked shape, and that table was pure assertion. The
+startup check is deliberately **not** a pytest test and **not** in `gate_status.py`'s gate
+list — both would deadlock, since the artifact it checks is produced by the run that would
+have to pass first.
 
 ## Release Provenance (two layers)
 

@@ -328,3 +328,70 @@ BLK-004's provenance headers.
 - The ownership table gains rows for **protocol violation** and for **a protocol/`AGENTS.md`
   change** — the latter per Amendment 1's own meta-rule.
 - P7 stays deferred: revisit after **20+ sessions** with P1–P6 in place.
+
+---
+
+## DEC-010 — MACP gates: generate artifacts, do not police prose
+
+**Date:** 2026-10-02
+**Decided by:** `A7F3`, on owner instruction (*"i need gate so agent follow the protocal
+completely at the start, and i need gate on important steps, like verification"*)
+**Supersedes:** nothing; it *implements* P7 in part rather than deferring it further
+
+**Decision.** Add gates where the protocol is currently enforced by discipline alone,
+under one governing rule: **never gate on a sentence the agent must write.** A gate must be
+satisfied by an artifact that already exists or that the gate itself generates — never by
+new prose. Adopted now: **G1** (repair the dead ownership guard), **G2/G3** (generate the
+DASHBOARD's Gate Status block and its `HEAD` line), **G4** (a startup gate binding that
+block to each live session), **G7** (forbid a trivial `files_owned`). Deferred: **G6**
+(P4's ownership table as a completeness check) and **G8** (protocol-version drift).
+
+**Context — the map that motivated it.** Measured, not assumed. `test_state_tree.py`'s 16
+checks cover *structure*: filenames, stamp parseability, INDEX coverage, status agreement,
+header schema, duplicate ids, dashboard↔registry counts. Nothing covered:
+
+| Unguarded | Observed failure |
+|---|---|
+| the DASHBOARD Gate Status table | six command results nothing ever re-ran |
+| the DASHBOARD `HEAD` line | found **11 commits** stale |
+| the reconciliation stamp's *accuracy* | found **~8.5 h** stale |
+| STEP 8 itself | skipped in part by this very session |
+| `files_owned` coverage | guard dead since `#82` — matched `active`, vocabulary moved to `IN-PROGRESS` |
+
+Every one of those sat in the unguarded region. The guarded region was correct throughout.
+
+**Why G1 first.** It is a one-token repair that *restores an existing guard* rather than
+adding a new obligation — the best value in the set. It then immediately proved itself by
+firing twice in one session, catching this agent under-declaring `files_owned` on
+`tests/repo/test_state_tree.py` and again on `scripts/macp_startup_gate.py`.
+
+**Why the startup gate is not a pytest test and not in `gate_status.py`'s gate list.**
+Both would deadlock. `gate_status.py` runs the suite; the suite would run the startup
+check; the check reads the stamp that the same run has not yet replaced. It therefore lives
+in its own script, invoked after generation.
+
+**Why the startup gate is legitimate despite rule 3.** `gate_status.py` refuses to write
+unless every gate is green, so a fresh stamp is a *by-product of having run them and
+passed*. The agent cannot assert it, only produce it. A session that skips STEP 8 leaves
+the previous stamp behind, and the check fails naming that session.
+
+**Why G6/G8 wait.** P7 defers machine-checked drift to **20+ sessions**; this repository has
+**6**. The sequencing argument — discipline fixes precede mechanical ones, or tooling
+produces compliant-looking rot — is accepted and applied rather than overruled: G1–G3 are
+repairs and generators that add no new discipline, while G6/G8 are new obligations that
+should encode observed failures rather than guesses. The owner may override; the protocol
+permits it.
+
+**Consequences.**
+- `scripts/gate_status.py` (generates; `--check` for CI) and `scripts/macp_startup_gate.py`
+  (startup verification) are new. `scripts/gate_status.py` joins `ATOMIC_WRITER_FILES` —
+  its output is byte-compared, so DEC-002 applies.
+- `ci.yml` gains a **14th job**, `macp-gates`, added to `all-green`'s `needs` list.
+- `state/ARCHITECTURE.md` records the new gate layer and the generated block.
+- The DASHBOARD's `HEAD` row moved out of the Repository table into the generated block;
+  the Repository table no longer states it.
+- `state/ARCHITECTURE.md`'s documented `test_state_tree.py` count was updated **16/16 →
+  18/18** — DEBT-009's class recurring within the hour, which is evidence for its own
+  unresolved proposal. The same file's hardcoded pytest count was removed, not corrected
+  (DEBT-011's precedent).
+- No gate mutates canonical data, so none of this touches Tier 2.

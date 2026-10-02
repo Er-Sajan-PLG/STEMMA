@@ -59,6 +59,43 @@ SESSION_NAME_RE = re.compile(r"^(\d{8})-(\d{4})-([A-Za-z0-9]{4})-([a-z0-9][a-z0-
 AGENT_ID_RE = re.compile(r"^[A-Za-z0-9]{4}$")
 PLAN_NAME_RE = re.compile(r"^agent-([A-Za-z0-9]{4})-[a-z0-9][a-z0-9-]*\.md$")
 
+# ── Session status vocabulary ────────────────────────────────────────────────
+#
+# Amendment 2 / DEC-009 migrated the session vocabulary from `active`/`ended` to
+# `IN-PROGRESS`/`COMPLETED`. `test_active_session_files_owned_covers_what_it_changed`
+# kept matching only `active`, so from #82 onward it selected **zero rows** and verified
+# nothing — it failed open and silently, which is the worst possible failure mode for an
+# ownership guard: the field looked enforced and was not.
+#
+# Both vocabularies are accepted, because historical rows legitimately carry the old
+# tokens (Rule 4: supersede, never edit). The coupling is asserted mechanically by
+# `test_the_ownership_guard_recognises_the_live_vocabulary`, so a future vocabulary
+# change cannot kill this guard quietly a second time.
+LIVE_STATUSES = frozenset({"active", "in-progress"})
+DONE_STATUSES = frozenset({"completed", "ended"})
+
+# A `files_owned` claim that matches everything claims nothing. Declaring one of these
+# makes the ownership guard trivially satisfiable — the agent widens the claim until it
+# is meaningless rather than narrowing it to what it will actually touch.
+TRIVIAL_OWNERSHIP_GLOBS = frozenset({"*", "**", "**/*", "*/*", "."})
+
+# First column of a data row in the Active Agents table, plus the files_owned and
+# status cells. Shared so the guard and its non-vacuity test cannot drift apart.
+AGENT_ROW_RE = re.compile(
+    r"^\|\s*`[A-Za-z0-9]{4}`\s*\|\s*`([^`]+)`\s*\|[^|]*\|[^|]*\|\s*([^|]*?)\s*\|"
+    r"\s*\*{0,2}([\w-]+)\*{0,2}\s*\|",
+    re.MULTILINE,
+)
+
+
+def _live_agent_rows(registry: str) -> list[tuple[str, str, str]]:
+    """Return (session_id, files_owned, status) for rows whose status is live."""
+    return [
+        (sid, owned, status)
+        for sid, owned, status in AGENT_ROW_RE.findall(registry)
+        if status.lower() in LIVE_STATUSES
+    ]
+
 # A placeholder is a *marker*, not a mention. Prose that explains the rule ("no
 # placeholder text", "flags `TODO`/`TBD`") must not be flagged, or the check punishes
 # the very documentation that defines it. So a placeholder is recognised only when it
@@ -388,20 +425,17 @@ def test_active_session_files_owned_covers_what_it_changed() -> None:
     import subprocess
 
     registry = (STATE / "REGISTRY.md").read_text(encoding="utf-8")
-    rows = re.findall(
-        r"^\|\s*`[A-Za-z0-9]{4}`\s*\|\s*`([^`]+)`\s*\|[^|]*\|[^|]*\|\s*([^|]*?)\s*\|\s*\*{0,2}([\w-]+)\*{0,2}\s*\|",
-        registry, re.MULTILINE,
-    )
-    # Zero active sessions is the NORMAL post-shutdown state, not a parse failure.
-    # An earlier version asserted `active` was non-empty to avoid vacuity, which
+    all_rows = AGENT_ROW_RE.findall(registry)
+    # Zero live sessions is the NORMAL post-shutdown state, not a parse failure.
+    # An earlier version asserted a live row was non-empty to avoid vacuity, which
     # broke the very shutdown sequence this guard belongs to. The parse is still
     # verified separately, so an empty result here means "nobody is working", not
     # "the table shape changed".
-    assert rows, "parsed no agent rows from REGISTRY.md — table shape changed?"
-    active = [(sid, owned) for sid, owned, status in rows if status.lower() == "active"]
+    assert all_rows, "parsed no agent rows from REGISTRY.md — table shape changed?"
+    live = [(sid, owned) for sid, owned, _ in _live_agent_rows(registry)]
 
     problems: list[str] = []
-    for sid, owned in active:
+    for sid, owned in live:
         header = STATE / "sessions" / f"{sid}.md"
         assert header.is_file(), f"active session {sid} has no session file"
         base = re.search(r"^\*\*Base commit:\*\*\s*`?([0-9a-f]{7,40})`?", header.read_text(encoding="utf-8"), re.MULTILINE)
@@ -438,6 +472,65 @@ def test_active_session_files_owned_covers_what_it_changed() -> None:
             )
 
     assert not problems, "ownership claim under-declares: " + "; ".join(problems)
+
+
+def test_the_ownership_guard_recognises_the_live_vocabulary() -> None:
+    """Non-vacuity for the ownership guard, asserted against synthetic rows.
+
+    This exists because the guard silently died once and nothing noticed. DEC-009
+    changed the session vocabulary to `IN-PROGRESS` while the guard still matched only
+    `active`, so from #82 it selected zero rows and verified nothing for three sessions.
+    The repair is one token; this test is what stops the same change killing it again.
+
+    It is asserted against *synthetic* rows rather than the live REGISTRY, because a
+    repository with no active session has no live rows — so a real-data assertion would
+    pass vacuously exactly when the guard is most likely to be quietly broken.
+    """
+    live = (
+        "| `A7F3` | `20260101-0000-A7F3-alpha` | 2026-01-01T00:00Z | t | `state/**` | **IN-PROGRESS** |\n"
+        "| `A7F3` | `20260101-0001-A7F3-bravo` | 2026-01-01T00:01Z | t | `state/**` | **active** |\n"
+    )
+    done = (
+        "| `A7F3` | `20260101-0002-A7F3-charlie` | 2026-01-01T00:02Z | t | — | **COMPLETED** |\n"
+        "| `A7F3` | `20260101-0003-A7F3-delta` | 2026-01-01T00:03Z | t | — | **ended** |\n"
+    )
+
+    selected = {sid for sid, _, _ in _live_agent_rows(live)}
+    assert selected == {"20260101-0000-A7F3-alpha", "20260101-0001-A7F3-bravo"}, (
+        "the ownership guard no longer selects live rows under BOTH vocabulary tokens — "
+        f"it selected {selected}. It fails open when this happens, so the field that stops "
+        "two agents editing one file stops being verified at all."
+    )
+    assert _live_agent_rows(done) == [], (
+        "the ownership guard selected rows that are finished; a closed session's "
+        "files_owned is deliberately cleared, so checking it would be wrong"
+    )
+    # Both vocabularies must be reachable, and neither may be empty — an empty
+    # `LIVE_STATUSES` would make the guard select nothing while looking correct.
+    assert {"active", "in-progress"} <= LIVE_STATUSES, (
+        f"LIVE_STATUSES lost a token: {sorted(LIVE_STATUSES)}"
+    )
+
+
+def test_files_owned_is_not_a_bare_global() -> None:
+    """A claim that matches everything claims nothing.
+
+    The ownership guard is satisfied by `files_owned` covering every changed file. That
+    makes it trivially satisfiable by widening the claim — declaring `**` passes for any
+    session, at which point another agent reading the registry learns nothing about what
+    is actually being edited. The guard must not be escapable by making it meaningless.
+    """
+    registry = (STATE / "REGISTRY.md").read_text(encoding="utf-8")
+    offenders = []
+    for sid, owned, _ in _live_agent_rows(registry):
+        globs = [g.strip().strip("`") for g in owned.split(",") if g.strip() and g.strip() != "—"]
+        for g in globs:
+            if g in TRIVIAL_OWNERSHIP_GLOBS:
+                offenders.append(f"{sid}: files_owned declares {g!r}")
+    assert not offenders, (
+        "files_owned uses a bare global, which satisfies the coverage guard for any "
+        "session and tells other agents nothing: " + "; ".join(offenders)
+    )
 
 
 def test_commitlint_accepts_the_protocol_commit_type() -> None:
@@ -489,6 +582,8 @@ if __name__ == "__main__":  # self-hosting runner, matching tests/repo/test_gate
         test_session_headers_match_the_schema_and_registry,
         test_no_duplicate_record_ids,
         test_active_session_files_owned_covers_what_it_changed,
+        test_the_ownership_guard_recognises_the_live_vocabulary,
+        test_files_owned_is_not_a_bare_global,
     ]
     failures = 0
     for fn in checks:
