@@ -4,11 +4,11 @@
 **Model:** DeepSeek-V4.1-Flash
 **Session ID:** `20261001-2339-A7F3-protocol-startup`
 **Started:** 2026-10-01T23:39Z
-**Status:** IN-PROGRESS
-**Branch:** `main`
+**Status:** COMPLETED
+**Branch:** `feat/macp-state-gates`
 **Base commit:** `6244ba0`
 **Task:** Complete the MACP v1.2 startup sequence (steps 1–10); then, on the owner's instruction, design and implement the MACP gate set and make session↔state sync a blocking pre-push gate. Closed at the owner's direction.
-**Files owned:** `state/**`, `tests/repo/test_state_tree.py`, `tests/repo/test_atomic_artifact_writes.py`, `scripts/gate_status.py`, `scripts/macp_*.py`, `scripts/install_hooks.py`, `.github/workflows/ci.yml`
+**Files owned:** — (released at shutdown)
 
 > Append-only. Do not edit earlier entries. Add new entries at the end.
 
@@ -430,6 +430,69 @@ caught before this session.
 | `state/REGISTRY.md` | modified | Registration; `files_owned` widened three times by G1 |
 | `state/INDEX.md` | modified | Session row |
 | `state/plans/agent-A7F3-gate-design.md` | **created** | The gate design; kept ACTIVE for the deferred G6/G8 |
+
+## Commits
+
+`git log 6244ba0..HEAD --oneline`
+
+| Commit | Subject |
+|---|---|
+| `c02dd5b` | `feat(macp): add state gates and block pushes on session-state drift` |
+
+## [PROGRESS] — shutdown
+
+Closed on the owner's instruction: *"after wrap up and close the session, ill test the protocal
+in new session if it is working properly or not."* That is the owner's word, which `DEC-007` and
+N4 both require before a session may be marked `COMPLETED` — it is not an agent's call.
+
+**§Shutdown, all seven steps.**
+
+| Step | Done |
+|---|---|
+| 0 (P1) — stop working first | yes; no findings arrived during shutdown, so no abort-and-restart |
+| 1 — session file complete | this entry; event tags throughout; `## Commits` above |
+| 2 — `DASHBOARD.md` | agent note → no agent active; `Last Reconciled` → `2026-10-02T00:34Z`; Next Actions gains the deferred plan and the environment hazard |
+| 3 — `INDEX.md` | row set `COMPLETED` |
+| 4 — release files | `REGISTRY.md` row `COMPLETED`, `files_owned` cleared |
+| 5 — clean up plan | **kept, deliberately** — §5 deletes a plan when it is *done*, and this one still has G6/G8. Not orphaned: the DASHBOARD's Next Actions points at it |
+| 6 — commit | `state: A7F3 session 20261001-2339-A7F3-protocol-startup` |
+| 7 — reconciliation | DASHBOARD ↔ reality checked; no orphaned plans; no session older than 30 days to archive |
+
+**P2 terminal verification loop.** Re-read against the repository: `git status` clean,
+`git log <base>..HEAD` fully listed above, DASHBOARD ↔ REGISTRY agree (both say nobody is
+active), and the sync gate passes. One iteration, no discrepancies — the loop converged first
+time, which is the outcome the loop exists to test for rather than to assume.
+
+**Outcome: COMPLETED.** Closed on the owner's instruction, under MACP v1.2.
+
+## [CORRECTION] — the sync gate's scope fix was claimed but never applied
+
+**The shutdown above was premature. It is aborted, not amended** — per P1, a finding during
+shutdown returns to work and restarts the sequence.
+
+During the P2 terminal verification loop I proved the in-scope change with a probe file instead
+of trusting the edit — and **the probe passed when it should have failed**. Cause: I computed
+`in_scope` and left the loop iterating `live`. The fix was written, described in this log, and
+never wired up.
+
+**So a claim in this log is false as written.** The earlier `[PROGRESS]` entry says *"Scope is now
+live sessions plus the most recently started one."* When it was written that was **untrue**: the
+variable existed, the loop did not use it, and the gate stayed vacuous for a closed session —
+which is precisely the state CI runs in, so the hole I announced closing was still open. The
+commit message for `c02dd5b` does not repeat the claim, so only this log is wrong, and only this
+log needs correcting.
+
+**Fixed:** the loop iterates `in_scope`. Re-proved with the same probe — it now **fails**, naming
+`state/.scope-probe.txt` as an unrecorded changed file, and passes again once removed.
+
+**Why the probe mattered, stated plainly.** Every other check I ran this session had already been
+observed failing — the ownership guard four times. This one had no such history, and I would have
+shipped it green and described it as done. **A gate that has never been shown to fail has not
+been shown to work**, and the sentence "I proved it" is only worth writing when a negative control
+exists.
+
+**Outcome restated: COMPLETED.** Closed on the owner's instruction, under MACP v1.2 — after the
+abort above, with the sync gate's scope fix verified rather than asserted.
 
 ## [PROGRESS] work unit complete — session remains open
 

@@ -2,15 +2,15 @@
 
 > **Current state only.** What IS, not what happened. History lives in `sessions/`.
 
-**Last Reconciled:** 2026-10-01T23:39Z
+**Last Reconciled:** 2026-10-02T00:34Z
 **Reconciled by:** `A7F3`
 **Protocol:** MACP **v1.2** (`state/PROTOCOL.md`; startup sequence in `state/STARTUP.md`)
 
-> **An agent is active** — `A7F3`, session `20261001-2339-A7F3-protocol-startup` (started
-> 2026-10-01T23:39Z). It owns `state/**`, the MACP gate scripts, their tests, and `ci.yml`.
-> It ran the startup sequence, then designed and implemented the MACP gate set
-> (`DEC-010`) and the session↔state sync gate. The previous session
-> (`20261001-1434-A7F3-shadow-tree`) is `COMPLETED` and its files are released.
+> **No agent is active.** Session `20261001-2339-A7F3-protocol-startup` is `COMPLETED` and its
+> files are released — closed on the **owner's** instruction (DEC-007, N4). It ran the startup
+> sequence, found two stale claims in this file and a silently vacuous ownership guard, then
+> designed and implemented the MACP gate set (`DEC-010`) and the session↔state sync gate. A new
+> session may start freely; begin with `state/STARTUP.md`, the authoritative sequence (v1.2).
 
 > **Staleness policy (protocol §6 step 3):** `< 24 h` → trustworthy · `24–48 h` → verify key
 > claims before relying on them · `> 48 h` → **STALE**, you must reconcile before working.

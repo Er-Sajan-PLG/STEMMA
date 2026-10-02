@@ -235,10 +235,10 @@ def main(argv: list[str] | None = None) -> int:
         problems.append("DASHBOARD.md has no parseable `Last Reconciled` stamp")
     reconciled = _stamp(reconciled_match.group(1)) if reconciled_match else None
 
-    for sid in live:
+    for sid in in_scope:
         session_path = SESSIONS / f"{sid}.md"
         if not session_path.is_file():
-            problems.append(f"{sid} is live in REGISTRY.md but has no session file")
+            problems.append(f"{sid} is in scope but has no session file")
             continue
         text = session_path.read_text(encoding="utf-8")
 
@@ -280,7 +280,9 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     if not live:
-        print("OK: no live session; the dashboard states the no-agent case and nothing is claimed.")
+        print(f"OK: no live session, and DASHBOARD.md states the no-agent case. "
+              f"The most recent session ({latest}) was still verified against git — "
+              f"closing a session does not put its record beyond this check.")
         return 0
     print(f"OK: {len(live)} live session(s) in sync — record, state files and git agree "
           f"(dashboard reconciled {reconciled_match.group(1)}).")

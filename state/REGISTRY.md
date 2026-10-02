@@ -14,15 +14,14 @@
 | `A7F3` | `20261001-1153-A7F3-debt-cleanup` | 2026-10-01T11:53Z | Close the two unblocked documentation debt items (DEBT-001, DEBT-002) | — | **COMPLETED** |
 | `A7F3` | `20261001-1434-A7F3-shadow-tree` | 2026-10-01T14:34Z | Shadow-tree fix (DEBT-007), six debt items, BLK-004 cleared, MACP v1.2 adopted | — | **COMPLETED** |
 | `A7F3` | `20261001-1215-A7F3-cold-start-handoff` | 2026-10-01T12:15Z | Verify a cold clone can continue from `state/`, fix the cold-start gaps, sweep the chain for sibling silent-skip paths, incorporate MACP Amendment 1, and correct the FAISS mislabel | — | **COMPLETED** |
-| `A7F3` | `20261001-2339-A7F3-protocol-startup` | 2026-10-01T23:39Z | Startup sequence (steps 1-10); then, on owner instruction, design and implement the MACP gate set and make session-state sync a blocking pre-push gate | `state/**`, `tests/repo/test_state_tree.py`, `tests/repo/test_atomic_artifact_writes.py`, `scripts/gate_status.py`, `scripts/macp_*.py`, `scripts/install_hooks.py`, `.github/workflows/ci.yml` | **IN-PROGRESS** |
+| `A7F3` | `20261001-2339-A7F3-protocol-startup` | 2026-10-01T23:39Z | Startup sequence (steps 1-10); then, on owner instruction, design and implement the MACP gate set and make session-state sync a blocking pre-push gate | — | **COMPLETED** |
 
-**One agent is active:** `A7F3`, session `20261001-2339-A7F3-protocol-startup`. It owns
-`state/**` and nothing else. Every other row is `COMPLETED` with `files_owned` released, so
-any file outside `state/` is free to claim.
+No agent is currently active. `files_owned` is empty for every row, so any file is free to
+claim.
 
-> The active session is doing **protocol bookkeeping only** — registering, reconciling the
-> dashboard, and reporting. It has been directed not to begin project work. If you are a new
-> agent, `state/**` is claimed; coordinate before writing there.
+> The session above is closed at the **owner's** instruction (DEC-007, N4). It is the most
+> recent session, so `scripts/macp_sync_gate.py` still verifies its record against git —
+> closing a session does not put it beyond the sync check.
 
 ---
 
